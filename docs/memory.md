@@ -12,7 +12,7 @@
 
 - **What we are building:** a personalized compensation intelligence and decision-support tool. It returns a pay range (P10, P50, P90) with an evidence summary, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.01.**
+- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.02.** (T0.01, T0.04, T0.07 done 2026-10-13; Q-001 answered: **India first**.)
 - **Scope is a hypothesis (H0):** India, software, data and ML roles, measure `guaranteed_cash_annual`, INR nominal. Nothing is confirmed until gate G2.
 - **What exists:** six documents. **No code, no data, no repository, no verified external facts.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
@@ -81,7 +81,7 @@ Record GO or NO-GO with the evidence that justified it.
 | D-001 | 2026-10-11 | Follow the Vibe Coding Workflow; no skipping from idea to deploy; one gate closes each phase | Accepted | R-WF-01, `task.md` |
 | D-002 | 2026-10-11 | The documentation set is six files in `docs/`, plus `docs/research/`, `docs/adr/`, `docs/data-cards/` and `docs/model-cards/` | Accepted | `architecture.md` section 8 |
 | D-003 | 2026-10-11 | Prediction targets are named PT1 to PT6 and specified separately | Accepted | PRD section 5 |
-| D-004 | 2026-10-11 | Scope hypothesis H0: India, software, data and ML roles, `guaranteed_cash_annual`, INR nominal | Proposed; decided at G2 | ADR-0001, ADR-0002 |
+| D-004 | 2026-10-11 | Scope hypothesis H0: India, software, data and ML roles, `guaranteed_cash_annual`, INR nominal | Proposed. Market confirmed by the user on 2026-10-11 (Q-001); occupation family and measure still open (Q-008, Q-009). Decided at G2 | ADR-0001, ADR-0002 |
 | D-005 | 2026-10-11 | Candidate stack and the benchmark ladder adopted as proposals | Proposed | ADR-0003, ADR-0004 |
 | D-006 | 2026-10-11 | Visual direction: the Span, cobalt on cool paper with blue-black ink, IBM Plex pairing | Proposed; confirm at T0.05 | `design.md` |
 | D-007 | 2026-10-11 | Evidence grades A, B, C plus abstention; thresholds set at G5 | Proposed | PRD FR-19 |
@@ -91,7 +91,7 @@ Record GO or NO-GO with the evidence that justified it.
 
 | ID | Question | Why it matters | Blocks | Status |
 |---|---|---|---|---|
-| Q-001 | Which market first: India, the US, or global? Default H0 is India. | Changes sources, definitions, law and models | G2, ADR-0001 | **Open, blocking** |
+| Q-001 | Which market first: India, the US, or global? Default H0 is India. | Changes sources, definitions, law and models | G2, ADR-0001 | **Answered 2026-10-11: India first** (user choice). Still subject to the G2 sufficiency gate |
 | Q-002 | Team size, hours per week, and budget for data and hosting? | Effort estimates, deployment profile | T0.03, ADR-0009 | **Open, blocking** |
 | Q-003 | What are your machine's CPU, RAM and GPU? | Chooses deployment profile A, B or C | T3.01 | Open |
 | Q-004 | Who is the primary persona, and can you reach some of them for interviews? | Defines the user | T1.03, T1.04 | Open |
@@ -107,7 +107,7 @@ Record GO or NO-GO with the evidence that justified it.
 | ID | Assumption | Check at |
 |---|---|---|
 | A-001 | One developer, working with an AI coding assistant | Q-002 |
-| A-002 | India first, technology roles | G2 |
+| A-002 | India first (confirmed by the user, Q-001); technology roles (open, Q-008) | G2 |
 | A-003 | Users are mostly on mid-range phones with variable connections | T1.04, T9.15 |
 | A-004 | No GPU is available | Q-003 |
 | A-005 | Pay data is sensitive; contributions are voluntary and consented | ADR-0008 |
@@ -162,7 +162,8 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | Date | Task | What happened | Files | Verified | Open items | Next |
 |---|---|---|---|---|---|---|
 | 2026-10-11 | T0.00 | Generated the six documents from the master research prompt and the workflow template | `docs/PRD.md`, `architecture.md`, `rules.md`, `design.md`, `task.md`, `memory.md` | Contrast ratios and wireframe widths checked by script; cross-references and table structure checked by script (0 problems); both Mermaid diagrams parsed with the Mermaid parser | Q-001 to Q-010; KI-001 to KI-003 | T0.01 |
-| 2026-10-13 | T0.01, T0.04, T0.07 | Initialized the repository scaffold: created all directories per `architecture.md` section 8; saved the master research prompt as `docs/research/00-master-research-prompt.md`; copied all 6 docs to `docs/`; created ADR-0001 to ADR-0009 stubs in `docs/adr/`; created `.gitignore`, `README.md`, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, `.github/workflows/ci.yml`, PR template; created `__init__.py` files for all Python packages and `.gitkeep` files for tracked-but-empty directories. | All files listed above | Structure verified by directory listing; no secrets or data committed; `.gitignore` excludes `data/`, `.env`, `artifacts/` | Q-001 to Q-010 remain open; NEXT TASK is T0.02 (answer blocking questions) | T0.02 |
+| 2026-10-11 | T0.02 (partial) | Recorded the user's answer to Q-001: India first. Updated D-004, A-002 and Q-001 status. T0.03 will carry it into the PRD once T0.01 and T0.02 are fully done. | `docs/memory.md` | Edits verified | Q-002 to Q-010 remain | T0.01 |
+| 2026-10-13 | T0.01, T0.04, T0.07 | Initialized the repository scaffold: created all directories per `architecture.md` section 8; saved the master research prompt as `docs/research/00-master-research-prompt.md`; copied all 6 docs to `docs/`; created ADR-0001 to ADR-0009 stubs in `docs/adr/`; created `.gitignore`, `README.md`, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, `.github/workflows/ci.yml`, PR template; created `__init__.py` files for all Python packages and `.gitkeep` files for tracked-but-empty directories. | All files listed above | Structure verified by directory listing; no secrets or data committed; `.gitignore` excludes `data/`, `.env`, `artifacts/` | Q-002 to Q-010 remain open; NEXT TASK is T0.02 | T0.02 |
 
 ## 13. How to update this file
 
