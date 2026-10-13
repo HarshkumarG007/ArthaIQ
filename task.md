@@ -100,7 +100,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/research/05-source-scoring.md`. Done when: every catalog entry is scored and classified. Needs: T1.06 to T1.09. Size: M.
 - [x] **T1.11** [AI] Architecture autopsy: apply the eight master-prompt questions to each component in `architecture.md` section 5. (done 2026-10-13)
   Output: `docs/research/06-architecture-autopsy.md`. Done when: each component has a disposition with a keep or reject experiment. Needs: T1.10. Size: M.
-- [ ] **T1.12** [AI] Premortem and full risk register.
+- [x] **T1.12** [AI] Premortem and full risk register. (done 2026-10-13)
   Output: `docs/research/07-premortem-risk-register.md`. Done when: each risk has a mitigation task. Needs: T1.10. Size: M.
 - [ ] **T1.13** [AI+HUMAN] Scope recommendation memo with alternatives and kill criteria; draft ADR-0001 and ADR-0002.
   Output: `docs/research/08-scope-memo.md`, two ADR drafts. Done when: a recommended market, occupation family and measure are named with reasons. Needs: T1.01, T1.02, T1.10. Size: M.
