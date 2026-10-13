@@ -12,9 +12,9 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Phase 0 is complete. **Gate G0: GO ratified 2026-10-13.** **NEXT TASK: T1.01** (Phase 1: Problem definition and source discovery).
+- **Where we are:** Phase 1 is in progress. T1.01 completed. **NEXT TASK: T1.08 (Kaggle Dataset Audit v0.1) & T1.02 (Comp Definitions).** (T0.00-T0.07 done; Gate G0 ratified; T1.01 done 2026-10-13).
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
-- **What exists:** repo scaffold, initial configs, doc suite v0.2. **No model code, no raw data yet.**
+- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`. **No model code, no raw data yet.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -23,9 +23,9 @@
 | Stage | Status | Note |
 |---|---|---|
 | IDEA | DONE | Master research prompt written |
-| RESEARCH | TODO | Phases 1 and 2 |
+| RESEARCH | IN PROGRESS | Phase 1 active; T1.01 complete |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
-| PRD | DONE | v0.2 ratified at T0.03 |
+| PRD | DONE | v0.2 ratified at T0.03; TBDs resolved at T1.01 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
 | ARCHITECTURE | DONE | v0.2 ratified at T0.06 |
 | DESIGN | DONE | v0.2 ratified at T0.05 (the Span, cobalt on cool paper) |
@@ -47,8 +47,8 @@
 | Item | Value |
 |---|---|
 | Phase | 1, Problem definition and source discovery |
-| Last completed task | T0.06 (+ Gate G0 ratified) |
-| Next task | T1.01 |
+| Last completed task | T1.01 (+ Phase 0, Gate G0 ratified) |
+| Next task | T1.08 / T1.02 |
 | Last gate | G0 — GO (2026-10-13) |
 | Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
@@ -174,6 +174,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-13 | T0.03 | Reviewed and updated `PRD.md` to v0.2: reflected ArthaIQ identity, confirmed India tech scope (SWE, Data, ML/AI), `guaranteed_cash_annual` normalized to nominal INR LPA, and updated FR-19 to decoupled evidence framework. Synchronized root files. | `docs/PRD.md`, `PRD.md`, `docs/memory.md`, `docs/task.md` | PRD v0.2 matches T0.02 decisions; NEXT TASK moved to T0.05 | None | T0.05 |
 | 2026-10-13 | T0.05 | Reviewed `design.md`; confirmed visual direction (The Span as signature experience, cobalt on cool paper with blue-black ink, IBM Plex pairing, calm editorial statistical tone); updated wireframes with ArthaIQ identity; bumped to v0.2. Confirmed D-006. | `docs/design.md`, `design.md`, `docs/memory.md`, `docs/task.md` | Direction accepted; NEXT TASK moved to T0.06 | None | T0.06 |
 | 2026-10-13 | T0.06 & Gate G0 | Executed document consistency pass across all six docs (ids, rules R-EV-07 and R-UQ-07 added, terminology aligned, naming unified to ArthaIQ); confirmed 0 blocking conflicts; bumped doc suite to v0.2. Ratified Gate G0 as GO. Phase 0 complete; advancing to Phase 1. | All docs in docs/ and root | All cross-references valid; Gate G0 criteria satisfied; NEXT TASK moved to T1.01 | None | T1.01 |
+| 2026-10-13 | T1.01 | Specified prediction targets PT1 through PT6 in formal detail: mathematical variables, observation units, horizons, assumptions, and causal identification limits. Settled PT3 search window (90–180 days) and PT5 transition horizon (12–24 months), resolving PRD [TBD: T1.01]. Established data audit matrix to govern Kaggle and official source audits. | `docs/research/01-targets.md`, `docs/PRD.md`, `PRD.md`, `docs/task.md`, `docs/memory.md` | All 6 targets specified; PRD updated; audit matrix established; NEXT TASK moved to T1.08/T1.02 | None | T1.08 / T1.02 |
 
 ## 13. How to update this file
 
