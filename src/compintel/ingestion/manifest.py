@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import hashlib
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 import yaml
 
@@ -43,7 +43,13 @@ def verify_licence_gate(source_id: str, repo_root: Path) -> dict[str, Any]:
         raise LicenceGateError(msg)
 
     with open(config_path, encoding="utf-8") as f:
-        config_data = yaml.safe_load(f)
+        raw_config = yaml.safe_load(f)
+
+    if not isinstance(raw_config, dict):
+        msg = f"Invalid config format for {source_id} at {config_path}: expected dictionary"
+        raise ValueError(msg)
+
+    config_data: dict[str, Any] = cast("dict[str, Any]", raw_config)
 
     status = config_data.get("ingestion_status")
     if status != "approved":
@@ -114,7 +120,13 @@ def verify_manifest(manifest_path: Path) -> bool:
         raise FileNotFoundError(msg)
 
     with open(manifest_path, encoding="utf-8") as f:
-        manifest_data = yaml.safe_load(f)
+        raw_manifest = yaml.safe_load(f)
+
+    if not isinstance(raw_manifest, dict):
+        msg = f"Invalid manifest format at {manifest_path}: expected dictionary"
+        raise ValueError(msg)
+
+    manifest_data: dict[str, Any] = cast("dict[str, Any]", raw_manifest)
 
     source_dir = manifest_path.parent
     for file_entry in manifest_data.get("files", []):

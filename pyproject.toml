@@ -51,6 +51,7 @@ dependencies = [
     # Utilities
     "structlog",
     "httpx",
+    "pyyaml",
 ]
 
 [project.optional-dependencies]
@@ -77,6 +78,7 @@ dev = [
 
     # Type stubs (add as needed at T3.01)
     "types-requests",
+    "types-PyYAML",
 ]
 
 experimental = [
