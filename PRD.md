@@ -1,11 +1,12 @@
-# PRD: Compensation Intelligence Platform
+# PRD: ArthaIQ Compensation Intelligence Platform
 
-Working name: **CompIntel** (placeholder; rename freely, then update the package name in `pyproject.toml`).
+Project identity: **ArthaIQ** (Compensation Intelligence · India-first)  
+*Ethical Compensation Intelligence for Tech Careers.*
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.1, written before any research or data work |
-| Last updated | 2026-10-11 |
+| Status | Draft v0.2 (updated at T0.03 following T0.02 decisions) |
+| Last updated | 2026-10-13 |
 | Owner | _your name_ |
 | Workflow position | Step 1, define what you want to build (tracker in `memory.md`) |
 | Companion docs | `architecture.md`, `rules.md`, `design.md`, `task.md`, `memory.md`, `research/00-master-research-prompt.md` |
@@ -79,17 +80,17 @@ All rows are `[H]` until user research (T1.03, T1.04) and data research (Phases 
 
 ## 4. Scope hypothesis H0 and decision rule
 
-The master research prompt requires a recommendation on the most defensible first market. H0 is a starting hypothesis, not a decision. Phase 2 confirms or replaces it.
+Initial scope ratified at T0.02 (D-004) as India technology roles, with `guaranteed_cash_annual` normalized to nominal INR LPA. Final confirmation is gated at G2 (T2.11) based on empirical data sufficiency.
 
-| Dimension | H0 default `[H]` | Alternatives | Decided by |
+| Dimension | Ratified H0 Scope | Alternatives Considered | Decided / Gated By |
 |---|---|---|---|
-| Market | India; amounts in INR, nominal | US first, because richer public wage disclosures may exist `[U]`; global (rejected for MVP) | G2, ADR-0001 |
-| Occupation family | Software, data and ML roles | A broader white-collar set; one occupation only | G2 |
-| Measure | `guaranteed_cash_annual`: fixed cash pay before tax, excluding variable pay, bonuses, equity and benefits | `base_annual`; `target_cash_annual`; total compensation | ADR-0002, T2.05 |
-| Population | Salaried full-time employees; contract and hourly pay excluded | Include contract work | ADR-0002 |
+| Market | India; amounts in INR nominal (LPA) | US first (richer disclosures `[U]`); global (rejected for MVP) | Ratified at T0.02 (Q-001); gated at G2, ADR-0001 |
+| Occupation family | Software engineering, data science and ML/AI roles (deliberately limited initial scope) | Broader white-collar set; single occupation | Ratified at T0.02 (Q-008); gated at G2, ADR-0001 |
+| Measure | `guaranteed_cash_annual`: fixed committed cash before tax, excluding variable, bonuses and equity | `base_annual`; `target_cash_annual`; total compensation | Ratified at T0.02 (Q-009); mapped at T2.05, ADR-0002 |
+| Population | Salaried full-time employees; contract and hourly pay excluded | Include contract / freelance work | Ratified at T0.02; ADR-0002 |
 | Granularity | Occupation × city or region × experience band; level where it can be mapped | Finer (employer) or coarser | T2.07, T2.09 |
 | Profile levels | L0 required; L1 only for feature families that pass ablation | L2 and L3 deferred | G6 |
-| Language | English | Hindi and others | After PB |
+| Language | English only at prototype and launch | Hindi and regional languages | Ratified at T0.02 (Q-010); after PB |
 
 **Decision rule.** At G2, choose the market, occupation and measure combination with the best data sufficiency result (T2.09) among sources whose licence status is `approved` (T2.02). If no combination meets the sufficiency criteria that T2.01 fixes in advance, the answer is **no-go on modelling**. The project then switches to the smallest viable data acquisition programme (T2.10) instead of training a model on inadequate evidence.
 
@@ -155,10 +156,10 @@ Priority: P0 must exist at its stage; P1 should; P2 is deferred. Stage: the firs
 | FR-16 | Component breakdown (base, variable, equity, benefits) and first-year versus recurring totals. | P2 | Deferred | T8.01 to T8.05 |
 | FR-17 | Hindi and other Indian-language interfaces. | P2 | Deferred | n/a |
 | FR-18 | A decision-support statement is visible on every estimate view and present in every API estimate response. | P0 | RP, PB | T9.03, T9.08 |
-| FR-19 | The evidence grade (A, B or C) derives only from measurable criteria: support, recency, source quality and interval width against baseline. Thresholds are fixed at G5. | P0 | RP, PB | T5.07, T5.08 |
+| FR-19 | Decoupled evidence framework (D-010): Source Quality Tier (institutional, triangulated disclosures, verified self-reports) and Prediction Support (deduplicated cell density, representativeness, source independence, recency, target consistency) are assessed independently. Invariant: sample size alone cannot justify an estimate. Abstention triggers whenever support, coverage or reliability fail preregistered thresholds. Thresholds fixed at G5. | P0 | RP, PB | T5.07, T5.08 |
 | FR-20 | Level 2 and Level 3 inputs (target employer and level, recruiter range, offers, verified pay) are admitted one family at a time, each only after an ablation shows value. | P2 | Deferred | T6.01, T6.03 |
 
-**Evidence grades `[H]`.** A: all support criteria met with margin, recent data, interval narrow relative to the cohort baseline. B: criteria met, with one of recency, source quality or width borderline. C: criteria met only narrowly; shown with explicit caution. No grade: the system abstained. Thresholds `[TBD: T5.07, G5]`.
+**Evidence and support framework (D-010).** Evaluated across two independent dimensions: (1) Source Quality Tier (Grade A institutional filings/verified payroll; Grade B triangulated/normalized disclosures; Grade C verified self-reports; Grade D unverified supplementary signals) and (2) Prediction Support Level (Supported, Guarded, Abstained). Abstention is triggered if data is single-source dependent, heavily unrepresentative, stale, or below preregistered cell density thresholds. Thresholds `[TBD: T5.07, G5]`.
 
 ---
 
