@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T2.04 (Profile Each Source & Data Cards)**
+**NEXT TASK: T2.05 (Map Source Fields to Canonical Definitions & Reconcile CTC)**
 
 ## How to use this file
 
@@ -124,7 +124,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `config/sources/<source_id>.yaml` with licence status. Done when: every shortlisted source is `approved`, `restricted` or `rejected` with reasons. Needs: T1.10. Size: L.
 - [x] **T2.03** [AI] Acquire permitted datasets into `data/raw/` with checksums and manifests. Only `approved` sources. (done 2026-10-14)
   Output: raw files and manifests. Done when: checksums verified and manifests list the licence id. Needs: T2.02. Size: M.
-- [ ] **T2.04** [AI] Profile each source: schema, coverage, time span, missingness, duplicates, refresh cadence; set staleness limits.
+- [x] **T2.04** [AI] Profile each source: schema, coverage, time span, missingness, duplicates, refresh cadence; set staleness limits. (done 2026-10-14)
   Output: `docs/data-cards/<source_id>.md`. Done when: each card has all fields and counts. Needs: T2.01, T2.03. Size: L.
 - [ ] **T2.05** [AI+HUMAN] Map source fields to canonical definitions (`comp_type`, `measure`, currency, period, tax basis); reconcile CTC; replace the PRD validity matrix with evidence.
   Output: mappings in `config/sources/`, PRD matrix updated. Done when: every used field has a mapping or an exclusion reason. Needs: T2.04, T1.02. Size: L.
