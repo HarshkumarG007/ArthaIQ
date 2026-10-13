@@ -1,0 +1,59 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-KAG-FIX-03
+#  india-job-market-and-salary-trends-2026 (Multi-portal Scrape)
+# =============================================================================
+
+source_id: "SRC-KAG-FIX-03"
+short_name: "India Job Market 2026 (Scrape)"
+long_name: "India Job Market and Salary Trends 2026 (Kaggle — Multi-portal Scrape)"
+provider: "Unknown / Unverified Kaggle uploader"
+primary_url: "https://www.kaggle.com/datasets/waqi786/india-job-market-and-salary-trends-2026"
+country: "IN"
+currency_primary: "INR"
+reference_period:
+  start: "2025-01-01"
+  end: "2026-01-01"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "UNKNOWN"
+  name: "Unknown / Unverified"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: false
+  permits_research_use: false
+  permits_commercial_use: false
+  permits_redistribution: false
+  scraping_prohibited: true
+  scraping_notes: >
+    Uploader identity is anonymous. Provenance is unverified (SQSF D3=1).
+    Multi-portal scrape of multiple job boards with no disclosed collection
+    methodology. Cannot be traced to a legitimate data collection event.
+    Contains future-dated 2026 salary entries for roles that do not yet exist —
+    strong indicator of synthetic or fabricated data (violates R-MD-11).
+  terms_of_service_violation_risk: "VERY HIGH — Unverified scrape of unknown origin"
+  personal_data_present: false
+  qualified_counsel_required: true
+
+ingestion_status: "restricted"
+ingestion_role: "test_fixture_only"
+restriction_reason: >
+  SQSF D3=1 (anonymous uploader, unverifiable provenance). Suspected synthetic/
+  fabricated data (R-MD-11). Unknown licence. Future-dated records for 2026 roles
+  indicate synthetic generation. Restricted to advertised range parser unit tests only.
+pipeline_routing:
+  - "test_fixtures_salary_range_parser"
+prohibited_routing:
+  - "PT1_direct_training"
+  - "PT2_direct_training"
+  - "data_raw_ingestion"
+  - "benchmark_outputs"
+  - "production_api"
+sqs: 32.0
+sqsf_tier: "TIER_5_TEST_FIXTURE"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Restricted to test fixture only. Unverified provenance; suspected synthetic."

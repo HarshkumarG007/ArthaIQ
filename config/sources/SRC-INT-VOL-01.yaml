@@ -1,0 +1,66 @@
+# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-INT-VOL-01
+#  ArthaIQ Governed Voluntary User Intake (Verified Payslip & Itemized Form)
+# =============================================================================
+
+source_id: "SRC-INT-VOL-01"
+short_name: "ArthaIQ Voluntary Intake"
+long_name: "ArthaIQ Governed Voluntary User Compensation Intake (Itemized Form & Verified Payslips)"
+provider: "ArthaIQ Platform / User Voluntary Contributions (Phase 8 Design / T2.10)"
+primary_url: "https://arthaiq.internal/intake"
+download_url: "internal://data/primary/voluntary-intake.parquet"
+country: "IN"
+currency_primary: "INR"
+reference_period:
+  collection_cadence: "continuous_rolling"
+  design_version: "v1.0"
+retrieval_date: "2026-10-13"
+verification_status: "DESIGN_SPECIFICATION"
+
+licence:
+  spdx_id: "PROPRIETARY-CONSENT-GRANT"
+  name: "ArthaIQ User Terms of Service & Explicit Data Contribution Consent (DPDPA 2023 / GDPR Compliant)"
+  terms_url: "https://arthaiq.internal/terms/data-consent"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: false
+  permits_research_use: true
+  permits_commercial_use: true
+  permits_redistribution: false
+  redistribution_conditions: "Strict aggregation only; k-anonymity >= 5 enforced; no individual level redistribution."
+  scraping_prohibited: true
+  terms_of_service_violation_risk: "NONE"
+  personal_data_present: true
+  privacy_safeguards:
+    dpdpa_2023_compliant: true
+    gdpr_compliant: true
+    k_anonymity_min: 5
+    differential_privacy_epsilon: 1.0
+    client_side_redaction: true
+    cryptographic_deduplication_hash: "HMAC-SHA256(pan_salt, salary_components)"
+    pii_storage: "NEVER_STORED"
+  qualified_counsel_required: true
+
+ingestion_status: "approved_for_design"
+ingestion_role: "primary_ground_truth"
+pipeline_routing:
+  - "PT1_direct_training"
+  - "PT2_direct_training"
+  - "PT3_direct_training"
+  - "PT4_direct_training"
+  - "PT5_direct_training"
+  - "PT6_direct_training"
+prohibited_routing:
+  - "public_unaggregated_export"
+notes: >
+  Forward design specification for Phase 8 / Task T2.10. Gold-standard primary
+  intake capturing itemized line items (basic, hra, special_allowance, variable_pay,
+  equity_vesting) matching ArthaIQ canonical accounting identity.
+  Pre-registered SQS: 96.0 (Tier 1 Ground Truth).
+sqs: 96.0
+sqsf_tier: "TIER_1_GROUND_TRUTH"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Recorded forward design specification and privacy safeguard requirements."

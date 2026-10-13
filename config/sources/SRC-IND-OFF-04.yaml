@@ -1,0 +1,57 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-IND-OFF-04
+#  National Career Service (NCS) Job Vacancy Portal
+# =============================================================================
+
+source_id: "SRC-IND-OFF-04"
+short_name: "NCS Job Vacancies"
+long_name: "National Career Service Portal — Job Vacancy Data"
+provider: "Ministry of Labour and Employment, Government of India"
+primary_url: "https://www.ncs.gov.in/"
+country: "IN"
+currency: "INR"
+reference_period:
+  start: "2024-01-01"
+  end: "2026-10-13"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "OGL-India-1.0"
+  name: "Open Government Data — National Career Service Portal"
+  terms_url: "https://www.ncs.gov.in/Pages/TermsConditions.aspx"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: true
+  permits_research_use: true
+  permits_commercial_use: false
+  redistribution_conditions: "Attribution required. Non-commercial research only."
+  scraping_prohibited: true
+  scraping_notes: >
+    Portal terms restrict automated scraping. Data accessed via download or
+    manual export only. API access (if available) requires registration.
+  terms_of_service_violation_risk: "LOW (manual download only)"
+  personal_data_present: false
+  qualified_counsel_required: false
+
+ingestion_status: "restricted"
+ingestion_role: "supplementary_pt3_auxiliary"
+restriction_reason: >
+  Non-commercial clause limits production deployment eligibility. Use restricted
+  to research prototype exploration only. Heavy concentration in government/PSU
+  postings; underrepresents private tech product firms. Measures advertised ranges
+  (PT3), not realized employee pay. Hard Gate D2=2 failure prevents PT1 training use.
+pipeline_routing:
+  - "PT3_advertised_range_research_only"
+  - "test_fixture_taxonomy"
+prohibited_routing:
+  - "PT1_direct_training"
+  - "PT2_direct_training"
+  - "production_api"
+sqs: 56.8
+sqsf_tier: "TIER_6_UNSUITABLE"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Restricted. Non-commercial clause; D2 hard gate failure."

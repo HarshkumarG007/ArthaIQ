@@ -1,0 +1,53 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-KAG-REJ-03
+#  data-science-salary-predictor (Synthetic / Faker-generated)
+# =============================================================================
+
+source_id: "SRC-KAG-REJ-03"
+short_name: "DS Salary Predictor (Synthetic)"
+long_name: "Data Science Salary Predictor Dataset — Synthetic (Kaggle)"
+provider: "Unknown — synthetically generated (Faker library or similar)"
+primary_url: "https://www.kaggle.com/datasets/henryshan/2023-data-scientists-salary"
+country: "SYNTHETIC"
+currency_primary: "SYNTHETIC"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "CC0-1.0"
+  name: "CC0 1.0 (Claimed — Synthetic data, no underlying rights issue)"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: true
+  permits_research_use: true
+  permits_commercial_use: true
+  permits_redistribution: true
+  redistribution_conditions: "No conditions — synthetic data."
+  scraping_prohibited: false
+  terms_of_service_violation_risk: "NONE (synthetic data)"
+  personal_data_present: false
+  qualified_counsel_required: false
+
+ingestion_status: "rejected"
+rejection_reason: >
+  PERMANENTLY DISQUALIFIED by Rule R-MD-11: synthetic data is for plumbing and
+  tests only, and metrics computed on it MUST NOT be reported as model performance.
+  This dataset consists of procedurally generated salary figures with no connection
+  to real employment contracts or market data. It contains zero Indian observations
+  (N_India=0). Even as a test fixture it is useless for realistic parsing tests;
+  SRC-KAG-FIX-01/02/03 serve that purpose with more realistic formats.
+  SQSF D3=1 (synthetic fabrication).
+rejection_criteria:
+  - "R-MD-11 — Synthetic data permanently banned from training and benchmarks"
+  - "SQSF Hard Gate D3 = 1 (Synthetic fabrication — zero provenance)"
+  - "N_India = 0"
+pipeline_routing: []
+prohibited_routing:
+  - "ALL_PIPELINES_PERMANENTLY"
+sqs: 22.0
+sqsf_tier: "TIER_6_DISQUALIFIED"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Permanently rejected. R-MD-11 and D3 hard gate failure."

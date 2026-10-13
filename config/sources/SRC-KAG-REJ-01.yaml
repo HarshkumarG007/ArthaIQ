@@ -1,0 +1,61 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-KAG-REJ-01
+#  jackogozaly/data-science-stem-salaries (Scraped Levels.fyi)
+# =============================================================================
+
+source_id: "SRC-KAG-REJ-01"
+short_name: "Levels.fyi Scrape (Kaggle)"
+long_name: "Data Science and STEM Salaries — Scraped Levels.fyi (Kaggle)"
+provider: "Levels.fyi — scraped by Jack O'Gozaly (Kaggle)"
+primary_url: "https://www.kaggle.com/datasets/jackogozaly/data-science-and-stem-salaries"
+country: "GLOBAL"
+currency_primary: "USD"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "CC0-1.0"
+  name: "CC0 1.0 (Claimed by uploader — DIRECT TOS BREACH)"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: false
+  permits_research_use: false
+  permits_commercial_use: false
+  permits_redistribution: false
+  scraping_prohibited: true
+  scraping_notes: >
+    Levels.fyi Terms of Service (Section 4.2 — Prohibited Conduct) explicitly
+    prohibit: "scrape, spider, crawl, or use other automated means to access
+    the Site or the Content." The CC0 claim by the uploader is LEGALLY INVALID —
+    a third party scraper cannot relicense content they do not own.
+    Using this dataset in any product constitutes a direct, knowing ToS breach
+    against a major compensation intelligence platform. Creates existential
+    legal liability under the Computer Fraud and Abuse Act (CFAA, US) and
+    potential tortious interference claims.
+  terms_of_service_violation_risk: "CRITICAL — Direct, documented ToS breach"
+  personal_data_present: false
+  qualified_counsel_required: true
+  qualified_counsel_notes: >
+    Any use beyond the already-committed DISQUALIFICATION requires qualified legal
+    counsel. Current position: permanently banned.
+
+ingestion_status: "rejected"
+rejection_reason: >
+  PERMANENTLY DISQUALIFIED. Direct ToS violation against Levels.fyi (SQSF D1=1).
+  CC0 claim by uploader is invalid; original data rights held by Levels.fyi.
+  Kill Criterion 2 applies immediately if any data from this source enters data/raw/.
+  Contains USA-centric base/stock/bonus figures; cross-market isolation would apply
+  even if the licence were clean.
+rejection_criteria:
+  - "SQSF Hard Gate D1 = 1 (CRITICAL ToS Breach — Levels.fyi terms violated)"
+  - "SQSF Hard Gate D3 = 2 (uploader identity verified but collection unauthorized)"
+pipeline_routing: []
+prohibited_routing:
+  - "ALL_PIPELINES_PERMANENTLY"
+sqs: 26.0
+sqsf_tier: "TIER_6_DISQUALIFIED"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Permanently rejected. D1 hard gate CRITICAL failure documented."
