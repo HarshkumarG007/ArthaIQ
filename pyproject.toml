@@ -126,6 +126,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["ANN", "S"]
 "notebooks/**" = ["ANN", "E501"]
+"scripts/**" = ["E501", "E402"]
 
 # ---- mypy ------------------------------------------------------------------
 [tool.mypy]
