@@ -96,7 +96,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/research/kaggle-dataset-audit-v0.1.md`, entries in `docs/research/evidence-register.csv`. Done when: each candidate has a terms summary, 10-dimension evaluation, and disposition. Needs: T1.05. Size: L.
 - [x] **T1.09** [AI] Source discovery, supporting data: occupation and skill taxonomies, macro indicators, FX and CPI series, company filings. (done 2026-10-13)
   Output: entries in `04-source-catalog.md`. Done when: each has a licence note. Needs: T1.05. Size: M.
-- [ ] **T1.10** [AI] Source-quality scoring framework: dimensions, rubric, proposed weights, classification (ground truth, population benchmark, market signal, supplementary, unsuitable).
+- [x] **T1.10** [AI] Source-quality scoring framework: dimensions, rubric, proposed weights, classification (ground truth, population benchmark, market signal, supplementary, unsuitable). (done 2026-10-13)
   Output: `docs/research/05-source-scoring.md`. Done when: every catalog entry is scored and classified. Needs: T1.06 to T1.09. Size: M.
 - [ ] **T1.11** [AI] Architecture autopsy: apply the eight master-prompt questions to each component in `architecture.md` section 5.
   Output: `docs/research/06-architecture-autopsy.md`. Done when: each component has a disposition with a keep or reject experiment. Needs: T1.10. Size: M.
