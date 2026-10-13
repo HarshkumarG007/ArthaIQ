@@ -12,7 +12,7 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.05.** (T0.01, T0.02, T0.03, T0.04, T0.07 done 2026-10-13; Project identity ratified: **ArthaIQ**; Q-001 through Q-010 answered.)
+- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.06.** (T0.01, T0.02, T0.03, T0.04, T0.05, T0.07 done 2026-10-13; Project identity ratified: **ArthaIQ**; Q-001 through Q-010 answered.)
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
 - **What exists:** repo scaffold, initial configs, doc suite. **No model code, no raw data yet.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
@@ -28,7 +28,7 @@
 | PRD | DONE | v0.2 ratified at T0.03 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
 | ARCHITECTURE | IN PROGRESS | v0.1 |
-| DESIGN | IN PROGRESS | v0.1 |
+| DESIGN | DONE | v0.2 ratified at T0.05 (the Span, cobalt on cool paper) |
 | PROJECT RULES | IN PROGRESS | v0.1 |
 | TASK BREAKDOWN | IN PROGRESS | v0.1 |
 | SETUP | TODO | Phase 3 |
@@ -47,10 +47,10 @@
 | Item | Value |
 |---|---|
 | Phase | 0, Foundation |
-| Last completed task | T0.03 (+ T0.01, T0.02, T0.04, T0.07) |
-| Next task | T0.05 |
+| Last completed task | T0.05 (+ T0.01, T0.02, T0.03, T0.04, T0.07) |
+| Next task | T0.06 |
 | Last gate | None yet |
-| Document versions | PRD v0.2; architecture, rules, design, task, memory: v0.1 |
+| Document versions | PRD v0.2, design v0.2; architecture, rules, task, memory: v0.1 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
 | Code | Package stubs & CI |
 | Data | None |
@@ -83,7 +83,7 @@ Record GO or NO-GO with the evidence that justified it.
 | D-003 | 2026-10-11 | Prediction targets are named PT1 to PT6 and specified separately | Accepted | PRD section 5 |
 | D-004 | 2026-10-13 | Scope hypothesis H0 ratified: India, software, data and ML roles (deliberately limited scope), `guaranteed_cash_annual` normalized to INR LPA | Accepted (ratified at T0.02; subject to G2 sufficiency gate) | ADR-0001, ADR-0002 |
 | D-005 | 2026-10-11 | Candidate stack and the benchmark ladder adopted as proposals | Proposed | ADR-0003, ADR-0004 |
-| D-006 | 2026-10-11 | Visual direction: the Span, cobalt on cool paper with blue-black ink, IBM Plex pairing | Proposed; confirm at T0.05 | `design.md` |
+| D-006 | 2026-10-13 | Visual direction: the Span, cobalt on cool paper with blue-black ink, IBM Plex pairing | Accepted (ratified at T0.05, `design.md` v0.2) | `design.md` |
 | D-007 | 2026-10-11 | Evidence grades A, B, C plus abstention; thresholds set at G5 | Superseded by D-010 | PRD FR-19 |
 | D-008 | 2026-10-11 | The research prototype has no web UI; the UI is built in Phase 9 | Proposed | PRD section 6 |
 | D-009 | 2026-10-13 | Project identity finalized as **ArthaIQ** (Compensation Intelligence · India-first; Tagline: "Ethical Compensation Intelligence for Tech Careers"; Brand promise: evidence-backed compensation distributions, transparent uncertainty, actionable career decision support; Signature experience: The Span) | Accepted | `README.md` |
@@ -171,6 +171,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-13 | T0.01, T0.04, T0.07 | Initialized the repository scaffold: created all directories per `architecture.md` section 8; saved the master research prompt as `docs/research/00-master-research-prompt.md`; copied all 6 docs to `docs/`; created ADR-0001 to ADR-0009 stubs in `docs/adr/`; created `.gitignore`, `README.md`, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, `.github/workflows/ci.yml`, PR template; created `__init__.py` files for all Python packages and `.gitkeep` files for tracked-but-empty directories. | All files listed above | Structure verified by directory listing; no secrets or data committed; `.gitignore` excludes `data/`, `.env`, `artifacts/` | Q-002 to Q-010 remain open; NEXT TASK is T0.02 | T0.02 |
 | 2026-10-13 | T0.02 | Ratified project identity as **ArthaIQ**; answered blocking foundational questions Q-001 through Q-010; recorded architectural decisions D-004, D-009 through D-013 (modeling ladder, independent source quality vs prediction support framework, conformal uncertainty, local pipeline). Updated README.md with comprehensive content and decoupled evidence framework. | `docs/memory.md`, `README.md`, `docs/task.md` | All 10 questions resolved; D-009 to D-013 recorded; NEXT TASK moved to T0.03 | None blocking Phase 0 | T0.03 |
 | 2026-10-13 | T0.03 | Reviewed and updated `PRD.md` to v0.2: reflected ArthaIQ identity, confirmed India tech scope (SWE, Data, ML/AI), `guaranteed_cash_annual` normalized to nominal INR LPA, and updated FR-19 to decoupled evidence framework. Synchronized root files. | `docs/PRD.md`, `PRD.md`, `docs/memory.md`, `docs/task.md` | PRD v0.2 matches T0.02 decisions; NEXT TASK moved to T0.05 | None | T0.05 |
+| 2026-10-13 | T0.05 | Reviewed `design.md`; confirmed visual direction (The Span as signature experience, cobalt on cool paper with blue-black ink, IBM Plex pairing, calm editorial statistical tone); updated wireframes with ArthaIQ identity; bumped to v0.2. Confirmed D-006. | `docs/design.md`, `design.md`, `docs/memory.md`, `docs/task.md` | Direction accepted; NEXT TASK moved to T0.06 | None | T0.06 |
 
 ## 13. How to update this file
 

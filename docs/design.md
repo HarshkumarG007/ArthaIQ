@@ -1,9 +1,9 @@
-# Design System
+# ArthaIQ Design System
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.1 |
-| Last updated | 2026-10-11 |
+| Status | Draft v0.2 (direction ratified at T0.05, D-006) |
+| Last updated | 2026-10-13 |
 | Depends on | `PRD.md` (FR-02, FR-03, FR-04, FR-05, FR-06, FR-08, FR-18, FR-19), `rules.md` (R-UI-01 to R-UI-06) |
 | Built in | Phase 9 (T9.07 tokens and components, T9.08 screens, T9.09 accessibility) |
 
@@ -295,7 +295,7 @@ Tables (sources, model card): right-aligned numerals, units in headers, `aria-so
 
 ```text
 +------------------------------------------------------------------------------+
-| CompIntel                                            INR  USD        Sign in |
+| ArthaIQ                                              INR  USD        Sign in |
 +------------------------------------------------------------------------------+
 |                                                                              |
 | About the role                   | Estimated range                           |
@@ -329,7 +329,7 @@ Tables (sources, model card): right-aligned numerals, units in headers, `aria-so
 
 ```text
 +--------------------------------+
-| CompIntel         INR   USD    |
+| ArthaIQ           INR   USD    |
 +--------------------------------+
 | Role                           |
 | [ {less common role}     v ]   |
