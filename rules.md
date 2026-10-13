@@ -2,8 +2,8 @@
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.1 |
-| Last updated | 2026-10-11 |
+| Status | Draft v0.2 (updated at T0.06 with D-010 invariants) |
+| Last updated | 2026-10-13 |
 | Audience | The AI coding assistant first, the human maintainer second |
 | Keywords | **MUST**, **MUST NOT**, **SHOULD** carry their RFC 2119 meaning |
 
@@ -37,6 +37,7 @@ Every rule has an id. When you deviate from one, cite the id in `memory.md` and 
 | R-EV-04 | Salary, accuracy and cost figures in code, docs or UI come from (a) a measured result with provenance, (b) a clearly marked placeholder such as `<p50>`, or (c) a fixture flagged `synthetic`. |
 | R-EV-05 | Community-reported compensation data is for discovery and bias analysis, not population claims, unless source scoring (T1.10) approves it for a stated purpose. |
 | R-EV-06 | Source priority: official statistics and regulatory documentation → peer-reviewed work → official library or API documentation → transparent research organizations → industry reports with documented method → community data. |
+| R-EV-07 | **Sample size alone does not validate an estimate (D-010).** A sample-size threshold cannot, by itself, justify an evidence grade or a statistically valid estimate. Representativeness, deduplication, source independence, temporal recency, and target consistency must be independently evaluated alongside cell count. |
 
 ## 3. Data
 
@@ -83,6 +84,7 @@ Every rule has an id. When you deviate from one, cite the id in `memory.md` and 
 | R-UQ-04 | Judge intervals on usefulness as well as coverage: compare width with a naive cohort interval at equal coverage. |
 | R-UQ-05 | Detect, report and repair quantile crossing. Never ship crossing outputs. |
 | R-UQ-06 | Bayesian outputs need prior and posterior predictive checks and a sensitivity analysis. The word "Bayesian" is not evidence of calibration. |
+| R-UQ-07 | **Independent assessment of source quality and prediction support (D-010).** The evidence framework must evaluate source provenance (Tiers A-D) independently from prediction support (Supported, Guarded, Abstained). Abstention rules must account for source dependence, clustering, and staleness, not just sample count. |
 
 ## 6. Fairness, privacy and ethics
 

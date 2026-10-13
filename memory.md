@@ -12,9 +12,9 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.06.** (T0.01, T0.02, T0.03, T0.04, T0.05, T0.07 done 2026-10-13; Project identity ratified: **ArthaIQ**; Q-001 through Q-010 answered.)
+- **Where we are:** Phase 0 is complete. **Gate G0: GO ratified 2026-10-13.** **NEXT TASK: T1.01** (Phase 1: Problem definition and source discovery).
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
-- **What exists:** repo scaffold, initial configs, doc suite. **No model code, no raw data yet.**
+- **What exists:** repo scaffold, initial configs, doc suite v0.2. **No model code, no raw data yet.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -27,10 +27,10 @@
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
 | PRD | DONE | v0.2 ratified at T0.03 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
-| ARCHITECTURE | IN PROGRESS | v0.1 |
+| ARCHITECTURE | DONE | v0.2 ratified at T0.06 |
 | DESIGN | DONE | v0.2 ratified at T0.05 (the Span, cobalt on cool paper) |
-| PROJECT RULES | IN PROGRESS | v0.1 |
-| TASK BREAKDOWN | IN PROGRESS | v0.1 |
+| PROJECT RULES | DONE | v0.2 ratified at T0.06 |
+| TASK BREAKDOWN | DONE | v0.2 ratified at T0.06 |
 | SETUP | TODO | Phase 3 |
 | DEVELOPMENT | TODO | Phases 3 to 9 |
 | TESTING | TODO | Inside every task; formal pass in Phase 9 |
@@ -46,11 +46,11 @@
 
 | Item | Value |
 |---|---|
-| Phase | 0, Foundation |
-| Last completed task | T0.05 (+ T0.01, T0.02, T0.03, T0.04, T0.07) |
-| Next task | T0.06 |
-| Last gate | None yet |
-| Document versions | PRD v0.2, design v0.2; architecture, rules, task, memory: v0.1 |
+| Phase | 1, Problem definition and source discovery |
+| Last completed task | T0.06 (+ Gate G0 ratified) |
+| Next task | T1.01 |
+| Last gate | G0 — GO (2026-10-13) |
+| Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
 | Code | Package stubs & CI |
 | Data | None |
@@ -62,7 +62,7 @@ Record GO or NO-GO with the evidence that justified it.
 
 | Gate | Decision | Date | Evidence | Notes |
 |---|---|---|---|---|
-| G0 | Pending | | | Charter ratification |
+| G0 | **GO** | 2026-10-13 | T0.00-T0.07 complete; Q-001 to Q-010 resolved; doc suite unified at v0.2; zero cross-doc conflicts | Charter ratified; India tech scope confirmed; ready for Phase 1 |
 | G1 | Pending | | | Targets, definitions, candidate sources |
 | G2 | Pending | | | Critical: data sufficiency and scope |
 | G3 | Pending | | | System contracts locked |
@@ -134,6 +134,7 @@ Add new rows as `KI-00n`. For a fixed bug, keep the row, set Status to Fixed and
 | Date | Change | ADR | Documents touched |
 |---|---|---|---|
 | 2026-10-11 | Initial architecture and document set, v0.1 | Stubs due at T0.04 | All six |
+| 2026-10-13 | Document consistency pass (T0.06): 0 blocking conflicts; unified naming (ArthaIQ), decoupled evidence framework (D-010), updated all six docs to v0.2 | ADR-0001, ADR-0002 | All six docs |
 
 ## 10. Experiment index
 
@@ -172,6 +173,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-13 | T0.02 | Ratified project identity as **ArthaIQ**; answered blocking foundational questions Q-001 through Q-010; recorded architectural decisions D-004, D-009 through D-013 (modeling ladder, independent source quality vs prediction support framework, conformal uncertainty, local pipeline). Updated README.md with comprehensive content and decoupled evidence framework. | `docs/memory.md`, `README.md`, `docs/task.md` | All 10 questions resolved; D-009 to D-013 recorded; NEXT TASK moved to T0.03 | None blocking Phase 0 | T0.03 |
 | 2026-10-13 | T0.03 | Reviewed and updated `PRD.md` to v0.2: reflected ArthaIQ identity, confirmed India tech scope (SWE, Data, ML/AI), `guaranteed_cash_annual` normalized to nominal INR LPA, and updated FR-19 to decoupled evidence framework. Synchronized root files. | `docs/PRD.md`, `PRD.md`, `docs/memory.md`, `docs/task.md` | PRD v0.2 matches T0.02 decisions; NEXT TASK moved to T0.05 | None | T0.05 |
 | 2026-10-13 | T0.05 | Reviewed `design.md`; confirmed visual direction (The Span as signature experience, cobalt on cool paper with blue-black ink, IBM Plex pairing, calm editorial statistical tone); updated wireframes with ArthaIQ identity; bumped to v0.2. Confirmed D-006. | `docs/design.md`, `design.md`, `docs/memory.md`, `docs/task.md` | Direction accepted; NEXT TASK moved to T0.06 | None | T0.06 |
+| 2026-10-13 | T0.06 & Gate G0 | Executed document consistency pass across all six docs (ids, rules R-EV-07 and R-UQ-07 added, terminology aligned, naming unified to ArthaIQ); confirmed 0 blocking conflicts; bumped doc suite to v0.2. Ratified Gate G0 as GO. Phase 0 complete; advancing to Phase 1. | All docs in docs/ and root | All cross-references valid; Gate G0 criteria satisfied; NEXT TASK moved to T1.01 | None | T1.01 |
 
 ## 13. How to update this file
 
