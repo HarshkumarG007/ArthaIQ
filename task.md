@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T1.08 (Kaggle Dataset Audit v0.1) & T1.02 (Comp Definitions)**
+**NEXT TASK: T2.02 (Licence and Terms Review for Shortlisted Sources)**
 
 ## How to use this file
 
@@ -118,7 +118,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO if:** a market, occupation and measure combination meets the sufficiency criteria fixed in T2.01 using only `approved` sources.
 > **NO-GO leads to:** the data acquisition programme (T2.10), a narrower scope, or stopping. Do not start modelling.
 
-- [ ] **T2.01** [AI+HUMAN] Fix sufficiency criteria **before** profiling: minimum effective sample per cell, recency, source-quality floor, coverage of target occupations, acceptable precision of cell estimates.
+- [x] **T2.01** [AI+HUMAN] Fix sufficiency criteria **before** profiling: minimum effective sample per cell, recency, source-quality floor, coverage of target occupations, acceptable precision of cell estimates. (done 2026-10-13)
   Output: `experiments/preregistration/sufficiency-v1.yaml`, committed. Done when: committed before T2.04 starts. Needs: G1. Size: S.
 - [ ] **T2.02** [AI+HUMAN] Licence and terms review for shortlisted sources, including privacy-law checks `[U]`; qualified counsel where needed.
   Output: `config/sources/<source_id>.yaml` with licence status. Done when: every shortlisted source is `approved`, `restricted` or `rejected` with reasons. Needs: T1.10. Size: L.

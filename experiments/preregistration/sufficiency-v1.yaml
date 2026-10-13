@@ -1,0 +1,786 @@
+﻿# =============================================================================
+#  ArthaIQ -- Data Sufficiency Pre-Registration: v1
+#  File: experiments/preregistration/sufficiency-v1.yaml
+# =============================================================================
+#
+#  IMMUTABILITY CONTRACT (R-MD-02)
+#  This file MUST be committed to Git before Task T2.04 (data profiling) begins.
+#  Once the first profiling run starts, this file is LOCKED. No threshold,
+#  criterion, or decision rule may be changed. Any revision requires:
+#    1. A new file  sufficiency-v2.yaml  with a complete change-log section.
+#    2. A new ADR entry documenting the rationale and scope of the change.
+#    3. Explicit GO signal from the human maintainer recorded in memory.md.
+#  Modifying this file after profiling begins constitutes a pre-registration
+#  violation and must be flagged as KI-### in memory.md (R-WF-07).
+#
+#  AUTHORING TASK:  T2.01
+#  DATE AUTHORED:   2026-10-13
+#  GATE:            Committed before T2.04 starts (Gate G2 exit criterion).
+#                   Phase 3 modelling must not begin until sufficiency-analysis
+#                   (T2.09) shows GO or CONDITIONAL-GO against every criterion.
+#  GOVERNS:         T2.04, T2.07, T2.08, T2.09, T2.10 (conditional),
+#                   T2.11, Gate G2, ADR-0001, ADR-0002
+
+metadata:
+  document_id: "experiments/preregistration/sufficiency-v1.yaml"
+  version: "1.0.0"
+  status: "LOCKED_ON_FIRST_PROFILING_RUN"
+  authored_task: "T2.01"
+  authored_date: "2026-10-13"
+  locked_date: null
+  locked_commit: null
+  governing_documents:
+    - "docs/research/01-targets.md"
+    - "docs/research/02-comp-definitions.md"
+    - "docs/research/05-source-scoring.md"
+    - "docs/research/08-scope-memo.md"
+    - "docs/adr/ADR-0001-initial-market-and-occupation-scope.md"
+    - "docs/adr/ADR-0002-primary-target-and-compensation-measure.md"
+    - "rules.md"
+  principal_rule_ids:
+    - "R-MD-02"
+    - "R-EV-07"
+    - "R-DA-01"
+    - "R-UQ-01"
+    - "R-UQ-02"
+    - "D-010"
+  kill_criterion_ref: "08-scope-memo.md Section 4 -- Kill Criterion 1"
+
+# =============================================================================
+#  SECTION 1: CANONICAL SCOPE (fixed by ADR-0001 and ADR-0002)
+# =============================================================================
+
+scope:
+  geography:
+    country: "IN"
+    employment_type: "full_time_salaried"
+    context: "domestic_resident_employment"
+    excluded:
+      - "remote_global_contractors"
+      - "freelance"
+      - "part_time"
+      - "internships"
+
+  primary_target_measure:
+    measure_id: "guaranteed_cash_annual"
+    definition: >
+      Annualized contractually committed pre-tax fixed cash compensation:
+      Basic Pay + HRA + Special Allowance + Fixed Cash Allowances.
+      Excludes employer EPF, gratuity accrual, variable performance bonus,
+      joining bonus, annualized equity grants (RSU/ESOP).
+      Unit: Nominal INR Lakhs Per Annum (LPA).
+    anti_heuristic_rule: "R-MD-07"
+    admissible_measure_ids:
+      - "guaranteed_cash_annual"
+      - "basic_salary_annual"
+    inadmissible_measure_ids:
+      - "ctc_annual"
+      - "take_home_annual"
+      - "total_comp_annual"
+      - "binned_range_annual"
+      - "advertised_min_annual"
+      - "advertised_max_annual"
+    normalization_currency: "INR"
+    normalization_unit: "LPA"
+    tax_basis: "gross_pre_tax"
+
+  prediction_targets_in_scope:
+    primary:
+      - id: "PT1"
+        name: "Market Compensation for a Candidate Profile"
+        statistical_objective: "Conditional quantile regression Q(Y|X) at tau in {0.10, 0.50, 0.90}"
+        sufficiency_is_required: true
+      - id: "PT2"
+        name: "Comparable Cohort Distribution"
+        statistical_objective: "Empirical weighted distribution function per discretized cell"
+        sufficiency_is_required: true
+      - id: "PT6"
+        name: "Current Compensation Benchmark"
+        statistical_objective: "CDF positioning and absolute delta against PT1 conditional distribution"
+        sufficiency_is_required: true
+    deferred:
+      - id: "PT3"
+        rationale: "Requires dedicated offer-tracking pipeline; deferred per T1.01"
+      - id: "PT4"
+        rationale: "Blocked on verified negotiation telemetry; deferred per T1.01"
+      - id: "PT5"
+        rationale: "Requires multi-year longitudinal panel; deferred per T1.01"
+
+  occupational_families:
+    - family_id: "SWE"
+      name: "Software Engineering"
+      nco_2015: ["2512", "2511"]
+      soc_2018: ["15-1252", "15-1254"]
+      esco_v1_1: ["2512.1", "2512.2"]
+    - family_id: "DATA"
+      name: "Data Science and Analytics"
+      nco_2015: ["2521", "2513"]
+      soc_2018: ["15-2051", "15-1211"]
+      esco_v1_1: ["2521.1", "2513.1"]
+    - family_id: "MLAI"
+      name: "Machine Learning and AI Engineering"
+      nco_2015: ["2512", "2521"]
+      soc_2018: ["15-2051", "15-1252"]
+      esco_v1_1: ["2512.5", "2521.3"]
+
+  seniority_bands:
+    - band_id: "JR"
+      label: "Junior / Early Career"
+      yoe_range_inclusive_min: 0
+      yoe_range_inclusive_max: 2
+    - band_id: "MID"
+      label: "Mid-Level"
+      yoe_range_exclusive_min: 2
+      yoe_range_inclusive_max: 6
+    - band_id: "SR"
+      label: "Senior / Lead"
+      yoe_range_exclusive_min: 6
+      yoe_range_inclusive_max: 12
+    - band_id: "STAFF"
+      label: "Staff / Principal / Architect"
+      yoe_range_exclusive_min: 12
+      yoe_range_inclusive_max: null
+
+  canonical_locations:
+    - loc_id: "BLR"
+      name: "Bengaluru"
+      tier: 1
+    - loc_id: "HYD"
+      name: "Hyderabad"
+      tier: 1
+    - loc_id: "NCR"
+      name: "Delhi NCR"
+      tier: 1
+    - loc_id: "PUN"
+      name: "Pune"
+      tier: 2
+    - loc_id: "MUM"
+      name: "Mumbai"
+      tier: 2
+    - loc_id: "CHN"
+      name: "Chennai"
+      tier: 2
+    - loc_id: "OTHER"
+      name: "Other / Remote"
+      tier: 3
+      note: "Collapsed to single covariate level; insufficient local density expected."
+
+  employer_tier_taxonomy:
+    - tier_id: "T1P"
+      label: "Tier-1 Tech / Product"
+      examples: ["FAANG/MAANG India", "Unicorn product companies", "Deep-tech SaaS"]
+    - tier_id: "GCC"
+      label: "Global Capability Centre"
+      examples: ["Goldman Sachs Bengaluru", "JP Morgan India tech hub", "Google APAC engineering"]
+    - tier_id: "MMP"
+      label: "Mid-Market Product"
+      examples: ["Series B/C SaaS startups", "Indian listed tech companies"]
+    - tier_id: "ITS"
+      label: "IT Services / System Integrator"
+      examples: ["TCS", "Infosys", "Wipro", "HCL", "Tech Mahindra", "Cognizant"]
+
+# =============================================================================
+#  SECTION 2: CELL DEFINITION
+# =============================================================================
+
+cell_definition:
+  description: >
+    A cell is a unique combination of (occupational_family x canonical_location x
+    seniority_band). This is the minimum grouping for which a conditional quantile
+    estimate is meaningful. Employer tier is a Level 1 covariate that partitions
+    cells further; sufficiency is checked at Level 0 (without employer tier) first.
+  dimensions:
+    level_0:
+      - occupational_family
+      - canonical_location
+      - seniority_band
+    level_1:
+      - employer_tier
+  total_level_0_cells: 84
+  core_cells:
+    description: >
+      Core cells are the minimum viable set for the research prototype.
+      If any core cell fails N_eff >= 50, the project triggers Kill Criterion 1.
+    cells:
+      - family: SWE
+        location: BLR
+        band: JR
+        label: "SWE.BLR.Junior"
+      - family: SWE
+        location: BLR
+        band: MID
+        label: "SWE.BLR.Mid"
+      - family: SWE
+        location: BLR
+        band: SR
+        label: "SWE.BLR.Senior"
+      - family: SWE
+        location: HYD
+        band: MID
+        label: "SWE.HYD.Mid"
+      - family: SWE
+        location: HYD
+        band: SR
+        label: "SWE.HYD.Senior"
+      - family: SWE
+        location: NCR
+        band: MID
+        label: "SWE.NCR.Mid"
+      - family: SWE
+        location: NCR
+        band: SR
+        label: "SWE.NCR.Senior"
+      - family: DATA
+        location: BLR
+        band: MID
+        label: "DATA.BLR.Mid"
+      - family: DATA
+        location: BLR
+        band: SR
+        label: "DATA.BLR.Senior"
+      - family: MLAI
+        location: BLR
+        band: SR
+        label: "MLAI.BLR.Senior"
+      - family: MLAI
+        location: HYD
+        band: SR
+        label: "MLAI.HYD.Senior"
+      - family: MLAI
+        location: NCR
+        band: SR
+        label: "MLAI.NCR.Senior"
+    count: 12
+  extended_cells:
+    description: >
+      Extended cells expand the prototype to Tier-2 cities and rarer bands.
+      Failing extended cells triggers CONDITIONAL-GO: the system must abstain
+      for those cells rather than produce an estimate (R-UQ-02).
+    note: "All level_0 cells not in core_cells are extended cells."
+
+# =============================================================================
+#  SECTION 3: CRITERION C1 -- MINIMUM EFFECTIVE SAMPLE SIZE PER CELL
+# =============================================================================
+#
+#  Rationale:
+#    PT1 Data Compatibility Matrix (01-targets.md Section 3):
+#      "Minimum Cell Count (N) for PT1: N >= 30 per slice."
+#    Kill Criterion 1 (08-scope-memo.md Section 4): N_eff >= 50 for core cells.
+#    N_eff accounts for source weighting and clustering (D-010).
+#    Formula: N_eff = (sum(w_i))^2 / sum(w_i^2)  [Kish design-effect]
+#    w_i = Q(source_of_i) / 100   [source-quality weight from SQSF]
+
+criterion_C1:
+  id: "C1"
+  name: "Minimum Effective Sample Size per Cell"
+  description: >
+    After deduplication (R-DA-06) and source-quality weighting (D-010), the
+    effective sample size N_eff for each cell must meet or exceed the floor.
+    Raw row count MUST NOT be used as a substitute for N_eff.
+  rules:
+    - "R-EV-07"
+    - "R-DA-06"
+    - "D-010"
+
+  floors:
+    core_cells:
+      n_eff_minimum: 50
+      rationale: >
+        Kill Criterion 1 (08-scope-memo.md Section 4): N_eff < 50 in any core
+        cell triggers HALT of all ML modelling and mandatory pivot to T2.10.
+        Floor of 50 permits a 20% temporal hold-out split while retaining
+        N_eff >= 40 in the training partition for meaningful quantile regression.
+      decision_on_failure: "KILL_CRITERION_1"
+    extended_cells:
+      n_eff_minimum: 30
+      rationale: >
+        Derived from PT1 audit matrix (01-targets.md Section 3): N >= 30 per
+        slice. For extended cells the system abstains rather than halting.
+      decision_on_failure: "ABSTAIN_FOR_CELL"
+    pt2_cohort_display:
+      n_minimum: 10
+      k_anonymity_minimum: 5
+      rationale: >
+        PT2 privacy safeguard (01-targets.md Section 2 PT2 Identification Limits):
+        N < 5 -> completely withheld. N < 10 -> quantiles withheld from primary
+        display. k >= 5 distinct persons enforces k-anonymity before aggregation.
+      decision_on_failure: "SUPPRESS_PT2_CELL"
+
+  effective_sample_computation:
+    method: "kish_design_effect"
+    formula: "N_eff = (sum(w_i))^2 / sum(w_i^2)"
+    weight_definition: >
+      w_i = Q(source_of_i) / 100 where Q is the Composite Source Quality Score
+      from SQSF (05-source-scoring.md). Observations from sources failing any Hard
+      Gate (D1 < 3, D2 < 3, or D3 < 3) receive w_i = 0 and are excluded.
+    diagnostic_weight: >
+      Uniform w_i = 1 (raw count) is computed as a diagnostic and reported
+      alongside N_eff but is NOT used in the sufficiency decision.
+
+  deduplication_policy:
+    required_before_split: true
+    dedup_keys:
+      - "source_id"
+      - "worker_pseudonym"
+      - "employer_pseudonym"
+      - "effective_on"
+    max_tolerated_duplicate_rate: 0.05
+    rationale: >
+      Duplicate observations from the same worker in the same period inflate
+      tail density and violate the independence assumption. Removed before
+      any N_eff calculation.
+
+# =============================================================================
+#  SECTION 4: CRITERION C2 -- SOURCE QUALITY FLOOR
+# =============================================================================
+#
+#  Rationale (05-source-scoring.md):
+#    Tier 1 (Q >= 85):     Ground Truth -- PT1 training
+#    Tier 2 (75 <= Q < 85): Population Benchmark -- macro anchor (PLFS SQS=82.6)
+#    Tier 3 (65 <= Q < 75): Market Signal -- regulatory filings
+#    Tier 4 (60 <= Q < 75): Supplementary Feature -- taxonomy, CPI
+#    Tier 5:                Test fixture only
+#    Tier 6:                Disqualified
+#  Hard Gates D1 >= 3, D2 >= 3, D3 >= 3 are absolute; no score compensates.
+
+criterion_C2:
+  id: "C2"
+  name: "Source Quality Floor"
+  description: >
+    Every source contributing observations to any cell must clear the SQS floor
+    and pass all three non-compensatory Hard Gates (05-source-scoring.md Section 3.2).
+    Sources failing any Hard Gate are excluded from N_eff regardless of row count.
+  rules:
+    - "R-DA-01"
+    - "D-010"
+
+  hard_gates:
+    - dimension: "D1"
+      name: "Licensing and Legal Integrity"
+      minimum_score: 3
+      failure_action: "DISQUALIFY_FROM_ALL_PIPELINES"
+      rationale: >
+        Score < 3 indicates Terms of Service violation (scraping) or ambiguous
+        commercial rights. Legal liability is existential (R-DA-01).
+    - dimension: "D2"
+      name: "Target Measure Compatibility"
+      minimum_score: 3
+      failure_action: "DISQUALIFY_FROM_PT1_TRAINING"
+      rationale: >
+        Score < 3 indicates coarse unverified strings, synthetic data, or pure
+        advertised job range (not employee payroll cash). Inadmissible for PT1.
+    - dimension: "D3"
+      name: "Upstream Provenance and Auditability"
+      minimum_score: 3
+      failure_action: "DISQUALIFY_FROM_PRODUCTION_PIPELINE"
+      rationale: >
+        Score < 3 indicates anonymous uploader or synthetic fabrication.
+
+  sqs_floors:
+    pt1_training_sources:
+      minimum_sqs: 65
+      preferred_sqs: 75
+      all_hard_gates_required: true
+      rationale: >
+        Tier 3 (65 <= Q < 75) is the minimum quality floor for PT1 training data.
+        Sources in this tier (e.g. regulatory filings) provide market-clearing
+        salary signals. They may contribute with additional schema normalization (T2.05).
+    macro_anchor_sources:
+      minimum_sqs: 75
+      all_hard_gates_required: true
+      rationale: >
+        Population benchmark sources (e.g. PLFS SRC-IND-OFF-01, SQS=82.6) must
+        be Tier 2 to provide defensible statistical floors for PT6 positioning.
+    supplementary_sources:
+      minimum_sqs: 60
+      hard_gates_d1_d3_required: true
+      d2_exemption: true
+      rationale: >
+        Supplementary sources (O*NET, ESCO, RBI CPI/FX) do not contribute
+        compensation figures; they provide features and deflators. D2 gate waived.
+
+  minimum_source_diversity:
+    minimum_distinct_approved_sources_per_core_cell: 1
+    preferred_distinct_approved_sources_per_core_cell: 2
+    rationale: >
+      A cell from a single source inherits all biases of that source. Two
+      independent sources provide a basic cross-check. Single-source cells
+      are classified GUARDED rather than SUPPORTED (D-010).
+    evidence_grade_mapping:
+      SUPPORTED:
+        conditions: ">=2 distinct approved sources with SQS_avg >= 70"
+      GUARDED:
+        conditions: "1 approved source OR SQS_avg < 70 with N_eff >= 50"
+      ABSTAINED:
+        conditions: "No approved source OR N_eff < 30 for extended cells"
+
+# =============================================================================
+#  SECTION 5: CRITERION C3 -- RECENCY AND TEMPORAL FRESHNESS
+# =============================================================================
+#
+#  Rationale:
+#    PT1 (01-targets.md Section 2): t_obs in [t0 - 180d, t0].
+#    02-comp-definitions.md Section 6.4: CPI deflation if age > 90 days.
+#    SQSF D8 = 1 (Fatal) for pre-2020 data; D8 >= 3 requires 2023-2024 vintage.
+
+criterion_C3:
+  id: "C3"
+  name: "Recency and Temporal Freshness Floor"
+  description: >
+    All observations admitted to a sufficiency-qualifying cell must have a
+    verified observation timestamp (effective_on) within the admissibility window.
+    Observations outside the window are excluded from N_eff. Data without a
+    verifiable date is quarantined (R-DA-05).
+  rules:
+    - "R-DA-03"
+    - "R-DA-05"
+
+  admissibility_window:
+    max_observation_age_days: 180
+    rationale: >
+      PT1 requires nowcast at t0. Observations older than 180 days reflect stale
+      market conditions. Hard cutoff from 01-targets.md Section 2 (PT1 Horizon).
+    formula: "t_obs in [t_0 - 180d, t_0]"
+
+  deflation_trigger:
+    age_threshold_days: 90
+    deflation_method: "urban_cpi_index_or_sector_wage_index"
+    deflation_source: "RBI DBIE CPI-Urban (SRC-SUP-MAC-01)"
+    rationale: >
+      Observations between 91 and 180 days old must be deflated to current nominal
+      INR before computing distributional statistics. Required by 02-comp-definitions.md
+      Section 6.4 and SQSF D8.
+    quarantine_if_deflation_series_unavailable: true
+
+  minimum_source_vintage:
+    minimum_collection_year: 2023
+    rationale: >
+      SQSF D8 < 3 for pre-2023 data indicates pandemic-era anomalies (2020-2022)
+      or structural staleness. Pre-2023 sources are benchmark-only context.
+    exception: >
+      MOSPI PLFS 2023-24 microdata (SRC-IND-OFF-01, D8=4) satisfies this
+      criterion; reference period is July 2023 - June 2024.
+
+  temporal_staleness_alarm:
+    max_median_record_age_days: 365
+    alarm_action: "LOG_WARNING_AND_FLAG_IN_DATA_CARD"
+    rationale: >
+      If median record age exceeds 365 days from t0, the data card records a
+      freshness warning. Does not trigger KILL; triggers re-evaluation at refresh.
+
+  missing_date_policy:
+    action: "QUARANTINE"
+    quarantine_reason_code: "MISSING_EFFECTIVE_ON"
+    reporting_required: true
+    rationale: >
+      R-DA-03 requires effective_on. R-DA-05 forbids silent drops. Observations
+      without an observation date cannot be placed in the admissibility window.
+
+# =============================================================================
+#  SECTION 6: CRITERION C4 -- COVERAGE OF TARGET OCCUPATIONS AND LOCATIONS
+# =============================================================================
+#
+#  Rationale:
+#    Kill Criterion 1 (08-scope-memo.md Section 4) requires N_eff >= 50 for
+#    at least 6 specific named core cells. C4 formalizes coverage as the
+#    fraction of core cells meeting the N_eff floor.
+
+criterion_C4:
+  id: "C4"
+  name: "Coverage of Target Occupations and Locations"
+  description: >
+    Coverage is the fraction of defined cells that meet the N_eff floor from C1.
+    Coverage is reported separately per occupational family and location tier.
+    Gaps map directly to abstention zones (R-UQ-02).
+  rules:
+    - "R-UQ-02"
+    - "D-010"
+
+  coverage_thresholds:
+    core_cells:
+      minimum_coverage_fraction: 1.00
+      rationale: >
+        This pre-registration requires ALL 12 core cells to pass because the
+        research prototype serves Tier-1 cities as its core geographic scope.
+        Failure in any core cell triggers T2.10.
+      failure_action: "TRIGGER_KILL_CRITERION_1"
+    extended_cells:
+      minimum_coverage_fraction: 0.30
+      rationale: >
+        Extended cells cover Tier-2 cities and STAFF band. Low coverage expected.
+        30% minimum ensures value beyond 12 core cells.
+      failure_action: "ABSTAIN_FOR_UNCOVERED_CELLS"
+
+  per_family_floor:
+    minimum_cells_per_family: 1
+    families: ["SWE", "DATA", "MLAI"]
+    failure_action: "ABSTAIN_FOR_FAMILY"
+
+  per_location_floor:
+    minimum_swe_cells_per_tier1_city: 1
+    tier1_cities: ["BLR", "HYD", "NCR"]
+    failure_action: "ABSTAIN_FOR_LOCATION"
+
+  coverage_map_output:
+    file: "experiments/results/coverage_map_v1.parquet"
+    schema_fields:
+      - "family: str"
+      - "location: str"
+      - "band: str"
+      - "n_raw: int"
+      - "n_eff: float"
+      - "source_count: int"
+      - "sqs_avg: float"
+      - "median_age_days: float"
+      - "c1_pass: bool"
+      - "c2_pass: bool"
+      - "c3_pass: bool"
+      - "c4_pass: bool"
+      - "overall_pass: bool"
+      - "evidence_grade: str"
+    reproduce_command: "make coverage-map"
+
+# =============================================================================
+#  SECTION 7: CRITERION C5 -- ACCEPTABLE PRECISION OF CELL ESTIMATES
+# =============================================================================
+#
+#  Rationale:
+#    R-UQ-01: Always P10/P50/P90, never a single number.
+#    R-UQ-04: Compare interval width against naive cohort interval at equal coverage.
+#    A cell with N_eff >= 50 but extreme dispersion may still produce intervals
+#    too wide for user decision-making.
+
+criterion_C5:
+  id: "C5"
+  name: "Acceptable Precision of Cell Quantile Estimates"
+  description: >
+    A cell passes C5 if its bootstrap 90% CI for the P50 estimate has a
+    half-width <= max_half_width_lpa and the P10-P90 relative width is
+    <= max_relative_interval_width.
+  rules:
+    - "R-UQ-01"
+    - "R-UQ-04"
+    - "R-MD-05"
+
+  bootstrap_precision:
+    n_bootstrap_resamples: 2000
+    confidence_level: 0.90
+    max_half_width_lpa: 3.0
+    rationale: >
+      At a typical SWE Mid-level salary of 18-22 LPA, +-3 LPA (roughly +-14%)
+      is the upper bound for a useful estimate. Wider renders the estimate no
+      more informative than a rough industry guess.
+    failure_action: "FLAG_CELL_AS_LOW_PRECISION"
+    failure_consequence: >
+      Low-precision cells are displayed with a wider evidence-grade band and
+      an explicit precision warning. Not suppressed unless C1 is also failing.
+
+  interval_usefulness:
+    max_relative_interval_width: 2.0
+    rationale: >
+      If P10-P90 span exceeds 2x P50 median, the interval covers an implausibly
+      large range and signals extreme heterogeneity or target contamination.
+    failure_action: "FLAG_CELL_AS_HIGH_DISPERSION_INVESTIGATE"
+
+  naive_cohort_comparison:
+    description: >
+      Per R-UQ-04: compute the naive cohort interval (marginal empirical P10-P90
+      for the entire occupational family, ignoring all other covariates) at equal
+      empirical coverage. Report the ratio:
+        width_ratio = (conditional P10-P90 width) / (naive cohort P10-P90 width)
+      A width_ratio > 1.0 means the conditional model is WIDER than naive cohort --
+      strong signal of cell sparsity or covariate mis-specification.
+    target_width_ratio_max: 1.0
+    failure_action: "FLAG_FOR_INVESTIGATION"
+    note: "Diagnostic only. Does not independently trigger GO/NO-GO."
+
+# =============================================================================
+#  SECTION 8: PRIVACY AND K-ANONYMITY GATE
+# =============================================================================
+#
+#  Rationale:
+#    R-DA-10: No aggregate shown for fewer than k_min distinct persons.
+#    R-DA-07: Minimize personal data; pseudonymize identifiers.
+#    DPDPA 2023 compliance (preliminary; qualified counsel required at T2.02).
+#    01-targets.md Section 2 PT2: N < 5 -> completely withheld.
+
+privacy_gate:
+  id: "PG"
+  name: "Privacy and k-Anonymity Gate"
+  description: >
+    No cell estimate or aggregate statistic is exposed in any API response, UI
+    widget, or research report if the distinct-person count is below k_min.
+    Applied AFTER deduplication and BEFORE any N_eff computation.
+  rules:
+    - "R-DA-07"
+    - "R-DA-10"
+
+  k_min: 5
+  rationale: >
+    01-targets.md Section 2 (PT2): N < 5 -> completely withheld. This value is
+    cited in rules.md R-DA-10 as [TBD: ADR-0008] to be finalized at T9.10.
+    Until ADR-0008 is ratified, k_min = 5 is the binding pre-registered floor.
+
+  suppression_policy:
+    action_on_k_below_min: "COMPLETELY_SUPPRESS_CELL"
+    suppress_cell_count: true
+    suppress_from:
+      - "api_responses"
+      - "ui_displays"
+      - "research_reports"
+    expose_in:
+      - "internal_audit_logs"
+
+  person_counting:
+    count_unit: "distinct_person_pseudonym"
+    not_row_count: true
+    rationale: >
+      A source may contain multiple observations for the same worker across time.
+      k-anonymity counts distinct worker pseudonyms, not rows.
+
+# =============================================================================
+#  SECTION 9: SUFFICIENCY DECISION RULES
+# =============================================================================
+
+sufficiency_decision:
+  description: >
+    At the conclusion of T2.09 (Sufficiency Analysis), each of the 84 level_0
+    cells receives a per-criterion PASS/FAIL verdict. The global Gate G2 decision
+    is determined by these rules evaluated in order.
+  evaluation_order:
+    - "C1_core_cells"
+    - "C2_hard_gates"
+    - "C3_recency"
+    - "C4_coverage"
+    - "C5_precision"
+    - "PG_privacy"
+
+  decision_rules:
+    GO:
+      description: "All criteria pass for all core cells. Proceed to Phase 3."
+      conditions:
+        - "C1: N_eff >= 50 for ALL 12 core cells"
+        - "C2: All contributing sources pass all Hard Gates D1/D2/D3"
+        - "C3: All observations in core cells have effective_on within 180 days"
+        - "C4: 100% core cell coverage and >= 30% extended cell coverage"
+        - "C5: Bootstrap P50 half-width <= 3.0 LPA for all core cells"
+        - "PG: k >= 5 for all reported cells"
+      action: >
+        Record GO in memory.md Gate G2 row with evidence table.
+        Proceed to T2.11 (finalize ADR-0001, ADR-0002; PRD v1.0).
+        Then proceed to Phase 3.
+
+    CONDITIONAL_GO:
+      description: >
+        All 12 core cells pass C1-C4. Some extended cells fail. Proceed to Phase 3
+        with mandatory abstention zones for failing cells.
+      conditions:
+        - "C1: N_eff >= 50 for ALL 12 core cells (PASS)"
+        - "Extended cells: N_eff < 30 for some extended cells (PARTIAL FAIL)"
+        - "C2, C3, C4_core, PG: All pass"
+      action: >
+        Record CONDITIONAL-GO in memory.md Gate G2 row.
+        List abstain cells in config/thresholds.yaml under abstain_cells.
+        Proceed to Phase 3 with abstention enforced for failing cells (R-UQ-02).
+        Create T2.10 data acquisition plan for failing extended cells.
+
+    NO_GO:
+      description: >
+        One or more core cells fail C1 (N_eff < 50). Kill Criterion 1 triggered.
+        All ML modelling is halted immediately.
+      conditions:
+        - "C1: N_eff < 50 for ANY core cell"
+      action: >
+        Record NO-GO in memory.md Gate G2 row with per-cell evidence.
+        HALT all modelling tasks. DO NOT write baseline or model code.
+        Execute T2.10: design the smallest viable data acquisition programme.
+        Re-evaluate after new data is incorporated.
+      override_note: "NO other condition can override a NO-GO triggered by C1 failure."
+
+    LEGAL_BLOCK:
+      description: >
+        A shortlisted source relies on unauthorized scraping or prohibited licence.
+        Kill Criterion 2 triggered.
+      conditions:
+        - "C2 Hard Gate D1 < 3 for any source that has entered data/raw/"
+      action: >
+        IMMEDIATE DISQUALIFICATION AND QUARANTINE of all data from that source.
+        Remove from data/raw/. Update config/sources/<source_id>.yaml to rejected.
+        Record in memory.md Known Issues as KI-###.
+        Re-evaluate sufficiency with source excluded.
+
+# =============================================================================
+#  SECTION 10: SUFFICIENCY ANALYSIS REPORT SPECIFICATION
+# =============================================================================
+
+analysis_outputs:
+  required_for_t2_09:
+    - file: "docs/research/09-sufficiency-analysis.md"
+      required_sections:
+        - "1. Per-cell verdict table (all 84 cells): C1/C2/C3/C4/C5/PG verdict"
+        - "2. Core cell N_eff table with source breakdown"
+        - "3. Bootstrap precision table for core cells"
+        - "4. Naive cohort interval comparison (R-UQ-04)"
+        - "5. Evidence grade assignment per core cell"
+        - "6. Global GO / CONDITIONAL-GO / NO-GO verdict with justification"
+        - "7. List of abstain cells (if CONDITIONAL-GO)"
+        - "8. Cross-reference to this pre-registration file at the top"
+
+    - file: "experiments/results/coverage_map_v1.parquet"
+      schema_fields:
+        - "family: str"
+        - "location: str"
+        - "band: str"
+        - "n_raw: int"
+        - "n_eff: float"
+        - "source_count: int"
+        - "sqs_avg: float"
+        - "median_age_days: float"
+        - "c1_pass: bool"
+        - "c2_pass: bool"
+        - "c3_pass: bool"
+        - "c4_pass: bool"
+        - "c5_pass: bool"
+        - "pg_pass: bool"
+        - "overall_pass: bool"
+        - "evidence_grade: str"
+        - "n_distinct_persons: int"
+
+    - file: "experiments/results/bootstrap_precision_v1.parquet"
+      schema_fields:
+        - "family: str"
+        - "location: str"
+        - "band: str"
+        - "p10: float"
+        - "p50: float"
+        - "p90: float"
+        - "p50_ci_lower: float"
+        - "p50_ci_upper: float"
+        - "half_width_lpa: float"
+        - "relative_interval_width: float"
+        - "width_ratio_vs_naive: float"
+        - "c5_pass: bool"
+        - "n_bootstrap: int"
+
+  optional_diagnostics:
+    - "Histogram of guaranteed_cash_annual per core cell (PNG; not committed to Git)"
+    - "Source contribution breakdown per cell (fraction of N_eff per source)"
+    - "CPI deflation summary: count of deflated observations and adjustment factors"
+
+# =============================================================================
+#  SECTION 11: CHANGE LOG
+# =============================================================================
+#
+#  Changes AFTER locked_date are PROHIBITED. All revisions -> sufficiency-v2.yaml.
+
+change_log:
+  - version: "1.0.0"
+    date: "2026-10-13"
+    task: "T2.01"
+    author: "AI Assistant (Antigravity) under human review"
+    summary: >
+      Initial pre-registration authored and committed. All thresholds derived from
+      Phase 1 artefacts: 01-targets.md, 02-comp-definitions.md, 05-source-scoring.md,
+      08-scope-memo.md, rules.md (R-MD-02, R-EV-07, R-DA-01, R-UQ-01/02/04, D-010).
+      No threshold invented without a traceable cross-reference.
+    changes_from_previous: "N/A -- first version."
