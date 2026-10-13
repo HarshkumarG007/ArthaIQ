@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T0.05**
+**NEXT TASK: T0.06**
 
 ## How to use this file
 
@@ -58,7 +58,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: PRD v0.2. Done when: scope table H0 reflects the answers. Needs: T0.02. Size: S.
 - [x] **T0.04** [AI] Create ADR-0001 to ADR-0009 as stubs with status Proposed. (done 2026-10-13)
   Output: `docs/adr/` with nine stubs. Done when: every ADR in `architecture.md` section 15 has a file. Needs: T0.02. Size: M.
-- [ ] **T0.05** [AI+HUMAN] Review `design.md`; confirm or revise the direction (the Span, palette, typefaces); bump version.
+- [x] **T0.05** [AI+HUMAN] Review `design.md`; confirm or revise the direction (the Span, palette, typefaces); bump version. (done 2026-10-13)
   Output: design v0.2. Done when: direction confirmed in `memory.md` (D-006). Needs: T0.02. Size: S.
 - [ ] **T0.06** [AI] Check consistency across all six documents: ids, terms, glossary, links, tags.
   Output: conflict list in `memory.md`. Done when: every conflict is resolved or logged. Needs: T0.03, T0.04, T0.05. Size: S.
