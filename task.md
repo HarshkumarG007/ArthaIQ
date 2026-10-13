@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T2.03 (Acquire Permitted Datasets into data/raw/)**
+**NEXT TASK: T2.04 (Profile Each Source & Data Cards)**
 
 ## How to use this file
 
@@ -122,7 +122,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `experiments/preregistration/sufficiency-v1.yaml`, committed. Done when: committed before T2.04 starts. Needs: G1. Size: S.
 - [x] **T2.02** [AI+HUMAN] Licence and terms review for shortlisted sources, including privacy-law checks `[U]`; qualified counsel where needed. (done 2026-10-14)
   Output: `config/sources/<source_id>.yaml` with licence status. Done when: every shortlisted source is `approved`, `restricted` or `rejected` with reasons. Needs: T1.10. Size: L.
-- [ ] **T2.03** [AI] Acquire permitted datasets into `data/raw/` with checksums and manifests. Only `approved` sources.
+- [x] **T2.03** [AI] Acquire permitted datasets into `data/raw/` with checksums and manifests. Only `approved` sources. (done 2026-10-14)
   Output: raw files and manifests. Done when: checksums verified and manifests list the licence id. Needs: T2.02. Size: M.
 - [ ] **T2.04** [AI] Profile each source: schema, coverage, time span, missingness, duplicates, refresh cadence; set staleness limits.
   Output: `docs/data-cards/<source_id>.md`. Done when: each card has all fields and counts. Needs: T2.01, T2.03. Size: L.
