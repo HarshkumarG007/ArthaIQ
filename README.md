@@ -131,14 +131,39 @@ In ArthaIQ, predictions are presented via **The Span** — a visual representati
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Evidence Quality Grading Framework
+### Evidence Quality & Prediction Support Framework
 
-Every estimation carries an auditable Evidence Tier:
-- **Grade A (Statistically Verified):** Verified filings, verified payroll records, or high-density institutional survey data with $N \ge 100$.
-- **Grade B (High Confidence):** Multi-source triangulated job offers and employee submissions with canonical normalization ($N \ge 30$).
-- **Grade C (Moderate Confidence):** Medium sample size ($10 \le N < 30$) or wider dispersion; wider prediction bands displayed.
-- **Grade D (Thin Evidence):** Low sample count ($N < 10$); accompanied by prominent statistical caveats.
-- **Grade E (Abstention Triggered):** Insufficient data density or excessive variance. Estimation is withheld; relevant broader aggregate context is offered instead.
+> **Methodological Invariant:** A sample-size threshold cannot, by itself, justify an evidence grade or a statistically valid estimate. Representativeness, deduplication, source dependence, temporal recency, and target consistency matter just as much as sample volume.
+
+ArthaIQ decouples **Source Quality** from **Prediction Support** across two independent dimensions:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 EVIDENCE MATRIX                                         │
+│                                                                                         │
+│  [Source Quality Tier]                [Prediction Support & Reliability]               │
+│  • Tier 1: Audited payroll, statutory  • High Support: Multi-source corroborated,       │
+│    disclosures, verified filings        deduplicated, fresh (<90d), representative cell  │
+│  • Tier 2: Multi-source job postings  • Moderate Support: Limited sources or moderate   │
+│    with mandatory salary transparency   dispersion; wider prediction intervals          │
+│  • Tier 3: Self-reported contributions• Thin Support: Low effective density or high    │
+│    with verification artifacts          clustering; flagged with strict caveats         │
+│  • Unacceptable: Scraped forums,      • Abstention: Insufficient support, unaddressed   │
+│    unverified anonymous aggregates      bias, or high staleness; PREDICTION WITHHELD    │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Dual-Dimensional Rating:
+1. **Source Quality Grade (Data Provenance & Integrity):**
+   - **Grade A (Institutional / Verified):** Statutory filings, verified payroll or institutional compensation disclosures with complete component reconciliation.
+   - **Grade B (Triangulated & Normalized):** Multi-source disclosures or structured employer job postings with explicit salary transparency.
+   - **Grade C (Verified Self-Reported):** Employee contributions with credential verification and canonical taxonomy mapping.
+   - **Grade D (Unverified / Proxy):** Unverified submissions or cross-walked proxy roles; strictly relegated to supplementary signals.
+
+2. **Prediction Support Level (Statistical Soundness in Specific Cell):**
+   - **Supported (High Confidence):** Independent sources, low deduplication loss, high cell density, recent observations, and narrow conformal prediction intervals.
+   - **Guarded (Moderate Confidence):** Moderate cell density or higher dispersion; wider validated intervals displayed with explicit caveats.
+   - **Abstained (Zero-Hallucination Guard):** If data is single-source dependent, heavily stale, unrepresentative, or density is below preregistered sufficiency thresholds, **estimation is withheld**. ArthaIQ presents macro-level context instead of guessing.
 
 ---
 
