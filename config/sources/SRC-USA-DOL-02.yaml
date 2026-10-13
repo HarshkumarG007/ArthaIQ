@@ -1,0 +1,54 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-USA-DOL-02
+#  US DOL OFLC PERM Disclosures
+# =============================================================================
+
+source_id: "SRC-USA-DOL-02"
+short_name: "US DOL PERM Disclosures"
+long_name: "US DOL OFLC Permanent Labor Certification (PERM) Disclosure Data — FY2023/2024"
+provider: "Office of Foreign Labor Certification (OFLC), Employment and Training Administration (ETA), U.S. Department of Labor"
+primary_url: "https://www.dol.gov/agencies/eta/foreign-labor/performance"
+country: "US"
+currency_primary: "USD"
+reference_period:
+  fiscal_year: "2023-2024"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "CC0-1.0"
+  name: "US Federal Government Work — Public Domain (17 USC 105)"
+  terms_url: "https://www.dol.gov/agencies/eta/foreign-labor/performance"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: true
+  permits_research_use: true
+  permits_commercial_use: true
+  permits_redistribution: true
+  redistribution_conditions: "Public domain."
+  scraping_prohibited: false
+  terms_of_service_violation_risk: "NONE"
+  personal_data_present: false
+  qualified_counsel_required: false
+
+ingestion_status: "approved"
+ingestion_role: "us_regulatory_market_signal"
+pipeline_routing:
+  - "us_cross_market_benchmark"
+  - "experience_years_wage_curve_us"
+prohibited_routing:
+  - "PT1_direct_training"
+  - "PT2_direct_training"
+  - "india_model_features"
+notes: >
+  120,000+ PERM applications per year. Uniquely provides worker education and
+  experience covariates (FOREIGN_WORKER_INFO_EDUCATION, FOREIGN_WORKER_YRS_ED,
+  JOB_INFO_EXPERIENCE_NUM_MONTHS). Enables YOE-wage curve modeling for US cross-market.
+  Cross-market isolation enforced (R-MD-07).
+sqs: 74.4
+sqsf_tier: "TIER_3_MARKET_SIGNAL"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Approved for US market signal with experience covariates use."

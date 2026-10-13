@@ -1,0 +1,54 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-KAG-REJ-02
+#  whenamancodes/data-science-jobs-india (Scraped AmbitionBox)
+# =============================================================================
+
+source_id: "SRC-KAG-REJ-02"
+short_name: "AmbitionBox India DS Jobs (Scrape)"
+long_name: "Data Science Jobs India — Scraped AmbitionBox (Kaggle)"
+provider: "AmbitionBox (InfoEdge India Ltd.) — scraped by whenamancodes (Kaggle)"
+primary_url: "https://www.kaggle.com/datasets/whenamancodes/data-science-jobs-and-salaries"
+country: "IN"
+currency_primary: "INR"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "Apache-2.0"
+  name: "Apache License 2.0 (Claimed by uploader — INVALID for scraped platform data)"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: false
+  permits_research_use: false
+  permits_commercial_use: false
+  permits_redistribution: false
+  scraping_prohibited: true
+  scraping_notes: >
+    AmbitionBox Terms of Service Section 5.1 prohibit automated scraping and data
+    extraction. The Apache 2.0 licence claim is INVALID; the uploader does not own
+    the copyright to AmbitionBox salary submission data. InfoEdge India Ltd. owns
+    the platform data. This creates IP infringement exposure under the Copyright Act,
+    1957 (India) and breach of contract under the IT Act 2000.
+  terms_of_service_violation_risk: "CRITICAL — Direct ToS breach (AmbitionBox/InfoEdge)"
+  personal_data_present: false
+  qualified_counsel_required: true
+
+ingestion_status: "rejected"
+rejection_reason: >
+  PERMANENTLY DISQUALIFIED. Direct ToS violation against AmbitionBox/InfoEdge
+  (SQSF D1=1). Apache 2.0 claim by uploader is legally invalid. Even if the licence
+  were clean, the salary figures are unverified advertised LPA ranges (not guaranteed
+  cash, D2=2) with no timestamps.
+rejection_criteria:
+  - "SQSF Hard Gate D1 = 1 (ToS Breach — AmbitionBox terms violated)"
+  - "SQSF Hard Gate D2 = 2 (Advertised LPA ranges, not guaranteed_cash_annual)"
+pipeline_routing: []
+prohibited_routing:
+  - "ALL_PIPELINES_PERMANENTLY"
+sqs: 30.8
+sqsf_tier: "TIER_6_DISQUALIFIED"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Permanently rejected. D1 and D2 hard gate failures documented."

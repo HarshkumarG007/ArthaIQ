@@ -1,0 +1,56 @@
+﻿# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-USA-BLS-01
+#  US Bureau of Labor Statistics OEWS May 2023
+# =============================================================================
+
+source_id: "SRC-USA-BLS-01"
+short_name: "BLS OEWS Tech Estimates"
+long_name: "US Bureau of Labor Statistics Occupational Employment and Wage Statistics (OEWS) May 2023"
+provider: "U.S. Bureau of Labor Statistics, U.S. Department of Labor"
+primary_url: "https://www.bls.gov/oes/"
+download_url: "https://www.bls.gov/oes/current/oes_nat.htm"
+country: "US"
+currency_primary: "USD"
+reference_period:
+  survey_month: "2023-05"
+  published: "2023-11"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "CC0-1.0"
+  name: "US Federal Government Work — Public Domain (17 USC 105)"
+  terms_url: "https://www.bls.gov/developers/termsOfService.htm"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: true
+  permits_research_use: true
+  permits_commercial_use: true
+  permits_redistribution: true
+  redistribution_conditions: "Attribution to BLS recommended. No restrictions."
+  scraping_prohibited: false
+  terms_of_service_violation_risk: "NONE"
+  personal_data_present: false
+  qualified_counsel_required: false
+
+ingestion_status: "approved"
+ingestion_role: "us_population_benchmark"
+pipeline_routing:
+  - "us_cross_market_benchmark"
+  - "structural_wage_ratio_analysis"
+prohibited_routing:
+  - "PT1_direct_training"
+  - "PT2_direct_training"
+  - "india_model_features"
+notes: >
+  US data only. All figures in USD. Cross-market isolation enforced (R-MD-07).
+  Zero Indian tech coverage (D4=2). Used strictly for cross-market structural
+  wage ratio benchmarks (e.g. US Senior vs Junior SWE ratio vs India same).
+  Must never be currency-converted and pooled with Indian records.
+sqs: 78.2
+sqsf_tier: "TIER_2_POPULATION_BENCHMARK"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Approved for US benchmark use. Cross-market isolation confirmed."

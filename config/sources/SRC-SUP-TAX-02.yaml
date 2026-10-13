@@ -1,0 +1,55 @@
+# =============================================================================
+#  ArthaIQ — Source Licence Register: SRC-SUP-TAX-02
+#  ESCO Classification v1.1 (European Skills & Occupations Taxonomy)
+# =============================================================================
+
+source_id: "SRC-SUP-TAX-02"
+short_name: "ESCO Skills Taxonomy v1.1"
+long_name: "European Skills, Competences, Qualifications and Occupations (ESCO) v1.1.1"
+provider: "Directorate-General for Employment, Social Affairs and Inclusion, European Commission"
+primary_url: "https://esco.ec.europa.eu/"
+download_url: "https://esco.ec.europa.eu/en/use-esco/download"
+country: "EU"
+currency_primary: "NONE"
+reference_period:
+  version: "1.1.1"
+  published: "2023-01"
+retrieval_date: "2026-10-13"
+verification_status: "VERIFIED"
+
+licence:
+  spdx_id: "ODbL-1.0"
+  name: "European Commission Open Data / Open Data Commons Open Database License (ODbL)"
+  terms_url: "https://esco.ec.europa.eu/en/legal-notice"
+  terms_reviewed_date: "2026-10-13"
+  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  is_open: true
+  permits_research_use: true
+  permits_commercial_use: true
+  permits_redistribution: true
+  redistribution_conditions: "Attribution to European Union/ESCO. Modifications must be documented."
+  scraping_prohibited: false
+  terms_of_service_violation_risk: "NONE"
+  personal_data_present: false
+  qualified_counsel_required: false
+
+ingestion_status: "approved"
+ingestion_role: "supplementary_taxonomy"
+pipeline_routing:
+  - "skill_hierarchy_graph"
+  - "skill_distance_regularization"
+  - "competence_clustering"
+prohibited_routing:
+  - "PT1_direct_training"
+  - "wage_observations"
+notes: >
+  Official European Commission open taxonomy. Contains 13,890 skills organized
+  in a hierarchical graph. Used to provide parent nodes and compute skill distance
+  regularization in Phase 4 feature engineering. Non-wage data.
+sqs: 79.8
+sqsf_tier: "TIER_4_SUPPLEMENTARY"
+
+change_log:
+  - date: "2026-10-13"
+    task: "T2.02"
+    action: "Approved for skill hierarchical graph and distance regularization."
