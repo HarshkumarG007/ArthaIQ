@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T1.01**
+**NEXT TASK: T1.08 (Kaggle Dataset Audit v0.1) & T1.02 (Comp Definitions)**
 
 ## How to use this file
 
@@ -78,7 +78,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO if:** at least one candidate source with verified primary documentation exists for PT1 and PT6, and a scope memo is drafted.
 > **NO-GO leads to:** no feasible source for PT1 anywhere → go directly to T2.10 (data acquisition plan) or re-scope the target.
 
-- [ ] **T1.01** [AI] Specify prediction targets PT1 to PT6: variable, observation unit, horizon, assumptions, identification limits; settle the job-search window and transition horizon.
+- [x] **T1.01** [AI] Specify prediction targets PT1 to PT6: variable, observation unit, horizon, assumptions, identification limits; settle the job-search window and transition horizon. (done 2026-10-13)
   Output: `docs/research/01-targets.md`. Done when: each target has all five fields and PRD `[TBD: T1.01]` items are resolved. Needs: G0. Size: M.
 - [ ] **T1.02** [AI+HUMAN] Define compensation terms and map them: CTC, fixed, base, variable, in-hand, total compensation, for India and the US.
   Output: `docs/research/02-comp-definitions.md`. Done when: each term maps to a canonical `measure` or is marked non-comparable. Needs: T1.01. Size: M.
