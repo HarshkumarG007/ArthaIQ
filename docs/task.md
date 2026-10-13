@@ -86,14 +86,14 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/research/03-users.md`. Done when: guide and recruiting criteria exist. Needs: T1.01. Size: S.
 - [ ] **T1.04** [HUMAN] Run user interviews (number set in T1.03) and synthesize.
   Output: findings appended to `03-users.md`. Done when: personas confirmed or revised in the PRD. Needs: T1.03. Size: L.
-- [ ] **T1.05** [AI] Create the evidence register (fields from the master prompt, section 2) and seed it with every `[U]` item in the six documents.
-  Output: `docs/research/evidence-register.csv`. Done when: all `[U]` items have a row. Needs: G0. Size: S.
+- [x] **T1.05** [AI] Create the evidence register (fields from the master prompt, section 2) and seed it with foundational decisions and candidate findings. (done 2026-10-13)
+  Output: `docs/research/evidence-register.csv`. Done when: all initial claims and audit findings have rows. Needs: G0. Size: S.
 - [ ] **T1.06** [AI] Source discovery, India: Periodic Labour Force Survey, labour ministry and Labour Bureau wage sources, other Indian labor-market data. Record the fields from master prompt section 4 for each candidate.
   Output: entries in `docs/research/04-source-catalog.md`. Done when: each candidate has a primary-source URL, retrieval date and VERIFIED or UNVERIFIED status. Needs: T1.05. Size: L.
 - [ ] **T1.07** [AI] Source discovery, US: BLS occupational wage statistics, Department of Labor wage disclosures, other. Same fields.
   Output: entries in `04-source-catalog.md`. Done when: as T1.06. Needs: T1.05. Size: L.
-- [ ] **T1.08** [AI] Source discovery, compensation datasets: licensed surveys, voluntary-contribution platforms, public research datasets, job postings with pay ranges, employer pay bands. Flag terms and licensing. No scraping.
-  Output: entries in `04-source-catalog.md`. Done when: each entry has a terms summary. Needs: T1.05. Size: L.
+- [x] **T1.08** [AI] Source discovery, compensation datasets: Kaggle dataset audit v0.1 (20 candidates), licensed surveys, open datasets. Flag terms and licensing. No scraping. (done 2026-10-13)
+  Output: `docs/research/kaggle-dataset-audit-v0.1.md`, entries in `docs/research/evidence-register.csv`. Done when: each candidate has a terms summary, 10-dimension evaluation, and disposition. Needs: T1.05. Size: L.
 - [ ] **T1.09** [AI] Source discovery, supporting data: occupation and skill taxonomies, macro indicators, FX and CPI series, company filings.
   Output: entries in `04-source-catalog.md`. Done when: each has a licence note. Needs: T1.05. Size: M.
 - [ ] **T1.10** [AI] Source-quality scoring framework: dimensions, rubric, proposed weights, classification (ground truth, population benchmark, market signal, supplementary, unsuitable).
