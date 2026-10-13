@@ -64,13 +64,19 @@ def test_manifest_generation_and_verification(tmp_path: Path) -> None:
         verify_manifest(manifest_path)
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 def test_all_acquired_raw_sources_manifests_valid() -> None:
     """Verify that every acquired source in data/raw/ has a valid, passing manifest.yaml."""
     repo_root = Path(__file__).resolve().parent.parent.parent
     data_raw = repo_root / "data" / "raw"
 
+    if not data_raw.exists():
+        pytest.skip("data/raw/ directory does not exist (gitignored per R-DA-08)")
+
     manifest_files = list(data_raw.glob("*/manifest.yaml"))
+    if not manifest_files:
+        pytest.skip("No acquired raw sources in data/raw/ (gitignored per R-DA-08)")
+
     assert len(manifest_files) >= 10, f"Expected >= 10 manifests, found {len(manifest_files)}"
 
     for mf in manifest_files:

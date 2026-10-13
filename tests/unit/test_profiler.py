@@ -35,10 +35,29 @@ def test_profile_csv_basic(tmp_path: Path) -> None:
 
 
 @pytest.mark.unit
+def test_profile_source_directory_basic(tmp_path: Path) -> None:
+    """Verify that profile_source_directory successfully profiles CSVs in a source directory."""
+    source_dir = tmp_path / "SRC-TEST-01"
+    source_dir.mkdir(parents=True)
+    csv_file = source_dir / "sample.csv"
+    csv_file.write_text("col1,col2\nval1,10\nval2,20\n", encoding="utf-8")
+
+    profiles = profile_source_directory("SRC-TEST-01", tmp_path)
+    assert len(profiles) == 1
+    assert profiles[0].source_id == "SRC-TEST-01"
+    assert profiles[0].row_count == 2
+    assert profiles[0].column_count == 2
+
+
+@pytest.mark.integration
 def test_profile_source_directory_on_acquired_raw() -> None:
     """Verify that profile_source_directory successfully profiles an acquired raw source."""
     repo_root = Path(__file__).resolve().parent.parent.parent
     raw_dir = repo_root / "data" / "raw"
+    target_source = raw_dir / "SRC-SUP-CORP-01"
+
+    if not target_source.exists():
+        pytest.skip("SRC-SUP-CORP-01 not acquired locally in data/raw/ (gitignored per R-DA-08)")
 
     profiles = profile_source_directory("SRC-SUP-CORP-01", raw_dir)
     assert len(profiles) == 1
