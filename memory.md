@@ -12,9 +12,9 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Phase 1 is in progress. T1.01, T1.05, T1.08, T1.02 completed. **NEXT TASK: T1.06 (Indian Official Sources Review — PLFS & Labour Bureau).** (T0.00-T0.07 done; Gate G0 ratified; T1.01, T1.05, T1.08, T1.02 done 2026-10-13).
+- **Where we are:** Phase 1 is in progress. T1.01, T1.05, T1.08, T1.02, T1.06 completed. **NEXT TASK: T1.03 (Persona hypotheses, JTBD and interview guide) or T1.07 (US source discovery).** (T0.00-T0.07 done; Gate G0 ratified; T1.01, T1.05, T1.08, T1.02, T1.06 done 2026-10-13).
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
-- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`. **No model code, no raw data yet.**
+- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`. **No model code, no raw data yet.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -23,7 +23,7 @@
 | Stage | Status | Note |
 |---|---|---|
 | IDEA | DONE | Master research prompt written |
-| RESEARCH | IN PROGRESS | Phase 1 active; T1.01, T1.05, T1.08, T1.02 complete |
+| RESEARCH | IN PROGRESS | Phase 1 active; T1.01, T1.05, T1.08, T1.02, T1.06 complete |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
 | PRD | DONE | v0.2 ratified at T0.03; TBDs resolved at T1.01 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
@@ -47,8 +47,8 @@
 | Item | Value |
 |---|---|
 | Phase | 1, Problem definition and source discovery |
-| Last completed task | T1.02 (+ T1.08, T1.05, T1.01, Gate G0 ratified) |
-| Next task | T1.06 (Indian Official Sources Review — PLFS & Labour Bureau) |
+| Last completed task | T1.06 (+ T1.02, T1.08, T1.05, T1.01, Gate G0 ratified) |
+| Next task | T1.03 (Persona Hypotheses & Guide) / T1.07 (US Sources) |
 | Last gate | G0 — GO (2026-10-13) |
 | Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
@@ -150,8 +150,8 @@ Candidates named in the master research prompt or from general knowledge. **None
 
 | Candidate | Country | Type `[H]` | Verification | Licence status | Next step |
 |---|---|---|---|---|---|
-| Periodic Labour Force Survey | India | Population benchmark | UNVERIFIED | Not reviewed | T1.06 |
-| Labour ministry and Labour Bureau wage sources | India | Population benchmark | UNVERIFIED | Not reviewed | T1.06 |
+| Periodic Labour Force Survey | India | Population benchmark | VERIFIED | Open Govt Data (Approved Macro Anchor) | T1.06 |
+| Labour ministry and Labour Bureau wage sources | India | Population benchmark | VERIFIED | Govt Public (Disqualified: 2016 ref, manual) | T1.06 |
 | BLS occupational wage statistics | US | Population benchmark | UNVERIFIED | Not reviewed | T1.07 |
 | Department of Labor wage disclosures | US | Market signal | UNVERIFIED | Not reviewed | T1.07 |
 | Job postings with pay ranges | Either | Market signal | AUDITED (T1.08) | Unauthorized scrapes; PT3 test-fixtures only | T1.08 |
@@ -178,6 +178,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-13 | T1.08 | Executed Kaggle Dataset Audit v0.1: audited 20 verified candidate datasets across 10 evaluation dimensions. Zero candidates training-eligible for PT1 due to ToS scraping risks and target mismatch. Approved Stack Overflow Survey (ODbL 1.0) and ai-jobs.net feeds (CC0) for exploratory benchmarks; 6 datasets for regex/parsing fixtures; rejected 10 candidates. | `docs/research/kaggle-dataset-audit-v0.1.md` | Verified against active Kaggle listings & terms of service | None | T1.05 |
 | 2026-10-13 | T1.05 | Initialized and seeded the evidence register (`evidence-register.csv`) capturing 7 foundational claims, supporting sources, counter-evidence, quality tiers (A-D), confidence levels, practical implications, and validation experiments. | `docs/research/evidence-register.csv` | Master research prompt schema enforced | None | T1.02 |
 | 2026-10-13 | T1.02 | Defined canonical compensation glossary, measure mapping hierarchy, Indian CTC unbundling accounting equation, anti-heuristic rule (R-MD-07), US cross-market rules, PT1-PT6 compatibility matrix, and test suite T1.02-TEST-01 to 08. | `docs/research/02-comp-definitions.md` | Verified against targets and Indian employment statutes | Human sign-off on DEC-T1.02-01 to 03 | T1.06 |
+| 2026-10-13 | T1.06 | Audited Indian official sources: MOSPI PLFS 2023-24 microdata (Sched 10.4, ern25, urban tech cohort N~2,200), Labour Bureau OWS 7th round (2016 reference, technical exclusion), QES IT/BPO employment counts, and NCS job vacancies. Created docs/research/04-source-catalog.md with unified source catalog. | `docs/research/04-source-catalog.md`, `docs/research/evidence-register.csv` | Verified against official MOSPI NADA & Labour Bureau portals | None | T1.03 |
 
 ## 13. How to update this file
 

@@ -88,7 +88,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: findings appended to `03-users.md`. Done when: personas confirmed or revised in the PRD. Needs: T1.03. Size: L.
 - [x] **T1.05** [AI] Create the evidence register (fields from the master prompt, section 2) and seed it with foundational decisions and candidate findings. (done 2026-10-13)
   Output: `docs/research/evidence-register.csv`. Done when: all initial claims and audit findings have rows. Needs: G0. Size: S.
-- [ ] **T1.06** [AI] Source discovery, India: Periodic Labour Force Survey, labour ministry and Labour Bureau wage sources, other Indian labor-market data. Record the fields from master prompt section 4 for each candidate.
+- [x] **T1.06** [AI] Source discovery, India: Periodic Labour Force Survey, labour ministry and Labour Bureau wage sources, other Indian labor-market data. Record the fields from master prompt section 4 for each candidate. (done 2026-10-13)
   Output: entries in `docs/research/04-source-catalog.md`. Done when: each candidate has a primary-source URL, retrieval date and VERIFIED or UNVERIFIED status. Needs: T1.05. Size: L.
 - [ ] **T1.07** [AI] Source discovery, US: BLS occupational wage statistics, Department of Labor wage disclosures, other. Same fields.
   Output: entries in `04-source-catalog.md`. Done when: as T1.06. Needs: T1.05. Size: L.
