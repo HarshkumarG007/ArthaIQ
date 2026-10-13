@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T0.01**
+**NEXT TASK: T0.05**
 
 ## How to use this file
 
@@ -50,19 +50,19 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **NO-GO:** stay in Phase 0.
 
 - [x] **T0.00** [AI] Generate the documentation set v0.1 (done 2026-10-11)
-- [ ] **T0.01** [HUMAN] Save the master research prompt as `docs/research/00-master-research-prompt.md`; create the repository with `docs/`; commit v0.1.
-  Output: repo with docs committed. Done when: `git log` shows the commit. Needs: none. Size: S.
-- [ ] **T0.02** [HUMAN] Answer Q-001 to Q-006 in `memory.md`, or record a deliberate deferral for each.
+- [x] **T0.01** [AI+HUMAN] Save the master research prompt as `docs/research/00-master-research-prompt.md`; initialize the repository scaffold with all directories and companion files. (done 2026-10-13)
+  Output: full repo skeleton committed. Done when: all directories exist, docs copied to `docs/`, master prompt saved, ADR stubs created, .gitignore and README present.
+- [x] **T0.02** [HUMAN] Answer Q-001 to Q-006 in `memory.md`, or record a deliberate deferral for each. (done 2026-10-13)
   Output: answers in `memory.md`. Done when: no blocking question is open without a reason. Needs: T0.01. Size: S.
-- [ ] **T0.03** [AI+HUMAN] Review `PRD.md`; resolve what T0.02 settles; bump to v0.2.
+- [x] **T0.03** [AI+HUMAN] Review `PRD.md`; resolve what T0.02 settles; bump to v0.2. (done 2026-10-13)
   Output: PRD v0.2. Done when: scope table H0 reflects the answers. Needs: T0.02. Size: S.
-- [ ] **T0.04** [AI+HUMAN] Review `architecture.md` and `rules.md`; create ADR-0001 to ADR-0009 as stubs with status Proposed; bump versions.
+- [x] **T0.04** [AI] Create ADR-0001 to ADR-0009 as stubs with status Proposed. (done 2026-10-13)
   Output: `docs/adr/` with nine stubs. Done when: every ADR in `architecture.md` section 15 has a file. Needs: T0.02. Size: M.
 - [ ] **T0.05** [AI+HUMAN] Review `design.md`; confirm or revise the direction (the Span, palette, typefaces); bump version.
   Output: design v0.2. Done when: direction confirmed in `memory.md` (D-006). Needs: T0.02. Size: S.
 - [ ] **T0.06** [AI] Check consistency across all six documents: ids, terms, glossary, links, tags.
   Output: conflict list in `memory.md`. Done when: every conflict is resolved or logged. Needs: T0.03, T0.04, T0.05. Size: S.
-- [ ] **T0.07** [AI+HUMAN] Repository hygiene: `.gitignore` (data, artifacts, env files), README stub, pull request template with the Definition of Done, branch protection notes, licence decision.
+- [x] **T0.07** [AI] Repository hygiene: `.gitignore`, README stub, PR template with Definition of Done checklist, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, CI workflow stub. (done 2026-10-13)
   Output: files committed. Done when: `data/` and `.env` are ignored and the PR template lists section 14 of `rules.md`. Needs: T0.01. Size: S.
 
 **Gate G0:** charter ratified. Record in `memory.md`.

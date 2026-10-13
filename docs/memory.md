@@ -12,7 +12,7 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.03.** (T0.01, T0.02, T0.04, T0.07 done 2026-10-13; Project identity ratified: **ArthaIQ**; Q-001 through Q-010 answered.)
+- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.05.** (T0.01, T0.02, T0.03, T0.04, T0.07 done 2026-10-13; Project identity ratified: **ArthaIQ**; Q-001 through Q-010 answered.)
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
 - **What exists:** repo scaffold, initial configs, doc suite. **No model code, no raw data yet.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
@@ -25,7 +25,7 @@
 | IDEA | DONE | Master research prompt written |
 | RESEARCH | TODO | Phases 1 and 2 |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
-| PRD | IN PROGRESS | v0.1; updating to v0.2 at T0.03 |
+| PRD | DONE | v0.2 ratified at T0.03 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
 | ARCHITECTURE | IN PROGRESS | v0.1 |
 | DESIGN | IN PROGRESS | v0.1 |
@@ -47,10 +47,10 @@
 | Item | Value |
 |---|---|
 | Phase | 0, Foundation |
-| Last completed task | T0.02 (+ T0.01, T0.04, T0.07) |
-| Next task | T0.03 |
+| Last completed task | T0.03 (+ T0.01, T0.02, T0.04, T0.07) |
+| Next task | T0.05 |
 | Last gate | None yet |
-| Document versions | PRD, architecture, rules, design, task, memory: all v0.1 |
+| Document versions | PRD v0.2; architecture, rules, design, task, memory: v0.1 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
 | Code | Package stubs & CI |
 | Data | None |
@@ -170,6 +170,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-11 | T0.02 (partial) | Recorded the user's answer to Q-001: India first. Updated D-004, A-002 and Q-001 status. T0.03 will carry it into the PRD once T0.01 and T0.02 are fully done. | `docs/memory.md` | Edits verified | Q-002 to Q-010 remain | T0.01 |
 | 2026-10-13 | T0.01, T0.04, T0.07 | Initialized the repository scaffold: created all directories per `architecture.md` section 8; saved the master research prompt as `docs/research/00-master-research-prompt.md`; copied all 6 docs to `docs/`; created ADR-0001 to ADR-0009 stubs in `docs/adr/`; created `.gitignore`, `README.md`, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, `.github/workflows/ci.yml`, PR template; created `__init__.py` files for all Python packages and `.gitkeep` files for tracked-but-empty directories. | All files listed above | Structure verified by directory listing; no secrets or data committed; `.gitignore` excludes `data/`, `.env`, `artifacts/` | Q-002 to Q-010 remain open; NEXT TASK is T0.02 | T0.02 |
 | 2026-10-13 | T0.02 | Ratified project identity as **ArthaIQ**; answered blocking foundational questions Q-001 through Q-010; recorded architectural decisions D-004, D-009 through D-013 (modeling ladder, independent source quality vs prediction support framework, conformal uncertainty, local pipeline). Updated README.md with comprehensive content and decoupled evidence framework. | `docs/memory.md`, `README.md`, `docs/task.md` | All 10 questions resolved; D-009 to D-013 recorded; NEXT TASK moved to T0.03 | None blocking Phase 0 | T0.03 |
+| 2026-10-13 | T0.03 | Reviewed and updated `PRD.md` to v0.2: reflected ArthaIQ identity, confirmed India tech scope (SWE, Data, ML/AI), `guaranteed_cash_annual` normalized to nominal INR LPA, and updated FR-19 to decoupled evidence framework. Synchronized root files. | `docs/PRD.md`, `PRD.md`, `docs/memory.md`, `docs/task.md` | PRD v0.2 matches T0.02 decisions; NEXT TASK moved to T0.05 | None | T0.05 |
 
 ## 13. How to update this file
 
