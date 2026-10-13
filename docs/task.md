@@ -98,7 +98,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: entries in `04-source-catalog.md`. Done when: each has a licence note. Needs: T1.05. Size: M.
 - [x] **T1.10** [AI] Source-quality scoring framework: dimensions, rubric, proposed weights, classification (ground truth, population benchmark, market signal, supplementary, unsuitable). (done 2026-10-13)
   Output: `docs/research/05-source-scoring.md`. Done when: every catalog entry is scored and classified. Needs: T1.06 to T1.09. Size: M.
-- [ ] **T1.11** [AI] Architecture autopsy: apply the eight master-prompt questions to each component in `architecture.md` section 5.
+- [x] **T1.11** [AI] Architecture autopsy: apply the eight master-prompt questions to each component in `architecture.md` section 5. (done 2026-10-13)
   Output: `docs/research/06-architecture-autopsy.md`. Done when: each component has a disposition with a keep or reject experiment. Needs: T1.10. Size: M.
 - [ ] **T1.12** [AI] Premortem and full risk register.
   Output: `docs/research/07-premortem-risk-register.md`. Done when: each risk has a mitigation task. Needs: T1.10. Size: M.
