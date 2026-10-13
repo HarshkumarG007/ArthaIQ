@@ -1,0 +1,81 @@
+# ===========================================================================
+# CompIntel — .gitignore
+# Rules: R-DA-08 (no data in git), R-SC-02 (no secrets committed)
+# ===========================================================================
+
+# ---- Data (R-DA-08) -------------------------------------------------------
+data/
+# Only manifests and fixture metadata are tracked; the files themselves are not.
+# Tiny synthetic fixtures live in tests/fixtures/ and ARE tracked.
+
+# ---- Model artifacts (gitignored; registry manifest tracked) --------------
+artifacts/
+
+# ---- Python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+*.lcov
+.tox/
+venv/
+.venv/
+env/
+ENV/
+
+# ---- uv / pip-tools -------------------------------------------------------
+# lockfile IS committed (uv.lock or requirements*.txt)
+# do NOT ignore pyproject.toml
+
+# ---- Notebooks (outputs stripped by nbstripout; R-CD-04) ------------------
+notebooks/**/*.ipynb
+# The rule is: outputs stripped at pre-commit, raw files committed.
+# If you use nbstripout, the .ipynb files without outputs are fine to commit.
+# Remove the line above if you use nbstripout.
+
+# ---- Environment and secrets (R-SC-02) ------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- OS / editor ----------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---- Frontend (generated files) -------------------------------------------
+apps/web/node_modules/
+apps/web/dist/
+apps/web/.next/
+apps/web/.vite/
+
+# ---- Docker ---------------------------------------------------------------
+infra/docker/*.env
+
+# ---- Experiment results (large files; small JSON metrics are tracked) ------
+experiments/results/**/*.parquet
+experiments/results/**/*.pkl
+
+# ---- DVC ------------------------------------------------------------------
+# If DVC is used, its cache is not committed:
+.dvc/cache/
+.dvc/tmp/

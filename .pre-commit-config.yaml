@@ -1,0 +1,56 @@
+# .pre-commit-config.yaml — CompIntel
+# Hooks are verified and updated at T3.01 (ADR-0003).
+# Run `make install-hooks` once after cloning.
+
+repos:
+  # ---- Ruff (lint and format) -----------------------------------------------
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.0   # pin to a verified version at T3.01
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # ---- mypy (type checking on staged files) ---------------------------------
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0   # pin at T3.01
+    hooks:
+      - id: mypy
+        args: [--strict, --ignore-missing-imports]
+        additional_dependencies:
+          - pydantic>=2
+          - pydantic-settings>=2
+
+  # ---- Secret scanning ------------------------------------------------------
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.3  # pin at T3.01
+    hooks:
+      - id: gitleaks
+
+  # ---- Notebook output stripping (R-CD-04) ----------------------------------
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1    # pin at T3.01
+    hooks:
+      - id: nbstripout
+
+  # ---- Large file guard -----------------------------------------------------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0   # pin at T3.01
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: no-commit-to-branch
+        args: [--branch, main]
+
+  # ---- Conventional commit message lint -------------------------------------
+  # (Optional; add if you want enforced commit message format)
+  # - repo: https://github.com/compilerla/conventional-pre-commit
+  #   rev: v3.2.0
+  #   hooks:
+  #     - id: conventional-pre-commit
+  #       stages: [commit-msg]

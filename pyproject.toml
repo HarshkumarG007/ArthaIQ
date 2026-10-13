@@ -1,0 +1,194 @@
+# pyproject.toml — CompIntel
+# Stack and pinned versions are finalized at T3.01 (ADR-0003).
+# This file is a STUB. Versions are NOT pinned here yet.
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "compintel"
+version = "0.0.1.dev0"
+description = "Personalized compensation intelligence and decision-support tool"
+readme = "README.md"
+requires-python = ">=3.11"
+# Licence: TBD at T0.02 Q-007
+# license = { text = "TBD" }
+
+# Core dependencies — versions pinned at T3.01
+dependencies = [
+    # Data
+    "polars",
+    "duckdb",
+    "pyarrow",
+    "pandas",          # at library boundaries only
+
+    # Validation
+    "pydantic>=2",
+    "pydantic-settings>=2",
+    "pandera[polars]",
+
+    # ML — baselines
+    "scikit-learn",
+    "statsmodels",
+
+    # ML — GBM (quantile objectives verified at T3.01)
+    "lightgbm",
+    "catboost",
+
+    # Text features
+    "rapidfuzz",
+
+    # Serving
+    "fastapi",
+    "uvicorn[standard]",
+
+    # Database
+    "sqlalchemy>=2",
+    "alembic",
+    "asyncpg",
+
+    # Utilities
+    "structlog",
+    "httpx",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Lint and format
+    "ruff",
+    "mypy",
+
+    # Testing
+    "pytest",
+    "pytest-cov",
+    "hypothesis",
+    "pytest-asyncio",
+
+    # Import boundary enforcement
+    "import-linter",
+
+    # Pre-commit
+    "pre-commit",
+    "nbstripout",
+
+    # Security
+    "bandit",
+
+    # Type stubs (add as needed at T3.01)
+    "types-requests",
+]
+
+experimental = [
+    # Sentence transformers — CPU; experiment only (R-MD-09)
+    "sentence-transformers",
+
+    # Hierarchical / Bayesian (adopt at T6.02 if justified)
+    # "pymc",
+    # "cmdstanpy",
+    # "numPyro",
+
+    # Conformal — may use MAPIE instead of in-house (verify at T5.03)
+    # "mapie",
+
+    # Explainability — deferred to Phase 7
+    # "shap",
+
+    # Hyperparameter search — only if justified
+    # "optuna",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/compintel"]
+
+# ---- Ruff (lint and format) -----------------------------------------------
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py311"   # update at T3.01
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",    # pyflakes / pycodestyle
+    "I",              # isort
+    "B",              # flake8-bugbear
+    "C4",             # flake8-comprehensions
+    "UP",             # pyupgrade
+    "N",              # pep8-naming
+    "SIM",            # flake8-simplify
+    "TCH",            # flake8-type-checking
+    "ANN",            # flake8-annotations (partial; see ignore)
+]
+ignore = [
+    "ANN101", "ANN102",  # self/cls annotation
+    "ANN401",            # Any in complex generics
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN", "S"]
+"notebooks/**" = ["ANN", "E501"]
+
+# ---- mypy ------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"   # update at T3.01
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+# Strict on core packages (R-CD-01)
+[[tool.mypy.overrides]]
+module = [
+    "compintel.schema.*",
+    "compintel.normalization.*",
+    "compintel.evaluation.*",
+    "compintel.uncertainty.*",
+    "compintel.serving.*",
+]
+disallow_any_generics = true
+disallow_untyped_defs = true
+
+# Relaxed on experimental modules
+[[tool.mypy.overrides]]
+module = ["compintel.explain.*", "compintel.scenarios.*", "compintel.equity.*"]
+ignore_errors = false
+
+# ---- pytest ----------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers -q"
+markers = [
+    "unit: fast, no I/O",
+    "property: hypothesis-based",
+    "contract: data or API contracts",
+    "leakage: temporal and group-overlap checks",
+    "integration: multi-component, may use fixtures",
+    "e2e: end-to-end; requires a running server",
+    "slow: takes more than a few seconds",
+    "synthetic: uses only synthetic fixture data (R-MD-11)",
+]
+
+# ---- coverage --------------------------------------------------------------
+[tool.coverage.run]
+source = ["src/compintel"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+# Thresholds set at T3.02 (R-TS-03)
+# fail_under = 90    # uncomment after T3.02
+
+# ---- import-linter ---------------------------------------------------------
+# Enforces the dependency direction from architecture.md section 8.
+# Fully configured at T3.02.
+[tool.importlinter]
+root_packages = ["compintel"]
+
+# Example contract (expand at T3.02):
+# [[tool.importlinter.contracts]]
+# name = "schema has no internal imports"
+# type = "forbidden"
+# source_modules = ["compintel.schema"]
+# forbidden_modules = ["compintel.governance", "compintel.ingestion",
+#                      "compintel.quality", "compintel.normalization",
+#                      "compintel.features", "compintel.models",
+#                      "compintel.uncertainty", "compintel.evaluation",
+#                      "compintel.serving"]

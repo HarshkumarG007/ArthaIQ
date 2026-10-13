@@ -1,0 +1,484 @@
+# Task Breakdown
+
+| Field | Value |
+|---|---|
+| Status | Draft v0.1 |
+| Last updated | 2026-10-11 |
+| Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
+| Gate decisions are recorded in | `memory.md` |
+
+**NEXT TASK: T0.01**
+
+## How to use this file
+
+1. Take the task at `NEXT TASK`.
+2. Tell the assistant: **"Execute T#.##"**. It follows the protocol in `rules.md` section 13: read, plan, wait for "go" if required, implement, verify, report.
+3. Review the report. The assistant ticks the box, appends `(done YYYY-MM-DD, commit <hash>)`, updates `memory.md`, and moves `NEXT TASK`.
+4. At the end of a phase, hold the gate review. Record GO or NO-GO in `memory.md` with the evidence. Do not start the next phase before then (R-WF-08).
+
+| Tag | Meaning |
+|---|---|
+| `[AI]` | The assistant can do it |
+| `[HUMAN]` | Needs a person: access, legal judgment, interviews, approvals |
+| `[AI+HUMAN]` | The assistant prepares; a person decides |
+
+Sizes are planning assumptions: **S** about two hours of focused assisted work, **M** about a day, **L** several days. An L task is split before it starts (R-WF-03). Phase effort figures are also assumptions for one developer working with an assistant, and each phase re-estimates them at its start.
+
+## How the Vibe Coding Workflow maps to phases
+
+| Workflow stage | Phase |
+|---|---|
+| IDEA | 0 (master research prompt; done) |
+| RESEARCH, DEFINE THE USER | 1, 2 |
+| PRD, CHOOSE TECH STACK, ARCHITECTURE, DESIGN, PROJECT RULES, TASK BREAKDOWN | 0 (drafts), refined at G2 and G3 |
+| SETUP | 3 (T3.01 to T3.03) |
+| DEVELOPMENT | 3 to 9 |
+| TESTING | Inside every task; formal pass in 9 |
+| SECURITY REVIEW, CODE REVIEW | 9 |
+| PREVIEW DEPLOYMENT, QA TESTING | 9 |
+| PRODUCTION, MONITORING, ITERATION | 10 |
+
+---
+
+## Phase 0: Foundation
+
+> **Objective:** ratify the document set and answer the blocking questions so later work has a stable contract.
+> **Inputs and tools:** master research prompt, docs v0.1; Git, Markdown.
+> **Deliverables:** docs v0.2, ADR stubs, repository skeleton, answered Q-001 to Q-006.
+> **Effort (assumption):** 1 to 3 days.
+> **GO if:** Q-001 (market) and Q-002 (team, time, budget) are answered or consciously deferred, and the documents are consistent.
+> **NO-GO:** stay in Phase 0.
+
+- [x] **T0.00** [AI] Generate the documentation set v0.1 (done 2026-10-11)
+- [ ] **T0.01** [HUMAN] Save the master research prompt as `docs/research/00-master-research-prompt.md`; create the repository with `docs/`; commit v0.1.
+  Output: repo with docs committed. Done when: `git log` shows the commit. Needs: none. Size: S.
+- [ ] **T0.02** [HUMAN] Answer Q-001 to Q-006 in `memory.md`, or record a deliberate deferral for each.
+  Output: answers in `memory.md`. Done when: no blocking question is open without a reason. Needs: T0.01. Size: S.
+- [ ] **T0.03** [AI+HUMAN] Review `PRD.md`; resolve what T0.02 settles; bump to v0.2.
+  Output: PRD v0.2. Done when: scope table H0 reflects the answers. Needs: T0.02. Size: S.
+- [ ] **T0.04** [AI+HUMAN] Review `architecture.md` and `rules.md`; create ADR-0001 to ADR-0009 as stubs with status Proposed; bump versions.
+  Output: `docs/adr/` with nine stubs. Done when: every ADR in `architecture.md` section 15 has a file. Needs: T0.02. Size: M.
+- [ ] **T0.05** [AI+HUMAN] Review `design.md`; confirm or revise the direction (the Span, palette, typefaces); bump version.
+  Output: design v0.2. Done when: direction confirmed in `memory.md` (D-006). Needs: T0.02. Size: S.
+- [ ] **T0.06** [AI] Check consistency across all six documents: ids, terms, glossary, links, tags.
+  Output: conflict list in `memory.md`. Done when: every conflict is resolved or logged. Needs: T0.03, T0.04, T0.05. Size: S.
+- [ ] **T0.07** [AI+HUMAN] Repository hygiene: `.gitignore` (data, artifacts, env files), README stub, pull request template with the Definition of Done, branch protection notes, licence decision.
+  Output: files committed. Done when: `data/` and `.env` are ignored and the PR template lists section 14 of `rules.md`. Needs: T0.01. Size: S.
+
+**Gate G0:** charter ratified. Record in `memory.md`.
+
+---
+
+## Phase 1: Problem definition and source discovery
+
+> **Objective:** precise targets and definitions, a candidate source catalog, an evidence register, an architecture autopsy, a premortem and a scope recommendation.
+> **Inputs and tools:** docs v0.2, web research; spreadsheet or CSV, YAML.
+> **Deliverables:** `docs/research/01` to `08`, evidence register, draft ADR-0001 and ADR-0002.
+> **Effort (assumption):** 1 to 2 weeks.
+> **GO if:** at least one candidate source with verified primary documentation exists for PT1 and PT6, and a scope memo is drafted.
+> **NO-GO leads to:** no feasible source for PT1 anywhere → go directly to T2.10 (data acquisition plan) or re-scope the target.
+
+- [ ] **T1.01** [AI] Specify prediction targets PT1 to PT6: variable, observation unit, horizon, assumptions, identification limits; settle the job-search window and transition horizon.
+  Output: `docs/research/01-targets.md`. Done when: each target has all five fields and PRD `[TBD: T1.01]` items are resolved. Needs: G0. Size: M.
+- [ ] **T1.02** [AI+HUMAN] Define compensation terms and map them: CTC, fixed, base, variable, in-hand, total compensation, for India and the US.
+  Output: `docs/research/02-comp-definitions.md`. Done when: each term maps to a canonical `measure` or is marked non-comparable. Needs: T1.01. Size: M.
+- [ ] **T1.03** [AI+HUMAN] Write persona hypotheses, jobs to be done and an interview guide.
+  Output: `docs/research/03-users.md`. Done when: guide and recruiting criteria exist. Needs: T1.01. Size: S.
+- [ ] **T1.04** [HUMAN] Run user interviews (number set in T1.03) and synthesize.
+  Output: findings appended to `03-users.md`. Done when: personas confirmed or revised in the PRD. Needs: T1.03. Size: L.
+- [ ] **T1.05** [AI] Create the evidence register (fields from the master prompt, section 2) and seed it with every `[U]` item in the six documents.
+  Output: `docs/research/evidence-register.csv`. Done when: all `[U]` items have a row. Needs: G0. Size: S.
+- [ ] **T1.06** [AI] Source discovery, India: Periodic Labour Force Survey, labour ministry and Labour Bureau wage sources, other Indian labor-market data. Record the fields from master prompt section 4 for each candidate.
+  Output: entries in `docs/research/04-source-catalog.md`. Done when: each candidate has a primary-source URL, retrieval date and VERIFIED or UNVERIFIED status. Needs: T1.05. Size: L.
+- [ ] **T1.07** [AI] Source discovery, US: BLS occupational wage statistics, Department of Labor wage disclosures, other. Same fields.
+  Output: entries in `04-source-catalog.md`. Done when: as T1.06. Needs: T1.05. Size: L.
+- [ ] **T1.08** [AI] Source discovery, compensation datasets: licensed surveys, voluntary-contribution platforms, public research datasets, job postings with pay ranges, employer pay bands. Flag terms and licensing. No scraping.
+  Output: entries in `04-source-catalog.md`. Done when: each entry has a terms summary. Needs: T1.05. Size: L.
+- [ ] **T1.09** [AI] Source discovery, supporting data: occupation and skill taxonomies, macro indicators, FX and CPI series, company filings.
+  Output: entries in `04-source-catalog.md`. Done when: each has a licence note. Needs: T1.05. Size: M.
+- [ ] **T1.10** [AI] Source-quality scoring framework: dimensions, rubric, proposed weights, classification (ground truth, population benchmark, market signal, supplementary, unsuitable).
+  Output: `docs/research/05-source-scoring.md`. Done when: every catalog entry is scored and classified. Needs: T1.06 to T1.09. Size: M.
+- [ ] **T1.11** [AI] Architecture autopsy: apply the eight master-prompt questions to each component in `architecture.md` section 5.
+  Output: `docs/research/06-architecture-autopsy.md`. Done when: each component has a disposition with a keep or reject experiment. Needs: T1.10. Size: M.
+- [ ] **T1.12** [AI] Premortem and full risk register.
+  Output: `docs/research/07-premortem-risk-register.md`. Done when: each risk has a mitigation task. Needs: T1.10. Size: M.
+- [ ] **T1.13** [AI+HUMAN] Scope recommendation memo with alternatives and kill criteria; draft ADR-0001 and ADR-0002.
+  Output: `docs/research/08-scope-memo.md`, two ADR drafts. Done when: a recommended market, occupation family and measure are named with reasons. Needs: T1.01, T1.02, T1.10. Size: M.
+
+**Gate G1:** targets, definitions and candidate sources agreed.
+
+---
+
+## Phase 2: Data licensing, feasibility, profiling and target construction
+
+> **Objective:** decide whether the evidence can support the intended target at the intended granularity.
+> **Inputs and tools:** source catalog, scope memo; DuckDB, Polars (local, notebooks allowed for exploration).
+> **Deliverables:** pre-registered sufficiency criteria, licence register, data cards, bias assessments, cell coverage map, prototype target dataset, sufficiency analysis, final ADR-0001 and ADR-0002, PRD v1.0.
+> **Effort (assumption):** 2 to 6 weeks, dominated by licensing and access.
+> **GO if:** a market, occupation and measure combination meets the sufficiency criteria fixed in T2.01 using only `approved` sources.
+> **NO-GO leads to:** the data acquisition programme (T2.10), a narrower scope, or stopping. Do not start modelling.
+
+- [ ] **T2.01** [AI+HUMAN] Fix sufficiency criteria **before** profiling: minimum effective sample per cell, recency, source-quality floor, coverage of target occupations, acceptable precision of cell estimates.
+  Output: `experiments/preregistration/sufficiency-v1.yaml`, committed. Done when: committed before T2.04 starts. Needs: G1. Size: S.
+- [ ] **T2.02** [AI+HUMAN] Licence and terms review for shortlisted sources, including privacy-law checks `[U]`; qualified counsel where needed.
+  Output: `config/sources/<source_id>.yaml` with licence status. Done when: every shortlisted source is `approved`, `restricted` or `rejected` with reasons. Needs: T1.10. Size: L.
+- [ ] **T2.03** [AI] Acquire permitted datasets into `data/raw/` with checksums and manifests. Only `approved` sources.
+  Output: raw files and manifests. Done when: checksums verified and manifests list the licence id. Needs: T2.02. Size: M.
+- [ ] **T2.04** [AI] Profile each source: schema, coverage, time span, missingness, duplicates, refresh cadence; set staleness limits.
+  Output: `docs/data-cards/<source_id>.md`. Done when: each card has all fields and counts. Needs: T2.01, T2.03. Size: L.
+- [ ] **T2.05** [AI+HUMAN] Map source fields to canonical definitions (`comp_type`, `measure`, currency, period, tax basis); reconcile CTC; replace the PRD validity matrix with evidence.
+  Output: mappings in `config/sources/`, PRD matrix updated. Done when: every used field has a mapping or an exclusion reason. Needs: T2.04, T1.02. Size: L.
+- [ ] **T2.06** [AI] Assess selection and reporting bias per source; compare with population benchmarks where they exist.
+  Output: section in each data card. Done when: each source has a bias statement with evidence. Needs: T2.04. Size: M.
+- [ ] **T2.07** [AI] Compute effective sample sizes per occupation × location × level cell after deduplication; produce a coverage map.
+  Output: coverage table and chart in the sufficiency folder. Done when: counts reproduce from a script. Needs: T2.05. Size: M.
+- [ ] **T2.08** [AI] Prototype target construction: annualized, normalized PT1 dataset with documented exclusions (exploratory, not the final pipeline).
+  Output: prototype dataset (not committed). Done when: exclusion counts and reasons are reported. Needs: T2.05. Size: M.
+- [ ] **T2.09** [AI] Sufficiency analysis against T2.01, including precision of cell estimates (bootstrap interval widths).
+  Output: `docs/research/09-sufficiency-analysis.md`. Done when: each candidate combination is marked meets or does not meet each criterion. Needs: T2.07, T2.08. Size: M.
+- [ ] **T2.10** [AI+HUMAN] **Conditional.** If insufficient: design the smallest viable data acquisition programme (survey or contribution schema, partnerships, consent, cost).
+  Output: `docs/research/10-data-acquisition-plan.md`. Done when: a costed plan exists, or the project is paused with reasons. Needs: T2.09. Size: L.
+- [ ] **T2.11** [AI+HUMAN] Finalize ADR-0001 and ADR-0002; update the PRD to v1.0 (scope, measure, thresholds).
+  Output: accepted ADRs, PRD v1.0. Done when: H0 is replaced by a decision. Needs: T2.09. Size: S.
+
+**Gate G2 (critical):** data sufficiency and scope decision.
+
+---
+
+## Phase 3: Canonical schema and reproducible pipeline
+
+> **Objective:** a deterministic, versioned pipeline from raw files to canonical observations, with contracts enforced.
+> **Inputs and tools:** approved sources, ADRs; Python, Polars, DuckDB, pandera, Pydantic, pytest.
+> **Deliverables:** repository scaffold, canonical schema, normalization, connectors, taxonomy and level mapping, deduplication, quarantine, lineage.
+> **Effort (assumption):** 2 to 3 weeks.
+> **GO if:** one command rebuilds canonical data from raw manifests; contract and property tests pass in CI.
+> **NO-GO:** fix reproducibility before any modelling.
+
+- [ ] **T3.01** [AI] Verify current versions, compatibility and licences of the candidate stack; measure the local machine; finalize ADR-0003; set the lockfile policy.
+  Output: ADR-0003 with pinned versions and a benchmark note. Done when: every `[U]` in the stack table is resolved. Needs: G2. Size: M.
+- [ ] **T3.02** [AI] Scaffold the repository: `pyproject.toml`, `src/compintel`, ruff, mypy, pytest, pre-commit, Makefile, import-linter config, CI skeleton, coverage thresholds (R-TS-03).
+  Output: green CI on an empty package. Done when: CI passes lint, types and tests. Needs: T3.01. Size: M.
+- [ ] **T3.03** [AI] Settings and logging: `pydantic-settings`, `structlog`, `.env.example`, the exception taxonomy (R-ER-02).
+  Output: `config` and `errors` modules with tests. Done when: tests pass and no personal data can enter logs by construction. Needs: T3.02. Size: S.
+- [ ] **T3.04** [AI] Canonical schema: Pydantic models and pandera schemas for `CompensationObservation` and supporting entities; enums; schema versioning.
+  Output: `schema/` with tests. Done when: invalid records raise `DataContractError`. Needs: T3.02. Size: M.
+- [ ] **T3.05** [AI] Normalization: currency with as-of FX, annualization, nominal versus real policy; property-based tests.
+  Output: `normalization/` with hypothesis tests. Done when: round-trip and monotonicity properties hold. Needs: T3.04. Size: M.
+- [ ] **T3.06** [AI] Connector interface with the licence gate; first connector for the smallest verified source; raw immutability and manifests.
+  Output: `ingestion/` and one connector. Done when: an unapproved source is refused by a test. Needs: T3.04. Size: M.
+- [ ] **T3.07** [AI] One connector per remaining verified source (repeat this task per source).
+  Output: connectors with contract tests. Done when: each passes its staged schema. Needs: T3.06. Size: L per source.
+- [ ] **T3.08** [AI] Taxonomy and title normalization v0: rule-based mapping with a confidence score; no LLM.
+  Output: `normalization/titles` with tests. Done when: confidence and `taxonomy_version` are recorded for every record. Needs: T3.04. Size: M.
+- [ ] **T3.09** [AI] Level mapping v0 with uncertainty (soft labels or confidence).
+  Output: level mapper with tests. Done when: unmapped and ambiguous cases are counted, not forced. Needs: T3.08. Size: M.
+- [ ] **T3.10** [AI] Deduplication and entity resolution v0: exact and near-duplicate detection; person, employer and posting clusters.
+  Output: `quality/dedup` with tests. Done when: cluster ids exist for every record and duplicate rates are reported per source. Needs: T3.04. Size: L.
+- [ ] **T3.11** [AI] Outlier and inconsistency policy; quarantine table with reason codes; halt threshold (R-ER-06).
+  Output: `quality/quarantine`. Done when: nothing is silently dropped, proven by count reconciliation. Needs: T3.05. Size: M.
+- [ ] **T3.12** [AI] Implement source-quality scoring from T1.10.
+  Output: `quality/scoring` with tests. Done when: scores attach to every observation. Needs: T3.04. Size: M.
+- [ ] **T3.13** [AI] Data versioning and lineage; `make reproduce-data` builds canonical data from manifests; ADR-0006.
+  Output: Makefile target and ADR. Done when: two clean runs produce identical snapshot hashes. Needs: T3.06 to T3.12. Size: M.
+- [ ] **T3.14** [AI] Data-contract tests in CI and an automated data quality report.
+  Output: CI job and report. Done when: a broken contract fails CI. Needs: T3.13. Size: S.
+- [ ] **T3.15** [AI] Synthetic data generator for tests, flagged `synthetic` (R-MD-11).
+  Output: `tests/fixtures` generator. Done when: pipeline tests run on it and metrics from it are blocked from reports. Needs: T3.04. Size: S.
+
+**Gate G3:** pipeline reproducible; contracts enforced.
+
+---
+
+## Phase 4: Baselines and leakage-resistant evaluation
+
+> **Objective:** a trustworthy evaluation harness and the simplest credible models.
+> **Inputs and tools:** canonical data; scikit-learn, statsmodels, Polars.
+> **Deliverables:** split framework, metrics module, pre-registration, rungs A and B, leakage audit, baseline report.
+> **Effort (assumption):** 1 to 2 weeks.
+> **GO if:** leakage tests pass, pre-registration is locked, baseline results carry confidence intervals.
+> **NO-GO:** fix evaluation first. If rungs A and B already meet the thresholds, proceed with the simple model as default champion.
+
+- [ ] **T4.01** [AI] Split framework: temporal, grouped, nested (train, select, calibrate, test); as-of enforcement; leakage tests.
+  Output: `evaluation/splits`. Done when: group overlap and future-information tests fail on seeded leaks. Needs: G3. Size: L.
+- [ ] **T4.02** [AI] Metrics module: MAE, median absolute error, relative error, pinball loss, coverage, widths, calibration error, crossing rate; bootstrap intervals.
+  Output: `evaluation/metrics`. Done when: outputs match hand-computed cases. Needs: T4.01. Size: M.
+- [ ] **T4.03** [AI+HUMAN] Pre-register: metrics, splits, thresholds method, minimum effect sizes, decision rules; add the `make final-eval` lock.
+  Output: `experiments/preregistration/v1.yaml`, committed and hashed. Done when: committed before any final-test run. Needs: T4.02. Size: M.
+- [ ] **T4.04** [AI] Rung A: empirical conditional quantiles with hierarchical backoff.
+  Output: `models/baselines/empirical`. Done when: backoff path is reported per prediction. Needs: T4.01. Size: M.
+- [ ] **T4.05** [AI] Rung B: regularized linear or GLM on log pay; linear quantile regression.
+  Output: `models/baselines/linear`. Done when: metrics produced on dev splits. Needs: T4.01. Size: M.
+- [ ] **T4.06** [AI] Leakage and duplicate-inflation audit; measure the random-versus-grouped-temporal gap (EXP-12).
+  Output: audit section in the baseline report. Done when: gap reported and any leak fixed. Needs: T4.04, T4.05. Size: M.
+- [ ] **T4.07** [AI] Experiment records and `make experiment`: seeds, configs, snapshot ids, timings and memory.
+  Output: run records. Done when: a past run reproduces from its record. Needs: T4.01. Size: M.
+- [ ] **T4.08** [AI] Baseline report on dev splits with intervals and slices.
+  Output: report in `experiments/results/`. Done when: R-MD-05 metrics are all present. Needs: T4.06, T4.07. Size: M.
+- [ ] **T4.09** [AI+HUMAN] Review against the thresholds; decide whether simple baselines suffice as the champion; run the adversarial checklist.
+  Output: decision in `memory.md`. Done when: EXP-01 status recorded. Needs: T4.08. Size: S.
+
+**Gate G4 (critical):** evaluation protocol locked; baselines reviewed.
+
+---
+
+## Phase 5: Quantile modelling, uncertainty and calibration
+
+> **Objective:** calibrated P10, P50 and P90 with a validated abstention policy.
+> **Inputs and tools:** evaluation harness; LightGBM, CatBoost, in-house conformal or MAPIE.
+> **Deliverables:** rungs D, E and F, calibration reports, abstention policy, champion bundle, model card v0, ADR-0005.
+> **Effort (assumption):** 1 to 2 weeks.
+> **GO if:** the champion meets the pre-registered coverage, width and abstention criteria on the temporal test, including the recent window.
+> **NO-GO leads to:** ship rung A with widened intervals and abstention, or acquire more data. Do not claim calibrated intervals.
+
+- [ ] **T5.01** [AI] Rung D: LightGBM and CatBoost point models on log pay; grouped-temporal cross-validation; search budget policy; log time and memory.
+  Output: `models/gbm`. Done when: metrics versus rungs A and B with intervals. Needs: G4. Size: L.
+- [ ] **T5.02** [AI] Rung E: quantile models for P10, P50, P90; crossing diagnostics and repair.
+  Output: quantile models. Done when: crossing is zero after repair and the raw rate is reported. Needs: T5.01. Size: M.
+- [ ] **T5.03** [AI] Rung F: conformal calibration (split and CQR) on a temporal calibration set; document assumptions; draft ADR-0005.
+  Output: `uncertainty/conformal`. Done when: marginal coverage is reported with its assumptions. Needs: T5.02. Size: M.
+- [ ] **T5.04** [AI] Coverage and calibration reports by slice, recent window and tails.
+  Output: reports. Done when: slices below the minimum support are flagged, not hidden. Needs: T5.03. Size: M.
+- [ ] **T5.05** [AI] Interval usefulness: width against a naive cohort interval at equal coverage (R-UQ-04, EXP-02).
+  Output: report section. Done when: a verdict on usefulness is recorded. Needs: T5.03. Size: S.
+- [ ] **T5.06** [AI] Shift stress tests: temporal, geographic, rare cells (EXP-03).
+  Output: report section. Done when: degradation is quantified. Needs: T5.03. Size: M.
+- [ ] **T5.07** [AI] Support checks, abstention policy and evidence-grade rules; thresholds in `config/thresholds.yaml`; audit abstention by group (EXP-11).
+  Output: `uncertainty/support` and config. Done when: coverage among answered requests and abstention rate are reported by slice. Needs: T5.04, T5.06. Size: L.
+- [ ] **T5.08** [AI] Champion selection under pre-registered rules; model bundle; model card v0.
+  Output: bundle and `docs/model-cards/`. Done when: the bundle loads and passes a smoke test. Needs: T5.07. Size: M.
+- [ ] **T5.09** [AI+HUMAN] Decision review and adversarial checklist.
+  Output: GO or NO-GO entry. Done when: recorded in `memory.md`. Needs: T5.08. Size: S.
+
+**Gate G5 (critical):** calibrated intervals and abstention accepted.
+
+---
+
+## Phase 6: Progressive personalization and hierarchical modelling
+
+> **Objective:** find out which personal information measurably improves the estimate, and by how much.
+> **Inputs and tools:** champion bundle; statsmodels, optionally PyMC or CmdStanPy.
+> **Deliverables:** feature specification, rung C, stage-wise results, ablations, anchoring analysis, fairness audit v1.
+> **Effort (assumption):** 2 to 3 weeks.
+> **GO if:** personalization adds a measurable, pre-registered improvement for at least one Level 1 family; otherwise ship Level 0 only.
+> **NO-GO (no value found):** the research prototype completes with Level 0. This is a valid outcome.
+
+- [ ] **T6.01** [AI] Feature specification for L0 to L3: definition, availability, source, leakage risk, privacy, expected utility, ablation plan.
+  Output: `docs/research/feature-spec.md`. Done when: every proposed feature has all fields. Needs: G5. Size: M.
+- [ ] **T6.02** [AI] Rung C: hierarchical partial pooling with prior and posterior predictive checks (R-UQ-06).
+  Output: `models/hierarchical`. Done when: checks are documented. Needs: T6.01. Size: L.
+- [ ] **T6.03** [AI] Stage-wise evaluation L0 to L3: change in pinball loss, coverage and width with intervals; compare nested models with the masked-missingness model.
+  Output: report. Done when: each increment has a verdict. Needs: T6.01. Size: L.
+- [ ] **T6.04** [AI] Feature-family ablations: role, experience, skills, employer, location, macro (EXP-06).
+  Output: ablation table. Done when: each family is kept, deferred or rejected by the pre-registered rule. Needs: T6.03. Size: M.
+- [ ] **T6.05** [AI] Current pay as a feature: anchoring and selection analysis (EXP-07).
+  Output: report. Done when: compare-only or input decision recorded (R-MD-13). Needs: T6.03. Size: M.
+- [ ] **T6.06** [AI] Missingness study; indicators only if justified (R-MD-15).
+  Output: report section. Done when: the policy is written. Needs: T6.03. Size: S.
+- [ ] **T6.07** [AI] Hierarchical Bayes versus GBM with conformal intervals in sparse cells; prior sensitivity (EXP-05).
+  Output: report. Done when: a verdict by sample size band. Needs: T6.02. Size: M.
+- [ ] **T6.08** [AI] Staged versus joint modelling; error propagation from level mapping (EXP-08).
+  Output: report. Done when: a verdict on staging. Needs: T6.03. Size: M.
+- [ ] **T6.09** [AI+HUMAN] Fairness audit v1: errors, coverage, abstention and data availability by group where lawful (legal review of group data first).
+  Output: audit report. Done when: gaps and mitigations listed. Needs: T6.04. Size: L.
+- [ ] **T6.10** [AI+HUMAN] Decision: personalization value; adversarial checklist; research prototype complete.
+  Output: GO entry and updated champion. Done when: recorded in `memory.md`. Needs: T6.05 to T6.09. Size: S.
+
+**Gate G6 (critical):** personalization value decided; research prototype complete.
+
+---
+
+## Phase 7: Advanced features and ablations (optional branch)
+
+> **Objective:** test advanced ideas one at a time, with kill criteria. Default outcome is reject.
+> **Inputs and tools:** charters; CPU-only experiments.
+> **Deliverables:** charters, experiment results, rejected-ideas list.
+> **Effort (assumption):** time-box about one week per candidate.
+> **GO per candidate if:** gain beats the minimum effect with an interval excluding zero and the cost is justified.
+> **Needs:** G6. Phase 9 does not wait for this phase.
+
+- [ ] **T7.01** [AI] Experiment charters for each candidate (embeddings, text features, employer graphs, career trajectory, macro regimes, survival models, probabilistic networks), ranked by expected value and cost.
+  Output: `experiments/configs/`. Done when: each charter has keep and reject criteria (R-MD-09). Needs: G6. Size: M.
+- [ ] **T7.02** [AI] Skills: curated taxonomy and TF-IDF versus sentence-transformer embeddings on CPU (EXP-09).
+  Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
+- [ ] **T7.03** [AI] Career trajectory features versus tenure and experience.
+  Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
+- [ ] **T7.04** [AI] Employer features: simple versus graph-based, only with representative data (EXP-10).
+  Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
+- [ ] **T7.05** [AI] Macro and market-regime features with release-time joins.
+  Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
+- [ ] **T7.06** [AI] Ensembling or stacking, only if a charter shows a likely gain.
+  Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
+- [ ] **T7.07** [AI+HUMAN] Record outcomes: keep, defer, reject, with evidence.
+  Output: `docs/research/rejected-ideas.md`. Done when: every charter has an outcome. Needs: T7.02 to T7.06. Size: S.
+
+**Gate G7:** advanced modules kept or rejected.
+
+---
+
+## Phase 8: Compensation components and scenario simulation (optional branch)
+
+> **Objective:** model pay components and scenarios only where the data supports them.
+> **Inputs and tools:** component data audit; statsmodels, simulation code.
+> **Deliverables:** audit, per-component decisions, modules where justified.
+> **Effort (assumption):** 2 to 4 weeks if data exists.
+> **GO per module if:** the data audit shows observable, sufficient evidence for that component.
+> **NO-GO:** record the deferral and move on.
+> **Needs:** G6. Phase 9 does not wait for this phase.
+
+- [ ] **T8.01** [AI] Component data audit: which components (variable pay, equity, benefits) are observable and at what quality; go or no-go per component.
+  Output: audit. Done when: each component has a decision. Needs: G6. Size: M.
+- [ ] **T8.02** [AI] Variable pay model (target versus realized), if data supports it.
+  Output: module or deferral note. Done when: evaluated per R-MD-05. Needs: T8.01. Size: L.
+- [ ] **T8.03** [AI] Public-equity module: grant, vesting, scenarios on share price. No universal Black–Scholes.
+  Output: module or deferral note. Done when: assumptions are explicit. Needs: T8.01. Size: L.
+- [ ] **T8.04** [AI] Private-equity scenario module: dilution, strike, vesting, preferences, taxes, liquidity probabilities, explicit parameters.
+  Output: module or deferral note. Done when: output is a distribution with stated assumptions. Needs: T8.01. Size: L.
+- [ ] **T8.05** [AI] First-year versus recurring aggregator with explicit normalization and propagated uncertainty.
+  Output: module. Done when: components are never silently summed. Needs: T8.02 to T8.04. Size: M.
+- [ ] **T8.06** [AI] Scenario engine v0: market, level and employer-type comparisons with an extrapolation guard; no multipliers (R-MD-07).
+  Output: `scenarios/`. Done when: out-of-support scenarios abstain. Needs: G6. Size: L.
+- [ ] **T8.07** [AI] Offer and negotiation scenarios, only if offer data exists; otherwise record the deferral.
+  Output: module or deferral note. Done when: decision recorded. Needs: T8.01. Size: L.
+- [ ] **T8.08** [AI+HUMAN] Evaluate each module; decide keep or defer.
+  Output: decisions in `memory.md`. Done when: each module has an outcome. Needs: T8.02 to T8.07. Size: S.
+
+**Gate G8:** component and scenario modules kept or deferred.
+
+---
+
+## Phase 9: API, application, monitoring, security and deployment
+
+> **Objective:** a public-beta-ready product built to `design.md`, secure, accessible, monitored.
+> **Inputs and tools:** champion bundle; FastAPI, PostgreSQL, React, Playwright, axe, Docker.
+> **Deliverables:** API, web app, contribution flow, monitoring, security review, preview deployment, QA results, legal sign-off, model card final.
+> **Effort (assumption):** 4 to 8 weeks.
+> **GO if:** no critical security, legal or fairness finding is open; accessibility and QA pass in preview; monitoring is live.
+> **NO-GO:** remain in Phase 9.
+> **Needs:** G6.
+
+- [ ] **T9.01** [AI] Serving package: bundle loader, as-of feature assembly, response types, abstention path.
+  Output: `serving/core`. Done when: `estimate()` returns `Estimate` or `Abstained` in tests. Needs: G6. Size: M.
+- [ ] **T9.02** [AI] FastAPI skeleton: health, versioned routers, RFC 9457 errors, request ids.
+  Output: `serving/app`. Done when: error contract tests pass. Needs: T9.01. Size: M.
+- [ ] **T9.03** [AI] `POST /v1/estimates` with contract tests, OpenAPI snapshot, latency benchmark; set the NFR-02 target.
+  Output: endpoint and benchmark. Done when: p95 measured on the chosen profile. Needs: T9.02. Size: M.
+- [ ] **T9.04** [AI] Taxonomy and location lookup endpoints.
+  Output: endpoints. Done when: contract tests pass. Needs: T9.02. Size: S.
+- [ ] **T9.05** [AI] Evidence, model-card and sources endpoints and their data.
+  Output: endpoints. Done when: responses carry snapshot and model ids. Needs: T9.03. Size: M.
+- [ ] **T9.06** [AI] PostgreSQL schema and migrations for consent, contributions and the audit log, only what the beta needs.
+  Output: migrations. Done when: up and down migrations run in CI. Needs: T9.02. Size: M.
+- [ ] **T9.07** [AI] Frontend scaffold: tokens, font verification (rupee sign, tabular figures), `formatMoney()`, contrast script in CI, core components starting with `RangeSpan`; ADR-0007.
+  Output: `apps/web` foundation. Done when: contrast script and formatter tests pass and fonts verified. Needs: T9.03. Size: L.
+- [ ] **T9.08** [AI] Screens: estimate flow, abstention, evidence, refine with `SpanDelta`, compare.
+  Output: screens. Done when: all states exist and e2e smoke passes. Needs: T9.07. Size: L.
+- [ ] **T9.09** [AI] Accessibility pass: automated and manual, per the checklist in `design.md` section 11.
+  Output: report and fixes. Done when: checklist complete. Needs: T9.08. Size: M.
+- [ ] **T9.10** [AI] Contribution flow, consent, quarantine, deletion, k_min; ADR-0008.
+  Output: flow and ADR. Done when: deletion removes the record from operational stores in a test. Needs: T9.06, T9.08. Size: L.
+- [ ] **T9.11** [AI] Monitoring: structured logs, metrics, drift and coverage jobs, freshness alarms, alerts.
+  Output: `monitoring/` and dashboards. Done when: alerts fire on injected faults in preview. Needs: T9.03. Size: L.
+- [ ] **T9.12** [AI] Security review: threat model, dependency audit, secret scan, ASVS checklist `[U]`; fix findings.
+  Output: review report. Done when: no critical finding is open. Needs: T9.10. Size: L.
+- [ ] **T9.13** [AI+HUMAN] Code review pass and refactor list.
+  Output: review notes. Done when: findings triaged. Needs: T9.12. Size: M.
+- [ ] **T9.14** [AI] Preview deployment: containers, environments, minimal infrastructure as code, cost measurement; ADR-0009.
+  Output: preview environment. Done when: deployed by one command. Needs: T9.12. Size: L.
+- [ ] **T9.15** [AI+HUMAN] QA plan and run: unit, integration, end to end, load, abuse and rate limits, device matrix, web vitals, usability test with a comprehension check.
+  Output: QA report. Done when: pre-registered product thresholds are measured. Needs: T9.14, T9.09. Size: L.
+- [ ] **T9.16** [HUMAN] Legal and privacy sign-off: terms, notices, disclaimers, consent text.
+  Output: sign-off record. Done when: recorded in `memory.md`. Needs: T9.10. Size: M.
+- [ ] **T9.17** [AI+HUMAN] Fairness audit v2 and final model card.
+  Output: audit and card. Done when: attached to the promotion. Needs: T9.15. Size: M.
+
+**Gate G9 (critical):** public-beta readiness.
+
+---
+
+## Phase 10: Pilot, monitoring and iteration
+
+> **Objective:** learn from real use, keep calibration honest, improve by measurement.
+> **Inputs and tools:** preview-to-production pipeline, monitoring, user feedback.
+> **Deliverables:** pilot results, production runbooks, refresh and recalibration procedures, updated documents.
+> **Effort (assumption):** first pilot cycle 4 to 8 weeks, then ongoing.
+> **GO to production if:** pilot metrics meet the pre-registered product thresholds and no critical risk is open.
+> **NO-GO:** stay in public beta and iterate.
+> **Needs:** G9.
+
+- [ ] **T10.01** [HUMAN] Pilot plan: cohort, success metrics from PRD section 11, feedback instrumentation.
+  Output: plan. Done when: thresholds recorded before the pilot starts. Needs: G9. Size: M.
+- [ ] **T10.02** [AI+HUMAN] Production deployment and rollback runbook.
+  Output: runbook. Done when: a rollback is rehearsed. Needs: T10.01. Size: M.
+- [ ] **T10.03** [AI] Online coverage tracking from realized observations.
+  Output: job and dashboard. Done when: coverage with intervals is reported weekly. Needs: T9.11. Size: M.
+- [ ] **T10.04** [AI] Scheduled data refresh jobs with freshness SLAs.
+  Output: jobs. Done when: a stale source raises an alert. Needs: T9.11. Size: M.
+- [ ] **T10.05** [AI] Drift triggers, recalibration and retraining procedure, champion and challenger.
+  Output: procedure and job. Done when: a simulated drift triggers the documented action. Needs: T10.03. Size: M.
+- [ ] **T10.06** [AI] Analyze feedback and results; prioritized backlog; update the evidence register.
+  Output: backlog. Done when: top items have experiment charters. Needs: T10.01. Size: M.
+- [ ] **T10.07** [AI+HUMAN] Post-pilot review: update PRD, architecture and memory; decide the next iteration.
+  Output: updated docs. Done when: change logs updated. Needs: T10.06. Size: M.
+
+**Gate G10 (critical):** production decision.
+
+---
+
+## Appendix A: Prioritized experiment backlog
+
+Hypotheses to test, not results. Each needs a charter before work starts.
+
+| ID | Question | Decides | Phase | Task |
+|---|---|---|---|---|
+| EXP-01 | Do rungs A and B already meet the pre-registered thresholds, making GBM and conformal unnecessary? This is the experiment most likely to invalidate the preferred architecture. | Champion model family | 4, 5 | T4.09, T5.08 |
+| EXP-02 | Is the conformalized interval narrower than a naive cohort interval at equal coverage on recent data? | Whether F earns its place | 5 | T5.05 |
+| EXP-03 | Does coverage degrade on the most recent window, and does rolling recalibration fix it? | Recalibration cadence | 5 | T5.06 |
+| EXP-04 | Does down-weighting low-quality sources move estimates toward official benchmarks? | Source weights | 2, 5 | T2.06, T5.04 |
+| EXP-05 | In sparse cells, does partial pooling give better-calibrated intervals than GBM? | Sparse-cell method | 6 | T6.07 |
+| EXP-06 | Which Level 1 families add measurable value? | Which inputs the UI offers | 6 | T6.04 |
+| EXP-07 | Does current pay add information beyond the profile, or only anchoring? | Compare-only or input | 6 | T6.05 |
+| EXP-08 | Do soft level labels beat hard labels, and does staged beat joint? | Level handling | 6 | T6.08 |
+| EXP-09 | Do sentence embeddings beat a curated taxonomy for skills? | Whether to keep embeddings | 7 | T7.02 |
+| EXP-10 | Do graph-based employer features beat simple ones without leakage? | Whether to keep graphs | 7 | T7.04 |
+| EXP-11 | What is the trade-off between abstention and coverage, and is abstention uneven across groups? | Support thresholds | 5, 6 | T5.07, T6.09 |
+| EXP-12 | How much does a random split inflate performance compared with grouped-temporal? | Diagnostic for leakage culture | 4 | T4.06 |
+
+## Appendix B: Parking lot
+
+Ideas not in the PRD. Add here, not into code (R-WF-09).
+
+- Hindi and other Indian-language interfaces (FR-17)
+- Purchasing-power and affordability views, kept separate from nominal pay
+- Native mobile apps
+- Employer-side benchmarking (needs its own risk assessment)
+
+## Appendix C: Deliverables map
+
+| File | Produced by |
+|---|---|
+| `docs/research/00-master-research-prompt.md` | T0.01 |
+| `docs/adr/ADR-0001` to `ADR-0009` | T0.04, then the tasks named in `architecture.md` section 15 |
+| `docs/research/01-targets.md` | T1.01 |
+| `docs/research/02-comp-definitions.md` | T1.02 |
+| `docs/research/03-users.md` | T1.03, T1.04 |
+| `docs/research/evidence-register.csv` | T1.05, maintained throughout |
+| `docs/research/04-source-catalog.md` | T1.06 to T1.09 |
+| `docs/research/05-source-scoring.md` | T1.10 |
+| `docs/research/06-architecture-autopsy.md` | T1.11 |
+| `docs/research/07-premortem-risk-register.md` | T1.12 |
+| `docs/research/08-scope-memo.md` | T1.13 |
+| `experiments/preregistration/sufficiency-v1.yaml` | T2.01 |
+| `config/sources/*.yaml` | T2.02, T2.05 |
+| `docs/data-cards/*.md` | T2.04, T2.06 |
+| `docs/research/09-sufficiency-analysis.md` | T2.09 |
+| `docs/research/10-data-acquisition-plan.md` | T2.10 (conditional) |
+| `experiments/preregistration/v1.yaml` | T4.03 |
+| `docs/model-cards/*.md` | T5.08, T9.17 |
+| `docs/research/feature-spec.md` | T6.01 |
+| `docs/research/rejected-ideas.md` | T7.07 |
+
+## Change log
+
+| Date | Version | Change |
+|---|---|---|
+| 2026-10-11 | 0.1 | Initial draft |
