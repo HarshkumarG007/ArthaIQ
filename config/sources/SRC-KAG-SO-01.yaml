@@ -1,69 +1,90 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-KAG-SO-01
-#  Stack Overflow Annual Developer Survey 2024
-# =============================================================================
-
-source_id: "SRC-KAG-SO-01"
-short_name: "Stack Overflow Survey 2024"
-long_name: "Stack Overflow Annual Developer Survey 2024"
-provider: "Stack Overflow (Prosus Group)"
-primary_url: "https://survey.stackoverflow.co/2024/"
-dataset_download_url: "https://cdn.stackoverflow.co/files/jo7n4k8s/production/49915bfd46d0902c3564fd9a06b509d7a2a627c4.zip"
-kaggle_slug: "stack-overflow/stack-overflow-developer-survey"
-country: "GLOBAL"
-currency_primary: "USD"
+source_id: SRC-KAG-SO-01
+short_name: Stack Overflow Survey 2024
+long_name: Stack Overflow Annual Developer Survey 2024
+provider: Stack Overflow (Prosus Group)
+primary_url: https://survey.stackoverflow.co/2024/
+dataset_download_url: https://cdn.stackoverflow.co/files/jo7n4k8s/production/49915bfd46d0902c3564fd9a06b509d7a2a627c4.zip
+kaggle_slug: stack-overflow/stack-overflow-developer-survey
+country: GLOBAL
+currency_primary: USD
 reference_period:
-  survey_conducted: "2024-05"
-  published: "2024-07"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  survey_conducted: 2024-05
+  published: 2024-07
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "ODbL-1.0"
-  name: "Open Database Licence 1.0"
-  terms_url: "https://opendatacommons.org/licenses/odbl/1-0/"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: ODbL-1.0
+  name: Open Database Licence 1.0
+  terms_url: https://opendatacommons.org/licenses/odbl/1-0/
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: >
-    Derivative databases must be released under ODbL 1.0 (share-alike).
-    Produced works (outputs, reports) require attribution but are not share-alike.
-    Must not use for re-identification of respondents.
+  redistribution_conditions: 'Derivative databases must be released under ODbL 1.0
+    (share-alike). Produced works (outputs, reports) require attribution but are not
+    share-alike. Must not use for re-identification of respondents.
+
+    '
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
-  personal_data_notes: >
-    Survey responses are anonymized before publication. No name, email, or
-    government ID is included. DPDPA 2023 applicability: NEGLIGIBLE.
+  personal_data_notes: 'Survey responses are anonymized before publication. No name,
+    email, or government ID is included. DPDPA 2023 applicability: NEGLIGIBLE.
+
+    '
   qualified_counsel_required: false
   odbl_share_alike_noted: true
-  odbl_share_alike_impact: >
-    ArthaIQ derived ML models trained on this data alone would require ODbL release.
-    MITIGATION: Stack Overflow data is used only for prior elicitation and benchmark
-    comparison (relative experience curves), never as the sole training source.
-    Outputs are "produced works" not "derivative databases" under ODbL.
+  odbl_share_alike_impact: 'ArthaIQ derived ML models trained on this data alone would
+    require ODbL release. MITIGATION: Stack Overflow data is used only for prior elicitation
+    and benchmark comparison (relative experience curves), never as the sole training
+    source. Outputs are "produced works" not "derivative databases" under ODbL.
 
-ingestion_status: "approved"
-ingestion_role: "benchmark_only"
+    '
+ingestion_status: approved
+ingestion_role: benchmark_only
 pipeline_routing:
-  - "experience_curve_prior_elicitation"
-  - "skill_relative_delta_benchmark"
-  - "temporal_drift_analysis"
+- experience_curve_prior_elicitation
+- skill_relative_delta_benchmark
+- temporal_drift_analysis
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-notes: >
-  Filter to India + INR + Yearly frequency. Map CompTotal -> total_comp_annual
-  (NOT guaranteed_cash_annual). Use only for relative structural ratios
-  (YOE curves, skill deltas), not absolute pay intercepts.
-  India subset approx N=4,500 in 2024 survey.
-sqs: 72.2
-sqsf_tier: "TIER_3_MARKET_SIGNAL"
+- PT1_direct_training
+- PT2_direct_training
+notes: 'Filter to India + INR + Yearly frequency. Map CompTotal -> total_comp_annual
+  (NOT guaranteed_cash_annual). Use only for relative structural ratios (YOE curves,
+  skill deltas), not absolute pay intercepts. India subset approx N=4,500 in 2024
+  survey.
 
+  '
+sqs: 72.2
+sqsf_tier: TIER_3_MARKET_SIGNAL
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for benchmark use. ODbL share-alike noted and mitigated."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for benchmark use. ODbL share-alike noted and mitigated.
+canonical_field_mappings:
+- source_field: CompTotal
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: MIXED
+  period: variable_by_compfreq
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_benchmark
+  - prior_elicitation_yoe_curve
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: 'Excluded from PT1/PT2 training per R-MD-07: self-reported aggregate
+    total comp conflating variable pay and equity.'
+- source_field: ConvertedCompYearly
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_benchmark
+  - international_experience_ratios
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: Annualized USD aggregate; admitted for relative structural ratios
+    only, excluded from PT1.

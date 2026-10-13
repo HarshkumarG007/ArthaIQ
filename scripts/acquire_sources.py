@@ -264,7 +264,9 @@ def acquire_stack_overflow(data_raw: Path, repo_root: Path) -> None:
         out_file = dest_dir / f"so_survey_{year}_raw_sample.csv"
         full_content = (header or "") + "\n" + "\n".join(collected_lines) + "\n"
         out_file.write_text(full_content, encoding="utf-8")
-        print(f"  Saved {out_file.name} ({len(collected_lines)} records, {out_file.stat().st_size:,} bytes)")
+        print(
+            f"  Saved {out_file.name} ({len(collected_lines)} records, {out_file.stat().st_size:,} bytes)"
+        )
 
         manifest_path = generate_source_manifest(source_id, data_raw, repo_root)
         verify_manifest(manifest_path)

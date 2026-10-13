@@ -27,7 +27,9 @@ def profile_all() -> None:
             print(f"\n[{sid}] ({len(profiles)} file(s)):")
             for p in profiles:
                 print(f"  File: {p.file_name}")
-                print(f"    Rows: {p.row_count:,} | Cols: {p.column_count} | Duplicates: {p.duplicate_rows:,}")
+                print(
+                    f"    Rows: {p.row_count:,} | Cols: {p.column_count} | Duplicates: {p.duplicate_rows:,}"
+                )
                 print("    Columns & Missingness:")
                 for col in p.columns:
                     range_info = ""

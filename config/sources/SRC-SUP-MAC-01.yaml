@@ -1,54 +1,69 @@
-# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-SUP-MAC-01
-#  RBI DBIE Macro Series — CPI-Urban & USD/INR Exchange Rates
-# =============================================================================
-
-source_id: "SRC-SUP-MAC-01"
-short_name: "RBI DBIE Macro Series"
-long_name: "Reserve Bank of India Database on Indian Economy (DBIE) Macroeconomic Indicators"
-provider: "Reserve Bank of India (RBI)"
-primary_url: "https://dbie.rbi.gov.in/"
-download_url: "https://dbie.rbi.gov.in/DBIE/dbie.rbi?site=statistics"
-country: "IN"
-currency_primary: "INR"
+source_id: SRC-SUP-MAC-01
+short_name: RBI DBIE Macro Series
+long_name: Reserve Bank of India Database on Indian Economy (DBIE) Macroeconomic Indicators
+provider: Reserve Bank of India (RBI)
+primary_url: https://dbie.rbi.gov.in/
+download_url: https://dbie.rbi.gov.in/DBIE/dbie.rbi?site=statistics
+country: IN
+currency_primary: INR
 reference_period:
-  series_start: "2012-01"
-  series_end: "rolling_monthly"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  series_start: 2012-01
+  series_end: rolling_monthly
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "OGDL-IN"
-  name: "Open Government Data License - India (NDSAP / RBI Open Dissemination)"
-  terms_url: "https://data.gov.in/government-open-data-license-india"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: OGDL-IN
+  name: Open Government Data License - India (NDSAP / RBI Open Dissemination)
+  terms_url: https://data.gov.in/government-open-data-license-india
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "Attribution to Reserve Bank of India required. Data must not be misrepresented."
+  redistribution_conditions: Attribution to Reserve Bank of India required. Data must
+    not be misrepresented.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "macro_indicator_series"
+ingestion_status: approved
+ingestion_role: macro_indicator_series
 pipeline_routing:
-  - "cpi_urban_temporal_deflation"
-  - "usd_inr_exchange_rate_reference"
+- cpi_urban_temporal_deflation
+- usd_inr_exchange_rate_reference
 prohibited_routing:
-  - "PT1_direct_training"
-notes: >
-  Official macro indicator series. Used to implement temporal deflation for
-  any compensation report older than 90 days as mandated by 01-targets.md and
-  02-comp-definitions.md. Deflator index: Consumer Price Index - Urban (Base 2012=100).
-  Reference FX rates are recorded for international normalization audit trails.
-sqs: 94.4
-sqsf_tier: "TIER_4_SUPPLEMENTARY"
+- PT1_direct_training
+notes: 'Official macro indicator series. Used to implement temporal deflation for
+  any compensation report older than 90 days as mandated by 01-targets.md and 02-comp-definitions.md.
+  Deflator index: Consumer Price Index - Urban (Base 2012=100). Reference FX rates
+  are recorded for international normalization audit trails.
 
+  '
+sqs: 94.4
+sqsf_tier: TIER_4_SUPPLEMENTARY
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for temporal deflation and macro reference pipelines."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for temporal deflation and macro reference pipelines.
+canonical_field_mappings:
+- source_field: cpi_urban_index
+  canonical_measure: cpi_deflator
+  comp_type: macro_index
+  currency: null
+  period: monthly
+  tax_basis: not_applicable
+  admissible_targets:
+  - temporal_deflation
+  unbundling_status: direct_measure
+  exclusion_reason: Macro temporal deflator index, not wage microdata.
+- source_field: inr_usd_spot_rate
+  canonical_measure: spot_fx_rate
+  comp_type: macro_index
+  currency: null
+  period: daily
+  tax_basis: not_applicable
+  admissible_targets:
+  - fx_conversion_monitoring
+  unbundling_status: direct_measure
+  exclusion_reason: Spot FX rate; prohibited from nominal wage conversions per R-MD-08.

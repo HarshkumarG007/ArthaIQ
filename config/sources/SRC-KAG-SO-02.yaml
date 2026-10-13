@@ -1,54 +1,73 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-KAG-SO-02
-#  Stack Overflow Annual Developer Survey 2023
-# =============================================================================
-
-source_id: "SRC-KAG-SO-02"
-short_name: "Stack Overflow Survey 2023"
-long_name: "Stack Overflow Annual Developer Survey 2023"
-provider: "Stack Overflow (Prosus Group)"
-primary_url: "https://survey.stackoverflow.co/2023/"
-country: "GLOBAL"
-currency_primary: "USD"
+source_id: SRC-KAG-SO-02
+short_name: Stack Overflow Survey 2023
+long_name: Stack Overflow Annual Developer Survey 2023
+provider: Stack Overflow (Prosus Group)
+primary_url: https://survey.stackoverflow.co/2023/
+country: GLOBAL
+currency_primary: USD
 reference_period:
-  survey_conducted: "2023-05"
-  published: "2023-07"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  survey_conducted: 2023-05
+  published: 2023-07
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "ODbL-1.0"
-  name: "Open Database Licence 1.0"
-  terms_url: "https://opendatacommons.org/licenses/odbl/1-0/"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: ODbL-1.0
+  name: Open Database Licence 1.0
+  terms_url: https://opendatacommons.org/licenses/odbl/1-0/
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "ODbL share-alike for derivative databases. Attribution required."
+  redistribution_conditions: ODbL share-alike for derivative databases. Attribution
+    required.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
   odbl_share_alike_noted: true
-  odbl_share_alike_impact: "Same mitigation as SRC-KAG-SO-01 applies."
-
-ingestion_status: "approved"
-ingestion_role: "benchmark_only"
+  odbl_share_alike_impact: Same mitigation as SRC-KAG-SO-01 applies.
+ingestion_status: approved
+ingestion_role: benchmark_only
 pipeline_routing:
-  - "temporal_drift_analysis"
-  - "year_over_year_wage_growth_estimation"
+- temporal_drift_analysis
+- year_over_year_wage_growth_estimation
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-notes: >
-  Used alongside SRC-KAG-SO-01 to estimate year-on-year compensation drift
-  and validate macro CPI deflation factors. India subset approx N=5,200.
-sqs: 72.2
-sqsf_tier: "TIER_3_MARKET_SIGNAL"
+- PT1_direct_training
+- PT2_direct_training
+notes: 'Used alongside SRC-KAG-SO-01 to estimate year-on-year compensation drift and
+  validate macro CPI deflation factors. India subset approx N=5,200.
 
+  '
+sqs: 72.2
+sqsf_tier: TIER_3_MARKET_SIGNAL
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for temporal drift benchmark use. ODbL noted."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for temporal drift benchmark use. ODbL noted.
+canonical_field_mappings:
+- source_field: CompTotal
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: MIXED
+  period: variable_by_compfreq
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_benchmark
+  - temporal_drift_analysis
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: 'Excluded from PT1/PT2 training per R-MD-07: self-reported aggregate
+    total comp.'
+- source_field: ConvertedCompYearly
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_benchmark
+  - temporal_drift_analysis
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: Annualized USD aggregate; admitted for temporal drift checks,
+    excluded from PT1.

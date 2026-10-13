@@ -1,35 +1,32 @@
-# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-INT-VOL-01
-#  ArthaIQ Governed Voluntary User Intake (Verified Payslip & Itemized Form)
-# =============================================================================
-
-source_id: "SRC-INT-VOL-01"
-short_name: "ArthaIQ Voluntary Intake"
-long_name: "ArthaIQ Governed Voluntary User Compensation Intake (Itemized Form & Verified Payslips)"
-provider: "ArthaIQ Platform / User Voluntary Contributions (Phase 8 Design / T2.10)"
-primary_url: "https://arthaiq.internal/intake"
-download_url: "internal://data/primary/voluntary-intake.parquet"
-country: "IN"
-currency_primary: "INR"
+source_id: SRC-INT-VOL-01
+short_name: ArthaIQ Voluntary Intake
+long_name: ArthaIQ Governed Voluntary User Compensation Intake (Itemized Form & Verified
+  Payslips)
+provider: ArthaIQ Platform / User Voluntary Contributions (Phase 8 Design / T2.10)
+primary_url: https://arthaiq.internal/intake
+download_url: internal://data/primary/voluntary-intake.parquet
+country: IN
+currency_primary: INR
 reference_period:
-  collection_cadence: "continuous_rolling"
-  design_version: "v1.0"
-retrieval_date: "2026-10-13"
-verification_status: "DESIGN_SPECIFICATION"
-
+  collection_cadence: continuous_rolling
+  design_version: v1.0
+retrieval_date: '2026-10-13'
+verification_status: DESIGN_SPECIFICATION
 licence:
-  spdx_id: "PROPRIETARY-CONSENT-GRANT"
-  name: "ArthaIQ User Terms of Service & Explicit Data Contribution Consent (DPDPA 2023 / GDPR Compliant)"
-  terms_url: "https://arthaiq.internal/terms/data-consent"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: PROPRIETARY-CONSENT-GRANT
+  name: ArthaIQ User Terms of Service & Explicit Data Contribution Consent (DPDPA
+    2023 / GDPR Compliant)
+  terms_url: https://arthaiq.internal/terms/data-consent
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: false
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: false
-  redistribution_conditions: "Strict aggregation only; k-anonymity >= 5 enforced; no individual level redistribution."
+  redistribution_conditions: Strict aggregation only; k-anonymity >= 5 enforced; no
+    individual level redistribution.
   scraping_prohibited: true
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: true
   privacy_safeguards:
     dpdpa_2023_compliant: true
@@ -37,30 +34,136 @@ licence:
     k_anonymity_min: 5
     differential_privacy_epsilon: 1.0
     client_side_redaction: true
-    cryptographic_deduplication_hash: "HMAC-SHA256(pan_salt, salary_components)"
-    pii_storage: "NEVER_STORED"
+    cryptographic_deduplication_hash: HMAC-SHA256(pan_salt, salary_components)
+    pii_storage: NEVER_STORED
   qualified_counsel_required: true
-
-ingestion_status: "approved_for_design"
-ingestion_role: "primary_ground_truth"
+ingestion_status: approved_for_design
+ingestion_role: primary_ground_truth
 pipeline_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-  - "PT3_direct_training"
-  - "PT4_direct_training"
-  - "PT5_direct_training"
-  - "PT6_direct_training"
+- PT1_direct_training
+- PT2_direct_training
+- PT3_direct_training
+- PT4_direct_training
+- PT5_direct_training
+- PT6_direct_training
 prohibited_routing:
-  - "public_unaggregated_export"
-notes: >
-  Forward design specification for Phase 8 / Task T2.10. Gold-standard primary
+- public_unaggregated_export
+notes: 'Forward design specification for Phase 8 / Task T2.10. Gold-standard primary
   intake capturing itemized line items (basic, hra, special_allowance, variable_pay,
-  equity_vesting) matching ArthaIQ canonical accounting identity.
-  Pre-registered SQS: 96.0 (Tier 1 Ground Truth).
-sqs: 96.0
-sqsf_tier: "TIER_1_GROUND_TRUTH"
+  equity_vesting) matching ArthaIQ canonical accounting identity. Pre-registered SQS:
+  96.0 (Tier 1 Ground Truth).
 
+  '
+sqs: 96.0
+sqsf_tier: TIER_1_GROUND_TRUTH
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Recorded forward design specification and privacy safeguard requirements."
+- date: '2026-10-13'
+  task: T2.02
+  action: Recorded forward design specification and privacy safeguard requirements.
+canonical_field_mappings:
+- source_field: basic_salary_monthly_inr
+  canonical_measure: basic_salary_annual
+  comp_type: fixed
+  currency: INR
+  period: monthly
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT1
+  - PT2
+  unbundling_status: itemized
+  exclusion_reason: null
+  transformation: annualize_monthly_x12
+- source_field: fixed_allowances_monthly_inr
+  canonical_measure: fixed_allowances_annual
+  comp_type: fixed
+  currency: INR
+  period: monthly
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT1
+  - PT2
+  unbundling_status: itemized
+  exclusion_reason: null
+  transformation: annualize_monthly_x12
+- source_field: guaranteed_cash_annual_inr
+  canonical_measure: guaranteed_cash_annual
+  comp_type: fixed
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT1
+  - PT2
+  unbundling_status: itemized
+  exclusion_reason: null
+  transformation: sum(basic_salary_annual, fixed_allowances_annual)
+- source_field: variable_bonus_target_annual_inr
+  canonical_measure: variable_cash_annual
+  comp_type: variable
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_benchmark
+  - auxiliary_variable_model
+  unbundling_status: itemized
+  exclusion_reason: Excluded from PT1 recurring cash per R-MD-07; admitted for PT6
+    total compensation.
+- source_field: equity_grant_annualized_inr
+  canonical_measure: equity_annualized_grant
+  comp_type: equity
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_benchmark
+  - auxiliary_equity_model
+  unbundling_status: itemized
+  exclusion_reason: Excluded from PT1 recurring cash per R-MD-07; admitted for PT6
+    total compensation.
+- source_field: employer_pf_monthly_inr
+  canonical_measure: employer_contributions_annual
+  comp_type: statutory_overhead
+  currency: INR
+  period: monthly
+  tax_basis: employer_cost
+  admissible_targets:
+  - statutory_overhead_accounting
+  unbundling_status: itemized
+  exclusion_reason: Statutory employer overhead (12% EPF); excluded from employee
+    guaranteed pay.
+  transformation: annualize_monthly_x12
+- source_field: gratuity_provision_annual_inr
+  canonical_measure: employer_contributions_annual
+  comp_type: statutory_overhead
+  currency: INR
+  period: annual
+  tax_basis: employer_cost
+  admissible_targets:
+  - statutory_overhead_accounting
+  unbundling_status: itemized
+  exclusion_reason: Statutory employer accrual (4.81% Payment of Gratuity Act 1972);
+    excluded from employee guaranteed pay.
+- source_field: total_ctc_annual_inr
+  canonical_measure: ctc_annual
+  comp_type: total_budget
+  currency: INR
+  period: annual
+  tax_basis: employer_cost
+  admissible_targets:
+  - intake_verification_audit
+  unbundling_status: itemized
+  exclusion_reason: Contractual sum of guaranteed cash + statutory provisions + bonus
+    + equity. Itemized line items required.
+- source_field: take_home_monthly_inr
+  canonical_measure: take_home_annual
+  comp_type: take_home
+  currency: INR
+  period: monthly
+  tax_basis: net_post_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: itemized
+  exclusion_reason: Non-comparable post-tax metric; prohibited from reverse gross
+    engineering.
+  transformation: annualize_monthly_x12

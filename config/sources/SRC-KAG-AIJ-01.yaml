@@ -1,54 +1,70 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-KAG-AIJ-01
-#  ai-jobs.net Data Science Salaries 2023 (Kaggle)
-# =============================================================================
-
-source_id: "SRC-KAG-AIJ-01"
-short_name: "ai-jobs.net DS Salaries 2023"
-long_name: "Data Science Job Salaries 2023 — ai-jobs.net (Kaggle)"
-provider: "ai-jobs.net"
-primary_url: "https://ai-jobs.net/salaries/download/"
-kaggle_slug: "arnabchaki/data-science-salaries-2023"
-country: "GLOBAL"
-currency_primary: "USD"
+source_id: SRC-KAG-AIJ-01
+short_name: ai-jobs.net DS Salaries 2023
+long_name: Data Science Job Salaries 2023 — ai-jobs.net (Kaggle)
+provider: ai-jobs.net
+primary_url: https://ai-jobs.net/salaries/download/
+kaggle_slug: arnabchaki/data-science-salaries-2023
+country: GLOBAL
+currency_primary: USD
 reference_period:
-  start: "2020-01-01"
-  end: "2023-12-31"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2020-01-01'
+  end: '2023-12-31'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "CC0-1.0"
-  name: "Creative Commons Zero v1.0 Universal (Public Domain Dedication)"
-  terms_url: "https://creativecommons.org/publicdomain/zero/1.0/"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: CC0-1.0
+  name: Creative Commons Zero v1.0 Universal (Public Domain Dedication)
+  terms_url: https://creativecommons.org/publicdomain/zero/1.0/
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "No conditions. Public domain dedication."
+  redistribution_conditions: No conditions. Public domain dedication.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "benchmark_only"
+ingestion_status: approved
+ingestion_role: benchmark_only
 pipeline_routing:
-  - "global_ppp_spread_benchmark"
-  - "remote_premium_analysis"
+- global_ppp_spread_benchmark
+- remote_premium_analysis
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-notes: >
-  Global dataset. India subset approx N=200. Denominated in USD (salary_in_usd).
-  Used strictly for cross-market purchasing-power parity comparisons and
-  international remote work premium benchmarks. Cross-market isolation enforced.
-sqs: 60.2
-sqsf_tier: "TIER_4_SUPPLEMENTARY"
+- PT1_direct_training
+- PT2_direct_training
+notes: 'Global dataset. India subset approx N=200. Denominated in USD (salary_in_usd).
+  Used strictly for cross-market purchasing-power parity comparisons and international
+  remote work premium benchmarks. Cross-market isolation enforced.
 
+  '
+sqs: 60.2
+sqsf_tier: TIER_4_SUPPLEMENTARY
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for global benchmark use. CC0 — no restrictions."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for global benchmark use. CC0 — no restrictions.
+canonical_field_mappings:
+- source_field: salary
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: MIXED
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - global_exploratory_benchmark
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: Self-reported global total comp; excluded from Indian PT1 per
+    R-MD-08 and R-MD-07.
+- source_field: salary_in_usd
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - global_exploratory_benchmark
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: Annualized USD aggregate; excluded from Indian domestic models
+    per R-MD-08.

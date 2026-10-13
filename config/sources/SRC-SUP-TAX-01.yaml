@@ -1,55 +1,61 @@
-# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-SUP-TAX-01
-#  O*NET 29.0 Content Model (Occupations & Technology Skills Taxonomy)
-# =============================================================================
-
-source_id: "SRC-SUP-TAX-01"
-short_name: "O*NET 29.0 Database"
-long_name: "Occupational Information Network (O*NET) 29.0 Content Model Database"
-provider: "U.S. Department of Labor / Employment and Training Administration (National Center for O*NET Development)"
-primary_url: "https://www.onetcenter.org/database.html"
-download_url: "https://www.onetcenter.org/taxonomy/2024/db_29_0_text.zip"
-country: "US"
-currency_primary: "NONE"
+source_id: SRC-SUP-TAX-01
+short_name: O*NET 29.0 Database
+long_name: Occupational Information Network (O*NET) 29.0 Content Model Database
+provider: U.S. Department of Labor / Employment and Training Administration (National
+  Center for O*NET Development)
+primary_url: https://www.onetcenter.org/database.html
+download_url: https://www.onetcenter.org/taxonomy/2024/db_29_0_text.zip
+country: US
+currency_primary: NONE
 reference_period:
-  version: "29.0"
-  published: "2024-08"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  version: '29.0'
+  published: 2024-08
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "CC-BY-4.0"
-  name: "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-  terms_url: "https://www.onetcenter.org/license_agreement.html"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International (CC-BY 4.0)
+  terms_url: https://www.onetcenter.org/license_agreement.html
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "Requires attribution to O*NET and USDOL/ETA. Modification notices required if tables altered."
+  redistribution_conditions: Requires attribution to O*NET and USDOL/ETA. Modification
+    notices required if tables altered.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "supplementary_taxonomy"
+ingestion_status: approved
+ingestion_role: supplementary_taxonomy
 pipeline_routing:
-  - "taxonomy_normalization"
-  - "skill_entity_resolution"
-  - "soc_to_internal_role_crosswalk"
+- taxonomy_normalization
+- skill_entity_resolution
+- soc_to_internal_role_crosswalk
 prohibited_routing:
-  - "PT1_direct_training"
-  - "wage_observations"
-notes: >
-  Official taxonomy asset. Contains Technology Skills.txt mapping specific
-  tools/technologies to SOC occupations. Non-wage dataset; SQS D2=4 represents
-  standardized occupation descriptor utility. Hard gates all PASSED.
-sqs: 84.4
-sqsf_tier: "TIER_4_SUPPLEMENTARY"
+- PT1_direct_training
+- wage_observations
+notes: 'Official taxonomy asset. Contains Technology Skills.txt mapping specific tools/technologies
+  to SOC occupations. Non-wage dataset; SQS D2=4 represents standardized occupation
+  descriptor utility. Hard gates all PASSED.
 
+  '
+sqs: 84.4
+sqsf_tier: TIER_4_SUPPLEMENTARY
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for taxonomy normalization and skill crosswalk pipelines."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for taxonomy normalization and skill crosswalk pipelines.
+canonical_field_mappings:
+- source_field: data_value
+  canonical_measure: skill_taxonomy
+  comp_type: non_comp
+  currency: null
+  period: not_applicable
+  tax_basis: not_applicable
+  admissible_targets:
+  - skill_taxonomy_mapping
+  unbundling_status: direct_measure
+  exclusion_reason: O*NET skill importance/level descriptor; non-compensation covariate.
