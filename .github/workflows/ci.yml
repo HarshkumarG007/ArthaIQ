@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# CI pipeline is a stub — fully implemented at T3.02.
+# Stages per architecture.md section 14:
+#   Pre-commit | CI: static | CI: tests | CI: build | CI: security | Preview | Production
+
+jobs:
+  # ---- Static analysis (Phase 3+) ------------------------------------------
+  static:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"   # update to pinned version at T3.01
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: ruff lint
+        run: ruff check src/ tests/
+
+      - name: ruff format check
+        run: ruff format --check src/ tests/
+
+      - name: mypy
+        run: mypy src/compintel
+
+      - name: import-linter
+        run: lint-imports   # configured at T3.02
+
+  # ---- Tests ----------------------------------------------------------------
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs: static
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Run tests
+        run: pytest tests/ -m "not e2e and not slow" --cov=src/compintel --cov-report=xml
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+        continue-on-error: true   # not blocking until T3.02 sets thresholds
+
+  # ---- Security -------------------------------------------------------------
+  security:
+    name: Security audit
+    runs-on: ubuntu-latest
+    needs: static
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: pip-audit
+        run: pip install pip-audit && pip-audit
+
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ---- Docker build (Phase 9+) ----------------------------------------------
+  # docker:
+  #   name: Docker build
+  #   runs-on: ubuntu-latest
+  #   needs: tests
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Build image
+  #       run: docker build -t compintel:${{ github.sha }} -f infra/docker/Dockerfile .
