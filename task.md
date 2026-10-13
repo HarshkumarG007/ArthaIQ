@@ -80,7 +80,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 - [x] **T1.01** [AI] Specify prediction targets PT1 to PT6: variable, observation unit, horizon, assumptions, identification limits; settle the job-search window and transition horizon. (done 2026-10-13)
   Output: `docs/research/01-targets.md`. Done when: each target has all five fields and PRD `[TBD: T1.01]` items are resolved. Needs: G0. Size: M.
-- [ ] **T1.02** [AI+HUMAN] Define compensation terms and map them: CTC, fixed, base, variable, in-hand, total compensation, for India and the US.
+- [x] **T1.02** [AI+HUMAN] Define compensation terms and map them: CTC, fixed, base, variable, in-hand, total compensation, for India and the US. (done 2026-10-13)
   Output: `docs/research/02-comp-definitions.md`. Done when: each term maps to a canonical `measure` or is marked non-comparable. Needs: T1.01. Size: M.
 - [ ] **T1.03** [AI+HUMAN] Write persona hypotheses, jobs to be done and an interview guide.
   Output: `docs/research/03-users.md`. Done when: guide and recruiting criteria exist. Needs: T1.01. Size: S.
