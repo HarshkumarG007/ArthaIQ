@@ -120,8 +120,7 @@ select = [
     "ANN",            # flake8-annotations (partial; see ignore)
 ]
 ignore = [
-    "ANN101", "ANN102",  # self/cls annotation
-    "ANN401",            # Any in complex generics
+    "ANN401",  # Any in complex generics
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -155,6 +154,7 @@ ignore_errors = false
 # ---- pytest ----------------------------------------------------------------
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
 addopts = "--strict-markers -q"
 markers = [
     "unit: fast, no I/O",
