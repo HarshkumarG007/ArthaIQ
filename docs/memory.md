@@ -10,11 +10,11 @@
 
 ## 1. Read this first
 
-- **What we are building:** a personalized compensation intelligence and decision-support tool. It returns a pay range (P10, P50, P90) with an evidence summary, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
+- **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.02.** (T0.01, T0.04, T0.07 done 2026-10-13; Q-001 answered: **India first**.)
-- **Scope is a hypothesis (H0):** India, software, data and ML roles, measure `guaranteed_cash_annual`, INR nominal. Nothing is confirmed until gate G2.
-- **What exists:** six documents. **No code, no data, no repository, no verified external facts.**
+- **Where we are:** Step 1 is complete (documents v0.1). Phase 0 is in progress. **NEXT TASK: T0.03.** (T0.01, T0.02, T0.04, T0.07 done 2026-10-13; Project identity ratified: **ArthaIQ**; Q-001 through Q-010 answered.)
+- **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
+- **What exists:** repo scaffold, initial configs, doc suite. **No model code, no raw data yet.**
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -25,7 +25,7 @@
 | IDEA | DONE | Master research prompt written |
 | RESEARCH | TODO | Phases 1 and 2 |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
-| PRD | IN PROGRESS | v0.1 |
+| PRD | IN PROGRESS | v0.1; updating to v0.2 at T0.03 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
 | ARCHITECTURE | IN PROGRESS | v0.1 |
 | DESIGN | IN PROGRESS | v0.1 |
@@ -47,12 +47,12 @@
 | Item | Value |
 |---|---|
 | Phase | 0, Foundation |
-| Last completed task | T0.01 (+ T0.04, T0.07 in the same session) |
-| Next task | T0.02 |
+| Last completed task | T0.02 (+ T0.01, T0.04, T0.07) |
+| Next task | T0.03 |
 | Last gate | None yet |
 | Document versions | PRD, architecture, rules, design, task, memory: all v0.1 |
-| Repository | Initialized (directory structure created locally; not yet committed to remote git) |
-| Code | None |
+| Repository | Initialized (Git initialized, scaffold committed, README updated) |
+| Code | Package stubs & CI |
 | Data | None |
 | CI | Stub in `.github/workflows/ci.yml` |
 
@@ -62,13 +62,13 @@ Record GO or NO-GO with the evidence that justified it.
 
 | Gate | Decision | Date | Evidence | Notes |
 |---|---|---|---|---|
-| G0 | Pending | | | |
-| G1 | Pending | | | |
+| G0 | Pending | | | Charter ratification |
+| G1 | Pending | | | Targets, definitions, candidate sources |
 | G2 | Pending | | | Critical: data sufficiency and scope |
-| G3 | Pending | | | |
-| G4 | Pending | | | Critical |
-| G5 | Pending | | | Critical |
-| G6 | Pending | | | Critical |
+| G3 | Pending | | | System contracts locked |
+| G4 | Pending | | | Baseline benchmarked |
+| G5 | Pending | | | Model performance preregistered & verified |
+| G6 | Pending | | | User QA & security passed |
 | G7 | Pending | | | Optional branch |
 | G8 | Pending | | | Optional branch |
 | G9 | Pending | | | Critical |
@@ -81,26 +81,31 @@ Record GO or NO-GO with the evidence that justified it.
 | D-001 | 2026-10-11 | Follow the Vibe Coding Workflow; no skipping from idea to deploy; one gate closes each phase | Accepted | R-WF-01, `task.md` |
 | D-002 | 2026-10-11 | The documentation set is six files in `docs/`, plus `docs/research/`, `docs/adr/`, `docs/data-cards/` and `docs/model-cards/` | Accepted | `architecture.md` section 8 |
 | D-003 | 2026-10-11 | Prediction targets are named PT1 to PT6 and specified separately | Accepted | PRD section 5 |
-| D-004 | 2026-10-11 | Scope hypothesis H0: India, software, data and ML roles, `guaranteed_cash_annual`, INR nominal | Proposed. Market confirmed by the user on 2026-10-11 (Q-001); occupation family and measure still open (Q-008, Q-009). Decided at G2 | ADR-0001, ADR-0002 |
+| D-004 | 2026-10-13 | Scope hypothesis H0 ratified: India, software, data and ML roles (deliberately limited scope), `guaranteed_cash_annual` normalized to INR LPA | Accepted (ratified at T0.02; subject to G2 sufficiency gate) | ADR-0001, ADR-0002 |
 | D-005 | 2026-10-11 | Candidate stack and the benchmark ladder adopted as proposals | Proposed | ADR-0003, ADR-0004 |
 | D-006 | 2026-10-11 | Visual direction: the Span, cobalt on cool paper with blue-black ink, IBM Plex pairing | Proposed; confirm at T0.05 | `design.md` |
-| D-007 | 2026-10-11 | Evidence grades A, B, C plus abstention; thresholds set at G5 | Proposed | PRD FR-19 |
+| D-007 | 2026-10-11 | Evidence grades A, B, C plus abstention; thresholds set at G5 | Superseded by D-010 | PRD FR-19 |
 | D-008 | 2026-10-11 | The research prototype has no web UI; the UI is built in Phase 9 | Proposed | PRD section 6 |
+| D-009 | 2026-10-13 | Project identity finalized as **ArthaIQ** (Compensation Intelligence · India-first; Tagline: "Ethical Compensation Intelligence for Tech Careers"; Brand promise: evidence-backed compensation distributions, transparent uncertainty, actionable career decision support; Signature experience: The Span) | Accepted | `README.md` |
+| D-010 | 2026-10-13 | Evidence Quality Framework decoupled into independent **Source Quality** and **Prediction Support** dimensions. Critical invariant: a sample-size threshold cannot, by itself, justify an evidence grade or estimate validity; representativeness, deduplication, independence, recency, and target consistency are required | Accepted | `README.md`, `rules.md` |
+| D-011 | 2026-10-13 | Modeling strategy: Initial baseline uses conditional empirical quantiles and regularized baseline (Ridge / Stratified Medians); advanced models (CatBoost/LightGBM quantile regression) deferred until data sufficiency gate G2 | Accepted | ADR-0004 |
+| D-012 | 2026-10-13 | Uncertainty estimation: P10/P50/P90 quantiles plus separately validated prediction intervals (conformal prediction) | Accepted | ADR-0005 |
+| D-013 | 2026-10-13 | Interface and deployment: Research API and minimal demonstration of The Span; local, reproducible research pipeline before cloud infrastructure | Accepted | ADR-0009 |
 
 ## 6. Open questions
 
 | ID | Question | Why it matters | Blocks | Status |
 |---|---|---|---|---|
-| Q-001 | Which market first: India, the US, or global? Default H0 is India. | Changes sources, definitions, law and models | G2, ADR-0001 | **Answered 2026-10-11: India first** (user choice). Still subject to the G2 sufficiency gate |
-| Q-002 | Team size, hours per week, and budget for data and hosting? | Effort estimates, deployment profile | T0.03, ADR-0009 | **Open, blocking** |
-| Q-003 | What are your machine's CPU, RAM and GPU? | Chooses deployment profile A, B or C | T3.01 | Open |
-| Q-004 | Who is the primary persona, and can you reach some of them for interviews? | Defines the user | T1.03, T1.04 | Open |
-| Q-005 | Do you already have licensed or proprietary pay data, partners, or a user base? | The data ceiling | T1.08, T2.02 | Open |
-| Q-006 | Is qualified legal counsel available for terms and privacy review, and who signs off? | Licence gate, privacy compliance | T2.02, T9.16 | Open |
-| Q-007 | What organizational form and monetization are intended? | Many datasets restrict commercial use `[U]` | T2.02 | Open |
-| Q-008 | Confirm the first occupation family (software, data, ML). | Scope | G2 | Open |
-| Q-009 | Which pay figure do users think in: fixed, CTC, in-hand or total? | Measure choice | ADR-0002, T1.04 | Open |
-| Q-010 | English only at launch? | Localization | After PB | Open, non-blocking |
+| Q-001 | Which market first: India, the US, or global? Default H0 is India. | Changes sources, definitions, law and models | G2, ADR-0001 | **Answered 2026-10-11: India first** (tech roles). Subject to G2 sufficiency gate |
+| Q-002 | Team size, hours per week, and budget for data and hosting? | Effort estimates, deployment profile | T0.03, ADR-0009 | **Answered 2026-10-13:** 1 developer + AI assistant; local pipeline first before cloud infra; research/bootstrapped budget |
+| Q-003 | What are your machine's CPU, RAM and GPU? | Chooses deployment profile A, B or C | T3.01 | **Answered 2026-10-13:** Local developer machine, CPU-based tabular ML pipeline (Profile A/B); no high-end GPU needed |
+| Q-004 | Who is the primary persona, and can you reach some of them for interviews? | Defines the user | T1.03, T1.04 | **Answered 2026-10-13:** Indian tech professionals (SWE, Data, ML) evaluating offers or benchmarking pay; interview guide in T1.03 |
+| Q-005 | Do you already have licensed or proprietary pay data, partners, or a user base? | The data ceiling | T1.08, T2.02 | **Answered 2026-10-13:** Approved public/disclosed sources first (PLFS, disclosures, open data); strict source-level licensing |
+| Q-006 | Is qualified legal counsel available for terms and privacy review, and who signs off? | Licence gate, privacy compliance | T2.02, T9.16 | **Answered 2026-10-13:** Conservative adherence to terms; no scraping of gated sites; strict source-level governance and anonymization |
+| Q-007 | What organizational form and monetization are intended? | Many datasets restrict commercial use `[U]` | T2.02 | **Answered 2026-10-13:** Research / educational tool first; permissive/research licensing; no commercial data breach |
+| Q-008 | Confirm the first occupation family (software, data, ML). | Scope | G2 | **Answered 2026-10-13:** Software Engineering, Data Science, ML/AI roles (deliberately limited initial scope) |
+| Q-009 | Which pay figure do users think in: fixed, CTC, in-hand or total? | Measure choice | ADR-0002, T1.04 | **Answered 2026-10-13:** Annual guaranteed cash compensation (`guaranteed_cash_annual`), normalized to INR LPA |
+| Q-010 | English only at launch? | Localization | After PB | **Answered 2026-10-13:** Yes, English only at prototype and initial launch |
 
 ## 7. Assumptions
 
@@ -164,6 +169,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-11 | T0.00 | Generated the six documents from the master research prompt and the workflow template | `docs/PRD.md`, `architecture.md`, `rules.md`, `design.md`, `task.md`, `memory.md` | Contrast ratios and wireframe widths checked by script; cross-references and table structure checked by script (0 problems); both Mermaid diagrams parsed with the Mermaid parser | Q-001 to Q-010; KI-001 to KI-003 | T0.01 |
 | 2026-10-11 | T0.02 (partial) | Recorded the user's answer to Q-001: India first. Updated D-004, A-002 and Q-001 status. T0.03 will carry it into the PRD once T0.01 and T0.02 are fully done. | `docs/memory.md` | Edits verified | Q-002 to Q-010 remain | T0.01 |
 | 2026-10-13 | T0.01, T0.04, T0.07 | Initialized the repository scaffold: created all directories per `architecture.md` section 8; saved the master research prompt as `docs/research/00-master-research-prompt.md`; copied all 6 docs to `docs/`; created ADR-0001 to ADR-0009 stubs in `docs/adr/`; created `.gitignore`, `README.md`, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, `.github/workflows/ci.yml`, PR template; created `__init__.py` files for all Python packages and `.gitkeep` files for tracked-but-empty directories. | All files listed above | Structure verified by directory listing; no secrets or data committed; `.gitignore` excludes `data/`, `.env`, `artifacts/` | Q-002 to Q-010 remain open; NEXT TASK is T0.02 | T0.02 |
+| 2026-10-13 | T0.02 | Ratified project identity as **ArthaIQ**; answered blocking foundational questions Q-001 through Q-010; recorded architectural decisions D-004, D-009 through D-013 (modeling ladder, independent source quality vs prediction support framework, conformal uncertainty, local pipeline). Updated README.md with comprehensive content and decoupled evidence framework. | `docs/memory.md`, `README.md`, `docs/task.md` | All 10 questions resolved; D-009 to D-013 recorded; NEXT TASK moved to T0.03 | None blocking Phase 0 | T0.03 |
 
 ## 13. How to update this file
 

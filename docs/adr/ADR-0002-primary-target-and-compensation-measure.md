@@ -30,9 +30,9 @@ Alternatives:
 
 ## Decision
 
-**Pending.** Deferred to T2.05 (field mapping) and T2.11 (final ADR update), once the CTC reconciliation is done and source fields are mapped.
+**Measure: `guaranteed_cash_annual` (normalized to nominal INR Lakhs Per Annum / LPA) — confirmed by the user on 2026-10-13 (Q-009, T0.02).**
 
-The decision rule: choose the measure that is (a) mappable from the most `approved` sources, (b) best supported by the sufficiency analysis (T2.09), and (c) has the clearest canonical definition.
+Field mapping and component reconciliation occur at T2.05, and final sufficiency confirmation is validated at G2 (T2.11). If approved sources cannot reliably isolate guaranteed cash from bundled CTC, the field reconciliation policy is triggered before any modeling.
 
 ## Consequences
 

@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T0.02**
+**NEXT TASK: T0.03**
 
 ## How to use this file
 
@@ -52,7 +52,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 - [x] **T0.00** [AI] Generate the documentation set v0.1 (done 2026-10-11)
 - [x] **T0.01** [AI+HUMAN] Save the master research prompt as `docs/research/00-master-research-prompt.md`; initialize the repository scaffold with all directories and companion files. (done 2026-10-13)
   Output: full repo skeleton committed. Done when: all directories exist, docs copied to `docs/`, master prompt saved, ADR stubs created, .gitignore and README present.
-- [ ] **T0.02** [HUMAN] Answer Q-001 to Q-006 in `memory.md`, or record a deliberate deferral for each.
+- [x] **T0.02** [HUMAN] Answer Q-001 to Q-006 in `memory.md`, or record a deliberate deferral for each. (done 2026-10-13)
   Output: answers in `memory.md`. Done when: no blocking question is open without a reason. Needs: T0.01. Size: S.
 - [ ] **T0.03** [AI+HUMAN] Review `PRD.md`; resolve what T0.02 settles; bump to v0.2.
   Output: PRD v0.2. Done when: scope table H0 reflects the answers. Needs: T0.02. Size: S.

@@ -33,9 +33,10 @@ Alternatives considered:
 
 ## Decision
 
-**Market: India — confirmed by the user on 2026-10-11 (Q-001).** This is still subject to the G2 data sufficiency gate; if no India combination meets the sufficiency criteria (T2.09), the scope is re-opened.
+**Market: India — confirmed by the user on 2026-10-11 (Q-001).**
+**Occupation family: Software engineering, data and ML/AI roles (deliberately limited initial scope) — confirmed by the user on 2026-10-13 (Q-008, T0.02).**
 
-Occupation family and measure remain open; they are decided at G2 (T2.11) based on the data sufficiency analysis. The choice must be the combination with the best sufficiency result using only `approved` sources.
+This scope remains subject to the G2 data sufficiency gate; if no India tech combination meets the sufficiency criteria (T2.09), the scope is re-opened.
 
 If no combination meets the sufficiency criteria, the answer is **no-go on modelling** and the project switches to the data acquisition programme (T2.10).
 
