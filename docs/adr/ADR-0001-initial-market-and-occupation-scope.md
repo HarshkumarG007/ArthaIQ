@@ -33,7 +33,9 @@ Alternatives considered:
 
 ## Decision
 
-**Pending.** Decision deferred to G2 (T2.11) based on the data sufficiency analysis (T2.09). The choice of market, occupation family and measure must be the combination with the best data sufficiency result using only `approved` sources.
+**Market: India — confirmed by the user on 2026-10-11 (Q-001).** This is still subject to the G2 data sufficiency gate; if no India combination meets the sufficiency criteria (T2.09), the scope is re-opened.
+
+Occupation family and measure remain open; they are decided at G2 (T2.11) based on the data sufficiency analysis. The choice must be the combination with the best sufficiency result using only `approved` sources.
 
 If no combination meets the sufficiency criteria, the answer is **no-go on modelling** and the project switches to the data acquisition programme (T2.10).
 
