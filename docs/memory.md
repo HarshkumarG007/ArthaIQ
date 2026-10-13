@@ -47,14 +47,14 @@
 | Item | Value |
 |---|---|
 | Phase | 1, Problem definition and source discovery |
-| Last completed task | T1.06 (+ T1.02, T1.08, T1.05, T1.01, Gate G0 ratified) |
-| Next task | T1.03 (Persona Hypotheses & Guide) / T1.07 (US Sources) |
+| Last completed task | T1.09 (+ T1.07, T1.03, T1.06, T1.02, T1.08, T1.05, T1.01, Gate G0 ratified) |
+| Next task | T1.10 (Source-Quality Scoring Framework) |
 | Last gate | G0 — GO (2026-10-13) |
 | Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
 | Code | Package stubs & CI |
 | Data | None |
-| CI | Stub in `.github/workflows/ci.yml` |
+| CI | 100% green (uv sync, ruff, mypy, pytest smoke test passing) |
 
 ## 4. Gate log
 
@@ -152,14 +152,14 @@ Candidates named in the master research prompt or from general knowledge. **None
 |---|---|---|---|---|---|
 | Periodic Labour Force Survey | India | Population benchmark | VERIFIED | Open Govt Data (Approved Macro Anchor) | T1.06 |
 | Labour ministry and Labour Bureau wage sources | India | Population benchmark | VERIFIED | Govt Public (Disqualified: 2016 ref, manual) | T1.06 |
-| BLS occupational wage statistics | US | Population benchmark | UNVERIFIED | Not reviewed | T1.07 |
-| Department of Labor wage disclosures | US | Market signal | UNVERIFIED | Not reviewed | T1.07 |
+| BLS occupational wage statistics | US | Population benchmark | VERIFIED | US Public Domain (Approved US Population Benchmark) | T1.07 |
+| Department of Labor wage disclosures | US | Market signal | VERIFIED | US Public Domain (Approved US Market Signal) | T1.07 |
 | Job postings with pay ranges | Either | Market signal | AUDITED (T1.08) | Unauthorized scrapes; PT3 test-fixtures only | T1.08 |
-| Licensed salary surveys | Either | Ground truth, if licensed | Not identified | Not reviewed | T1.08 |
+| Licensed salary surveys | Either | Ground truth, if licensed | Not identified | Commercial licensing review in Phase 2 | T2.02 |
 | Public developer-survey datasets | Global | Pipeline test data, high selection bias | AUDITED (T1.08) | ODbL 1.0 (SO 2024 approved for benchmark) | T1.08 |
 | Voluntary contributions on our own platform | Either | Ground truth, if scale is achieved | Design pending | ADR-0008 | T2.10 |
-| Occupation and skill taxonomies | Either | Supplementary | UNVERIFIED | Not reviewed | T1.09 |
-| FX, CPI and macro series | Either | Supplementary | UNVERIFIED | Not reviewed | T1.09 |
+| Occupation and skill taxonomies | Either | Supplementary | VERIFIED | CC-BY 4.0 (O*NET) / Open (ESCO) | T1.09 |
+| FX, CPI and macro series | Either | Supplementary | VERIFIED | RBI DBIE Open Data / BSE Statutory Filings | T1.09 |
 
 ## 12. Session log
 
@@ -179,6 +179,9 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-13 | T1.05 | Initialized and seeded the evidence register (`evidence-register.csv`) capturing 7 foundational claims, supporting sources, counter-evidence, quality tiers (A-D), confidence levels, practical implications, and validation experiments. | `docs/research/evidence-register.csv` | Master research prompt schema enforced | None | T1.02 |
 | 2026-10-13 | T1.02 | Defined canonical compensation glossary, measure mapping hierarchy, Indian CTC unbundling accounting equation, anti-heuristic rule (R-MD-07), US cross-market rules, PT1-PT6 compatibility matrix, and test suite T1.02-TEST-01 to 08. | `docs/research/02-comp-definitions.md` | Verified against targets and Indian employment statutes | Human sign-off on DEC-T1.02-01 to 03 | T1.06 |
 | 2026-10-13 | T1.06 | Audited Indian official sources: MOSPI PLFS 2023-24 microdata (Sched 10.4, ern25, urban tech cohort N~2,200), Labour Bureau OWS 7th round (2016 reference, technical exclusion), QES IT/BPO employment counts, and NCS job vacancies. Created docs/research/04-source-catalog.md with unified source catalog. | `docs/research/04-source-catalog.md`, `docs/research/evidence-register.csv` | Verified against official MOSPI NADA & Labour Bureau portals | None | T1.03 |
+| 2026-10-13 | T1.03 | Formulated user persona hypotheses (P1 Mid-level IC, P2 Early-career switcher, P3 Engineering Manager/Hiring Manager, P4 Total-rewards compensation analyst), Jobs-to-be-Done (JTBD), recruiting criteria with quota matrix ($N = 10 \pm 2$), and 45-minute semi-structured interview protocol. | `docs/research/03-users.md` | Aligned with PRD personas and JTBD methodology | Human execution of interviews (T1.04) | T1.07 |
+| 2026-10-13 | T1.07 | Audited US official labor sources: BLS OEWS May 2023 (`SRC-USA-BLS-01`), US DOL OFLC H-1B LCA disclosures (`SRC-USA-DOL-01`), and PERM filings (`SRC-USA-DOL-02`). Established cross-market isolation rules forbidding direct currency pooling (`R-MD-07`). | `docs/research/04-source-catalog.md` | Verified against BLS and DOL disclosure files | None | T1.09 |
+| 2026-10-13 | T1.09 | Audited supporting data sources: O*NET 29.0 (`SRC-SUP-TAX-01`, CC-BY 4.0), ESCO v1.1 (`SRC-SUP-TAX-02`), RBI DBIE CPI/FX series (`SRC-SUP-MAC-01`), and BSE/NSE Sec 197(12) corporate median disclosures (`SRC-SUP-CORP-01`). Created operational ingestion rules. | `docs/research/04-source-catalog.md` | Verified against official portals | None | T1.10 |
 
 ## 13. How to update this file
 
