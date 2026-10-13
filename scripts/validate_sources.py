@@ -26,6 +26,7 @@ MANDATORY_FIELDS = [
     "pipeline_routing",
     "sqs",
     "sqsf_tier",
+    "canonical_field_mappings",
 ]
 
 VALID_STATUSES = {
@@ -34,6 +35,39 @@ VALID_STATUSES = {
     "restricted",
     "rejected",
     "disqualified",
+}
+
+MANDATORY_MAPPING_KEYS = [
+    "source_field",
+    "canonical_measure",
+    "comp_type",
+    "period",
+    "tax_basis",
+    "admissible_targets",
+    "unbundling_status",
+]
+
+VALID_CANONICAL_MEASURES = {
+    "guaranteed_cash_annual",
+    "basic_salary_annual",
+    "fixed_allowances_annual",
+    "ctc_annual",
+    "total_comp_annual",
+    "advertised_min_annual",
+    "advertised_max_annual",
+    "advertised_range_annual",
+    "take_home_annual",
+    "variable_cash_annual",
+    "equity_annualized_grant",
+    "employer_contributions_annual",
+    "prevailing_wage_annual",
+    "sampling_weight",
+    "experience_months",
+    "cpi_deflator",
+    "spot_fx_rate",
+    "skill_taxonomy",
+    "non_comp_feature",
+    "quarantined",
 }
 
 
@@ -89,8 +123,46 @@ def validate_sources(sources_dir: Path) -> int:
         else:
             errors.append(f"INVALID LICENCE in {path.name} ({source_id}): 'licence' must be a dict")
 
+        # Validate canonical field mappings (Task T2.05 / R-MD-07)
+        mappings = data.get("canonical_field_mappings")
+        if not isinstance(mappings, list) or len(mappings) == 0:
+            errors.append(
+                f"INVALID MAPPINGS in {path.name} ({source_id}): 'canonical_field_mappings' must be a non-empty list"
+            )
+        else:
+            for idx, mapping in enumerate(mappings):
+                if not isinstance(mapping, dict):
+                    errors.append(f"MAPPING NOT A DICT in {path.name} ({source_id}) at index {idx}")
+                    continue
+                for m_key in MANDATORY_MAPPING_KEYS:
+                    if m_key not in mapping:
+                        errors.append(
+                            f"MISSING MAPPING KEY in {path.name} ({source_id}) mapping {idx}: '{m_key}' is required"
+                        )
+                c_meas = mapping.get("canonical_measure")
+                if c_meas not in VALID_CANONICAL_MEASURES:
+                    errors.append(
+                        f"INVALID CANONICAL MEASURE in {path.name} ({source_id}) mapping {idx}: '{c_meas}'"
+                    )
+
+                # Rule R-MD-07 enforcement: Unbundled CTC cannot be admitted to PT1/PT2
+                unbundling = mapping.get("unbundling_status")
+                targets = mapping.get("admissible_targets", [])
+                if (
+                    c_meas == "ctc_annual"
+                    and unbundling == "unbundled_aggregate"
+                    and any(t in {"PT1", "PT2"} for t in targets)
+                ):
+                    errors.append(
+                        f"R-MD-07 VIOLATION in {path.name} ({source_id}): unbundled aggregate CTC admitted to PT1/PT2 targets: {targets}"
+                    )
+                if c_meas == "quarantined" and not mapping.get("exclusion_reason"):
+                    errors.append(
+                        f"MISSING EXCLUSION REASON in {path.name} ({source_id}) for quarantined field '{mapping.get('source_field')}'"
+                    )
+
         print(
-            f"  [OK] {source_id:<16} | Status: {status:<15} | SQS: {str(sqs):<5} | {path.name}"
+            f"  [OK] {source_id:<16} | Status: {status:<15} | SQS: {str(sqs):<5} | Mapped: {len(mappings or []):<2} | {path.name}"
         )
 
     print("\n" + "=" * 80)

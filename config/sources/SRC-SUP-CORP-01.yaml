@@ -1,56 +1,65 @@
-# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-SUP-CORP-01
-#  BSE / NSE Statutory Corporate Filings (Section 197(12) MRE Disclosures)
-# =============================================================================
-
-source_id: "SRC-SUP-CORP-01"
-short_name: "BSE/NSE Corporate Disclosures"
-long_name: "BSE / NSE Listed IT Firm Statutory Annual Filings (Section 197(12) Median Remuneration)"
-provider: "Publicly Listed Indian Technology Companies / SEBI / BSE / NSE"
-primary_url: "https://www.bseindia.com/corporates/ann.html"
-download_url: "https://www.bseindia.com/corporates/ann.html"
-country: "IN"
-currency_primary: "INR"
+source_id: SRC-SUP-CORP-01
+short_name: BSE/NSE Corporate Disclosures
+long_name: BSE / NSE Listed IT Firm Statutory Annual Filings (Section 197(12) Median
+  Remuneration)
+provider: Publicly Listed Indian Technology Companies / SEBI / BSE / NSE
+primary_url: https://www.bseindia.com/corporates/ann.html
+download_url: https://www.bseindia.com/corporates/ann.html
+country: IN
+currency_primary: INR
 reference_period:
-  fiscal_year: "FY2023-24"
-  filing_date_window: "2024-05 to 2024-09"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  fiscal_year: FY2023-24
+  filing_date_window: 2024-05 to 2024-09
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "STATUTORY-PUBLIC-DISCLOSURE"
-  name: "Companies Act 2013 Statutory Public Disclosures (Sec 197(12) / SEBI LODR)"
-  terms_url: "https://www.mca.gov.in/content/mca/global/en/acts-rules/companies-act/companies-act-2013.html"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: STATUTORY-PUBLIC-DISCLOSURE
+  name: Companies Act 2013 Statutory Public Disclosures (Sec 197(12) / SEBI LODR)
+  terms_url: https://www.mca.gov.in/content/mca/global/en/acts-rules/companies-act/companies-act-2013.html
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "Public statutory disclosures. Attribution to company annual report required."
+  redistribution_conditions: Public statutory disclosures. Attribution to company
+    annual report required.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "corporate_enterprise_anchor"
+ingestion_status: approved
+ingestion_role: corporate_enterprise_anchor
 pipeline_routing:
-  - "it_services_enterprise_median_prior"
-  - "company_tier_wage_calibration"
-  - "employer_level_benchmark"
+- it_services_enterprise_median_prior
+- company_tier_wage_calibration
+- employer_level_benchmark
 prohibited_routing:
-  - "PT1_direct_training"
-notes: >
-  Audited statutory public figures covering 100% of permanent workforce in listed
+- PT1_direct_training
+notes: 'Audited statutory public figures covering 100% of permanent workforce in listed
   Indian tech giants (TCS, Infosys, Wipro, LTI Mindtree, HCL Tech, Zomato, PB Fintech).
-  Measures Median Remuneration of Employees (MRE) and % increase.
-  Provides legally verified enterprise-level median cash anchors to calibrate
-  IT services baseline compensation bands. Lacks individual worker line items.
-sqs: 83.8
-sqsf_tier: "TIER_3_MARKET_SIGNAL"
+  Measures Median Remuneration of Employees (MRE) and % increase. Provides legally
+  verified enterprise-level median cash anchors to calibrate IT services baseline
+  compensation bands. Lacks individual worker line items.
 
+  '
+sqs: 83.8
+sqsf_tier: TIER_3_MARKET_SIGNAL
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for enterprise median prior and wage-tier calibration."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for enterprise median prior and wage-tier calibration.
+canonical_field_mappings:
+- source_field: median_employee_remuneration_inr_lpa
+  canonical_measure: ctc_annual
+  comp_type: total_budget
+  currency: INR
+  period: annual
+  tax_basis: employer_cost
+  admissible_targets:
+  - it_services_enterprise_median_prior
+  - company_tier_wage_calibration
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: 'Quarantined from individual PT1 training per R-MD-07: firm-level
+    median aggregate CTC encompassing all roles and statutory overhead; admitted only
+    as macro enterprise prior anchor.'

@@ -1,68 +1,105 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register
-#  Source ID: SRC-IND-OFF-01
-#  Name: MOSPI Periodic Labour Force Survey (PLFS) 2023-24 Microdata
-# =============================================================================
-#
-#  T2.02 Licence Review — Status: APPROVED (Macro Anchor use only)
-#  Governing rule: R-DA-01 (licence gate before any ingestion)
-#  Cross-reference: 04-source-catalog.md §2, 05-source-scoring.md §4.1 (SQS=82.6)
-#  SQSF Hard Gates: D1=5, D2=3, D3=5 — ALL PASSED
-
-source_id: "SRC-IND-OFF-01"
-short_name: "MOSPI PLFS 2023-24"
-long_name: "Periodic Labour Force Survey Annual Microdata 2023-24 (Schedule 10.4)"
-provider: "Ministry of Statistics and Programme Implementation (MOSPI), Government of India"
-primary_url: "https://microdata.gov.in/NADA/index.php/catalog/213"
-dataset_reference_id: "DDI-IND-CSO-PLFS-2023-24"
-country: "IN"
-currency: "INR"
+source_id: SRC-IND-OFF-01
+short_name: MOSPI PLFS 2023-24
+long_name: Periodic Labour Force Survey Annual Microdata 2023-24 (Schedule 10.4)
+provider: Ministry of Statistics and Programme Implementation (MOSPI), Government
+  of India
+primary_url: https://microdata.gov.in/NADA/index.php/catalog/213
+dataset_reference_id: DDI-IND-CSO-PLFS-2023-24
+country: IN
+currency: INR
 reference_period:
-  start: "2023-07-01"
-  end: "2024-06-30"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2023-07-01'
+  end: '2024-06-30'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "OGL-India-1.0"
-  name: "Open Government Data Licence (India) — MOSPI Data Dissemination Policy"
-  terms_url: "https://mospi.gov.in/data-dissemination-policy"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: OGL-India-1.0
+  name: Open Government Data Licence (India) — MOSPI Data Dissemination Policy
+  terms_url: https://mospi.gov.in/data-dissemination-policy
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "Attribution to MOSPI required. Data must not be used to identify individual respondents."
+  redistribution_conditions: Attribution to MOSPI required. Data must not be used
+    to identify individual respondents.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
-  personal_data_notes: >
-    Microdata contains individual-level records. Employer names are suppressed.
-    Geographic codes are at NSS region / town-size class (not street address).
-    Individuals are not identifiable by name, Aadhaar, or phone number.
+  personal_data_notes: 'Microdata contains individual-level records. Employer names
+    are suppressed. Geographic codes are at NSS region / town-size class (not street
+    address). Individuals are not identifiable by name, Aadhaar, or phone number.
     DPDPA 2023 applicability: LOW (anonymized government statistical microdata).
+
+    '
   qualified_counsel_required: false
-  qualified_counsel_notes: "Conservative position: government statistical microdata under open government data policy."
-
-ingestion_status: "approved"
-ingestion_role: "macro_anchor"
+  qualified_counsel_notes: 'Conservative position: government statistical microdata
+    under open government data policy.'
+ingestion_status: approved
+ingestion_role: macro_anchor
 pipeline_routing:
-  - "PT6_macro_context"
-  - "bayesian_prior_floor"
-  - "population_benchmark_layer"
+- PT6_macro_context
+- bayesian_prior_floor
+- population_benchmark_layer
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-notes: >
-  PLFS microdata is admitted strictly as a macro wage anchor and population
+- PT1_direct_training
+- PT2_direct_training
+notes: 'PLFS microdata is admitted strictly as a macro wage anchor and population
   benchmark. It must never be concatenated directly into the PT1 training dataset.
-  Ingestion requires parsing fixed-width layout (Data_LayoutPLFS_2023-24.xlsx)
-  and applying sampling weights (subsample_mult / 100).
-sqs: 82.6
-sqsf_tier: "TIER_2_POPULATION_BENCHMARK"
+  Ingestion requires parsing fixed-width layout (Data_LayoutPLFS_2023-24.xlsx) and
+  applying sampling weights (subsample_mult / 100).
 
+  '
+sqs: 82.6
+sqsf_tier: TIER_2_POPULATION_BENCHMARK
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Initial licence review completed. Status set to approved."
+- date: '2026-10-13'
+  task: T2.02
+  action: Initial licence review completed. Status set to approved.
+canonical_field_mappings:
+- source_field: gross_earnings_regular_salaried_monthly
+  canonical_measure: guaranteed_cash_annual
+  comp_type: fixed
+  currency: INR
+  period: monthly
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT6_macro_context
+  - bayesian_prior_floor
+  - population_benchmark
+  unbundling_status: direct_measure
+  exclusion_reason: null
+  transformation: annualize_monthly_x12
+- source_field: gross_earnings_casual_daily
+  canonical_measure: quarantined
+  comp_type: casual_wage
+  currency: INR
+  period: daily
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: quarantined
+  exclusion_reason: Casual daily wage labor in informal sector is excluded from technology
+    compensation targets.
+- source_field: net_earnings_self_employed_monthly
+  canonical_measure: quarantined
+  comp_type: self_employed_proprietor
+  currency: INR
+  period: monthly
+  tax_basis: net_post_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: quarantined
+  exclusion_reason: Proprietor business earnings conflate capital returns with labor
+    pay and do not represent contractual tech employment.
+- source_field: urban_sampling_weight
+  canonical_measure: sampling_weight
+  comp_type: weight
+  currency: null
+  period: not_applicable
+  tax_basis: not_applicable
+  admissible_targets:
+  - population_weight
+  unbundling_status: direct_measure
+  exclusion_reason: null

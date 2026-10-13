@@ -1,58 +1,88 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-USA-DOL-01
-#  US DOL OFLC H-1B LCA Disclosures
-# =============================================================================
-
-source_id: "SRC-USA-DOL-01"
-short_name: "US DOL H-1B LCA Disclosures"
-long_name: "US DOL OFLC Labor Condition Application (LCA) H-1B Disclosure Data — FY2023/2024"
-provider: "Office of Foreign Labor Certification (OFLC), Employment and Training Administration (ETA), U.S. Department of Labor"
-primary_url: "https://www.dol.gov/agencies/eta/foreign-labor/performance"
-country: "US"
-currency_primary: "USD"
+source_id: SRC-USA-DOL-01
+short_name: US DOL H-1B LCA Disclosures
+long_name: US DOL OFLC Labor Condition Application (LCA) H-1B Disclosure Data — FY2023/2024
+provider: Office of Foreign Labor Certification (OFLC), Employment and Training Administration
+  (ETA), U.S. Department of Labor
+primary_url: https://www.dol.gov/agencies/eta/foreign-labor/performance
+country: US
+currency_primary: USD
 reference_period:
-  fiscal_year: "2023-2024"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  fiscal_year: 2023-2024
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "CC0-1.0"
-  name: "US Federal Government Work — Public Domain (17 USC 105)"
-  terms_url: "https://www.dol.gov/agencies/eta/foreign-labor/performance"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: CC0-1.0
+  name: US Federal Government Work — Public Domain (17 USC 105)
+  terms_url: https://www.dol.gov/agencies/eta/foreign-labor/performance
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "Public domain. Attribution to DOL recommended."
+  redistribution_conditions: Public domain. Attribution to DOL recommended.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
-  personal_data_notes: >
-    Employer names and worksite locations are publicly disclosed by law. Worker
-    personal identities are not included. DPDPA 2023: Not applicable (US federal data).
+  personal_data_notes: 'Employer names and worksite locations are publicly disclosed
+    by law. Worker personal identities are not included. DPDPA 2023: Not applicable
+    (US federal data).
+
+    '
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "us_regulatory_market_signal"
+ingestion_status: approved
+ingestion_role: us_regulatory_market_signal
 pipeline_routing:
-  - "us_cross_market_benchmark"
-  - "employer_tier_us_anchoring"
+- us_cross_market_benchmark
+- employer_tier_us_anchoring
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-  - "india_model_features"
-notes: >
-  600,000+ certified LCA applications per year. Measures contractually committed
+- PT1_direct_training
+- PT2_direct_training
+- india_model_features
+notes: '600,000+ certified LCA applications per year. Measures contractually committed
   base salary (WAGE_RATE_OF_PAY_FROM). Excellent for US employer-tier compensation
-  benchmarks. Key columns: EMPLOYER_NAME, SOC_CODE, WAGE_RATE_OF_PAY_FROM,
-  WAGE_UNIT_OF_PAY, WORKSITE_CITY, WORKSITE_STATE.
-  Cross-market isolation enforced (R-MD-07).
-sqs: 74.4
-sqsf_tier: "TIER_3_MARKET_SIGNAL"
+  benchmarks. Key columns: EMPLOYER_NAME, SOC_CODE, WAGE_RATE_OF_PAY_FROM, WAGE_UNIT_OF_PAY,
+  WORKSITE_CITY, WORKSITE_STATE. Cross-market isolation enforced (R-MD-07).
 
+  '
+sqs: 74.4
+sqsf_tier: TIER_3_MARKET_SIGNAL
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for US market signal use. Public domain confirmed."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for US market signal use. Public domain confirmed.
+canonical_field_mappings:
+- source_field: wage_rate_of_pay_from
+  canonical_measure: guaranteed_cash_annual
+  comp_type: fixed
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - US_base_wage_signal
+  - US_PT3_offer_range
+  unbundling_status: direct_measure
+  exclusion_reason: US H-1B certified contractual base wage. Excluded from Indian
+    domestic model per R-MD-08.
+- source_field: wage_rate_of_pay_to
+  canonical_measure: advertised_max_annual
+  comp_type: fixed
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - US_PT3_offer_range
+  unbundling_status: direct_measure
+  exclusion_reason: US certified wage range upper bound; excluded from Indian model
+    per R-MD-08.
+- source_field: prevailing_wage
+  canonical_measure: prevailing_wage_annual
+  comp_type: statutory_floor
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - regulatory_wage_floor
+  unbundling_status: direct_measure
+  exclusion_reason: Regulatory prevailing wage floor; excluded from Indian domestic
+    training.

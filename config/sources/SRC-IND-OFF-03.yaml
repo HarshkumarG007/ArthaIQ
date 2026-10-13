@@ -1,53 +1,78 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-IND-OFF-03
-#  Labour Bureau Quarterly Employment Survey (QES / AQSE) — IT/BPO
-# =============================================================================
-
-source_id: "SRC-IND-OFF-03"
-short_name: "Labour Bureau QES IT/BPO"
-long_name: "All-India Quarterly Survey of Employment (AQSE) — IT/BPO Sector"
-provider: "Labour Bureau, Ministry of Labour and Employment, Government of India"
-primary_url: "https://www.labourbureau.gov.in/quarterly-employment-survey"
-country: "IN"
-currency: "INR"
+source_id: SRC-IND-OFF-03
+short_name: Labour Bureau QES IT/BPO
+long_name: All-India Quarterly Survey of Employment (AQSE) — IT/BPO Sector
+provider: Labour Bureau, Ministry of Labour and Employment, Government of India
+primary_url: https://www.labourbureau.gov.in/quarterly-employment-survey
+country: IN
+currency: INR
 reference_period:
-  start: "2023-01-01"
-  end: "2024-12-31"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2023-01-01'
+  end: '2024-12-31'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "OGL-India-1.0"
-  name: "Open Government Data — Ministry of Labour Publications"
-  terms_url: "https://www.labourbureau.gov.in/"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: OGL-India-1.0
+  name: Open Government Data — Ministry of Labour Publications
+  terms_url: https://www.labourbureau.gov.in/
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: false
-  redistribution_conditions: "Attribution required."
+  redistribution_conditions: Attribution required.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "macro_signal"
+ingestion_status: approved
+ingestion_role: macro_signal
 pipeline_routing:
-  - "macro_employment_context"
-  - "feature_engineering_sector_growth"
+- macro_employment_context
+- feature_engineering_sector_growth
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-notes: >
-  Reports aggregate employment headcounts only. Zero wage microdata.
-  Used strictly as an auxiliary signal for sector-level hiring trend features
-  (e.g. QoQ growth rate in IT employment as a macro covariate).
-sqs: 59.2
-sqsf_tier: "TIER_6_MACRO_CONTEXT_ONLY"
+- PT1_direct_training
+- PT2_direct_training
+notes: 'Reports aggregate employment headcounts only. Zero wage microdata. Used strictly
+  as an auxiliary signal for sector-level hiring trend features (e.g. QoQ growth rate
+  in IT employment as a macro covariate).
 
+  '
+sqs: 59.2
+sqsf_tier: TIER_6_MACRO_CONTEXT_ONLY
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for macro signal use only. No wage data; Hard Gate D2 failed."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for macro signal use only. No wage data; Hard Gate D2 failed.
+canonical_field_mappings:
+- source_field: estimated_total_employment
+  canonical_measure: non_comp_feature
+  comp_type: non_comp
+  currency: null
+  period: quarterly
+  tax_basis: not_applicable
+  admissible_targets:
+  - macro_covariates
+  unbundling_status: direct_measure
+  exclusion_reason: Macro employment headcount indicator; contains no individual compensation
+    figures.
+- source_field: regular_workers_pct
+  canonical_measure: non_comp_feature
+  comp_type: non_comp
+  currency: null
+  period: quarterly
+  tax_basis: not_applicable
+  admissible_targets:
+  - macro_covariates
+  unbundling_status: direct_measure
+  exclusion_reason: Macro permanent employment ratio indicator.
+- source_field: contract_workers_pct
+  canonical_measure: non_comp_feature
+  comp_type: non_comp
+  currency: null
+  period: quarterly
+  tax_basis: not_applicable
+  admissible_targets:
+  - macro_covariates
+  unbundling_status: direct_measure
+  exclusion_reason: Macro contract flexibility ratio indicator.

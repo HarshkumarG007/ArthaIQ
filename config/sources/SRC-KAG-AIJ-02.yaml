@@ -1,54 +1,70 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-KAG-AIJ-02
-#  Jobs In Data 2024 (ai-jobs.net / JobsInData.com)
-# =============================================================================
-
-source_id: "SRC-KAG-AIJ-02"
-short_name: "JobsInData 2024"
-long_name: "Jobs in Data — Global Data/AI Salary Dataset 2024 (ai-jobs.net / JobsInData)"
-provider: "ai-jobs.net / JobsInData.com"
-primary_url: "https://jobsindata.com/salaries/"
-kaggle_slug: "hummaamqasim/jobs-in-data"
-country: "GLOBAL"
-currency_primary: "USD"
+source_id: SRC-KAG-AIJ-02
+short_name: JobsInData 2024
+long_name: Jobs in Data — Global Data/AI Salary Dataset 2024 (ai-jobs.net / JobsInData)
+provider: ai-jobs.net / JobsInData.com
+primary_url: https://jobsindata.com/salaries/
+kaggle_slug: hummaamqasim/jobs-in-data
+country: GLOBAL
+currency_primary: USD
 reference_period:
-  start: "2020-01-01"
-  end: "2024-06-30"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2020-01-01'
+  end: '2024-06-30'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "CC0-1.0"
-  name: "Creative Commons Zero v1.0 Universal (Public Domain Dedication)"
-  terms_url: "https://creativecommons.org/publicdomain/zero/1.0/"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: CC0-1.0
+  name: Creative Commons Zero v1.0 Universal (Public Domain Dedication)
+  terms_url: https://creativecommons.org/publicdomain/zero/1.0/
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: true
-  redistribution_conditions: "No conditions. Public domain dedication."
+  redistribution_conditions: No conditions. Public domain dedication.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
-
-ingestion_status: "approved"
-ingestion_role: "benchmark_only"
+ingestion_status: approved
+ingestion_role: benchmark_only
 pipeline_routing:
-  - "feature_ablation_benchmark"
-  - "global_ppp_spread_benchmark"
+- feature_ablation_benchmark
+- global_ppp_spread_benchmark
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-notes: >
-  Larger global dataset than SRC-KAG-AIJ-01 (14,000+ records). India subset approx
-  N=600. Used for feature ablation experiments and cross-market structural analysis.
-  All figures in USD; cross-market isolation enforced. R-MD-07 applies.
-sqs: 60.8
-sqsf_tier: "TIER_4_SUPPLEMENTARY"
+- PT1_direct_training
+- PT2_direct_training
+notes: 'Larger global dataset than SRC-KAG-AIJ-01 (14,000+ records). India subset
+  approx N=600. Used for feature ablation experiments and cross-market structural
+  analysis. All figures in USD; cross-market isolation enforced. R-MD-07 applies.
 
+  '
+sqs: 60.8
+sqsf_tier: TIER_4_SUPPLEMENTARY
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Approved for global benchmark use. CC0 — no restrictions."
+- date: '2026-10-13'
+  task: T2.02
+  action: Approved for global benchmark use. CC0 — no restrictions.
+canonical_field_mappings:
+- source_field: salary
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: MIXED
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - global_exploratory_benchmark
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: Self-reported global total comp; excluded from Indian PT1 per
+    R-MD-08 and R-MD-07.
+- source_field: salary_in_usd
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: USD
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - global_exploratory_benchmark
+  unbundling_status: unbundled_aggregate
+  exclusion_reason: Annualized USD aggregate; excluded from Indian domestic models
+    per R-MD-08.

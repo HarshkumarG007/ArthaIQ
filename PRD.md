@@ -109,16 +109,18 @@ These are different tasks. They must never be merged or served through one undif
 | PT5 | Compensation after a transition or skill change | Distribution under changed profile inputs | Longitudinal worker record | Transition horizon: 12 to 24 months post-transition (settled T1.01) | Association, not cause. Extrapolation guard required. | Deferred, experimental |
 | PT6 | Current pay against a benchmark | Percentile band of the user's figure within PT1 | User-reported figure | As-of date | Needs a matching definition. Valid only as far as PT1 is valid. | RP, PB |
 
-**Target-source validity matrix `[H]`.** ✓ primary candidate · ~ usable with caveats or as a signal · ✗ unsuitable. T2.05 replaces this with an evidence-based version.
+**Empirical Target-Source Validity & Admissibility Matrix (Ratified at T2.05).**  
+Governed by `docs/research/02-comp-definitions.md`, Rule `R-MD-07` (Strict anti-heuristic CTC unbundling), Rule `R-DA-01` (Licence gate), and Rule `R-MD-08` (Cross-market/currency isolation).  
+Symbols: **✓ Approved Primary** (admitted to training/estimation) · **~ Auxiliary / Signal** (prior anchor, relative ratio, or macro covariate only; segregated from direct training) · **✗ Quarantined / Inadmissible** (blocked by accounting incompatibility, legal restriction, or empirical invalidity).
 
-| Target | Advertised range | Offered | Accepted | Self-reported current | Realized or earned | Official aggregate |
-|---|---|---|---|---|---|---|
-| PT1 | ~ | ✓ | ✓ | ~ | ✗ | ~ benchmark only |
-| PT2 | ~ | ✓ | ✓ | ✓ | ~ | ~ |
-| PT3 | ~ | ✓ | ~ truncated | ✗ | ✗ | ✗ |
-| PT4 | ✗ | ✓ with context fields | ~ | ✗ | ✗ | ✗ |
-| PT5 | ✗ | ~ | ~ | ~ needs longitudinal data | ~ | ✗ |
-| PT6 | ~ | ~ | ✓ | ✓ | ~ | ~ |
+| Prediction Target | Canonical Measure | Approved Primary Sources | Auxiliary Benchmark / Signal Sources | Quarantined / Inadmissible Sources & Governing Constraints |
+|---|---|---|---|---|
+| **PT1: Market Guaranteed Cash** (Conditional profile distribution) | `guaranteed_cash_annual` (Basic + Fixed Allowances, pre-tax gross) | `SRC-INT-VOL-01` (ArthaIQ Governed Itemized Intake) | `SRC-IND-OFF-01` (MOSPI PLFS Tech Salaried Wage Floor Anchor $\mu_{\text{floor}}$) | **✗ Excluded:** `SRC-KAG-SO-01/02` (Total Comp aggregate); `SRC-KAG-FIX-03` (Unbundled CTC, `R-MD-07`); `SRC-USA-*` (US USD datasets isolated from INR models, `R-MD-08`); `SRC-KAG-FIX-01/02` (Scraped ToS risk, `R-DA-01`); `SRC-KAG-REJ-01..03` (Synthetic/scraped, `R-MD-11`). |
+| **PT2: Comparable Cohort Range** (Descriptive quantiles with $k_{\text{min}} \ge 5$) | `guaranteed_cash_annual` | `SRC-INT-VOL-01` | `SRC-IND-OFF-01` (Official NSS tech cohort medians) | **✗ Excluded:** All unbundled CTC aggregates (`R-MD-07`); small cells below $k_{\text{min}} = 5$ (`R-DA-10`); all US USD datasets (`R-MD-08`). |
+| **PT3: Plausible Offer Distribution** (Search window: 90–180 days) | `advertised_range_annual` (`advertised_min`, `advertised_max`) | *None in Indian production* (Naukri `SRC-KAG-FIX-01` restricted to test fixtures only under `R-DA-01`) | `SRC-USA-DOL-01` (US certified H-1B wage offer range benchmark); `SRC-IND-OFF-04` (NCS job vacancy research prototype signal) | **✗ Quarantined:** `SRC-KAG-FIX-01` (ToS violation risk, `R-DA-01`); Indian production PT3 is deferred until legally licensed job board API feeds are contracted (T2.10). |
+| **PT4: Negotiation Scenarios** (Shift given context fields) | `guaranteed_cash_annual` + `signon_bonus_cash` | *None currently acquired* | *None* | **✗ Deferred:** Requires negotiation metadata, counter-offer history, and competing offer context. Arbitrary percentage multipliers (e.g. +15% for competing offer) are strictly prohibited (`R-MD-07`). |
+| **PT5: Career Transition Scenarios** (12–24m post-transition) | `guaranteed_cash_annual` (Longitudinal panel) | *None currently acquired* | `SRC-USA-DOL-02` (PERM tenure-wage slope benchmark); `SRC-KAG-SO-01` (Cross-sectional experience curve prior) | **✗ Deferred:** Cross-sectional self-reports cannot identify causal transition effects without longitudinal panel records (`R-EV-02`). Extrapolation guard required. |
+| **PT6: Current Pay Benchmark** (Percentile band of user figure) | `guaranteed_cash_annual` & `total_comp_annual` | `SRC-INT-VOL-01` | `SRC-KAG-SO-01/02` (Total Comp distribution); `SRC-USA-BLS-01` (US Total Comp distribution); `SRC-SUP-CORP-01` (BSE/NSE IT firm median MRE) | **✗ Quarantined:** `SRC-KAG-REJ-01` (Synthetic salaries, `R-MD-11`); unverified user claims without matching canonical definition. Current pay is compare-only, never a model feature (`R-MD-13`). |
 
 ---
 

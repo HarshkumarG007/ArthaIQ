@@ -1,71 +1,81 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-KAG-FIX-01
-#  jobs-on-naukricom (Kaggle — Scraped Naukri Postings)
-# =============================================================================
-
-source_id: "SRC-KAG-FIX-01"
-short_name: "Naukri Jobs Scraped Fixture"
-long_name: "Jobs on Naukri.com — Scraped Job Postings (Kaggle)"
-provider: "Naukri.com (InfoEdge India Ltd.) — scraped by third-party Kaggle uploader"
-primary_url: "https://www.kaggle.com/datasets/promptcloud/jobs-on-naukricom"
-country: "IN"
-currency_primary: "INR"
+source_id: SRC-KAG-FIX-01
+short_name: Naukri Jobs Scraped Fixture
+long_name: Jobs on Naukri.com — Scraped Job Postings (Kaggle)
+provider: Naukri.com (InfoEdge India Ltd.) — scraped by third-party Kaggle uploader
+primary_url: https://www.kaggle.com/datasets/promptcloud/jobs-on-naukricom
+country: IN
+currency_primary: INR
 reference_period:
-  start: "2022-01-01"
-  end: "2023-12-31"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2022-01-01'
+  end: '2023-12-31'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "CC0-1.0"
-  name: "CC0 1.0 (Claimed by uploader — DISPUTED)"
-  terms_url: "https://www.kaggle.com/datasets/promptcloud/jobs-on-naukricom"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: CC0-1.0
+  name: CC0 1.0 (Claimed by uploader — DISPUTED)
+  terms_url: https://www.kaggle.com/datasets/promptcloud/jobs-on-naukricom
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: false
   permits_research_use: false
   permits_commercial_use: false
   permits_redistribution: false
-  redistribution_conditions: "NOT APPLICABLE — source data rights belong to Naukri.com."
+  redistribution_conditions: NOT APPLICABLE — source data rights belong to Naukri.com.
   scraping_prohibited: true
-  scraping_notes: >
-    Naukri.com Terms of Service (Section 7, Clause 3) explicitly prohibit automated
-    scraping, data mining, and systematic extraction of job listing data without
-    written authorization from InfoEdge India Ltd. The CC0 claim by the Kaggle uploader
-    (PromptCloud) does not override the original platform rights holder (Naukri.com/InfoEdge).
+  scraping_notes: 'Naukri.com Terms of Service (Section 7, Clause 3) explicitly prohibit
+    automated scraping, data mining, and systematic extraction of job listing data
+    without written authorization from InfoEdge India Ltd. The CC0 claim by the Kaggle
+    uploader (PromptCloud) does not override the original platform rights holder (Naukri.com/InfoEdge).
     Use of this dataset in a commercial or semi-commercial product creates legal exposure
     under the IT Act 2000 (Section 43 — unauthorized access) and copyright law.
-  terms_of_service_violation_risk: "HIGH — Unauthorized scrape of proprietary job listing database"
+
+    '
+  terms_of_service_violation_risk: HIGH — Unauthorized scrape of proprietary job listing
+    database
   personal_data_present: false
   qualified_counsel_required: true
-  qualified_counsel_notes: >
-    Qualified counsel review required before any use beyond isolated test fixtures.
-    Current assessment: RESTRICTED TO TEST FIXTURES ONLY under R-DA-01.
+  qualified_counsel_notes: 'Qualified counsel review required before any use beyond
+    isolated test fixtures. Current assessment: RESTRICTED TO TEST FIXTURES ONLY under
+    R-DA-01.
 
-ingestion_status: "restricted"
-ingestion_role: "test_fixture_only"
-restriction_reason: >
-  Naukri.com Terms of Service violation risk (unauthorized automated scrape).
-  CC0 claim by third-party uploader does not override platform rights holder.
+    '
+ingestion_status: restricted
+ingestion_role: test_fixture_only
+restriction_reason: 'Naukri.com Terms of Service violation risk (unauthorized automated
+  scrape). CC0 claim by third-party uploader does not override platform rights holder.
   Restricted to NLP parsing, regex taxonomy tests, and schema validation fixtures
   in tests/fixtures/ only. Must never enter data/raw/ or any model training pipeline.
-pipeline_routing:
-  - "test_fixtures_nlp_parsing"
-  - "test_fixtures_taxonomy_regex"
-prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-  - "data_raw_ingestion"
-  - "benchmark_outputs"
-  - "production_api"
-notes: >
-  Measures advertised salary ranges (INR LPA min/max), not realized employee pay.
-  Suitable only for testing LPA range parser and salary string normalization code.
-  Must be placed in tests/fixtures/ and flagged as test_fixture in all metadata.
-sqs: 38.0
-sqsf_tier: "TIER_5_TEST_FIXTURE"
 
+  '
+pipeline_routing:
+- test_fixtures_nlp_parsing
+- test_fixtures_taxonomy_regex
+prohibited_routing:
+- PT1_direct_training
+- PT2_direct_training
+- data_raw_ingestion
+- benchmark_outputs
+- production_api
+notes: 'Measures advertised salary ranges (INR LPA min/max), not realized employee
+  pay. Suitable only for testing LPA range parser and salary string normalization
+  code. Must be placed in tests/fixtures/ and flagged as test_fixture in all metadata.
+
+  '
+sqs: 38.0
+sqsf_tier: TIER_5_TEST_FIXTURE
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Restricted to test fixture only. ToS violation risk documented."
+- date: '2026-10-13'
+  task: T2.02
+  action: Restricted to test fixture only. ToS violation risk documented.
+canonical_field_mappings:
+- source_field: salary
+  canonical_measure: advertised_range_annual
+  comp_type: bracket
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: coarse_bracket
+  exclusion_reason: Quarantined under R-DA-01 (ToS violation risk) and R-MD-07. Restricted
+    to regex range parser tests in tests/fixtures/.

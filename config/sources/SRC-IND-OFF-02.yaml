@@ -1,54 +1,70 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-IND-OFF-02
-#  Labour Bureau Occupational Wage Survey (OWS) 7th Round (June 2016)
-# =============================================================================
-
-source_id: "SRC-IND-OFF-02"
-short_name: "Labour Bureau OWS 7th Round"
-long_name: "Labour Bureau Occupational Wage Survey — 7th Round (Reference: June 2016)"
-provider: "Labour Bureau, Ministry of Labour and Employment, Government of India"
-primary_url: "https://www.labourbureau.gov.in/occupational-wage-survey"
-country: "IN"
-currency: "INR"
+source_id: SRC-IND-OFF-02
+short_name: Labour Bureau OWS 7th Round
+long_name: 'Labour Bureau Occupational Wage Survey — 7th Round (Reference: June 2016)'
+provider: Labour Bureau, Ministry of Labour and Employment, Government of India
+primary_url: https://www.labourbureau.gov.in/occupational-wage-survey
+country: IN
+currency: INR
 reference_period:
-  start: "2016-06-01"
-  end: "2016-06-30"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2016-06-01'
+  end: '2016-06-30'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "OGL-India-1.0"
-  name: "Open Government Data — Ministry of Labour Publications"
-  terms_url: "https://www.labourbureau.gov.in/"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: OGL-India-1.0
+  name: Open Government Data — Ministry of Labour Publications
+  terms_url: https://www.labourbureau.gov.in/
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: true
   permits_research_use: true
   permits_commercial_use: true
   permits_redistribution: false
-  redistribution_conditions: "Government report; attribution required."
+  redistribution_conditions: Government report; attribution required.
   scraping_prohibited: false
-  terms_of_service_violation_risk: "NONE"
+  terms_of_service_violation_risk: NONE
   personal_data_present: false
   qualified_counsel_required: false
+ingestion_status: rejected
+rejection_reason: 'DISQUALIFIED by SQSF Hard Gate 2 (D2=2: target measure incompatible
+  — daily wage rates for blue-collar/manual workers, not IT professional guaranteed
+  cash) and D8=1 (FATAL STALENESS: reference date June 2016, 8+ years outdated). Zero
+  software engineering occupational coverage. No update expected.
 
-ingestion_status: "rejected"
-rejection_reason: >
-  DISQUALIFIED by SQSF Hard Gate 2 (D2=2: target measure incompatible — daily wage
-  rates for blue-collar/manual workers, not IT professional guaranteed cash) and D8=1
-  (FATAL STALENESS: reference date June 2016, 8+ years outdated). Zero software
-  engineering occupational coverage. No update expected.
+  '
 rejection_criteria:
-  - "SQSF Hard Gate D2 < 3 (Target Measure Compatibility: FAILED)"
-  - "SQSF D8 = 1 (Fatal Staleness: pre-2020)"
-  - "Zero coverage of NCO 2512 Software Developers"
+- 'SQSF Hard Gate D2 < 3 (Target Measure Compatibility: FAILED)'
+- 'SQSF D8 = 1 (Fatal Staleness: pre-2020)'
+- Zero coverage of NCO 2512 Software Developers
 pipeline_routing: []
 prohibited_routing:
-  - "ALL_PIPELINES"
+- ALL_PIPELINES
 sqs: 53.0
-sqsf_tier: "TIER_6_UNSUITABLE_DISQUALIFIED"
-
+sqsf_tier: TIER_6_UNSUITABLE_DISQUALIFIED
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Confirmed disqualified. Hard Gate failure D2 and D8."
+- date: '2026-10-13'
+  task: T2.02
+  action: Confirmed disqualified. Hard Gate failure D2 and D8.
+canonical_field_mappings:
+- source_field: minimum_daily_wage
+  canonical_measure: quarantined
+  comp_type: blue_collar_wage
+  currency: INR
+  period: daily
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: quarantined
+  exclusion_reason: 'Disqualified under SQSF Hard Gate 2: historical blue-collar daily
+    wages (June 2016), zero tech coverage.'
+- source_field: maximum_daily_wage
+  canonical_measure: quarantined
+  comp_type: blue_collar_wage
+  currency: INR
+  period: daily
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: quarantined
+  exclusion_reason: 'Disqualified under SQSF Hard Gate 2: historical blue-collar daily
+    wages (June 2016).'

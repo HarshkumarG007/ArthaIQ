@@ -1,60 +1,67 @@
-﻿# =============================================================================
-#  ArthaIQ — Source Licence Register: SRC-KAG-FIX-02
-#  software-industry-salary-dataset-2022 (Scraped Glassdoor/AmbitionBox)
-# =============================================================================
-
-source_id: "SRC-KAG-FIX-02"
-short_name: "Software Industry Salary 2022 (Scraped)"
-long_name: "Software Industry Salary Dataset 2022 — Glassdoor/AmbitionBox Scrape (Kaggle)"
-provider: "Glassdoor Inc. / AmbitionBox (Infoedge India Ltd.) — scraped by third-party"
-primary_url: "https://www.kaggle.com/datasets/iamsouravbanerjee/software-professional-salaries-2022"
-country: "IN"
-currency_primary: "INR"
+source_id: SRC-KAG-FIX-02
+short_name: Software Industry Salary 2022 (Scraped)
+long_name: Software Industry Salary Dataset 2022 — Glassdoor/AmbitionBox Scrape (Kaggle)
+provider: Glassdoor Inc. / AmbitionBox (Infoedge India Ltd.) — scraped by third-party
+primary_url: https://www.kaggle.com/datasets/iamsouravbanerjee/software-professional-salaries-2022
+country: IN
+currency_primary: INR
 reference_period:
-  start: "2021-01-01"
-  end: "2022-12-31"
-retrieval_date: "2026-10-13"
-verification_status: "VERIFIED"
-
+  start: '2021-01-01'
+  end: '2022-12-31'
+retrieval_date: '2026-10-13'
+verification_status: VERIFIED
 licence:
-  spdx_id: "CC0-1.0"
-  name: "CC0 1.0 (Claimed by uploader — DISPUTED)"
-  terms_url: "https://www.kaggle.com/datasets/iamsouravbanerjee/software-professional-salaries-2022"
-  terms_reviewed_date: "2026-10-13"
-  terms_reviewed_by: "AI Assistant under human review (T2.02)"
+  spdx_id: CC0-1.0
+  name: CC0 1.0 (Claimed by uploader — DISPUTED)
+  terms_url: https://www.kaggle.com/datasets/iamsouravbanerjee/software-professional-salaries-2022
+  terms_reviewed_date: '2026-10-13'
+  terms_reviewed_by: AI Assistant under human review (T2.02)
   is_open: false
   permits_research_use: false
   permits_commercial_use: false
   permits_redistribution: false
   scraping_prohibited: true
-  scraping_notes: >
-    AmbitionBox Terms of Service (Section 5) and Glassdoor Terms of Use explicitly
-    prohibit automated scraping, data extraction, and copying of salary reports and
-    user-submitted data. Both platforms aggregate user-submitted compensation reports;
-    redistributing this data violates platform rights and may violate individual
+  scraping_notes: 'AmbitionBox Terms of Service (Section 5) and Glassdoor Terms of
+    Use explicitly prohibit automated scraping, data extraction, and copying of salary
+    reports and user-submitted data. Both platforms aggregate user-submitted compensation
+    reports; redistributing this data violates platform rights and may violate individual
     contributor privacy expectations. The CC0 claim is not valid.
-  terms_of_service_violation_risk: "HIGH — Dual ToS violation (AmbitionBox + Glassdoor)"
+
+    '
+  terms_of_service_violation_risk: HIGH — Dual ToS violation (AmbitionBox + Glassdoor)
   personal_data_present: false
   qualified_counsel_required: true
+ingestion_status: restricted
+ingestion_role: test_fixture_only
+restriction_reason: 'Dual ToS violation (AmbitionBox + Glassdoor). CC0 claim invalid.
+  Aggregated CTC figures without line-item unbundling (SQSF D2=1). No timestamps.
+  Restricted to regex CTC parsing tests and pipeline schema validation in tests/fixtures/
+  only.
 
-ingestion_status: "restricted"
-ingestion_role: "test_fixture_only"
-restriction_reason: >
-  Dual ToS violation (AmbitionBox + Glassdoor). CC0 claim invalid. Aggregated CTC
-  figures without line-item unbundling (SQSF D2=1). No timestamps. Restricted to
-  regex CTC parsing tests and pipeline schema validation in tests/fixtures/ only.
+  '
 pipeline_routing:
-  - "test_fixtures_ctc_regex_parsing"
+- test_fixtures_ctc_regex_parsing
 prohibited_routing:
-  - "PT1_direct_training"
-  - "PT2_direct_training"
-  - "data_raw_ingestion"
-  - "benchmark_outputs"
-  - "production_api"
+- PT1_direct_training
+- PT2_direct_training
+- data_raw_ingestion
+- benchmark_outputs
+- production_api
 sqs: 34.4
-sqsf_tier: "TIER_5_TEST_FIXTURE"
-
+sqsf_tier: TIER_5_TEST_FIXTURE
 change_log:
-  - date: "2026-10-13"
-    task: "T2.02"
-    action: "Restricted to test fixture only. Dual ToS violation documented."
+- date: '2026-10-13'
+  task: T2.02
+  action: Restricted to test fixture only. Dual ToS violation documented.
+canonical_field_mappings:
+- source_field: salary_estimate
+  canonical_measure: total_comp_annual
+  comp_type: aggregate
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - quarantined
+  unbundling_status: coarse_bracket
+  exclusion_reason: Quarantined under R-DA-01 (ToS violation risk). Restricted to
+    text parser tests in tests/fixtures/.

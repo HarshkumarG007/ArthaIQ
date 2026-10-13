@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T2.05 (Map Source Fields to Canonical Definitions & Reconcile CTC)**
+**NEXT TASK: T2.06 (Assess Selection and Reporting Bias per Source)**
 
 ## How to use this file
 
@@ -126,7 +126,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: raw files and manifests. Done when: checksums verified and manifests list the licence id. Needs: T2.02. Size: M.
 - [x] **T2.04** [AI] Profile each source: schema, coverage, time span, missingness, duplicates, refresh cadence; set staleness limits. (done 2026-10-14)
   Output: `docs/data-cards/<source_id>.md`. Done when: each card has all fields and counts. Needs: T2.01, T2.03. Size: L.
-- [ ] **T2.05** [AI+HUMAN] Map source fields to canonical definitions (`comp_type`, `measure`, currency, period, tax basis); reconcile CTC; replace the PRD validity matrix with evidence.
+- [x] **T2.05** [AI+HUMAN] Map source fields to canonical definitions (`comp_type`, `measure`, currency, period, tax basis); reconcile CTC; replace the PRD validity matrix with evidence. (done 2026-10-14)
   Output: mappings in `config/sources/`, PRD matrix updated. Done when: every used field has a mapping or an exclusion reason. Needs: T2.04, T1.02. Size: L.
 - [ ] **T2.06** [AI] Assess selection and reporting bias per source; compare with population benchmarks where they exist.
   Output: section in each data card. Done when: each source has a bias statement with evidence. Needs: T2.04. Size: M.
