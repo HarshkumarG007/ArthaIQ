@@ -82,7 +82,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/research/01-targets.md`. Done when: each target has all five fields and PRD `[TBD: T1.01]` items are resolved. Needs: G0. Size: M.
 - [x] **T1.02** [AI+HUMAN] Define compensation terms and map them: CTC, fixed, base, variable, in-hand, total compensation, for India and the US. (done 2026-10-13)
   Output: `docs/research/02-comp-definitions.md`. Done when: each term maps to a canonical `measure` or is marked non-comparable. Needs: T1.01. Size: M.
-- [ ] **T1.03** [AI+HUMAN] Write persona hypotheses, jobs to be done and an interview guide.
+- [x] **T1.03** [AI+HUMAN] Write persona hypotheses, jobs to be done and an interview guide. (done 2026-10-13)
   Output: `docs/research/03-users.md`. Done when: guide and recruiting criteria exist. Needs: T1.01. Size: S.
 - [ ] **T1.04** [HUMAN] Run user interviews (number set in T1.03) and synthesize.
   Output: findings appended to `03-users.md`. Done when: personas confirmed or revised in the PRD. Needs: T1.03. Size: L.
@@ -90,11 +90,11 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/research/evidence-register.csv`. Done when: all initial claims and audit findings have rows. Needs: G0. Size: S.
 - [x] **T1.06** [AI] Source discovery, India: Periodic Labour Force Survey, labour ministry and Labour Bureau wage sources, other Indian labor-market data. Record the fields from master prompt section 4 for each candidate. (done 2026-10-13)
   Output: entries in `docs/research/04-source-catalog.md`. Done when: each candidate has a primary-source URL, retrieval date and VERIFIED or UNVERIFIED status. Needs: T1.05. Size: L.
-- [ ] **T1.07** [AI] Source discovery, US: BLS occupational wage statistics, Department of Labor wage disclosures, other. Same fields.
+- [x] **T1.07** [AI] Source discovery, US: BLS occupational wage statistics, Department of Labor wage disclosures, other. Same fields. (done 2026-10-13)
   Output: entries in `04-source-catalog.md`. Done when: as T1.06. Needs: T1.05. Size: L.
 - [x] **T1.08** [AI] Source discovery, compensation datasets: Kaggle dataset audit v0.1 (20 candidates), licensed surveys, open datasets. Flag terms and licensing. No scraping. (done 2026-10-13)
   Output: `docs/research/kaggle-dataset-audit-v0.1.md`, entries in `docs/research/evidence-register.csv`. Done when: each candidate has a terms summary, 10-dimension evaluation, and disposition. Needs: T1.05. Size: L.
-- [ ] **T1.09** [AI] Source discovery, supporting data: occupation and skill taxonomies, macro indicators, FX and CPI series, company filings.
+- [x] **T1.09** [AI] Source discovery, supporting data: occupation and skill taxonomies, macro indicators, FX and CPI series, company filings. (done 2026-10-13)
   Output: entries in `04-source-catalog.md`. Done when: each has a licence note. Needs: T1.05. Size: M.
 - [ ] **T1.10** [AI] Source-quality scoring framework: dimensions, rubric, proposed weights, classification (ground truth, population benchmark, market signal, supplementary, unsuitable).
   Output: `docs/research/05-source-scoring.md`. Done when: every catalog entry is scored and classified. Needs: T1.06 to T1.09. Size: M.
