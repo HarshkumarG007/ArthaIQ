@@ -47,8 +47,8 @@
 | Item | Value |
 |---|---|
 | Phase | 1, Problem definition and source discovery |
-| Last completed task | T1.11 (+ T1.10, T1.09, T1.07, T1.03, T1.06, T1.02, T1.08, T1.05, T1.01, Gate G0 ratified) |
-| Next task | T1.12 (Premortem and Full Risk Register) |
+| Last completed task | T1.12 (+ T1.11, T1.10, T1.09, T1.07, T1.03, T1.06, T1.02, T1.08, T1.05, T1.01, Gate G0 ratified) |
+| Next task | T1.13 (Scope Recommendation Memo & Draft ADRs) |
 | Last gate | G0 — GO (2026-10-13) |
 | Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
@@ -184,6 +184,7 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-13 | T1.09 | Audited supporting data sources: O*NET 29.0 (`SRC-SUP-TAX-01`, CC-BY 4.0), ESCO v1.1 (`SRC-SUP-TAX-02`), RBI DBIE CPI/FX series (`SRC-SUP-MAC-01`), and BSE/NSE Sec 197(12) corporate median disclosures (`SRC-SUP-CORP-01`). Created operational ingestion rules. | `docs/research/04-source-catalog.md` | Verified against official portals | None | T1.10 |
 | 2026-10-13 | T1.10 | Formalized Source-Quality Scoring Framework (SQSF) across 10 weighted dimensions with non-compensatory hard gates ($D_1$ Legal, $D_2$ Target, $D_3$ Provenance). Scored all 32 candidate sources across official, Kaggle, supporting, and voluntary channels. Established master pipeline allocation matrix for `config/sources/*.yaml`. | `docs/research/05-source-scoring.md`, `docs/research/evidence-register.csv` | Mathematical rubric and gates verified | None | T1.11 |
 | 2026-10-13 | T1.11 | Executed Architecture Autopsy applying 8 master-prompt criteria across all 13 components in `architecture.md` Section 5. Assigned definitive dispositions (5 Build, 1 Experiment, 5 Defer, 2 Reject/Ban). Enacted R-MD-09 bans on GPUs, GNNs, Vector DBs, and causal simulation. Pre-registered keep/reject experiments. | `docs/research/06-architecture-autopsy.md` | Verified against Occam's razor constraints | None | T1.12 |
+| 2026-10-13 | T1.12 | Conducted Premortem analysis analyzing 7 catastrophic failure modes (legal poison pills, CTC conflation, false precision, drift, causal backfire, de-anonymization, infra bloat) and established comprehensive 15-risk register with severity, likelihood, RPN, and pre-registered task mitigations. | `docs/research/07-premortem-risk-register.md` | Verified against all 15 operational failure modes | None | T1.13 |
 
 ## 13. How to update this file
 
