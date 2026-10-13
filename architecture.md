@@ -1,9 +1,9 @@
-# System Architecture
+# ArthaIQ System Architecture
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.1. An architecture hypothesis, not a settled design |
-| Last updated | 2026-10-11 |
+| Status | Draft v0.2 (updated at T0.06 following T0.02 decisions) |
+| Last updated | 2026-10-13 |
 | Depends on | `PRD.md` (requirements FR-xx, NFR-xx, targets PT1 to PT6) |
 | Governs | `rules.md` (library policy, layering), `task.md` (phases 3 to 10) |
 
@@ -204,7 +204,7 @@ Prototype default: Profile A. Public beta default: Profile B or a small Profile 
 ## 8. Repository layout and module boundaries
 
 ```text
-compintel/                      # repository root; name is a placeholder
+arthaiq/                        # repository root (ArthaIQ; package compintel retained as python namespace)
 ├── docs/
 │   ├── PRD.md  architecture.md  rules.md  design.md  task.md  memory.md
 │   ├── adr/                    # one file per decision: ADR-0001-*.md ...

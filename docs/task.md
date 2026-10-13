@@ -2,12 +2,12 @@
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.1 |
-| Last updated | 2026-10-11 |
+| Status | Draft v0.2 (Phase 0 complete; Gate G0 ratified) |
+| Last updated | 2026-10-13 |
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T0.06**
+**NEXT TASK: T1.01**
 
 ## How to use this file
 
@@ -60,12 +60,12 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/adr/` with nine stubs. Done when: every ADR in `architecture.md` section 15 has a file. Needs: T0.02. Size: M.
 - [x] **T0.05** [AI+HUMAN] Review `design.md`; confirm or revise the direction (the Span, palette, typefaces); bump version. (done 2026-10-13)
   Output: design v0.2. Done when: direction confirmed in `memory.md` (D-006). Needs: T0.02. Size: S.
-- [ ] **T0.06** [AI] Check consistency across all six documents: ids, terms, glossary, links, tags.
+- [x] **T0.06** [AI] Check consistency across all six documents: ids, terms, glossary, links, tags. (done 2026-10-13)
   Output: conflict list in `memory.md`. Done when: every conflict is resolved or logged. Needs: T0.03, T0.04, T0.05. Size: S.
 - [x] **T0.07** [AI] Repository hygiene: `.gitignore`, README stub, PR template with Definition of Done checklist, `.env.example`, `Makefile`, `pyproject.toml` stub, `.pre-commit-config.yaml`, CI workflow stub. (done 2026-10-13)
   Output: files committed. Done when: `data/` and `.env` are ignored and the PR template lists section 14 of `rules.md`. Needs: T0.01. Size: S.
 
-**Gate G0:** charter ratified. Record in `memory.md`.
+**Gate G0:** charter ratified. **GO ratified 2026-10-13** (recorded in `memory.md`).
 
 ---
 
