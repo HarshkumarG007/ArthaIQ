@@ -1,4 +1,4 @@
-# ArthaIQ (CompIntel)
+# ArthaIQ
 
 <div align="center">
 
@@ -15,7 +15,7 @@
 *Distributions over point estimates · Evidence-weighted · Honest abstention*
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![Status](https://img.shields.io/badge/Status-Phase%200%20%7C%20Foundation-orange.svg)](docs/memory.md)
+[![Status](https://img.shields.io/badge/Status-Phase%201%20%7C%20Discovery-blue.svg)](docs/memory.md)
 [![Market Scope](https://img.shields.io/badge/Market-India%20Tech%20%28INR%2FLPA%29-green.svg)](docs/adr/ADR-0001-initial-market-and-occupation-scope.md)
 [![Architecture](https://img.shields.io/badge/Architecture-Modular%20Domain--Driven-purple.svg)](docs/architecture.md)
 [![Code Style](https://img.shields.io/badge/Code%20Style-Ruff-black.svg?logo=ruff&logoColor=white)](https://github.com/astral-sh/ruff)
@@ -280,7 +280,7 @@ Every component of ArthaIQ is fully documented. Refer to these canonical referen
 
 ## 🚀 Getting Started
 
-> **Note:** The project is currently in **Phase 0 (Foundation)**. Core runtime dependencies and model training packages will be pinned in Phase 3 under `ADR-0003`. You can immediately set up the repository, pre-commit hooks, and documentation toolchain.
+> **Note:** The project is currently in **Phase 1 (Problem Definition & Source Discovery)**. Core runtime dependencies and model training packages will be pinned in Phase 3 under `ADR-0003`. You can immediately set up the repository, pre-commit hooks, and documentation toolchain.
 
 ### Prerequisites
 - **Python:** `3.11` or higher
@@ -290,8 +290,8 @@ Every component of ArthaIQ is fully documented. Refer to these canonical referen
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/compintel.git arthaiq
-cd arthaiq
+git clone https://github.com/HarshkumarG007/ArthaIQ.git
+cd ArthaIQ
 ```
 
 ### 2. Configure Environment Variables
