@@ -1,6 +1,6 @@
 # PRD: ArthaIQ Compensation Intelligence Platform
 
-Project identity: **ArthaIQ** (Compensation Intelligence · India-first)  
+Project identity: **ArthaIQ** (Compensation Intelligence · India-first)
 *Ethical Compensation Intelligence for Tech Careers.*
 
 | Field | Value |
@@ -92,7 +92,7 @@ Scope formally ratified at Gate G2 (Task T2.11) following Phase 2 data profiling
 | Profile levels | L0 required; L1 only for feature families that pass ablation | L2 and L3 deferred | G6 |
 | Language | English only at prototype and launch | Hindi and regional languages | Ratified at T0.02 (Q-010); after PB |
 
-**Gate G2 Decision Outcome & Operational Mandate (2026-10-14):**  
+**Gate G2 Decision Outcome & Operational Mandate (2026-10-14):**
 In strict compliance with the pre-registered decision rule, all approved public and secondary datasets were evaluated against sufficiency criteria (Task T2.09 / `experiments/preregistration/sufficiency-v1.yaml`).
 - **Empirical Result:** All 12 core cells failed Criterion C1 (yielding $N_{\text{eff}} = 0.0$), triggering **Kill Criterion 1**. Phase 3 ML modelling on existing public datasets was immediately halted (`Rule R-WF-01`).
 - **Operational Ratification:** Rather than abandoning the India tech market, relaxing sufficiency rules, or resorting to illegal scraping (`R-DA-01`) or invalid multipliers (`R-MD-07`), ArthaIQ formally adopted the **Smallest Viable Data Acquisition Programme** (Task T2.10 / `docs/research/10-data-acquisition-plan.md`).
@@ -115,8 +115,8 @@ These are different tasks. They must never be merged or served through one undif
 | PT5 | Compensation after a transition or skill change | Distribution under changed profile inputs | Longitudinal worker record | Transition horizon: 12 to 24 months post-transition (settled T1.01) | Association, not cause. Extrapolation guard required. | Deferred, experimental |
 | PT6 | Current pay against a benchmark | Percentile band of the user's figure within PT1 | User-reported figure | As-of date | Needs a matching definition. Valid only as far as PT1 is valid. | RP, PB |
 
-**Empirical Target-Source Validity & Admissibility Matrix (Ratified at T2.05).**  
-Governed by `docs/research/02-comp-definitions.md`, Rule `R-MD-07` (Strict anti-heuristic CTC unbundling), Rule `R-DA-01` (Licence gate), and Rule `R-MD-08` (Cross-market/currency isolation).  
+**Empirical Target-Source Validity & Admissibility Matrix (Ratified at T2.05).**
+Governed by `docs/research/02-comp-definitions.md`, Rule `R-MD-07` (Strict anti-heuristic CTC unbundling), Rule `R-DA-01` (Licence gate), and Rule `R-MD-08` (Cross-market/currency isolation).
 Symbols: **✓ Approved Primary** (admitted to training/estimation) · **~ Auxiliary / Signal** (prior anchor, relative ratio, or macro covariate only; segregated from direct training) · **✗ Quarantined / Inadmissible** (blocked by accounting incompatibility, legal restriction, or empirical invalidity).
 
 | Prediction Target | Canonical Measure | Approved Primary Sources | Auxiliary Benchmark / Signal Sources | Quarantined / Inadmissible Sources & Governing Constraints |

@@ -510,13 +510,13 @@ def generate_exclusion_report_markdown(result: PrototypeTargetResult) -> str:
 
     if result.exploratory_df.height > 0:
         col = result.exploratory_df["annual_pay_lpa"]
-        p10 = float(q) if isinstance(q := col.quantile(0.10), (int, float)) else 0.0
-        p25 = float(q) if isinstance(q := col.quantile(0.25), (int, float)) else 0.0
-        p50 = float(q) if isinstance(q := col.quantile(0.50), (int, float)) else 0.0
-        p75 = float(q) if isinstance(q := col.quantile(0.75), (int, float)) else 0.0
-        p90 = float(q) if isinstance(q := col.quantile(0.90), (int, float)) else 0.0
-        mean_val = float(m) if isinstance(m := col.mean(), (int, float)) else 0.0
-        std_val = float(s) if isinstance(s := col.std(), (int, float)) else 0.0
+        p10 = float(q) if isinstance(q := col.quantile(0.10), int | float) else 0.0
+        p25 = float(q) if isinstance(q := col.quantile(0.25), int | float) else 0.0
+        p50 = float(q) if isinstance(q := col.quantile(0.50), int | float) else 0.0
+        p75 = float(q) if isinstance(q := col.quantile(0.75), int | float) else 0.0
+        p90 = float(q) if isinstance(q := col.quantile(0.90), int | float) else 0.0
+        mean_val = float(m) if isinstance(m := col.mean(), int | float) else 0.0
+        std_val = float(s) if isinstance(s := col.std(), int | float) else 0.0
 
         lines.extend(
             [

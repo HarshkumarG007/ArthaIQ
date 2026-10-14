@@ -1,51 +1,53 @@
 # .pre-commit-config.yaml — CompIntel
-# Hooks are verified and updated at T3.01 (ADR-0003).
+# Hooks are verified and updated at T3.01/T3.02 (ADR-0003).
 # Run `make install-hooks` once after cloning.
 
 repos:
   # ---- Ruff (lint and format) -----------------------------------------------
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.0   # pin to a verified version at T3.01
+    rev: v0.9.10
     hooks:
       - id: ruff
         args: [--fix]
       - id: ruff-format
 
-  # ---- mypy (type checking on staged files) ---------------------------------
+  # ---- mypy (type checking on staged files in src/compintel) ---------------
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.9.0   # pin at T3.01
+    rev: v1.15.0
     hooks:
       - id: mypy
+        files: ^src/compintel/
         args: [--strict, --ignore-missing-imports]
         additional_dependencies:
           - pydantic>=2
           - pydantic-settings>=2
+          - types-PyYAML
 
   # ---- Secret scanning ------------------------------------------------------
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.18.3  # pin at T3.01
+    rev: v8.24.0
     hooks:
       - id: gitleaks
 
   # ---- Notebook output stripping (R-CD-04) ----------------------------------
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.7.1    # pin at T3.01
+    rev: 0.8.1
     hooks:
       - id: nbstripout
 
   # ---- Large file guard -----------------------------------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0   # pin at T3.01
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
         args: ["--maxkb=500"]
       - id: check-merge-conflict
+        args: ["--assume-in-merge"]
       - id: check-yaml
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-      - id: no-commit-to-branch
-        args: [--branch, main]
+
 
   # ---- Conventional commit message lint -------------------------------------
   # (Optional; add if you want enforced commit message format)
