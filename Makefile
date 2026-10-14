@@ -3,7 +3,8 @@
 # Versions are pinned at T3.01. Many targets are stubs until their phase starts.
 
 .PHONY: help check lint typecheck test test-unit test-property test-contract \
-        test-leakage test-integration coverage-map reproduce-data final-eval clean
+        test-leakage test-integration coverage-map sufficiency reproduce-data final-eval clean
+
 
 # ---- Help ------------------------------------------------------------------
 help:
@@ -65,9 +66,13 @@ test-e2e:
 test-cov:
 	pytest tests/ -m "not e2e" --cov=src/compintel --cov-report=term-missing --cov-report=html
 
-# ---- Sufficiency & Coverage (Phase 2, T2.07) --------------------------------
+# ---- Sufficiency & Coverage (Phase 2, T2.07 & T2.09) -----------------------
 coverage-map:
 	python scripts/compute_coverage_map.py
+
+sufficiency:
+	python scripts/compute_sufficiency.py
+
 
 # ---- Data pipeline (Phase 3+) ----------------------------------------------
 # Usage: make reproduce-data SNAPSHOT=<snapshot_id>

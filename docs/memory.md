@@ -12,9 +12,9 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Phase 2 is in progress. T2.01 to T2.08 completed. **NEXT TASK: T2.09 (Sufficiency analysis against T2.01, including bootstrap interval precision).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; T2.01-T2.08 done 2026-10-14).
+- **Where we are:** Phase 2 is in progress. T2.01 to T2.09 completed. **NEXT TASK: T2.10 (Data acquisition plan for primary pipeline — ArthaIQ voluntary contribution intake & employer partnerships).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; T2.01-T2.09 done 2026-10-14; Gate G2 evaluated as NO-GO on public data).
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
-- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`, 22 source configs in `config/sources/`, 14 data cards in `docs/data-cards/`, raw datasets & verified manifests in `data/raw/`, 84-cell coverage map in `experiments/results/`, PT1 prototype exclusion audit and exploratory dataset in `data/processed/` and `docs/research/`.
+- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`, 22 source configs in `config/sources/`, 14 data cards in `docs/data-cards/`, raw datasets & verified manifests in `data/raw/`, 84-cell coverage map in `experiments/results/`, PT1 prototype exclusion audit and exploratory dataset in `data/processed/` and `docs/research/`, bootstrap precision datasets `experiments/results/bootstrap_precision_v1.{parquet,csv}` and research report `docs/research/09-sufficiency-analysis.md`.
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -23,7 +23,7 @@
 | Stage | Status | Note |
 |---|---|---|
 | IDEA | DONE | Master research prompt written |
-| RESEARCH | IN PROGRESS | Phase 1 complete; Phase 2 in progress (T2.01-T2.08 done) |
+| RESEARCH | IN PROGRESS | Phase 1 complete; Phase 2 in progress (T2.01-T2.09 done; Gate G2 NO-GO on public data) |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
 | PRD | DONE | v0.2 ratified at T0.03; TBDs resolved at T1.01; validity matrix updated at T2.05 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
@@ -47,14 +47,14 @@
 | Item | Value |
 |---|---|
 | Phase | 2, Data licensing, feasibility, profiling and target construction |
-| Last completed task | T2.08 (Prototype target construction with documented exclusions) |
-| Next task | T2.09 (Sufficiency analysis against T2.01, including bootstrap interval precision) |
-| Last gate | G1 — GO (2026-10-13) |
+| Last completed task | T2.09 (Sufficiency analysis against T2.01, including bootstrap interval precision) |
+| Next task | T2.10 (Data acquisition plan for primary pipeline) |
+| Last gate | G2 — NO-GO on Existing Public Data (Kill Criterion 1 Triggered; 2026-10-14) |
 | Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
-| Code | Package stubs, ingestion manifest validator & profiler, coverage & target engines, unit tests & CI |
+| Code | Package stubs, ingestion manifest validator & profiler, coverage & sufficiency engines, unit tests & CI |
 | Data | Acquired in data/raw/ for approved sources with verified SHA-256 manifests (R-DA-01, R-DA-02, R-DA-08) |
-| CI | 100% green (uv sync, ruff, mypy, pytest 25 tests passing) |
+| CI | 100% green (uv sync, ruff, mypy, pytest 33 tests passing, 92% coverage) |
 
 ## 4. Gate log
 
@@ -64,7 +64,8 @@ Record GO or NO-GO with the evidence that justified it.
 |---|---|---|---|---|
 | G0 | **GO** | 2026-10-13 | T0.00-T0.07 complete; Q-001 to Q-010 resolved; doc suite unified at v0.2; zero cross-doc conflicts | Charter ratified; India tech scope confirmed; ready for Phase 1 |
 | G1 | **GO** | 2026-10-13 | T1.01-T1.13 complete; targets PT1-PT6 specified; unbundling equation locked; 32 sources audited & scored; 0 Kaggle scrapes training-eligible; ADR-0001 & ADR-0002 ratified; 15 risks mitigated | Phase 1 complete; advancing to Phase 2 data feasibility & sufficiency |
-| G2 | Pending | | | Critical: data sufficiency and scope |
+| G2 | **NO-GO on Existing Public Data (Kill Criterion 1 Triggered)** | 2026-10-14 | Zero of 12 core cells meet C1 ($N_{\text{eff}} \ge 50$); public sources yield $N=0$ itemized guaranteed cash observations (`R-MD-07`). All 84 cells fail C5 precision or suppressed ($k < 5$). Documented in `docs/research/09-sufficiency-analysis.md`. | Critical: Kill Criterion 1 triggered; Phase 3 ML modelling halted (`R-WF-01`); pivot directly to T2.10 (Data Acquisition Plan) |
+
 | G3 | Pending | | | System contracts locked |
 | G4 | Pending | | | Baseline benchmarked |
 | G5 | Pending | | | Model performance preregistered & verified |
@@ -193,6 +194,8 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-14 | T2.05 | Mapped raw source fields across all 22 source configs (`config/sources/*.yaml`) to canonical compensation definitions (`comp_type`, `measure`, currency, period, tax basis, admissible targets, unbundling status, exclusion reason). Enforced Rule R-MD-07 (Strict anti-heuristic CTC unbundling): aggregate CTC without itemization quarantined from PT1/PT2. Updated `scripts/validate_sources.py` and `tests/unit/test_sources_config.py` with invariant tests. Replaced PRD Section 5 validity matrix in `PRD.md` and `docs/PRD.md` with empirical evidence-based version. CI passes 14 unit tests. | `config/sources/*.yaml`, `scripts/validate_sources.py`, `tests/unit/test_sources_config.py`, `PRD.md`, `docs/PRD.md`, `task.md`, `memory.md` | `python scripts/validate_sources.py` (22 passed); `pytest tests/` (14 passed); `ruff check` (0 errors); `mypy` (0 errors) | None | T2.06 |
 | 2026-10-14 | T2.06 | Assessed selection and reporting bias across all 14 data cards in `docs/data-cards/` and synthesized master bias matrix in `docs/data-cards/README.md`. Compared with official population benchmarks (MOSPI PLFS urban developer P50 = ₹9.00 LPA vs BSE/NSE corporate IT audited median ₹8.60 LPA [-4.4% concordance]; Stack Overflow survey P50 = ₹18.00 LPA [+100.0% developer self-selection skew]; US BLS OEWS Software Developers P50 = $132,270 USD vs H-1B LCA P50 = $128,000 USD [-3.2%] vs PERM P50 = $152,000 USD [+14.9%]). Enforced pipeline routing restrictions: developer surveys valid only for relative slopes/skill differentials; US sources isolated under Rule R-MD-08. Created unit test `tests/unit/test_data_cards.py`. CI passes 15 unit tests. | `docs/data-cards/*.md`, `docs/data-cards/README.md`, `tests/unit/test_data_cards.py`, `task.md`, `memory.md` | `pytest tests/` (15 passed); `ruff check` (0 errors); `mypy` (0 errors); all 14 data cards verified | None | T2.07 |
 | 2026-10-14 | T2.08 | Constructed annualized, normalized PT1 prototype datasets with comprehensive exclusion accounting under Rules R-DA-05 (No silent drops) and R-MD-07 (Strict anti-heuristic unbundling). Engine `src/compintel/quality/target_prototype.py` and CLI `scripts/construct_pt1_prototype.py` evaluated 648 candidate raw observations across 9 acquired files. Strict PT1 dataset yielded N = 0 observations (confirming lack of itemized guaranteed cash in public datasets); exploratory normalized candidate dataset yielded N = 102 observations (P50 = ₹20.00 LPA, Mean = ₹23.39 LPA, Stack Overflow & ai-jobs, flagged `is_unbundled_aggregate = True`). Full quarantine audit recorded across 10 deterministic exclusion reasons (168 missing pay, 158 non-fulltime, 125 geo out of scope, 102 unbundled aggregate, 40 duplicates, 33 non-tech, 12 enterprise aggregates, 7 outliers, 2 currency mismatch, 1 missing experience) with 0 discrepancy (648 = 0 + 648). Exported `prototype_pt1_strict.parquet`, `prototype_pt1_exploratory.parquet`, `pt1_quarantine_audit.parquet` (gitignored under R-DA-08), and authored reports `experiments/results/pt1_prototype_exclusion_report.md` and `docs/research/pt1-prototype-exclusion-report.md`. Added unit test `tests/unit/test_target_prototype.py` (4 tests passing). CI passes 25 unit tests. | `src/compintel/quality/target_prototype.py`, `scripts/construct_pt1_prototype.py`, `tests/unit/test_target_prototype.py`, `experiments/results/pt1_prototype_exclusion_report.md`, `docs/research/pt1-prototype-exclusion-report.md`, `task.md`, `memory.md` | `pytest tests/` (25 passed, 92% coverage); `ruff check` (0 errors); `mypy` (0 errors); exact reconciliation 648 = 0 + 648 | None | T2.09 |
+| 2026-10-14 | T2.09 | Executed pre-registered data sufficiency evaluation (`experiments/preregistration/sufficiency-v1.yaml`) across all 84 Level-0 cells. Computed bootstrap precision ($B=2,000$ resamples, 90% CI for P50, half-width $\le 3.0$ LPA, relative width $\le 2.0$) and naive cohort comparison (Rule `R-UQ-04`). Direct PT1 yielded $N_{\text{eff}} = 0.0$ across all 12 core cells and 72 extended cells; exploratory prototype dataset ($N=102$) failed C5 precision across all evaluated slices (`SWE.OTHER.SR` hw=5.77 LPA, $R_{\text{width}}=1.02$; `SWE.OTHER.MID` hw=6.00 LPA, rel_w=2.50; `SWE.OTHER.JR` hw=3.00 LPA, rel_w=2.10; `SWE.OTHER.STAFF` hw=27.50 LPA; `DATA.OTHER.JR` hw=7.29 LPA) and suppressed 79 slices ($k < 5$). Ratified Gate G2 as NO-GO (Kill Criterion 1 triggered: 12/12 core cells failed C1). Halted all Phase 3 ML modelling under Rule `R-WF-01`; mandated pivot to Task T2.10 (Data Acquisition Plan). Exported `experiments/results/bootstrap_precision_v1.{parquet,csv}`, updated `coverage_map_v1.{parquet,csv}`, authored `docs/research/09-sufficiency-analysis.md`. Added unit test `tests/unit/test_sufficiency.py` (33 tests passing, 92% coverage). Added `make sufficiency` target. | `src/compintel/quality/sufficiency.py`, `scripts/compute_sufficiency.py`, `tests/unit/test_sufficiency.py`, `docs/research/09-sufficiency-analysis.md`, `experiments/results/bootstrap_precision_v1.*`, `experiments/results/coverage_map_v1.*`, `Makefile`, `.gitignore`, `task.md`, `memory.md` | `pytest tests/` (33 passed, 92% coverage); `ruff check` (0 errors); `mypy` (0 errors); Gate G2 evaluated cleanly | None | T2.10 |
+
 
 
 
