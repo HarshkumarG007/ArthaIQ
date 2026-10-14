@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T3.01 (Stack Verification, Machine Benchmark & Finalize ADR-0003)**
+**NEXT TASK: T3.02 (Repository Scaffolding, Tooling Configuration & Baseline CI Skeleton)**
 
 
 ## How to use this file
@@ -155,7 +155,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO if:** one command rebuilds canonical data from raw manifests; contract and property tests pass in CI.
 > **NO-GO:** fix reproducibility before any modelling.
 
-- [ ] **T3.01** [AI] Verify current versions, compatibility and licences of the candidate stack; measure the local machine; finalize ADR-0003; set the lockfile policy.
+- [x] **T3.01** [AI] Verify current versions, compatibility and licences of the candidate stack; measure the local machine; finalize ADR-0003; set the lockfile policy. (done 2026-10-14)
   Output: ADR-0003 with pinned versions and a benchmark note. Done when: every `[U]` in the stack table is resolved. Needs: G2. Size: M.
 - [ ] **T3.02** [AI] Scaffold the repository: `pyproject.toml`, `src/compintel`, ruff, mypy, pytest, pre-commit, Makefile, import-linter config, CI skeleton, coverage thresholds (R-TS-03).
   Output: green CI on an empty package. Done when: CI passes lint, types and tests. Needs: T3.01. Size: M.
