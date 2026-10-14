@@ -12,9 +12,9 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Phase 2 is nearing completion. T2.01 to T2.10 completed. **NEXT TASK: T2.11 (Finalize ADR-0001 & ADR-0002; update PRD to v1.0).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; T2.01-T2.10 done 2026-10-14; Gate G2 evaluated as NO-GO on public data; T2.10 acquisition plan ratified).
-- **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
-- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`, 22 source configs in `config/sources/`, 14 data cards in `docs/data-cards/`, raw datasets & verified manifests in `data/raw/`, 84-cell coverage map in `experiments/results/`, PT1 prototype exclusion audit and exploratory dataset in `data/processed/` and `docs/research/`, bootstrap precision datasets `experiments/results/bootstrap_precision_v1.{parquet,csv}`, research report `docs/research/09-sufficiency-analysis.md`, and data acquisition plan `docs/research/10-data-acquisition-plan.md`.
+- **Where we are:** Phase 2 is complete. Gate G2 ratified (NO-GO on existing public data; primary scope and measure locked in ADR-0001, ADR-0002, PRD v1.0; Primary Data Acquisition Programme adopted). **NEXT TASK: T3.01 (Stack Verification, Machine Benchmark & Finalize ADR-0003).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; Phase 2 T2.01-T2.11 done 2026-10-14; Gate G2 ratified; PRD v1.0 ratified).
+- **Scope ratified (Decision):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Ratified at Gate G2 (ADR-0001, ADR-0002, PRD v1.0); supported by primary data acquisition programme (T2.10).
+- **What exists:** repo scaffold, initial configs, doc suite v0.2, PRD v1.0, ADR-0001 v1.0, ADR-0002 v1.0, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`, 22 source configs in `config/sources/`, 14 data cards in `docs/data-cards/`, raw datasets & verified manifests in `data/raw/`, 84-cell coverage map in `experiments/results/`, PT1 prototype exclusion audit and exploratory dataset in `data/processed/` and `docs/research/`, bootstrap precision datasets `experiments/results/bootstrap_precision_v1.{parquet,csv}`, research report `docs/research/09-sufficiency-analysis.md`, and data acquisition plan `docs/research/10-data-acquisition-plan.md`.
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -23,15 +23,15 @@
 | Stage | Status | Note |
 |---|---|---|
 | IDEA | DONE | Master research prompt written |
-| RESEARCH | IN PROGRESS | Phase 1 complete; Phase 2 in progress (T2.01-T2.10 done; Gate G2 NO-GO on public data) |
+| RESEARCH | DONE | Phase 1 complete; Phase 2 complete (T2.01-T2.11 done; Gate G2 ratified) |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
-| PRD | DONE | v0.2 ratified at T0.03; TBDs resolved at T1.01; validity matrix updated at T2.05 |
+| PRD | DONE | v1.0 ratified at Gate G2 (T2.11); H0 replaced by decision |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
 | ARCHITECTURE | DONE | v0.2 ratified at T0.06 |
 | DESIGN | DONE | v0.2 ratified at T0.05 (the Span, cobalt on cool paper) |
 | PROJECT RULES | DONE | v0.2 ratified at T0.06 |
 | TASK BREAKDOWN | DONE | v0.2 ratified at T0.06 |
-| SETUP | TODO | Phase 3 |
+| SETUP | IN PROGRESS | Phase 3 (T3.01 to T3.03) |
 | DEVELOPMENT | TODO | Phases 3 to 9 |
 | TESTING | TODO | Inside every task; formal pass in Phase 9 |
 | SECURITY REVIEW | TODO | T9.12 |
@@ -46,15 +46,15 @@
 
 | Item | Value |
 |---|---|
-| Phase | 2, Data licensing, feasibility, profiling and target construction |
-| Last completed task | T2.10 (Data acquisition plan for primary pipeline) |
-| Next task | T2.11 (Finalize ADR-0001 & ADR-0002; update PRD to v1.0) |
-| Last gate | G2 — NO-GO on Existing Public Data (Kill Criterion 1 Triggered; 2026-10-14) |
-| Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
+| Phase | 3, Canonical schema and reproducible pipeline |
+| Last completed task | T2.11 (Finalize ADR-0001 & ADR-0002; update PRD to v1.0) |
+| Next task | T3.01 (Stack Verification, Machine Benchmark & Finalize ADR-0003) |
+| Last gate | G2 — NO-GO on Existing Public Data; Data Acquisition Programme Ratified; Scope Locked (2026-10-14) |
+| Document versions | PRD v1.0; ADR-0001 v1.0; ADR-0002 v1.0; architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
 | Code | Package stubs, ingestion manifest validator & profiler, coverage & sufficiency engines, unit tests & CI |
 | Data | Acquired in data/raw/ for approved sources with verified SHA-256 manifests (R-DA-01, R-DA-02, R-DA-08) |
-| CI | 100% green (uv sync, ruff, mypy, pytest 33 tests passing, 92% coverage) |
+| CI | 100% green (uv sync, ruff, mypy, pytest 34 tests passing, 93% coverage) |
 
 ## 4. Gate log
 
@@ -64,7 +64,7 @@ Record GO or NO-GO with the evidence that justified it.
 |---|---|---|---|---|
 | G0 | **GO** | 2026-10-13 | T0.00-T0.07 complete; Q-001 to Q-010 resolved; doc suite unified at v0.2; zero cross-doc conflicts | Charter ratified; India tech scope confirmed; ready for Phase 1 |
 | G1 | **GO** | 2026-10-13 | T1.01-T1.13 complete; targets PT1-PT6 specified; unbundling equation locked; 32 sources audited & scored; 0 Kaggle scrapes training-eligible; ADR-0001 & ADR-0002 ratified; 15 risks mitigated | Phase 1 complete; advancing to Phase 2 data feasibility & sufficiency |
-| G2 | **NO-GO on Existing Public Data (Kill Criterion 1 Triggered)** | 2026-10-14 | Zero of 12 core cells meet C1 ($N_{\text{eff}} \ge 50$); public sources yield $N=0$ itemized guaranteed cash observations (`R-MD-07`). All 84 cells fail C5 precision or suppressed ($k < 5$). Documented in `docs/research/09-sufficiency-analysis.md`. | Critical: Kill Criterion 1 triggered; Phase 3 ML modelling halted (`R-WF-01`); pivot directly to T2.10 (Data Acquisition Plan) |
+| G2 | **NO-GO on Public Data -> Acquisition Programme Ratified** | 2026-10-14 | Zero of 12 core cells meet C1 ($N_{\text{eff}} \ge 50$); public sources yield $N=0$ itemized guaranteed cash observations (`R-MD-07`). All 84 cells fail C5 precision or suppressed ($k < 5$). Documented in `docs/research/09-sufficiency-analysis.md`. T2.10 acquisition plan adopted (`10-data-acquisition-plan.md`); ADR-0001, ADR-0002, PRD v1.0 ratified. | Critical: Kill Criterion 1 triggered on public data; Phase 3 ML modelling gated on voluntary intake; Phase 3 schema/pipeline architecture unlocked. |
 
 | G3 | Pending | | | System contracts locked |
 | G4 | Pending | | | Baseline benchmarked |
@@ -196,6 +196,8 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-14 | T2.08 | Constructed annualized, normalized PT1 prototype datasets with comprehensive exclusion accounting under Rules R-DA-05 (No silent drops) and R-MD-07 (Strict anti-heuristic unbundling). Engine `src/compintel/quality/target_prototype.py` and CLI `scripts/construct_pt1_prototype.py` evaluated 648 candidate raw observations across 9 acquired files. Strict PT1 dataset yielded N = 0 observations (confirming lack of itemized guaranteed cash in public datasets); exploratory normalized candidate dataset yielded N = 102 observations (P50 = ₹20.00 LPA, Mean = ₹23.39 LPA, Stack Overflow & ai-jobs, flagged `is_unbundled_aggregate = True`). Full quarantine audit recorded across 10 deterministic exclusion reasons (168 missing pay, 158 non-fulltime, 125 geo out of scope, 102 unbundled aggregate, 40 duplicates, 33 non-tech, 12 enterprise aggregates, 7 outliers, 2 currency mismatch, 1 missing experience) with 0 discrepancy (648 = 0 + 648). Exported `prototype_pt1_strict.parquet`, `prototype_pt1_exploratory.parquet`, `pt1_quarantine_audit.parquet` (gitignored under R-DA-08), and authored reports `experiments/results/pt1_prototype_exclusion_report.md` and `docs/research/pt1-prototype-exclusion-report.md`. Added unit test `tests/unit/test_target_prototype.py` (4 tests passing). CI passes 25 unit tests. | `src/compintel/quality/target_prototype.py`, `scripts/construct_pt1_prototype.py`, `tests/unit/test_target_prototype.py`, `experiments/results/pt1_prototype_exclusion_report.md`, `docs/research/pt1-prototype-exclusion-report.md`, `task.md`, `memory.md` | `pytest tests/` (25 passed, 92% coverage); `ruff check` (0 errors); `mypy` (0 errors); exact reconciliation 648 = 0 + 648 | None | T2.09 |
 | 2026-10-14 | T2.09 | Executed pre-registered data sufficiency evaluation (`experiments/preregistration/sufficiency-v1.yaml`) across all 84 Level-0 cells. Computed bootstrap precision ($B=2,000$ resamples, 90% CI for P50, half-width $\le 3.0$ LPA, relative width $\le 2.0$) and naive cohort comparison (Rule `R-UQ-04`). Direct PT1 yielded $N_{\text{eff}} = 0.0$ across all 12 core cells and 72 extended cells; exploratory prototype dataset ($N=102$) failed C5 precision across all evaluated slices (`SWE.OTHER.SR` hw=5.77 LPA, $R_{\text{width}}=1.02$; `SWE.OTHER.MID` hw=6.00 LPA, rel_w=2.50; `SWE.OTHER.JR` hw=3.00 LPA, rel_w=2.10; `SWE.OTHER.STAFF` hw=27.50 LPA; `DATA.OTHER.JR` hw=7.29 LPA) and suppressed 79 slices ($k < 5$). Ratified Gate G2 as NO-GO (Kill Criterion 1 triggered: 12/12 core cells failed C1). Halted all Phase 3 ML modelling under Rule `R-WF-01`; mandated pivot to Task T2.10 (Data Acquisition Plan). Exported `experiments/results/bootstrap_precision_v1.{parquet,csv}`, updated `coverage_map_v1.{parquet,csv}`, authored `docs/research/09-sufficiency-analysis.md`. Added unit test `tests/unit/test_sufficiency.py` (33 tests passing, 92% coverage). Added `make sufficiency` target. | `src/compintel/quality/sufficiency.py`, `scripts/compute_sufficiency.py`, `tests/unit/test_sufficiency.py`, `docs/research/09-sufficiency-analysis.md`, `experiments/results/bootstrap_precision_v1.*`, `experiments/results/coverage_map_v1.*`, `Makefile`, `.gitignore`, `task.md`, `memory.md` | `pytest tests/` (33 passed, 92% coverage); `ruff check` (0 errors); `mypy` (0 errors); Gate G2 evaluated cleanly | None | T2.10 |
 | 2026-10-14 | T2.10 | Authored comprehensive primary data acquisition plan and architecture (`docs/research/10-data-acquisition-plan.md`) addressing Gate G2 NO-GO on public data (Kill Criterion 1). Designed dual-engine acquisition programme: (1) B2C Governed Voluntary Intake (`SRC-INT-VOL-01`) capturing itemized Basic + HRA + Special Allowance with client-side WebAssembly redacted payslip verification and Give-to-Get value exchange (free compensation dossier); (2) B2B Employer Data Syndication (`SRC-INT-CORP-01`) with standardized Data Sharing Agreements. Formulated statutory DPDPA 2023 compliance architecture (unbundled consent, zero cleartext PII storage per `R-DA-07`, $k_{\text{min}} = 5$ small-cell suppression per `R-DA-10`, $\epsilon=1.0$ differential privacy). Specified statistical sampling targets: 65 verified records per cell across 12 core cells (780 core records, 1,860 total) to guarantee $N_{\text{eff}} \ge 50.0$ ($Deff \approx 1.09$). Costed complete 3-month programme budget: ₹18.50 Lakhs (~$22,200 USD; blended ₹995 per record). Defined phased schedule and explicit contingency narrowing to Bengaluru SWE only or hard sunset if < 4 core cells pass after 90 days. Appended Claim 15 to evidence register. Fixed unit test CI portability in `test_target_prototype.py` with synthetic fixtures (`R-DA-08`). | `docs/research/10-data-acquisition-plan.md`, `docs/research/evidence-register.csv`, `tests/unit/test_target_prototype.py`, `task.md`, `memory.md` | All CI checks green (ruff clean, mypy strict, 34 tests passing, 93% coverage) | None | T2.11 |
+| 2026-10-14 | T2.11 | Finalized ADR-0001 (Market & Occupational Scope) and ADR-0002 (Primary Target & Compensation Measure) to Final Accepted at Gate G2. Replaced Scope Hypothesis H0 with formal decision: India tech market (SWE, Data, MLAI) in nominal INR LPA, with measure `guaranteed_cash_annual` strictly unbundled ($12 \times [\text{Basic} + \text{HRA} + \text{Special Allowance}]$). Promoted PRD from Draft v0.2 to v1.0 (Ratified at Gate G2) incorporating empirical Gate G2 evaluation findings (0/12 core cells passing C1, Kill Criterion 1 triggered on public data), the Primary Data Acquisition Programme (T2.10 / `SRC-INT-VOL-01` & `SRC-INT-CORP-01`), contingency narrowing boundary to Bengaluru SWE, and fixed $k_{\text{min}} = 5$ (`R-DA-10`). Concluded Phase 2. Advanced NEXT TASK to T3.01. | `docs/adr/ADR-0001-*.md`, `docs/adr/ADR-0002-*.md`, `docs/PRD.md`, `PRD.md`, `task.md`, `memory.md` | All docs and ADRs consistent; git tree synchronized; 34 tests passing | None | T3.01 |
+
 
 
 
