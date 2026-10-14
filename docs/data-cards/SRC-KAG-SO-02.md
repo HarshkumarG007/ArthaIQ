@@ -46,3 +46,22 @@ Key Profiled Fields:
 * **Survey Reference Window:** May 2023.
 * **Staleness Classification:** Observations are $>12$ months old relative to 2024 and $>24$ months relative to current date.
 * **Mandatory Deflation:** Under target contracts (`01-targets.md`), all 2023 financial figures must be indexed to prediction time $t_0$ using the monthly RBI CPI-Urban series (`SRC-SUP-MAC-01`).
+
+---
+
+## 4. Selection & Reporting Bias Assessment
+
+### 4.1 Selection Bias Profile & Tech Peak Exuberance
+1. **Macro Timing Bias:** Collected in May 2023, capturing compensation agreements finalized during the late-2022 to early-2023 post-pandemic hiring peak, prior to widespread tech layoffs and compensation moderation.
+2. **Community Skew:** Same self-selection mechanism as the 2024 survey (`SRC-KAG-SO-01`): over-represents English-fluent, community-engaged, product-focused developers ($N_{\text{India}} \approx 5,200$).
+
+### 4.2 Reporting & Measurement Bias Profile
+1. **Self-Reported Total Pay:** Unbundled `CompTotal` reported with significant digit heaping at ₹10 LPA, ₹20 LPA, and ₹30 LPA intervals.
+2. **Unrealized Paper Wealth:** Conflates paper ESOP valuations granted at 2021–2022 private startup peak valuations with guaranteed cash pay.
+
+### 4.3 Comparison with Official Population Benchmarks
+* **Comparison with MOSPI PLFS Benchmark (`SRC-IND-OFF-01`):** 2023 Indian developer median was **₹19.50 LPA**, representing a **+116.7% divergence** over the PLFS urban software developer median of ₹9.00 LPA.
+* **Temporal Drift vs 2024 Survey (`SRC-KAG-SO-01`):** Median Indian nominal developer total comp declined from ₹19.50 LPA in 2023 to ₹18.00 LPA in 2024 (-7.7% nominal contraction), empirically documenting the tech market salary correction.
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * Blocked from direct PT1/PT2 training under Rule `R-DA-01` and `R-MD-07`.
+  * Utilized strictly for multi-year temporal drift verification and stability auditing across feature curves.

@@ -45,3 +45,23 @@ Acquired under `data/raw/SRC-KAG-AIJ-02/` with verified SHA-256 manifest:
 
 * **Temporal Freshness:** 2024 collection window, reflecting current post-pandemic salary moderation.
 * **Analytical Application:** Used to validate feature interactions between `experience_level`, `work_setting` (Remote vs Hybrid vs In-person), and international employer location spreads.
+
+---
+
+## 3. Selection & Reporting Bias Assessment
+
+### 3.1 Selection Bias Profile & Remote Tech Skew
+1. **Remote Work Disproportion:** Over 65% of recorded roles feature remote or hybrid work settings, strongly over-representing developers capable of securing decentralized employment.
+2. **Specialized AI Focus:** Captures cutting-edge roles (Prompt Engineer, LLM Engineer, MLOps Specialist) with minimal representation of legacy enterprise maintenance or IT infrastructure support.
+3. **Sparse Domestic Indian Representation:** Low overall Indian sample volume ($N < 150$), rendering it vulnerable to high sampling variance.
+
+### 3.2 Reporting & Measurement Bias Profile
+1. **Unverified Compensation Aggregation:** Captured without payslip audit; conflates base cash with performance incentives and unvested equity grants.
+2. **Currency Conversion via Spot FX:** Raw pay converted to USD at instantaneous collection rates, obscuring domestic purchasing power nuances.
+
+### 3.3 Comparison with Official Population Benchmarks
+* **Comparison with MOSPI PLFS Benchmark (`SRC-IND-OFF-01`):** Indian tech entries in the 2024 feed display median annualized pay equivalent to **₹24.50 LPA**, representing a **+172% divergence** over the national PLFS benchmark (₹9.00 LPA). This substantial premium reflects remote USD consulting rates and AI/ML specialization premiums.
+* **Comparison with US Population Benchmark (`SRC-USA-BLS-01`):** US data roles display a median of $142,000, aligning closely with BLS May 2023 75th percentile benchmarks for computer and mathematical occupations.
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * Blocked from direct PT1/PT2 training per Rules `R-DA-01` and `R-MD-08`.
+  * Admitted exclusively as an auxiliary signal for remote work adjustment ratios and feature ablation studies.

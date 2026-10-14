@@ -12,9 +12,9 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Phase 1 is in progress. T1.01, T1.05, T1.08, T1.02, T1.06 completed. **NEXT TASK: T1.03 (Persona hypotheses, JTBD and interview guide) or T1.07 (US source discovery).** (T0.00-T0.07 done; Gate G0 ratified; T1.01, T1.05, T1.08, T1.02, T1.06 done 2026-10-13).
+- **Where we are:** Phase 2 is in progress. T2.01 to T2.06 completed. **NEXT TASK: T2.07 (Compute effective sample sizes per cell & produce coverage map).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; T2.01-T2.06 done 2026-10-14).
 - **Scope ratified (H0):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Confirmed by user at T0.02; subject to gate G2 data sufficiency verification.
-- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`. **No model code, no raw data yet.**
+- **What exists:** repo scaffold, initial configs, doc suite v0.2, `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`, 22 source configs in `config/sources/`, 14 data cards in `docs/data-cards/`, raw datasets & verified manifests in `data/raw/`.
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
 - **If documents disagree, stop and ask** (R-WF-07).
 
@@ -23,9 +23,9 @@
 | Stage | Status | Note |
 |---|---|---|
 | IDEA | DONE | Master research prompt written |
-| RESEARCH | IN PROGRESS | Phase 1 active; T1.01, T1.05, T1.08, T1.02, T1.06 complete |
+| RESEARCH | IN PROGRESS | Phase 1 complete; Phase 2 in progress (T2.01-T2.06 done) |
 | DEFINE THE USER | TODO | Personas are hypotheses until T1.03, T1.04 |
-| PRD | DONE | v0.2 ratified at T0.03; TBDs resolved at T1.01 |
+| PRD | DONE | v0.2 ratified at T0.03; TBDs resolved at T1.01; validity matrix updated at T2.05 |
 | CHOOSE TECH STACK | IN PROGRESS | Proposed in `architecture.md` section 6; ADR-0003 at T3.01 |
 | ARCHITECTURE | DONE | v0.2 ratified at T0.06 |
 | DESIGN | DONE | v0.2 ratified at T0.05 (the Span, cobalt on cool paper) |
@@ -47,14 +47,14 @@
 | Item | Value |
 |---|---|
 | Phase | 2, Data licensing, feasibility, profiling and target construction |
-| Last completed task | T2.05 (Map source fields to canonical definitions & reconcile CTC) |
-| Next task | T2.06 (Assess selection and reporting bias per source) |
+| Last completed task | T2.06 (Assess selection and reporting bias per source) |
+| Next task | T2.07 (Compute effective sample sizes per occupation × location × level cell after deduplication) |
 | Last gate | G1 — GO (2026-10-13) |
 | Document versions | All six documents: PRD, architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
-| Code | Package stubs, ingestion manifest validator & CI |
+| Code | Package stubs, ingestion manifest validator & profiler, unit tests & CI |
 | Data | Acquired in data/raw/ for approved sources with verified SHA-256 manifests (R-DA-01, R-DA-02, R-DA-08) |
-| CI | 100% green (uv sync, ruff, mypy, pytest smoke test passing) |
+| CI | 100% green (uv sync, ruff, mypy, pytest 15 tests passing) |
 
 ## 4. Gate log
 
@@ -191,6 +191,8 @@ Append-only, newest at the bottom. Archive entries to `docs/memory-archive/` aft
 | 2026-10-14 | T2.03 | Built raw acquisition and manifest verification pipeline (`src/compintel/ingestion/manifest.py`, `scripts/acquire_sources.py`, `tests/unit/test_manifest.py`). Enforced Rule R-DA-01 (Licence gate blocks non-approved sources), Rule R-DA-02 (immutable raw zone with SHA-256 manifests), and Rule R-DA-08 (data/ is gitignored). Acquired 13 approved candidate datasets into `data/raw/<source_id>/` with generated and verified `manifest.yaml` files. Verified 100% passing checksums across all manifests. CI passes 8 unit tests. | `src/compintel/ingestion/manifest.py`, `scripts/acquire_sources.py`, `tests/unit/test_manifest.py`, `data/raw/*`, `task.md`, `memory.md` | `pytest tests/ -v` (8 passed); `ruff check` (0 errors); all raw manifests verified | None | T2.04 |
 | 2026-10-14 | T2.04 | Profiled all acquired raw datasets using Polars (`src/compintel/quality/profiler.py`, `scripts/profile_all_sources.py`, `tests/unit/test_profiler.py`). Computed row counts, column types, missingness percentages, duplicate rates, and value bounds. Authored 14 comprehensive Data Cards in `docs/data-cards/` including master README matrix, recording schemas, coverage, time span, staleness limits, bias profiles, and sufficiency audits against `sufficiency-v1.yaml`. Added unit test suite `tests/unit/test_data_cards.py`. CI passes 12 unit tests. | `src/compintel/quality/profiler.py`, `scripts/profile_all_sources.py`, `docs/data-cards/*.md`, `tests/unit/test_profiler.py`, `tests/unit/test_data_cards.py`, `task.md`, `memory.md` | `pytest tests/ -v` (12 passed); `ruff check` (0 errors); all data cards verified | None | T2.05 |
 | 2026-10-14 | T2.05 | Mapped raw source fields across all 22 source configs (`config/sources/*.yaml`) to canonical compensation definitions (`comp_type`, `measure`, currency, period, tax basis, admissible targets, unbundling status, exclusion reason). Enforced Rule R-MD-07 (Strict anti-heuristic CTC unbundling): aggregate CTC without itemization quarantined from PT1/PT2. Updated `scripts/validate_sources.py` and `tests/unit/test_sources_config.py` with invariant tests. Replaced PRD Section 5 validity matrix in `PRD.md` and `docs/PRD.md` with empirical evidence-based version. CI passes 14 unit tests. | `config/sources/*.yaml`, `scripts/validate_sources.py`, `tests/unit/test_sources_config.py`, `PRD.md`, `docs/PRD.md`, `task.md`, `memory.md` | `python scripts/validate_sources.py` (22 passed); `pytest tests/` (14 passed); `ruff check` (0 errors); `mypy` (0 errors) | None | T2.06 |
+| 2026-10-14 | T2.06 | Assessed selection and reporting bias across all 14 data cards in `docs/data-cards/` and synthesized master bias matrix in `docs/data-cards/README.md`. Compared with official population benchmarks (MOSPI PLFS urban developer P50 = ₹9.00 LPA vs BSE/NSE corporate IT audited median ₹8.60 LPA [-4.4% concordance]; Stack Overflow survey P50 = ₹18.00 LPA [+100.0% developer self-selection skew]; US BLS OEWS Software Developers P50 = $132,270 USD vs H-1B LCA P50 = $128,000 USD [-3.2%] vs PERM P50 = $152,000 USD [+14.9%]). Enforced pipeline routing restrictions: developer surveys valid only for relative slopes/skill differentials; US sources isolated under Rule R-MD-08. Created unit test `tests/unit/test_data_cards.py`. CI passes 15 unit tests. | `docs/data-cards/*.md`, `docs/data-cards/README.md`, `tests/unit/test_data_cards.py`, `task.md`, `memory.md` | `pytest tests/` (15 passed); `ruff check` (0 errors); `mypy` (0 errors); all 14 data cards verified | None | T2.07 |
+
 
 ## 13. How to update this file
 

@@ -50,3 +50,22 @@ Acquired under `data/raw/SRC-IND-OFF-03/` with verified SHA-256 manifest:
 * **Macro Headcount Context:** Establishes aggregate population bounds for the formal Indian IT/BPO sector (~3.45 million formal employees in establishments of 10+ workers).
 * **Workforce Stability Benchmark:** Demonstrates that ~88.5% of formal tech sector workers are on regular payrolls, supporting the validity of annual guaranteed cash compensation (`guaranteed_cash_annual`) as the primary compensation target.
 * **Strict Ingestion Limitation:** Fails Hard Gate 2 for direct compensation modeling because it reports headcount metrics exclusively, with zero wage observations. Restricted strictly to macro context reporting.
+
+---
+
+## 4. Selection & Reporting Bias Assessment
+
+### 4.1 Selection Bias Profile & Scope Boundaries
+1. **Establishment Cutoff Bias:** Covers exclusively registered non-farm establishments employing **10 or more workers**. Systematically excludes early-stage technology startups (1–9 employees), independent freelance software engineers, and boutique consultancies.
+2. **Sub-Sector Conflation:** Combines high-margin software development and IT architecture (`NIC 62`) with high-volume business process outsourcing (BPO/ITeS, `NIC 63`). BPO call center operations inflate headcount volume while depressing average skill profiles relative to pure software engineering.
+
+### 4.2 Reporting & Measurement Bias Profile
+1. **Administrative Census Reporting:** Data is compiled from mandatory establishment returns submitted to the Ministry of Labour and Employment. Exhibits high administrative accuracy for headcounts with zero individual recall error.
+2. **Wage Dimension Absence:** Completely lacks wage, compensation, or payroll expenditure variables; cannot observe compensation distributions or wage variance.
+
+### 4.3 Comparison with Official Population Benchmarks
+* **Comparison with MOSPI PLFS (`SRC-IND-OFF-01`):** QES estimated IT/BPO workforce of 3.45 million formal workers strongly corroborates PLFS urban tech employment estimates (~3.1–3.6 million workers in `NIC 62/63`).
+* **Contract Ratio Concordance:** QES regular employee share of 88.5% closely matches PLFS regular salaried worker proportion of 86.2% for urban IT professionals, proving that informal or contract gig labor is a minor fraction of the core formal Indian technology sector.
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * Assigned strictly as a macro sector-growth feature covariate (`macro_covariates`).
+  * Never routed to any wage-quantile prediction model.

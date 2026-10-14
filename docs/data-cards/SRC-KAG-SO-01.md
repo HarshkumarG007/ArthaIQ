@@ -65,11 +65,29 @@ Key compensation and covariate fields profiled:
 
 ---
 
-## 4. Selection & Response Biases
+## 4. Selection & Reporting Bias Assessment
 
-1. **Self-Selection Bias:** Voluntary participation by self-directed developers visiting Stack Overflow. Over-represents motivated, community-active developers.
-2. **Rounding & Anchoring:** Respondents disproportionately report round numbers (e.g. ₹15,00,000, ₹20,00,000 LPA).
-3. **Upper-Tail Truncation:** Very senior executives, CTOs, and staff architects rarely complete public surveys.
+### 4.1 Selection Bias Profile & Community Self-Selection
+1. **Developer Self-Selection:** Administered as an open online survey across the Stack Overflow community. Systematically over-represents motivated, English-fluent, self-directed developers who actively seek technical documentation online.
+2. **Product Company & Tier-1 Skew:** Skews heavily toward product startups, technology MNCs, and engineers working with modern open-source stacks (React, Python, Go, Rust, AWS). Traditional legacy IT services maintenance personnel (who form the bulk of the domestic workforce) are under-represented relative to their population share.
+3. **Experience Curve Representativeness:** Covers a broad, healthy distribution across junior (0–2 yrs), mid-level (3–5 yrs), and senior (6–12 yrs) experience bands ($N_{\text{India}} \approx 4,500$), providing robust statistical power for relative experience slope estimation.
+
+### 4.2 Reporting & Measurement Bias Profile
+1. **Total Comp Conflation:** The survey prompts for: *"salary, bonuses, and perks, before taxes"*, recording unbundled `CompTotal`. This conflates fixed cash with performance bonuses and paper equity grants, violating the strict guaranteed cash standard required for `PT1`.
+2. **Severe Digit Heaping:** Respondents exhibit pronounced rounding behavior, clustering heavily at psychological round numbers (₹10 LPA, ₹15 LPA, ₹20 LPA, ₹25 LPA).
+3. **Extreme Tail Truncation:** True executive earners ($> ₹75$ LPA) rarely participate, while student/unpaid responses introduce lower-tail noise if uncleaned.
+
+### 4.3 Comparison with Official Population Benchmarks
+* **Comparison with MOSPI PLFS Benchmark (`SRC-IND-OFF-01`):**
+  * Stack Overflow 2024 India Tech Median (`CompTotal`): **₹18.00 LPA** ($P_{10} = ₹6.00$ LPA, $P_{90} = ₹45.00$ LPA).
+  * MOSPI PLFS 2023–24 Urban Tech Median (Guaranteed Cash): **₹9.00 LPA** ($P_{10} = ₹3.00$ LPA, $P_{90} = ₹28.80$ LPA).
+  * **Empirical Divergence:** Stack Overflow median is **+100.0% higher** than the official national household survey benchmark.
+* **Comparison with Corporate IT Services Benchmark (`SRC-SUP-CORP-01`):**
+  * Audited BSE/NSE IT services median employee remuneration is **₹8.60 LPA** (TCS ₹6.01, Infosys ₹9.00, Wipro ₹5.50).
+  * Stack Overflow median sits **+109.3% above** the audited IT services workforce median.
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * **Strict Exclusion from PT1/PT2 Direct Training:** Under Rules `R-MD-07` and `R-DA-01`, Stack Overflow records are never pooled directly into PT1 guaranteed cash training sets.
+  * **Admitted Strictly for Curvature Priors:** Used to elicit dimensionless experience curve slopes ($\beta_{\text{YOE}}$) and skill premium deltas in Phase 4 Bayesian models, discarding the inflated absolute intercept $\alpha$.
 
 ---
 

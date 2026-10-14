@@ -54,3 +54,15 @@ Acquired under `data/raw/SRC-SUP-TAX-01/` with verified SHA-256 manifest:
 
 1. **Unstructured Skill Normalization:** Normalizes raw free-text tech skills reported by users or in survey datasets to canonical technology entities (`example_tool`).
 2. **Crosswalk Ontology:** Bridges US SOC codes (`15-1252`), Indian NCO codes (`2512`), and ArthaIQ internal role families (`software_engineering`, `data_engineering`, `machine_learning`).
+
+---
+
+## 4. Selection & Reporting Bias Assessment
+
+### 4.1 Taxonomy Selection Bias & Cultural Context
+1. **US Occupational Structure Selection Bias:** O*NET was designed specifically by the U.S. Department of Labor to describe the American occupational landscape. Certain hybrid software engineering job profiles common in the Indian IT services sector (e.g. "Full Stack Developer", "Tech Lead / Module Lead", "ServiceNow Consultant") map awkwardly to broad O*NET SOC buckets (`15-1252.00 Software Developers`).
+2. **Emerging Skill Lag:** While O*NET updates annually, rapid shifts in generative AI frameworks (e.g., LangChain, LlamaIndex, vLLM) take 12 to 24 months to formally enter official UNSPSC commodity skill classifications.
+
+### 4.2 Cross-Market Translation & Mitigation in ArthaIQ
+* **Mitigation Strategy:** ArthaIQ pairs O*NET with the European ESCO taxonomy (`SRC-SUP-TAX-02`) and our custom regex title parser.
+* **Non-Wage Role:** O*NET is restricted strictly to text entity resolution and categorical feature encoding; it is never assigned any wage or salary weights, preventing cultural taxonomy mismatches from biasing compensation distributions.

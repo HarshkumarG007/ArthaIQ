@@ -63,3 +63,28 @@ Acquired under `data/raw/SRC-USA-BLS-01/` with verified SHA-256 manifest:
 * **Reference Month:** May 2023 (released November 2023).
 * **Cadence:** Annual publication cycle.
 * **Staleness Limits:** Valid for structural ratio benchmarking up to 24 months from reference date.
+
+---
+
+## 5. Selection & Reporting Bias Assessment
+
+### 5.1 Selection Bias Profile & Establishment Frame Scope
+1. **Sampling Frame Authority:** Semiannual survey of 1.1 million nonfarm business establishments across 50 states and DC. Represents the broad commercial US formal labor market.
+2. **Contractor & Gig Worker Omission:** Covers payroll employees exclusively. Independent 1099 software contractors, solo startup founders, and freelance platform workers are excluded from OEWS survey establishment rolls.
+3. **Broad Industry Coverage:** Captures software developers across non-tech industries (healthcare, insurance, retail, banking, manufacturing), avoiding the hyper-concentration in Big Tech that characterizes crowdsourced portals.
+
+### 5.2 Reporting & Measurement Bias Profile
+1. **Straight-Time Cash Pay:** Measures contractual hourly and annualized base wage rates, straight-time earnings, and standard production bonuses. Excludes non-production bonuses, stock grants (RSUs/options), and employer statutory benefit provisions.
+2. **Administrative Payroll Accuracy:** Sourced from employer payroll accounting ledgers; zero personal recall error or social desirability inflation.
+
+### 5.3 Official US Population Benchmark Role
+* **Population Benchmark Status:** Serves as ArthaIQ's **primary official population benchmark for the United States**.
+* **National Software Developers (`SOC 15-1252`) Anchors:**
+  * Median ($P_{50}$): **$132,270 USD**
+  * 10th Percentile ($P_{10}$): **$77,020 USD**
+  * 90th Percentile ($P_{90}$): **$208,620 USD**
+* **Metro Variance (San Jose-Sunnyvale-Santa Clara, CA MSA):**
+  * Median ($P_{50}$): **$180,470 USD** ($P_{10} = $108,120, $P_{90} = $245,610).
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * Strictly quarantined from Indian domestic models (Rule `R-MD-08`).
+  * Used exclusively as the gold-standard ground truth for US market comparison dashboards and cross-market relative wage ratios.

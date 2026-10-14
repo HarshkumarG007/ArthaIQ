@@ -128,7 +128,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/data-cards/<source_id>.md`. Done when: each card has all fields and counts. Needs: T2.01, T2.03. Size: L.
 - [x] **T2.05** [AI+HUMAN] Map source fields to canonical definitions (`comp_type`, `measure`, currency, period, tax basis); reconcile CTC; replace the PRD validity matrix with evidence. (done 2026-10-14)
   Output: mappings in `config/sources/`, PRD matrix updated. Done when: every used field has a mapping or an exclusion reason. Needs: T2.04, T1.02. Size: L.
-- [ ] **T2.06** [AI] Assess selection and reporting bias per source; compare with population benchmarks where they exist.
+- [x] **T2.06** [AI] Assess selection and reporting bias per source; compare with population benchmarks where they exist. (done 2026-10-14)
   Output: section in each data card. Done when: each source has a bias statement with evidence. Needs: T2.04. Size: M.
 - [ ] **T2.07** [AI] Compute effective sample sizes per occupation × location × level cell after deduplication; produce a coverage map.
   Output: coverage table and chart in the sufficiency folder. Done when: counts reproduce from a script. Needs: T2.05. Size: M.

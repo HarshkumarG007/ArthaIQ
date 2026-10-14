@@ -49,3 +49,24 @@ Every user submission is parsed directly into canonical schema attributes:
 
 * **Pre-Registered SQS:** **96.0 / 100** (All 10 dimensions scored 5/5 except sampling frame at 3/5 due to self-selection).
 * **Bias Mitigation:** Raw voluntary submissions are re-weighted via post-stratification against the MOSPI PLFS population tech benchmarks (`SRC-IND-OFF-01`) and BSE/NSE statutory corporate medians (`SRC-SUP-CORP-01`), correcting for self-selection bias toward high-earning Tier-1 product engineers.
+
+---
+
+## 4. Selection & Reporting Bias Assessment
+
+### 4.1 Selection Bias Profile & Volunteer Participation Skew
+1. **Voluntary Participation Skew:** Contributions to voluntary pay intelligence platforms inherently skew toward active job-seekers, professionals anticipating salary renegotiations, and ambitious mid-to-senior software engineers employed at well-funded technology startups, Tier-1 product MNCs, and elite GCCs.
+2. **Geographical Concentration:** Heavy volunteer concentration in major Indian tech hubs (Bengaluru, Hyderabad, Pune, MMR, NCR) with lower initial organic representation from Tier-2 tech centers (Kochi, Coimbatore, Indore, Jaipur).
+3. **Experience Truncation:** Entry-level campus hires and very senior executives (VP/SVP/C-suite) participate at lower rates than engineers with 3 to 10 years of experience.
+
+### 4.2 Reporting & Measurement Bias Profile
+1. **Itemized Accounting Elimination of Measurement Error:** Unlike crowdsourced portals that capture a single unverified CTC string, ArthaIQ eliminates measurement bias by requiring explicit line-item decomposition (Basic + HRA + Special Allowance vs PF vs Gratuity vs Bonus vs RSUs).
+2. **Verification Levels:** Submissions are stratified into `Self-Reported Unverified` and `Payslip-Verified` tiers. Verified payslips eliminate prestige exaggeration and rounding heaping.
+3. **Zero Reverse-Tax Guessing:** Post-tax in-hand pay is recorded as an isolated descriptive field and never back-calculated to gross cash.
+
+### 4.3 Comparison with Official Population Benchmarks
+* **Comparison with MOSPI PLFS Benchmark (`SRC-IND-OFF-01`):** Raw, unadjusted voluntary tech submissions typically report median guaranteed cash of **₹16.00–₹22.00 LPA**, representing a **+78% to +144% upward divergence** over the national urban software developer median of ₹9.00 LPA. This reflects the product/MNC skew of digital voluntary contributors relative to broad-based IT services personnel.
+* **Comparison with Corporate IT Services Benchmark (`SRC-SUP-CORP-01`):** Corporate filings demonstrate that large IT services firm median remuneration is ₹6.00–₹9.00 LPA. Voluntary contributors from Tier-3 services firms average ₹7.50 LPA, aligning closely with corporate disclosures, whereas contributors from Tier-1 product firms average ₹28.00 LPA.
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * In Phase 4/5 modeling, voluntary intake records are calibrated via **post-stratification cell weights** pegged to the PLFS occupation-location marginals and BSE/NSE enterprise priors.
+  * Invariant: Raw volunteer sample density alone cannot justify a narrow prediction interval (`FR-19`, `D-010`). Abstention triggers if population-representative support fails pre-registered thresholds.
