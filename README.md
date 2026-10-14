@@ -3,15 +3,15 @@
 <div align="center">
 
 ```
-  █████╗ ██████╗ ████████╗██╗  ██╗ █████╗ ██╗ ██████╗ 
+  █████╗ ██████╗ ████████╗██╗  ██╗ █████╗ ██╗ ██████╗
  ██╔══██╗██╔══██╗╚══██╔══╝██║  ██║██╔══██╗██║██╔═══██╗
  ███████║██████╔╝   ██║   ███████║███████║██║██║   ██║
  ██╔══██║██╔══██╗   ██║   ██╔══██║██╔══██║██║██║   ██║
  ██║  ██║██║  ██║   ██║   ██║  ██║██║  ██║██║╚██████╔╝
- ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ 
+ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝
 ```
 
-**Personalized Compensation Intelligence & Decision-Support System**  
+**Personalized Compensation Intelligence & Decision-Support System**
 *Distributions over point estimates · Evidence-weighted · Honest abstention*
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
@@ -387,9 +387,9 @@ The project follows a rigorous 10-phase delivery structure with explicit milesto
 
 ## ⚠️ Legal & Financial Disclaimer
 
-> **IMPORTANT NOTICE:**  
-> **ArthaIQ** is an independent analytical decision-support and market research tool. It provides statistical estimations based on empirical datasets and probabilistic modeling.  
-> 
+> **IMPORTANT NOTICE:**
+> **ArthaIQ** is an independent analytical decision-support and market research tool. It provides statistical estimations based on empirical datasets and probabilistic modeling.
+>
 > - **Not an Appraisal or Offer:** Predictions do not constitute a formal appraisal, guaranteed compensation offer, employment contract, or career commitment.
 > - **Not Legal or Tax Advice:** Nothing in this repository or software should be construed as legal, tax, or professional financial advice.
 > - **Self-Directed Action:** Users remain solely responsible for evaluating their individual employment agreements, career negotiations, and market circumstances.
@@ -405,7 +405,7 @@ The project follows a rigorous 10-phase delivery structure with explicit milesto
 
 <div align="center">
 
-**Built with statistical rigor and engineering discipline for the Indian tech ecosystem.**  
+**Built with statistical rigor and engineering discipline for the Indian tech ecosystem.**
 *Have questions or suggestions? Check [`docs/memory.md`](docs/memory.md) or open an issue.*
 
 </div>

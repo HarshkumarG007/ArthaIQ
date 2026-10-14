@@ -105,10 +105,10 @@ $$\text{CTC} - \mathbf{guaranteed\_cash\_annual} = \text{Employer PF} + \text{Gr
 
 ### 4.3 The Strict Anti-Heuristic Rule (`R-MD-07`)
 > [!CRITICAL]
-> **RULE R-MD-07 ENFORCEMENT:** If an external dataset reports only `CTC = ₹24 LPA` without line-item component breakdowns, **ArthaIQ is strictly prohibited from guessing or subtracting a standard percentage (e.g. subtracting 15% or multiplying by 0.85).** 
-> 
+> **RULE R-MD-07 ENFORCEMENT:** If an external dataset reports only `CTC = ₹24 LPA` without line-item component breakdowns, **ArthaIQ is strictly prohibited from guessing or subtracting a standard percentage (e.g. subtracting 15% or multiplying by 0.85).**
+>
 > *Rationale:* The ratio of guaranteed cash to total CTC varies from 60% (early-stage startups with heavy ESOPs or product MNCs with heavy variable components) to 92% (IT services firms with minimal bonus and statutory PF caps). Applying a uniform multiplier induces synthetic heteroskedastic distortion and violates empirical integrity.
-> 
+>
 > *Action:* Unreconciled CTC observations must be flagged as `measure_id: ctc_annual` and **quarantined from PT1 training sets**.
 
 ---

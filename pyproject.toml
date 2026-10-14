@@ -177,21 +177,162 @@ omit = ["*/tests/*", "*/__init__.py"]
 
 [tool.coverage.report]
 # Thresholds set at T3.02 (R-TS-03)
-# fail_under = 90    # uncomment after T3.02
+fail_under = 90
+show_missing = true
+precision = 1
 
 # ---- import-linter ---------------------------------------------------------
-# Enforces the dependency direction from architecture.md section 8.
-# Fully configured at T3.02.
+# Enforces the dependency direction from architecture.md section 8 (Rule R-CD-03).
 [tool.importlinter]
 root_packages = ["compintel"]
 
-# Example contract (expand at T3.02):
-# [[tool.importlinter.contracts]]
-# name = "schema has no internal imports"
-# type = "forbidden"
-# source_modules = ["compintel.schema"]
-# forbidden_modules = ["compintel.governance", "compintel.ingestion",
-#                      "compintel.quality", "compintel.normalization",
-#                      "compintel.features", "compintel.models",
-#                      "compintel.uncertainty", "compintel.evaluation",
-#                      "compintel.serving"]
+[[tool.importlinter.contracts]]
+name = "Schema has no internal dependencies on higher layers"
+type = "forbidden"
+source_modules = ["compintel.schema"]
+forbidden_modules = [
+    "compintel.governance",
+    "compintel.ingestion",
+    "compintel.quality",
+    "compintel.normalization",
+    "compintel.features",
+    "compintel.models",
+    "compintel.uncertainty",
+    "compintel.evaluation",
+    "compintel.explain",
+    "compintel.monitoring",
+    "compintel.scenarios",
+    "compintel.equity",
+    "compintel.serving",
+]
+
+[[tool.importlinter.contracts]]
+name = "Governance only imports schema"
+type = "forbidden"
+source_modules = ["compintel.governance"]
+forbidden_modules = [
+    "compintel.ingestion",
+    "compintel.quality",
+    "compintel.normalization",
+    "compintel.features",
+    "compintel.models",
+    "compintel.uncertainty",
+    "compintel.evaluation",
+    "compintel.explain",
+    "compintel.monitoring",
+    "compintel.scenarios",
+    "compintel.equity",
+    "compintel.serving",
+]
+
+[[tool.importlinter.contracts]]
+name = "Ingestion only imports schema and governance"
+type = "forbidden"
+source_modules = ["compintel.ingestion"]
+forbidden_modules = [
+    "compintel.quality",
+    "compintel.normalization",
+    "compintel.features",
+    "compintel.models",
+    "compintel.uncertainty",
+    "compintel.evaluation",
+    "compintel.explain",
+    "compintel.monitoring",
+    "compintel.scenarios",
+    "compintel.equity",
+    "compintel.serving",
+]
+
+[[tool.importlinter.contracts]]
+name = "Quality only imports schema"
+type = "forbidden"
+source_modules = ["compintel.quality"]
+forbidden_modules = [
+    "compintel.ingestion",
+    "compintel.governance",
+    "compintel.normalization",
+    "compintel.features",
+    "compintel.models",
+    "compintel.uncertainty",
+    "compintel.evaluation",
+    "compintel.explain",
+    "compintel.monitoring",
+    "compintel.scenarios",
+    "compintel.equity",
+    "compintel.serving",
+]
+
+[[tool.importlinter.contracts]]
+name = "Normalization only imports schema"
+type = "forbidden"
+source_modules = ["compintel.normalization"]
+forbidden_modules = [
+    "compintel.ingestion",
+    "compintel.governance",
+    "compintel.quality",
+    "compintel.features",
+    "compintel.models",
+    "compintel.uncertainty",
+    "compintel.evaluation",
+    "compintel.explain",
+    "compintel.monitoring",
+    "compintel.scenarios",
+    "compintel.equity",
+    "compintel.serving",
+]
+
+[[tool.importlinter.contracts]]
+name = "Features only imports schema and normalization"
+type = "forbidden"
+source_modules = ["compintel.features"]
+forbidden_modules = [
+    "compintel.ingestion",
+    "compintel.governance",
+    "compintel.quality",
+    "compintel.models",
+    "compintel.uncertainty",
+    "compintel.evaluation",
+    "compintel.explain",
+    "compintel.monitoring",
+    "compintel.scenarios",
+    "compintel.equity",
+    "compintel.serving",
+]
+
+[[tool.importlinter.contracts]]
+name = "Models never import serving, evaluation, ingestion, or quality"
+type = "forbidden"
+source_modules = ["compintel.models"]
+forbidden_modules = [
+    "compintel.serving",
+    "compintel.evaluation",
+    "compintel.ingestion",
+    "compintel.governance",
+    "compintel.quality",
+    "compintel.monitoring",
+]
+
+[[tool.importlinter.contracts]]
+name = "Uncertainty never imports serving, evaluation, ingestion, or quality"
+type = "forbidden"
+source_modules = ["compintel.uncertainty"]
+forbidden_modules = [
+    "compintel.serving",
+    "compintel.evaluation",
+    "compintel.ingestion",
+    "compintel.governance",
+    "compintel.quality",
+    "compintel.monitoring",
+]
+
+[[tool.importlinter.contracts]]
+name = "Serving never imports ingestion, quality, normalization, evaluation, or experiments"
+type = "forbidden"
+source_modules = ["compintel.serving"]
+forbidden_modules = [
+    "compintel.ingestion",
+    "compintel.quality",
+    "compintel.normalization",
+    "compintel.evaluation",
+    "compintel.governance",
+]

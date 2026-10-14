@@ -194,7 +194,7 @@ Each candidate is evaluated across the ten dimensions established in our data st
 * **Licensing:** Open Database License (`ODbL 1.0`) / `DbCL 1.0`. Commercial redistribution permitted with attribution and share-alike terms.
 * **Target Compatibility:** Measures `CompTotal` (Total Annual Compensation). Self-reported; bundles performance bonuses, allowances, and informal perks. Not guaranteed fixed cash.
 * **Selection Bias:** Highly active open-source and English-speaking developer community; heavily overrepresents active learners, web technologies, and modern frameworks; underrepresents traditional legacy IT services cohorts.
-* **Audit Disposition:** 🟡 **APPROVED FOR BENCHMARK & RELATIONSHIP DISCOVERY**. 
+* **Audit Disposition:** 🟡 **APPROVED FOR BENCHMARK & RELATIONSHIP DISCOVERY**.
   - One of ArthaIQ's highest-value exploratory assets.
   - Usable for: Modeling non-linear returns to experience ($YOE$), tech-stack premiums (e.g. PyTorch/Rust vs Java/Spring Boot relative delta), and education level returns.
   - Binding Rule: Must be evaluated under a separate target branch (`target_measure: total_comp_annual`) and never mixed directly into `guaranteed_cash_annual` tables without unbundling adjustments.

@@ -2,7 +2,7 @@
 # See docs/architecture.md section 14 for the CI/CD pipeline.
 # Versions are pinned at T3.01. Many targets are stubs until their phase starts.
 
-.PHONY: help check lint typecheck test test-unit test-property test-contract \
+.PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration coverage-map sufficiency reproduce-data final-eval clean
 
 
@@ -26,20 +26,25 @@ help:
 	@echo "Pinned versions: see pyproject.toml (finalized at T3.01)"
 
 # ---- Full check (used in CI) -----------------------------------------------
-check: lint typecheck test
+check: lint typecheck boundary-check test-cov
 
 # ---- Lint ------------------------------------------------------------------
 lint:
-	ruff check src/ tests/
-	ruff format --check src/ tests/
+	ruff check src/ tests/ scripts/
+	ruff format --check src/ tests/ scripts/
 
 lint-fix:
-	ruff check --fix src/ tests/
-	ruff format src/ tests/
+	ruff check --fix src/ tests/ scripts/
+	ruff format src/ tests/ scripts/
 
 # ---- Types -----------------------------------------------------------------
 typecheck:
 	mypy src/compintel
+
+# ---- Architecture boundary check (R-CD-03) --------------------------------
+boundary-check:
+	lint-imports
+
 
 # ---- Tests -----------------------------------------------------------------
 test:
