@@ -73,6 +73,7 @@ infra/docker/*.env
 
 # ---- Experiment results (large files; small JSON metrics are tracked) ------
 experiments/results/**/*.parquet
+!experiments/results/coverage_map_v1.parquet
 experiments/results/**/*.pkl
 
 # ---- DVC ------------------------------------------------------------------
