@@ -81,7 +81,7 @@ def _mask_pii_value(val: Any) -> Any:
             else:
                 cleaned[str(k)] = _mask_pii_value(v)
         return cleaned
-    if isinstance(val, (list, tuple, set)):
+    if isinstance(val, list | tuple | set):
         items = [_mask_pii_value(elem) for elem in val]
         return type(val)(items) if not isinstance(val, set) else set(items)
     if isinstance(val, str):

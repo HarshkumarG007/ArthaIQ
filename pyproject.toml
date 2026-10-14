@@ -130,6 +130,10 @@ ignore = [
 "notebooks/**" = ["ANN", "E501"]
 "scripts/**" = ["E501", "E402"]
 
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = ["pydantic.BaseModel", "pydantic_settings.BaseSettings"]
+
+
 # ---- mypy ------------------------------------------------------------------
 [tool.mypy]
 python_version = "3.11"   # update at T3.01
