@@ -39,3 +39,15 @@ Acquired under `data/raw/SRC-SUP-TAX-02/` with verified SHA-256 manifest:
 ## 2. Utility in ArthaIQ Modeling
 
 * **Skill Graph Distance:** In Phase 4 feature engineering, the ESCO parent node hierarchy is used to compute graph distance between technical skills. For example, a candidate with Python and Go shares the `Programming languages` parent, while cloud computing and Kubernetes share `ICT infrastructure`, allowing regularized shrinkage priors across related tech stacks.
+
+---
+
+## 3. Selection & Reporting Bias Assessment
+
+### 3.1 Taxonomy Selection Bias & Linguistic Boundaries
+1. **European Labor Market Context Selection Bias:** ESCO was developed under European Commission auspices and emphasizes formal vocational qualifications, qualifications frameworks, and European labor standards.
+2. **Granularity Differences:** Some technical concepts are divided at higher conceptual levels than O*NET, requiring parent-node traversal rather than exact keyword string matching.
+
+### 3.2 Mitigation & Application Invariant
+* **Hierarchical Shrinkage Role:** ESCO is used strictly to establish a mathematical tree hierarchy for distance-based regularizers (Laplacian smoothing across adjacent skill nodes in Phase 4).
+* **Zero Compensation Contamination:** Carries no salary, wage, or economic weightings, ensuring zero risk of transmitting European wage differentials to Indian tech models.

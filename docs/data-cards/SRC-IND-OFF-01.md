@@ -68,10 +68,25 @@ Empirical weighted quantile earnings benchmarks for urban technology degree hold
 
 ## 4. Selection & Reporting Bias Assessment
 
-1. **Upper-Tail Truncation:** Household sampling frames severely under-sample high earners in gated communities earning ₹40–₹100 LPA.
-2. **Employer Representation:** Heavy representation of small/medium IT firms, service delivery vendors, and entry-level engineers; Tier-1 global product R&D centers are underrepresented.
-3. **Survey Response Bias:** Tendency toward modest income under-reporting for tax/privacy reasons.
-4. **Role in Modeling:** Serves as a definitive **lower-bound prior floor** ($P_{10} = ₹3.00$ LPA) and national percentile reference (PT6), preventing machine learning models from predicting physically impossible lower wages for qualified degree holders.
+### 4.1 Selection Bias Profile & Sampling Frame Limits
+1. **Sampling Frame Authority:** Administered by the National Statistical Office (NSO) via stratified two-stage sampling (FSU: Urban Frame Survey blocks; SSU: households). Covers 100% of Indian states and UTs.
+2. **Upper-Tail Truncation:** Household sampling frames systematically under-sample affluent high-earning households in secure gated communities and high-rise apartment complexes in Bengaluru, Hyderabad, Gurugram, and Pune. Tech professionals earning $> ₹40$ LPA (especially Tier-1 product engineers with substantial equity compensation) have disproportionately low inclusion probabilities.
+3. **Employer Type Representation:** Strongly represents domestic IT services vendors, regional software consultancies, public sector units, and mid-sized agencies. Global Capability Centers (GCCs) and US tech multinationals (e.g., Google, Amazon, Microsoft) are under-represented.
+
+### 4.2 Reporting & Measurement Bias Profile
+1. **Cash Accounting Fidelity:** Measures contractual gross monthly cash wages (`ern25`). Completely excludes employer statutory overhead (EPF 12%, Gratuity 4.81%), annual performance bonus pools, and stock grants (RSUs/ESOPs).
+2. **Tax Avoidance Under-Reporting:** Survey responses exhibit a documented downward reporting bias (5%–15%) due to respondent apprehension regarding tax scrutiny and privacy disclosures.
+3. **Recall Errors:** Reported as monthly cash earnings for the preceding 30-day reference period; subject to minor recall variance rather than payroll ledger extraction.
+
+### 4.3 Official Population Benchmark Anchoring
+* **Benchmark Status:** Serves as ArthaIQ's **primary Indian official population benchmark** for urban technology employment.
+* **Empirical Population Anchors (NCO 2512 Software Developers):**
+  * Weighted Median ($P_{50}$): **₹9.00 LPA** (₹75,000/month).
+  * 10th Percentile ($P_{10}$): **₹3.00 LPA** (₹25,000/month).
+  * 90th Percentile ($P_{90}$): **₹28.80 LPA** (₹2,40,000/month).
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * Strictly segregated from direct `PT1` / `PT2` training sets (Rule `R-DA-01`, `D-010`).
+  * Admitted exclusively as an empirical **lower-bound prior floor** ($\mu_{\text{floor}} = ₹3.00$ LPA) and national percentile reference (`PT6`), preventing models from predicting implausibly low salaries for qualified tech professionals while avoiding downward bias on top-tier compensation bands.
 
 ---
 

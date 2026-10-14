@@ -55,3 +55,19 @@ Acquired under `data/raw/SRC-SUP-MAC-01/` with verified SHA-256 manifest:
 
 * **Holiday Forward-Fill:** Trading holiday nulls (3.9% in daily FX series) are resolved via deterministic forward-fill (`pl.col("DEXINUS").forward_fill()`).
 * **Monthly Deflator Lookup:** The deflation engine in `src/compintel/normalization/` uses month-keyed exact joins (`YYYY-MM`) against `cpi_urban_monthly.csv`.
+
+---
+
+## 4. Selection & Reporting Bias Assessment
+
+### 4.1 Selection Bias & Macro Sampling Structure
+1. **Official Macro Time Series:** Maintained jointly by the Reserve Bank of India (DBIE) and the Ministry of Statistics and Programme Implementation (MOSPI). Spot exchange rates reflect official FED / RBI daily interbank fixing rates.
+2. **Zero Individual Selection Bias:** As macroeconomic index aggregates, these series contain zero individual survey participant or volunteer self-selection bias.
+
+### 4.2 Index Choice & Measurement Bias Mitigation
+1. **Urban vs Rural Index Divergence:** National general CPI (CPI-Combined) is heavily weighted by rural food and agricultural commodities (approx. 45% food weight), which exhibit high seasonal volatility that does not reflect technology worker living costs.
+2. **ArthaIQ Index Calibration:** ArthaIQ deliberately isolates the **CPI-Urban** series (`INDCPIALLMINMEI`), which accurately mirrors the urban rent, utilities, and consumer goods basket experienced by technology professionals residing in Tier-1 and Tier-2 Indian metropolitan centers.
+
+### 4.3 FX Misuse Warning (Rule `R-MD-08`)
+* **Prohibition on Nominal Currency Conversion:** Spot exchange rate series (`DEXINUS`) is maintained strictly for international comparison dashboards and macro inflation monitoring.
+* **Invariant:** Spot FX rates must **NEVER** be used to convert USD salaries directly into nominal INR training observations (`R-MD-08`). Doing so distorts local market clearing wages.

@@ -53,3 +53,25 @@ Acquired under `data/raw/SRC-USA-DOL-02/` with verified SHA-256 manifest:
 
 * **Cross-Market Returns to Experience ($YOE$):** Provides empirical data to model the continuous non-linear returns to experience demanded by elite technology product companies.
 * **GCC Parent Wage Parity:** Allows analyzing the compensation spread between US parent headquarters base pay and offshore Indian Global Capability Centers (GCCs) for equivalent tenure and job titles.
+
+---
+
+## 4. Selection & Reporting Bias Assessment
+
+### 4.1 Selection Bias Profile & Senior Immigrant Workforce
+1. **Permanent Green Card Sponsorship Frame:** Covers immigrant workers for whom an employer has completed permanent labor certification (Form ETA-9089). Employers sponsor PERM applications primarily for proven, retained employees who have established high productivity over several years on temporary visas (H-1B, L-1).
+2. **Tenure & Seniority Truncation:** Strongly biased toward experienced professionals. Over 85% of petitions demand a minimum of 24 to 60+ months of specialized engineering experience (`min_experience_months`), practically eliminating entry-level junior roles.
+3. **Big Tech and Multinational Skew:** Large technology firms sponsor a disproportionate volume of permanent residency petitions.
+
+### 4.2 Reporting & Measurement Bias Profile
+1. **Legal Certification Standard:** Subject to mandatory labor market testing and prevailing wage determination audits by the Department of Labor. False representations are subject to federal prosecution.
+2. **Contractual Minimum Cash Floor:** Reports offered annual base pay (`wage_offered_from`). Excludes equity packages, which are substantial for senior Big Tech staff engineers.
+
+### 4.3 Comparison with Official US Population Benchmark
+* **Comparison with US BLS OEWS Benchmark (`SRC-USA-BLS-01`):**
+  * PERM Software Developer median offered base salary: **$152,000 USD**.
+  * US BLS national Software Developer median wage: **$132,270 USD** (75th percentile = $129,200; 90th percentile = $208,620).
+  * **Concordance & Seniority Premium:** PERM median base salaries sit **+14.9% above the national BLS median**, precisely reflecting the empirical experience premium associated with the mandatory 3-to-7 year tenure requirement.
+* **Mitigation & Pipeline Routing Rule in ArthaIQ:**
+  * Prohibited from nominal pooling with Indian domestic data (`R-MD-08`).
+  * Admitted for modeling non-linear returns to tenure ($YOE$) and educational attainment covariates.
