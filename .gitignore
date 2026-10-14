@@ -24,6 +24,7 @@ build/
 .mypy_cache/
 .ruff_cache/
 .pytest_cache/
+catboost_info/
 .hypothesis/
 htmlcov/
 .coverage

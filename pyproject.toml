@@ -1,6 +1,6 @@
 # pyproject.toml — CompIntel
-# Stack and pinned versions are finalized at T3.01 (ADR-0003).
-# This file is a STUB. Versions are NOT pinned here yet.
+# Stack and pinned versions finalized at T3.01 (ADR-0003).
+# Dependencies locked deterministically in uv.lock.
 
 [build-system]
 requires = ["hatchling"]
