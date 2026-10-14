@@ -132,7 +132,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: section in each data card. Done when: each source has a bias statement with evidence. Needs: T2.04. Size: M.
 - [x] **T2.07** [AI] Compute effective sample sizes per occupation × location × level cell after deduplication; produce a coverage map. (done 2026-10-14)
   Output: coverage table and chart in the sufficiency folder. Done when: counts reproduce from a script. Needs: T2.05. Size: M.
-- [ ] **T2.08** [AI] Prototype target construction: annualized, normalized PT1 dataset with documented exclusions (exploratory, not the final pipeline).
+- [x] **T2.08** [AI] Prototype target construction: annualized, normalized PT1 dataset with documented exclusions (exploratory, not the final pipeline). (done 2026-10-14)
   Output: prototype dataset (not committed). Done when: exclusion counts and reasons are reported. Needs: T2.05. Size: M.
 - [ ] **T2.09** [AI] Sufficiency analysis against T2.01, including precision of cell estimates (bootstrap interval widths).
   Output: `docs/research/09-sufficiency-analysis.md`. Done when: each candidate combination is marked meets or does not meet each criterion. Needs: T2.07, T2.08. Size: M.
