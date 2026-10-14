@@ -11,16 +11,40 @@ from typing import TYPE_CHECKING, Any, cast
 
 import yaml
 
+from compintel.errors import DataContractError, LicenceViolationError
+
 if TYPE_CHECKING:
     from pathlib import Path
 
 
-class LicenceGateError(PermissionError):
-    """Raised when an attempt is made to ingest an unapproved or rejected data source."""
+class LicenceGateError(LicenceViolationError, PermissionError):
+    """Raised when an attempt is made to ingest an unapproved source (Rule R-DA-01)."""
+
+    default_code: str = "LICENCE_GATE_ERROR"
+
+    def __init__(
+        self,
+        message: str,
+        code: str | None = None,
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(message, code=code or self.default_code, details=details)
+        PermissionError.__init__(self, message)
 
 
-class ChecksumMismatchError(ValueError):
-    """Raised when an existing raw file does not match its recorded manifest hash."""
+class ChecksumMismatchError(DataContractError, ValueError):
+    """Raised when a raw file does not match its manifest hash (Rule R-DA-02)."""
+
+    default_code: str = "CHECKSUM_MISMATCH_ERROR"
+
+    def __init__(
+        self,
+        message: str,
+        code: str | None = None,
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(message, code=code or self.default_code, details=details)
+        ValueError.__init__(self, message)
 
 
 def compute_sha256(file_path: Path) -> str:
