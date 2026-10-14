@@ -5,8 +5,8 @@ Project identity: **ArthaIQ** (Compensation Intelligence · India-first)
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.2 (updated at T0.03 following T0.02 decisions) |
-| Last updated | 2026-10-13 |
+| Status | v1.0 (Ratified at Gate G2; scope, measure, and acquisition plan locked) |
+| Last updated | 2026-10-14 |
 | Owner | _your name_ |
 | Workflow position | Step 1, define what you want to build (tracker in `memory.md`) |
 | Companion docs | `architecture.md`, `rules.md`, `design.md`, `task.md`, `memory.md`, `research/00-master-research-prompt.md` |
@@ -78,21 +78,27 @@ All rows are `[H]` until user research (T1.03, T1.04) and data research (Phases 
 
 ---
 
-## 4. Scope hypothesis H0 and decision rule
+## 4. Ratified Product Scope and Gate G2 Decision
 
-Initial scope ratified at T0.02 (D-004) as India technology roles, with `guaranteed_cash_annual` normalized to nominal INR LPA. Final confirmation is gated at G2 (T2.11) based on empirical data sufficiency.
+Scope formally ratified at Gate G2 (Task T2.11) following Phase 2 data profiling, prototype target construction, and data sufficiency analysis. The primary scope is locked to Indian technology roles with measure `guaranteed_cash_annual` in nominal INR LPA, supported by the Primary Data Acquisition Programme (T2.10).
 
-| Dimension | Ratified H0 Scope | Alternatives Considered | Decided / Gated By |
+| Dimension | Ratified Scope | Alternatives Considered | Decided / Ratified At |
 |---|---|---|---|
-| Market | India; amounts in INR nominal (LPA) | US first (richer disclosures `[U]`); global (rejected for MVP) | Ratified at T0.02 (Q-001); gated at G2, ADR-0001 |
-| Occupation family | Software engineering, data science and ML/AI roles (deliberately limited initial scope) | Broader white-collar set; single occupation | Ratified at T0.02 (Q-008); gated at G2, ADR-0001 |
-| Measure | `guaranteed_cash_annual`: fixed committed cash before tax, excluding variable, bonuses and equity | `base_annual`; `target_cash_annual`; total compensation | Ratified at T0.02 (Q-009); mapped at T2.05, ADR-0002 |
-| Population | Salaried full-time employees; contract and hourly pay excluded | Include contract / freelance work | Ratified at T0.02; ADR-0002 |
-| Granularity | Occupation × city or region × experience band; level where it can be mapped | Finer (employer) or coarser | T2.07, T2.09 |
+| Market | India (`IND`); amounts in INR nominal (LPA) | US first (richer disclosures); global (rejected for MVP) | Ratified at Gate G2; ADR-0001 |
+| Occupation family | Software engineering, data science and ML/AI roles | Broader white-collar set; single occupation | Ratified at Gate G2; ADR-0001 |
+| Measure | `guaranteed_cash_annual`: fixed committed cash before tax, excluding variable, bonuses and equity | `base_annual`; `target_cash_annual`; total compensation | Ratified at Gate G2; ADR-0002 |
+| Population | Salaried full-time employees; contract and hourly pay excluded | Include contract / freelance work | Ratified at Gate G2; ADR-0002 |
+| Granularity | Occupation × city or region × experience band (84 Level-0 cells; 12 Core Cells) | Finer (employer) or coarser | Ratified at Gate G2; T2.01, T2.07, T2.09 |
 | Profile levels | L0 required; L1 only for feature families that pass ablation | L2 and L3 deferred | G6 |
 | Language | English only at prototype and launch | Hindi and regional languages | Ratified at T0.02 (Q-010); after PB |
 
-**Decision rule.** At G2, choose the market, occupation and measure combination with the best data sufficiency result (T2.09) among sources whose licence status is `approved` (T2.02). If no combination meets the sufficiency criteria that T2.01 fixes in advance, the answer is **no-go on modelling**. The project then switches to the smallest viable data acquisition programme (T2.10) instead of training a model on inadequate evidence.
+**Gate G2 Decision Outcome & Operational Mandate (2026-10-14):**  
+In strict compliance with the pre-registered decision rule, all approved public and secondary datasets were evaluated against sufficiency criteria (Task T2.09 / `experiments/preregistration/sufficiency-v1.yaml`).
+- **Empirical Result:** All 12 core cells failed Criterion C1 (yielding $N_{\text{eff}} = 0.0$), triggering **Kill Criterion 1**. Phase 3 ML modelling on existing public datasets was immediately halted (`Rule R-WF-01`).
+- **Operational Ratification:** Rather than abandoning the India tech market, relaxing sufficiency rules, or resorting to illegal scraping (`R-DA-01`) or invalid multipliers (`R-MD-07`), ArthaIQ formally adopted the **Smallest Viable Data Acquisition Programme** (Task T2.10 / `docs/research/10-data-acquisition-plan.md`).
+- **Acquisition Protocol:** Ground truth itemized compensation records are acquired via B2C Governed Voluntary Intake (`SRC-INT-VOL-01`) with client-side WebAssembly redacted payslip verification and B2B Employer Syndication (`SRC-INT-CORP-01`) with standardized Data Sharing Agreements.
+- **Sufficiency Gate for Phase 3 Baseline Models:** Phase 3 ML model training remains gated until the acquisition programme reaches the pre-registered floor of $N_{\text{eff}} \ge 50.0$ across the 12 core cells (target: 780 verified records).
+- **Contingency Scope Boundary:** If after 90 days of acquisition, core cells outside Bengaluru fail to reach $N_{\text{eff}} \ge 50$, operational scope automatically narrows to **Bengaluru Software Engineering Professionals Only** ($H_{\text{narrowed}}$).
 
 ---
 
@@ -257,7 +263,7 @@ Engagement maximization is not a success metric. Retention, streaks and urgency 
 - **Licence gate.** No source is ingested until the licence register marks it `approved`: terms read, commercial use, redistribution and personal-data status recorded (R-DA-01).
 - **Privacy.** India's Digital Personal Data Protection Act, 2023 and its rules `[U: confirm in-force status and obligations with qualified counsel; T2.02, T9.16]`. If the US enters scope, relevant state privacy laws `[U]`.
 - **Minimization.** Collect only fields justified in `docs/research/feature-spec.md`. Contributor identity is stored apart from pay records (ADR-0008).
-- **Small cells.** No aggregate is shown or exported for fewer than k_min distinct persons `[TBD: ADR-0008]`.
+- **Small cells.** No aggregate is shown or exported for fewer than $k_{\text{min}} = 5$ distinct persons (`Rule R-DA-10`, ADR-0008). Count persons, not rows.
 - **Fairness.** Audit errors, coverage, abstention and data availability by group where lawful and statistically supportable. Employer prestige, institution and location granularity get proxy-bias review.
 - **Not legal advice.** The AI assistant does not reach legal conclusions; it flags items for qualified counsel (R-FA-04).
 
@@ -330,3 +336,5 @@ Phases 7 and 8 are optional branches. Phase 9 needs G6, not G8.
 | Date | Version | Change |
 |---|---|---|
 | 2026-10-11 | 0.1 | Initial draft generated from the master research prompt and the Vibe Coding Workflow |
+| 2026-10-13 | 0.2 | Ratified at T0.03 following T0.02 decisions; updated validity matrix at T2.05 |
+| 2026-10-14 | 1.0 | Ratified v1.0 at Gate G2 (Task T2.11). Replaced H0 with finalized India Tech scope (ADR-0001) and guaranteed_cash_annual measure (ADR-0002). Incorporated Gate G2 evaluation findings and the Primary Data Acquisition Programme (T2.10). Fixed k_min = 5 (ADR-0008, R-DA-10). |

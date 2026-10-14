@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T2.11 (Finalize ADR-0001 & ADR-0002; update PRD to v1.0)**
+**NEXT TASK: T3.01 (Stack Verification, Machine Benchmark & Finalize ADR-0003)**
 
 
 ## How to use this file
@@ -139,10 +139,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `docs/research/09-sufficiency-analysis.md`. Done when: each candidate combination is marked meets or does not meet each criterion. Needs: T2.07, T2.08. Size: M.
 - [x] **T2.10** [AI+HUMAN] **Conditional.** If insufficient: design the smallest viable data acquisition programme (survey or contribution schema, partnerships, consent, cost). (done 2026-10-14)
   Output: `docs/research/10-data-acquisition-plan.md`. Done when: a costed plan exists, or the project is paused with reasons. Needs: T2.09. Size: L.
-- [ ] **T2.11** [AI+HUMAN] Finalize ADR-0001 and ADR-0002; update the PRD to v1.0 (scope, measure, thresholds).
+- [x] **T2.11** [AI+HUMAN] Finalize ADR-0001 and ADR-0002; update the PRD to v1.0 (scope, measure, thresholds). (done 2026-10-14)
   Output: accepted ADRs, PRD v1.0. Done when: H0 is replaced by a decision. Needs: T2.09. Size: S.
 
-**Gate G2 (critical):** data sufficiency and scope decision.
+**Gate G2 (critical):** data sufficiency and scope decision. (Ratified 2026-10-14: NO-GO on existing public data; primary scope ratified with T2.10 data acquisition programme; PRD v1.0, ADR-0001, ADR-0002 finalized)
 
 ---
 

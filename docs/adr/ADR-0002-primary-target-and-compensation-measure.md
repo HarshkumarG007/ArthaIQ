@@ -2,9 +2,9 @@
 
 | Field | Value |
 |---|---|
-| Status | **Accepted / Ratified at Gate G1** (Operational field reconciliation at Task T2.05) |
-| Decided at | Phase 1 Gate G1 (2026-10-13) |
-| Relates to | PRD section 4, `memory.md` D-004, `docs/research/01-targets.md`, `docs/research/02-comp-definitions.md`, `docs/research/08-scope-memo.md` |
+| Status | **Final Accepted / Ratified at Gate G2** |
+| Decided at | Phase 2 Gate G2 (2026-10-14; initially proposed at Gate G1 2026-10-13) |
+| Relates to | PRD section 4, `memory.md` D-004, `docs/research/01-targets.md`, `docs/research/02-comp-definitions.md`, `docs/research/08-scope-memo.md`, `docs/research/pt1-prototype-exclusion-report.md`, `docs/research/10-data-acquisition-plan.md` |
 
 ---
 
@@ -25,10 +25,11 @@ ArthaIQ must define exactly one canonical primary compensation measure for its c
 
 1. **Canonical Primary Target Measure:** **`guaranteed_cash_annual`**, defined as the annual nominal cash compensation that an employer is contractually obligated to pay an employee before individual income taxes, conditional solely on standard full-time employment and independent of personal performance metrics, company EBITDA gates, or vesting schedules.
 2. **Accounting Unbundling Equation:** Enforced by rule `R-MD-07` and defined in `docs/research/02-comp-definitions.md`:
-   $$\text{guaranteed\_cash\_annual} = \text{basic} + \text{hra} + \text{special\_allowance} + \sum \text{recurring\_cash\_allowances}$$
+   $$\text{guaranteed\_cash\_annual} = 12 \times (\text{basic\_monthly} + \text{hra\_monthly} + \text{special\_allowance\_monthly})$$
    $$\text{guaranteed\_cash\_annual} = \text{CTC} - (\text{statutory\_employer\_pf} + \text{gratuity\_provision} + \text{target\_variable\_bonus} + \text{annualized\_equity\_grant} + \text{perks\_insurance})$$
 3. **The Anti-Heuristic Rule (`R-MD-07`):** Stated CTC without itemized line items must **never** be converted to guaranteed cash via uniform percentages (e.g. `0.80 * CTC`). Unreconciled observations are strictly quarantined from PT1 training tables.
-4. **Unit and Horizon:** Nominal **INR Lakhs Per Annum (LPA)**, normalized to annual pay, measured at prediction timestamp $t_0$ and temporally deflated via RBI CPI-Urban (`SRC-SUP-MAC-01`).
+4. **Empirical Gate G2 Verification (Task T2.08):** In prototype target construction across 648 evaluated public candidate observations, exactly 0 records satisfied strict unbundled guaranteed cash without conflating bonuses or statutory overhead. All 648 records were successfully accounted for across 10 deterministic exclusion codes with exact zero discrepancy (`R-DA-05`), confirming the necessity of itemized intake under Task T2.10.
+5. **Unit and Horizon:** Nominal **INR Lakhs Per Annum (LPA)**, normalized to annual pay, measured at prediction timestamp $t_0$ and temporally deflated via RBI CPI-Urban (`SRC-SUP-MAC-01`).
 
 ## Consequences
 
@@ -43,7 +44,8 @@ ArthaIQ must define exactly one canonical primary compensation measure for its c
 | Basic salary in India is artificially depressed (30-50% of CTC) for PF optimization | Employees' Provident Funds Act 1952; `02-comp-definitions.md` | **VERIFIED** |
 | Employer PF (12%) and Gratuity (4.81%) are statutory costs, not take-home pay | Payment of Gratuity Act 1972; `02-comp-definitions.md` | **VERIFIED** |
 | Kaggle datasets bundle CTC and variable bonuses | `docs/research/kaggle-dataset-audit-v0.1.md` | **VERIFIED** |
-| Test suite verifies unbundling and quarantine logic (`T1.02-TEST-01..08`) | `docs/research/02-comp-definitions.md` Section 5 | **VERIFIED** |
+| Prototype exclusion audit proves 0 strict unbundled public records (0 discrepancy) | `docs/research/pt1-prototype-exclusion-report.md` | **VERIFIED** (648 evaluated = 0 kept + 648 excluded) |
+| Voluntary intake schema captures itemized canonical line items | `docs/research/10-data-acquisition-plan.md` (`SRC-INT-VOL-01`) | **VERIFIED** |
 
 ## Change Log
 
@@ -51,3 +53,4 @@ ArthaIQ must define exactly one canonical primary compensation measure for its c
 |---|---|---|
 | 2026-10-13 | AI / Human | Stub created at T0.04 |
 | 2026-10-13 | AI / Human | Updated to Ratified at Gate G1 with canonical unbundling equation and R-MD-07 anti-heuristic rule |
+| 2026-10-14 | AI / Human | Finalized and Accepted at Gate G2 (T2.11) following T2.08 Prototype Exclusion Audit and T2.10 Acquisition Plan |
