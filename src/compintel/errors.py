@@ -62,7 +62,7 @@ def sanitize_error_context(obj: Any) -> Any:
             else:
                 sanitized[str(k)] = sanitize_error_context(v)
         return sanitized
-    if isinstance(obj, (list, tuple)):
+    if isinstance(obj, list | tuple):
         sanitized_list = [sanitize_error_context(item) for item in obj]
         return type(obj)(sanitized_list)
     if isinstance(obj, str):
