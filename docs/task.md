@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T3.05 (Normalization: currency with as-of FX, annualization, nominal versus real policy; property-based tests)**
+**NEXT TASK: T3.06 (Connector interface with the licence gate; first connector for the smallest verified source; raw immutability and manifests)**
 
 
 ## How to use this file
@@ -163,7 +163,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: `config` and `errors` modules with tests. Done when: tests pass and no personal data can enter logs by construction. Needs: T3.02. Size: S.
 - [x] **T3.04** [AI] Canonical schema: Pydantic models and pandera schemas for `CompensationObservation` and supporting entities; enums; schema versioning. (done 2026-10-14)
   Output: `schema/` with tests. Done when: invalid records raise `DataContractError`. Needs: T3.02. Size: M.
-- [ ] **T3.05** [AI] Normalization: currency with as-of FX, annualization, nominal versus real policy; property-based tests.
+- [x] **T3.05** [AI] Normalization: currency with as-of FX, annualization, nominal versus real policy; property-based tests. (done 2026-10-15)
   Output: `normalization/` with hypothesis tests. Done when: round-trip and monotonicity properties hold. Needs: T3.04. Size: M.
 - [ ] **T3.06** [AI] Connector interface with the licence gate; first connector for the smallest verified source; raw immutability and manifests.
   Output: `ingestion/` and one connector. Done when: an unapproved source is refused by a test. Needs: T3.04. Size: M.
