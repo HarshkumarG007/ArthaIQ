@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T2.10 (Data Acquisition Plan for Primary Pipeline)**
+**NEXT TASK: T2.11 (Finalize ADR-0001 & ADR-0002; update PRD to v1.0)**
 
 
 ## How to use this file
@@ -137,8 +137,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: prototype dataset (not committed). Done when: exclusion counts and reasons are reported. Needs: T2.05. Size: M.
 - [x] **T2.09** [AI] Sufficiency analysis against T2.01, including precision of cell estimates (bootstrap interval widths). (done 2026-10-14)
   Output: `docs/research/09-sufficiency-analysis.md`. Done when: each candidate combination is marked meets or does not meet each criterion. Needs: T2.07, T2.08. Size: M.
-- [ ] **T2.10** [AI+HUMAN] **Conditional.** If insufficient: design the smallest viable data acquisition programme (survey or contribution schema, partnerships, consent, cost).
-
+- [x] **T2.10** [AI+HUMAN] **Conditional.** If insufficient: design the smallest viable data acquisition programme (survey or contribution schema, partnerships, consent, cost). (done 2026-10-14)
   Output: `docs/research/10-data-acquisition-plan.md`. Done when: a costed plan exists, or the project is paused with reasons. Needs: T2.09. Size: L.
 - [ ] **T2.11** [AI+HUMAN] Finalize ADR-0001 and ADR-0002; update the PRD to v1.0 (scope, measure, thresholds).
   Output: accepted ADRs, PRD v1.0. Done when: H0 is replaced by a decision. Needs: T2.09. Size: S.
