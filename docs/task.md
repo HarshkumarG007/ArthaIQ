@@ -7,7 +7,7 @@
 | Depends on | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md` |
 
-**NEXT TASK: T3.03 (Settings and Logging: pydantic-settings, structlog, .env.example, Exception Taxonomy)**
+**NEXT TASK: T3.04 (Canonical Schema: Pydantic models and pandera schemas for CompensationObservation and supporting entities; enums; schema versioning)**
 
 
 ## How to use this file
@@ -159,7 +159,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   Output: ADR-0003 with pinned versions and a benchmark note. Done when: every `[U]` in the stack table is resolved. Needs: G2. Size: M.
 - [x] **T3.02** [AI] Scaffold the repository: `pyproject.toml`, `src/compintel`, ruff, mypy, pytest, pre-commit, Makefile, import-linter config, CI skeleton, coverage thresholds (R-TS-03). (done 2026-10-14)
   Output: green CI on an empty package. Done when: CI passes lint, types and tests. Needs: T3.01. Size: M.
-- [ ] **T3.03** [AI] Settings and logging: `pydantic-settings`, `structlog`, `.env.example`, the exception taxonomy (R-ER-02).
+- [x] **T3.03** [AI] Settings and logging: `pydantic-settings`, `structlog`, `.env.example`, the exception taxonomy (R-ER-02). (done 2026-10-14)
   Output: `config` and `errors` modules with tests. Done when: tests pass and no personal data can enter logs by construction. Needs: T3.02. Size: S.
 - [ ] **T3.04** [AI] Canonical schema: Pydantic models and pandera schemas for `CompensationObservation` and supporting entities; enums; schema versioning.
   Output: `schema/` with tests. Done when: invalid records raise `DataContractError`. Needs: T3.02. Size: M.
