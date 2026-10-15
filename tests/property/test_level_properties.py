@@ -5,14 +5,14 @@ Verifies invariants across seniority normalization:
 2. Robustness: Never raises unhandled exceptions across arbitrary unicode text or float values.
 3. Probability conservation: Soft label distributions strictly sum to 1.0.
 4. Confidence bounds: Confidence is strictly in [0.0, 1.0].
-5. Audit conservation: clean_mapped + ambiguous + unmapped == total_records == sum(seniority_counts).
+5. Audit conservation: clean + ambiguous + unmapped == total == sum(seniority_counts).
 """
 
 from __future__ import annotations
 
+import pytest
 from hypothesis import given
 from hypothesis import strategies as st
-import pytest
 
 from compintel.normalization.levels import (
     DEFAULT_LEVEL_MAPPING_VERSION,
@@ -34,7 +34,7 @@ def test_level_mapping_robustness_and_invariants(
     explicit_lvl: str | None,
     yoe: float | None,
 ) -> None:
-    """Invariant: map_level never crashes, bounds confidence in [0.0, 1.0], and sums soft labels to 1.0."""
+    """Invariant: map_level bounds confidence in [0.0, 1.0] and sums soft labels to 1.0."""
     res = map_level(raw_title=title, explicit_level=explicit_lvl, years_experience=yoe)
 
     assert isinstance(res, LevelMappingResult)
@@ -96,7 +96,10 @@ def test_audit_conservation_invariants(
         audit.record_result(res)
 
     assert audit.total_records == len(records)
-    assert audit.clean_mapped_count + audit.ambiguous_count + audit.unmapped_count == audit.total_records
+    assert (
+        audit.clean_mapped_count + audit.ambiguous_count + audit.unmapped_count
+        == audit.total_records
+    )
     assert sum(audit.seniority_counts.values()) == audit.total_records
     assert 0.0 <= audit.ambiguity_rate <= 1.0
     assert 0.0 <= audit.unmapped_rate <= 1.0

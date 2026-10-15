@@ -11,9 +11,7 @@ import polars as pl
 import pytest
 
 from compintel.normalization.levels import (
-    DEFAULT_LEVEL_MAPPING_VERSION,
     LevelAmbiguityAudit,
-    LevelMappingResult,
     map_level,
     normalize_levels_df,
 )
@@ -88,7 +86,7 @@ def test_map_level_ambiguous_lead_title() -> None:
 
 @pytest.mark.unit
 def test_map_level_title_yoe_concordance_and_discordance() -> None:
-    """Verify concordance between title and YoE preserves confidence, while discordance increases ambiguity."""
+    """Verify concordance preserves confidence, while discordance increases ambiguity."""
     # Concordant: Senior with 8 years experience
     res_conc = map_level(raw_title="Senior Software Engineer", years_experience=8.0)
     assert res_conc.seniority == SeniorityLevel.SR
@@ -190,7 +188,9 @@ def test_normalize_levels_df() -> None:
         }
     )
 
-    out_df, audit = normalize_levels_df(df, title_column="raw_title", explicit_level_column="explicit_level")
+    out_df, audit = normalize_levels_df(
+        df, title_column="raw_title", explicit_level_column="explicit_level"
+    )
 
     assert out_df.height == 4
     assert "seniority" in out_df.columns
@@ -202,7 +202,7 @@ def test_normalize_levels_df() -> None:
     seniorities = out_df["seniority"].to_list()
     assert seniorities == ["SR", "SR", "MID", "OTHER"]
 
-    # Verify audit counts: 2 clean (Senior with YoE, L3), 1 ambiguous (Tech Lead), 1 unmapped (plain Data Scientist)
+    # Audit counts: 2 clean (Senior with YoE, L3), 1 ambiguous (Tech Lead), 1 unmapped
     assert audit.total_records == 4
     assert audit.clean_mapped_count == 2
     assert audit.ambiguous_count == 1

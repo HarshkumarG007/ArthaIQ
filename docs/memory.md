@@ -12,7 +12,7 @@
 
 - **What we are building:** **ArthaIQ** — a personalized compensation intelligence and decision-support tool for India tech careers. It returns an empirical pay range (P10, P50, P90) with an evidence summary and transparent prediction support, and abstains when evidence is thin. It is not an appraisal, an offer or a guarantee.
 - **Six prediction targets, kept separate:** PT1 market pay for a profile, PT2 comparable cohorts, PT3 offer distribution, PT4 negotiation scenarios, PT5 transition scenarios, PT6 current pay versus benchmark. Only PT1, PT2 and PT6 are in the first release.
-- **Where we are:** Phase 3 is in progress. T3.01, T3.02, T3.03, T3.04, T3.05, T3.06, T3.07a, T3.07b, T3.07c, T3.07d, T3.08, and T3.09 completed. **NEXT TASK: T3.10 (Deduplication and entity resolution v0).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; Phase 2 T2.01-T2.11 done; Gate G2 ratified; T3.01-T3.04 done 2026-10-14; T3.05-T3.09 done 2026-10-15).
+- **Where we are:** Phase 3 is in progress. T3.01, T3.02, T3.03, T3.04, T3.05, T3.06, T3.07a, T3.07b, T3.07c, T3.07d, T3.08, and T3.09 completed. **NEXT TASK: T3.10a (Exact duplicate detection and person record clustering: quality/dedup part 1).** (T0.00-T0.07 done; Gate G0 ratified; Phase 1 T1.01-T1.13 done; Gate G1 ratified; Phase 2 T2.01-T2.11 done; Gate G2 ratified; T3.01-T3.04 done 2026-10-14; T3.05-T3.09 done 2026-10-15).
 - **Scope ratified (Decision):** India technology roles (software, data and ML), measure `guaranteed_cash_annual`, INR nominal (LPA). Deliberately limited initial occupational scope. Ratified at Gate G2 (ADR-0001, ADR-0002, PRD v1.0); supported by primary data acquisition programme (T2.10).
 - **What exists:** repo scaffold, initial configs, doc suite v0.2, PRD v1.0, ADR-0001 v1.0, ADR-0002 v1.0, ADR-0003 v1.0, canonical schema v1.0.0 (`CompensationObservation`, Pandera dataframe schema, enums, entities), settings & PII-masked logging, normalization engine (`annualization`, `denomination`, `currency`, `deflation`, `titles` taxonomy & rule-based normalization engine, and `levels` seniority mapping with soft labels & ambiguity audit), ingestion engine (connectors for all 13 approved external sources and primary voluntary intake connector SRC-INT-VOL-01, licence gate, manifest verification), `docs/research/01-targets.md`, `docs/research/kaggle-dataset-audit-v0.1.md`, `docs/research/evidence-register.csv`, `docs/research/02-comp-definitions.md`, `docs/research/04-source-catalog.md`, 22 source configs in `config/sources/`, 14 data cards in `docs/data-cards/`, raw datasets & verified manifests in `data/raw/`, 84-cell coverage map in `experiments/results/`, PT1 prototype exclusion audit and exploratory dataset in `data/processed/` and `docs/research/`, bootstrap precision datasets `experiments/results/bootstrap_precision_v1.{parquet,csv}`, research report `docs/research/09-sufficiency-analysis.md`, and data acquisition plan `docs/research/10-data-acquisition-plan.md`.
 - **Rules that matter most:** R-WF-01 (no skipping ahead), R-EV-03 (never invent facts), R-UQ-01 (no lone numbers), R-DA-01 (licence gate), R-MD-02 (final test set is touched once), R-MD-07 (no hard-coded multipliers).
@@ -31,7 +31,7 @@
 | DESIGN | DONE | v0.2 ratified at T0.05 (the Span, cobalt on cool paper) |
 | PROJECT RULES | DONE | v0.2 ratified at T0.06 |
 | TASK BREAKDOWN | DONE | v0.2 ratified at T0.06 |
-| SETUP | IN PROGRESS | Phase 3 (T3.01-T3.09 done; T3.10 next) |
+| SETUP | IN PROGRESS | Phase 3 (T3.01-T3.09 done; T3.10a next) |
 | DEVELOPMENT | TODO | Phases 3 to 9 |
 | TESTING | TODO | Inside every task; formal pass in Phase 9 |
 | SECURITY REVIEW | TODO | T9.12 |
@@ -48,7 +48,7 @@
 |---|---|
 | Phase | 3, Canonical schema and reproducible pipeline |
 | Last completed task | T3.09 (Level mapping v0 with uncertainty: soft labels or confidence) |
-| Next task | T3.10 (Deduplication and entity resolution v0: exact and near-duplicate detection; person, employer and posting clusters) |
+| Next task | T3.10a (Exact duplicate detection and person record clustering: quality/dedup part 1) |
 | Last gate | G2 — NO-GO on Existing Public Data; Data Acquisition Programme Ratified; Scope Locked (2026-10-14) |
 | Document versions | PRD v1.0; ADR-0001 v1.0; ADR-0002 v1.0; ADR-0003 v1.0; architecture, rules, design, task, memory at v0.2 |
 | Repository | Initialized (Git initialized, scaffold committed, README updated) |
