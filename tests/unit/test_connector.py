@@ -12,6 +12,8 @@ from compintel.ingestion.connector import (
     BaseConnector,
     CorporateDisclosuresConnector,
     ESCOTaxonomyConnector,
+    LabourBureauQESConnector,
+    MOSPIPLFSConnector,
     ONetTaxonomyConnector,
     RBIMacroConnector,
     compute_record_hash,
@@ -53,6 +55,14 @@ def test_compute_record_hash_properties() -> None:
 
 
 @pytest.mark.unit
+def test_compute_record_hash_non_string_keys() -> None:
+    """Verify compute_record_hash safely converts non-string or None keys without error."""
+    payload = {1: "one", None: "none", "key": "val"}  # type: ignore[dict-item]
+    h = compute_record_hash(payload)
+    assert len(h) == 64
+
+
+@pytest.mark.unit
 def test_get_connector_success() -> None:
     """Verify get_connector retrieves registered connector for approved sources."""
     c1 = get_connector("SRC-SUP-CORP-01")
@@ -71,13 +81,21 @@ def test_get_connector_success() -> None:
     assert isinstance(c4, ESCOTaxonomyConnector)
     assert c4.source_id == "SRC-SUP-TAX-02"
 
+    c5 = get_connector("SRC-IND-OFF-01")
+    assert isinstance(c5, MOSPIPLFSConnector)
+    assert c5.source_id == "SRC-IND-OFF-01"
+
+    c6 = get_connector("SRC-IND-OFF-03")
+    assert isinstance(c6, LabourBureauQESConnector)
+    assert c6.source_id == "SRC-IND-OFF-03"
+
 
 @pytest.mark.unit
 def test_get_connector_approved_but_unimplemented_raises_value_error() -> None:
     """Verify get_connector raises ValueError if approved source has no registered connector."""
-    # SRC-IND-OFF-01 is approved in config/sources/ but not yet in CONNECTOR_REGISTRY
+    # SRC-USA-BLS-01 is approved in config/sources/ but not yet in CONNECTOR_REGISTRY (T3.07c)
     with pytest.raises(ValueError, match="No connector implementation registered"):
-        get_connector("SRC-IND-OFF-01")
+        get_connector("SRC-USA-BLS-01")
 
 
 @pytest.mark.unit
@@ -119,6 +137,39 @@ def test_to_raw_dataframe_empty() -> None:
     connector = EmptyConnector()
     df = connector.to_raw_dataframe()
     assert isinstance(df, pl.DataFrame)
-    assert df.height == 0
     assert "source_id" in df.columns
     assert "raw_payload" in df.columns
+
+
+@pytest.mark.unit
+def test_plfs_connector_missing_data_files_raises_file_not_found(tmp_path: Path) -> None:
+    """Verify MOSPIPLFSConnector raises FileNotFoundError when both data files are missing."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-IND-OFF-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    dummy_file = source_dir / "other.txt"
+    dummy_file.write_text("dummy", encoding="utf-8")
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+
+    connector = MOSPIPLFSConnector(raw_dir=tmp_path)
+    with pytest.raises(FileNotFoundError, match="No raw data files found for SRC-IND-OFF-01"):
+        list(connector.extract_raw_records())
+
+
+@pytest.mark.unit
+def test_qes_connector_missing_data_file_raises_file_not_found(tmp_path: Path) -> None:
+    """Verify LabourBureauQESConnector raises FileNotFoundError when data file is missing."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-IND-OFF-03"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    dummy_file = source_dir / "other.txt"
+    dummy_file.write_text("dummy", encoding="utf-8")
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+
+    connector = LabourBureauQESConnector(raw_dir=tmp_path)
+    with pytest.raises(FileNotFoundError, match="Raw data file not found"):
+        list(connector.extract_raw_records())

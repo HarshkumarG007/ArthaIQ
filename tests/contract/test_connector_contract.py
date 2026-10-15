@@ -19,6 +19,8 @@ from compintel.ingestion.connector import (
     BaseConnector,
     CorporateDisclosuresConnector,
     ESCOTaxonomyConnector,
+    LabourBureauQESConnector,
+    MOSPIPLFSConnector,
     ONetTaxonomyConnector,
     RBIMacroConnector,
     get_connector,
@@ -272,4 +274,97 @@ def test_esco_taxonomy_connector_contract(mock_esco_raw_dir: Path) -> None:
     assert rec.source_version == "1.1.1"
     assert rec.raw_payload["skill_label"] == "Python"
     assert rec.raw_payload["parent_skill_group"] == "Programming"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.fixture
+def mock_plfs_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic MOSPI PLFS tables and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-IND-OFF-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    anchors_csv = (
+        "nco_code,occupation_title,sector,education_filter,weighted_n,monthly_ern_p10,"
+        "monthly_ern_p25,monthly_ern_p50,monthly_ern_p75,monthly_ern_p90,annual_cash_lpa_p10,"
+        "annual_cash_lpa_p50,annual_cash_lpa_p90\n"
+        "2512,Software Developers,Urban,Tech Degree Graduate,2240,25000,42000,75000,135000,240000,"
+        "3.00,9.00,28.80\n"
+    )
+    layout_csv = (
+        "block,item,variable_name,field_length,start_pos,description,sample_universe,weight_multiplier\n"
+        "Block 5.1,Item 9,ern25,8,102,Gross earnings,Salaried,None\n"
+    )
+
+    (source_dir / "plfs_urban_tech_macro_anchors.csv").write_text(anchors_csv, encoding="utf-8")
+    (source_dir / "plfs_2023_24_layout_sched_10_4.csv").write_text(layout_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_qes_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic Labour Bureau QES table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-IND-OFF-03"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    qes_csv = (
+        "round_number,reference_quarter,sector_name,nic_codes,estimated_employment,"
+        "regular_workers_pct,contract_workers_pct,female_workers_pct\n"
+        'Round 9,Q4 FY2022-23,IT / BPO,"62, 63",3450000,88.4,11.6,35.2\n'
+    )
+    (source_dir / "qes_it_bpo_formal_employment.csv").write_text(qes_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.mark.contract
+def test_mospi_plfs_connector_contract(mock_plfs_raw_dir: Path) -> None:
+    """Contract: MOSPIPLFSConnector extracts urban tech anchors and layout spec."""
+    connector = MOSPIPLFSConnector(raw_dir=mock_plfs_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 2  # 1 anchor + 1 layout spec
+    for rec in records:
+        assert isinstance(rec, RawRecord)
+        assert rec.source_id == "SRC-IND-OFF-01"
+        assert rec.license_id == "OGL-India-1.0"
+        assert rec.source_version == "DDI-IND-CSO-PLFS-2023-24"
+        assert len(rec.record_hash) == 64
+
+    table_names = {r.raw_payload["table_name"] for r in records}
+    assert table_names == {"macro_anchors", "layout_sched_10_4"}
+
+    # Anchor row companion fields
+    anchor_rec = next(r for r in records if r.raw_payload["table_name"] == "macro_anchors")
+    assert anchor_rec.raw_payload["nco_code"] == "2512"
+    assert anchor_rec.raw_payload["occupation_title"] == "Software Developers"
+    assert anchor_rec.raw_payload["annual_cash_lpa_p50"] == "9.00"
+
+    # Layout spec companion fields
+    layout_rec = next(r for r in records if r.raw_payload["table_name"] == "layout_sched_10_4")
+    assert layout_rec.raw_payload["variable_name"] == "ern25"
+    assert layout_rec.raw_payload["block"] == "Block 5.1"
+
+
+@pytest.mark.contract
+def test_labour_bureau_qes_connector_contract(mock_qes_raw_dir: Path) -> None:
+    """Contract: LabourBureauQESConnector extracts employment counts with OGL-India-1.0."""
+    connector = LabourBureauQESConnector(raw_dir=mock_qes_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-IND-OFF-03"
+    assert rec.license_id == "OGL-India-1.0"
+    assert rec.raw_payload["round_number"] == "Round 9"
+    assert rec.raw_payload["sector_name"] == "IT / BPO"
+    assert rec.raw_payload["estimated_employment"] == "3450000"
+    assert rec.raw_payload["regular_workers_pct"] == "88.4"
     assert len(rec.record_hash) == 64
