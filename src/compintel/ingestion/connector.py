@@ -38,7 +38,8 @@ def find_repo_root(start_path: Path | None = None) -> Path:
 
 def compute_record_hash(payload: dict[str, Any]) -> str:
     """Compute deterministic SHA-256 hash of a raw record payload."""
-    serialized = json.dumps(payload, sort_keys=True, default=str).encode("utf-8")
+    normalized_payload = {str(k): v for k, v in payload.items()}
+    serialized = json.dumps(normalized_payload, sort_keys=True, default=str).encode("utf-8")
     return hashlib.sha256(serialized).hexdigest()
 
 
@@ -355,8 +356,121 @@ class ESCOTaxonomyConnector(BaseConnector):
                 )
 
 
+class MOSPIPLFSConnector(BaseConnector):
+    """Connector for MOSPI Periodic Labour Force Survey Microdata (SRC-IND-OFF-01).
+
+    Streams urban tech wage macro anchors and Schedule 10.4 layout specifications.
+    Admitted strictly as macro wage anchor and population benchmark (Rule D-010, R-DA-01).
+    """
+
+    source_id: str = "SRC-IND-OFF-01"
+    anchors_file_name: str = "plfs_urban_tech_macro_anchors.csv"
+    layout_file_name: str = "plfs_2023_24_layout_sched_10_4.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from MOSPI PLFS tables."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        ref_id = config.get("dataset_reference_id", "DDI-IND-CSO-PLFS-2023-24")
+        source_version = str(ref_id)
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "OGL-India-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        anchors_path = self.source_raw_dir / self.anchors_file_name
+        layout_path = self.source_raw_dir / self.layout_file_name
+
+        if not anchors_path.exists() and not layout_path.exists():
+            msg = f"No raw data files found for {self.source_id} in {self.source_raw_dir}"
+            raise FileNotFoundError(msg)
+
+        # 1. Macro wage anchors
+        if anchors_path.exists():
+            with open(anchors_path, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                    raw_payload = {
+                        "table_name": "macro_anchors",
+                        **clean_row,
+                    }
+                    record_hash = compute_record_hash(raw_payload)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version=source_version,
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=raw_payload,
+                        record_hash=record_hash,
+                    )
+
+        # 2. Schedule 10.4 layout specification
+        if layout_path.exists():
+            with open(layout_path, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                    raw_payload = {
+                        "table_name": "layout_sched_10_4",
+                        **clean_row,
+                    }
+                    record_hash = compute_record_hash(raw_payload)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version=source_version,
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=raw_payload,
+                        record_hash=record_hash,
+                    )
+
+
+class LabourBureauQESConnector(BaseConnector):
+    """Connector for Labour Bureau Quarterly Employment Survey (SRC-IND-OFF-03).
+
+    Streams IT/BPO formal employment counts and workforce ratios.
+    Admitted strictly as auxiliary macro signal (Rule R-DA-01).
+    """
+
+    source_id: str = "SRC-IND-OFF-03"
+    data_file_name: str = "qes_it_bpo_formal_employment.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from Labour Bureau QES IT/BPO survey."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = f"{ref_period.get('start', '2023')}_{ref_period.get('end', '2024')}"
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "OGL-India-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                raw_payload = dict(row)
+                record_hash = compute_record_hash(raw_payload)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=raw_payload,
+                    record_hash=record_hash,
+                )
+
+
 # Master registry mapping approved source IDs to connector implementations
 CONNECTOR_REGISTRY: dict[str, type[BaseConnector]] = {
+    "SRC-IND-OFF-01": MOSPIPLFSConnector,
+    "SRC-IND-OFF-03": LabourBureauQESConnector,
     "SRC-SUP-CORP-01": CorporateDisclosuresConnector,
     "SRC-SUP-MAC-01": RBIMacroConnector,
     "SRC-SUP-TAX-01": ONetTaxonomyConnector,
