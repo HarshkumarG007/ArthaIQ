@@ -16,13 +16,20 @@ import pytest
 
 from compintel.errors import DataContractError, LicenceViolationError
 from compintel.ingestion.connector import (
+    AIJobsSalariesConnector,
     BaseConnector,
+    BLSOEWSConnector,
     CorporateDisclosuresConnector,
+    DOLLCAConnector,
+    DOLPERMConnector,
     ESCOTaxonomyConnector,
+    JobsInDataConnector,
     LabourBureauQESConnector,
     MOSPIPLFSConnector,
     ONetTaxonomyConnector,
     RBIMacroConnector,
+    StackOverflowSurvey2023Connector,
+    StackOverflowSurvey2024Connector,
     get_connector,
 )
 from compintel.ingestion.manifest import (
@@ -367,4 +374,259 @@ def test_labour_bureau_qes_connector_contract(mock_qes_raw_dir: Path) -> None:
     assert rec.raw_payload["sector_name"] == "IT / BPO"
     assert rec.raw_payload["estimated_employment"] == "3450000"
     assert rec.raw_payload["regular_workers_pct"] == "88.4"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.fixture
+def mock_bls_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic BLS OEWS table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-USA-BLS-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    bls_csv = (
+        "area_code,area_name,soc_code,occupation_title,total_employment,annual_mean_usd,"
+        "annual_p10_usd,annual_p25_usd,annual_median_p50_usd,annual_p75_usd,annual_p90_usd\n"
+        "000000,National (US),15-1252,Software Developers,1656880,138110,77020,101560,"
+        "132270,169750,208620\n"
+    )
+    (source_dir / "bls_oews_tech_estimates_may2023.csv").write_text(bls_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_dol_lca_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic DOL LCA table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-USA-DOL-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    lca_csv = (
+        "case_number,case_status,employer_name,job_title,soc_code,soc_title,"
+        "wage_rate_from,wage_unit,prevailing_wage,worksite_city,worksite_state\n"
+        "I-200-24001-000101,Certified,Google LLC,Software Engineer,15-1252,"
+        "Software Developers,175000,Year,138000,Mountain View,CA\n"
+    )
+    (source_dir / "dol_lca_fy24_certified_tech_sample.csv").write_text(lca_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_dol_perm_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic DOL PERM table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-USA-DOL-02"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    perm_csv = (
+        "case_number,case_status,employer_name,job_title,soc_code,wage_offered_from,"
+        "wage_unit,min_education_demanded,min_experience_months,country_of_citizenship\n"
+        "A-24001-000201,Certified,Google LLC,Staff Software Engineer,15-1252,245000,"
+        "Year,Master's,60,INDIA\n"
+    )
+    (source_dir / "dol_perm_fy24_certified_tech_sample.csv").write_text(perm_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_aij_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic ai-jobs table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-KAG-AIJ-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    aij_csv = (
+        "work_year,experience_level,employment_type,job_title,salary,salary_currency,"
+        "salary_in_usd,employee_residence,remote_ratio,company_location,company_size\n"
+        "2023,SE,FT,Data Engineer,150000,USD,150000,US,100,US,M\n"
+    )
+    (source_dir / "ai_jobs_ds_salaries_2023.csv").write_text(aij_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_so_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic Stack Overflow table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-KAG-SO-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    so_csv = (
+        "ResponseId,Age,Employment,RemoteWork,EdLevel,YearsCodePro,DevType,Country,"
+        "Currency,CompTotal,ConvertedCompYearly\n"
+        '1,35-44 years old,"Employed, full-time",Remote,Bachelor’s degree,10,'
+        '"Developer, full-stack",India,INR,3500000,42000\n'
+    )
+    (source_dir / "so_survey_2024_raw_sample.csv").write_text(so_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.mark.contract
+def test_bls_oews_connector_contract(mock_bls_raw_dir: Path) -> None:
+    """Contract: BLSOEWSConnector extracts US tech estimates with CC0-1.0."""
+    connector = BLSOEWSConnector(raw_dir=mock_bls_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-USA-BLS-01"
+    assert rec.license_id == "CC0-1.0"
+    assert rec.source_version == "2023-05"
+    assert rec.raw_payload["soc_code"] == "15-1252"
+    assert rec.raw_payload["annual_median_p50_usd"] == "132270"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.mark.contract
+def test_dol_lca_connector_contract(mock_dol_lca_raw_dir: Path) -> None:
+    """Contract: DOLLCAConnector extracts certified LCA filings with CC0-1.0."""
+    connector = DOLLCAConnector(raw_dir=mock_dol_lca_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-USA-DOL-01"
+    assert rec.license_id == "CC0-1.0"
+    assert rec.source_version == "2023-2024"
+    assert rec.raw_payload["employer_name"] == "Google LLC"
+    assert rec.raw_payload["wage_rate_from"] == "175000"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.mark.contract
+def test_dol_perm_connector_contract(mock_dol_perm_raw_dir: Path) -> None:
+    """Contract: DOLPERMConnector extracts PERM certifications with CC0-1.0."""
+    connector = DOLPERMConnector(raw_dir=mock_dol_perm_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-USA-DOL-02"
+    assert rec.license_id == "CC0-1.0"
+    assert rec.source_version == "2023-2024"
+    assert rec.raw_payload["min_experience_months"] == "60"
+    assert rec.raw_payload["country_of_citizenship"] == "INDIA"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.mark.contract
+def test_ai_jobs_salaries_connector_contract(mock_aij_raw_dir: Path) -> None:
+    """Contract: AIJobsSalariesConnector extracts AI salary rows with CC0-1.0."""
+    connector = AIJobsSalariesConnector(raw_dir=mock_aij_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-KAG-AIJ-01"
+    assert rec.license_id == "CC0-1.0"
+    assert rec.raw_payload["job_title"] == "Data Engineer"
+    assert rec.raw_payload["salary_in_usd"] == "150000"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.fixture
+def mock_jobs_in_data_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic Jobs in Data table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-KAG-AIJ-02"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    jid_csv = (
+        "work_year,job_title,job_category,salary_currency,salary,salary_in_usd,"
+        "employee_residence,experience_level,employment_type,work_setting,"
+        "company_location,company_size\n"
+        "2024,Data Scientist,Data Science,USD,160000,160000,US,Senior,Full-time,Remote,US,M\n"
+    )
+    (source_dir / "jobs_in_data_2024.csv").write_text(jid_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.mark.contract
+def test_jobs_in_data_connector_contract(mock_jobs_in_data_raw_dir: Path) -> None:
+    """Contract: JobsInDataConnector extracts 2024 AI salaries with CC0-1.0."""
+    connector = JobsInDataConnector(raw_dir=mock_jobs_in_data_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-KAG-AIJ-02"
+    assert rec.license_id == "CC0-1.0"
+    assert rec.raw_payload["job_title"] == "Data Scientist"
+    assert rec.raw_payload["salary_in_usd"] == "160000"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.mark.contract
+def test_stack_overflow_survey_connector_contract(mock_so_raw_dir: Path) -> None:
+    """Contract: StackOverflowSurvey2024Connector extracts survey data with ODbL-1.0."""
+    connector = StackOverflowSurvey2024Connector(raw_dir=mock_so_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-KAG-SO-01"
+    assert rec.license_id == "ODbL-1.0"
+    assert rec.raw_payload["ResponseId"] == "1"
+    assert rec.raw_payload["Country"] == "India"
+    assert rec.raw_payload["CompTotal"] == "3500000"
+    assert len(rec.record_hash) == 64
+
+
+@pytest.fixture
+def mock_so_2023_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic 2023 Stack Overflow table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-KAG-SO-02"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    so_csv = (
+        "ResponseId,Age,Employment,RemoteWork,EdLevel,YearsCodePro,DevType,Country,"
+        "Currency,CompTotal,ConvertedCompYearly\n"
+        '2,25-34 years old,"Employed, full-time",Remote,Bachelor’s degree,9,'
+        '"Senior Executive",United States of America,USD,285000,285000\n'
+    )
+    (source_dir / "so_survey_2023_raw_sample.csv").write_text(so_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.mark.contract
+def test_stack_overflow_2023_survey_connector_contract(mock_so_2023_raw_dir: Path) -> None:
+    """Contract: StackOverflowSurvey2023Connector extracts 2023 survey data with ODbL-1.0."""
+    connector = StackOverflowSurvey2023Connector(raw_dir=mock_so_2023_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-KAG-SO-02"
+    assert rec.license_id == "ODbL-1.0"
+    assert rec.raw_payload["ResponseId"] == "2"
+    assert rec.raw_payload["CompTotal"] == "285000"
     assert len(rec.record_hash) == 64
