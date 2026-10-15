@@ -78,6 +78,18 @@ class BaseConnector(ABC):
         """
         return verify_licence_gate(self.source_id, self.repo_root)
 
+    def get_manifest_retrieved_at(self) -> datetime:
+        """Read retrieved_at / generated_at_utc timestamp from manifest or fallback to now."""
+        if self.manifest_path.exists():
+            try:
+                with open(self.manifest_path, encoding="utf-8") as f:
+                    manifest_data = yaml.safe_load(f)
+                if isinstance(manifest_data, dict) and "generated_at_utc" in manifest_data:
+                    return datetime.fromisoformat(manifest_data["generated_at_utc"])
+            except Exception:
+                pass
+        return datetime.now(UTC)
+
     def verify_manifest(self) -> bool:
         """Verify SHA-256 checksums and immutability for this connector's raw files.
 
@@ -149,17 +161,7 @@ class CorporateDisclosuresConnector(BaseConnector):
         source_version = str(ref_period.get("fiscal_year", "FY2023-24"))
         licence_meta = config.get("licence", {})
         license_id = str(licence_meta.get("spdx_id", "STATUTORY-PUBLIC-DISCLOSURE"))
-
-        # Ingestion timestamp from manifest if available
-        retrieved_at = datetime.now(UTC)
-        if self.manifest_path.exists():
-            try:
-                with open(self.manifest_path, encoding="utf-8") as f:
-                    manifest_data = yaml.safe_load(f)
-                if isinstance(manifest_data, dict) and "generated_at_utc" in manifest_data:
-                    retrieved_at = datetime.fromisoformat(manifest_data["generated_at_utc"])
-            except Exception:
-                pass
+        retrieved_at = self.get_manifest_retrieved_at()
 
         # Step 3: Stream and parse CSV records preserving all raw companion columns (Rule R-DA-03)
         with open(data_file, encoding="utf-8") as f:
@@ -177,9 +179,188 @@ class CorporateDisclosuresConnector(BaseConnector):
                 )
 
 
+class RBIMacroConnector(BaseConnector):
+    """Connector for Reserve Bank of India DBIE Macro Series (SRC-SUP-MAC-01).
+
+    Streams CPI Urban monthly index and INR/USD daily exchange rates.
+    """
+
+    source_id: str = "SRC-SUP-MAC-01"
+    cpi_file_name: str = "cpi_urban_monthly.csv"
+    fx_file_name: str = "inr_usd_fx_daily.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from RBI DBIE macro series."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "OGDL-IN"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        # 1. CPI Urban Monthly
+        cpi_path = self.source_raw_dir / self.cpi_file_name
+        if cpi_path.exists():
+            with open(cpi_path, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    raw_payload = {
+                        "series_name": "cpi_urban_monthly",
+                        "observation_date": row.get("observation_date", ""),
+                        "cpi_index": row.get("INDCPIALLMINMEI", ""),
+                    }
+                    record_hash = compute_record_hash(raw_payload)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version="cpi_urban_monthly",
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=raw_payload,
+                        record_hash=record_hash,
+                    )
+
+        # 2. INR/USD Daily FX
+        fx_path = self.source_raw_dir / self.fx_file_name
+        if fx_path.exists():
+            with open(fx_path, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    raw_payload = {
+                        "series_name": "inr_usd_fx_daily",
+                        "observation_date": row.get("observation_date", ""),
+                        "inr_per_usd": row.get("DEXINUS", ""),
+                    }
+                    record_hash = compute_record_hash(raw_payload)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version="inr_usd_fx_daily",
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=raw_payload,
+                        record_hash=record_hash,
+                    )
+
+
+class ONetTaxonomyConnector(BaseConnector):
+    """Connector for O*NET 29.0 Content Model Database (SRC-SUP-TAX-01).
+
+    Streams tech occupation descriptors and technology skills mapped to SOC codes.
+    """
+
+    source_id: str = "SRC-SUP-TAX-01"
+    occupations_file_name: str = "occupation_data_tech.csv"
+    skills_file_name: str = "technology_skills_tech_roles.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from O*NET taxonomy tables."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("version", "29.0"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "CC-BY-4.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        # 1. Tech Occupations
+        occ_path = self.source_raw_dir / self.occupations_file_name
+        if occ_path.exists():
+            with open(occ_path, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    raw_payload = {
+                        "table_name": "occupations",
+                        "onetsoc_code": row.get("onetsoc_code", ""),
+                        "title": row.get("title", ""),
+                        "description": row.get("description", ""),
+                    }
+                    record_hash = compute_record_hash(raw_payload)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version=source_version,
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=raw_payload,
+                        record_hash=record_hash,
+                    )
+
+        # 2. Technology Skills
+        skills_path = self.source_raw_dir / self.skills_file_name
+        if skills_path.exists():
+            with open(skills_path, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    raw_payload = {
+                        "table_name": "technology_skills",
+                        "onetsoc_code": row.get("onetsoc_code", ""),
+                        "commodity_code": row.get("commodity_code", ""),
+                        "commodity_title": row.get("commodity_title", ""),
+                        "example_tool": row.get("example_tool", ""),
+                        "hot_technology": row.get("hot_technology", ""),
+                    }
+                    record_hash = compute_record_hash(raw_payload)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version=source_version,
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=raw_payload,
+                        record_hash=record_hash,
+                    )
+
+
+class ESCOTaxonomyConnector(BaseConnector):
+    """Connector for European Skills, Competences and Occupations (SRC-SUP-TAX-02).
+
+    Streams ESCO tech skill labels, types, and hierarchy groups.
+    """
+
+    source_id: str = "SRC-SUP-TAX-02"
+    data_file_name: str = "esco_skills_tech_hierarchy.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from ESCO skill hierarchy."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("version", "1.1.1"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "ODbL-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                raw_payload = {
+                    "concept_uri": row.get("concept_uri", ""),
+                    "skill_label": row.get("skill_label", ""),
+                    "skill_type": row.get("skill_type", ""),
+                    "reuse_level": row.get("reuse_level", ""),
+                    "parent_skill_group": row.get("parent_skill_group", ""),
+                }
+                record_hash = compute_record_hash(raw_payload)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=raw_payload,
+                    record_hash=record_hash,
+                )
+
+
 # Master registry mapping approved source IDs to connector implementations
 CONNECTOR_REGISTRY: dict[str, type[BaseConnector]] = {
     "SRC-SUP-CORP-01": CorporateDisclosuresConnector,
+    "SRC-SUP-MAC-01": RBIMacroConnector,
+    "SRC-SUP-TAX-01": ONetTaxonomyConnector,
+    "SRC-SUP-TAX-02": ESCOTaxonomyConnector,
 }
 
 
