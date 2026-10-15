@@ -18,6 +18,13 @@ from compintel.normalization.denomination import (
     from_lpa,
     to_lpa,
 )
+from compintel.normalization.levels import (
+    DEFAULT_LEVEL_MAPPING_VERSION,
+    LevelAmbiguityAudit,
+    LevelMappingResult,
+    map_level,
+    normalize_levels_df,
+)
 from compintel.normalization.titles import (
     DEFAULT_TAXONOMY_VERSION,
     TitleMappingResult,
@@ -28,8 +35,11 @@ from compintel.normalization.titles import (
 
 __all__ = [
     "CPITable",
+    "DEFAULT_LEVEL_MAPPING_VERSION",
     "DEFAULT_TAXONOMY_VERSION",
     "FXRateTable",
+    "LevelAmbiguityAudit",
+    "LevelMappingResult",
     "TitleMappingResult",
     "adjust_for_cpi",
     "annualize",
@@ -38,6 +48,8 @@ __all__ = [
     "enforce_market_isolation",
     "from_lpa",
     "get_annualization_factor",
+    "map_level",
+    "normalize_levels_df",
     "normalize_title",
     "normalize_titles_df",
     "sanitize_title",

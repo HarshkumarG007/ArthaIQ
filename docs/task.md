@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.09 (Level mapping v0 with uncertainty: soft labels or confidence)**
+**NEXT TASK: T3.10 (Deduplication and entity resolution v0: exact and near-duplicate detection; person, employer and posting clusters)**
 
 ## How to use this file
 
@@ -175,7 +175,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: connectors with contract tests. Done when: each passes its staged schema. Needs: T3.06.
 - [x] **T3.08** [AI] Taxonomy and title normalization v0: rule-based mapping with a confidence score; no LLM. (done 2026-10-15)
       Output: `normalization/titles` with tests. Done when: confidence and `taxonomy_version` are recorded for every record. Needs: T3.04. Size: M.
-- [ ] **T3.09** [AI] Level mapping v0 with uncertainty (soft labels or confidence).
+- [x] **T3.09** [AI] Level mapping v0 with uncertainty (soft labels or confidence). (done 2026-10-15)
       Output: level mapper with tests. Done when: unmapped and ambiguous cases are counted, not forced. Needs: T3.08. Size: M.
 - [ ] **T3.10** [AI] Deduplication and entity resolution v0: exact and near-duplicate detection; person, employer and posting clusters.
       Output: `quality/dedup` with tests. Done when: cluster ids exist for every record and duplicate rates are reported per source. Needs: T3.04. Size: L.
