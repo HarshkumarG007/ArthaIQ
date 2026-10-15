@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Purpose | The assistant's starting context and the project's history. Read it first in every session (R-WF-02) |
-| Last updated | 2026-10-14 |
+| Last updated | 2026-10-15 |
 | Update rule | Append to the session log after every task. Never delete a decision; supersede it with a new entry |
 
 ---
@@ -124,7 +124,7 @@ Record GO or NO-GO with the evidence that justified it.
 
 | ID | Date | Severity | Description | Status | Workaround | Task |
 |---|---|---|---|---|---|---|
-| KI-001 | 2026-10-11 | Medium | Every external fact in the v0.1 documents is unverified (`[U]`); no source has been checked | Open | Treat as hypotheses | T1.05 to T1.09 |
+| KI-001 | 2026-10-11 | Medium | Every external fact in the v0.1 documents is unverified (`[U]`); no source has been checked | Resolved | All external claims captured in `evidence-register.csv`; 22 sources audited in `config/sources/` | T1.05 to T2.02 |
 | KI-002 | 2026-10-11 | Low | Fonts in `design.md` are not yet tested for the rupee sign or tabular figures | Open | Verify before adoption | T9.07 |
 | KI-003 | 2026-10-11 | Low | Time and effort figures in `task.md` are planning assumptions, not estimates from evidence | Open | Re-estimate at each phase start | Phase starts |
 
@@ -135,7 +135,11 @@ Add new rows as `KI-00n`. For a fixed bug, keep the row, set Status to Fixed and
 | Date | Change | ADR | Documents touched |
 |---|---|---|---|
 | 2026-10-11 | Initial architecture and document set, v0.1 | Stubs due at T0.04 | All six |
+| 2026-10-11 | Master research prompt v2.0 created; T0.01 wording and research-task pointers updated in `task.md` | None | `docs/research/00-master-research-prompt.md`, `task.md` |
 | 2026-10-13 | Document consistency pass (T0.06): 0 blocking conflicts; unified naming (ArthaIQ), decoupled evidence framework (D-010), updated all six docs to v0.2 | ADR-0001, ADR-0002 | All six docs |
+| 2026-10-14 | Gate G2 scope lock; ADR-0001 (Market Scope) and ADR-0002 (Target Measure) finalized to Accepted; PRD promoted to v1.0 | ADR-0001, ADR-0002 | `PRD.md`, `docs/PRD.md`, `docs/adr/ADR-0001-*.md`, `docs/adr/ADR-0002-*.md` |
+| 2026-10-14 | Technology stack verification, host profiling, and ADR-0003 finalized to Accepted | ADR-0003 | `docs/adr/ADR-0003-*.md`, `pyproject.toml` |
+| 2026-10-15 | Pipeline engineering: canonical schema, normalization engine, ingestion connector interface implemented with 100% CI | None | `src/compintel/` |
 
 ## 10. Experiment index
 
@@ -143,7 +147,7 @@ One row per run that informs a decision. Hypotheses live in `task.md` Appendix A
 
 | ID | Date | Hypothesis | Pre-registered | Data snapshot | Commit | Result | Decision |
 |---|---|---|---|---|---|---|---|
-| | | | | | | | |
+| EXP-G2 | 2026-10-14 | Public data sufficiency across 84 Level-0 cells ($N_{\text{eff}} \ge 50$, bootstrap precision $\le 3.0$ LPA) | `experiments/preregistration/sufficiency-v1.yaml` (C1-C5) | `data/processed/prototype_pt1_strict.parquet`, `prototype_pt1_exploratory.parquet` | `8c47b95` | 0/12 core cells meet C1 ($N_{\text{eff}} = 0.0$ strict); exploratory ($N=102$) fails C5 precision | **Gate G2 NO-GO on public data** (Kill Criterion 1); mandated primary data acquisition programme (T2.10) |
 
 ## 11. Data source status
 
