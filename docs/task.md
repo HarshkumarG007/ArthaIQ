@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Draft v0.2 (Phase 0 complete; Gate G0 ratified)      |
-| Last updated                   | 2026-10-14                                           |
+| Status                         | Draft v0.5 (Phase 3 active; Gate G0, G1, G2 ratified) |
+| Last updated                   | 2026-10-15                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.07 (One connector per remaining verified source: repeat this task per source)**
+**NEXT TASK: T3.07a (Macro series and taxonomy connectors: SRC-SUP-MAC-01, SRC-SUP-TAX-01, SRC-SUP-TAX-02)**
 
 ## How to use this file
 
@@ -167,8 +167,12 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 - [x] **T3.06** [AI] Connector interface with the licence gate; first connector for the smallest verified source; raw immutability and manifests. (done 2026-10-15)
       Output: `ingestion/` and one connector. Done when: an unapproved source is refused by a test. Needs: T3.04. Size: M.
 
-- [ ] **T3.07** [AI] One connector per remaining verified source (repeat this task per source).
-      Output: connectors with contract tests. Done when: each passes its staged schema. Needs: T3.06. Size: L per source.
+- [ ] **T3.07** [AI] One connector per remaining verified source (split per Rule R-WF-03):
+  - [ ] **T3.07a** [AI] Macro series and taxonomy connectors (`SRC-SUP-MAC-01`, `SRC-SUP-TAX-01`, `SRC-SUP-TAX-02`). Needs: T3.06. Size: M.
+  - [ ] **T3.07b** [AI] Official Indian labor statistics connectors (`SRC-IND-OFF-01`, `SRC-IND-OFF-03`). Needs: T3.07a. Size: M.
+  - [ ] **T3.07c** [AI] International benchmarks and US labor disclosures (`SRC-USA-BLS-01`, `SRC-USA-DOL-01`, `SRC-USA-DOL-02`, `SRC-KAG-AIJ-01`, `SRC-KAG-SO-01`). Needs: T3.07b. Size: M.
+  - [ ] **T3.07d** [AI] Primary governed voluntary intake connector (`SRC-INT-VOL-01`). Needs: T3.07c. Size: M.
+      Output: connectors with contract tests. Done when: each passes its staged schema. Needs: T3.06.
 - [ ] **T3.08** [AI] Taxonomy and title normalization v0: rule-based mapping with a confidence score; no LLM.
       Output: `normalization/titles` with tests. Done when: confidence and `taxonomy_version` are recorded for every record. Needs: T3.04. Size: M.
 - [ ] **T3.09** [AI] Level mapping v0 with uncertainty (soft labels or confidence).
@@ -455,31 +459,42 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 
 ## Appendix C: Deliverables map
 
-| File                                              | Produced by                                                 |
-| ------------------------------------------------- | ----------------------------------------------------------- |
-| `docs/research/00-master-research-prompt.md`      | T0.01                                                       |
-| `docs/adr/ADR-0001` to `ADR-0009`                 | T0.04, then the tasks named in `architecture.md` section 15 |
-| `docs/research/01-targets.md`                     | T1.01                                                       |
-| `docs/research/02-comp-definitions.md`            | T1.02                                                       |
-| `docs/research/03-users.md`                       | T1.03, T1.04                                                |
-| `docs/research/evidence-register.csv`             | T1.05, maintained throughout                                |
-| `docs/research/04-source-catalog.md`              | T1.06 to T1.09                                              |
-| `docs/research/05-source-scoring.md`              | T1.10                                                       |
-| `docs/research/06-architecture-autopsy.md`        | T1.11                                                       |
-| `docs/research/07-premortem-risk-register.md`     | T1.12                                                       |
-| `docs/research/08-scope-memo.md`                  | T1.13                                                       |
-| `experiments/preregistration/sufficiency-v1.yaml` | T2.01                                                       |
-| `config/sources/*.yaml`                           | T2.02, T2.05                                                |
-| `docs/data-cards/*.md`                            | T2.04, T2.06                                                |
-| `docs/research/09-sufficiency-analysis.md`        | T2.09                                                       |
-| `docs/research/10-data-acquisition-plan.md`       | T2.10 (conditional)                                         |
-| `experiments/preregistration/v1.yaml`             | T4.03                                                       |
-| `docs/model-cards/*.md`                           | T5.08, T9.17                                                |
-| `docs/research/feature-spec.md`                   | T6.01                                                       |
-| `docs/research/rejected-ideas.md`                 | T7.07                                                       |
+| File                                                         | Produced by                                                 |
+| ------------------------------------------------------------ | ----------------------------------------------------------- |
+| `docs/research/00-master-research-prompt.md`                 | T0.01                                                       |
+| `docs/adr/ADR-0001` to `ADR-0009`                            | T0.04, then the tasks named in `architecture.md` section 15 |
+| `docs/adr/ADR-0001-market-and-occupational-scope.md`         | T1.13, finalized T2.11                                      |
+| `docs/adr/ADR-0002-primary-target-and-comp-measure.md`       | T1.13, finalized T2.11                                      |
+| `docs/adr/ADR-0003-technology-stack-and-pinned-versions.md`  | T3.01                                                       |
+| `docs/research/01-targets.md`                                | T1.01                                                       |
+| `docs/research/02-comp-definitions.md`                       | T1.02                                                       |
+| `docs/research/03-users.md`                                  | T1.03, T1.04                                                |
+| `docs/research/evidence-register.csv`                        | T1.05, maintained throughout                                |
+| `docs/research/04-source-catalog.md`                         | T1.06 to T1.09                                              |
+| `docs/research/05-source-scoring.md`                         | T1.10                                                       |
+| `docs/research/06-architecture-autopsy.md`                   | T1.11                                                       |
+| `docs/research/07-premortem-risk-register.md`                | T1.12                                                       |
+| `docs/research/08-scope-memo.md`                             | T1.13                                                       |
+| `experiments/preregistration/sufficiency-v1.yaml`            | T2.01                                                       |
+| `config/sources/*.yaml`                                      | T2.02, T2.05                                                |
+| `docs/data-cards/*.md`                                       | T2.04, T2.06                                                |
+| `docs/research/09-sufficiency-analysis.md`                   | T2.09                                                       |
+| `docs/research/10-data-acquisition-plan.md`                  | T2.10 (conditional)                                         |
+| `src/compintel/config.py`, `errors.py`, `logging.py`         | T3.03                                                       |
+| `src/compintel/schema/` (enums, entities, canonical)         | T3.04                                                       |
+| `src/compintel/normalization/` (annual, denom, FX, CPI)       | T3.05                                                       |
+| `src/compintel/ingestion/` (connector, manifest, gates)      | T3.06                                                       |
+| `experiments/preregistration/v1.yaml`                        | T4.03                                                       |
+| `docs/model-cards/*.md`                                      | T5.08, T9.17                                                |
+| `docs/research/feature-spec.md`                              | T6.01                                                       |
+| `docs/research/rejected-ideas.md`                            | T7.07                                                       |
 
 ## Change log
 
-| Date       | Version | Change        |
-| ---------- | ------- | ------------- |
-| 2026-10-11 | 0.1     | Initial draft |
+| Date       | Version | Change                                                                                           |
+| ---------- | ------- | ------------------------------------------------------------------------------------------------ |
+| 2026-10-11 | 0.1     | Initial draft                                                                                    |
+| 2026-10-13 | 0.2     | Foundation complete; Gate G0 ratified; ADR-0001 to 0009 stubs; repo initialized                  |
+| 2026-10-13 | 0.3     | Phase 1 complete; Gate G1 ratified; ADR-0001/0002 accepted; targets PT1-PT6 formally specified    |
+| 2026-10-14 | 0.4     | Phase 2 complete; Gate G2 ratified (NO-GO on public data; data acquisition plan T2.10 ratified)  |
+| 2026-10-15 | 0.5     | Phase 3 underway: T3.01-T3.06 complete (Scaffolding, Schema, Normalization, Connector interface) |
