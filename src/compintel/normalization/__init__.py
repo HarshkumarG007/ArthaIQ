@@ -18,10 +18,19 @@ from compintel.normalization.denomination import (
     from_lpa,
     to_lpa,
 )
+from compintel.normalization.titles import (
+    DEFAULT_TAXONOMY_VERSION,
+    TitleMappingResult,
+    normalize_title,
+    normalize_titles_df,
+    sanitize_title,
+)
 
 __all__ = [
     "CPITable",
+    "DEFAULT_TAXONOMY_VERSION",
     "FXRateTable",
+    "TitleMappingResult",
     "adjust_for_cpi",
     "annualize",
     "convert_currency",
@@ -29,5 +38,8 @@ __all__ = [
     "enforce_market_isolation",
     "from_lpa",
     "get_annualization_factor",
+    "normalize_title",
+    "normalize_titles_df",
+    "sanitize_title",
     "to_lpa",
 ]
