@@ -7,10 +7,10 @@ Strictly free of LLM dependencies in accordance with Rules R-MD-09 and R-SC-07.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import re
-from typing import Any
 import unicodedata
+from dataclasses import dataclass
+from typing import Any
 
 import polars as pl
 from rapidfuzz import fuzz
@@ -90,8 +90,16 @@ EXACT_MAPPINGS: dict[str, tuple[str, RoleFamily, str | None]] = {
     "data analytics engineer": ("Analytics Engineer", RoleFamily.DATA, "15-1243.00"),
     "analytics engineer": ("Analytics Engineer", RoleFamily.DATA, "15-1243.00"),
     "data analyst": ("Data Analyst", RoleFamily.DATA, "15-2051.00"),
-    "business intelligence analyst": ("Business Intelligence Analyst", RoleFamily.DATA, "15-2051.00"),
-    "business intelligence engineer": ("Business Intelligence Analyst", RoleFamily.DATA, "15-2051.00"),
+    "business intelligence analyst": (
+        "Business Intelligence Analyst",
+        RoleFamily.DATA,
+        "15-2051.00",
+    ),
+    "business intelligence engineer": (
+        "Business Intelligence Analyst",
+        RoleFamily.DATA,
+        "15-2051.00",
+    ),
     "bi analyst": ("Business Intelligence Analyst", RoleFamily.DATA, "15-2051.00"),
     "bi developer": ("Business Intelligence Analyst", RoleFamily.DATA, "15-2051.00"),
     "database administrator": ("Database Administrator", RoleFamily.DATA, "15-1244.00"),
@@ -123,7 +131,9 @@ EXACT_MAPPINGS: dict[str, tuple[str, RoleFamily, str | None]] = {
 REGEX_RULES: list[tuple[re.Pattern[str], str, RoleFamily, str | None, float]] = [
     # 1. Machine Learning & AI (Priority over generic SWE/DATA)
     (
-        re.compile(r"\b(machine\s+learning|ml|deep\s+learning)\s+(engineer|developer|specialist)\b"),
+        re.compile(
+            r"\b(machine\s+learning|ml|deep\s+learning)\s+(engineer|developer|specialist)\b"
+        ),
         "Machine Learning Engineer",
         RoleFamily.MLAI,
         "15-1252.00",
@@ -169,7 +179,9 @@ REGEX_RULES: list[tuple[re.Pattern[str], str, RoleFamily, str | None, float]] = 
     ),
     # 2. Data Engineering & Analytics
     (
-        re.compile(r"\b(data|etl|big\s+data|pipeline|warehouse)\s+(engineer|developer|architect)\b"),
+        re.compile(
+            r"\b(data|etl|big\s+data|pipeline|warehouse)\s+(engineer|developer|architect)\b"
+        ),
         "Data Engineer",
         RoleFamily.DATA,
         "15-1243.00",
@@ -237,7 +249,9 @@ REGEX_RULES: list[tuple[re.Pattern[str], str, RoleFamily, str | None, float]] = 
         0.92,
     ),
     (
-        re.compile(r"\b(backend|back-end|back\s+end|api|server|microservices)\s+(engineer|developer)\b"),
+        re.compile(
+            r"\b(backend|back-end|back\s+end|api|server|microservices)\s+(engineer|developer)\b"
+        ),
         "Backend Engineer",
         RoleFamily.SWE,
         "15-1252.00",
@@ -259,14 +273,18 @@ REGEX_RULES: list[tuple[re.Pattern[str], str, RoleFamily, str | None, float]] = 
     ),
     # 4. General Software Engineering
     (
-        re.compile(r"\b(software|sde|swe|application|applications|system)\s+(engineer|developer|programmer)\b"),
+        re.compile(
+            r"\b(software|sde|swe|application|applications|system)\s+(engineer|developer|programmer)\b"
+        ),
         "Software Engineer",
         RoleFamily.SWE,
         "15-1252.00",
         0.90,
     ),
     (
-        re.compile(r"\b(programmer|coder|software\s+architect|technical\s+architect|solutions\s+architect)\b"),
+        re.compile(
+            r"\b(programmer|coder|software\s+architect|technical\s+architect|solutions\s+architect)\b"
+        ),
         "Software Engineer",
         RoleFamily.SWE,
         "15-1252.00",
@@ -274,7 +292,9 @@ REGEX_RULES: list[tuple[re.Pattern[str], str, RoleFamily, str | None, float]] = 
     ),
     # 5. Management & Out-of-Scope Roles (OTHER)
     (
-        re.compile(r"\b(engineering\s+manager|engineering\s+lead|tech\s+lead|cto|vp\s+of\s+engineering|director\s+of\s+engineering)\b"),
+        re.compile(
+            r"\b(engineering\s+manager|engineering\s+lead|tech\s+lead|cto|vp\s+of\s+engineering|director\s+of\s+engineering)\b"
+        ),
         "Engineering Manager",
         RoleFamily.OTHER,
         None,
@@ -295,7 +315,9 @@ REGEX_RULES: list[tuple[re.Pattern[str], str, RoleFamily, str | None, float]] = 
         0.88,
     ),
     (
-        re.compile(r"\b(hr|human\s+resources|recruiter|talent|sales|marketing|finance|accountant|operations|legal)\b"),
+        re.compile(
+            r"\b(hr|human\s+resources|recruiter|talent|sales|marketing|finance|accountant|operations|legal)\b"
+        ),
         "Other / Non-Tech",
         RoleFamily.OTHER,
         None,
@@ -430,7 +452,6 @@ def normalize_title(
         )
 
     # 2. Prioritized Regex Rules
-    search_target = f"{clean} {unstripped_clean}"
     for pattern, canonical, family, soc, conf in REGEX_RULES:
         if pattern.search(clean) or pattern.search(unstripped_clean):
             return TitleMappingResult(
@@ -517,9 +538,7 @@ def normalize_titles_df(
         )
 
     raw_titles = df[title_column].to_list()
-    results = [
-        normalize_title(t, taxonomy_version=taxonomy_version) for t in raw_titles
-    ]
+    results = [normalize_title(t, taxonomy_version=taxonomy_version) for t in raw_titles]
 
     clean_titles = [r.clean_title for r in results]
     canonical_titles = [r.canonical_title for r in results]

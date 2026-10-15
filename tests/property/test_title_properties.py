@@ -10,15 +10,13 @@ Verifies invariants across title normalization:
 
 from __future__ import annotations
 
+import pytest
 from hypothesis import given
 from hypothesis import strategies as st
-import pytest
 
 from compintel.normalization.titles import (
-    DEFAULT_TAXONOMY_VERSION,
     TitleMappingResult,
     normalize_title,
-    sanitize_title,
 )
 from compintel.schema.enums import RoleFamily
 
@@ -65,7 +63,9 @@ def test_title_normalization_determinism(raw_text: str) -> None:
 
 
 @pytest.mark.property
-@given(title=st.sampled_from(KNOWN_TECH_TITLES), casing=st.sampled_from(["lower", "upper", "title"]))
+@given(
+    title=st.sampled_from(KNOWN_TECH_TITLES), casing=st.sampled_from(["lower", "upper", "title"])
+)
 def test_title_case_invariance(title: str, casing: str) -> None:
     """Invariant: title casing does not alter canonical role family or title."""
     if casing == "lower":
