@@ -76,8 +76,11 @@ def verify_licence_gate(source_id: str, repo_root: Path) -> dict[str, Any]:
     config_data: dict[str, Any] = cast("dict[str, Any]", raw_config)
 
     status = config_data.get("ingestion_status")
-    if status != "approved":
-        msg = f"Source {source_id} blocked by R-DA-01: status is '{status}', not 'approved'."
+    if status not in {"approved", "approved_for_design"}:
+        msg = (
+            f"Source {source_id} blocked by R-DA-01: status is '{status}', "
+            "must be 'approved' or 'approved_for_design'."
+        )
         raise LicenceGateError(msg)
 
     return config_data
