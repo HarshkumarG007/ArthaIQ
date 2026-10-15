@@ -467,14 +467,310 @@ class LabourBureauQESConnector(BaseConnector):
                 )
 
 
+class BLSOEWSConnector(BaseConnector):
+    """Connector for US BLS OEWS May 2023 Wage Estimates (SRC-USA-BLS-01).
+
+    Streams US occupational employment and wage estimates in USD.
+    Admitted strictly for cross-market structural wage ratios (Rule R-MD-08).
+    """
+
+    source_id: str = "SRC-USA-BLS-01"
+    data_file_name: str = "bls_oews_tech_estimates_may2023.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from BLS OEWS tech estimates."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("survey_month", "2023-05"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "CC0-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+class DOLLCAConnector(BaseConnector):
+    """Connector for US DOL H-1B LCA Certified Filings (SRC-USA-DOL-01).
+
+    Streams certified LCA base wage offers and prevailing wages in USD.
+    Cross-market isolation enforced (Rule R-MD-08).
+    """
+
+    source_id: str = "SRC-USA-DOL-01"
+    data_file_name: str = "dol_lca_fy24_certified_tech_sample.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from DOL H-1B LCA disclosures."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("fiscal_year", "FY2023-2024"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "CC0-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+class DOLPERMConnector(BaseConnector):
+    """Connector for US DOL PERM Labor Certification Filings (SRC-USA-DOL-02).
+
+    Streams certified permanent labor filings with required education and experience.
+    Cross-market isolation enforced (Rule R-MD-08).
+    """
+
+    source_id: str = "SRC-USA-DOL-02"
+    data_file_name: str = "dol_perm_fy24_certified_tech_sample.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from DOL PERM disclosures."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("fiscal_year", "FY2023-2024"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "CC0-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+class AIJobsSalariesConnector(BaseConnector):
+    """Connector for ai-jobs.net Data Science Job Salaries (SRC-KAG-AIJ-01).
+
+    Streams self-reported global data/AI job salaries.
+    Cross-market isolation enforced (Rule R-MD-08).
+    """
+
+    source_id: str = "SRC-KAG-AIJ-01"
+    data_file_name: str = "ai_jobs_ds_salaries_2023.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from ai-jobs.net salary dataset."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = f"{ref_period.get('start', '2020')}_{ref_period.get('end', '2023')}"
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "CC0-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+class JobsInDataConnector(BaseConnector):
+    """Connector for Jobs in Data 2024 Salaries (SRC-KAG-AIJ-02).
+
+    Streams global data and AI job salaries under CC0-1.0.
+    """
+
+    source_id: str = "SRC-KAG-AIJ-02"
+    data_file_name: str = "jobs_in_data_2024.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from Jobs in Data dataset."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = f"{ref_period.get('start', '2020')}_{ref_period.get('end', '2024')}"
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "CC0-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+class StackOverflowSurvey2024Connector(BaseConnector):
+    """Connector for Stack Overflow Annual Developer Survey 2024 (SRC-KAG-SO-01).
+
+    Streams self-reported developer survey responses under ODbL-1.0.
+    Used strictly for prior elicitation and relative ratios (Rule R-MD-07).
+    """
+
+    source_id: str = "SRC-KAG-SO-01"
+    data_file_name: str = "so_survey_2024_raw_sample.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from Stack Overflow 2024 developer survey."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("survey_conducted", "2024-05"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "ODbL-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+class StackOverflowSurvey2023Connector(BaseConnector):
+    """Connector for Stack Overflow Annual Developer Survey 2023 (SRC-KAG-SO-02).
+
+    Streams self-reported developer survey responses under ODbL-1.0.
+    """
+
+    source_id: str = "SRC-KAG-SO-02"
+    data_file_name: str = "so_survey_2023_raw_sample.csv"
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from Stack Overflow 2023 developer survey."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        if not data_file.exists():
+            msg = f"Raw data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("survey_conducted", "2023-05"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "ODbL-1.0"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        with open(data_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+
+
+# Alias
+StackOverflowSurveyConnector = StackOverflowSurvey2024Connector
+
+
 # Master registry mapping approved source IDs to connector implementations
 CONNECTOR_REGISTRY: dict[str, type[BaseConnector]] = {
     "SRC-IND-OFF-01": MOSPIPLFSConnector,
     "SRC-IND-OFF-03": LabourBureauQESConnector,
+    "SRC-KAG-AIJ-01": AIJobsSalariesConnector,
+    "SRC-KAG-AIJ-02": JobsInDataConnector,
+    "SRC-KAG-SO-01": StackOverflowSurvey2024Connector,
+    "SRC-KAG-SO-02": StackOverflowSurvey2023Connector,
     "SRC-SUP-CORP-01": CorporateDisclosuresConnector,
     "SRC-SUP-MAC-01": RBIMacroConnector,
     "SRC-SUP-TAX-01": ONetTaxonomyConnector,
     "SRC-SUP-TAX-02": ESCOTaxonomyConnector,
+    "SRC-USA-BLS-01": BLSOEWSConnector,
+    "SRC-USA-DOL-01": DOLLCAConnector,
+    "SRC-USA-DOL-02": DOLPERMConnector,
 }
 
 

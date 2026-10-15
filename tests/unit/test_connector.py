@@ -9,13 +9,21 @@ import polars as pl
 import pytest
 
 from compintel.ingestion.connector import (
+    CONNECTOR_REGISTRY,
+    AIJobsSalariesConnector,
     BaseConnector,
+    BLSOEWSConnector,
     CorporateDisclosuresConnector,
+    DOLLCAConnector,
+    DOLPERMConnector,
     ESCOTaxonomyConnector,
+    JobsInDataConnector,
     LabourBureauQESConnector,
     MOSPIPLFSConnector,
     ONetTaxonomyConnector,
     RBIMacroConnector,
+    StackOverflowSurvey2023Connector,
+    StackOverflowSurvey2024Connector,
     compute_record_hash,
     find_repo_root,
     get_connector,
@@ -89,11 +97,41 @@ def test_get_connector_success() -> None:
     assert isinstance(c6, LabourBureauQESConnector)
     assert c6.source_id == "SRC-IND-OFF-03"
 
+    c7 = get_connector("SRC-USA-BLS-01")
+    assert isinstance(c7, BLSOEWSConnector)
+    assert c7.source_id == "SRC-USA-BLS-01"
+
+    c8 = get_connector("SRC-USA-DOL-01")
+    assert isinstance(c8, DOLLCAConnector)
+    assert c8.source_id == "SRC-USA-DOL-01"
+
+    c9 = get_connector("SRC-USA-DOL-02")
+    assert isinstance(c9, DOLPERMConnector)
+    assert c9.source_id == "SRC-USA-DOL-02"
+
+    c10 = get_connector("SRC-KAG-AIJ-01")
+    assert isinstance(c10, AIJobsSalariesConnector)
+    assert c10.source_id == "SRC-KAG-AIJ-01"
+
+    c11 = get_connector("SRC-KAG-AIJ-02")
+    assert isinstance(c11, JobsInDataConnector)
+    assert c11.source_id == "SRC-KAG-AIJ-02"
+
+    c12 = get_connector("SRC-KAG-SO-01")
+    assert isinstance(c12, StackOverflowSurvey2024Connector)
+    assert c12.source_id == "SRC-KAG-SO-01"
+
+    c13 = get_connector("SRC-KAG-SO-02")
+    assert isinstance(c13, StackOverflowSurvey2023Connector)
+    assert c13.source_id == "SRC-KAG-SO-02"
+
 
 @pytest.mark.unit
-def test_get_connector_approved_but_unimplemented_raises_value_error() -> None:
+def test_get_connector_approved_but_unimplemented_raises_value_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Verify get_connector raises ValueError if approved source has no registered connector."""
-    # SRC-USA-BLS-01 is approved in config/sources/ but not yet in CONNECTOR_REGISTRY (T3.07c)
+    monkeypatch.delitem(CONNECTOR_REGISTRY, "SRC-USA-BLS-01", raising=False)
     with pytest.raises(ValueError, match="No connector implementation registered"):
         get_connector("SRC-USA-BLS-01")
 
