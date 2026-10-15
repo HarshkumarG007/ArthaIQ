@@ -1,7 +1,7 @@
 """Outlier and inconsistency policy with quarantine table and halt threshold (Task T3.11).
 
 Adheres strictly to:
-- Rule R-DA-05: Never silently drop, clip, or impute. Quarantine with reason codes and report counts.
+- Rule R-DA-05: Never silently drop, clip, or impute (quarantine with reason codes).
 - Rule R-ER-06: Data errors go to quarantine. If quarantine rate exceeds limit, halt the pipeline.
 - Rule R-MD-07: Anti-heuristic CTC unbundling invariant.
 - Rule R-MD-08: Cross-market isolation invariant.
@@ -11,10 +11,9 @@ Adheres strictly to:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import UTC, datetime
 import hashlib
-import json
+from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -68,7 +67,11 @@ def evaluate_record_quarantine(
     role_fam = record.get("role_family")
     if rules.enforce_tech_role_only:
         if role_fam is None:
-            return (True, QuarantineReason.SCHEMA_VIOLATION, "Missing mandatory field 'role_family'.")
+            return (
+                True,
+                QuarantineReason.SCHEMA_VIOLATION,
+                "Missing mandatory field 'role_family'.",
+            )
         str_role = str(role_fam).upper()
         if str_role in ("OTHER", "ROLEFAMILY.OTHER") or str_role not in (
             RoleFamily.SWE.value,
@@ -107,7 +110,10 @@ def evaluate_record_quarantine(
     emp_type = record.get("employment_type") or record.get("raw_employment_type")
     if rules.enforce_fulltime and emp_type is not None:
         emp_type_str = str(emp_type).lower()
-        if any(t in emp_type_str for t in ("intern", "part-time", "part_time", "contractor", "freelance")):
+        if any(
+            t in emp_type_str
+            for t in ("intern", "part-time", "part_time", "contractor", "freelance")
+        ):
             return (
                 True,
                 QuarantineReason.NON_FULLTIME,
@@ -117,11 +123,12 @@ def evaluate_record_quarantine(
     # 5. Anti-heuristic unbundling rule (Rule R-MD-07)
     is_unbundled_agg = record.get("is_unbundled_aggregate", False)
     cash_val = record.get("guaranteed_cash_annual")
+    cash_val = record.get("guaranteed_cash_annual")
     if rules.enforce_unbundled_anti_heuristic and is_unbundled_agg and cash_val is not None:
         return (
             True,
             QuarantineReason.UNBUNDLED_AGGREGATE,
-            "Bundled aggregate CTC cannot populate guaranteed_cash_annual without itemization (Rule R-MD-07).",
+            "Bundled CTC cannot populate guaranteed cash without itemization (Rule R-MD-07).",
         )
 
     # 6. Missing or invalid compensation
@@ -158,10 +165,11 @@ def evaluate_record_quarantine(
                     f"years_experience {yoe_float} is negative.",
                 )
             if yoe_float > outliers.max_years_experience:
+                max_yoe = outliers.max_years_experience
                 return (
                     True,
                     QuarantineReason.OUTLIER,
-                    f"years_experience {yoe_float} exceeds maximum career ceiling {outliers.max_years_experience}.",
+                    f"years_experience {yoe_float} exceeds career ceiling {max_yoe}.",
                 )
         except (ValueError, TypeError):
             return (
@@ -174,7 +182,9 @@ def evaluate_record_quarantine(
     raw_curr = record.get("raw_currency")
     if raw_curr is not None:
         curr_str = str(raw_curr).upper()
-        if curr_str not in ("INR", "RS", "RUPEES") and not record.get("is_currency_converted", False):
+        if curr_str not in ("INR", "RS", "RUPEES") and not record.get(
+            "is_currency_converted", False
+        ):
             return (
                 True,
                 QuarantineReason.CURRENCY_MISMATCH,
@@ -183,16 +193,18 @@ def evaluate_record_quarantine(
 
     # 9. Outlier pay bounds
     if cash_float < outliers.min_guaranteed_cash_annual:
+        min_floor = outliers.min_guaranteed_cash_annual
         return (
             True,
             QuarantineReason.OUTLIER,
-            f"guaranteed_cash_annual {cash_float:.2f} LPA is below entry floor {outliers.min_guaranteed_cash_annual:.2f} LPA.",
+            f"guaranteed_cash_annual {cash_float:.2f} LPA < floor {min_floor:.2f} LPA.",
         )
     if cash_float > outliers.max_guaranteed_cash_annual:
+        max_ceil = outliers.max_guaranteed_cash_annual
         return (
             True,
             QuarantineReason.OUTLIER,
-            f"guaranteed_cash_annual {cash_float:.2f} LPA exceeds base ceiling {outliers.max_guaranteed_cash_annual:.2f} LPA.",
+            f"guaranteed_cash_annual {cash_float:.2f} LPA exceeds ceiling {max_ceil:.2f} LPA.",
         )
 
     tot_val = record.get("total_comp_annual")
@@ -200,16 +212,17 @@ def evaluate_record_quarantine(
         try:
             tot_float = float(tot_val)
             if tot_float > outliers.max_total_comp_annual:
+                max_tot = outliers.max_total_comp_annual
                 return (
                     True,
                     QuarantineReason.OUTLIER,
-                    f"total_comp_annual {tot_float:.2f} LPA exceeds ceiling {outliers.max_total_comp_annual:.2f} LPA.",
+                    f"total_comp_annual {tot_float:.2f} LPA exceeds ceiling {max_tot:.2f} LPA.",
                 )
             if tot_float < cash_float - 0.01:
                 return (
                     True,
                     QuarantineReason.SCHEMA_VIOLATION,
-                    f"total_comp_annual ({tot_float:.2f} LPA) cannot be less than guaranteed cash ({cash_float:.2f} LPA).",
+                    f"total_comp ({tot_float:.2f} LPA) < guaranteed cash ({cash_float:.2f} LPA).",
                 )
         except (ValueError, TypeError):
             pass
@@ -230,7 +243,7 @@ def evaluate_record_quarantine(
                 return (
                     True,
                     QuarantineReason.SCHEMA_VIOLATION,
-                    f"Itemized sum (Basic + HRA + Special = {item_sum:.2f} LPA) deviates by {diff:.2f} LPA from guaranteed cash ({cash_float:.2f} LPA).",
+                    f"Itemized sum {item_sum:.2f} diff {diff:.2f} > tol vs {cash_float:.2f} LPA.",
                 )
         except (ValueError, TypeError):
             pass
@@ -304,7 +317,9 @@ class QuarantineReconciliationReport:
 
     def to_markdown(self) -> str:
         """Generate GitHub-Flavored Markdown reconciliation report."""
-        status_badge = "✅ RECONCILED (Zero Silent Drops)" if self.is_reconciled else "❌ DISCREPANCY DETECTED"
+        status_badge = (
+            "✅ RECONCILED (Zero Silent Drops)" if self.is_reconciled else "❌ DISCREPANCY DETECTED"
+        )
         halt_badge = "🚨 HALT TRIGGERED" if self.halt_triggered else "🟢 PASS"
 
         lines: list[str] = [
@@ -316,8 +331,8 @@ class QuarantineReconciliationReport:
             f"- **Valid Accepted Observations:** {self.valid_accepted_records:,}",
             f"- **Quarantined Observations:** {self.quarantined_records:,}",
             f"- **Quarantine Rate:** {self.quarantine_rate:.2%}",
-            f"- **Halt Threshold Limit (Rule R-ER-06):** {self.halt_threshold:.2%}",
-            f"- **Reconciliation Discrepancy ($\\Delta$):** {self.discrepancy_count} (Must equal 0)",
+            f"- **Halt Limit (Rule R-ER-06):** {self.halt_threshold:.2%}",
+            f"- **Discrepancy ($\\Delta$):** {self.discrepancy_count} (Must equal 0)",
             "",
             "## Quarantine Reasons Breakdown",
             "",
@@ -326,7 +341,9 @@ class QuarantineReconciliationReport:
         ]
 
         tot_q = self.quarantined_records or 1
-        for reason, count in sorted(self.counts_by_reason.items(), key=lambda x: x[1], reverse=True):
+        for reason, count in sorted(
+            self.counts_by_reason.items(), key=lambda x: x[1], reverse=True
+        ):
             pct = count / tot_q
             lines.append(f"| `{reason}` | {count:,} | {pct:.2%} |")
 
@@ -387,7 +404,7 @@ def partition_and_quarantine_df(
         quarantine_version: Version identifier attached to report.
 
     Returns:
-        QuarantinePartitionResult containing valid_df, quarantined_df, typed QuarantineRecords, and report.
+        QuarantinePartitionResult with valid_df, quarantined_df, records, and report.
 
     Raises:
         PipelineHaltError: If halt_on_exceed is True and quarantine_rate > halt_threshold.
@@ -527,10 +544,12 @@ def partition_and_quarantine_df(
     q_filtered = df.filter(q_mask_series)
 
     # Filter quarantine metadata to matched rows
-    q_ids_filtered = [qid for qid, m in zip(quarantine_ids, valid_mask) if not m]
-    q_reasons_filtered = [qr for qr, m in zip(quarantine_reasons, valid_mask) if not m]
-    q_details_filtered = [qd for qd, m in zip(exclusion_details, valid_mask) if not m]
-    q_ts_filtered = [qt for qt, m in zip(quarantined_timestamps, valid_mask) if not m]
+    q_ids_filtered = [qid for qid, m in zip(quarantine_ids, valid_mask, strict=False) if not m]
+    q_reasons_filtered = [
+        qr for qr, m in zip(quarantine_reasons, valid_mask, strict=False) if not m
+    ]
+    q_details_filtered = [qd for qd, m in zip(exclusion_details, valid_mask, strict=False) if not m]
+    q_ts_filtered = [qt for qt, m in zip(quarantined_timestamps, valid_mask, strict=False) if not m]
 
     quarantined_df = q_filtered.with_columns(
         pl.Series("quarantine_id", q_ids_filtered, dtype=pl.String),
