@@ -1,7 +1,7 @@
 """CompIntel Data Quality Package (Rules R-DA-04, R-DA-05, R-ER-06).
 
 Includes dataset profiling, coverage mapping, sufficiency evaluation,
-target prototype construction, deduplication, and entity resolution.
+target prototype construction, deduplication, entity resolution, and quarantine.
 """
 
 from compintel.quality.coverage import (
@@ -43,6 +43,17 @@ from compintel.quality.profiler import (
     profile_csv,
     profile_source_directory,
 )
+from compintel.quality.quarantine import (
+    DEFAULT_HALT_THRESHOLD,
+    DEFAULT_QUARANTINE_VERSION,
+    InconsistencyPolicy,
+    OutlierPolicy,
+    QuarantinePartitionResult,
+    QuarantineReconciliationReport,
+    evaluate_record_quarantine,
+    export_quarantine_artifacts,
+    partition_and_quarantine_df,
+)
 from compintel.quality.sufficiency import (
     compute_bootstrap_precision,
     compute_naive_cohort_widths,
@@ -64,8 +75,12 @@ __all__ = [
     "CANONICAL_EMPLOYER_REGISTRY",
     "CORE_CELL_KEYS",
     "DEFAULT_DEDUP_VERSION",
+    "DEFAULT_HALT_THRESHOLD",
+    "DEFAULT_QUARANTINE_VERSION",
     "FAMILIES",
+    "InconsistencyPolicy",
     "LOCATIONS",
+    "OutlierPolicy",
     "CellDefinition",
     "ColumnProfile",
     "DatasetProfile",
@@ -73,6 +88,8 @@ __all__ = [
     "DeduplicationResult",
     "ExactDeduplicator",
     "PrototypeTargetResult",
+    "QuarantinePartitionResult",
+    "QuarantineReconciliationReport",
     "SourceDuplicateMetrics",
     "audit_candidate_survey_density",
     "build_pt1_prototype",
@@ -89,8 +106,10 @@ __all__ = [
     "deduplicate_records_df",
     "evaluate_gate_g2_decision",
     "evaluate_precision_for_all_cells",
+    "evaluate_record_quarantine",
     "export_coverage_artifacts",
     "export_prototype_artifacts",
+    "export_quarantine_artifacts",
     "export_sufficiency_artifacts",
     "generate_coverage_chart_svg",
     "generate_coverage_table_markdown",
@@ -101,6 +120,7 @@ __all__ = [
     "map_location_to_canonical",
     "map_role_to_family",
     "map_yoe_to_band",
+    "partition_and_quarantine_df",
     "profile_csv",
     "profile_source_directory",
     "update_coverage_map_with_c5",

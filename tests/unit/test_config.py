@@ -18,6 +18,7 @@ def test_default_settings() -> None:
     assert settings.log_level == "INFO"
     assert settings.log_format == "json"
     assert settings.k_min == 5  # Rule R-DA-10
+    assert settings.max_quarantine_rate == 0.25  # Rule R-ER-06
     assert settings.cpi_deflation_threshold_days == 90  # Criterion C3
     assert settings.observation_window_days == 180  # Criterion C3
     assert settings.champion_model_version == "latest"
@@ -28,6 +29,7 @@ def test_default_settings() -> None:
     assert settings.staged_data_dir == Path("data/staged")
     assert settings.canonical_data_dir == Path("data/canonical")
     assert settings.processed_data_dir == Path("data/processed")
+    assert settings.quarantine_data_dir == Path("data/quarantine")
     assert settings.artifacts_dir == Path("artifacts")
     assert settings.experiments_dir == Path("experiments")
 
@@ -76,6 +78,7 @@ def test_ensure_directories(tmp_path: Path) -> None:
         staged_data_dir=tmp_path / "staged",
         canonical_data_dir=tmp_path / "canonical",
         processed_data_dir=tmp_path / "processed",
+        quarantine_data_dir=tmp_path / "quarantine",
         artifacts_dir=tmp_path / "artifacts",
         experiments_dir=tmp_path / "experiments",
     )
@@ -85,6 +88,7 @@ def test_ensure_directories(tmp_path: Path) -> None:
     assert (tmp_path / "staged").is_dir()
     assert (tmp_path / "canonical").is_dir()
     assert (tmp_path / "processed").is_dir()
+    assert (tmp_path / "quarantine").is_dir()
     assert (tmp_path / "artifacts").is_dir()
     assert (tmp_path / "experiments").is_dir()
 

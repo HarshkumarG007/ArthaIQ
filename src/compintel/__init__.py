@@ -8,6 +8,7 @@ from compintel.errors import (
     LeakageError,
     LicenceViolationError,
     ModelArtifactError,
+    PipelineHaltError,
     UpstreamUnavailableError,
     ValidationError,
 )
@@ -21,6 +22,7 @@ __all__ = [
     "LeakageError",
     "LicenceViolationError",
     "ModelArtifactError",
+    "PipelineHaltError",
     "Settings",
     "UpstreamUnavailableError",
     "ValidationError",

@@ -148,3 +148,9 @@ class UpstreamUnavailableError(CompIntelError):
     """Raised when an external or upstream service dependency is unreachable."""
 
     default_code: str = "UPSTREAM_UNAVAILABLE_ERROR"
+
+
+class PipelineHaltError(CompIntelError):
+    """Raised when a quality halt threshold is breached (Rule R-ER-06)."""
+
+    default_code: str = "PIPELINE_HALT_ERROR"

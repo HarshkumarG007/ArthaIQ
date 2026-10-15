@@ -72,6 +72,10 @@ class Settings(BaseSettings):
         default=Path("data/processed"),
         description="Processed and normalized target outputs.",
     )
+    quarantine_data_dir: Path = Field(
+        default=Path("data/quarantine"),
+        description="Quarantine storage zone for excluded observations (Rule R-DA-05).",
+    )
     artifacts_dir: Path = Field(
         default=Path("artifacts"),
         description="Model artifact bundles and registry manifests.",
@@ -91,11 +95,17 @@ class Settings(BaseSettings):
         description="Identifier of champion model bundle to load in serving.",
     )
 
-    # Privacy & Quality statutory thresholds (Rules R-DA-10, C3)
+    # Privacy & Quality statutory thresholds (Rules R-DA-10, C3, R-ER-06)
     k_min: int = Field(
         default=5,
         ge=5,
         description="Rule R-DA-10: Small-cell privacy suppression floor (minimum cohort size).",
+    )
+    max_quarantine_rate: float = Field(
+        default=0.25,
+        ge=0.0,
+        le=1.0,
+        description="Rule R-ER-06: Configured pipeline halt threshold for quarantine rate.",
     )
     observation_window_days: int = Field(
         default=180,
@@ -141,6 +151,7 @@ class Settings(BaseSettings):
             self.staged_data_dir,
             self.canonical_data_dir,
             self.processed_data_dir,
+            self.quarantine_data_dir,
             self.artifacts_dir,
             self.experiments_dir,
         ):
