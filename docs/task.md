@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.07a (Macro series and taxonomy connectors: SRC-SUP-MAC-01, SRC-SUP-TAX-01, SRC-SUP-TAX-02)**
+**NEXT TASK: T3.07b (Official Indian labor statistics connectors: SRC-IND-OFF-01, SRC-IND-OFF-03)**
 
 ## How to use this file
 
@@ -168,7 +168,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `ingestion/` and one connector. Done when: an unapproved source is refused by a test. Needs: T3.04. Size: M.
 
 - [ ] **T3.07** [AI] One connector per remaining verified source (split per Rule R-WF-03):
-  - [ ] **T3.07a** [AI] Macro series and taxonomy connectors (`SRC-SUP-MAC-01`, `SRC-SUP-TAX-01`, `SRC-SUP-TAX-02`). Needs: T3.06. Size: M.
+  - [x] **T3.07a** [AI] Macro series and taxonomy connectors (`SRC-SUP-MAC-01`, `SRC-SUP-TAX-01`, `SRC-SUP-TAX-02`). (done 2026-10-15)
   - [ ] **T3.07b** [AI] Official Indian labor statistics connectors (`SRC-IND-OFF-01`, `SRC-IND-OFF-03`). Needs: T3.07a. Size: M.
   - [ ] **T3.07c** [AI] International benchmarks and US labor disclosures (`SRC-USA-BLS-01`, `SRC-USA-DOL-01`, `SRC-USA-DOL-02`, `SRC-KAG-AIJ-01`, `SRC-KAG-SO-01`). Needs: T3.07b. Size: M.
   - [ ] **T3.07d** [AI] Primary governed voluntary intake connector (`SRC-INT-VOL-01`). Needs: T3.07c. Size: M.

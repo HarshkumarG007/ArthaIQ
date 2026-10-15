@@ -11,6 +11,9 @@ import pytest
 from compintel.ingestion.connector import (
     BaseConnector,
     CorporateDisclosuresConnector,
+    ESCOTaxonomyConnector,
+    ONetTaxonomyConnector,
+    RBIMacroConnector,
     compute_record_hash,
     find_repo_root,
     get_connector,
@@ -51,10 +54,22 @@ def test_compute_record_hash_properties() -> None:
 
 @pytest.mark.unit
 def test_get_connector_success() -> None:
-    """Verify get_connector retrieves registered connector for approved source."""
-    connector = get_connector("SRC-SUP-CORP-01")
-    assert isinstance(connector, CorporateDisclosuresConnector)
-    assert connector.source_id == "SRC-SUP-CORP-01"
+    """Verify get_connector retrieves registered connector for approved sources."""
+    c1 = get_connector("SRC-SUP-CORP-01")
+    assert isinstance(c1, CorporateDisclosuresConnector)
+    assert c1.source_id == "SRC-SUP-CORP-01"
+
+    c2 = get_connector("SRC-SUP-MAC-01")
+    assert isinstance(c2, RBIMacroConnector)
+    assert c2.source_id == "SRC-SUP-MAC-01"
+
+    c3 = get_connector("SRC-SUP-TAX-01")
+    assert isinstance(c3, ONetTaxonomyConnector)
+    assert c3.source_id == "SRC-SUP-TAX-01"
+
+    c4 = get_connector("SRC-SUP-TAX-02")
+    assert isinstance(c4, ESCOTaxonomyConnector)
+    assert c4.source_id == "SRC-SUP-TAX-02"
 
 
 @pytest.mark.unit

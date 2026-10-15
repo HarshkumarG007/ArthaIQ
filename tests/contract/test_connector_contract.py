@@ -18,6 +18,9 @@ from compintel.errors import DataContractError, LicenceViolationError
 from compintel.ingestion.connector import (
     BaseConnector,
     CorporateDisclosuresConnector,
+    ESCOTaxonomyConnector,
+    ONetTaxonomyConnector,
+    RBIMacroConnector,
     get_connector,
 )
 from compintel.ingestion.manifest import (
@@ -161,3 +164,112 @@ def test_to_raw_dataframe_projection(mock_corp_raw_dir: Path) -> None:
         "record_hash",
         "raw_payload",
     }
+
+
+@pytest.fixture
+def mock_macro_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic RBI macro series and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-SUP-MAC-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    cpi_csv = "observation_date,INDCPIALLMINMEI\n2024-01-01,185.0\n2024-02-01,185.5\n"
+    fx_csv = "observation_date,DEXINUS\n2024-01-02,83.15\n2024-01-03,83.20\n"
+
+    (source_dir / "cpi_urban_monthly.csv").write_text(cpi_csv, encoding="utf-8")
+    (source_dir / "inr_usd_fx_daily.csv").write_text(fx_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_onet_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic O*NET taxonomy tables and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-SUP-TAX-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    occ_csv = "onetsoc_code,title,description\n15-1252.00,Software Developers,Develop software\n"
+    skills_csv = (
+        "onetsoc_code,commodity_code,commodity_title,example_tool,hot_technology\n"
+        "15-1252.00,43232408,Dev software,Python,Y\n"
+    )
+
+    (source_dir / "occupation_data_tech.csv").write_text(occ_csv, encoding="utf-8")
+    (source_dir / "technology_skills_tech_roles.csv").write_text(skills_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.fixture
+def mock_esco_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic ESCO taxonomy table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-SUP-TAX-02"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    esco_csv = (
+        "concept_uri,skill_label,skill_type,reuse_level,parent_skill_group\n"
+        "http://data.europa.eu/esco/skill/001,Python,knowledge,sector-specific,Programming\n"
+    )
+    (source_dir / "esco_skills_tech_hierarchy.csv").write_text(esco_csv, encoding="utf-8")
+
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+    return tmp_path
+
+
+@pytest.mark.contract
+def test_rbi_macro_connector_contract(mock_macro_raw_dir: Path) -> None:
+    """Contract: RBIMacroConnector extracts both CPI and FX series with OGDL-IN licence."""
+    connector = RBIMacroConnector(raw_dir=mock_macro_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 4  # 2 CPI + 2 FX
+    for rec in records:
+        assert isinstance(rec, RawRecord)
+        assert rec.source_id == "SRC-SUP-MAC-01"
+        assert rec.license_id == "OGDL-IN"
+        assert len(rec.record_hash) == 64
+
+    series_names = {r.raw_payload["series_name"] for r in records}
+    assert series_names == {"cpi_urban_monthly", "inr_usd_fx_daily"}
+
+
+@pytest.mark.contract
+def test_onet_taxonomy_connector_contract(mock_onet_raw_dir: Path) -> None:
+    """Contract: ONetTaxonomyConnector extracts occupations and skills with CC-BY-4.0 licence."""
+    connector = ONetTaxonomyConnector(raw_dir=mock_onet_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 2  # 1 occupation + 1 skill
+    for rec in records:
+        assert isinstance(rec, RawRecord)
+        assert rec.source_id == "SRC-SUP-TAX-01"
+        assert rec.license_id == "CC-BY-4.0"
+        assert rec.source_version == "29.0"
+        assert len(rec.record_hash) == 64
+
+    table_names = {r.raw_payload["table_name"] for r in records}
+    assert table_names == {"occupations", "technology_skills"}
+
+
+@pytest.mark.contract
+def test_esco_taxonomy_connector_contract(mock_esco_raw_dir: Path) -> None:
+    """Contract: ESCOTaxonomyConnector extracts skill hierarchy with ODbL-1.0 licence."""
+    connector = ESCOTaxonomyConnector(raw_dir=mock_esco_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-SUP-TAX-02"
+    assert rec.license_id == "ODbL-1.0"
+    assert rec.source_version == "1.1.1"
+    assert rec.raw_payload["skill_label"] == "Python"
+    assert rec.raw_payload["parent_skill_group"] == "Programming"
+    assert len(rec.record_hash) == 64
