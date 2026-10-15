@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.10b (Employer entity resolution and source duplicate reporting: quality/dedup part 2)**
+**NEXT TASK: T3.11 (Outlier and inconsistency policy: quality/quarantine)**
 
 ## How to use this file
 
@@ -177,9 +177,9 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `normalization/titles` with tests. Done when: confidence and `taxonomy_version` are recorded for every record. Needs: T3.04. Size: M.
 - [x] **T3.09** [AI] Level mapping v0 with uncertainty (soft labels or confidence). (done 2026-10-15)
       Output: level mapper with tests. Done when: unmapped and ambiguous cases are counted, not forced. Needs: T3.08. Size: M.
-- [ ] **T3.10** [AI] Deduplication and entity resolution v0 (split per Rule R-WF-03):
+- [x] **T3.10** [AI] Deduplication and entity resolution v0 (split per Rule R-WF-03): (done 2026-10-16)
   - [x] **T3.10a** [AI] Exact duplicate detection and person record clustering. (done 2026-10-16)
-  - [ ] **T3.10b** [AI] Employer entity resolution and source duplicate reporting. Needs: T3.10a. Size: M.
+  - [x] **T3.10b** [AI] Employer entity resolution and source duplicate reporting. (done 2026-10-16)
       Output: `quality/dedup` with tests. Done when: cluster ids exist for every record and duplicate rates are reported per source. Needs: T3.04.
 - [ ] **T3.11** [AI] Outlier and inconsistency policy; quarantine table with reason codes; halt threshold (R-ER-06).
       Output: `quality/quarantine`. Done when: nothing is silently dropped, proven by count reconciliation. Needs: T3.05. Size: M.

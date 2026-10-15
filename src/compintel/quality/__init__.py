@@ -1,7 +1,7 @@
 """CompIntel Data Quality Package (Rules R-DA-04, R-DA-05, R-ER-06).
 
 Includes dataset profiling, coverage mapping, sufficiency evaluation,
-target prototype construction, and deduplication with entity resolution.
+target prototype construction, deduplication, and entity resolution.
 """
 
 from compintel.quality.coverage import (
@@ -22,12 +22,20 @@ from compintel.quality.coverage import (
     map_yoe_to_band,
 )
 from compintel.quality.dedup import (
+    CANONICAL_EMPLOYER_REGISTRY,
     DEFAULT_DEDUP_VERSION,
+    DeduplicationReport,
     DeduplicationResult,
     ExactDeduplicator,
+    SourceDuplicateMetrics,
+    canonicalize_employer_name,
+    compute_employer_signature,
     compute_exact_record_signature,
     compute_person_signature,
+    compute_posting_signature,
+    compute_source_duplicate_report,
     deduplicate_records_df,
+    generate_deduplication_report_markdown,
 )
 from compintel.quality.profiler import (
     ColumnProfile,
@@ -53,6 +61,7 @@ from compintel.quality.target_prototype import (
 
 __all__ = [
     "BANDS",
+    "CANONICAL_EMPLOYER_REGISTRY",
     "CORE_CELL_KEYS",
     "DEFAULT_DEDUP_VERSION",
     "FAMILIES",
@@ -60,17 +69,23 @@ __all__ = [
     "CellDefinition",
     "ColumnProfile",
     "DatasetProfile",
+    "DeduplicationReport",
     "DeduplicationResult",
     "ExactDeduplicator",
     "PrototypeTargetResult",
+    "SourceDuplicateMetrics",
     "audit_candidate_survey_density",
     "build_pt1_prototype",
+    "canonicalize_employer_name",
     "compute_bootstrap_precision",
     "compute_coverage_map",
+    "compute_employer_signature",
     "compute_exact_record_signature",
     "compute_kish_effective_sample",
     "compute_naive_cohort_widths",
     "compute_person_signature",
+    "compute_posting_signature",
+    "compute_source_duplicate_report",
     "deduplicate_records_df",
     "evaluate_gate_g2_decision",
     "evaluate_precision_for_all_cells",
@@ -79,6 +94,7 @@ __all__ = [
     "export_sufficiency_artifacts",
     "generate_coverage_chart_svg",
     "generate_coverage_table_markdown",
+    "generate_deduplication_report_markdown",
     "generate_exclusion_report_markdown",
     "generate_sufficiency_report_markdown",
     "get_canonical_cells",
