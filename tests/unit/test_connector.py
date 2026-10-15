@@ -24,6 +24,7 @@ from compintel.ingestion.connector import (
     RBIMacroConnector,
     StackOverflowSurvey2023Connector,
     StackOverflowSurvey2024Connector,
+    VoluntaryIntakeConnector,
     compute_record_hash,
     find_repo_root,
     get_connector,
@@ -125,6 +126,10 @@ def test_get_connector_success() -> None:
     assert isinstance(c13, StackOverflowSurvey2023Connector)
     assert c13.source_id == "SRC-KAG-SO-02"
 
+    c14 = get_connector("SRC-INT-VOL-01")
+    assert isinstance(c14, VoluntaryIntakeConnector)
+    assert c14.source_id == "SRC-INT-VOL-01"
+
 
 @pytest.mark.unit
 def test_get_connector_approved_but_unimplemented_raises_value_error(
@@ -210,4 +215,21 @@ def test_qes_connector_missing_data_file_raises_file_not_found(tmp_path: Path) -
 
     connector = LabourBureauQESConnector(raw_dir=tmp_path)
     with pytest.raises(FileNotFoundError, match="Raw data file not found"):
+        list(connector.extract_raw_records())
+
+
+@pytest.mark.unit
+def test_voluntary_intake_missing_data_file_raises_file_not_found(tmp_path: Path) -> None:
+    """Verify VoluntaryIntakeConnector raises FileNotFoundError when data file is missing."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-INT-VOL-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    dummy_file = source_dir / "other.txt"
+    dummy_file.write_text("dummy", encoding="utf-8")
+    generate_source_manifest(source_id=source_id, raw_dir=tmp_path, repo_root=repo_root)
+
+    connector = VoluntaryIntakeConnector(raw_dir=tmp_path)
+    with pytest.raises(FileNotFoundError, match="Raw intake data file not found"):
         list(connector.extract_raw_records())

@@ -30,6 +30,7 @@ from compintel.ingestion.connector import (
     RBIMacroConnector,
     StackOverflowSurvey2023Connector,
     StackOverflowSurvey2024Connector,
+    VoluntaryIntakeConnector,
     get_connector,
 )
 from compintel.ingestion.manifest import (
@@ -630,3 +631,101 @@ def test_stack_overflow_2023_survey_connector_contract(mock_so_2023_raw_dir: Pat
     assert rec.raw_payload["ResponseId"] == "2"
     assert rec.raw_payload["CompTotal"] == "285000"
     assert len(rec.record_hash) == 64
+
+
+SAMPLE_VOLUNTARY_INTAKE_CSV = (
+    "submission_id,submission_date,role_family,seniority_level,metro_location,yoe_total,"
+    "yoe_current_role,basic_salary_monthly_inr,fixed_allowances_monthly_inr,guaranteed_cash_annual_inr,"
+    "variable_bonus_target_annual_inr,equity_grant_annualized_inr,employer_pf_monthly_inr,"
+    "gratuity_provision_annual_inr,total_ctc_annual_inr,take_home_monthly_inr,is_payslip_verified,"
+    "cryptographic_dedup_hash\n"
+    "SUB-2024-001,2024-06-15,SWE,SENIOR,BENGALURU,7.5,2.0,125000,125000,3000000,450000,1000000,"
+    "15000,72150,4702150,195000,true,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n"
+)
+
+
+@pytest.fixture
+def mock_voluntary_intake_raw_dir(tmp_path: Path) -> Path:
+    """Create a temporary raw directory with synthetic voluntary intake table and manifest."""
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    source_id = "SRC-INT-VOL-01"
+    source_dir = tmp_path / source_id
+    source_dir.mkdir(parents=True, exist_ok=True)
+
+    csv_file = source_dir / "voluntary_intake_submissions.csv"
+    csv_file.write_text(SAMPLE_VOLUNTARY_INTAKE_CSV, encoding="utf-8")
+
+    generate_source_manifest(
+        source_id=source_id,
+        raw_dir=tmp_path,
+        repo_root=repo_root,
+    )
+    return tmp_path
+
+
+@pytest.mark.contract
+def test_voluntary_intake_connector_contract(mock_voluntary_intake_raw_dir: Path) -> None:
+    """Contract: VoluntaryIntakeConnector extracts submissions and rejects PII (Rule R-DA-07)."""
+    connector = VoluntaryIntakeConnector(raw_dir=mock_voluntary_intake_raw_dir)
+    records = list(connector.extract_raw_records())
+
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, RawRecord)
+    assert rec.source_id == "SRC-INT-VOL-01"
+    assert rec.license_id == "PROPRIETARY-CONSENT-GRANT"
+    assert rec.raw_payload["submission_id"] == "SUB-2024-001"
+    assert rec.raw_payload["guaranteed_cash_annual_inr"] == "3000000"
+    assert len(rec.record_hash) == 64
+
+    # Hash determinism
+    records2 = list(connector.extract_raw_records())
+    assert rec.record_hash == records2[0].record_hash
+
+
+@pytest.mark.contract
+def test_voluntary_intake_connector_parquet(mock_voluntary_intake_raw_dir: Path) -> None:
+    """Contract: VoluntaryIntakeConnector supports Parquet format when CSV is absent."""
+    source_dir = mock_voluntary_intake_raw_dir / "SRC-INT-VOL-01"
+    csv_file = source_dir / "voluntary_intake_submissions.csv"
+    df = pl.read_csv(csv_file)
+    csv_file.unlink()
+    parquet_file = source_dir / "voluntary_intake_submissions.parquet"
+    df.write_parquet(parquet_file)
+
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    generate_source_manifest(
+        source_id="SRC-INT-VOL-01",
+        raw_dir=mock_voluntary_intake_raw_dir,
+        repo_root=repo_root,
+    )
+
+    connector = VoluntaryIntakeConnector(raw_dir=mock_voluntary_intake_raw_dir)
+    records = list(connector.extract_raw_records())
+    assert len(records) == 1
+    assert records[0].raw_payload["submission_id"] == "SUB-2024-001"
+
+
+@pytest.mark.contract
+def test_voluntary_intake_connector_rejects_forbidden_pii(
+    mock_voluntary_intake_raw_dir: Path,
+) -> None:
+    """Rule R-DA-07: Ingestion pipeline must raise ValueError if forbidden PII keys are present."""
+    source_dir = mock_voluntary_intake_raw_dir / "SRC-INT-VOL-01"
+    csv_file = source_dir / "voluntary_intake_submissions.csv"
+    content_with_pii = (
+        "submission_id,email,pan_number,guaranteed_cash_annual_inr\n"
+        "SUB-PII-01,test@example.com,ABCDE1234F,3000000\n"
+    )
+    csv_file.write_text(content_with_pii, encoding="utf-8")
+
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    generate_source_manifest(
+        source_id="SRC-INT-VOL-01",
+        raw_dir=mock_voluntary_intake_raw_dir,
+        repo_root=repo_root,
+    )
+
+    connector = VoluntaryIntakeConnector(raw_dir=mock_voluntary_intake_raw_dir)
+    with pytest.raises(ValueError, match="Forbidden PII keys detected"):
+        list(connector.extract_raw_records())

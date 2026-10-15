@@ -752,6 +752,88 @@ class StackOverflowSurvey2023Connector(BaseConnector):
                 )
 
 
+class VoluntaryIntakeConnector(BaseConnector):
+    """Connector for Governed Voluntary User Compensation Intake (SRC-INT-VOL-01).
+
+    Streams itemized tech compensation records with client-side redaction and zero PII.
+    Primary ground-truth training source for PT1-PT6 (Rule R-DA-07, R-MD-07).
+    """
+
+    source_id: str = "SRC-INT-VOL-01"
+    data_file_name: str = "voluntary_intake_submissions.csv"
+
+    # Forbidden PII keys under Rule R-DA-07
+    FORBIDDEN_PII_KEYS: frozenset[str] = frozenset(
+        {
+            "email",
+            "employee_name",
+            "name",
+            "pan",
+            "pan_number",
+            "aadhaar",
+            "aadhaar_number",
+            "bank_account",
+            "account_number",
+            "phone",
+            "phone_number",
+        }
+    )
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from governed voluntary intake submissions."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        data_file = self.source_raw_dir / self.data_file_name
+        parquet_file = self.source_raw_dir / "voluntary_intake_submissions.parquet"
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("design_version", "v1.0"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "PROPRIETARY-CONSENT-GRANT"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        if data_file.exists():
+            with open(data_file, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+                    detected_pii = self.FORBIDDEN_PII_KEYS.intersection(clean_row.keys())
+                    if detected_pii:
+                        msg = f"Forbidden PII keys detected in intake payload: {detected_pii}"
+                        raise ValueError(msg)
+
+                    record_hash = compute_record_hash(clean_row)
+                    yield RawRecord(
+                        source_id=self.source_id,
+                        source_version=source_version,
+                        license_id=license_id,
+                        retrieved_at=retrieved_at,
+                        raw_payload=clean_row,
+                        record_hash=record_hash,
+                    )
+        elif parquet_file.exists():
+            df = pl.read_parquet(parquet_file)
+            for row in df.iter_rows(named=True):
+                clean_row = {str(k): v for k, v in row.items()}
+                detected_pii = self.FORBIDDEN_PII_KEYS.intersection(clean_row.keys())
+                if detected_pii:
+                    msg = f"Forbidden PII keys detected in intake payload: {detected_pii}"
+                    raise ValueError(msg)
+                record_hash = compute_record_hash(clean_row)
+                yield RawRecord(
+                    source_id=self.source_id,
+                    source_version=source_version,
+                    license_id=license_id,
+                    retrieved_at=retrieved_at,
+                    raw_payload=clean_row,
+                    record_hash=record_hash,
+                )
+        else:
+            msg = f"Raw intake data file not found: {data_file}"
+            raise FileNotFoundError(msg)
+
+
 # Alias
 StackOverflowSurveyConnector = StackOverflowSurvey2024Connector
 
@@ -760,6 +842,7 @@ StackOverflowSurveyConnector = StackOverflowSurvey2024Connector
 CONNECTOR_REGISTRY: dict[str, type[BaseConnector]] = {
     "SRC-IND-OFF-01": MOSPIPLFSConnector,
     "SRC-IND-OFF-03": LabourBureauQESConnector,
+    "SRC-INT-VOL-01": VoluntaryIntakeConnector,
     "SRC-KAG-AIJ-01": AIJobsSalariesConnector,
     "SRC-KAG-AIJ-02": JobsInDataConnector,
     "SRC-KAG-SO-01": StackOverflowSurvey2024Connector,
