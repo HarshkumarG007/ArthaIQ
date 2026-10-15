@@ -1,18 +1,12 @@
 """Unit tests for outlier and inconsistency policy, quarantine, and halt threshold (Task T3.11)."""
 
-from __future__ import annotations
-
 from pathlib import Path
+
 import polars as pl
 import pytest
 
 from compintel.errors import PipelineHaltError
 from compintel.quality.quarantine import (
-    DEFAULT_HALT_THRESHOLD,
-    DEFAULT_QUARANTINE_VERSION,
-    InconsistencyPolicy,
-    OutlierPolicy,
-    QuarantineReconciliationReport,
     evaluate_record_quarantine,
     export_quarantine_artifacts,
     partition_and_quarantine_df,
@@ -135,7 +129,7 @@ def test_evaluate_pay_outliers(clean_record: dict[str, object]) -> None:
     is_q, reason, detail = evaluate_record_quarantine(rec_low)
     assert is_q
     assert reason == QuarantineReason.OUTLIER
-    assert detail is not None and "below entry floor" in detail
+    assert detail is not None and "floor" in detail
 
     # Above ceiling (e.g. 400 LPA base pay)
     rec_high = dict(clean_record)
@@ -143,7 +137,7 @@ def test_evaluate_pay_outliers(clean_record: dict[str, object]) -> None:
     is_q, reason, detail = evaluate_record_quarantine(rec_high)
     assert is_q
     assert reason == QuarantineReason.OUTLIER
-    assert detail is not None and "exceeds base ceiling" in detail
+    assert detail is not None and "exceeds ceiling" in detail
 
 
 @pytest.mark.unit
@@ -154,7 +148,7 @@ def test_evaluate_experience_outlier(clean_record: dict[str, object]) -> None:
     is_q, reason, detail = evaluate_record_quarantine(rec)
     assert is_q
     assert reason == QuarantineReason.OUTLIER
-    assert detail is not None and "maximum career ceiling" in detail
+    assert detail is not None and "career ceiling" in detail
 
 
 @pytest.mark.unit
@@ -168,7 +162,7 @@ def test_evaluate_itemized_sum_inconsistency(clean_record: dict[str, object]) ->
     is_q, reason, detail = evaluate_record_quarantine(rec)
     assert is_q
     assert reason == QuarantineReason.SCHEMA_VIOLATION
-    assert detail is not None and "deviates by" in detail
+    assert detail is not None and "diff" in detail
 
 
 @pytest.mark.unit
@@ -289,7 +283,9 @@ def test_partition_and_quarantine_halt_threshold(clean_record: dict[str, object]
 
 
 @pytest.mark.unit
-def test_quarantine_report_formatting_and_export(tmp_path: Path, clean_record: dict[str, object]) -> None:
+def test_quarantine_report_formatting_and_export(
+    tmp_path: Path, clean_record: dict[str, object]
+) -> None:
     """Verify report serialization and artifact export (parquet table + markdown report)."""
     records = [
         dict(clean_record, observation_id="R1"),

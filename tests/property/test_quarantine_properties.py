@@ -10,10 +10,10 @@ Verifies invariants:
 
 from __future__ import annotations
 
-from hypothesis import given
-from hypothesis import strategies as st
 import polars as pl
 import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 
 from compintel.quality.quarantine import (
     evaluate_record_quarantine,
@@ -24,7 +24,9 @@ from compintel.schema.enums import QuarantineReason, RoleFamily
 arbitrary_record_strategy = st.fixed_dictionaries(
     {
         "source_id": st.sampled_from(["SRC-INT-VOL-01", "SRC-KAG-SO-01", "SRC-SUP-CORP-01"]),
-        "role_family": st.sampled_from([RoleFamily.SWE.value, RoleFamily.DATA.value, "OTHER", None]),
+        "role_family": st.sampled_from(
+            [RoleFamily.SWE.value, RoleFamily.DATA.value, "OTHER", None]
+        ),
         "canonical_title": st.sampled_from(["Software Engineer", "Data Scientist", "Unmapped"]),
         "seniority": st.sampled_from(["JR", "MID", "SR", "STAFF"]),
         "location": st.sampled_from(["BENGALURU", "HYDERABAD", "New York, USA", "UNKNOWN"]),
