@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.11 (Outlier and inconsistency policy: quality/quarantine)**
+**NEXT TASK: T3.12 (Implement source-quality scoring: quality/scoring)**
 
 ## How to use this file
 
@@ -181,7 +181,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
   - [x] **T3.10a** [AI] Exact duplicate detection and person record clustering. (done 2026-10-16)
   - [x] **T3.10b** [AI] Employer entity resolution and source duplicate reporting. (done 2026-10-16)
       Output: `quality/dedup` with tests. Done when: cluster ids exist for every record and duplicate rates are reported per source. Needs: T3.04.
-- [ ] **T3.11** [AI] Outlier and inconsistency policy; quarantine table with reason codes; halt threshold (R-ER-06).
+- [x] **T3.11** [AI] Outlier and inconsistency policy; quarantine table with reason codes; halt threshold (R-ER-06). (done 2026-10-16)
       Output: `quality/quarantine`. Done when: nothing is silently dropped, proven by count reconciliation. Needs: T3.05. Size: M.
 - [ ] **T3.12** [AI] Implement source-quality scoring from T1.10.
       Output: `quality/scoring` with tests. Done when: scores attach to every observation. Needs: T3.04. Size: M.

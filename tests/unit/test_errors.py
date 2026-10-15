@@ -10,6 +10,7 @@ from compintel.errors import (
     LeakageError,
     LicenceViolationError,
     ModelArtifactError,
+    PipelineHaltError,
     UpstreamUnavailableError,
     ValidationError,
     sanitize_error_context,
@@ -27,6 +28,7 @@ def test_exception_inheritance_hierarchy() -> None:
     assert issubclass(ConfigError, CompIntelError)
     assert issubclass(ModelArtifactError, CompIntelError)
     assert issubclass(UpstreamUnavailableError, CompIntelError)
+    assert issubclass(PipelineHaltError, CompIntelError)
 
 
 @pytest.mark.unit

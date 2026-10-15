@@ -157,11 +157,11 @@ Every rule has an id. When you deviate from one, cite the id in `memory.md` and 
 | ID | Rule |
 |---|---|
 | R-ER-01 | Pipelines fail fast and loudly. Raise typed exceptions. Never return partial results silently. |
-| R-ER-02 | Exceptions derive from `CompIntelError`: `ValidationError`, `DataContractError`, `LicenceViolationError`, `LeakageError`, `ConfigError`, `ModelArtifactError`, `UpstreamUnavailableError`. Expected outcomes, such as abstention, use result types (`Estimate` or `Abstained`), not exceptions. |
+| R-ER-02 | Exceptions derive from `CompIntelError`: `ValidationError`, `DataContractError`, `LicenceViolationError`, `LeakageError`, `ConfigError`, `ModelArtifactError`, `UpstreamUnavailableError`, `PipelineHaltError`. Expected outcomes, such as abstention, use result types (`Estimate` or `Abstained`), not exceptions. |
 | R-ER-03 | No bare `except:`. No `except Exception: pass`. Catch narrowly and re-raise with context (`raise ... from err`). |
 | R-ER-04 | API errors use RFC 9457 problem details with stable codes and a request id. 422 for validation, 429 with `Retry-After`, 5xx without stack traces or internal paths. Abstention is HTTP 200 with `status: "abstained"`. |
 | R-ER-05 | External I/O has timeouts. Retry only idempotent calls, with bounded exponential backoff and jitter. Verify checksums on downloads. |
-| R-ER-06 | Data errors go to quarantine with reason codes. If the quarantine rate exceeds a configured limit `[TBD: T3.11]`, halt the pipeline. |
+| R-ER-06 | Data errors go to quarantine with reason codes. If the quarantine rate exceeds a configured limit (default 25.0% per `Settings.max_quarantine_rate`; ratified at T3.11), halt the pipeline with `PipelineHaltError`. |
 | R-ER-07 | Log levels: DEBUG for development, INFO for state changes, WARNING for recoverable anomalies, ERROR for failed operations. Always include the request id; never personal data. |
 | R-ER-08 | Frontend: error boundaries, plain-language messages with the reference id, offline state, retry only for idempotent reads. Never show raw server errors. |
 | R-ER-09 | **Assistant error protocol.** When a command or test fails: read the error, state a hypothesis, fix the root cause. After two failed attempts with the same approach, stop, record the issue in `memory.md` (Known issues) and ask. Never mask errors. Never delete tests or data to get green. Never run destructive commands (`rm -rf`, `DROP`, force-push, history rewrites) without explicit approval. |
