@@ -2,14 +2,15 @@
 
 Adheres to:
 - Rule R-UQ-01: No lone numbers; uncertainty quantified via soft labels and confidence scores.
-- Rule R-MD-07: Anti-heuristic rigor; unmapped and ambiguous cases are counted and flagged, not forced.
+- Rule R-MD-07: Anti-heuristic rigor; unmapped and ambiguous cases are counted and
+  flagged, not forced.
 - Rule R-MD-09 & R-SC-07: Deterministic rule-based engine, strictly free of LLM dependencies.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import re
+from dataclasses import dataclass, field
 from typing import Any
 
 import polars as pl
@@ -22,19 +23,49 @@ DEFAULT_LEVEL_MAPPING_VERSION: str = "v0.1.0"
 # Matches common corporate tech level formats: L1-L7, E1-E7, IC1-IC6, MTS/SMTS/PMTS
 EXPLICIT_LEVEL_PATTERNS: list[tuple[re.Pattern[str], SeniorityLevel, float]] = [
     # Principal / Distinguished (L6+)
-    (re.compile(r"\b(l[6-9]|e[6-9]|ic[6-9]|distinguished|fellow|senior\s+principal)\b", re.I), SeniorityLevel.PRINCIPAL, 0.98),
+    (
+        re.compile(r"\b(l[6-9]|e[6-9]|ic[6-9]|distinguished|fellow|senior\s+principal)\b", re.I),
+        SeniorityLevel.PRINCIPAL,
+        0.98,
+    ),
     # Staff / Principal (L5)
-    (re.compile(r"\b(l5|e5|ic5|pmts|principal\s+engineer|staff\s+engineer|lead\s+architect)\b", re.I), SeniorityLevel.STAFF, 0.95),
+    (
+        re.compile(
+            r"\b(l5|e5|ic5|pmts|principal\s+engineer|staff\s+engineer|lead\s+architect)\b", re.I
+        ),
+        SeniorityLevel.STAFF,
+        0.95,
+    ),
     # Senior (L4)
-    (re.compile(r"\b(l4|e4|ic4|smts|sde\s*3|sde\s*iii|swe\s*3|swe\s*iii)\b", re.I), SeniorityLevel.SR, 0.95),
+    (
+        re.compile(r"\b(l4|e4|ic4|smts|sde\s*3|sde\s*iii|swe\s*3|swe\s*iii)\b", re.I),
+        SeniorityLevel.SR,
+        0.95,
+    ),
     # Mid-Level (L3)
-    (re.compile(r"\b(l3|e3|ic3|mts\s*2|mts\s*ii|sde\s*2|sde\s*ii|swe\s*2|swe\s*ii|engineer\s*2|engineer\s*ii)\b", re.I), SeniorityLevel.MID, 0.95),
+    (
+        re.compile(
+            r"\b(l3|e3|ic3|mts\s*2|mts\s*ii|sde\s*2|sde\s*ii|swe\s*2|swe\s*ii|engineer\s*2|engineer\s*ii)\b",
+            re.I,
+        ),
+        SeniorityLevel.MID,
+        0.95,
+    ),
     # Junior / Entry (L1-L2)
-    (re.compile(r"\b(l[12]|e[12]|ic[12]|mts\s*1|mts\s*i|sde\s*1|sde\s*i|swe\s*1|swe\s*i|associate\s+engineer|graduate\s+engineer|trainee|intern)\b", re.I), SeniorityLevel.JR, 0.95),
+    (
+        re.compile(
+            r"\b(l[12]|e[12]|ic[12]|mts\s*1|mts\s*i|sde\s*1|sde\s*i|swe\s*1|swe\s*i|associate\s+engineer|graduate\s+engineer|trainee|intern)\b",
+            re.I,
+        ),
+        SeniorityLevel.JR,
+        0.95,
+    ),
 ]
 
 # Title Keyword Patterns
-TITLE_SENIORITY_PATTERNS: list[tuple[re.Pattern[str], SeniorityLevel, float, dict[str, float], bool]] = [
+TITLE_SENIORITY_PATTERNS: list[
+    tuple[re.Pattern[str], SeniorityLevel, float, dict[str, float], bool]
+] = [
     # (pattern, primary_level, confidence, soft_labels, is_ambiguous)
     # Principal / Fellow / Distinguished
     (
@@ -154,7 +185,9 @@ class LevelAmbiguityAudit:
     clean_mapped_count: int = 0
     ambiguous_count: int = 0
     unmapped_count: int = 0
-    seniority_counts: dict[str, int] = field(default_factory=lambda: {s.value: 0 for s in SeniorityLevel})
+    seniority_counts: dict[str, int] = field(
+        default_factory=lambda: {s.value: 0 for s in SeniorityLevel}
+    )
 
     @property
     def ambiguity_rate(self) -> float:
@@ -169,7 +202,9 @@ class LevelAmbiguityAudit:
     def record_result(self, result: LevelMappingResult) -> None:
         """Accumulate a LevelMappingResult into audit counters."""
         self.total_records += 1
-        self.seniority_counts[result.seniority.value] = self.seniority_counts.get(result.seniority.value, 0) + 1
+        self.seniority_counts[result.seniority.value] = (
+            self.seniority_counts.get(result.seniority.value, 0) + 1
+        )
 
         if result.is_unmapped:
             self.unmapped_count += 1
@@ -202,25 +237,65 @@ def _yoe_to_soft_labels(yoe: float) -> tuple[SeniorityLevel, float, dict[str, fl
     - PRINCIPAL: 15+ years
     """
     if yoe <= 1.0:
-        return SeniorityLevel.JR, 0.90, {"JR": 0.90, "MID": 0.10, "SR": 0.0, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0}, False
+        return (
+            SeniorityLevel.JR,
+            0.90,
+            {"JR": 0.90, "MID": 0.10, "SR": 0.0, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0},
+            False,
+        )
     if yoe <= 2.0:
         # Borderline Junior / Mid
-        return SeniorityLevel.JR, 0.70, {"JR": 0.65, "MID": 0.35, "SR": 0.0, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0}, True
+        return (
+            SeniorityLevel.JR,
+            0.70,
+            {"JR": 0.65, "MID": 0.35, "SR": 0.0, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0},
+            True,
+        )
     if yoe <= 4.5:
-        return SeniorityLevel.MID, 0.85, {"JR": 0.10, "MID": 0.80, "SR": 0.10, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0}, False
+        return (
+            SeniorityLevel.MID,
+            0.85,
+            {"JR": 0.10, "MID": 0.80, "SR": 0.10, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0},
+            False,
+        )
     if yoe <= 6.0:
         # Borderline Mid / Senior
-        return SeniorityLevel.MID, 0.65, {"JR": 0.05, "MID": 0.55, "SR": 0.40, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0}, True
+        return (
+            SeniorityLevel.MID,
+            0.65,
+            {"JR": 0.05, "MID": 0.55, "SR": 0.40, "STAFF": 0.0, "PRINCIPAL": 0.0, "OTHER": 0.0},
+            True,
+        )
     if yoe <= 10.0:
-        return SeniorityLevel.SR, 0.85, {"JR": 0.0, "MID": 0.10, "SR": 0.80, "STAFF": 0.10, "PRINCIPAL": 0.0, "OTHER": 0.0}, False
+        return (
+            SeniorityLevel.SR,
+            0.85,
+            {"JR": 0.0, "MID": 0.10, "SR": 0.80, "STAFF": 0.10, "PRINCIPAL": 0.0, "OTHER": 0.0},
+            False,
+        )
     if yoe <= 12.0:
         # Borderline Senior / Staff
-        return SeniorityLevel.SR, 0.65, {"JR": 0.0, "MID": 0.05, "SR": 0.55, "STAFF": 0.40, "PRINCIPAL": 0.0, "OTHER": 0.0}, True
+        return (
+            SeniorityLevel.SR,
+            0.65,
+            {"JR": 0.0, "MID": 0.05, "SR": 0.55, "STAFF": 0.40, "PRINCIPAL": 0.0, "OTHER": 0.0},
+            True,
+        )
     if yoe <= 15.0:
-        return SeniorityLevel.STAFF, 0.80, {"JR": 0.0, "MID": 0.0, "SR": 0.15, "STAFF": 0.75, "PRINCIPAL": 0.10, "OTHER": 0.0}, False
+        return (
+            SeniorityLevel.STAFF,
+            0.80,
+            {"JR": 0.0, "MID": 0.0, "SR": 0.15, "STAFF": 0.75, "PRINCIPAL": 0.10, "OTHER": 0.0},
+            False,
+        )
 
     # 15+ years: Principal
-    return SeniorityLevel.PRINCIPAL, 0.85, {"JR": 0.0, "MID": 0.0, "SR": 0.05, "STAFF": 0.25, "PRINCIPAL": 0.70, "OTHER": 0.0}, False
+    return (
+        SeniorityLevel.PRINCIPAL,
+        0.85,
+        {"JR": 0.0, "MID": 0.0, "SR": 0.05, "STAFF": 0.25, "PRINCIPAL": 0.70, "OTHER": 0.0},
+        False,
+    )
 
 
 def map_level(
@@ -273,7 +348,14 @@ def map_level(
                 if years_experience is not None and years_experience >= 0.0:
                     yoe_lvl, yoe_conf, _, _ = _yoe_to_soft_labels(years_experience)
                     # Concordance reinforces confidence; contradiction increases ambiguity
-                    if yoe_lvl != seniority and abs(list(SeniorityLevel).index(yoe_lvl) - list(SeniorityLevel).index(seniority)) >= 2:
+                    if (
+                        yoe_lvl != seniority
+                        and abs(
+                            list(SeniorityLevel).index(yoe_lvl)
+                            - list(SeniorityLevel).index(seniority)
+                        )
+                        >= 2
+                    ):
                         # Severe discrepancy (e.g. title says "Senior" but YoE = 0.5 yrs)
                         is_amb = True
                         conf = max(0.40, conf - 0.30)
@@ -343,7 +425,8 @@ def normalize_levels_df(
     - level_confidence: Mapping confidence in [0.0, 1.0]
     - is_level_ambiguous: Boolean indicating borderline or conflicting seniority signals
     - is_level_unmapped: Boolean indicating lack of seniority signals
-    - level_mapping_method: Strategy used ('explicit_code', 'title_token', 'experience_heuristic', 'unmapped')
+    - level_mapping_method: Strategy used ('explicit_code', 'title_token',
+      'experience_heuristic', 'unmapped')
     - level_mapping_version: Version identifier recorded for every record
 
     Returns:
@@ -369,14 +452,16 @@ def normalize_levels_df(
         else [None] * df.height
     )
     yoes = (
-        df[yoe_column].to_list()
-        if yoe_column and yoe_column in df.columns
-        else [None] * df.height
+        df[yoe_column].to_list() if yoe_column and yoe_column in df.columns else [None] * df.height
     )
 
     results: list[LevelMappingResult] = []
     for t, el, y in zip(titles, exp_levels, yoes, strict=False):
-        y_val = float(y) if y is not None and str(y).strip() != "" and str(y).strip() != "null" else None
+        y_val = (
+            float(y)
+            if y is not None and str(y).strip() != "" and str(y).strip() != "null"
+            else None
+        )
         res = map_level(
             raw_title=t,
             explicit_level=el,
