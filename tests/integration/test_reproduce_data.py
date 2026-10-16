@@ -17,13 +17,9 @@ from pathlib import Path
 
 import polars as pl
 import pytest
-
-repo_root_path = Path(__file__).resolve().parent.parent.parent
-if str(repo_root_path) not in sys.path:
-    sys.path.insert(0, str(repo_root_path))
+from scripts.reproduce_data import build_canonical_dataset
 
 from compintel.schema.canonical import canonical_dataframe_schema
-from scripts.reproduce_data import build_canonical_dataset
 
 
 @pytest.fixture
@@ -34,7 +30,7 @@ def repo_root() -> Path:
 
 @pytest.mark.integration
 def test_reproduce_data_idempotency_and_reconciliation(repo_root: Path) -> None:
-    """Two clean runs produce identical snapshot hashes, data hashes, and zero reconciliation delta (ADR-0006, R-DA-05)."""
+    """Two clean runs produce identical snapshot and data hashes (ADR-0006, R-DA-05)."""
     run1 = build_canonical_dataset(repo_root=repo_root)
     run2 = build_canonical_dataset(repo_root=repo_root)
 
@@ -60,8 +56,9 @@ def test_reproduce_data_idempotency_and_reconciliation(repo_root: Path) -> None:
     assert run1.parquet_path.exists()
     assert run1.lineage_path.exists()
 
-    snapshot_parquet = repo_root / "data" / "canonical" / "snapshots" / f"{run1.snapshot_id}.parquet"
-    snapshot_lineage = repo_root / "data" / "canonical" / "snapshots" / f"{run1.snapshot_id}_lineage.json"
+    snapshots_dir = repo_root / "data" / "canonical" / "snapshots"
+    snapshot_parquet = snapshots_dir / f"{run1.snapshot_id}.parquet"
+    snapshot_lineage = snapshots_dir / f"{run1.snapshot_id}_lineage.json"
     quarantine_parquet = repo_root / "data" / "quarantine" / "quarantine_records.parquet"
 
     assert snapshot_parquet.exists()

@@ -36,7 +36,7 @@ repo_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(repo_root / "src"))
 
 from compintel.errors import DataContractError
-from compintel.ingestion.connector import CONNECTOR_REGISTRY, get_connector
+from compintel.ingestion.connector import get_connector
 from compintel.ingestion.lineage import (
     DataSnapshotLineage,
     compute_dataframe_content_hash,
@@ -44,7 +44,6 @@ from compintel.ingestion.lineage import (
     save_lineage,
 )
 from compintel.ingestion.manifest import verify_licence_gate, verify_manifest
-from compintel.normalization.levels import map_level
 from compintel.normalization.titles import normalize_title
 from compintel.quality.dedup import deduplicate_records_df
 from compintel.quality.scoring import attach_source_quality_scores_df
@@ -138,7 +137,7 @@ def build_canonical_dataset(
     snapshots_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Manifest verification across all candidate / approved sources (Rule R-DA-01, R-DA-02)
-    active_source_dirs = sorted([p for p in raw_path.glob("*/manifest.yaml")])
+    active_source_dirs = sorted(raw_path.glob("*/manifest.yaml"))
     if not active_source_dirs:
         raise FileNotFoundError(f"No source directories with manifest.yaml found in {raw_path}")
 
@@ -201,16 +200,16 @@ def build_canonical_dataset(
         fixed_allow_lpa = (fixed_allow_monthly * 12.0) / 100_000.0
         variable_lpa = variable_annual_inr / 100_000.0
         equity_lpa = equity_annual_inr / 100_000.0
-        total_comp_lpa = (guaranteed_annual_inr + variable_annual_inr + equity_annual_inr) / 100_000.0
+        total_comp_lpa = (
+            guaranteed_annual_inr + variable_annual_inr + equity_annual_inr
+        ) / 100_000.0
         ctc_lpa = ctc_annual_inr / 100_000.0
         take_home_lpa = (take_home_monthly * 12.0) / 100_000.0
 
         # Profile fields
         raw_role = str(p.get("role_family", "SWE"))
         fam = (
-            RoleFamily(raw_role)
-            if raw_role in RoleFamily._value2member_map_
-            else RoleFamily.OTHER
+            RoleFamily(raw_role) if raw_role in RoleFamily._value2member_map_ else RoleFamily.OTHER
         )
         norm_title_res = normalize_title(raw_role)
         canon_title = norm_title_res.canonical_title
@@ -543,13 +542,18 @@ def main() -> int:
         print(f"  Total Ingested Records : {run1.total_records}")
         print(f"  Valid Canonical Records: {run1.valid_records}")
         print(f"  Quarantined Records    : {run1.quarantined_records}")
-        print(f"  Count Reconciliation   : Delta = {run1.reconciliation_delta} (PROVEN: Total = Valid + Quarantined)")
+        print(
+            f"  Count Reconciliation   : Delta = {run1.reconciliation_delta} (PROVEN: Total = Valid + Quarantined)"
+        )
         print(f"  Data Hash (SHA256)     : {run1.data_hash}")
         print(f"  Parquet Artifact       : {run1.parquet_path}")
         print(f"  Lineage Manifest       : {run1.lineage_path}")
 
         if args.snapshot and run1.snapshot_id != args.snapshot:
-            print(f"\n[ERROR] Snapshot mismatch! Expected: {args.snapshot}, Got: {run1.snapshot_id}", file=sys.stderr)
+            print(
+                f"\n[ERROR] Snapshot mismatch! Expected: {args.snapshot}, Got: {run1.snapshot_id}",
+                file=sys.stderr,
+            )
             return 1
 
         if args.verify_idempotence:
@@ -570,9 +574,13 @@ def main() -> int:
             )
             assert run1.total_records == run2.total_records, "Total record count mismatch"
             assert run1.valid_records == run2.valid_records, "Valid record count mismatch"
-            assert run1.quarantined_records == run2.quarantined_records, "Quarantined count mismatch"
+            assert run1.quarantined_records == run2.quarantined_records, (
+                "Quarantined count mismatch"
+            )
 
-            print("  [SUCCESS] Idempotency Verified! Two clean runs produced 100% identical snapshot and data hashes.")
+            print(
+                "  [SUCCESS] Idempotency Verified! Two clean runs produced 100% identical snapshot and data hashes."
+            )
 
         print("\n" + "=" * 80)
         print("  Canonical Data Pipeline Successfully Reproduced!")

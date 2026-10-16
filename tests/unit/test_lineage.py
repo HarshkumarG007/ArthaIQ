@@ -6,9 +6,6 @@ Governed by:
 - ADR-0006: Deterministic snapshot identifier and idempotent clean runs.
 """
 
-from __future__ import annotations
-
-import os
 from pathlib import Path
 
 import polars as pl
@@ -16,7 +13,6 @@ import pytest
 import yaml
 
 from compintel.ingestion.lineage import (
-    DataSnapshotLineage,
     compute_config_hash,
     compute_dataframe_content_hash,
     compute_manifest_hash,
@@ -26,7 +22,6 @@ from compintel.ingestion.lineage import (
     load_lineage,
     save_lineage,
 )
-from compintel.schema.canonical import CURRENT_SCHEMA_VERSION
 
 
 @pytest.fixture
@@ -211,7 +206,7 @@ def test_compute_snapshot_id_sensitivity() -> None:
 
 @pytest.mark.unit
 def test_compute_dataframe_content_hash() -> None:
-    """Computes identical content hashes regardless of initial row order and supports nested lists."""
+    """Computes identical content hashes regardless of row order and supports nested lists."""
     df1 = pl.DataFrame(
         {
             "observation_id": ["OBS-01", "OBS-02"],
