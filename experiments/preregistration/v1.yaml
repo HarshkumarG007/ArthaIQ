@@ -1,0 +1,203 @@
+# =============================================================================
+#  ArthaIQ -- Baseline & Evaluation Protocol Pre-Registration: v1
+#  File: experiments/preregistration/v1.yaml
+# =============================================================================
+#
+#  IMMUTABILITY & GOVERNANCE CONTRACT (Rules R-MD-02, R-MD-06)
+#  This pre-registration specification MUST be committed to Git before any
+#  evaluation against the final test partition is executed.
+#
+#  Rules enforced:
+#    - R-MD-01: Grouped-temporal validation without cross-partition entity leakage.
+#    - R-MD-02: Final test set is isolated, untouched during tuning, and locked
+#               for make final-eval. Running it twice without declaring contamination
+#               is a critical violation.
+#    - R-MD-03: As-of cutoff enforcement; zero lookahead or future information.
+#    - R-MD-04: Seeded leak detection tests must fail deterministically.
+#    - R-MD-05: Mandatory baseline metrics with bootstrap confidence intervals and
+#               subgroup slices. RMSE or R2 alone is never sufficient evidence.
+#    - R-MD-06: Pre-registration committed before looking at the test set.
+#    - R-MD-07: Anti-heuristic CTC unbundling; no hard-coded multipliers.
+#    - R-MD-08: Abstention when evidence is thin (sample size < 10 or low provenance).
+#    - R-UQ-01: Uncertainty quantification; no lone numbers.
+#    - R-CD-03: Evaluation layer imports only schema and errors.
+#
+#  AUTHORING TASK:  T4.03 [AI+HUMAN]
+#  DATE AUTHORED:   2026-10-16
+#  STATUS:          LOCKED_AND_PRE_REGISTERED
+#  GOVERNS:         T4.04 (Rung A), T4.05 (Rung B), T4.06 (Leakage audit),
+#                   T4.07 (Experiments), T4.08 (Baseline report),
+#                   T4.09 (Review & Gate G4), make final-eval
+
+metadata:
+  document_id: "experiments/preregistration/v1.yaml"
+  version: "1.0.0"
+  status: "LOCKED_AND_PRE_REGISTERED"
+  authored_task: "T4.03"
+  authored_date: "2026-10-16"
+  governing_phase: 4
+  primary_target: "guaranteed_cash_annual"
+  target_unit: "INR_LPA"
+  target_currency: "INR"
+  governing_rules:
+    - "R-MD-01"
+    - "R-MD-02"
+    - "R-MD-03"
+    - "R-MD-04"
+    - "R-MD-05"
+    - "R-MD-06"
+    - "R-MD-07"
+    - "R-MD-08"
+    - "R-UQ-01"
+    - "R-CD-03"
+
+canonical_data:
+  snapshot_id: "SNAP-1FF34A8E9633"
+  data_path: "data/canonical/canonical_observations.parquet"
+  schema_version: "1.0.0"
+  total_observations: 104
+  pt1_eligible_observations: 104
+
+split_protocol:
+  framework: "compintel.evaluation.splits.TemporalGroupedSplitter"
+  partition_ratios:
+    train: 0.60
+    select: 0.15
+    calibrate: 0.15
+    test: 0.10
+  grouping_hierarchy:
+    primary_disjoint_entity: "person_cluster_id"
+    secondary_disjoint_entity: "employer_cluster_id"
+  temporal_ordering:
+    monotonic_sequence:
+      - "train"
+      - "select"
+      - "calibrate"
+      - "test"
+    ordering_rule: "max(train_date) <= min(select_date) <= max(select_date) <= min(calibrate_date) <= max(calibrate_date) <= min(test_date)"
+  contributor_quarantine_policy:
+    description: "Multi-observation contributors are isolated to their earliest temporal window; subsequent cross-window records are quarantined to excluded_df"
+    reconciliation_delta: 0
+
+metrics_specification:
+  point_metrics:
+    primary_loss: "mean_absolute_error"
+    metrics:
+      - name: "mae"
+        description: "Mean Absolute Error in nominal INR LPA"
+        direction: "minimize"
+      - name: "medae"
+        description: "Median Absolute Error in nominal INR LPA"
+        direction: "minimize"
+      - name: "mape"
+        description: "Mean Absolute Percentage Error"
+        direction: "minimize"
+      - name: "mdape"
+        description: "Median Absolute Percentage Error"
+        direction: "minimize"
+      - name: "rmse"
+        description: "Root Mean Squared Error (supplementary per R-MD-05)"
+        direction: "minimize"
+  quantile_metrics:
+    quantiles: [0.10, 0.50, 0.90]
+    metrics:
+      - name: "pinball_q10"
+        quantile: 0.10
+        description: "Quantile loss for 10th percentile"
+        direction: "minimize"
+      - name: "pinball_q50"
+        quantile: 0.50
+        description: "Quantile loss for 50th percentile (median)"
+        direction: "minimize"
+      - name: "pinball_q90"
+        quantile: 0.90
+        description: "Quantile loss for 90th percentile"
+        direction: "minimize"
+      - name: "mean_pinball_loss"
+        description: "Arithmetic mean of pinball loss across {0.10, 0.50, 0.90}"
+        direction: "minimize"
+  interval_metrics:
+    nominal_confidence: 0.80
+    lower_quantile: 0.10
+    upper_quantile: 0.90
+    metrics:
+      - name: "coverage_80"
+        nominal_target: 0.80
+        acceptable_range: [0.72, 0.88]
+        description: "Empirical coverage proportion for [P10, P90]"
+      - name: "mean_width"
+        description: "Mean interval width (P90 - P10) in LPA"
+        direction: "minimize"
+      - name: "median_width"
+        description: "Median interval width (P90 - P10) in LPA"
+        direction: "minimize"
+      - name: "relative_median_width"
+        description: "Median ratio (P90 - P10) / P50"
+        direction: "minimize"
+      - name: "underflow_rate_q10"
+        nominal_target: 0.10
+        description: "Proportion of observations where actual < P10"
+      - name: "overflow_rate_q90"
+        nominal_target: 0.10
+        description: "Proportion of observations where actual > P90"
+  calibration_metrics:
+    metrics:
+      - name: "mean_calibration_error"
+        threshold: 0.080
+        description: "Mean absolute deviation between empirical quantile frequency and nominal quantile"
+        direction: "minimize"
+      - name: "quantile_crossing_rate"
+        threshold: 0.005
+        target: 0.000
+        description: "Proportion of observations with non-monotonic quantiles (P10 > P50 or P50 > P90 or P10 > P90)"
+        direction: "minimize"
+  uncertainty_quantification:
+    method: "nonparametric_percentile_bootstrap"
+    n_resamples: 1000
+    confidence_level: 0.95
+    random_seed: 42
+    paired_comparison: true
+
+decision_rules_and_thresholds:
+  experiment_id: "EXP-01"
+  description: "Rung A (Empirical) and Rung B (Linear/GLM) baseline benchmark and champion selection"
+  acceptance_thresholds:
+    interval_coverage_min: 0.720
+    interval_coverage_max: 0.880
+    max_calibration_error: 0.080
+    max_crossing_rate: 0.005
+    max_point_mae_lpa: 4.50
+    max_point_mdape: 0.200
+  minimum_effect_sizes:
+    rung_b_vs_rung_a:
+      pinball_improvement_lpa: 0.050
+      mdape_reduction_pp: 0.020
+      statistical_significance_alpha: 0.050
+  champion_selection_rule: >
+    The simplest baseline (Rung A empirical backoff) serves as the default champion.
+    Rung B (regularized log-linear / quantile regression) is selected as champion only if:
+    1. It satisfies all acceptance thresholds (coverage in [0.72, 0.88], crossing rate <= 0.005, calibration error <= 0.08).
+    2. It achieves a statistically significant improvement over Rung A exceeding the minimum effect size
+       (Delta Mean Pinball Loss >= 0.05 LPA or MdAPE reduction >= 2.0 percentage points at p < 0.05).
+    Otherwise, Rung A remains the designated champion baseline.
+  abstention_rules:
+    thin_evidence_threshold: 10
+    disqualified_provenance_tiers: ["C", "D"]
+    abstention_reason_code: "THIN_EVIDENCE"
+    enforcement: "Abstain rather than extrapolate when cluster/cell support is below threshold (Rule R-MD-08)"
+
+subgroup_slices:
+  slice_dimensions:
+    - name: "experience_band"
+      categories: ["0-2", "3-5", "6-10", "11-15", "16+"]
+    - name: "role_taxons"
+      categories: ["software_engineering", "data_engineering_and_ml", "engineering_management"]
+    - name: "provenance_tier"
+      categories: ["TIER_A", "TIER_B"]
+    - name: "most_recent_window"
+      description: "Evaluation metrics specifically reported on the most recent temporal slice (Rule R-MD-05)"
+
+final_evaluation_lock:
+  lock_file_path: "experiments/preregistration/FINAL_EVAL_LOCK.json"
+  enforcement: "Strict file existence and cryptographic manifest hash check. Rerunning final-eval is prohibited unless contamination is formally declared."
+  touch_limit: 1

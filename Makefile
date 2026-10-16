@@ -98,13 +98,9 @@ quality-report:
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.
 # A lock file is written after the first run.
+# Usage: make final-eval [DRY_RUN=1] [CONTAMINATION_REASON="..."] [OPERATOR="..."]
 final-eval:
-	@echo "[STUB] Final evaluation not yet implemented (T4.03)."
-	@echo "Pre-registration must be committed before this target is run."
-	@echo "A lock file will be written to experiments/preregistration/FINAL_EVAL_LOCK."
-	@if exist experiments\preregistration\FINAL_EVAL_LOCK ( \
-	    echo "ERROR: FINAL_EVAL_LOCK exists. The test set has already been used." & exit 1 \
-	)
+	uv run python scripts/run_final_eval.py $(if $(DRY_RUN),--dry-run,) $(if $(CONTAMINATION_REASON),--declare-contamination "$(CONTAMINATION_REASON)",) $(if $(OPERATOR),--operator "$(OPERATOR)",)
 
 # ---- Pre-commit (install once) ---------------------------------------------
 install-hooks:
