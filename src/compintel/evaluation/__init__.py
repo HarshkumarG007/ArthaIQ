@@ -7,6 +7,15 @@ Provides:
 - Baselines and benchmark comparison.
 """
 
+from compintel.evaluation.inflation import (
+    LeakageInflationAuditor,
+    LeakageInflationConfig,
+    LeakageInflationReport,
+    MetricInflationComparison,
+    ModelInflationResult,
+    OverlapDiagnostics,
+    run_leakage_inflation_audit,
+)
 from compintel.evaluation.leakage import (
     LeakageAuditReport,
     audit_split_leakage,
@@ -71,7 +80,13 @@ __all__ = [
     "EXPECTED_PREREG_V1_HASH",
     "IntervalMetrics",
     "LeakageAuditReport",
+    "LeakageInflationAuditor",
+    "LeakageInflationConfig",
+    "LeakageInflationReport",
+    "MetricInflationComparison",
     "MetricWithCI",
+    "ModelInflationResult",
+    "OverlapDiagnostics",
     "PointMetrics",
     "QuantileLossMetrics",
     "SplitConfig",
@@ -104,6 +119,7 @@ __all__ = [
     "quantile_crossing",
     "read_final_eval_lock",
     "root_mean_squared_error",
+    "run_leakage_inflation_audit",
     "seed_exact_duplicate_leak",
     "seed_group_leak",
     "seed_observation_id_leak",
