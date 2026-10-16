@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.14 (Data-contract tests in CI and an automated data quality report)**
+**NEXT TASK: T3.15 (Synthetic data generator for tests, flagged synthetic (R-MD-11))**
 
 ## How to use this file
 
@@ -187,7 +187,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `quality/scoring` with tests. Done when: scores attach to every observation. Needs: T3.04. Size: M.
 - [x] **T3.13** [AI] Data versioning and lineage; `make reproduce-data` builds canonical data from manifests; ADR-0006. (done 2026-10-16)
       Output: Makefile target and ADR. Done when: two clean runs produce identical snapshot hashes. Needs: T3.06 to T3.12. Size: M.
-- [ ] **T3.14** [AI] Data-contract tests in CI and an automated data quality report.
+- [x] **T3.14** [AI] Data-contract tests in CI and an automated data quality report. (done 2026-10-16)
       Output: CI job and report. Done when: a broken contract fails CI. Needs: T3.13. Size: S.
 - [ ] **T3.15** [AI] Synthetic data generator for tests, flagged `synthetic` (R-MD-11).
       Output: `tests/fixtures` generator. Done when: pipeline tests run on it and metrics from it are blocked from reports. Needs: T3.04. Size: S.

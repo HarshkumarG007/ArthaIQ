@@ -1,0 +1,85 @@
+{
+  "snapshot_id": "SNAP-69F20D876BCB",
+  "manifest_hash": "87301ae50e59983f331a7724fd21e6f8aa8b4cdbd6629f20adfaadbaf5b2e9f2",
+  "git_commit": "e70ddbdc020c26fddb2b6bd1c2580f5453a7f0c5",
+  "config_hash": "ff7c70c744a092801f1c8b6a9c31763a842ff93d09c60ba8dba6f75d7bd85682",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-10-16T14:06:16.941332+00:00",
+  "total_evaluated": 665,
+  "valid_records": 5,
+  "quarantined_records": 660,
+  "reconciliation_delta": 0,
+  "reconciliation_passed": true,
+  "quarantine_rate": 0.9924812030075187,
+  "quarantine_reasons_breakdown": {
+    "enterprise_aggregate": 24,
+    "missing_pay": 192,
+    "geo_out_of_scope": 125,
+    "outlier": 7,
+    "non_fulltime": 158,
+    "currency_mismatch": 2,
+    "unbundled_aggregate": 152
+  },
+  "quarantine_source_breakdown": {
+    "SRC-KAG-AIJ-02": 6,
+    "SRC-USA-DOL-01": 8,
+    "SRC-USA-DOL-02": 5,
+    "SRC-IND-OFF-01": 13,
+    "SRC-KAG-AIJ-01": 10,
+    "SRC-USA-BLS-01": 7,
+    "SRC-KAG-SO-01": 300,
+    "SRC-IND-OFF-03": 3,
+    "SRC-KAG-SO-02": 300,
+    "SRC-SUP-CORP-01": 8
+  },
+  "role_family_distribution": {
+    "MLAI": 1,
+    "SWE": 3,
+    "DATA": 1
+  },
+  "seniority_distribution": {
+    "MID": 1,
+    "JR": 1,
+    "SR": 2,
+    "STAFF": 1
+  },
+  "location_distribution": {
+    "PUNE": 1,
+    "HYDERABAD": 1,
+    "BENGALURU": 3
+  },
+  "guaranteed_cash_stats": {
+    "min": 8.4,
+    "p10": 8.4,
+    "p25": 18.0,
+    "median": 26.4,
+    "mean": 26.160000000000004,
+    "p75": 30.0,
+    "p90": 48.0,
+    "max": 48.0
+  },
+  "experience_stats": {
+    "min": 1.0,
+    "median": 7.5,
+    "mean": 6.3,
+    "max": 11.0
+  },
+  "distinct_person_clusters": 5,
+  "distinct_employer_clusters": 1,
+  "distinct_posting_clusters": 4,
+  "exact_duplicates_count": 0,
+  "mean_source_quality_score": 96.0,
+  "provenance_tier_counts": {
+    "A": 5
+  },
+  "pt1_eligible_count": 5,
+  "contract_checks": {
+    "reconciliation_contract": true,
+    "schema_contract": true,
+    "unbundling_contract": true,
+    "pii_safety_contract": true,
+    "cluster_id_contract": true,
+    "sqsf_provenance_contract": true
+  },
+  "overall_status": "PASSED"
+}
