@@ -1,7 +1,8 @@
-"""Data versioning, lineage tracking, and snapshot hashing engine (Rules R-DA-02, R-DA-08; ADR-0006).
+"""Data versioning, lineage tracking, and snapshot hashing engine.
 
-Provides deterministic cryptographic snapshot identifiers, raw manifest digest verification,
-configuration hashing, and immutable lineage tracking for canonical compensation datasets.
+Governed by Rules R-DA-02, R-DA-08, and ADR-0006. Provides deterministic cryptographic
+snapshot identifiers, raw manifest digest verification, configuration hashing, and
+immutable lineage tracking for canonical compensation datasets.
 """
 
 from __future__ import annotations
@@ -12,13 +13,15 @@ import os
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-import polars as pl
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
 
 from compintel.schema.canonical import CURRENT_SCHEMA_VERSION
+
+if TYPE_CHECKING:
+    import polars as pl
 
 
 class DataSnapshotLineage(BaseModel):
@@ -235,9 +238,7 @@ def compute_snapshot_id(
     return f"SNAP-{digest}"
 
 
-def compute_dataframe_content_hash(
-    df: pl.DataFrame, sort_key: str = "observation_id"
-) -> str:
+def compute_dataframe_content_hash(df: pl.DataFrame, sort_key: str = "observation_id") -> str:
     """Compute deterministic SHA-256 hash of Polars DataFrame records.
 
     Ensures rows are ordered by primary key before serializing into canonical NDJSON bytes,
