@@ -56,8 +56,10 @@ from compintel.quality.quarantine import (
 )
 from compintel.quality.report import (
     DataQualityReport,
+    block_synthetic_from_metrics,
     export_data_quality_report,
     generate_data_quality_report,
+    validate_no_synthetic_data,
 )
 from compintel.quality.scoring import (
     DEFAULT_SOURCE_QUALITY_REGISTRY,
@@ -127,6 +129,7 @@ __all__ = [
     "SourceDuplicateMetrics",
     "attach_source_quality_scores_df",
     "audit_candidate_survey_density",
+    "block_synthetic_from_metrics",
     "build_pt1_prototype",
     "canonicalize_employer_name",
     "classify_sqsf_tier",
@@ -170,4 +173,5 @@ __all__ = [
     "profile_source_directory",
     "score_observation",
     "update_coverage_map_with_c5",
+    "validate_no_synthetic_data",
 ]

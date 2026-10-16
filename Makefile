@@ -3,7 +3,7 @@
 # Versions are pinned at T3.01. Many targets are stubs until their phase starts.
 
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
-        test-leakage test-integration coverage-map sufficiency reproduce-data quality-report \
+        test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         final-eval clean
 
 
@@ -20,6 +20,7 @@ help:
 	@echo "  make test-contract    Data and API contract tests"
 	@echo "  make test-leakage     Leakage and split tests"
 	@echo "  make test-integration Integration tests"
+	@echo "  make test-synthetic   Synthetic fixture tests (R-MD-11)"
 	@echo "  make reproduce-data   Rebuild canonical data from raw manifests (T3.13)"
 	@echo "  make quality-report   Generate data quality audit report and JSON (T3.14)"
 	@echo "  make final-eval       Run the pre-registered final evaluation (T4.03)"
@@ -66,6 +67,9 @@ test-leakage:
 
 test-integration:
 	pytest tests/integration/ -m "integration"
+
+test-synthetic:
+	pytest tests/ -m "synthetic"
 
 test-e2e:
 	pytest tests/e2e/ -m "e2e"

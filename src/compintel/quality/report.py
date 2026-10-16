@@ -24,6 +24,7 @@ from typing import Any
 import polars as pl
 from pydantic import BaseModel, ConfigDict, Field
 
+from compintel.errors import DataContractError
 from compintel.schema.canonical import CURRENT_SCHEMA_VERSION, canonical_dataframe_schema
 
 
@@ -116,7 +117,18 @@ class DataQualityReport(BaseModel):
     provenance_tier_counts: dict[str, int] = Field(default_factory=dict)
     pt1_eligible_count: int = Field(default=0, ge=0)
 
-    # 8. Contract Enforcement & Verdict
+    # 8. Synthetic Data Isolation (Rule R-MD-11)
+    synthetic_records_count: int = Field(
+        default=0,
+        ge=0,
+        description="Count of synthetic fixture records detected.",
+    )
+    synthetic_isolation_passed: bool = Field(
+        default=True,
+        description="True if dataset contains zero synthetic records (Rule R-MD-11).",
+    )
+
+    # 9. Contract Enforcement & Verdict
     contract_checks: dict[str, bool] = Field(
         default_factory=dict,
         description="Status of individual contract verification rules.",
@@ -169,14 +181,33 @@ class DataQualityReport(BaseModel):
                 f"{self.total_evaluated} - ({self.valid_records} + {self.quarantined_records}) = "
                 f"{self.reconciliation_delta}$."
             ),
-            "",
-            "---",
-            "",
-            "## 2. Data Contract Verification Checklist",
-            "",
-            "| Rule ID | Contract Specification | Status |",
-            "|---|---|---|",
         ]
+
+        if self.synthetic_records_count > 0:
+            lines.extend(
+                [
+                    "",
+                    "> [!WARNING]",
+                    (
+                        f"> **Rule R-MD-11 Violation**: {self.synthetic_records_count} synthetic "
+                        "fixture records detected."
+                    ),
+                    "> Synthetic data is strictly for plumbing and tests. Metrics computed on it "
+                    "MUST NOT be reported as canonical data quality or model performance.",
+                ]
+            )
+
+        lines.extend(
+            [
+                "",
+                "---",
+                "",
+                "## 2. Data Contract Verification Checklist",
+                "",
+                "| Rule ID | Contract Specification | Status |",
+                "|---|---|---|",
+            ]
+        )
 
         rule_descriptions = {
             "schema_contract": "Pandera strict canonical dataframe schema conformance",
@@ -185,6 +216,7 @@ class DataQualityReport(BaseModel):
             "pii_safety_contract": "Zero cleartext PII leakage in datasets (R-DA-07)",
             "cluster_id_contract": "Mandatory cluster IDs populated for all records (R-DA-06)",
             "sqsf_provenance_contract": "Source Quality Scores and tiers attached (T3.12)",
+            "synthetic_isolation_contract": "Zero synthetic records in production data (R-MD-11)",
         }
 
         for check_key, passed in self.contract_checks.items():
@@ -303,12 +335,13 @@ def generate_data_quality_report(
     lineage: Any | None = None,
     lineage_path: Path | None = None,
     halt_threshold: float = 0.999,
+    allow_synthetic: bool = False,
 ) -> DataQualityReport:
     """Analyze canonical and quarantine DataFrames to generate complete DataQualityReport.
 
     Evaluates canonical schema conformance, count reconciliation (R-DA-05),
     unbundling constraints (R-MD-07), PII safety (R-DA-07), cluster completeness,
-    and SQSF provenance attachment.
+    SQSF provenance attachment (T3.12), and synthetic data isolation (R-MD-11).
     """
     # 1. Resolve lineage metadata
     if lineage is None:
@@ -391,6 +424,21 @@ def generate_data_quality_report(
         set(canonical_df.columns)
     )
     contract_checks["sqsf_provenance_contract"] = has_sqsf
+
+    # Synthetic Data Isolation Check (Rule R-MD-11)
+    synth_valid = (
+        canonical_df.filter(pl.col("is_synthetic") == True).height  # noqa: E712
+        if "is_synthetic" in canonical_df.columns
+        else 0
+    )
+    synth_quar = (
+        quarantine_df.filter(pl.col("is_synthetic") == True).height  # noqa: E712
+        if "is_synthetic" in quarantine_df.columns
+        else 0
+    )
+    total_synth = synth_valid + synth_quar
+    synth_passed = (total_synth == 0) or allow_synthetic
+    contract_checks["synthetic_isolation_contract"] = synth_passed
 
     # Overall Status
     all_passed = all(contract_checks.values()) and (quar_rate <= halt_threshold)
@@ -526,6 +574,8 @@ def generate_data_quality_report(
         mean_source_quality_score=mean_sqs,
         provenance_tier_counts=prov_counts,
         pt1_eligible_count=pt1_eligible,
+        synthetic_records_count=total_synth,
+        synthetic_isolation_passed=total_synth == 0,
         contract_checks=contract_checks,
         overall_status=overall_status,
     )
@@ -548,3 +598,26 @@ def export_data_quality_report(
 
     with open(json_p, "w", encoding="utf-8") as f:
         f.write(report.model_dump_json(indent=2))
+
+
+def validate_no_synthetic_data(df: pl.DataFrame, context: str = "production") -> None:
+    """Verify that a DataFrame contains zero synthetic records (Rule R-MD-11).
+
+    Raises DataContractError if synthetic records are detected in production datasets.
+    """
+    if "is_synthetic" in df.columns:
+        synth_c = df.filter(pl.col("is_synthetic") == True).height  # noqa: E712
+        if synth_c > 0:
+            raise DataContractError(
+                f"Rule R-MD-11 violation: {synth_c} synthetic records in {context}. "
+                "Synthetic data is strictly prohibited from production metrics and reports.",
+                code="SYNTHETIC_DATA_PROHIBITED",
+                details={"synthetic_count": synth_c, "context": context},
+            )
+
+
+def block_synthetic_from_metrics(df: pl.DataFrame) -> pl.DataFrame:
+    """Filter out synthetic observations before computing metrics (Rule R-MD-11)."""
+    if "is_synthetic" in df.columns:
+        return df.filter(pl.col("is_synthetic") == False)  # noqa: E712
+    return df

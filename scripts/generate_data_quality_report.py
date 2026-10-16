@@ -86,6 +86,7 @@ def run_data_quality_report(
     print(f"Valid Records:          {report.valid_records:,}")
     print(f"Quarantined Records:    {report.quarantined_records:,}")
     print(f"Quarantine Rate:        {report.quarantine_rate * 100:.2f}%")
+    print(f"Synthetic Records:      {report.synthetic_records_count:,} (Rule R-MD-11)")
     print(
         f"Reconciliation Delta:   {report.reconciliation_delta} (Passed: {report.reconciliation_passed})"
     )
