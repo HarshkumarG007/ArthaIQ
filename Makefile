@@ -4,7 +4,7 @@
 
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
-        final-eval clean
+        audit-leakage final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -93,6 +93,11 @@ reproduce-data:
 # Usage: make quality-report [VERIFY=1]
 quality-report:
 	uv run python scripts/generate_data_quality_report.py $(if $(VERIFY),--verify-thresholds,)
+
+# ---- Leakage & Baseline Audits (Phase 4, T4.06, EXP-12) --------------------
+# Usage: make audit-leakage [SNAPSHOT=<id>] [ALLOW_SYNTHETIC=1]
+audit-leakage:
+	uv run python scripts/run_leakage_audit.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

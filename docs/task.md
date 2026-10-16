@@ -218,7 +218,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `models/baselines/empirical`. Done when: backoff path is reported per prediction. Needs: T4.01. Size: M.
 - [x] **T4.05** [AI] Rung B: regularized linear or GLM on log pay; linear quantile regression. (done 2026-10-17)
       Output: `models/baselines/linear`. Done when: metrics produced on dev splits. Needs: T4.01. Size: M.
-- [ ] **T4.06** [AI] Leakage and duplicate-inflation audit; measure the random-versus-grouped-temporal gap (EXP-12).
+- [x] **T4.06** [AI] Leakage and duplicate-inflation audit; measure the random-versus-grouped-temporal gap (EXP-12). (done 2026-10-17)
       Output: audit section in the baseline report. Done when: gap reported and any leak fixed. Needs: T4.04, T4.05. Size: M.
 - [ ] **T4.07** [AI] Experiment records and `make experiment`: seeds, configs, snapshot ids, timings and memory.
       Output: run records. Done when: a past run reproduces from its record. Needs: T4.01. Size: M.

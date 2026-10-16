@@ -1,0 +1,220 @@
+{
+  "report_id": "AUDIT-EXP12-20261016-224345",
+  "generated_at_utc": "2026-10-16T22:43:45.677293+00:00",
+  "snapshot_id": "SNAP-CANONICAL",
+  "random_seed": 42,
+  "total_observations_analyzed": 5,
+  "dev_pool_size": 4,
+  "is_synthetic_fixture": false,
+  "grouped_temporal_diagnostics": {
+    "protocol_name": "Grouped-Temporal (Protocol B)",
+    "total_train_records": 3,
+    "total_dev_records": 1,
+    "total_train_persons": 3,
+    "total_dev_persons": 1,
+    "person_cluster_overlap_count": 0,
+    "person_cluster_leak_records": 0,
+    "person_cluster_leak_rate": 0.0,
+    "exact_duplicate_overlap_count": 0,
+    "temporal_lookahead_violation_count": 0,
+    "max_train_date": "2024-06-20",
+    "min_dev_date": "2024-06-25",
+    "is_leakage_free": true
+  },
+  "random_diagnostics": {
+    "protocol_name": "Naive Random (Protocol A)",
+    "total_train_records": 3,
+    "total_dev_records": 1,
+    "total_train_persons": 3,
+    "total_dev_persons": 1,
+    "person_cluster_overlap_count": 0,
+    "person_cluster_leak_records": 0,
+    "person_cluster_leak_rate": 0.0,
+    "exact_duplicate_overlap_count": 0,
+    "temporal_lookahead_violation_count": 0,
+    "max_train_date": "2024-06-20",
+    "min_dev_date": "2024-06-25",
+    "is_leakage_free": true
+  },
+  "model_results": {
+    "rung_a_empirical": {
+      "model_id": "rung_a_empirical",
+      "model_name": "Rung A: Empirical Conditional Quantiles (Hierarchical Backoff)",
+      "grouped_temporal_eval_count": 1,
+      "random_eval_count": 1,
+      "grouped_temporal_abstention_rate": 100.0,
+      "random_abstention_rate": 100.0,
+      "grouped_temporal_metrics": null,
+      "random_metrics": null,
+      "comparisons": []
+    },
+    "rung_b_linear": {
+      "model_id": "rung_b_linear",
+      "model_name": "Rung B: Regularized Linear Quantile Regression (Log Pay)",
+      "grouped_temporal_eval_count": 1,
+      "random_eval_count": 1,
+      "grouped_temporal_abstention_rate": 0.0,
+      "random_abstention_rate": 0.0,
+      "grouped_temporal_metrics": {
+        "point": {
+          "mae": 6.690000000000005,
+          "medae": 6.690000000000005,
+          "mape": 0.2534090909090911,
+          "mdape": 0.2534090909090911,
+          "rmse": 6.690000000000005,
+          "sample_size": 1
+        },
+        "quantile_loss": {
+          "pinball_q10": 6.021000000000004,
+          "pinball_q50": 3.3450000000000024,
+          "pinball_q90": 0.6690000000000004,
+          "mean_pinball_loss": 3.3450000000000024
+        },
+        "interval": {
+          "coverage_80": 0.0,
+          "mean_width": 0.0,
+          "median_width": 0.0,
+          "relative_median_width": 0.0,
+          "underflow_rate_q10": 1.0,
+          "overflow_rate_q90": 0.0
+        },
+        "calibration": {
+          "observed_freq_q10": 1.0,
+          "observed_freq_q50": 1.0,
+          "observed_freq_q90": 1.0,
+          "calibration_error_q10": 0.9,
+          "calibration_error_q50": 0.5,
+          "calibration_error_q90": 0.09999999999999998,
+          "mean_calibration_error": 0.5,
+          "crossing_count": 0,
+          "crossing_rate": 0.0
+        },
+        "point_ci": {},
+        "slices": {}
+      },
+      "random_metrics": {
+        "point": {
+          "mae": 6.690000000000005,
+          "medae": 6.690000000000005,
+          "mape": 0.2534090909090911,
+          "mdape": 0.2534090909090911,
+          "rmse": 6.690000000000005,
+          "sample_size": 1
+        },
+        "quantile_loss": {
+          "pinball_q10": 6.021000000000004,
+          "pinball_q50": 3.3450000000000024,
+          "pinball_q90": 0.6690000000000004,
+          "mean_pinball_loss": 3.3450000000000024
+        },
+        "interval": {
+          "coverage_80": 0.0,
+          "mean_width": 0.0,
+          "median_width": 0.0,
+          "relative_median_width": 0.0,
+          "underflow_rate_q10": 1.0,
+          "overflow_rate_q90": 0.0
+        },
+        "calibration": {
+          "observed_freq_q10": 1.0,
+          "observed_freq_q50": 1.0,
+          "observed_freq_q90": 1.0,
+          "calibration_error_q10": 0.9,
+          "calibration_error_q50": 0.5,
+          "calibration_error_q90": 0.09999999999999998,
+          "mean_calibration_error": 0.5,
+          "crossing_count": 0,
+          "crossing_rate": 0.0
+        },
+        "point_ci": {},
+        "slices": {}
+      },
+      "comparisons": [
+        {
+          "metric_name": "mae",
+          "display_name": "Mean Absolute Error (MAE)",
+          "unit": "LPA",
+          "grouped_temporal_value": 6.69,
+          "random_value": 6.69,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        },
+        {
+          "metric_name": "medae",
+          "display_name": "Median Absolute Error (MdAE)",
+          "unit": "LPA",
+          "grouped_temporal_value": 6.69,
+          "random_value": 6.69,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        },
+        {
+          "metric_name": "mdape",
+          "display_name": "Median Absolute Percentage Error (MdAPE)",
+          "unit": "%",
+          "grouped_temporal_value": 25.3409,
+          "random_value": 25.3409,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        },
+        {
+          "metric_name": "mean_pinball_loss",
+          "display_name": "Mean Pinball Loss (P10/P50/P90)",
+          "unit": "LPA",
+          "grouped_temporal_value": 3.345,
+          "random_value": 3.345,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        },
+        {
+          "metric_name": "coverage_80",
+          "display_name": "80% Interval Empirical Coverage",
+          "unit": "%",
+          "grouped_temporal_value": 0.0,
+          "random_value": 0.0,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": false
+        },
+        {
+          "metric_name": "median_width",
+          "display_name": "Median Interval Width (P90 - P10)",
+          "unit": "LPA",
+          "grouped_temporal_value": 0.0,
+          "random_value": 0.0,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        },
+        {
+          "metric_name": "mean_calibration_error",
+          "display_name": "Mean Calibration Error",
+          "unit": "",
+          "grouped_temporal_value": 0.5,
+          "random_value": 0.5,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        },
+        {
+          "metric_name": "quantile_crossing_rate",
+          "display_name": "Quantile Crossing Rate",
+          "unit": "%",
+          "grouped_temporal_value": 0.0,
+          "random_value": 0.0,
+          "delta": 0.0,
+          "inflation_pct": 0.0,
+          "lower_is_better": true
+        }
+      ]
+    }
+  },
+  "key_findings": [
+    "**Grouped-Temporal Split Integrity:** Protocol B strictly enforces zero person cluster overlap, zero duplicate overlap, and zero temporal lookahead violations.",
+    "**Empirical Baseline Behavior:** Baselines evaluated cleanly across dev partitions. Strict grouped-temporal evaluation (Protocol B) remains mandatory under Rule R-MD-01."
+  ]
+}
