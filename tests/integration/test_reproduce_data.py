@@ -28,8 +28,43 @@ def repo_root() -> Path:
     return Path(__file__).resolve().parent.parent.parent
 
 
+@pytest.fixture
+def require_raw_manifests(repo_root: Path) -> None:
+    """Require acquired raw source manifests to be present locally (R-DA-08)."""
+    raw_dir = repo_root / "data" / "raw"
+    if not raw_dir.exists() or not any(raw_dir.glob("*/manifest.yaml")):
+        pytest.skip(
+            "Local raw data store not present in clean checkout (Rule R-DA-08). "
+            "Run 'make reproduce-data' locally."
+        )
+
+
+@pytest.fixture
+def require_canonical_parquet(repo_root: Path) -> None:
+    """Require canonical observations parquet to be present locally (R-DA-08)."""
+    parquet_path = repo_root / "data" / "canonical" / "canonical_observations.parquet"
+    if not parquet_path.exists():
+        pytest.skip(
+            "Canonical parquet store not present in clean checkout (Rule R-DA-08). "
+            "Run 'make reproduce-data' locally."
+        )
+
+
+@pytest.fixture
+def require_quarantine_parquet(repo_root: Path) -> None:
+    """Require quarantine parquet to be present locally (R-DA-08)."""
+    quar_path = repo_root / "data" / "quarantine" / "quarantine_records.parquet"
+    if not quar_path.exists():
+        pytest.skip(
+            "Quarantine parquet store not present in clean checkout (Rule R-DA-08). "
+            "Run 'make reproduce-data' locally."
+        )
+
+
 @pytest.mark.integration
-def test_reproduce_data_idempotency_and_reconciliation(repo_root: Path) -> None:
+def test_reproduce_data_idempotency_and_reconciliation(
+    repo_root: Path, require_raw_manifests: None
+) -> None:
     """Two clean runs produce identical snapshot and data hashes (ADR-0006, R-DA-05)."""
     run1 = build_canonical_dataset(repo_root=repo_root)
     run2 = build_canonical_dataset(repo_root=repo_root)
@@ -67,7 +102,9 @@ def test_reproduce_data_idempotency_and_reconciliation(repo_root: Path) -> None:
 
 
 @pytest.mark.integration
-def test_canonical_parquet_schema_and_contracts(repo_root: Path) -> None:
+def test_canonical_parquet_schema_and_contracts(
+    repo_root: Path, require_canonical_parquet: None
+) -> None:
     """Canonical observations parquet satisfies Pandera schema and quality contract invariants."""
     parquet_path = repo_root / "data" / "canonical" / "canonical_observations.parquet"
     assert parquet_path.exists(), "Canonical parquet file must exist"
@@ -96,7 +133,7 @@ def test_canonical_parquet_schema_and_contracts(repo_root: Path) -> None:
 
 
 @pytest.mark.integration
-def test_quarantine_parquet_contracts(repo_root: Path) -> None:
+def test_quarantine_parquet_contracts(repo_root: Path, require_quarantine_parquet: None) -> None:
     """Quarantine store preserves full companion records with deterministic reason codes."""
     quar_path = repo_root / "data" / "quarantine" / "quarantine_records.parquet"
     assert quar_path.exists(), "Quarantine parquet file must exist"
@@ -123,7 +160,7 @@ def test_quarantine_parquet_contracts(repo_root: Path) -> None:
 
 
 @pytest.mark.integration
-def test_reproduce_data_cli_execution(repo_root: Path) -> None:
+def test_reproduce_data_cli_execution(repo_root: Path, require_raw_manifests: None) -> None:
     """CLI execution with --verify-idempotence runs cleanly with exit code 0."""
     script_path = repo_root / "scripts" / "reproduce_data.py"
     cmd = [sys.executable, str(script_path), "--verify-idempotence"]
