@@ -210,7 +210,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `evaluation/splits` with tests. Done when: 4-way split partitions canonical data without index overlap, strictly respects temporal order ($T_{\text{train}} \le T_{\text{select}} \le T_{\text{calibrate}} \le T_{\text{test}}$), enforces zero person group overlap, and preserves Pandera schema. Needs: G3. Size: M.
   - [x] **T4.01b** [AI] Leakage detection harness & adversarial seeded leak verification: group overlap auditor, temporal lookahead detector, and deliberate seeded leak test suite. (done 2026-10-16)
         Output: `evaluation/leakage` & `tests/leakage/test_splits_leakage.py`. Done when: seeded group leakage and seeded temporal lookahead trigger explicit `LeakageError` and fail tests. Needs: T4.01a. Size: M.
-- [ ] **T4.02** [AI] Metrics module: MAE, median absolute error, relative error, pinball loss, coverage, widths, calibration error, crossing rate; bootstrap intervals.
+- [x] **T4.02** [AI] Metrics module: MAE, median absolute error, relative error, pinball loss, coverage, widths, calibration error, crossing rate; bootstrap intervals. (done 2026-10-16)
       Output: `evaluation/metrics`. Done when: outputs match hand-computed cases. Needs: T4.01. Size: M.
 - [ ] **T4.03** [AI+HUMAN] Pre-register: metrics, splits, thresholds method, minimum effect sizes, decision rules; add the `make final-eval` lock.
       Output: `experiments/preregistration/v1.yaml`, committed and hashed. Done when: committed before any final-test run. Needs: T4.02. Size: M.
