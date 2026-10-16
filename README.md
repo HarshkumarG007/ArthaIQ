@@ -3,38 +3,40 @@
 <div align="center">
 
 ```
-  █████╗ ██████╗ ████████╗██╗  ██╗ █████╗ ██╗ ██████╗
+  █████╗ ██████╗ ████████╗██╗  ██╗ █████╗ ██╗ ██████╗ 
  ██╔══██╗██╔══██╗╚══██╔══╝██║  ██║██╔══██╗██║██╔═══██╗
  ███████║██████╔╝   ██║   ███████║███████║██║██║   ██║
  ██╔══██║██╔══██╗   ██║   ██╔══██║██╔══██║██║██║   ██║
  ██║  ██║██║  ██║   ██║   ██║  ██║██║  ██║██║╚██████╔╝
- ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝
+ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ 
 ```
 
-**Personalized Compensation Intelligence & Decision-Support System**
-*Distributions over point estimates · Evidence-weighted · Honest abstention*
+**Ethical Compensation Intelligence & Decision-Support Platform for India Tech Careers**
+*Distributions over point estimates · Evidence-weighted · Transparent uncertainty · Honest abstention*
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![Status](https://img.shields.io/badge/Status-Phase%201%20%7C%20Discovery-blue.svg)](docs/memory.md)
-[![Market Scope](https://img.shields.io/badge/Market-India%20Tech%20%28INR%2FLPA%29-green.svg)](docs/adr/ADR-0001-initial-market-and-occupation-scope.md)
-[![Architecture](https://img.shields.io/badge/Architecture-Modular%20Domain--Driven-purple.svg)](docs/architecture.md)
+[![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![Status](https://img.shields.io/badge/Status-Phase%204%20%7C%20Baselines%20%26%20Evaluation-2ea44f.svg)](docs/memory.md)
+[![Tests](https://img.shields.io/badge/Tests-293%20passed%20%7C%2096.3%25%20coverage-brightgreen.svg)](tests/)
+[![Market Scope](https://img.shields.io/badge/Market-India%20Tech%20%28INR%20LPA%29-green.svg)](docs/adr/ADR-0001-initial-market-and-occupation-scope.md)
+[![Architecture](https://img.shields.io/badge/Architecture-Modular%20Domain--Driven%20%289%2F9%20Kept%29-purple.svg)](docs/architecture.md)
 [![Code Style](https://img.shields.io/badge/Code%20Style-Ruff-black.svg?logo=ruff&logoColor=white)](https://github.com/astral-sh/ruff)
 [![Type Checker](https://img.shields.io/badge/Types-Mypy%20%28Strict%29-informational.svg)](https://mypy-lang.org/)
-[![License](https://img.shields.io/badge/License-TBD%20%28Phase%200%29-lightgrey.svg)](docs/memory.md#licence)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ---
 
 ### *"Salary is a probability distribution, not a single number."*
 
-Traditional compensation calculators return a single misleading average, obscure their data sources, and pretend to know what you are worth even when they have no evidence.
+Traditional compensation portals return a single misleading average, conceal unrepresentative data sources, inflate numbers using bundled CTC tricks, and pretend to know what you are worth even when evidence is virtually non-existent.
 
-**ArthaIQ** replaces guesswork with rigorous statistical decision support:
-1. **Never a lone number:** Full distribution spans ($P_{10}$, $P_{50}$, $P_{90}$) with interquartile confidence bands.
-2. **Evidence before algorithms:** Every estimate is backed by auditable, quality-graded evidence tiers (Grades A–E).
-3. **Honest abstention:** When data is too thin to guarantee statistical validity, it explicitly says *"We don't know"* rather than hallucinating a false estimate.
-4. **Counterfactual decision support:** Evaluates offer trade-offs, company tier differentials (GCC vs Product vs Service vs High-Frequency Trading), and location arbitrage.
+**ArthaIQ** replaces guesswork and corporate opacity with reproducible, statistically grounded career intelligence:
+1. **Never a lone number:** Full distribution spans ($P_{10}$ conservative floor, $P_{50}$ market median, $P_{90}$ premium band) accompanied by uncertainty bounds.
+2. **Evidence before algorithms:** Every estimate is backed by auditable, quality-graded evidence tiers (SQSF 10-dimension scoring) and complete provenance tracking.
+3. **Honest abstention:** When data is too thin to guarantee statistical defensibility, the engine explicitly says *"We don't know"* rather than hallucinating false precision.
+4. **Strict anti-heuristic unbundling:** Cost-to-Company (CTC) inflation is strictly disassembled; guaranteed base cash ($12 \times [\text{Basic} + \text{HRA} + \text{Special Allowance}]$) is isolated from volatile paper equity and discretionary bonuses.
+5. **Leakage-resistant evaluation:** Strict grouped-temporal cross-validation prevents data leakage from repeat contributors and temporal lookahead bias.
 
-[Explore Documents](#-documentation-index) • [Core Philosophy](#-core-principles) • [Architecture](#-system-architecture) • [Roadmap](#-phased-roadmap--quality-gates) • [Quickstart](#-getting-started)
+[Explore Documents](#-documentation-index) • [Core Philosophy](#-core-principles--invariants) • [Architecture](#-system-architecture) • [Roadmap](#-phased-roadmap--quality-gates) • [Quickstart](#-getting-started)
 
 ---
 
@@ -42,52 +44,55 @@ Traditional compensation calculators return a single misleading average, obscure
 
 ## 📌 Executive Summary
 
-| Attribute | Specification |
-|:---|:---|
-| **Primary Market** | **India** (Initial focus: Software Engineering, Data Science, ML/AI roles) |
-| **Primary Metric** | `guaranteed_cash_annual` (Nominal INR in Lakhs Per Annum / LPA) |
-| **Statistical Target** | Quantiles ($P_{10}$ conservative floor, $P_{50}$ market median, $P_{90}$ premium band) |
-| **Target Audience** | Tech professionals evaluating offers, benchmarking compensation, or planning transitions |
-| **Current Stage** | **Phase 0 — Foundation & Repository Setup** (Task `T0.02`) |
-| **Core Invariant** | **Zero-Hallucination Policy** — strictly abstains when evidence density is below statistical thresholds |
+| Attribute | Specification | Reference |
+|:---|:---|:---|
+| **Primary Market** | **India** (Software Engineering, Data Science, ML/AI roles) | [ADR-0001](docs/adr/ADR-0001-initial-market-and-occupation-scope.md) |
+| **Primary Metric** | `guaranteed_cash_annual` (Nominal INR in Lakhs Per Annum / LPA) | [ADR-0002](docs/adr/ADR-0002-primary-target-and-compensation-measure.md) |
+| **Statistical Targets** | Quantiles ($P_{10}$ conservative floor, $P_{50}$ market median, $P_{90}$ upper band) | [PRD Section 5](docs/PRD.md) |
+| **Target Audience** | Tech professionals benchmarking pay, evaluating offers, or planning career transitions | [PRD Section 3](docs/PRD.md) |
+| **Current Stage** | **Phase 4 — Baselines and Leakage-Resistant Evaluation** | [task.md](task.md), [memory.md](memory.md) |
+| **Quality Gates Ratified** | **Gate G0 (GO)** · **Gate G1 (GO)** · **Gate G2 (GO on Acquisition)** · **Gate G3 (GO)** | [Gate Log](docs/memory.md#4-gate-log) |
+| **Test Suite Health** | **293 tests passing · 96.32% line coverage · Mypy Strict · 9/9 Layer Contracts Kept** | [CI Workflow](.github/workflows/ci.yml) |
+| **Core Invariant** | **Zero-Hallucination Policy** — strictly abstains when evidence density is below statistical thresholds | [Rule R-UQ-02](docs/rules.md) |
 
 ---
 
-## 💡 The Problem & The ArthaIQ Solution
+## 💡 The Problem & The ArthaIQ Standard
 
 ### The Reality of Tech Compensation in India
-- **Asymmetric Information:** Employers leverage proprietary survey vendors (Mercer, Aon Hewitt), while employees rely on unverified forum anecdotes or unweighted crowd-sourced aggregates.
-- **Structural Distortion:** In India, total CTC (Cost to Company) frequently bundles variable pay, gratuity, employer PF contributions, joining retention clawbacks, and paper equity into an inflated single figure.
-- **Company Tier Variance:** The compensation spread between Indian IT services, mid-tier product firms, Global Capability Centers (GCCs), and Tier-1 product/algorithmic trading firms can exceed 400% for identical years of experience.
+- **Information Asymmetry:** Corporate HR teams possess proprietary survey benchmarks (Mercer, Aon Hewitt), while candidates rely on unweighted forum anecdotes or self-selected job board aggregations.
+- **CTC Distortion:** Indian job offers bundle gratuity, employer provident fund (PF), retention clawbacks, and multi-year unvested paper equity into an inflated single headline figure ("CTC").
+- **Company Tier Variance:** Compensation spread across Indian IT service providers, mid-market product companies, Global Capability Centers (GCCs), and Tier-1 product/HFT firms can exceed 400% for identical years of experience.
 
-### Why Standard Tools Fail vs. How ArthaIQ Solves It
+### Conventional Tools vs. The ArthaIQ Standard
 
-| Conventional Tools | The ArthaIQ Standard |
-|:---|:---|
-| **Single point estimate** (*"Your market salary is ₹28 LPA"*) | **Probabilistic distribution span** (*"₹22.5 LPA floor — ₹27.8 LPA median — ₹36.2 LPA top tier"*). |
-| **Black-box opacity** (No clue where figures come from) | **Explicit evidence grades (A–E)** with sample counts and data freshness timestamps. |
-| **Always produces a number** even with 1 observation | **Hard abstention rule** — refuses to predict when statistical support is insufficient. |
-| **Static averages** blind to structural compensation components | **Disaggregated view** separating guaranteed base cash from performance variable and equity. |
-| **Zero decision assistance** | **Counterfactual "What-If" modeling** for offer evaluations, relocations, and career level steps. |
+| Dimension | Conventional Compensation Portals | The ArthaIQ Standard |
+|:---|:---|:---|
+| **Representation** | Single point estimate (*"Your market salary is ₹28 LPA"*)| **Probabilistic span** (*"₹22.5 LPA floor — ₹29.2 LPA median — ₹41.0 LPA top tier"*) |
+| **Uncertainty** | Zero uncertainty; claims false exactness | **Explicit confidence intervals** via non-parametric bootstrap & conformal calibration |
+| **Data Integrity** | Black-box scraping; unverified submissions | **SQSF 10-Dimension Quality Scoring** with verified provenance metadata attached to every row |
+| **Thin Data** | Always predicts a number even with $N=1$ observation | **Strict Abstention Policy** — explicitly withholds estimates when evidence is thin |
+| **Pay Measure** | Blended CTC aggregate hiding variable compensation | **Itemized Guaranteed Cash** ($12 \times [\text{Basic} + \text{HRA} + \text{Special Allowance}]$) |
+| **Evaluation** | Naive random splits that leak contributor data | **4-Way Temporal-Grouped Splits** with adversarial leakage detection |
 
 ---
 
 ## 🎯 Prediction Targets (PT1 – PT6)
 
-ArthaIQ maintains strict conceptual and statistical separation across six distinct prediction targets:
+ArthaIQ maintains strict mathematical and conceptual separation across six distinct prediction targets:
 
 ```mermaid
 graph LR
     subgraph MVP [Phase 1-8: Initial Release]
-        PT1["PT1: Market Profile Pay<br/><i>(Role + Level + Location distribution)</i>"]
-        PT2["PT2: Comparable Cohort<br/><i>(Peers with similar tenure & stack)</i>"]
+        PT1["PT1: Market Profile Pay<br/><i>(Role + Level + Location empirical span)</i>"]
+        PT2["PT2: Comparable Cohort<br/><i>(Peers with similar tenure & verified stack)</i>"]
         PT6["PT6: Benchmark Variance<br/><i>(Current comp vs. empirical market span)</i>"]
     end
 
     subgraph Expansion [Future Releases]
-        PT3["PT3: Offer Distribution<br/><i>(Company tier & budget elasticity)</i>"]
+        PT3["PT3: Offer Distribution<br/><i>(Company tier & hiring budget elasticity)</i>"]
         PT4["PT4: Negotiation Scenarios<br/><i>(Counterfactual offer trade-offs)</i>"]
-        PT5["PT5: Career Transition<br/><i>(Role switch & skill-addition premium)</i>"]
+        PT5["PT5: Career Transition<br/><i>(Role switch & seniority premium)</i>"]
     end
 
     style MVP fill:#f0fdf4,stroke:#16a34a,stroke-width:2px;
@@ -100,18 +105,21 @@ graph LR
 
 Every line of code and statistical procedure adheres to the strict rules codified in [`docs/rules.md`](docs/rules.md):
 
-1. **No Skipping Steps (R-WF-01):** We follow the phased pipeline strictly: `IDEA → RESEARCH → SPEC → TEST DESIGN → CODE → GATED EVALUATION`.
-2. **Evidence Before Algorithms (R-EV-01):** Rigorous data cleaning, validation schemas, and provenance tracking precede any ML model training.
-3. **Distributions, Never Lone Numbers (R-UQ-01):** Every estimate must state $P_{10}$, $P_{50}$, $P_{90}$, uncertainty bounds, and limitations.
-4. **Honest Abstention (R-UQ-02):** The system must gracefully say *"Insufficient evidence to provide a defensible estimate"* whenever sample density, coverage, or confidence fall below pre-registered thresholds.
-5. **No Hard-Coded Multipliers (R-MD-07):** Location, role, and tier adjustments must be empirically learned from data, never populated with arbitrary rule-of-thumb percentages.
-6. **Strict Leakage Prevention (R-MD-01):** Temporal and group-aware train/validation/test splits. The final holdout test set is evaluated exactly once at release gate G5.
+1. **No Skipping Steps (Rule R-WF-01):** Pipeline stages are sequential: `IDEA → RESEARCH → SPEC → PIPELINE → BASELINES → MODELS → SERVING`.
+2. **Evidence Before Algorithms (Rule R-EV-01):** Validated data cleaning, canonical schema contracts, and provenance tracking precede any ML model.
+3. **Distributions, Never Lone Numbers (Rule R-UQ-01):** Every estimate outputs $P_{10}$, $P_{50}$, $P_{90}$, uncertainty bounds, and limitations.
+4. **Honest Abstention (Rule R-UQ-02 / R-MD-08):** When evidence is thin ($N_{\text{eff}} < 50$ or out-of-distribution experience), predictions are withheld with an explicit `abstention_reason`.
+5. **No Hard-Coded Multipliers (Rule R-MD-07):** Location, role, and tier adjustments must be empirically learned from data, never populated with arbitrary rules of thumb.
+6. **Strict Anti-Heuristic Unbundling (Rule R-MD-07):** Bundled CTC without itemized breakdown is strictly quarantined from PT1 training.
+7. **Leakage-Resistant Splits (Rule R-MD-01 / R-MD-02):** Zero contributor cluster overlap across partitions; final holdout test set is evaluated exactly once at release gate under lock.
+8. **Synthetic Data Isolation (Rule R-MD-11):** Synthetic fixtures are strictly for plumbing and testing; metrics from synthetic data are blocked from production reports.
+9. **No Silent Drops (Rule R-DA-05):** Every raw record must be mathematically accounted for: $\Delta = \text{Total} - (\text{Valid} + \text{Quarantined}) == 0$.
 
 ---
 
 ## 📊 The "Span" User Experience
 
-In ArthaIQ, predictions are presented via **The Span** — a visual representation designed for clarity and confidence:
+In ArthaIQ, predictions are presented via **The Span** — a visual representation designed for clarity, confidence, and transparent uncertainty:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -131,162 +139,116 @@ In ArthaIQ, predictions are presented via **The Span** — a visual representati
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Evidence Quality & Prediction Support Framework
-
-> **Methodological Invariant:** A sample-size threshold cannot, by itself, justify an evidence grade or a statistically valid estimate. Representativeness, deduplication, source dependence, temporal recency, and target consistency matter just as much as sample volume.
-
-ArthaIQ decouples **Source Quality** from **Prediction Support** across two independent dimensions:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 EVIDENCE MATRIX                                         │
-│                                                                                         │
-│  [Source Quality Tier]                [Prediction Support & Reliability]               │
-│  • Tier 1: Audited payroll, statutory  • High Support: Multi-source corroborated,       │
-│    disclosures, verified filings        deduplicated, fresh (<90d), representative cell  │
-│  • Tier 2: Multi-source job postings  • Moderate Support: Limited sources or moderate   │
-│    with mandatory salary transparency   dispersion; wider prediction intervals          │
-│  • Tier 3: Self-reported contributions• Thin Support: Low effective density or high    │
-│    with verification artifacts          clustering; flagged with strict caveats         │
-│  • Unacceptable: Scraped forums,      • Abstention: Insufficient support, unaddressed   │
-│    unverified anonymous aggregates      bias, or high staleness; PREDICTION WITHHELD    │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-#### Dual-Dimensional Rating:
-1. **Source Quality Grade (Data Provenance & Integrity):**
-   - **Grade A (Institutional / Verified):** Statutory filings, verified payroll or institutional compensation disclosures with complete component reconciliation.
-   - **Grade B (Triangulated & Normalized):** Multi-source disclosures or structured employer job postings with explicit salary transparency.
-   - **Grade C (Verified Self-Reported):** Employee contributions with credential verification and canonical taxonomy mapping.
-   - **Grade D (Unverified / Proxy):** Unverified submissions or cross-walked proxy roles; strictly relegated to supplementary signals.
-
-2. **Prediction Support Level (Statistical Soundness in Specific Cell):**
-   - **Supported (High Confidence):** Independent sources, low deduplication loss, high cell density, recent observations, and narrow conformal prediction intervals.
-   - **Guarded (Moderate Confidence):** Moderate cell density or higher dispersion; wider validated intervals displayed with explicit caveats.
-   - **Abstained (Zero-Hallucination Guard):** If data is single-source dependent, heavily stale, unrepresentative, or density is below preregistered sufficiency thresholds, **estimation is withheld**. ArthaIQ presents macro-level context instead of guessing.
-
 ---
 
 ## 🏛️ System Architecture
 
-ArthaIQ is engineered as a modular, domain-driven system with clean separation of concerns:
+ArthaIQ is engineered as a modular, domain-driven package (`src/compintel/`) enforcing strict one-way dependency boundaries verified by `import-linter` (Rule `R-CD-03`):
 
 ```mermaid
 flowchart TD
-    subgraph INGEST ["1. Data Ingestion & Governance"]
-        S1["Approved Primary Sources"] --> CLEAN["Cleaning & Normalization"]
-        S2["Salary Submissions"] --> CLEAN
-        S3["Job Postings"] --> CLEAN
-        CLEAN --> ANONYMIZE["Anonymization & k-Anonymity Guard"]
-        ANONYMIZE --> DVC["Versioned Evidence Store (Parquet/DuckDB)"]
+    subgraph SCHEMA ["1. Canonical Schema & Governance"]
+        SCHEMA_DEF["Canonical Schema v1.0.0<br/>(Pandera DataFrame Contract)"]
+        ENTITIES["Entities & Enums<br/>(RoleFamily, Seniority, MetroLocation)"]
     end
 
-    subgraph FEATURES ["2. Feature Engineering & Validation"]
-        DVC --> PANDERA["Pandera Schema Validation"]
-        PANDERA --> TAXONOMY["Taxonomy Normalization<br/>(Roles, Levels, Locations)"]
-        TAXONOMY --> FEAT["Feature Pipeline<br/>(Temporal & Group Splits)"]
+    subgraph INGEST ["2. Ingestion & Lineage"]
+        CONN["13 Approved Connectors<br/>+ SRC-INT-VOL-01 Voluntary Intake"]
+        MANIFEST["SHA-256 Manifest Gate (R-DA-01/02)"]
+        LINEAGE["Cryptographic Snapshot Lineage (SNAP-*)"]
+        CONN --> MANIFEST --> LINEAGE
     end
 
-    subgraph MODELS ["3. Modeling & Quantile Calibration"]
-        FEAT --> BASELINE["Baseline Models<br/>(Stratified Medians, Ridge)"]
-        FEAT --> QUANTILE["Quantile Gradient Boosting<br/>(LightGBM / CatBoost)"]
-        BASELINE & QUANTILE --> ENSEMBLE["Conformal Prediction & Calibration"]
-        ENSEMBLE --> GATE{"Quality Gate G4/G5<br/>Meets Metrics?"}
+    subgraph QUALITY ["3. Quality & Normalization"]
+        TITLES["Taxonomy Title Normalization<br/>(Acronyms, Aliases, RapidFuzz)"]
+        LEVELS["Seniority Level Mapper<br/>(Soft labels & ambiguity audit)"]
+        NORM["Annualization, Denomination & Currency Isolation"]
+        DEDUP["Deduplication & Person/Employer Clustering"]
+        QUARANTINE["Quarantine Engine<br/>(Mathematical count reconciliation Δ=0)"]
+        SQSF["SQSF 10-Dimension Source Quality Scoring"]
+        REPORT["Data Quality & Contract Verification"]
     end
 
-    subgraph SERVING ["4. Inference & Decision Engine"]
-        GATE -- Yes --> BUNDLE["Versioned Model Artifacts"]
-        GATE -- No --> REVISE["Preregistration Revision"]
-        BUNDLE --> ENGINE["Decision & Abstention Engine"]
-        ENGINE --> API["FastAPI Service Layer"]
+    subgraph MODELS ["4. Baseline & Quantile Models"]
+        RUNGA["Rung A: Empirical Conditional Quantiles<br/>(Hierarchical backoff ladder: Cell → Seniority → Location → Family → Global)"]
+        RUNGB["Rung B: Regularized Log-Linear Quantile Regression<br/>(L1 penalty + monotonic crossing repair)"]
     end
 
-    subgraph CLIENT ["5. Presentation Layer"]
-        API --> WEB["Web App ('The Span' UI)"]
+    subgraph EVAL ["5. Evaluation & Verification"]
+        SPLITS["4-Way Temporal-Grouped Splits (R-MD-01)"]
+        LEAK_AUDIT["Adversarial Leakage Detection Harness"]
+        METRICS["Metrics & Non-parametric Bootstrap CI (R-MD-05)"]
+        LOCK["Touch-Once Test Set Lock (R-MD-02)"]
+        INFLATION["Leakage & Duplicate-Inflation Audit (EXP-12)"]
     end
 
-    style INGEST fill:#f8fafc,stroke:#334155
-    style FEATURES fill:#eff6ff,stroke:#2563eb
+    SCHEMA --> INGEST --> QUALITY --> MODELS --> EVAL
+
+    style SCHEMA fill:#f8fafc,stroke:#334155
+    style INGEST fill:#eff6ff,stroke:#2563eb
+    style QUALITY fill:#f0fdf4,stroke:#16a34a
     style MODELS fill:#fdf4ff,stroke:#c026d3
-    style SERVING fill:#f0fdf4,stroke:#16a34a
-    style CLIENT fill:#fffbeb,stroke:#d97706
+    style EVAL fill:#fffbeb,stroke:#d97706
 ```
 
 ---
 
 ## 📁 Repository Tour
 
-```
+```text
 arthaiq/
-├── docs/                       # Authoritative documentation repository
-│   ├── PRD.md                  # Comprehensive product requirements (v0.1)
-│   ├── architecture.md         # System design, data pipelines, and interfaces (v0.1)
-│   ├── design.md               # UI design system, components, and interaction patterns (v0.1)
-│   ├── rules.md                # Engineering invariants, ML ethics, and AI instructions (v0.1)
-│   ├── task.md                 # 10-phase milestone task breakdown (v0.1)
-│   ├── memory.md               # Continuous project state, session logs, and decisions (v0.1)
-│   ├── adr/                    # Architecture Decision Records (ADR-0001 to ADR-0005)
-│   └── research/               # Market, data, and methodology research documents
-├── config/                     # Configuration catalogs & schemas
-│   ├── sources.yaml            # Registered data sources & licensing terms
-│   ├── taxonomy/               # Role, level, and location canonical taxonomies
-│   └── thresholds.yaml         # Preregistered error metrics & abstention gates
-├── data/                       # Local data directory (gitignored; managed via DVC)
-│   ├── raw/                    # Immutable raw ingestion files
-│   ├── interim/                # Intermediary cleaned datasets
-│   └── processed/              # Verified feature stores
-├── experiments/                # Preregistrations, tuning configs, and evaluation logs
-├── artifacts/                  # Frozen model packages & metadata manifests (gitignored)
-├── notebooks/                  # Pure exploratory research (outputs stripped before commit)
-├── src/compintel/              # Production Python package
-│   ├── core/                   # Domain entities, value objects, and base protocols
-│   ├── evidence/               # Ingestion, validation, and provenance grading
-│   ├── features/               # Feature transforms, encoders, and pipelines
-│   ├── models/                 # Quantile estimators, conformal calibration, ensembles
-│   ├── evaluation/             # Metrics (Pinball loss, coverage, sharpness)
-│   └── serving/                # FastAPI application, request schemas, and responses
-├── apps/web/                   # Web frontend interface (Next.js/Vite, Phase 9)
-├── tests/                      # Multi-tier automated test suite
-│   ├── unit/                   # Isolated unit tests
-│   ├── property/               # Hypothesis-driven property tests
-│   ├── contract/               # Schema and API contract verifications
-│   ├── leakage/                # Strict data leakage detection tests
-│   ├── integration/            # Component integration tests
-│   └── fixtures/               # Test datasets and synthetic golden records
-├── infra/                      # Infrastructure, Dockerfiles, and deployment configs
-├── scripts/                    # Maintenance, validation, and data verification scripts
-├── Makefile                    # Standardized development automation commands
-├── pyproject.toml              # Modern PEP 621 package and dependency specification
-└── .pre-commit-config.yaml     # Automated linting, formatting, and safety checks
+├── docs/                               # Project documentation suite (v0.2 unified)
+│   ├── PRD.md                          # Product Requirements Document (Ratified v1.0)
+│   ├── architecture.md                 # System architecture, domain layers, import boundaries
+│   ├── design.md                       # Design philosophy, "The Span" visual specs, typography
+│   ├── rules.md                        # Non-negotiable engineering invariants and ML ethics
+│   ├── task.md                         # 10-phase milestone task breakdown and roadmap
+│   ├── memory.md                       # Living project memory, decision logs, session history
+│   ├── adr/                            # Architecture Decision Records (ADR-0001 to ADR-0009)
+│   ├── data-cards/                     # 14 data cards for all audited compensation sources
+│   ├── quality/                        # Automated Data Quality audit reports
+│   └── research/                       # Feasibility, sufficiency, autopsy, premortem reports
+├── config/                             # Catalogs, source terms, and thresholds
+│   ├── sources/                        # 22 YAML source configurations (licence, routing, field maps)
+│   └── thresholds.yaml                 # Preregistered evaluation & sufficiency thresholds
+├── data/                               # Local data zone (STRICTLY GITIGNORED per Rule R-DA-08)
+│   ├── raw/                            # Immutable raw data stores with committed manifest.yaml
+│   ├── canonical/                      # Reproduced canonical dataset & cryptographic lineage
+│   └── quarantine/                     # Reconciled quarantine stores with reason codes
+├── experiments/                        # Experiment tracking and evaluation deliverables
+│   ├── preregistration/                # Locked YAML pre-registrations (v1.yaml, SHA-256 hashed)
+│   ├── configs/                        # One YAML per experiment configuration
+│   └── results/                        # Evaluation metrics, audit JSONs, and markdown reports
+├── src/compintel/                      # Core Python production package
+│   ├── schema/                         # Canonical observation schemas, Pandera contracts, enums
+│   ├── governance/                     # Licence verification and data access controls
+│   ├── ingestion/                      # Approved source connectors, manifest audits, lineage
+│   ├── quality/                        # Profiler, coverage, sufficiency, dedup, quarantine, SQSF
+│   ├── normalization/                  # Currency, CPI deflation, annualization, titles, levels
+│   ├── models/baselines/               # Rung A (empirical backoff), Rung B (regularized log-linear)
+│   └── evaluation/                     # Splits, leakage detection, metrics, lock, inflation audit
+├── tests/                              # Multi-tier automated test suite (293 passing)
+│   ├── unit/                           # Isolated component unit tests
+│   ├── property/                       # Hypothesis property-based tests
+│   ├── contract/                       # Pandera schema and API contract verifications
+│   ├── leakage/                        # Adversarial seeded leakage detection tests
+│   ├── integration/                    # Multi-stage pipeline integration tests
+│   └── fixtures/                       # Deterministic synthetic generators (Rule R-MD-11)
+├── scripts/                            # Operational CLI runners (reproduce, audit, quality report)
+├── Makefile                            # Standardized developer automation targets
+├── pyproject.toml                      # PEP 621 package config with pinned tooling rules
+├── LICENSE                             # Apache License 2.0
+└── README.md                           # Project homepage and executive guide
 ```
-
----
-
-## 📚 Documentation Index
-
-Every component of ArthaIQ is fully documented. Refer to these canonical references:
-
-| Document | Purpose & Key Topics |
-|:---|:---|
-| [`docs/PRD.md`](docs/PRD.md) | Product vision, user personas, prediction targets PT1–PT6, user journeys, edge cases, functional specs. |
-| [`docs/architecture.md`](docs/architecture.md) | Domain architecture, data schemas, feature engineering, quantile modeling, FastAPI serving layer, data governance. |
-| [`docs/design.md`](docs/design.md) | Design philosophy, "The Span" visual specs, typography, responsive breakpoints, accessibility (WCAG AA). |
-| [`docs/rules.md`](docs/rules.md) | Strict engineering rules, zero-hallucination policy, anti-leakage guards, testing standards, workflow gates. |
-| [`docs/task.md`](docs/task.md) | 100+ task master plan spanning Phases 0 through 10, complete with dependencies and acceptance criteria. |
-| [`docs/memory.md`](docs/memory.md) | Living project memory, decision logs (D-001+), open questions (Q-001+), and session-by-session history. |
-| [`docs/adr/`](docs/adr/) | Architectural Decision Records documenting critical choices (ADR-0001: India Tech Scope; upcoming ADRs on uncertainty, stack, etc.). |
 
 ---
 
 ## 🚀 Getting Started
 
-> **Note:** The project is currently in **Phase 1 (Problem Definition & Source Discovery)**. Core runtime dependencies and model training packages will be pinned in Phase 3 under `ADR-0003`. You can immediately set up the repository, pre-commit hooks, and documentation toolchain.
-
 ### Prerequisites
-- **Python:** `3.11` or higher
-- **Package Manager:** `uv` (recommended) or `pip`
+- **Python:** `3.12` (supported: `>=3.11, <3.13`)
+- **Package Manager:** [`uv`](https://github.com/astral-sh/uv) (recommended for deterministic resolution) or `pip`
 - **Git:** `2.40+`
-- **Make:** Optional, but recommended for task automation
 
 ### 1. Clone the Repository
 ```bash
@@ -294,118 +256,125 @@ git clone https://github.com/HarshkumarG007/ArthaIQ.git
 cd ArthaIQ
 ```
 
-### 2. Configure Environment Variables
+### 2. Environment Configuration
 ```bash
 cp .env.example .env
-# Edit .env with your local settings
+# Edit .env with any optional local overrides
 ```
 
-### 3. Set Up Virtual Environment & Dependencies
+### 3. Install Dependencies
 ```bash
-# Using uv (fastest):
-uv venv
-source .venv/bin/activate   # On Windows: .venv\Scripts\activate
-uv pip install -e ".[dev]"
+# Using uv (fastest & hermetic):
+uv sync
 
-# Or using standard python venv:
+# Or using standard pip:
 python -m venv .venv
-source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+source .venv/bin/activate       # On Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
-### 4. Install Pre-Commit Hooks
+### 4. Run the Full Test Suite & Quality Checks
 ```bash
-pre-commit install
+# Full static verification: Ruff lint/format check, Mypy strict, Import-Linter contracts
+uv run ruff check src/ tests/ scripts/
+uv run ruff format --check src/ tests/ scripts/
+uv run mypy src/compintel
+uv run lint-imports
+
+# Run 293 tests with coverage enforcement (fail_under = 90%):
+uv run pytest tests/ -m "not e2e and not slow" --cov=src/compintel --cov-report=term-missing
 ```
 
-### 5. Run Quality Checks
+### 5. Execute Operational Pipelines
 ```bash
-# Run all code quality tools
-make check
+# Rebuild canonical data from raw manifests (idempotent snapshot hash):
+uv run python scripts/reproduce_data.py
 
-# Or individually:
-ruff check .
-ruff format --check .
-mypy src tests
+# Generate automated Data Quality audit report:
+uv run python scripts/generate_data_quality_report.py --verify-thresholds
+
+# Run Leakage and Duplicate-Inflation Audit (EXP-12):
+uv run python scripts/run_leakage_audit.py
 ```
 
 ---
 
-## 🛠️ Technology Stack (Proposed — ADR-0003)
+## 🛠️ Technology Stack (Ratified — ADR-0003)
 
-| Domain | Technology | Justification |
-|:---|:---|:---|
-| **Language** | Python 3.11+ | Modern typing support, high-performance runtime, rich data/ML ecosystem |
-| **Data Engine** | Polars & DuckDB | Vectorized speed, low memory overhead, Apache Arrow native |
-| **Validation** | Pydantic v2 & Pandera | Strict runtime type safety, dataframe schema guarantees |
-| **ML & Modeling** | Scikit-learn, LightGBM, CatBoost | Fast native quantile regression, categorical feature handling |
-| **Uncertainty** | MAPIE / Conformal Prediction | Mathematically rigorous distribution bounds and empirical coverage |
-| **Backend API** | FastAPI & Uvicorn | Async performance, auto-generated OpenAPI docs, Pydantic integration |
-| **Web Frontend** | Next.js / React (Phase 9) | Modern component architecture, dynamic interactive charts, responsive UI |
-| **Tooling & CI** | Ruff, Mypy, Pytest, GitHub Actions | Sub-second linting, strict static typing, automated gate enforcement |
+| Component | Pinned Version | License | Justification |
+|:---|:---|:---|:---|
+| **Runtime** | Python `3.12.9` | PSF-2.0 | Modern typing, high performance, robust data ecosystem |
+| **Data Engine** | Polars `2.0.0` & DuckDB `1.5.6` | MIT | In-memory Arrow vectorization, zero-copy querying, low memory footprint |
+| **Contract Validation** | Pandera `0.22+` & Pydantic `v2.10+` | MIT | Bulk DataFrame validation and strict runtime schema enforcement |
+| **Baseline Modeling** | Scikit-learn `1.6+` & Statsmodels `0.14+` | BSD-3-Clause | Non-parametric conditional quantiles and regularized quantile regression |
+| **Tree Quantiles** | LightGBM `4.5+` & CatBoost `1.2+` | MIT / Apache-2.0 | Fast native quantile gradient boosting with multi-quantile objectives |
+| **String Normalization** | RapidFuzz `3.12+` | MIT | C-accelerated Levenshtein and token-set fuzzy matching for job titles |
+| **Serving & API** | FastAPI `0.115+` & Uvicorn | MIT | Async ASGI serving with automatic OpenAPI schema generation |
+| **Code Quality** | Ruff `0.9+`, Mypy `1.15+`, Import-Linter | MIT / Apache-2.0 | Sub-second formatting, strict static types, architectural layer checks |
 
 ---
 
-## 🗺️ Phased Roadmap & Quality Gates
+## 🗺️ Phased Roadmap & Milestone Gates
 
-The project follows a rigorous 10-phase delivery structure with explicit milestone validation gates:
+ArthaIQ follows a strict 10-phase engineering lifecycle. Every phase closes with a ratified quality gate:
 
 ```
-[Phase 0: Foundation] ──► Gate G0 (Setup Validated)
+[Phase 0: Foundation & Setup] ──────────────────► Gate G0 (Setup Validated) [RATIFIED GO]
        │
-[Phase 1: Research & Discovery] ──► Gate G1 (Taxonomy & Data Approved)
+[Phase 1: Research, Targets & Sources] ────────► Gate G1 (Charter & Scope Approved) [RATIFIED GO]
        │
-[Phase 2: Data Engineering & Auditing] ──► Gate G2 (Data Sufficiency Verified)
+[Phase 2: Feasibility & Sufficiency] ──────────► Gate G2 (Acquisition Programme Ratified) [RATIFIED GO]
        │
-[Phase 3: Core Architecture & Scaffolding] ──► Gate G3 (Contracts Locked)
+[Phase 3: Schema, Ingestion & Lineage] ────────► Gate G3 (Contracts & Pipeline Enforced) [RATIFIED GO]
        │
-[Phase 4: Feature Pipeline & Validation]
+[Phase 4: Baselines & Leakage-Free Eval] ──────► Gate G4 (Baselines Benchmarked) [IN PROGRESS]
        │
-[Phase 5: Baseline Estimation Engines] ──► Gate G4 (Baseline Benchmarked)
+[Phase 5: Quantile Modeling & Uncertainty] ────► Gate G5 (Performance Preregistered)
        │
-[Phase 6: Quantile Regression & Ensembles]
+[Phase 6: Counterfactuals & Negotiation]
        │
-[Phase 7: Calibration, Uncertainty & Abstention] ──► Gate G5 (Performance Preregistered)
+[Phase 7: Decision Engine & Model Cards] ──────► Gate G6 (User QA & Security Passed)
        │
-[Phase 8: Decision Engine & API Serving]
+[Phase 8: Explainability & Bias Audits]
        │
-[Phase 9: Frontend Experience ('The Span')] ──► Gate G6 (User QA & Security Passed)
+[Phase 9: Product Surface ('The Span') & API]
        │
-[Phase 10: Production Release & Continuous Monitoring]
+[Phase 10: Production Release & Telemetry]
 ```
 
 ---
 
 ## 🛡️ Responsible AI, Fairness & Privacy
 
-1. **Privacy by Design:** All employee records are anonymized at the point of ingestion. Anonymity is guaranteed through $k$-anonymity clustering ($k \ge 5$) before any group statistic is exposed.
-2. **Anti-Bias Verification:** Compensation distributions are audited to prevent algorithmic perpetuation of historical wage gaps. Parity metrics are computed across career breaks and background tiers.
-3. **No Hallucinated Precision:** The tool rejects false certainty. If a user asks for a rare role with only two data points, ArthaIQ abstains and presents clear guidance on why data is insufficient.
-4. **Transparent Methodology:** All model weights, evaluation metrics, and distribution assumptions are accompanied by downloadable methodology cards.
+1. **Privacy by Design:** Contributor records are completely stripped of direct identifiers at ingestion. Zero cleartext PII (PAN, Aadhaar, email, phone) is stored per Rule `R-DA-07`.
+2. **Small-Cell Suppression:** Cells with fewer than $k_{\text{min}} = 5$ observations are suppressed by construction to prevent de-anonymization (Rule `R-DA-10`).
+3. **Anti-Bias Auditing:** Evaluation metrics are tracked across demographic and geographic slices. Algorithmic perpetuation of unadjusted historical wage gaps is actively audited.
+4. **Transparent Uncertainty:** The platform refuses to emit false precision. When evidence support is thin, ArthaIQ abstains and presents empirical context rather than fabricating numbers.
 
 ---
 
 ## ⚠️ Legal & Financial Disclaimer
 
-> **IMPORTANT NOTICE:**
-> **ArthaIQ** is an independent analytical decision-support and market research tool. It provides statistical estimations based on empirical datasets and probabilistic modeling.
+> [!IMPORTANT]
+> **ArthaIQ** is an independent analytical decision-support and market research platform. It produces empirical statistical distributions based on verified observation pools and probabilistic modeling.
 >
-> - **Not an Appraisal or Offer:** Predictions do not constitute a formal appraisal, guaranteed compensation offer, employment contract, or career commitment.
-> - **Not Legal or Tax Advice:** Nothing in this repository or software should be construed as legal, tax, or professional financial advice.
-> - **Self-Directed Action:** Users remain solely responsible for evaluating their individual employment agreements, career negotiations, and market circumstances.
+> - **Not an Appraisal or Guarantee:** Estimates do not constitute a formal salary appraisal, guaranteed compensation offer, binding employment agreement, or legal commitment.
+> - **Not Legal, Financial, or Tax Advice:** Nothing in this repository or generated reports should be construed as legal, tax, or professional financial advice.
+> - **Self-Directed Career Decisions:** Professionals remain solely responsible for evaluating their individual employment agreements, career negotiations, and personal circumstances.
 
 ---
 
 ## 📄 License & Contributing
 
-- **License:** To be formally decided upon resolution of Task `T0.02` (Question `Q-007`). Until resolved, all rights are reserved.
-- **Contributing:** Contributions will open after completion of Phase 3 scaffolding. Please review [`docs/rules.md`](docs/rules.md) for architectural guidelines and code quality standards.
+- **License:** Open source under the **[Apache License, Version 2.0](LICENSE)**.
+- **Copyright:** Copyright © 2024–2026 Harsh Kumar and ArthaIQ Contributors.
+- **Contributing:** Contributions adhere strictly to the engineering rules codified in [`docs/rules.md`](docs/rules.md). Pull requests must pass 100% of CI checks (Ruff, Mypy Strict, Import Linter, and Pytest coverage $\ge 90\%$).
 
 ---
 
 <div align="center">
 
-**Built with statistical rigor and engineering discipline for the Indian tech ecosystem.**
-*Have questions or suggestions? Check [`docs/memory.md`](docs/memory.md) or open an issue.*
+**Built with statistical rigor and engineering discipline for the Indian tech ecosystem.**  
+*Questions or feedback? Check [`docs/memory.md`](docs/memory.md) or open an issue.*
 
 </div>
