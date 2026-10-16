@@ -91,6 +91,7 @@ Record GO or NO-GO with the evidence that justified it.
 | D-011 | 2026-10-13 | Modeling strategy: Initial baseline uses conditional empirical quantiles and regularized baseline (Ridge / Stratified Medians); advanced models (CatBoost/LightGBM quantile regression) deferred until data sufficiency gate G2 | Accepted | ADR-0004 |
 | D-012 | 2026-10-13 | Uncertainty estimation: P10/P50/P90 quantiles plus separately validated prediction intervals (conformal prediction) | Accepted | ADR-0005 |
 | D-013 | 2026-10-13 | Interface and deployment: Research API and minimal demonstration of The Span; local, reproducible research pipeline before cloud infrastructure | Accepted | ADR-0009 |
+| D-014 | 2026-10-17 | Open source license ratified as Apache License, Version 2.0 (SPDX: Apache-2.0). Provides explicit patent grants, permissive research/commercial terms, and clear disclaimers of liability and warranty essential for an analytical compensation decision-support platform | Accepted | `LICENSE`, `pyproject.toml`, `README.md` |
 
 ## 6. Open questions
 

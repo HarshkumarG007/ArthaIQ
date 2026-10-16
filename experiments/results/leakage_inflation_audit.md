@@ -8,8 +8,8 @@
 
 | Parameter | Value |
 |---|---|
-| **Report ID** | `AUDIT-EXP12-20261016-224345` |
-| **Generated (UTC)** | `2026-10-16T22:43:45.677293+00:00` |
+| **Report ID** | `AUDIT-EXP12-20261016-224852` |
+| **Generated (UTC)** | `2026-10-16T22:48:52.810277+00:00` |
 | **Snapshot ID** | `SNAP-CANONICAL` |
 | **Random Seed** | `42` |
 | **Total Canonical Observations** | `5` |

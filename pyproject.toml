@@ -12,8 +12,7 @@ version = "0.0.1.dev0"
 description = "Personalized compensation intelligence and decision-support tool"
 readme = "README.md"
 requires-python = ">=3.11"
-# Licence: TBD at T0.02 Q-007
-# license = { text = "TBD" }
+license = { text = "Apache-2.0" }
 
 # Core dependencies — versions pinned at T3.01
 dependencies = [
