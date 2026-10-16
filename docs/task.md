@@ -216,7 +216,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `experiments/preregistration/v1.yaml`, committed and hashed. Done when: committed before any final-test run. Needs: T4.02. Size: M.
 - [x] **T4.04** [AI] Rung A: empirical conditional quantiles with hierarchical backoff. (done 2026-10-17)
       Output: `models/baselines/empirical`. Done when: backoff path is reported per prediction. Needs: T4.01. Size: M.
-- [ ] **T4.05** [AI] Rung B: regularized linear or GLM on log pay; linear quantile regression.
+- [x] **T4.05** [AI] Rung B: regularized linear or GLM on log pay; linear quantile regression. (done 2026-10-17)
       Output: `models/baselines/linear`. Done when: metrics produced on dev splits. Needs: T4.01. Size: M.
 - [ ] **T4.06** [AI] Leakage and duplicate-inflation audit; measure the random-versus-grouped-temporal gap (EXP-12).
       Output: audit section in the baseline report. Done when: gap reported and any leak fixed. Needs: T4.04, T4.05. Size: M.
