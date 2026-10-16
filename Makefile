@@ -82,9 +82,7 @@ sufficiency:
 # ---- Data pipeline (Phase 3+) ----------------------------------------------
 # Usage: make reproduce-data SNAPSHOT=<snapshot_id>
 reproduce-data:
-	@echo "[STUB] Data pipeline not yet implemented (T3.13)."
-	@echo "This target will rebuild canonical data from raw manifests."
-	@echo "Two clean runs must produce identical snapshot hashes."
+	uv run python scripts/reproduce_data.py $(if $(SNAPSHOT),--snapshot $(SNAPSHOT),)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

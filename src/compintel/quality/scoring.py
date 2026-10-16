@@ -886,7 +886,7 @@ def generate_source_quality_report(
 
     distinct_srcs = df["source_id"].n_unique()
     raw_mean = df["source_quality_score"].mean()
-    mean_sqs: float = float(raw_mean) if isinstance(raw_mean, (int, float)) else 0.0
+    mean_sqs: float = float(raw_mean) if isinstance(raw_mean, int | float) else 0.0
 
     # Provenance counts
     prov_counts_df = df.group_by("provenance_tier").len()
