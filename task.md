@@ -189,10 +189,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: Makefile target and ADR. Done when: two clean runs produce identical snapshot hashes. Needs: T3.06 to T3.12. Size: M.
 - [x] **T3.14** [AI] Data-contract tests in CI and an automated data quality report. (done 2026-10-16)
       Output: CI job and report. Done when: a broken contract fails CI. Needs: T3.13. Size: S.
-- [ ] **T3.15** [AI] Synthetic data generator for tests, flagged `synthetic` (R-MD-11).
+- [x] **T3.15** [AI] Synthetic data generator for tests, flagged `synthetic` (R-MD-11). (done 2026-10-16)
       Output: `tests/fixtures` generator. Done when: pipeline tests run on it and metrics from it are blocked from reports. Needs: T3.04. Size: S.
 
-**Gate G3:** pipeline reproducible; contracts enforced.
+**Gate G3:** pipeline reproducible; contracts enforced. (ratified 2026-10-16: GO)
 
 ---
 
