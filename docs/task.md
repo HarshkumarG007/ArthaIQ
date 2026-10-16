@@ -214,7 +214,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `evaluation/metrics`. Done when: outputs match hand-computed cases. Needs: T4.01. Size: M.
 - [x] **T4.03** [AI+HUMAN] Pre-register: metrics, splits, thresholds method, minimum effect sizes, decision rules; add the `make final-eval` lock. (done 2026-10-17)
       Output: `experiments/preregistration/v1.yaml`, committed and hashed. Done when: committed before any final-test run. Needs: T4.02. Size: M.
-- [ ] **T4.04** [AI] Rung A: empirical conditional quantiles with hierarchical backoff.
+- [x] **T4.04** [AI] Rung A: empirical conditional quantiles with hierarchical backoff. (done 2026-10-17)
       Output: `models/baselines/empirical`. Done when: backoff path is reported per prediction. Needs: T4.01. Size: M.
 - [ ] **T4.05** [AI] Rung B: regularized linear or GLM on log pay; linear quantile regression.
       Output: `models/baselines/linear`. Done when: metrics produced on dev splits. Needs: T4.01. Size: M.
