@@ -158,6 +158,10 @@ disallow_untyped_defs = true
 module = ["compintel.explain.*", "compintel.scenarios.*", "compintel.equity.*"]
 ignore_errors = false
 
+[[tool.mypy.overrides]]
+module = ["sklearn.*"]
+ignore_missing_imports = true
+
 # ---- pytest ----------------------------------------------------------------
 [tool.pytest.ini_options]
 testpaths = ["tests"]

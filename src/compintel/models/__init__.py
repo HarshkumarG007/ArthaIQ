@@ -7,6 +7,9 @@ from compintel.models.baselines import (
     EmpiricalQuantileBaseline,
     HierarchicalBackoffConfig,
     HierarchicalLevel,
+    LinearPrediction,
+    LinearQuantileBaseline,
+    LinearQuantileConfig,
 )
 
 __all__ = [
@@ -16,4 +19,7 @@ __all__ = [
     "EmpiricalQuantileBaseline",
     "HierarchicalBackoffConfig",
     "HierarchicalLevel",
+    "LinearPrediction",
+    "LinearQuantileBaseline",
+    "LinearQuantileConfig",
 ]

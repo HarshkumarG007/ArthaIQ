@@ -8,6 +8,11 @@ from compintel.models.baselines.empirical import (
     HierarchicalBackoffConfig,
     HierarchicalLevel,
 )
+from compintel.models.baselines.linear import (
+    LinearPrediction,
+    LinearQuantileBaseline,
+    LinearQuantileConfig,
+)
 
 __all__ = [
     "BackoffPath",
@@ -16,4 +21,7 @@ __all__ = [
     "EmpiricalQuantileBaseline",
     "HierarchicalBackoffConfig",
     "HierarchicalLevel",
+    "LinearPrediction",
+    "LinearQuantileBaseline",
+    "LinearQuantileConfig",
 ]
