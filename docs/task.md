@@ -205,10 +205,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO if:** leakage tests pass, pre-registration is locked, baseline results carry confidence intervals.
 > **NO-GO:** fix evaluation first. If rungs A and B already meet the thresholds, proceed with the simple model as default champion.
 
-- [ ] **T4.01** [AI] Split framework: temporal, grouped, nested (train, select, calibrate, test); as-of enforcement; leakage tests (split per Rule R-WF-03):
+- [x] **T4.01** [AI] Split framework: temporal, grouped, nested (train, select, calibrate, test); as-of enforcement; leakage tests (split per Rule R-WF-03): (done 2026-10-16)
   - [x] **T4.01a** [AI] Split framework core: temporal cutoffs, grouped partitioning (`person_cluster_id`, `employer_cluster_id`), 4-way nested splits (train, select, calibrate, test), and as-of cutoff enforcement. (done 2026-10-16)
         Output: `evaluation/splits` with tests. Done when: 4-way split partitions canonical data without index overlap, strictly respects temporal order ($T_{\text{train}} \le T_{\text{select}} \le T_{\text{calibrate}} \le T_{\text{test}}$), enforces zero person group overlap, and preserves Pandera schema. Needs: G3. Size: M.
-  - [ ] **T4.01b** [AI] Leakage detection harness & adversarial seeded leak verification: group overlap auditor, temporal lookahead detector, and deliberate seeded leak test suite.
+  - [x] **T4.01b** [AI] Leakage detection harness & adversarial seeded leak verification: group overlap auditor, temporal lookahead detector, and deliberate seeded leak test suite. (done 2026-10-16)
         Output: `evaluation/leakage` & `tests/leakage/test_splits_leakage.py`. Done when: seeded group leakage and seeded temporal lookahead trigger explicit `LeakageError` and fail tests. Needs: T4.01a. Size: M.
 - [ ] **T4.02** [AI] Metrics module: MAE, median absolute error, relative error, pinball loss, coverage, widths, calibration error, crossing rate; bootstrap intervals.
       Output: `evaluation/metrics`. Done when: outputs match hand-computed cases. Needs: T4.01. Size: M.
