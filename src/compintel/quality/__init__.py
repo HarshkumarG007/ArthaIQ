@@ -54,6 +54,11 @@ from compintel.quality.quarantine import (
     export_quarantine_artifacts,
     partition_and_quarantine_df,
 )
+from compintel.quality.report import (
+    DataQualityReport,
+    export_data_quality_report,
+    generate_data_quality_report,
+)
 from compintel.quality.scoring import (
     DEFAULT_SOURCE_QUALITY_REGISTRY,
     DEFAULT_UNVERIFIED_EVALUATION,
@@ -111,6 +116,7 @@ __all__ = [
     "SourceQualityReport",
     "CellDefinition",
     "ColumnProfile",
+    "DataQualityReport",
     "DatasetProfile",
     "DeduplicationReport",
     "DeduplicationResult",
@@ -141,11 +147,13 @@ __all__ = [
     "evaluate_record_quarantine",
     "evaluate_source",
     "export_coverage_artifacts",
+    "export_data_quality_report",
     "export_prototype_artifacts",
     "export_quarantine_artifacts",
     "export_sufficiency_artifacts",
     "generate_coverage_chart_svg",
     "generate_coverage_table_markdown",
+    "generate_data_quality_report",
     "generate_deduplication_report_markdown",
     "generate_exclusion_report_markdown",
     "generate_source_quality_report",

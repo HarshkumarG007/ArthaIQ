@@ -3,7 +3,8 @@
 # Versions are pinned at T3.01. Many targets are stubs until their phase starts.
 
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
-        test-leakage test-integration coverage-map sufficiency reproduce-data final-eval clean
+        test-leakage test-integration coverage-map sufficiency reproduce-data quality-report \
+        final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -20,6 +21,7 @@ help:
 	@echo "  make test-leakage     Leakage and split tests"
 	@echo "  make test-integration Integration tests"
 	@echo "  make reproduce-data   Rebuild canonical data from raw manifests (T3.13)"
+	@echo "  make quality-report   Generate data quality audit report and JSON (T3.14)"
 	@echo "  make final-eval       Run the pre-registered final evaluation (T4.03)"
 	@echo "  make clean            Remove generated files"
 	@echo ""
@@ -83,6 +85,10 @@ sufficiency:
 # Usage: make reproduce-data SNAPSHOT=<snapshot_id>
 reproduce-data:
 	uv run python scripts/reproduce_data.py $(if $(SNAPSHOT),--snapshot $(SNAPSHOT),)
+
+# Usage: make quality-report [VERIFY=1]
+quality-report:
+	uv run python scripts/generate_data_quality_report.py $(if $(VERIFY),--verify-thresholds,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
