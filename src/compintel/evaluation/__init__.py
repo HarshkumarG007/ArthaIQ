@@ -7,6 +7,13 @@ Provides:
 - Baselines and benchmark comparison.
 """
 
+from compintel.evaluation.baseline_report import (
+    BaselineReport,
+    BaselineReportConfig,
+    BaselineReportGenerator,
+    add_experience_band_column,
+    run_baseline_evaluation_report,
+)
 from compintel.evaluation.experiment import (
     ExperimentConfig,
     ExperimentRunner,
@@ -79,6 +86,9 @@ from compintel.evaluation.splits import (
 )
 
 __all__ = [
+    "BaselineReport",
+    "BaselineReportConfig",
+    "BaselineReportGenerator",
     "CalibrationMetrics",
     "ComprehensiveMetricsReport",
     "DEFAULT_LOCK_PATH",
@@ -105,6 +115,7 @@ __all__ = [
     "SplitType",
     "TemporalGroupedSplitter",
     "acquire_final_eval_lock",
+    "add_experience_band_column",
     "audit_split_leakage",
     "bootstrap_metric_ci",
     "check_eval_lock",
@@ -131,6 +142,7 @@ __all__ = [
     "read_final_eval_lock",
     "reproduce_experiment",
     "root_mean_squared_error",
+    "run_baseline_evaluation_report",
     "run_leakage_inflation_audit",
     "seed_exact_duplicate_leak",
     "seed_group_leak",
