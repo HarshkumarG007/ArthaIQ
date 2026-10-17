@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Draft v0.5 (Phase 3 active; Gate G0, G1, G2 ratified) |
-| Last updated                   | 2026-10-16                                           |
+| Status                         | Draft v0.6 (Phase 4 complete; Gate G0, G1, G2, G3, G4 ratified GO; Phase 5 active) |
+| Last updated                   | 2026-10-17                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T3.15 (Synthetic data generator for tests, flagged synthetic (R-MD-11))**
+**NEXT TASK: T5.01 (Rung D: LightGBM and CatBoost point models on log pay; grouped-temporal cross-validation; search budget policy; log time and memory)**
 
 ## How to use this file
 
@@ -224,10 +224,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: run records. Done when: a past run reproduces from its record. Needs: T4.01. Size: M.
 - [x] **T4.08** [AI] Baseline report on dev splits with intervals and slices. (done 2026-10-17)
       Output: report in `experiments/results/`. Done when: R-MD-05 metrics are all present. Needs: T4.06, T4.07. Size: M.
-- [ ] **T4.09** [AI+HUMAN] Review against the thresholds; decide whether simple baselines suffice as the champion; run the adversarial checklist.
+- [x] **T4.09** [AI+HUMAN] Review against the thresholds; decide whether simple baselines suffice as the champion; run the adversarial checklist. (done 2026-10-17)
       Output: decision in `memory.md`. Done when: EXP-01 status recorded. Needs: T4.08. Size: S.
 
-**Gate G4 (critical):** evaluation protocol locked; baselines reviewed.
+**Gate G4 (critical):** evaluation protocol locked; baselines reviewed. (ratified 2026-10-17: GO)
 
 ---
 
