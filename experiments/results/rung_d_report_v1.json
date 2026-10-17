@@ -1,0 +1,615 @@
+{
+  "report_id": "REPORT-RUNGD-20261017-172159",
+  "generated_at_utc": "2026-10-17T17:21:59.792966+00:00",
+  "git_commit": "1bf4e9a2d0814090e2f14e64203c81448a8a0133",
+  "snapshot_id": "SNAP-1FF34A8E9633",
+  "random_seed": 42,
+  "is_synthetic": false,
+  "evaluation_split": "select",
+  "data_summary": {
+    "total_observations": 5,
+    "train_count": 3,
+    "eval_count": 1,
+    "eval_split_name": "select",
+    "excluded_cross_window_count": 0
+  },
+  "models": {
+    "rung_a_empirical": {
+      "model_id": "rung_a_empirical",
+      "model_name": "Rung A (Empirical Champion)",
+      "is_abstained_all": true,
+      "abstained_count": 1,
+      "abstention_rate": 100.0,
+      "sample_size": 1,
+      "valid_sample_size": 0,
+      "mae": NaN,
+      "medae": NaN,
+      "mape": NaN,
+      "mdape": NaN,
+      "rmse": NaN,
+      "point_ci": {},
+      "slices": {},
+      "fit_time_seconds": 0.015802300011273474,
+      "inference_latency_per_obs_ms": 1.2635000166483223,
+      "peak_memory_mb": 0.023148536682128906
+    },
+    "rung_b_linear": {
+      "model_id": "rung_b_linear",
+      "model_name": "Rung B (Linear Quantile)",
+      "is_abstained_all": false,
+      "abstained_count": 0,
+      "abstention_rate": 0.0,
+      "sample_size": 1,
+      "valid_sample_size": 1,
+      "mae": 6.690000000000005,
+      "medae": 6.690000000000005,
+      "mape": 0.2534090909090911,
+      "mdape": 0.2534090909090911,
+      "rmse": 6.690000000000005,
+      "point_ci": {
+        "mae": {
+          "point_estimate": 6.690000000000005,
+          "ci_lower": 6.690000000000005,
+          "ci_upper": 6.690000000000005,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "mdape": {
+          "point_estimate": 0.2534090909090911,
+          "ci_lower": 0.2534090909090911,
+          "ci_upper": 0.2534090909090911,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "medae": {
+          "point_estimate": 6.690000000000005,
+          "ci_lower": 6.690000000000005,
+          "ci_upper": 6.690000000000005,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "rmse": {
+          "point_estimate": 6.690000000000005,
+          "ci_lower": 6.690000000000005,
+          "ci_upper": 6.690000000000005,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        }
+      },
+      "slices": {
+        "experience_band": {
+          "6-10": {
+            "sample_size": 1,
+            "mae": 6.690000000000005,
+            "mdape": 0.2534090909090911
+          }
+        },
+        "role_family": {
+          "DATA": {
+            "sample_size": 1,
+            "mae": 6.690000000000005,
+            "mdape": 0.2534090909090911
+          }
+        },
+        "seniority": {
+          "SR": {
+            "sample_size": 1,
+            "mae": 6.690000000000005,
+            "mdape": 0.2534090909090911
+          }
+        },
+        "location": {
+          "PUNE": {
+            "sample_size": 1,
+            "mae": 6.690000000000005,
+            "mdape": 0.2534090909090911
+          }
+        },
+        "provenance_tier": {
+          "A": {
+            "sample_size": 1,
+            "mae": 6.690000000000005,
+            "mdape": 0.2534090909090911
+          }
+        }
+      },
+      "fit_time_seconds": 0.05329660000279546,
+      "inference_latency_per_obs_ms": 1.8210000125691295,
+      "peak_memory_mb": 0.12463188171386719
+    },
+    "rung_d_lightgbm": {
+      "model_id": "rung_d_lightgbm",
+      "model_name": "Rung D (LightGBM)",
+      "is_abstained_all": false,
+      "abstained_count": 0,
+      "abstention_rate": 0.0,
+      "sample_size": 1,
+      "valid_sample_size": 1,
+      "mae": 6.776440502777749,
+      "medae": 6.776440502777749,
+      "mape": 0.25668335237794504,
+      "mdape": 0.25668335237794504,
+      "rmse": 6.776440502777749,
+      "point_ci": {
+        "mae": {
+          "point_estimate": 6.776440502777749,
+          "ci_lower": 6.776440502777749,
+          "ci_upper": 6.776440502777749,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "mdape": {
+          "point_estimate": 0.25668335237794504,
+          "ci_lower": 0.25668335237794504,
+          "ci_upper": 0.25668335237794504,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "medae": {
+          "point_estimate": 6.776440502777749,
+          "ci_lower": 6.776440502777749,
+          "ci_upper": 6.776440502777749,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "rmse": {
+          "point_estimate": 6.776440502777749,
+          "ci_lower": 6.776440502777749,
+          "ci_upper": 6.776440502777749,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        }
+      },
+      "slices": {
+        "experience_band": {
+          "6-10": {
+            "sample_size": 1,
+            "mae": 6.776440502777749,
+            "mdape": 0.25668335237794504
+          }
+        },
+        "role_family": {
+          "DATA": {
+            "sample_size": 1,
+            "mae": 6.776440502777749,
+            "mdape": 0.25668335237794504
+          }
+        },
+        "seniority": {
+          "SR": {
+            "sample_size": 1,
+            "mae": 6.776440502777749,
+            "mdape": 0.25668335237794504
+          }
+        },
+        "location": {
+          "PUNE": {
+            "sample_size": 1,
+            "mae": 6.776440502777749,
+            "mdape": 0.25668335237794504
+          }
+        },
+        "provenance_tier": {
+          "A": {
+            "sample_size": 1,
+            "mae": 6.776440502777749,
+            "mdape": 0.25668335237794504
+          }
+        }
+      },
+      "fit_time_seconds": 0.05668740000692196,
+      "inference_latency_per_obs_ms": 6.285399984335527,
+      "peak_memory_mb": 1.3406333923339844
+    },
+    "rung_d_catboost": {
+      "model_id": "rung_d_catboost",
+      "model_name": "Rung D (CatBoost)",
+      "is_abstained_all": false,
+      "abstained_count": 0,
+      "abstention_rate": 0.0,
+      "sample_size": 1,
+      "valid_sample_size": 1,
+      "mae": 1.8576439881535798,
+      "medae": 1.8576439881535798,
+      "mape": 0.070365302581575,
+      "mdape": 0.070365302581575,
+      "rmse": 1.8576439881535798,
+      "point_ci": {
+        "mae": {
+          "point_estimate": 1.8576439881535798,
+          "ci_lower": 1.8576439881535798,
+          "ci_upper": 1.8576439881535798,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "mdape": {
+          "point_estimate": 0.070365302581575,
+          "ci_lower": 0.070365302581575,
+          "ci_upper": 0.070365302581575,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "medae": {
+          "point_estimate": 1.8576439881535798,
+          "ci_lower": 1.8576439881535798,
+          "ci_upper": 1.8576439881535798,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        },
+        "rmse": {
+          "point_estimate": 1.8576439881535798,
+          "ci_lower": 1.8576439881535798,
+          "ci_upper": 1.8576439881535798,
+          "confidence_level": 0.95,
+          "n_resamples": 500
+        }
+      },
+      "slices": {
+        "experience_band": {
+          "6-10": {
+            "sample_size": 1,
+            "mae": 1.8576439881535798,
+            "mdape": 0.070365302581575
+          }
+        },
+        "role_family": {
+          "DATA": {
+            "sample_size": 1,
+            "mae": 1.8576439881535798,
+            "mdape": 0.070365302581575
+          }
+        },
+        "seniority": {
+          "SR": {
+            "sample_size": 1,
+            "mae": 1.8576439881535798,
+            "mdape": 0.070365302581575
+          }
+        },
+        "location": {
+          "PUNE": {
+            "sample_size": 1,
+            "mae": 1.8576439881535798,
+            "mdape": 0.070365302581575
+          }
+        },
+        "provenance_tier": {
+          "A": {
+            "sample_size": 1,
+            "mae": 1.8576439881535798,
+            "mdape": 0.070365302581575
+          }
+        }
+      },
+      "fit_time_seconds": 1.1840306000085548,
+      "inference_latency_per_obs_ms": 3.465400019194931,
+      "peak_memory_mb": 0.05299186706542969
+    }
+  },
+  "cv_results": {
+    "lightgbm": {
+      "model_type": "lightgbm",
+      "model_name": "LIGHTGBM",
+      "n_folds": 2,
+      "folds": [
+        {
+          "fold_idx": 1,
+          "metrics": {
+            "mae": 20.99685507902793,
+            "medae": 20.99685507902793,
+            "mape": 2.499625604646182,
+            "mdape": 2.499625604646182,
+            "rmse": 20.99685507902793,
+            "sample_size": 1,
+            "valid_sample_size": 1,
+            "abstained_count": 0,
+            "abstention_rate": 0.0
+          },
+          "resource_profile": {
+            "wall_clock_train_seconds": 0.019331599993165582,
+            "inference_latency_ms": 6.299200002104044,
+            "inference_latency_per_obs_ms": 6.299200002104044,
+            "peak_heap_memory_mb": 0.0,
+            "n_train_samples": 2,
+            "n_val_samples": 1,
+            "n_features": 4
+          },
+          "train_count": 2,
+          "val_count": 1,
+          "train_date_span": [
+            "2024-06-15",
+            "2024-06-18"
+          ],
+          "val_date_span": [
+            "2024-06-20",
+            "2024-06-20"
+          ],
+          "n_predictions": 1
+        },
+        {
+          "fold_idx": 2,
+          "metrics": {
+            "mae": 6.776440502777749,
+            "medae": 6.776440502777749,
+            "mape": 0.25668335237794504,
+            "mdape": 0.25668335237794504,
+            "rmse": 6.776440502777749,
+            "sample_size": 1,
+            "valid_sample_size": 1,
+            "abstained_count": 0,
+            "abstention_rate": 0.0
+          },
+          "resource_profile": {
+            "wall_clock_train_seconds": 0.02176010000403039,
+            "inference_latency_ms": 6.521300005260855,
+            "inference_latency_per_obs_ms": 6.521300005260855,
+            "peak_heap_memory_mb": 0.0,
+            "n_train_samples": 3,
+            "n_val_samples": 1,
+            "n_features": 4
+          },
+          "train_count": 3,
+          "val_count": 1,
+          "train_date_span": [
+            "2024-06-15",
+            "2024-06-20"
+          ],
+          "val_date_span": [
+            "2024-06-25",
+            "2024-06-25"
+          ],
+          "n_predictions": 1
+        }
+      ],
+      "overall_metrics": {
+        "mae": 13.88664779090284,
+        "medae": 13.88664779090284,
+        "mape": 1.3781544785120636,
+        "mdape": 1.3781544785120636,
+        "rmse": 15.601090812782736,
+        "sample_size": 2,
+        "valid_sample_size": 2,
+        "abstained_count": 0,
+        "abstention_rate": 0.0
+      },
+      "aggregate_resource_profile": {
+        "wall_clock_train_seconds": 0.041091699997195974,
+        "inference_latency_ms": 12.820500007364899,
+        "inference_latency_per_obs_ms": 6.4102500036824495,
+        "peak_heap_memory_mb": 0.0,
+        "n_train_samples": 5,
+        "n_val_samples": 2,
+        "n_features": 4
+      },
+      "n_predictions": 2
+    },
+    "catboost": {
+      "model_type": "catboost",
+      "model_name": "CATBOOST",
+      "n_folds": 2,
+      "folds": [
+        {
+          "fold_idx": 1,
+          "metrics": {
+            "mae": 14.752900884680026,
+            "medae": 14.752900884680026,
+            "mape": 1.7562977243666695,
+            "mdape": 1.7562977243666695,
+            "rmse": 14.752900884680026,
+            "sample_size": 1,
+            "valid_sample_size": 1,
+            "abstained_count": 0,
+            "abstention_rate": 0.0
+          },
+          "resource_profile": {
+            "wall_clock_train_seconds": 0.03109470001072623,
+            "inference_latency_ms": 3.60920000821352,
+            "inference_latency_per_obs_ms": 3.60920000821352,
+            "peak_heap_memory_mb": 0.0,
+            "n_train_samples": 2,
+            "n_val_samples": 1,
+            "n_features": 4
+          },
+          "train_count": 2,
+          "val_count": 1,
+          "train_date_span": [
+            "2024-06-15",
+            "2024-06-18"
+          ],
+          "val_date_span": [
+            "2024-06-20",
+            "2024-06-20"
+          ],
+          "n_predictions": 1
+        },
+        {
+          "fold_idx": 2,
+          "metrics": {
+            "mae": 1.8576439881535798,
+            "medae": 1.8576439881535798,
+            "mape": 0.070365302581575,
+            "mdape": 0.070365302581575,
+            "rmse": 1.8576439881535798,
+            "sample_size": 1,
+            "valid_sample_size": 1,
+            "abstained_count": 0,
+            "abstention_rate": 0.0
+          },
+          "resource_profile": {
+            "wall_clock_train_seconds": 1.0854057999968063,
+            "inference_latency_ms": 2.620499988552183,
+            "inference_latency_per_obs_ms": 2.620499988552183,
+            "peak_heap_memory_mb": 0.0,
+            "n_train_samples": 3,
+            "n_val_samples": 1,
+            "n_features": 4
+          },
+          "train_count": 3,
+          "val_count": 1,
+          "train_date_span": [
+            "2024-06-15",
+            "2024-06-20"
+          ],
+          "val_date_span": [
+            "2024-06-25",
+            "2024-06-25"
+          ],
+          "n_predictions": 1
+        }
+      ],
+      "overall_metrics": {
+        "mae": 8.305272436416804,
+        "medae": 8.305272436416804,
+        "mape": 0.9133315134741222,
+        "mdape": 0.9133315134741222,
+        "rmse": 10.514250465437748,
+        "sample_size": 2,
+        "valid_sample_size": 2,
+        "abstained_count": 0,
+        "abstention_rate": 0.0
+      },
+      "aggregate_resource_profile": {
+        "wall_clock_train_seconds": 1.1165005000075325,
+        "inference_latency_ms": 6.229699996765703,
+        "inference_latency_per_obs_ms": 3.1148499983828515,
+        "peak_heap_memory_mb": 0.0,
+        "n_train_samples": 5,
+        "n_val_samples": 2,
+        "n_features": 4
+      },
+      "n_predictions": 2
+    }
+  },
+  "threshold_checks": [
+    {
+      "model_id": "rung_a_empirical",
+      "model_name": "Rung A (Empirical Champion)",
+      "metric_name": "Point MAE",
+      "metric_value": "Abstained",
+      "threshold": "<= 4.50 LPA",
+      "status": "FAIL",
+      "details": "Model abstained on all evaluation records (Rule R-MD-08)"
+    },
+    {
+      "model_id": "rung_b_linear",
+      "model_name": "Rung B (Linear Quantile)",
+      "metric_name": "Point MAE",
+      "metric_value": "6.6900 LPA",
+      "threshold": "<= 4.50 LPA",
+      "status": "FAIL",
+      "details": "Observed MAE: 6.6900 LPA"
+    },
+    {
+      "model_id": "rung_b_linear",
+      "model_name": "Rung B (Linear Quantile)",
+      "metric_name": "Point MdAPE",
+      "metric_value": "25.34%",
+      "threshold": "<= 20.0%",
+      "status": "FAIL",
+      "details": "Observed MdAPE: 25.34%"
+    },
+    {
+      "model_id": "rung_d_lightgbm",
+      "model_name": "Rung D (LightGBM)",
+      "metric_name": "Point MAE",
+      "metric_value": "6.7764 LPA",
+      "threshold": "<= 4.50 LPA",
+      "status": "FAIL",
+      "details": "Observed MAE: 6.7764 LPA"
+    },
+    {
+      "model_id": "rung_d_lightgbm",
+      "model_name": "Rung D (LightGBM)",
+      "metric_name": "Point MdAPE",
+      "metric_value": "25.67%",
+      "threshold": "<= 20.0%",
+      "status": "FAIL",
+      "details": "Observed MdAPE: 25.67%"
+    },
+    {
+      "model_id": "rung_d_catboost",
+      "model_name": "Rung D (CatBoost)",
+      "metric_name": "Point MAE",
+      "metric_value": "1.8576 LPA",
+      "threshold": "<= 4.50 LPA",
+      "status": "PASS",
+      "details": "Observed MAE: 1.8576 LPA"
+    },
+    {
+      "model_id": "rung_d_catboost",
+      "model_name": "Rung D (CatBoost)",
+      "metric_name": "Point MdAPE",
+      "metric_value": "7.04%",
+      "threshold": "<= 20.0%",
+      "status": "PASS",
+      "details": "Observed MdAPE: 7.04%"
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "candidate_id": "Rung D (LightGBM)",
+      "baseline_id": "Rung A (Empirical)",
+      "delta_mdape_pp": 0.0,
+      "delta_mdape_ci_lower_pp": 0.0,
+      "delta_mdape_ci_upper_pp": 0.0,
+      "delta_mae_lpa": 0.0,
+      "delta_mae_ci_lower_lpa": 0.0,
+      "delta_mae_ci_upper_lpa": 0.0,
+      "empirical_p_value": 1.0,
+      "is_statistically_significant": false,
+      "minimum_effect_size_met": false,
+      "comparison_valid": false,
+      "notes": "Insufficient joint non-abstained records for paired statistical test."
+    },
+    {
+      "candidate_id": "Rung D (LightGBM)",
+      "baseline_id": "Rung B (Linear)",
+      "delta_mdape_pp": 0.0,
+      "delta_mdape_ci_lower_pp": 0.0,
+      "delta_mdape_ci_upper_pp": 0.0,
+      "delta_mae_lpa": 0.0,
+      "delta_mae_ci_lower_lpa": 0.0,
+      "delta_mae_ci_upper_lpa": 0.0,
+      "empirical_p_value": 1.0,
+      "is_statistically_significant": false,
+      "minimum_effect_size_met": false,
+      "comparison_valid": false,
+      "notes": "Insufficient joint non-abstained records for paired statistical test."
+    },
+    {
+      "candidate_id": "Rung D (CatBoost)",
+      "baseline_id": "Rung A (Empirical)",
+      "delta_mdape_pp": 0.0,
+      "delta_mdape_ci_lower_pp": 0.0,
+      "delta_mdape_ci_upper_pp": 0.0,
+      "delta_mae_lpa": 0.0,
+      "delta_mae_ci_lower_lpa": 0.0,
+      "delta_mae_ci_upper_lpa": 0.0,
+      "empirical_p_value": 1.0,
+      "is_statistically_significant": false,
+      "minimum_effect_size_met": false,
+      "comparison_valid": false,
+      "notes": "Insufficient joint non-abstained records for paired statistical test."
+    },
+    {
+      "candidate_id": "Rung D (CatBoost)",
+      "baseline_id": "Rung B (Linear)",
+      "delta_mdape_pp": 0.0,
+      "delta_mdape_ci_lower_pp": 0.0,
+      "delta_mdape_ci_upper_pp": 0.0,
+      "delta_mae_lpa": 0.0,
+      "delta_mae_ci_lower_lpa": 0.0,
+      "delta_mae_ci_upper_lpa": 0.0,
+      "empirical_p_value": 1.0,
+      "is_statistically_significant": false,
+      "minimum_effect_size_met": false,
+      "comparison_valid": false,
+      "notes": "Insufficient joint non-abstained records for paired statistical test."
+    }
+  ],
+  "champion_recommendation": {
+    "designated_model": "CatBoostPointModel",
+    "verdict": "ACCEPTED_AS_RUNG_D_CHAMPION",
+    "rationale": "CatBoost met point error thresholds (MAE=1.8576 LPA <= 4.50 LPA)."
+  }
+}
