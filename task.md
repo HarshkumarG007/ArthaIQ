@@ -245,7 +245,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `models/gbm` with tests. Done when: LightGBM and CatBoost regressors train on log pay, handle categorical features natively, respect search budgets, abstain on out-of-range inputs, and produce valid point predictions in nominal INR LPA. Needs: G4. Size: M.
   - [x] **T5.01b** [AI] Rung D grouped-temporal cross-validation, resource profiling, and baseline comparison report (LightGBM/CatBoost vs Rungs A and B). (done 2026-10-17)
         Output: `models/gbm/cv` and report in `experiments/results/`. Done when: grouped-temporal cross-validation metrics, timings, peak memory, and comparative metrics versus rungs A and B are produced with 95% bootstrap intervals. Needs: T5.01a. Size: M.
-- [ ] **T5.02** [AI] Rung E: quantile models for P10, P50, P90; crossing diagnostics and repair.
+- [x] **T5.02** [AI] Rung E: quantile models for P10, P50, P90; crossing diagnostics and repair. (done 2026-10-18)
       Output: quantile models. Done when: crossing is zero after repair and the raw rate is reported. Needs: T5.01. Size: M.
 - [ ] **T5.03** [AI] Rung F: conformal calibration (split and CQR) on a temporal calibration set; document assumptions; draft ADR-0005.
       Output: `uncertainty/conformal`. Done when: marginal coverage is reported with its assumptions. Needs: T5.02. Size: M.
