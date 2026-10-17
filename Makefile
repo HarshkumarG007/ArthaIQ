@@ -4,7 +4,7 @@
 
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
-        audit-leakage final-eval clean
+        audit-leakage experiment reproduce-experiment final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -98,6 +98,15 @@ quality-report:
 # Usage: make audit-leakage [SNAPSHOT=<id>] [ALLOW_SYNTHETIC=1]
 audit-leakage:
 	uv run python scripts/run_leakage_audit.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+# ---- Experiments & Reproducibility (Phase 4, T4.07, R-MD-10, ADR-0006) ----
+# Usage: make experiment [CONFIG=<path>] [SEED=<int>] [ALLOW_SYNTHETIC=1]
+experiment:
+	uv run python scripts/run_experiment.py $(if $(CONFIG),--config $(CONFIG),) $(if $(SEED),--seed $(SEED),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+# Usage: make reproduce-experiment RUN=<run_id_or_path> [TOLERANCE=1e-9]
+reproduce-experiment:
+	uv run python scripts/run_experiment.py --reproduce $(RUN) $(if $(TOLERANCE),--tolerance $(TOLERANCE),)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

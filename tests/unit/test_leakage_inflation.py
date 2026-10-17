@@ -217,14 +217,25 @@ def test_report_json_and_markdown_persistence(
     assert report.report_id in md_text
 
 
-def test_run_leakage_audit_cli_execution(repo_root: Path) -> None:
+def test_run_leakage_audit_cli_execution(repo_root: Path, tmp_path: Path) -> None:
     """Verify scripts/run_leakage_audit.py runs cleanly as a CLI script."""
     canonical_parquet = repo_root / "data" / "canonical" / "canonical_observations.parquet"
     if not canonical_parquet.exists():
         pytest.skip("Canonical observations parquet not present in clean checkout (Rule R-DA-08).")
 
     script_path = repo_root / "scripts" / "run_leakage_audit.py"
-    cmd = [sys.executable, str(script_path), "--seed", "42"]
+    out_json = tmp_path / "audit.json"
+    out_md = tmp_path / "audit.md"
+    cmd = [
+        sys.executable,
+        str(script_path),
+        "--seed",
+        "42",
+        "--output-json",
+        str(out_json),
+        "--output-md",
+        str(out_md),
+    ]
 
     res = subprocess.run(
         cmd,

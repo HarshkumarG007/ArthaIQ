@@ -7,6 +7,13 @@ Provides:
 - Baselines and benchmark comparison.
 """
 
+from compintel.evaluation.experiment import (
+    ExperimentConfig,
+    ExperimentRunner,
+    ExperimentRunRecord,
+    ReproductionResult,
+    reproduce_experiment,
+)
 from compintel.evaluation.inflation import (
     LeakageInflationAuditor,
     LeakageInflationConfig,
@@ -78,6 +85,9 @@ __all__ = [
     "DEFAULT_PREREG_PATH",
     "DatasetSplits",
     "EXPECTED_PREREG_V1_HASH",
+    "ExperimentConfig",
+    "ExperimentRunRecord",
+    "ExperimentRunner",
     "IntervalMetrics",
     "LeakageAuditReport",
     "LeakageInflationAuditor",
@@ -89,6 +99,7 @@ __all__ = [
     "OverlapDiagnostics",
     "PointMetrics",
     "QuantileLossMetrics",
+    "ReproductionResult",
     "SplitConfig",
     "SplitSummary",
     "SplitType",
@@ -118,6 +129,7 @@ __all__ = [
     "quantile_calibration_error",
     "quantile_crossing",
     "read_final_eval_lock",
+    "reproduce_experiment",
     "root_mean_squared_error",
     "run_leakage_inflation_audit",
     "seed_exact_duplicate_leak",

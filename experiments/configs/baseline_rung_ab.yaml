@@ -1,0 +1,35 @@
+# Experiment Configuration: Baseline Rung A and Rung B on Dev Split
+# Governed by Rules R-MD-01, R-MD-02, R-MD-05, R-MD-08, R-MD-10, and ADR-0006
+experiment_name: "baseline_rung_ab_dev"
+seed: 42
+data_snapshot_id: null
+canonical_data_path: null
+
+# 4-Way Temporal-Grouped Split Ratios (Rule R-MD-01)
+train_ratio: 0.60
+select_ratio: 0.15
+calibrate_ratio: 0.15
+test_ratio: 0.10
+
+# Partition to evaluate against (Rule R-MD-02: strictly dev splits, never test)
+evaluation_split: "select"
+
+# Models to evaluate
+models:
+  - "rung_a_empirical"
+  - "rung_b_linear"
+
+# Model hyperparameters
+model_params:
+  rung_a_empirical:
+    thin_evidence_threshold: 10
+  rung_b_linear:
+    alpha: 0.01
+    include_quadratic_yoe: true
+
+# Uncertainty & bootstrap
+with_bootstrap_ci: false
+bootstrap_resamples: 1000
+
+# Rule R-MD-11 synthetic data guard
+allow_synthetic: false
