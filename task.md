@@ -220,7 +220,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `models/baselines/linear`. Done when: metrics produced on dev splits. Needs: T4.01. Size: M.
 - [x] **T4.06** [AI] Leakage and duplicate-inflation audit; measure the random-versus-grouped-temporal gap (EXP-12). (done 2026-10-17)
       Output: audit section in the baseline report. Done when: gap reported and any leak fixed. Needs: T4.04, T4.05. Size: M.
-- [ ] **T4.07** [AI] Experiment records and `make experiment`: seeds, configs, snapshot ids, timings and memory.
+- [x] **T4.07** [AI] Experiment records and `make experiment`: seeds, configs, snapshot ids, timings and memory. (done 2026-10-17)
       Output: run records. Done when: a past run reproduces from its record. Needs: T4.01. Size: M.
 - [ ] **T4.08** [AI] Baseline report on dev splits with intervals and slices.
       Output: report in `experiments/results/`. Done when: R-MD-05 metrics are all present. Needs: T4.06, T4.07. Size: M.
