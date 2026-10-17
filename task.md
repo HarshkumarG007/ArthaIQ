@@ -240,10 +240,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO if:** the champion meets the pre-registered coverage, width and abstention criteria on the temporal test, including the recent window.
 > **NO-GO leads to:** ship rung A with widened intervals and abstention, or acquire more data. Do not claim calibrated intervals.
 
-- [ ] **T5.01** [AI] Rung D: LightGBM and CatBoost point models on log pay; grouped-temporal cross-validation; search budget policy; log time and memory (split per Rule R-WF-03):
+- [x] **T5.01** [AI] Rung D: LightGBM and CatBoost point models on log pay; grouped-temporal cross-validation; search budget policy; log time and memory (split per Rule R-WF-03): (done 2026-10-17)
   - [x] **T5.01a** [AI] Rung D point model architecture: LightGBM and CatBoost models on log pay, search budget policy, and feature pipelines fitted strictly inside training folds (R-MD-04, R-MD-06). (done 2026-10-17)
         Output: `models/gbm` with tests. Done when: LightGBM and CatBoost regressors train on log pay, handle categorical features natively, respect search budgets, abstain on out-of-range inputs, and produce valid point predictions in nominal INR LPA. Needs: G4. Size: M.
-  - [ ] **T5.01b** [AI] Rung D grouped-temporal cross-validation, resource profiling, and baseline comparison report (LightGBM/CatBoost vs Rungs A and B).
+  - [x] **T5.01b** [AI] Rung D grouped-temporal cross-validation, resource profiling, and baseline comparison report (LightGBM/CatBoost vs Rungs A and B). (done 2026-10-17)
         Output: `models/gbm/cv` and report in `experiments/results/`. Done when: grouped-temporal cross-validation metrics, timings, peak memory, and comparative metrics versus rungs A and B are produced with 95% bootstrap intervals. Needs: T5.01a. Size: M.
 - [ ] **T5.02** [AI] Rung E: quantile models for P10, P50, P90; crossing diagnostics and repair.
       Output: quantile models. Done when: crossing is zero after repair and the raw rate is reported. Needs: T5.01. Size: M.

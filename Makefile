@@ -4,7 +4,7 @@
 
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
-        audit-leakage experiment reproduce-experiment baseline-report final-eval clean
+        audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -112,6 +112,11 @@ reproduce-experiment:
 # Usage: make baseline-report [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
 baseline-report:
 	uv run python scripts/generate_baseline_report.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+# ---- Rung D Benchmark & Baseline Comparison (Phase 5, T5.01b, Rule R-MD-05) -
+# Usage: make benchmark-gbm [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+benchmark-gbm:
+	uv run python scripts/run_gbm_benchmark.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

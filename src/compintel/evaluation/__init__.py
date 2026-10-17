@@ -21,6 +21,14 @@ from compintel.evaluation.experiment import (
     ReproductionResult,
     reproduce_experiment,
 )
+from compintel.evaluation.gbm_report import (
+    GBMBenchmarkReport,
+    GBMBenchmarkReportConfig,
+    GBMBenchmarkReportGenerator,
+    ModelEvalSummary,
+    ModelPairedComparison,
+    run_gbm_benchmark_report,
+)
 from compintel.evaluation.inflation import (
     LeakageInflationAuditor,
     LeakageInflationConfig,
@@ -98,6 +106,9 @@ __all__ = [
     "ExperimentConfig",
     "ExperimentRunRecord",
     "ExperimentRunner",
+    "GBMBenchmarkReport",
+    "GBMBenchmarkReportConfig",
+    "GBMBenchmarkReportGenerator",
     "IntervalMetrics",
     "LeakageAuditReport",
     "LeakageInflationAuditor",
@@ -105,7 +116,9 @@ __all__ = [
     "LeakageInflationReport",
     "MetricInflationComparison",
     "MetricWithCI",
+    "ModelEvalSummary",
     "ModelInflationResult",
+    "ModelPairedComparison",
     "OverlapDiagnostics",
     "PointMetrics",
     "QuantileLossMetrics",
@@ -143,6 +156,7 @@ __all__ = [
     "reproduce_experiment",
     "root_mean_squared_error",
     "run_baseline_evaluation_report",
+    "run_gbm_benchmark_report",
     "run_leakage_inflation_audit",
     "seed_exact_duplicate_leak",
     "seed_group_leak",
