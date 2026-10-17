@@ -4,7 +4,7 @@
 
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
-        audit-leakage experiment reproduce-experiment final-eval clean
+        audit-leakage experiment reproduce-experiment baseline-report final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -107,6 +107,11 @@ experiment:
 # Usage: make reproduce-experiment RUN=<run_id_or_path> [TOLERANCE=1e-9]
 reproduce-experiment:
 	uv run python scripts/run_experiment.py --reproduce $(RUN) $(if $(TOLERANCE),--tolerance $(TOLERANCE),)
+
+# ---- Baseline Evaluation Report (Phase 4, T4.08, Rule R-MD-05) -------------
+# Usage: make baseline-report [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+baseline-report:
+	uv run python scripts/generate_baseline_report.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

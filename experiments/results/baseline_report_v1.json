@@ -1,0 +1,211 @@
+{
+  "report_id": "REPORT-BASELINES-20261017-124629",
+  "generated_at_utc": "2026-10-17T12:46:29.534851+00:00",
+  "git_commit": "de9b48de8a2367e39619cc2b326d21ab75d413b0",
+  "snapshot_id": "SNAP-1FF34A8E9633",
+  "random_seed": 42,
+  "is_synthetic": false,
+  "evaluation_split": "select",
+  "data_summary": {
+    "total_observations": 5,
+    "train_count": 3,
+    "eval_count": 1,
+    "eval_split_name": "select",
+    "excluded_cross_window_count": 0
+  },
+  "models": {
+    "rung_a": {
+      "model_name": "Rung A: Empirical Conditional Quantiles (Hierarchical Backoff)",
+      "evaluated_records": 1,
+      "valid_records": 0,
+      "abstained_records": 1,
+      "abstention_rate": 100.0,
+      "metrics": null,
+      "slices": {}
+    },
+    "rung_b": {
+      "model_name": "Rung B: Regularized Linear Quantile Regression (Log Pay)",
+      "evaluated_records": 1,
+      "valid_records": 1,
+      "abstained_records": 0,
+      "abstention_rate": 0.0,
+      "metrics": {
+        "point": {
+          "mae": 6.690000000000005,
+          "medae": 6.690000000000005,
+          "mape": 0.2534090909090911,
+          "mdape": 0.2534090909090911,
+          "rmse": 6.690000000000005,
+          "sample_size": 1
+        },
+        "quantile_loss": {
+          "pinball_q10": 6.021000000000004,
+          "pinball_q50": 3.3450000000000024,
+          "pinball_q90": 0.6690000000000004,
+          "mean_pinball_loss": 3.3450000000000024
+        },
+        "interval": {
+          "coverage_80": 0.0,
+          "mean_width": 0.0,
+          "median_width": 0.0,
+          "relative_median_width": 0.0,
+          "underflow_rate_q10": 1.0,
+          "overflow_rate_q90": 0.0
+        },
+        "calibration": {
+          "observed_freq_q10": 1.0,
+          "observed_freq_q50": 1.0,
+          "observed_freq_q90": 1.0,
+          "calibration_error_q10": 0.9,
+          "calibration_error_q50": 0.5,
+          "calibration_error_q90": 0.09999999999999998,
+          "mean_calibration_error": 0.5,
+          "crossing_count": 0,
+          "crossing_rate": 0.0
+        },
+        "point_ci": {
+          "mae": {
+            "point_estimate": 6.690000000000005,
+            "ci_lower": 6.690000000000005,
+            "ci_upper": 6.690000000000005,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "medae": {
+            "point_estimate": 6.690000000000005,
+            "ci_lower": 6.690000000000005,
+            "ci_upper": 6.690000000000005,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "mape": {
+            "point_estimate": 0.2534090909090911,
+            "ci_lower": 0.2534090909090911,
+            "ci_upper": 0.2534090909090911,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "mdape": {
+            "point_estimate": 0.2534090909090911,
+            "ci_lower": 0.2534090909090911,
+            "ci_upper": 0.2534090909090911,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "rmse": {
+            "point_estimate": 6.690000000000005,
+            "ci_lower": 6.690000000000005,
+            "ci_upper": 6.690000000000005,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "pinball_q10": {
+            "point_estimate": 6.021000000000004,
+            "ci_lower": 6.021000000000004,
+            "ci_upper": 6.021000000000004,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "pinball_q50": {
+            "point_estimate": 3.3450000000000024,
+            "ci_lower": 3.3450000000000024,
+            "ci_upper": 3.3450000000000024,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          },
+          "pinball_q90": {
+            "point_estimate": 0.6690000000000004,
+            "ci_lower": 0.6690000000000004,
+            "ci_upper": 0.6690000000000004,
+            "confidence_level": 0.95,
+            "n_resamples": 500
+          }
+        },
+        "slices": {}
+      },
+      "slices": {}
+    }
+  },
+  "threshold_checks": [
+    {
+      "model_key": "rung_a",
+      "model_name": "Rung A (Empirical)",
+      "metric": "All Metrics",
+      "value": 0.0,
+      "threshold": "N/A",
+      "passed": false,
+      "details": "Model abstained on all dev records (Rule R-MD-08)"
+    },
+    {
+      "model_key": "rung_b",
+      "model_name": "Rung B (Linear)",
+      "metric": "80% Interval Coverage",
+      "value": 0.0,
+      "threshold": "[0.720, 0.880]",
+      "passed": false,
+      "details": "Observed coverage: 0.00%"
+    },
+    {
+      "model_key": "rung_b",
+      "model_name": "Rung B (Linear)",
+      "metric": "Mean Calibration Error",
+      "value": 0.5,
+      "threshold": "<= 0.080",
+      "passed": false,
+      "details": "Observed calibration error: 0.5000"
+    },
+    {
+      "model_key": "rung_b",
+      "model_name": "Rung B (Linear)",
+      "metric": "Quantile Crossing Rate",
+      "value": 0.0,
+      "threshold": "<= 0.5%",
+      "passed": true,
+      "details": "Observed crossing rate: 0.00%"
+    },
+    {
+      "model_key": "rung_b",
+      "model_name": "Rung B (Linear)",
+      "metric": "Point MAE",
+      "value": 6.690000000000005,
+      "threshold": "<= 4.50 LPA",
+      "passed": false,
+      "details": "Observed MAE: 6.6900 LPA"
+    },
+    {
+      "model_key": "rung_b",
+      "model_name": "Rung B (Linear)",
+      "metric": "Point MdAPE",
+      "value": 0.2534090909090911,
+      "threshold": "<= 20.0%",
+      "passed": false,
+      "details": "Observed MdAPE: 25.34%"
+    }
+  ],
+  "model_comparison": {
+    "pinball_a": "N/A (Abstained)",
+    "pinball_b": "3.3450",
+    "delta_pinball": "N/A",
+    "pinball_effect_met": false,
+    "mdape_a": "N/A (Abstained)",
+    "mdape_b": "25.34%",
+    "delta_mdape": "N/A",
+    "mdape_effect_met": false,
+    "mae_a": "N/A",
+    "mae_b": "6.6900",
+    "delta_mae": "N/A"
+  },
+  "champion_recommendation": {
+    "champion_model": "Rung A: Empirical Conditional Quantiles (Hierarchical Backoff)",
+    "rationale": "Rung A retained as default baseline champion per pre-registration v1.yaml. Rung B did not meet all pre-registered acceptance thresholds.",
+    "rung_b_thresholds_passed": false,
+    "rung_b_minimum_effect_met": false
+  },
+  "leakage_audit_reference": {
+    "report_id": "AUDIT-EXP12-20261016-224852",
+    "audit_file": "experiments/results/leakage_inflation_audit.md",
+    "person_leak_count": 0,
+    "temporal_violations": 0,
+    "status": "VERIFIED_LEAKAGE_FREE"
+  }
+}

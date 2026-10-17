@@ -222,7 +222,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: audit section in the baseline report. Done when: gap reported and any leak fixed. Needs: T4.04, T4.05. Size: M.
 - [x] **T4.07** [AI] Experiment records and `make experiment`: seeds, configs, snapshot ids, timings and memory. (done 2026-10-17)
       Output: run records. Done when: a past run reproduces from its record. Needs: T4.01. Size: M.
-- [ ] **T4.08** [AI] Baseline report on dev splits with intervals and slices.
+- [x] **T4.08** [AI] Baseline report on dev splits with intervals and slices. (done 2026-10-17)
       Output: report in `experiments/results/`. Done when: R-MD-05 metrics are all present. Needs: T4.06, T4.07. Size: M.
 - [ ] **T4.09** [AI+HUMAN] Review against the thresholds; decide whether simple baselines suffice as the champion; run the adversarial checklist.
       Output: decision in `memory.md`. Done when: EXP-01 status recorded. Needs: T4.08. Size: S.
