@@ -247,7 +247,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `models/gbm/cv` and report in `experiments/results/`. Done when: grouped-temporal cross-validation metrics, timings, peak memory, and comparative metrics versus rungs A and B are produced with 95% bootstrap intervals. Needs: T5.01a. Size: M.
 - [x] **T5.02** [AI] Rung E: quantile models for P10, P50, P90; crossing diagnostics and repair. (done 2026-10-18)
       Output: quantile models. Done when: crossing is zero after repair and the raw rate is reported. Needs: T5.01. Size: M.
-- [ ] **T5.03** [AI] Rung F: conformal calibration (split and CQR) on a temporal calibration set; document assumptions; draft ADR-0005.
+- [x] **T5.03** [AI] Rung F: conformal calibration (split and CQR) on a temporal calibration set; document assumptions; draft ADR-0005. (done 2026-10-18)
       Output: `uncertainty/conformal`. Done when: marginal coverage is reported with its assumptions. Needs: T5.02. Size: M.
 - [ ] **T5.04** [AI] Coverage and calibration reports by slice, recent window and tails.
       Output: reports. Done when: slices below the minimum support are flagged, not hidden. Needs: T5.03. Size: M.
