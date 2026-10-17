@@ -2,8 +2,8 @@
 
 | Field | Value |
 |---|---|
-| Status | **Proposed** |
-| Decided at | G4 (T4.03, T4.09) |
+| Status | **Accepted** |
+| Decided at | G4 (2026-10-17; T4.03, T4.09, D-015) |
 | Relates to | `architecture.md` section 10.1, `rules.md` R-MD-01 |
 
 ---
@@ -39,13 +39,13 @@ Otherwise the simpler model stays champion.
 Before any final-test run (T4.03, T5.08):
 
 - Metrics: pinball loss at q=0.1, 0.5, 0.9; MAE; median absolute error; coverage; width; calibration error; crossing rate.
-- Minimum effect sizes: TBD at T4.03.
+- Minimum effect sizes: locked in `experiments/preregistration/v1.yaml` (Delta Pinball <= -0.050 LPA, Delta MdAPE <= -2.0 pp).
 - Split specification: temporal + grouped (person, employer, posting, source).
-- `make final-eval` lock: prevents re-running against the test set.
+- `make final-eval` lock: prevents re-running against the test set (`src/compintel/evaluation/lock.py`).
 
 ## Decision
 
-**Pending.** Finalized at G4 once pre-registration is committed (T4.03) and baselines are reviewed (T4.09).
+**Accepted.** Ratified at Gate G4 (2026-10-17, Decision D-015). Pre-registration `v1.yaml` is locked, baselines Rung A and Rung B have been evaluated on dev splits. Rung A is confirmed as the baseline champion; simple baselines fail pre-registered thresholds (EXP-01 rejected), unlocking Phase 5 (Rungs D, E, and F).
 
 ## Consequences
 
@@ -58,3 +58,5 @@ Before any final-test run (T4.03, T5.08):
 | Date | Change |
 |---|---|
 | 2026-10-13 | Stub created at T0.04 |
+| 2026-10-17 | Finalized to Accepted at Gate G4 (T4.09, Decision D-015) |
+
