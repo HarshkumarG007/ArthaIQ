@@ -8,7 +8,7 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class GBMModelType(StrEnum):
@@ -199,3 +199,99 @@ class GBMPointConfig(BaseModel):
         default=None,
         description="Optional hyperparameter tuning budget policy.",
     )
+
+
+class GBMQuantileConfig(BaseModel):
+    """Hyperparameter and operational configuration for Rung E quantile models.
+
+    Adheres to Rules R-MD-04, R-MD-06, R-MD-08, R-UQ-01, and R-UQ-05.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    model_type: GBMModelType = Field(
+        default=GBMModelType.LIGHTGBM,
+        description="Boosting algorithm family (lightgbm or catboost).",
+    )
+    quantiles: tuple[float, ...] = Field(
+        default=(0.10, 0.50, 0.90),
+        description="Target quantiles in (0, 1), strictly monotonically increasing.",
+    )
+    repair_crossing: bool = Field(
+        default=True,
+        description="Whether to apply monotonic rearrangement repair (Rule R-UQ-05).",
+    )
+    learning_rate: float = Field(
+        default=0.05,
+        gt=0.0,
+        le=1.0,
+        description="Boosting shrinkage rate.",
+    )
+    n_estimators: int = Field(
+        default=100,
+        ge=1,
+        le=2000,
+        description="Number of boosting trees.",
+    )
+    max_depth: int = Field(
+        default=4,
+        ge=1,
+        le=12,
+        description="Maximum tree depth for controlling model capacity.",
+    )
+    num_leaves: int = Field(
+        default=15,
+        ge=2,
+        le=256,
+        description="Maximum tree leaves (LightGBM specific).",
+    )
+    l2_regularization: float = Field(
+        default=1.0,
+        ge=0.0,
+        description="L2 regularization penalty on leaf weights.",
+    )
+    min_child_samples: int = Field(
+        default=5,
+        ge=1,
+        description="Minimum number of data points required in a leaf.",
+    )
+    subsample: float = Field(
+        default=0.8,
+        gt=0.0,
+        le=1.0,
+        description="Row subsampling ratio per tree.",
+    )
+    colsample_bytree: float = Field(
+        default=0.8,
+        gt=0.0,
+        le=1.0,
+        description="Feature column subsampling ratio per tree.",
+    )
+    random_seed: int = Field(
+        default=42,
+        description="Deterministic random seed for reproducibility (Rule R-MD-10).",
+    )
+    log_target: bool = Field(
+        default=True,
+        description="Fit on natural log of target compensation (Rule R-MD-06).",
+    )
+    max_experience_bound: float = Field(
+        default=40.0,
+        ge=10.0,
+        le=60.0,
+        description="Maximum plausible professional experience before abstaining (Rule R-MD-08).",
+    )
+
+    @field_validator("quantiles")
+    @classmethod
+    def validate_quantiles(cls, v: tuple[float, ...]) -> tuple[float, ...]:
+        """Validate that quantiles are strictly in (0, 1) and monotonically increasing."""
+        if len(v) < 2:
+            raise ValueError("At least 2 quantiles must be specified.")
+        for q in v:
+            if not (0.0 < q < 1.0):
+                raise ValueError(f"Quantile values must be strictly in (0, 1), got {q}.")
+        for i in range(len(v) - 1):
+            if v[i] >= v[i + 1]:
+                raise ValueError("Quantiles must be strictly monotonically increasing.")
+        return v
