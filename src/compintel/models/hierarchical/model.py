@@ -96,6 +96,10 @@ class HierarchicalPartialPoolingModel:
         Returns:
             Self: Fitted model instance.
         """
+        # Support column alias for years_of_experience
+        if "years_experience" not in df.columns and "years_of_experience" in df.columns:
+            df = df.rename({"years_of_experience": "years_experience"})
+
         required_cols = [
             "guaranteed_cash_annual",
             "years_experience",
@@ -303,6 +307,8 @@ class HierarchicalPartialPoolingModel:
         else:
             tau2_est = self.config.prior_variance_damping
 
+        # Scale between-group variance by prior_variance_scale (Rule R-UQ-06, EXP-05 sensitivity)
+        tau2_est = tau2_est * self.config.prior_variance_scale
         tau_est = math.sqrt(tau2_est + self.config.prior_variance_damping)
 
         # Compute shrinkage for each group node
@@ -522,8 +528,11 @@ class HierarchicalPartialPoolingModel:
         shrunk_emp_list: list[float] = []
 
         for row in df.iter_rows(named=True):
+            exp_val = row.get("years_experience")
+            if exp_val is None:
+                exp_val = row.get("years_of_experience", 0.0)
             pred = self.predict_single(
-                years_experience=float(row.get("years_experience", 0.0)),
+                years_experience=float(exp_val),
                 role_family=str(row.get("role_family", "")),
                 seniority=str(row.get("seniority", "")),
                 location=str(row.get("location", "")),
