@@ -118,6 +118,11 @@ baseline-report:
 benchmark-gbm:
 	uv run python scripts/run_gbm_benchmark.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Conformal Coverage & Calibration Report (Phase 5, T5.04, Rules R-MD-05, R-UQ-03) -
+# Usage: make conformal-report [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [COVERAGE=<float>] [ALLOW_SYNTHETIC=1]
+conformal-report:
+	uv run python scripts/generate_conformal_report.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(COVERAGE),--nominal-coverage $(COVERAGE),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.
