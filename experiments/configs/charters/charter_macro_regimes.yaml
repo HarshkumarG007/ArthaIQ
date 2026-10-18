@@ -1,0 +1,72 @@
+# =============================================================================
+#  ArthaIQ -- Advanced Modeling Experiment Charter: Macro Market Regimes
+#  File: experiments/configs/charters/charter_macro_regimes.yaml
+#  Task: T7.01, T7.05 (PRD Sec 5, FR-05, Rules R-MD-01, R-MD-03, R-MD-09, R-CD-01)
+# =============================================================================
+
+charter_id: "CHARTER-MACRO-REGIMES"
+experiment_id: "EXP-MACRO-01"
+title: "Macroeconomic & Market-Regime Features with Release-Time As-Of Joins"
+task_id: "T7.05"
+governing_rules:
+  - "R-MD-01"  # Orderly ladder climbing & bootstrap CI
+  - "R-MD-03"  # Release-time lag enforcement; zero lookahead
+  - "R-MD-05"  # Comprehensive evaluation metrics
+  - "R-MD-09"  # Charter required for complex feature architectures
+  - "R-CD-01"  # Pure typed Python, CPU-only inference, reproducible seeds
+priority_rank: 4
+expected_value: "HIGH"
+computational_cost: "LOW"
+operational_feasibility: "HIGHLY_FEASIBLE"
+
+candidate_summary:
+  hypothesis: >
+    Macroeconomic indices (MOSPI CPI Urban inflation, RBI reference rates, tech sector
+    hiring sentiment / IT services growth rates) joined strictly by publication date
+    (as-of release date, avoiding retroactive restatement leakage) explain secular
+    compensation shifts over multi-year horizons, narrowing prediction intervals on
+    contemporary query cohorts.
+  baseline_champion: "Rung F Conformal CatBoost with static location + quarterly recalibration"
+  proposed_variants:
+    - name: "variant_a_cpi_deflated_target"
+      description: "Nominal compensation deflated to constant 2024 INR via MOSPI Urban CPI as-of effective date"
+      compute_type: "Deterministic arithmetic scaling via CPITable"
+    - name: "variant_b_macro_regime_features"
+      description: "Macro indicators (rolling 12m CPI rate, tech sector trailing growth, FX volatility) appended as model inputs with release-date lag (>= 45 days)"
+      compute_type: "Release-date as-of lookup"
+
+evaluation_protocol:
+  dataset_snapshot_id: "SNAP-1FF34A8E9633"
+  split_protocol: "grouped_temporal_select"
+  evaluation_partition: "select"
+  seed: 42
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+
+keep_criteria:
+  primary_metric_threshold:
+    metric: "delta_mean_pinball_loss"
+    direction: "decrease"
+    min_effect_size_lpa: -0.050
+    confidence_interval: "95% bootstrap CI upper bound must be < 0.0"
+  secondary_metric_thresholds:
+    mdape_reduction_pp: 2.0
+    coverage_tolerance: [0.72, 0.88]
+    crossing_rate_max: 0.005
+    width_ratio_vs_champion_max: 1.00
+  temporal_integrity_gates:
+    as_of_lag_verification: "Release timestamp must precede observation timestamp by >= publication lag"
+    retroactive_revision_guard: "Only first-release official figures permitted; revisions quarantined"
+    p95_inference_latency_ms: 5.0
+
+reject_criteria:
+  - "delta_mean_pinball_loss > -0.050 LPA"
+  - "95% bootstrap CI includes 0.0"
+  - "Macro features introduce temporal lookahead or fail point-in-time publication verification"
+  - "Macro indicators cause instability or counter-intuitive sign inversions on short temporal horizons"
+
+defer_criteria:
+  - "Observation time span is < 24 months, rendering macro time-series variance collinear with time trend"
+  - "Deferred until multi-year longitudinal observation panel is assembled"
+
+decision_authority: "Phase 7 Gate G7 Human Reviewer & AI Assistant"

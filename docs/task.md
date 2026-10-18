@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Draft v0.7 (Phase 5 complete; Gates G0, G1, G2, G3, G4, G5 ratified GO; Phase 6 active) |
-| Last updated                   | 2026-10-18                                           |
+| Status                         | Draft v0.8 (Phase 6 complete; Gates G0-G6 ratified GO; Phase 7 active) |
+| Last updated                   | 2026-10-19                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.09 (Fairness audit v1: errors, coverage, abstention and data availability by group where lawful (legal review of group data first))**
+**NEXT TASK: T7.02 (Skills: curated taxonomy and TF-IDF versus sentence-transformer embeddings on CPU (EXP-09))**
 
 ## How to use this file
 
@@ -318,7 +318,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO per candidate if:** gain beats the minimum effect with an interval excluding zero and the cost is justified.
 > **Needs:** G6. Phase 9 does not wait for this phase.
 
-- [ ] **T7.01** [AI] Experiment charters for each candidate (embeddings, text features, employer graphs, career trajectory, macro regimes, survival models, probabilistic networks), ranked by expected value and cost.
+- [x] **T7.01** [AI] Experiment charters for each candidate (embeddings, text features, employer graphs, career trajectory, macro regimes, survival models, probabilistic networks), ranked by expected value and cost. (done 2026-10-19)
       Output: `experiments/configs/`. Done when: each charter has keep and reject criteria (R-MD-09). Needs: G6. Size: M.
 - [ ] **T7.02** [AI] Skills: curated taxonomy and TF-IDF versus sentence-transformer embeddings on CPU (EXP-09).
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.

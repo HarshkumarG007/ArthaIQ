@@ -1,0 +1,72 @@
+# =============================================================================
+#  ArthaIQ -- Advanced Modeling Experiment Charter: Career Trajectory
+#  File: experiments/configs/charters/charter_career_trajectory.yaml
+#  Task: T7.01, T7.03 (PRD Sec 5, FR-05, Rules R-MD-01, R-MD-05, R-MD-09, R-CD-01)
+# =============================================================================
+
+charter_id: "CHARTER-CAREER-TRAJ"
+experiment_id: "EXP-TRAJ-01"
+title: "Career Trajectory Features vs Static Tenure and Total Experience"
+task_id: "T7.03"
+governing_rules:
+  - "R-MD-01"  # Orderly ladder climbing & bootstrap CI
+  - "R-MD-03"  # Grouped-temporal isolation & no lookahead leakage
+  - "R-MD-05"  # Comprehensive evaluation metrics
+  - "R-MD-09"  # Experiment charter before implementation
+  - "R-MD-15"  # Missingness indicator policy
+priority_rank: 2
+expected_value: "MEDIUM"
+computational_cost: "LOW_MEDIUM"
+operational_feasibility: "FEASIBLE"
+
+candidate_summary:
+  hypothesis: >
+    Dynamic career progression features (e.g. career velocity = seniority_rank / YoE,
+    tenure stability = median employer duration, transition count, promotion acceleration)
+    provide independent orthogonal signal beyond static total experience (YoE) and tenure,
+    improving pinball loss and interval sharpness without causing leakage or overfitting.
+  baseline_champion: "Rung F Conformal CatBoost on L2 features (YoE + quadratic Mincerian curve)"
+  proposed_variants:
+    - name: "variant_a_career_velocity"
+      description: "Seniority rank per year of experience (seniority_ordinal / max(YoE, 1.0))"
+      compute_type: "Deterministic scalar transformation"
+    - name: "variant_b_trajectory_vector"
+      description: "Composite vector: career_velocity + tenure_stability + title_progression_rate"
+      compute_type: "Deterministic point-in-time profile feature extraction"
+
+evaluation_protocol:
+  dataset_snapshot_id: "SNAP-1FF34A8E9633"
+  split_protocol: "grouped_temporal_select"
+  evaluation_partition: "select"
+  seed: 42
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+
+keep_criteria:
+  primary_metric_threshold:
+    metric: "delta_mean_pinball_loss"
+    direction: "decrease"
+    min_effect_size_lpa: -0.050
+    confidence_interval: "95% bootstrap CI upper bound must be < 0.0"
+  secondary_metric_thresholds:
+    mdape_reduction_pp: 2.0
+    coverage_tolerance: [0.72, 0.88]
+    crossing_rate_max: 0.005
+    width_ratio_vs_champion_max: 1.00
+  latency_and_budget_gates:
+    p95_inference_latency_ms: 10.0
+    max_memory_footprint_mb: 50.0
+    max_bundle_size_mb: 5.0
+    device_constraint: "CPU only"
+
+reject_criteria:
+  - "delta_mean_pinball_loss > -0.050 LPA (effect size insufficient per R-MD-01)"
+  - "95% bootstrap CI includes 0.0"
+  - "Requires non-voluntary full employment history that cannot be verified in B2C voluntary flow"
+  - "Increases feature collection burden without statistically detectable benefit (EXP-06 precedent)"
+
+defer_criteria:
+  - "Trajectory features cannot be reliably computed from single-snapshot profile cross-sections; requires multi-period longitudinal panel"
+  - "Deferred until B2C voluntary intake captures verified historical transition timelines"
+
+decision_authority: "Phase 7 Gate G7 Human Reviewer & AI Assistant"
