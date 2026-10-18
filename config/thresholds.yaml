@@ -1,0 +1,198 @@
+# =============================================================================
+#  ArthaIQ -- Support Checks, Abstention Policy, and Evidence Grade Thresholds
+#  File: config/thresholds.yaml
+# =============================================================================
+#
+#  IMMUTABILITY & GOVERNANCE CONTRACT (Rules R-MD-08, R-UQ-02, R-UQ-07, ADR-0005)
+#  This file defines the statistical thresholds and decision rules governing:
+#    1. S1–S5 Support Checks (Cohort Size, Feature Support, Recency, Quality, Usefulness)
+#    2. Decoupled Evidence Quality Framework (Source Quality vs Prediction Support, D-010)
+#    3. Evidence Grades (Grade A, Grade B, Grade C, Abstained)
+#    4. Thin-evidence abstention triggers (Rule R-MD-08, R-EV-07)
+#    5. Standard HTTP 200 Abstention reason taxonomy and user guidance
+#
+#  Thresholds are versioned and calibrated during Phase 5 (T5.07) and locked at Gate G5.
+# =============================================================================
+
+version: "1.0.0"
+effective_date: "2026-10-18"
+status: "ACTIVE"
+
+# -----------------------------------------------------------------------------
+# 1. Support Checks (S1–S5) Specifications
+# -----------------------------------------------------------------------------
+support_checks:
+  # S1: Effective Cohort Size (Deduplicated, Quality-Weighted Person Count)
+  # Rule R-MD-08: Thin evidence threshold N < 10 triggers mandatory abstention.
+  s1_cohort_size:
+    description: "Effective sample size in matching role, seniority, and location cohort"
+    abstention_floor: 10
+    grade_c_min: 10
+    grade_b_min: 15
+    grade_a_min: 30
+
+  # S2: Feature-Space Support (Domain Bounds and Category Exposure)
+  s2_feature_support:
+    description: "Domain validity for experience and categorical profile familiarity"
+    experience_years_min: 0.0
+    experience_years_max: 40.0
+    experience_veteran_caution_years: 25.0
+    min_category_training_count: 3
+
+  # S3: Recency (Observation Age from Query Date)
+  s3_recency:
+    description: "Median observation age in days across cohort evidence"
+    abstention_floor_days: 365.0
+    grade_c_max_days: 365.0
+    grade_b_max_days: 270.0
+    grade_a_max_days: 180.0
+
+  # S4: Source Quality (SQSF Composite Score & Provenance Tier)
+  # Rule R-UQ-07: Decoupled evidence principle.
+  s4_source_quality:
+    description: "Source Quality Scoring Framework (SQSF) composite score and tier"
+    abstention_floor_score: 65.0
+    grade_c_min_score: 65.0
+    grade_b_min_score: 72.0
+    grade_a_min_score: 80.0
+    allowed_provenance_tiers:
+      - "TIER_A"
+      - "TIER_B"
+    disqualified_provenance_tiers:
+      - "TIER_C"
+      - "TIER_D"
+
+  # S5: Interval Usefulness (Conformal Width Ratio vs Naive Cohort)
+  # Rule R-UQ-04: Conformal interval must not be excessively wide.
+  s5_interval_usefulness:
+    description: "Ratio of conformal prediction interval width to naive cohort width"
+    abstention_floor_ratio: 1.05
+    grade_c_max_ratio: 1.05
+    grade_b_max_ratio: 1.00
+    grade_a_max_ratio: 0.95
+    max_absolute_width_lpa: 100.0
+
+# -----------------------------------------------------------------------------
+# 2. Decoupled Evidence Framework (Rule R-UQ-07, Decision D-010)
+# -----------------------------------------------------------------------------
+decoupled_evidence:
+  # Source Quality evaluates data origin, verification, and legal integrity
+  source_quality_tiers:
+    TIER_A:
+      description: "Direct verified itemized compensation (voluntary payslip or audited payroll)"
+      sqsf_min_score: 80.0
+      requires_hard_gates: true
+    TIER_B:
+      description: "Corporate statutory filings and vetted macro anchors"
+      sqsf_min_score: 65.0
+      requires_hard_gates: true
+    TIER_C:
+      description: "Public surveys with self-selection bias (relational signals only)"
+      sqsf_min_score: 45.0
+      requires_hard_gates: false
+    TIER_D:
+      description: "Unverified web scrapes and unstructured job postings"
+      sqsf_min_score: 20.0
+      requires_hard_gates: false
+
+  # Prediction Support evaluates statistical density and empirical precision for the specific query
+  prediction_support_statuses:
+    SUPPORTED:
+      description: "Sufficient empirical support across all S1-S5 dimensions; full range shown"
+    GUARDED:
+      description: "Borderline support; range shown with prominent evidence-grade caution banner"
+    ABSTAINED:
+      description: "Insufficient support; model abstains and outputs HTTP 200 with no pay range"
+
+# -----------------------------------------------------------------------------
+# 3. Evidence Grade Cutoffs & Invariants (ADR-0005)
+# -----------------------------------------------------------------------------
+evidence_grades:
+  GRADE_A:
+    label: "Grade A"
+    tier_name: "High Confidence"
+    description: "Robust empirical evidence meeting all support criteria with substantial margin."
+    badge_variant: "success"
+    support_status: "SUPPORTED"
+    s1_min: 30
+    s2_valid: true
+    s3_max_days: 180.0
+    s4_min_score: 80.0
+    s5_max_ratio: 0.95
+
+  GRADE_B:
+    label: "Grade B"
+    tier_name: "Moderate Confidence"
+    description: "Sound evidence meeting primary thresholds; one secondary dimension borderline."
+    badge_variant: "info"
+    support_status: "SUPPORTED"
+    s1_min: 15
+    s2_valid: true
+    s3_max_days: 270.0
+    s4_min_score: 72.0
+    s5_max_ratio: 1.00
+
+  GRADE_C:
+    label: "Grade C"
+    tier_name: "Guarded / Low Confidence"
+    description: "Narrow evidence passing minimum floor; caution required due to thin support."
+    badge_variant: "warning"
+    support_status: "GUARDED"
+    s1_min: 10
+    s2_valid: true
+    s3_max_days: 365.0
+    s4_min_score: 65.0
+    s5_max_ratio: 1.05
+
+  ABSTAINED:
+    label: "Abstained"
+    tier_name: "Insufficient Evidence"
+    description: "Evidence is below statutory reliability threshold. ArthaIQ abstains rather than guessing."
+    badge_variant: "neutral"
+    support_status: "ABSTAINED"
+
+# -----------------------------------------------------------------------------
+# 4. Abstention Reasons & User Guidance Taxonomy
+# -----------------------------------------------------------------------------
+abstention_reasons:
+  THIN_COHORT_EVIDENCE:
+    code: "THIN_COHORT_EVIDENCE"
+    check: "S1"
+    title: "Thin Cohort Evidence"
+    explanation: "Fewer than 10 verified records exist for this specific role, seniority, and location intersection."
+    guidance: "Broaden your location filter or explore adjacent seniority levels where larger sample support is available."
+
+  OUT_OF_RANGE_EXPERIENCE:
+    code: "OUT_OF_RANGE_EXPERIENCE"
+    check: "S2"
+    title: "Experience Out of Domain"
+    explanation: "Professional experience is outside the validated modeling domain (0 to 40 years)."
+    guidance: "Enter professional years of experience between 0 and 40."
+
+  UNSEEN_CATEGORICAL_PROFILE:
+    code: "UNSEEN_CATEGORICAL_PROFILE"
+    check: "S2"
+    title: "Unseen Role or Location Profile"
+    explanation: "The requested role, seniority, or location category has zero representation in the training distribution."
+    guidance: "Select a standardized role taxon (Software Engineering, Data Science, MLAI) and metro location."
+
+  STALE_EVIDENCE:
+    code: "STALE_EVIDENCE"
+    check: "S3"
+    title: "Stale Compensation Data"
+    explanation: "The available observations for this cohort exceed the maximum freshness threshold (365 days)."
+    guidance: "Recent market records are being acquired; subscribe for quarterly recalibration updates."
+
+  LOW_PROVENANCE_SOURCE:
+    code: "LOW_PROVENANCE_SOURCE"
+    check: "S4"
+    title: "Insufficient Source Quality"
+    explanation: "The matching data relies exclusively on unverified or low-provenance sources (SQSF < 65.0)."
+    guidance: "ArthaIQ only produces guaranteed cash distributions using Tier-A and Tier-B verified sources."
+
+  EXCESSIVE_INTERVAL_WIDTH:
+    code: "EXCESSIVE_INTERVAL_WIDTH"
+    check: "S5"
+    title: "Excessive Interval Uncertainty"
+    explanation: "The conformalized prediction interval is wider than a naive uncalibrated cohort, indicating high variance."
+    guidance: "Provide additional profile dimensions or compare against broader benchmark bands."
