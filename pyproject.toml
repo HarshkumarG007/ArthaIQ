@@ -158,7 +158,7 @@ module = ["compintel.explain.*", "compintel.scenarios.*", "compintel.equity.*"]
 ignore_errors = false
 
 [[tool.mypy.overrides]]
-module = ["sklearn.*", "catboost", "pandas", "pandas.*"]
+module = ["sklearn.*", "catboost", "pandas", "pandas.*", "joblib"]
 ignore_missing_imports = true
 
 # ---- pytest ----------------------------------------------------------------

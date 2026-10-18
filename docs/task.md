@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.01 (Feature specification for L0 to L3: definition, availability, source, leakage risk, privacy, expected utility, ablation plan)**
+**NEXT TASK: T6.02 (Rung C: hierarchical partial pooling with prior and posterior predictive checks)**
 
 ## How to use this file
 
@@ -278,7 +278,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **GO if:** personalization adds a measurable, pre-registered improvement for at least one Level 1 family; otherwise ship Level 0 only.
 > **NO-GO (no value found):** the research prototype completes with Level 0. This is a valid outcome.
 
-- [ ] **T6.01** [AI] Feature specification for L0 to L3: definition, availability, source, leakage risk, privacy, expected utility, ablation plan.
+- [x] **T6.01** [AI] Feature specification for L0 to L3: definition, availability, source, leakage risk, privacy, expected utility, ablation plan. (done 2026-10-18)
       Output: `docs/research/feature-spec.md`. Done when: every proposed feature has all fields. Needs: G5. Size: M.
 - [ ] **T6.02** [AI] Rung C: hierarchical partial pooling with prior and posterior predictive checks (R-UQ-06).
       Output: `models/hierarchical`. Done when: checks are documented. Needs: T6.01. Size: L.
