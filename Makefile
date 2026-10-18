@@ -179,6 +179,11 @@ sparse-cell-benchmark:
 staging-analysis:
 	uv run python scripts/run_staging_analysis.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Fairness Audit v1: Errors, Coverage, Abstention & Availability (Phase 6, T6.09, EXP-09) -
+# Usage: make fairness-audit [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+fairness-audit:
+	uv run python scripts/run_fairness_audit.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
 
 
 

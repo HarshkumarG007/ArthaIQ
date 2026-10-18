@@ -1,0 +1,207 @@
+{
+  "report_id": "FAIRNESS-V1-20261018213640",
+  "generated_at": "2026-10-18T21:36:39.994964+00:00",
+  "git_commit": "de1f1777d1ef2a880d18b713dc774a844dfda28c",
+  "evaluation_split": "select",
+  "n_total_observations": 1,
+  "global_pinball_loss": 1.783474157355948,
+  "global_mae": 3.4746875628137985,
+  "global_empirical_coverage": 1.0,
+  "global_abstention_rate": 0.0,
+  "group_metrics": [
+    {
+      "dimension": "GEOGRAPHIC",
+      "slice_value": "Metro_West",
+      "n_observations": 1,
+      "is_low_support": true,
+      "mean_pinball_loss": 1.783474157355948,
+      "point_mae": 3.4746875628137985,
+      "mdape": 0.13161695313688632,
+      "empirical_coverage": 1.0,
+      "mean_interval_width": 36.13078690660945,
+      "abstention_rate": 0.0,
+      "pinball_loss_ci_lower": 1.783474157355948,
+      "pinball_loss_ci_upper": 1.783474157355948,
+      "mae_ratio_to_global": 1.0,
+      "coverage_gap_to_global": 0.0
+    },
+    {
+      "dimension": "EXPERIENCE_BAND",
+      "slice_value": "Senior",
+      "n_observations": 1,
+      "is_low_support": true,
+      "mean_pinball_loss": 1.783474157355948,
+      "point_mae": 3.4746875628137985,
+      "mdape": 0.13161695313688632,
+      "empirical_coverage": 1.0,
+      "mean_interval_width": 36.13078690660945,
+      "abstention_rate": 0.0,
+      "pinball_loss_ci_lower": 1.783474157355948,
+      "pinball_loss_ci_upper": 1.783474157355948,
+      "mae_ratio_to_global": 1.0,
+      "coverage_gap_to_global": 0.0
+    },
+    {
+      "dimension": "ROLE_FAMILY",
+      "slice_value": "DATA",
+      "n_observations": 1,
+      "is_low_support": true,
+      "mean_pinball_loss": 1.783474157355948,
+      "point_mae": 3.4746875628137985,
+      "mdape": 0.13161695313688632,
+      "empirical_coverage": 1.0,
+      "mean_interval_width": 36.13078690660945,
+      "abstention_rate": 0.0,
+      "pinball_loss_ci_lower": 1.783474157355948,
+      "pinball_loss_ci_upper": 1.783474157355948,
+      "mae_ratio_to_global": 1.0,
+      "coverage_gap_to_global": 0.0
+    }
+  ],
+  "slice_audits": [
+    {
+      "dimension": "GEOGRAPHIC",
+      "n_slices_evaluated": 1,
+      "n_slices_low_support": 1,
+      "max_mae_ratio": NaN,
+      "max_coverage_gap": NaN,
+      "max_abstention_gap": NaN,
+      "parity_status": "INSUFFICIENT_DATA",
+      "failing_slices": [],
+      "gaps_and_mitigations": [
+        "All slices in GEOGRAPHIC have insufficient data (N < 5)."
+      ]
+    },
+    {
+      "dimension": "EXPERIENCE_BAND",
+      "n_slices_evaluated": 1,
+      "n_slices_low_support": 1,
+      "max_mae_ratio": NaN,
+      "max_coverage_gap": NaN,
+      "max_abstention_gap": NaN,
+      "parity_status": "INSUFFICIENT_DATA",
+      "failing_slices": [],
+      "gaps_and_mitigations": [
+        "All slices in EXPERIENCE_BAND have insufficient data (N < 5)."
+      ]
+    },
+    {
+      "dimension": "ROLE_FAMILY",
+      "n_slices_evaluated": 1,
+      "n_slices_low_support": 1,
+      "max_mae_ratio": NaN,
+      "max_coverage_gap": NaN,
+      "max_abstention_gap": NaN,
+      "parity_status": "INSUFFICIENT_DATA",
+      "failing_slices": [],
+      "gaps_and_mitigations": [
+        "All slices in ROLE_FAMILY have insufficient data (N < 5)."
+      ]
+    },
+    {
+      "dimension": "EMPLOYER_TIER",
+      "n_slices_evaluated": 0,
+      "n_slices_low_support": 0,
+      "max_mae_ratio": NaN,
+      "max_coverage_gap": NaN,
+      "max_abstention_gap": NaN,
+      "parity_status": "INSUFFICIENT_DATA",
+      "failing_slices": [],
+      "gaps_and_mitigations": [
+        "No observations found for this slice dimension."
+      ]
+    }
+  ],
+  "data_availability": [
+    {
+      "dimension": "GEOGRAPHIC",
+      "slice_value": "Metro_West",
+      "n_observations": 1,
+      "availability_status": "ABSENT",
+      "availability_note": "Insufficient data (N=1); abstention expected for this tier."
+    },
+    {
+      "dimension": "EXPERIENCE_BAND",
+      "slice_value": "Senior",
+      "n_observations": 1,
+      "availability_status": "ABSENT",
+      "availability_note": "Marginal data (N=1) for experience band 'Senior'."
+    },
+    {
+      "dimension": "ROLE_FAMILY",
+      "slice_value": "DATA",
+      "n_observations": 1,
+      "availability_status": "ABSENT",
+      "availability_note": "Marginal data (N=1)."
+    }
+  ],
+  "proxy_compliance": {
+    "columns_scanned": [
+      "observation_id",
+      "source_id",
+      "source_version",
+      "schema_version",
+      "license_id",
+      "as_of_date",
+      "ingested_at",
+      "is_synthetic",
+      "role_family",
+      "canonical_title",
+      "raw_title",
+      "seniority",
+      "location",
+      "raw_location",
+      "years_experience",
+      "education_level",
+      "skills",
+      "guaranteed_cash_annual",
+      "basic_annual",
+      "hra_annual",
+      "special_allowance_annual",
+      "fixed_allowances_annual",
+      "variable_cash_annual",
+      "signon_bonus_cash",
+      "equity_annual_val",
+      "total_comp_annual",
+      "ctc_annual",
+      "take_home_annual",
+      "advertised_min_annual",
+      "advertised_max_annual",
+      "raw_pay_amount",
+      "raw_currency",
+      "raw_pay_period",
+      "raw_tax_basis",
+      "is_unbundled_aggregate",
+      "quarantine_status",
+      "quarantine_reason",
+      "source_quality_score",
+      "provenance_tier",
+      "sqsf_tier",
+      "hard_gates_passed",
+      "is_pt1_eligible",
+      "record_signature",
+      "is_exact_duplicate",
+      "exact_duplicate_of",
+      "exact_duplicate_cluster_id",
+      "person_cluster_id",
+      "person_cluster_size",
+      "employer_cluster_id",
+      "canonical_employer",
+      "posting_cluster_id",
+      "dedup_version"
+    ],
+    "prohibited_columns_found": [],
+    "is_compliant": true,
+    "legal_note": "LEGAL NOTE (R-FA-04, status=UNVERIFIED): All column names were scanned against the prohibited demographic proxy list per rules.md Section 16 Rule 11 and Rule R-MD-12. Protected attributes (gender, caste, religion, age, disability, nationality, etc.) are strictly excluded from model inputs and evaluation dimensions. This scan is automated; final legal review by qualified counsel is required before beta.",
+    "audit_timestamp": "2026-10-18T21:36:38.981611+00:00"
+  },
+  "overall_verdict": "INSUFFICIENT_DATA",
+  "gaps_and_mitigations": [
+    "All slices in GEOGRAPHIC have insufficient data (N < 5).",
+    "All slices in EXPERIENCE_BAND have insufficient data (N < 5).",
+    "All slices in ROLE_FAMILY have insufficient data (N < 5).",
+    "No observations found for this slice dimension."
+  ],
+  "legal_disclaimer": "LEGAL DISCLAIMER (R-FA-04, status=UNVERIFIED): This fairness audit evaluates statistical prediction parity and data availability across operational groups. It does NOT constitute a legal compliance determination under DPDPA 2023, the Equal Remuneration Act 1976, or any other applicable Indian employment law. All parity gaps are statistical observations, not causal discrimination claims (Rule R-MD-08). Legal review by qualified counsel is required before beta launch.",
+  "executive_summary": "The fairness audit v1 evaluated 1 observations across 4 operational slice dimensions: Geographic Tier, Experience Band, Role Family, and Employer Tier. Global baseline: Pinball = 1.783 LPA, MAE = 3.47 LPA, 80% Coverage = 100.0%, Abstention = 0.0%. All protected demographic attributes (gender, caste, religion, age, disability) confirmed absent from model inputs and audit dimensions. Overall parity verdict: **INSUFFICIENT_DATA**. 0 dimension(s) failed parity; 3 dimension(s) contain low-support slices (N < 10). See Section 7 for identified gaps and mitigations."
+}
