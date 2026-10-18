@@ -146,6 +146,14 @@ from compintel.evaluation.metrics import (
     quantile_crossing,
     root_mean_squared_error,
 )
+from compintel.evaluation.missingness_study import (
+    MissingnessFeatureAudit,
+    MissingnessModelMetrics,
+    MissingnessPolicyVerdict,
+    MissingnessStudyReport,
+    evaluate_and_save_missingness_study,
+    run_missingness_indicator_study,
+)
 from compintel.evaluation.shift_stress import (
     GeographicShiftSlice,
     GeographicShiftSummary,
@@ -233,6 +241,10 @@ __all__ = [
     "MaskedMissingnessSummary",
     "MetricInflationComparison",
     "MetricWithCI",
+    "MissingnessFeatureAudit",
+    "MissingnessModelMetrics",
+    "MissingnessPolicyVerdict",
+    "MissingnessStudyReport",
     "ModelConformalEvaluation",
     "ModelEvalSummary",
     "ModelInflationResult",
@@ -279,6 +291,7 @@ __all__ = [
     "evaluate_and_save_family_ablation",
     "evaluate_and_save_hierarchical_diagnostics",
     "evaluate_and_save_interval_usefulness",
+    "evaluate_and_save_missingness_study",
     "evaluate_and_save_shift_stress",
     "evaluate_and_save_stagewise_evaluation",
     "evaluate_calibration_metrics",
@@ -310,6 +323,7 @@ __all__ = [
     "run_hierarchical_diagnostics",
     "run_leakage_inflation_audit",
     "run_masked_missingness_audit",
+    "run_missingness_indicator_study",
     "run_posterior_predictive_checks",
     "run_prior_predictive_checks",
     "run_prior_sensitivity_analysis",

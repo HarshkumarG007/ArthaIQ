@@ -164,6 +164,12 @@ family-ablation:
 anchoring-analysis:
 	uv run python scripts/run_anchoring_analysis.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Missingness Study & Indicator Justification (Phase 6, T6.06, Rule R-MD-15) ------------
+# Usage: make missingness-study [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+missingness-study:
+	uv run python scripts/run_missingness_study.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+
 
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------

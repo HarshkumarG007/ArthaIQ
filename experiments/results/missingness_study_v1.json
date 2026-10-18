@@ -1,0 +1,93 @@
+{
+  "report_id": "MISSINGNESS-RMD15-20261018195102",
+  "generated_at": "2026-10-18T19:51:02.662082+00:00",
+  "git_commit": "d5c177302a559ef248dc2903c7b3161c7a007a73",
+  "evaluation_split": "select",
+  "n_eval_observations": 45,
+  "native_model_metrics": {
+    "architecture_name": "Native Missingness (No Indicators)",
+    "n_features": 12,
+    "mae": 7.250844347143429,
+    "mdape": 0.1905518970254963,
+    "mean_pinball_loss": 2.0750468021492994,
+    "empirical_coverage": 0.7777777777777778,
+    "mean_interval_width": 19.746982158248425,
+    "crossing_rate": 0.0
+  },
+  "indicator_model_metrics": {
+    "architecture_name": "Augmented (+ Binary Indicators)",
+    "n_features": 20,
+    "mae": 7.250844347143429,
+    "mdape": 0.1905518970254963,
+    "mean_pinball_loss": 2.0750468021492994,
+    "empirical_coverage": 0.7777777777777778,
+    "mean_interval_width": 19.746982158248425,
+    "crossing_rate": 0.0
+  },
+  "delta_pinball": 0.0,
+  "delta_pinball_ci_lower": 0.0,
+  "delta_pinball_ci_upper": 0.0,
+  "delta_mae": 0.0,
+  "delta_width": 0.0,
+  "feature_audits": [
+    {
+      "feature_id": "feat_l1_skills_primary",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_skills_depth",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_domain_specialization",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_employer_tier",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_work_arrangement",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_career_velocity",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_leadership_scope",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    },
+    {
+      "feature_id": "feat_l1_macro_market_regime",
+      "missing_rate": 1.0,
+      "feature_importance_with_indicator": 0.02,
+      "indicator_importance": 0.0,
+      "is_indicator_justified": false
+    }
+  ],
+  "verdict": "PROHIBIT_INDICATORS",
+  "formal_policy_statement": "ZERO-INDICATOR INVARIANT: Explicit missingness indicators (is_missing_*) are STRICTLY PROHIBITED across all production models. Tree-based regressors rely exclusively on native missing value branching, and queries missing optional tiers are routed to dedicated lower-level nested models (M0, M1, M2). Missing data is never interpreted as a candidate personal trait.",
+  "executive_summary": "Augmenting models with explicit missingness indicators yields no statistically significant improvement in mean pinball loss (Delta Pinball = +0.000 LPA, 95% CI: [+0.000, +0.000]) and fails pre-registered justification thresholds across all audited optional features. In strict compliance with Rule R-MD-15, ArthaIQ adopts a Zero-Indicator Policy: missing data is never read as a personal trait, and incomplete profiles are serviced through nested model routing."
+}
