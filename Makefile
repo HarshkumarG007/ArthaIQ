@@ -159,6 +159,12 @@ stagewise-evaluation:
 family-ablation:
 	uv run python scripts/run_family_ablation.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Current Pay Anchoring & Selection Analysis (Phase 6, T6.05, Rules R-MD-05, R-MD-13, EXP-07) -
+# Usage: make anchoring-analysis [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+anchoring-analysis:
+	uv run python scripts/run_anchoring_analysis.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
