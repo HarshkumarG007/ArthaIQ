@@ -174,6 +174,12 @@ missingness-study:
 sparse-cell-benchmark:
 	uv run python scripts/run_sparse_cell_benchmark.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Staged vs Joint Modelling Analysis (Phase 6, T6.08, EXP-08) --------------------------
+# Usage: make staging-analysis [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+staging-analysis:
+	uv run python scripts/run_staging_analysis.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+
 
 
 

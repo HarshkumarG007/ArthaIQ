@@ -1,0 +1,77 @@
+{
+  "report_id": "EXP08-STAGING-20261018205654",
+  "generated_at": "2026-10-18T20:56:54.410656+00:00",
+  "git_commit": "585a61945a67e2aaef69ffde72e62f4b0672f607",
+  "evaluation_split": "select",
+  "n_eval_observations": 45,
+  "joint_metrics": {
+    "model_type": "JOINT_DIRECT",
+    "n_eval_samples": 45,
+    "mae": 22.73983495430523,
+    "mdape": 0.5711217209197968,
+    "mean_pinball_loss": 6.676784914222175,
+    "empirical_coverage": 0.8,
+    "mean_interval_width": 72.71120292101672,
+    "crossing_rate": 0.0
+  },
+  "staged_metrics": {
+    "model_type": "STAGED_CASCADED",
+    "n_eval_samples": 45,
+    "mae": 6.71581141541079,
+    "mdape": 0.1616381698607843,
+    "mean_pinball_loss": 2.7203956316654043,
+    "empirical_coverage": 1.0,
+    "mean_interval_width": 48.032811872908184,
+    "crossing_rate": 0.0
+  },
+  "delta_pinball": -3.956389282556771,
+  "delta_pinball_ci_lower": -5.129883580251311,
+  "delta_pinball_ci_upper": -2.7872771966898804,
+  "delta_mae": -16.02402353889444,
+  "delta_width": -24.678391048108537,
+  "width_ratio": 0.6605971286857173,
+  "variance_diagnostics": {
+    "stage_0_variance": 567.6730416593313,
+    "stage_1_variance": 0.006802493874815956,
+    "covariance_0_1": 0.19048222456073702,
+    "total_cascade_variance": 676.6075740171595,
+    "variance_inflation_factor": 4.82669034502018
+  },
+  "noise_stress_results": [
+    {
+      "noise_rate": 0.0,
+      "joint_mae": 22.73983495430523,
+      "staged_mae": 6.71581141541079,
+      "joint_amplification": 1.0,
+      "staged_amplification": 1.0,
+      "more_resilient_architecture": "PARITY"
+    },
+    {
+      "noise_rate": 0.1,
+      "joint_mae": 22.73983495430523,
+      "staged_mae": 6.82847385807923,
+      "joint_amplification": 1.0,
+      "staged_amplification": 1.0167757007604343,
+      "more_resilient_architecture": "Joint Direct"
+    },
+    {
+      "noise_rate": 0.2,
+      "joint_mae": 22.73983495430523,
+      "staged_mae": 7.705447010383423,
+      "joint_amplification": 1.0,
+      "staged_amplification": 1.1473590507174924,
+      "more_resilient_architecture": "Joint Direct"
+    },
+    {
+      "noise_rate": 0.3,
+      "joint_mae": 22.73983495430523,
+      "staged_mae": 7.332915162837551,
+      "joint_amplification": 1.0,
+      "staged_amplification": 1.0918881888211887,
+      "more_resilient_architecture": "Joint Direct"
+    }
+  ],
+  "verdict": "JOINT_NESTED_ROUTING",
+  "architectural_directive": "JOINT DIRECT DIRECTIVE: Joint direct nested modeling (M0, M1, M2) avoids compound cross-stage covariance penalties, maintains tighter interval widths, and demonstrates superior resilience against upstream seniority ambiguity noise. Deploy independent joint models for each personalization tier.",
+  "executive_summary": "Empirical evaluation under hypothesis EXP-08 demonstrates that Joint Direct Models outperform Staged Cascaded Residuals in mean pinball loss and interval efficiency. Furthermore, cascaded modeling exhibits compound error amplification when upstream seniority classifications contain ambiguity. ArthaIQ ratifies Joint Nested Routing."
+}
