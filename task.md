@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.02b (Prior and posterior predictive checks, prior sensitivity analysis, and diagnostic report)**
+**NEXT TASK: T6.03 (Stage-wise evaluation L0 to L3: change in pinball loss, coverage and width with intervals; compare nested models with the masked-missingness model)**
 
 ## How to use this file
 
@@ -280,10 +280,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 - [x] **T6.01** [AI] Feature specification for L0 to L3: definition, availability, source, leakage risk, privacy, expected utility, ablation plan. (done 2026-10-18)
       Output: `docs/research/feature-spec.md`. Done when: every proposed feature has all fields. Needs: G5. Size: M.
-- [ ] **T6.02** [AI] Rung C: hierarchical partial pooling with prior and posterior predictive checks (R-UQ-06) (split per Rule R-WF-03):
+- [x] **T6.02** [AI] Rung C: hierarchical partial pooling with prior and posterior predictive checks (R-UQ-06) (split per Rule R-WF-03): (done 2026-10-18)
   - [x] **T6.02a** [AI] Rung C hierarchical partial pooling model architecture: Empirical Bayes multi-level shrinkage on log pay across role, seniority, location, and employer clusters with quantile prediction, monotone repair, and thin-evidence abstention. (done 2026-10-18)
         Output: `src/compintel/models/hierarchical/` with tests. Done when: hierarchical partial pooling model trains on log pay, estimates group-level shrinkage weights, handles sparse cells natively by shrinking to parent priors, repairs quantile crossings, and produces valid P10/P50/P90 in nominal INR LPA. Needs: T6.01. Size: M.
-  - [ ] **T6.02b** [AI] Prior and posterior predictive checks, prior sensitivity analysis, and diagnostic report (R-UQ-06, EXP-05).
+  - [x] **T6.02b** [AI] Prior and posterior predictive checks, prior sensitivity analysis, and diagnostic report (R-UQ-06, EXP-05). (done 2026-10-18)
         Output: `docs/research/rung-c-diagnostics.md`, `scripts/run_hierarchical_diagnostics.py`, and `experiments/results/`. Done when: prior predictive checks, posterior predictive checks, shrinkage diagnostics, and prior variance sensitivity are documented with test suite. Needs: T6.02a. Size: M.
 - [ ] **T6.03** [AI] Stage-wise evaluation L0 to L3: change in pinball loss, coverage and width with intervals; compare nested models with the masked-missingness model.
       Output: report. Done when: each increment has a verdict. Needs: T6.01. Size: L.

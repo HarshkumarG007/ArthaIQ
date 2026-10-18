@@ -5,7 +5,7 @@
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
-        interval-usefulness shift-stress-tests audit-abstention champion-bundle final-eval clean
+        interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -143,6 +143,11 @@ audit-abstention:
 # Usage: make champion-bundle [SNAPSHOT=<path>] [OUTPUT_DIR=<path>] [ALLOW_SYNTHETIC=1]
 champion-bundle:
 	uv run python scripts/build_champion_bundle.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(OUTPUT_DIR),--output-dir $(OUTPUT_DIR),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+# ---- Hierarchical Diagnostics & Prior/Posterior Checks (Phase 6, T6.02b, Rules R-UQ-06, EXP-05) -
+# Usage: make hierarchical-diagnostics [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+hierarchical-diagnostics:
+	uv run python scripts/run_hierarchical_diagnostics.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

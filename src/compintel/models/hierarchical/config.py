@@ -25,6 +25,7 @@ class HierarchicalConfig:
     quantiles: list[float] = field(default_factory=lambda: [0.10, 0.50, 0.90])
     experience_polynomial_degree: int = 2
     prior_variance_damping: float = 1e-4
+    prior_variance_scale: float = 1.0
     k_min_employer: int = 5
     enable_employer_tier: bool = True
     enable_employer_cluster: bool = True
@@ -32,6 +33,9 @@ class HierarchicalConfig:
 
     def __post_init__(self) -> None:
         """Validate configuration parameters."""
+        if self.prior_variance_scale <= 0.0:
+            msg = f"prior_variance_scale must be > 0.0, got {self.prior_variance_scale}"
+            raise ValueError(msg)
         if self.min_cell_sample_size < 1:
             msg = f"min_cell_sample_size must be >= 1, got {self.min_cell_sample_size}"
             raise ValueError(msg)
@@ -66,6 +70,7 @@ class HierarchicalConfig:
             "quantiles": list(self.quantiles),
             "experience_polynomial_degree": self.experience_polynomial_degree,
             "prior_variance_damping": self.prior_variance_damping,
+            "prior_variance_scale": self.prior_variance_scale,
             "k_min_employer": self.k_min_employer,
             "enable_employer_tier": self.enable_employer_tier,
             "enable_employer_cluster": self.enable_employer_cluster,

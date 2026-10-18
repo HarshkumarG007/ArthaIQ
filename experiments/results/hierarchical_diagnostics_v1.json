@@ -1,0 +1,243 @@
+{
+  "report_id": "RUNG-C-DIAG-20261018130004",
+  "generated_at": "2026-10-18T13:00:04.843107+00:00",
+  "git_commit": "41614945ad9f0256abe9cce7f1b490d2650e3f0e",
+  "evaluation_split": "select",
+  "n_observations": 37,
+  "prior_checks": {
+    "n_simulations": 1000,
+    "prior_intercept_mean": 2.708,
+    "prior_intercept_sd": 0.5,
+    "prior_tenure_b1_mean": 0.08,
+    "prior_tenure_b1_sd": 0.03,
+    "prior_tenure_b2_mean": -0.0015,
+    "prior_tenure_b2_sd": 0.001,
+    "simulated_p10_nominal_lpa": 7.9851448833640255,
+    "simulated_p50_nominal_lpa": 23.15384567021001,
+    "simulated_p90_nominal_lpa": 69.21865252199714,
+    "simulated_min_nominal_lpa": 1.1888202592080326,
+    "simulated_max_nominal_lpa": 738.5589461194348,
+    "absurd_pay_count": 1,
+    "absurd_pay_rate": 0.001,
+    "is_physically_plausible": true,
+    "verdict_rationale": "Prior generates realistic compensation spans (P10=8.0 LPA, P50=23.2 LPA, P90=69.2 LPA). Absurd rate is 0.10% (< 1.0%), confirming that weakly informative priors place mass exclusively on economically plausible regions."
+  },
+  "posterior_checks": {
+    "n_observations": 37,
+    "n_replications": 500,
+    "test_statistics": [
+      {
+        "name": "mean_log_pay",
+        "description": "Mean log guaranteed cash",
+        "observed_value": 3.41681879492697,
+        "replicated_mean": 3.420656524525817,
+        "replicated_std": 0.06312745066009369,
+        "bayesian_p_value": 0.532,
+        "is_well_calibrated": true,
+        "interpretation": "Observed 3.42 is well within replicated distribution [3.32, 3.53] (p_B=0.532)"
+      },
+      {
+        "name": "std_log_pay",
+        "description": "Standard deviation of log pay",
+        "observed_value": 0.6617569271267593,
+        "replicated_mean": 0.7874866802332401,
+        "replicated_std": 0.05535757943284234,
+        "bayesian_p_value": 0.986,
+        "is_well_calibrated": false,
+        "interpretation": "Observed 0.66 is in tail of replicated distribution (p_B=0.986)"
+      },
+      {
+        "name": "median_nominal_lpa",
+        "description": "Median nominal pay (INR LPA)",
+        "observed_value": 30.39,
+        "replicated_mean": 34.20323614222809,
+        "replicated_std": 3.946347660071271,
+        "bayesian_p_value": 0.838,
+        "is_well_calibrated": true,
+        "interpretation": "Observed 30.39 is well within replicated distribution [28.29, 40.82] (p_B=0.838)"
+      },
+      {
+        "name": "iqr_nominal_lpa",
+        "description": "Interquartile range of pay (INR LPA)",
+        "observed_value": 40.269999999999996,
+        "replicated_mean": 38.36562999200834,
+        "replicated_std": 6.266465594203176,
+        "bayesian_p_value": 0.392,
+        "is_well_calibrated": true,
+        "interpretation": "Observed 40.27 is well within replicated distribution [27.76, 48.49] (p_B=0.392)"
+      },
+      {
+        "name": "p10_nominal_lpa",
+        "description": "10th percentile pay (INR LPA)",
+        "observed_value": 12.22,
+        "replicated_mean": 10.337786608800696,
+        "replicated_std": 1.411119277424931,
+        "bayesian_p_value": 0.098,
+        "is_well_calibrated": true,
+        "interpretation": "Observed 12.22 is well within replicated distribution [8.13, 12.68] (p_B=0.098)"
+      },
+      {
+        "name": "p90_nominal_lpa",
+        "description": "90th percentile pay (INR LPA)",
+        "observed_value": 70.192,
+        "replicated_mean": 78.14057256190202,
+        "replicated_std": 9.545656190751533,
+        "bayesian_p_value": 0.792,
+        "is_well_calibrated": true,
+        "interpretation": "Observed 70.19 is well within replicated distribution [64.51, 95.96] (p_B=0.792)"
+      }
+    ],
+    "empirical_p10_p90_coverage": 0.918918918918919,
+    "coverage_is_calibrated": true,
+    "all_statistics_calibrated": false,
+    "summary_verdict": "POSTERIOR_PREDICTIVE_WARNING: Minor discrepancy detected in predictive tails or interval coverage; prior variance scaling requires monitoring."
+  },
+  "shrinkage_diagnostics": [
+    {
+      "level_name": "role_family",
+      "n_groups": 3,
+      "between_group_variance_tau2": 0.0001,
+      "mean_sample_size": 50.0,
+      "min_sample_size": 46,
+      "max_sample_size": 52,
+      "mean_shrinkage_factor": 0.0,
+      "sparse_groups_count": 0,
+      "sparse_mean_shrinkage": 0.0,
+      "dense_groups_count": 3,
+      "dense_mean_shrinkage": 0.0,
+      "k_min_violations_count": 0,
+      "k_min_compliant": true
+    },
+    {
+      "level_name": "seniority_in_role",
+      "n_groups": 12,
+      "between_group_variance_tau2": 0.009792408739145145,
+      "mean_sample_size": 12.5,
+      "min_sample_size": 7,
+      "max_sample_size": 21,
+      "mean_shrinkage_factor": 0.48895098627289063,
+      "sparse_groups_count": 0,
+      "sparse_mean_shrinkage": 0.0,
+      "dense_groups_count": 0,
+      "dense_mean_shrinkage": 0.48895098627289063,
+      "k_min_violations_count": 0,
+      "k_min_compliant": true
+    },
+    {
+      "level_name": "cell",
+      "n_groups": 60,
+      "between_group_variance_tau2": 0.014379746797977079,
+      "mean_sample_size": 2.5,
+      "min_sample_size": 1,
+      "max_sample_size": 7,
+      "mean_shrinkage_factor": 0.21594896761687896,
+      "sparse_groups_count": 54,
+      "sparse_mean_shrinkage": 0.19553446045800857,
+      "dense_groups_count": 0,
+      "dense_mean_shrinkage": 0.21594896761687896,
+      "k_min_violations_count": 0,
+      "k_min_compliant": true
+    },
+    {
+      "level_name": "employer_tier",
+      "n_groups": 0,
+      "between_group_variance_tau2": 0.0,
+      "mean_sample_size": 0.0,
+      "min_sample_size": 0,
+      "max_sample_size": 0,
+      "mean_shrinkage_factor": 0.0,
+      "sparse_groups_count": 0,
+      "sparse_mean_shrinkage": 0.0,
+      "dense_groups_count": 0,
+      "dense_mean_shrinkage": 0.0,
+      "k_min_violations_count": 0,
+      "k_min_compliant": true
+    },
+    {
+      "level_name": "employer_cluster",
+      "n_groups": 8,
+      "between_group_variance_tau2": 0.00011839888601538012,
+      "mean_sample_size": 18.75,
+      "min_sample_size": 15,
+      "max_sample_size": 22,
+      "mean_shrinkage_factor": 0.0028493628585417883,
+      "sparse_groups_count": 0,
+      "sparse_mean_shrinkage": 0.0,
+      "dense_groups_count": 0,
+      "dense_mean_shrinkage": 0.0028493628585417883,
+      "k_min_violations_count": 0,
+      "k_min_compliant": true
+    }
+  ],
+  "prior_sensitivity": {
+    "baseline_id": "kappa_1.00_baseline",
+    "perturbations": [
+      {
+        "perturbation_id": "kappa_0.25",
+        "variance_scale": 0.25,
+        "prior_tau2": 0.0375,
+        "mean_p50_lpa": 37.26628549706421,
+        "median_p50_lpa": 35.86872140545789,
+        "mean_interval_width_lpa": 34.93454171333224,
+        "empirical_coverage": 0.918918918918919,
+        "mean_abs_delta_p50_vs_baseline": 1.7748732166674228,
+        "max_abs_delta_p50_vs_baseline": 4.197787394563974,
+        "rank_correlation_vs_baseline": 0.9954954954954958
+      },
+      {
+        "perturbation_id": "kappa_0.50",
+        "variance_scale": 0.5,
+        "prior_tau2": 0.075,
+        "mean_p50_lpa": 37.528806116271824,
+        "median_p50_lpa": 36.258750054566896,
+        "mean_interval_width_lpa": 35.62866786592392,
+        "empirical_coverage": 0.918918918918919,
+        "mean_abs_delta_p50_vs_baseline": 1.068356342198897,
+        "max_abs_delta_p50_vs_baseline": 2.5590008341002957,
+        "rank_correlation_vs_baseline": 0.9976292081555241
+      },
+      {
+        "perturbation_id": "kappa_1.00_baseline",
+        "variance_scale": 1.0,
+        "prior_tau2": 0.15,
+        "mean_p50_lpa": 37.94603015044918,
+        "median_p50_lpa": 36.889819404539736,
+        "mean_interval_width_lpa": 36.80164526327894,
+        "empirical_coverage": 0.918918918918919,
+        "mean_abs_delta_p50_vs_baseline": 1.4402893292434464e-16,
+        "max_abs_delta_p50_vs_baseline": 5.329070518200751e-15,
+        "rank_correlation_vs_baseline": 1.0000000000000002
+      },
+      {
+        "perturbation_id": "kappa_2.00",
+        "variance_scale": 2.0,
+        "prior_tau2": 0.3,
+        "mean_p50_lpa": 38.51836076145636,
+        "median_p50_lpa": 36.41730219582234,
+        "mean_interval_width_lpa": 38.585039415595006,
+        "empirical_coverage": 0.918918918918919,
+        "mean_abs_delta_p50_vs_baseline": 1.3983366261956176,
+        "max_abs_delta_p50_vs_baseline": 3.5112824284927484,
+        "rank_correlation_vs_baseline": 0.9985775248933145
+      },
+      {
+        "perturbation_id": "kappa_4.00",
+        "variance_scale": 4.0,
+        "prior_tau2": 0.6,
+        "mean_p50_lpa": 39.203514564205065,
+        "median_p50_lpa": 35.90981236901552,
+        "mean_interval_width_lpa": 40.978632522140515,
+        "empirical_coverage": 0.8918918918918919,
+        "mean_abs_delta_p50_vs_baseline": 2.976823871729249,
+        "max_abs_delta_p50_vs_baseline": 7.528400918238795,
+        "rank_correlation_vs_baseline": 0.9947842579421529
+      }
+    ],
+    "max_mean_delta_lpa": 2.976823871729249,
+    "min_rank_correlation": 0.9947842579421529,
+    "robustness_verdict": "HIGHLY_SENSITIVE",
+    "rationale": "Prior sensitivity exceeds bounds (max delta 2.98 LPA > 2.0 LPA). Posterior is overly sensitive to prior variance hyperparameter."
+  },
+  "overall_verdict": "WARNING_CHECK_SENSITIVITY",
+  "summary_narrative": "Model passed core anonymization and prior plausibility checks, but exhibited moderate sensitivity or tail calibration variance. Further calibration tuning may be required in Task T6.07."
+}
