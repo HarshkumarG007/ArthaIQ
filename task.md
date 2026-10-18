@@ -300,12 +300,12 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: report. Done when: a verdict by sample size band. Needs: T6.02. Size: M.
 - [x] **T6.08** [AI] Staged versus joint modelling; error propagation from level mapping (EXP-08). (done 2026-10-18)
       Output: report. Done when: a verdict on staging. Needs: T6.03. Size: M.
-- [ ] **T6.09** [AI+HUMAN] Fairness audit v1: errors, coverage, abstention and data availability by group where lawful (legal review of group data first).
+- [x] **T6.09** [AI+HUMAN] Fairness audit v1: errors, coverage, abstention and data availability by group where lawful (legal review of group data first). (done 2026-10-18)
       Output: audit report. Done when: gaps and mitigations listed. Needs: T6.04. Size: L.
-- [ ] **T6.10** [AI+HUMAN] Decision: personalization value; adversarial checklist; research prototype complete.
+- [x] **T6.10** [AI+HUMAN] Decision: personalization value; adversarial checklist; research prototype complete. (done 2026-10-18)
       Output: GO entry and updated champion. Done when: recorded in `memory.md`. Needs: T6.05 to T6.09. Size: S.
 
-**Gate G6 (critical):** personalization value decided; research prototype complete.
+**Gate G6 (critical):** personalization value decided; research prototype complete. Ratified GO 2026-10-18.
 
 ---
 
