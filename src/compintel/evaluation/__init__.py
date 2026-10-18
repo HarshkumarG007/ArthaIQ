@@ -43,6 +43,15 @@ from compintel.evaluation.experiment import (
     ReproductionResult,
     reproduce_experiment,
 )
+from compintel.evaluation.family_ablation import (
+    FamilyAblationDelta,
+    FamilyAblationItem,
+    FamilyAblationMetrics,
+    FamilyAblationReport,
+    FamilyDispositionVerdict,
+    evaluate_and_save_family_ablation,
+    run_family_ablation_study,
+)
 from compintel.evaluation.gbm_report import (
     GBMBenchmarkReport,
     GBMBenchmarkReportConfig,
@@ -186,6 +195,11 @@ __all__ = [
     "ExperimentConfig",
     "ExperimentRunRecord",
     "ExperimentRunner",
+    "FamilyAblationDelta",
+    "FamilyAblationItem",
+    "FamilyAblationMetrics",
+    "FamilyAblationReport",
+    "FamilyDispositionVerdict",
     "GBMBenchmarkReport",
     "GBMBenchmarkReportConfig",
     "GBMBenchmarkReportGenerator",
@@ -247,6 +261,7 @@ __all__ = [
     "create_temporal_grouped_splits",
     "declare_contamination_and_unlock",
     "evaluate_and_save_abstention_audit",
+    "evaluate_and_save_family_ablation",
     "evaluate_and_save_hierarchical_diagnostics",
     "evaluate_and_save_interval_usefulness",
     "evaluate_and_save_shift_stress",
@@ -274,6 +289,7 @@ __all__ = [
     "reproduce_experiment",
     "root_mean_squared_error",
     "run_baseline_evaluation_report",
+    "run_family_ablation_study",
     "run_gbm_benchmark_report",
     "run_hierarchical_diagnostics",
     "run_leakage_inflation_audit",
