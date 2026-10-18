@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.06 (Missingness study; indicators only if justified (R-MD-15))**
+**NEXT TASK: T6.07 (Hierarchical Bayes versus GBM with conformal intervals in sparse cells; prior sensitivity (EXP-05))**
 
 ## How to use this file
 
@@ -294,7 +294,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: ablation table. Done when: each family is kept, deferred or rejected by the pre-registered rule. Needs: T6.03. Size: M.
 - [x] **T6.05** [AI] Current pay as a feature: anchoring and selection analysis (EXP-07). (done 2026-10-18)
       Output: report. Done when: compare-only or input decision recorded (R-MD-13). Needs: T6.03. Size: M.
-- [ ] **T6.06** [AI] Missingness study; indicators only if justified (R-MD-15).
+- [x] **T6.06** [AI] Missingness study; indicators only if justified (R-MD-15). (done 2026-10-18)
       Output: report section. Done when: the policy is written. Needs: T6.03. Size: S.
 - [ ] **T6.07** [AI] Hierarchical Bayes versus GBM with conformal intervals in sparse cells; prior sensitivity (EXP-05).
       Output: report. Done when: a verdict by sample size band. Needs: T6.02. Size: M.
