@@ -3,11 +3,11 @@
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
 | Status                         | Draft v0.6 (Phase 4 complete; Gate G0, G1, G2, G3, G4 ratified GO; Phase 5 active) |
-| Last updated                   | 2026-10-17                                           |
+| Last updated                   | 2026-10-18                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T5.01b (Rung D grouped-temporal cross-validation, resource profiling, and baseline comparison report (LightGBM/CatBoost vs Rungs A and B))**
+**NEXT TASK: T5.08 (Champion selection under pre-registered rules; model bundle; model card v0)**
 
 ## How to use this file
 
@@ -255,10 +255,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: report section. Done when: a verdict on usefulness is recorded. Needs: T5.03. Size: S.
 - [x] **T5.06** [AI] Shift stress tests: temporal, geographic, rare cells (EXP-03). (done 2026-10-18)
       Output: report section. Done when: degradation is quantified. Needs: T5.03. Size: M.
-- [ ] **T5.07** [AI] Support checks, abstention policy, evidence-grade rules, and group abstention audit (EXP-11) (split per Rule R-WF-03):
+- [x] **T5.07** [AI] Support checks, abstention policy, evidence-grade rules, and group abstention audit (EXP-11) (split per Rule R-WF-03): (done 2026-10-18)
   - [x] **T5.07a** [AI] Support checks, abstention policy, evidence-grade engine, and thresholds configuration. (done 2026-10-18)
         Output: `src/compintel/uncertainty/support.py`, `config/thresholds.yaml`, and unit test suite. Done when: S1–S5 support checks, decoupled evidence grades (A, B, C, Abstained), thin-evidence abstention (R-MD-08, R-UQ-02, R-UQ-07), and YAML configuration parsing are fully implemented and verified with >= 90% test coverage. Needs: T5.04, T5.06. Size: M.
-  - [ ] **T5.07b** [AI] Abstention audit by group, slice trade-off analysis, and hypothesis EXP-11.
+  - [x] **T5.07b** [AI] Abstention audit by group, slice trade-off analysis, and hypothesis EXP-11. (done 2026-10-18)
         Output: `src/compintel/evaluation/abstention_audit.py`, `scripts/audit_abstention.py`, `Makefile` target `audit-abstention`, and audit report in `experiments/results/`. Done when: abstention rates, answered coverage with 95% bootstrap CIs, group disparity, and EXP-11 verdict on support thresholds are reported by slice. Needs: T5.07a. Size: M.
 - [ ] **T5.08** [AI] Champion selection under pre-registered rules; model bundle; model card v0.
       Output: bundle and `docs/model-cards/`. Done when: the bundle loads and passes a smoke test. Needs: T5.07. Size: M.
