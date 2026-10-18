@@ -41,6 +41,13 @@ from compintel.models.gbm import (
     create_gbm_point_model,
     create_gbm_quantile_model,
 )
+from compintel.models.hierarchical import (
+    GroupNode,
+    HierarchicalConfig,
+    HierarchicalCrossingDiagnostics,
+    HierarchicalPartialPoolingModel,
+    HierarchicalPrediction,
+)
 
 __all__ = [
     "BackoffPath",
@@ -58,8 +65,13 @@ __all__ = [
     "GBMModelType",
     "GBMPointConfig",
     "GBMQuantileConfig",
+    "GroupNode",
     "HierarchicalBackoffConfig",
+    "HierarchicalConfig",
+    "HierarchicalCrossingDiagnostics",
     "HierarchicalLevel",
+    "HierarchicalPartialPoolingModel",
+    "HierarchicalPrediction",
     "LightGBMPointModel",
     "LightGBMQuantileModel",
     "LinearPrediction",
