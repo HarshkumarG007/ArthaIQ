@@ -169,6 +169,12 @@ anchoring-analysis:
 missingness-study:
 	uv run python scripts/run_missingness_study.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Sparse Cell Benchmark: Hierarchical vs Conformal GBM (Phase 6, T6.07, EXP-05) --------
+# Usage: make sparse-cell-benchmark [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+sparse-cell-benchmark:
+	uv run python scripts/run_sparse_cell_benchmark.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+
 
 
 

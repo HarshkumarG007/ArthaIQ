@@ -1,0 +1,149 @@
+{
+  "report_id": "EXP05-SPARSE-20261018203749",
+  "generated_at": "2026-10-18T20:37:49.206105+00:00",
+  "git_commit": "3695ff57cf1fc8fba45a44f15f449633b772e403",
+  "evaluation_split": "select",
+  "n_eval_observations": 45,
+  "band_comparisons": [
+    {
+      "band": "VERY_SPARSE",
+      "n_eval_samples": 17,
+      "n_unique_cells": 14,
+      "rung_c_metrics": {
+        "architecture_name": "Rung C (Hierarchical)",
+        "n_eval_samples": 17,
+        "mae": 9.61646444228711,
+        "mdape": 0.13765006378738437,
+        "mean_pinball_loss": 2.9094207183257312,
+        "empirical_coverage": 1.0,
+        "mean_interval_width": 39.20029933833638,
+        "crossing_rate": 0.0
+      },
+      "rung_f_metrics": {
+        "architecture_name": "Rung F (Conformal GBM)",
+        "n_eval_samples": 17,
+        "mae": 8.574076897294777,
+        "mdape": 0.17385348353828198,
+        "mean_pinball_loss": 2.282684550160553,
+        "empirical_coverage": 0.8235294117647058,
+        "mean_interval_width": 23.38885892396801,
+        "crossing_rate": 0.0
+      },
+      "delta_pinball": 0.6267361681651784,
+      "delta_pinball_ci_lower": 0.01056424140799656,
+      "delta_pinball_ci_upper": 1.2629784633959567,
+      "delta_mae": 1.0423875449923337,
+      "delta_width": 15.81144041436837,
+      "width_ratio": 1.6760244467576573,
+      "superior_architecture": "Rung F (Conformal GBM)"
+    },
+    {
+      "band": "SPARSE",
+      "n_eval_samples": 19,
+      "n_unique_cells": 15,
+      "rung_c_metrics": {
+        "architecture_name": "Rung C (Hierarchical)",
+        "n_eval_samples": 19,
+        "mae": 5.796986174404834,
+        "mdape": 0.15298218323437346,
+        "mean_pinball_loss": 2.0407792744673614,
+        "empirical_coverage": 0.8421052631578947,
+        "mean_interval_width": 29.31874392371972,
+        "crossing_rate": 0.0
+      },
+      "rung_f_metrics": {
+        "architecture_name": "Rung F (Conformal GBM)",
+        "n_eval_samples": 19,
+        "mae": 5.165139130411916,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 1.5638537769169867,
+        "empirical_coverage": 0.7368421052631579,
+        "mean_interval_width": 18.144392757216732,
+        "crossing_rate": 0.0
+      },
+      "delta_pinball": 0.4769254975503748,
+      "delta_pinball_ci_lower": 0.050102357264702274,
+      "delta_pinball_ci_upper": 0.9338780659210425,
+      "delta_mae": 0.6318470439929182,
+      "delta_width": 11.174351166502987,
+      "width_ratio": 1.6158569931781548,
+      "superior_architecture": "Rung F (Conformal GBM)"
+    },
+    {
+      "band": "DENSE",
+      "n_eval_samples": 9,
+      "n_unique_cells": 7,
+      "rung_c_metrics": {
+        "architecture_name": "Rung C (Hierarchical)",
+        "n_eval_samples": 9,
+        "mae": 10.348139146961191,
+        "mdape": 0.2817542635891766,
+        "mean_pinball_loss": 2.9916638404453573,
+        "empirical_coverage": 0.7777777777777778,
+        "mean_interval_width": 28.164983893649932,
+        "crossing_rate": 0.0
+      },
+      "rung_f_metrics": {
+        "architecture_name": "Rung F (Conformal GBM)",
+        "n_eval_samples": 9,
+        "mae": 8.802576589322571,
+        "mdape": 0.20876714573674995,
+        "mean_pinball_loss": 2.505085014600509,
+        "empirical_coverage": 0.6666666666666666,
+        "mean_interval_width": 18.684078960571405,
+        "crossing_rate": 0.0
+      },
+      "delta_pinball": 0.486578825844848,
+      "delta_pinball_ci_lower": 0.06945280423005114,
+      "delta_pinball_ci_upper": 0.8947630040237424,
+      "delta_mae": 1.54556255763862,
+      "delta_width": 9.480904933078527,
+      "width_ratio": 1.507432287836391,
+      "superior_architecture": "Rung F (Conformal GBM)"
+    }
+  ],
+  "prior_sensitivities": [
+    {
+      "band": "VERY_SPARSE",
+      "kappa_values": [
+        0.25,
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "max_p50_shift": 3.4528649765863832,
+      "min_rank_correlation": 0.9975490196078433,
+      "is_stable": false
+    },
+    {
+      "band": "SPARSE",
+      "kappa_values": [
+        0.25,
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "max_p50_shift": 4.384272407682001,
+      "min_rank_correlation": 0.9947368421052631,
+      "is_stable": false
+    },
+    {
+      "band": "DENSE",
+      "kappa_values": [
+        0.25,
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "max_p50_shift": 3.802655668950891,
+      "min_rank_correlation": 0.9666666666666667,
+      "is_stable": false
+    }
+  ],
+  "verdict": "UNIFIED_CONFORMAL_GBM",
+  "routing_directive": "UNIFIED SERVING DIRECTIVE: Rung F (Conformal Quantile CatBoost) maintains superior or parity performance across all evaluated sample size bands. Promote Rung F as the unified production serving model; maintain Rung C as a diagnostic baseline.",
+  "executive_summary": "Empirical evaluation under hypothesis EXP-05 indicates that Rung F with split conformal calibration maintains robust interval coverage and competitive pinball loss across both sparse and dense cells. Rung F is ratified as the unified serving champion."
+}
