@@ -1,0 +1,453 @@
+{
+  "report_id": "CONF-20261017231813",
+  "generated_at": "2026-10-17T23:18:13.251083+00:00",
+  "git_commit": "2d3d563443cb59a4a9b9c66ff94e4900d89fe07c",
+  "snapshot_id": "SNAP-1FF34A8E9633",
+  "random_seed": 42,
+  "evaluation_split": "select",
+  "data_summary": {
+    "total_observations": 5,
+    "train_count": 3,
+    "calibrate_count": 1,
+    "eval_count": 1,
+    "eval_split_name": "select",
+    "excluded_cross_window_count": 0
+  },
+  "models": {
+    "cqr_catboost": {
+      "model_name": "CatBoost CQR (Rung F)",
+      "method": "cqr",
+      "nominal_coverage": 0.8,
+      "conformal_correction": 18.0,
+      "sample_size": 1,
+      "overall_coverage": 1.0,
+      "overall_coverage_ci": null,
+      "overall_mean_width_lpa": 36.269999999999996,
+      "overall_median_width_lpa": 36.269999999999996,
+      "overall_width_ci": null,
+      "mean_calibration_error": 0.19999999999999996,
+      "pinball_q10": 1.4669999999999999,
+      "pinball_q50": 1.67,
+      "pinball_q90": 2.1599999999999997,
+      "mean_pinball_loss": 1.7656666666666663,
+      "crossing_count": 0,
+      "crossing_rate": 0.0,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "tails": {
+        "global_underflow_q10": 0.0,
+        "global_overflow_q90": 0.0,
+        "tail_balance_ratio": 1.0,
+        "lower_tail_count": 1,
+        "lower_tail_coverage": 1.0,
+        "lower_tail_mean_width": 36.269999999999996,
+        "upper_tail_count": 1,
+        "upper_tail_coverage": 1.0,
+        "upper_tail_mean_width": 36.269999999999996
+      },
+      "recent_window": null,
+      "slices": {
+        "experience_band": [
+          {
+            "dimension": "experience_band",
+            "slice_value": "6-10",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.269999999999996,
+            "median_width_lpa": 36.269999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "role_family": [
+          {
+            "dimension": "role_family",
+            "slice_value": "DATA",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.269999999999996,
+            "median_width_lpa": 36.269999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "seniority": [
+          {
+            "dimension": "seniority",
+            "slice_value": "SR",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.269999999999996,
+            "median_width_lpa": 36.269999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "location": [
+          {
+            "dimension": "location",
+            "slice_value": "PUNE",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.269999999999996,
+            "median_width_lpa": 36.269999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "provenance_tier": [
+          {
+            "dimension": "provenance_tier",
+            "slice_value": "A",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.269999999999996,
+            "median_width_lpa": 36.269999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ]
+      }
+    },
+    "split_conformal_catboost": {
+      "model_name": "CatBoost Split Conformal (Rung F Baseline)",
+      "method": "split_conformal",
+      "nominal_coverage": 0.8,
+      "conformal_correction": 18.37826772430662,
+      "sample_size": 1,
+      "overall_coverage": 1.0,
+      "overall_coverage_ci": null,
+      "overall_mean_width_lpa": 36.76,
+      "overall_median_width_lpa": 36.76,
+      "overall_width_ci": null,
+      "mean_calibration_error": 0.19999999999999996,
+      "pinball_q10": 1.516,
+      "pinball_q50": 1.6100000000000012,
+      "pinball_q90": 2.1599999999999997,
+      "mean_pinball_loss": 1.7620000000000005,
+      "crossing_count": 0,
+      "crossing_rate": 0.0,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "tails": {
+        "global_underflow_q10": 0.0,
+        "global_overflow_q90": 0.0,
+        "tail_balance_ratio": 1.0,
+        "lower_tail_count": 1,
+        "lower_tail_coverage": 1.0,
+        "lower_tail_mean_width": 36.76,
+        "upper_tail_count": 1,
+        "upper_tail_coverage": 1.0,
+        "upper_tail_mean_width": 36.76
+      },
+      "recent_window": null,
+      "slices": {
+        "experience_band": [
+          {
+            "dimension": "experience_band",
+            "slice_value": "6-10",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.76,
+            "median_width_lpa": 36.76,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "role_family": [
+          {
+            "dimension": "role_family",
+            "slice_value": "DATA",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.76,
+            "median_width_lpa": 36.76,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "seniority": [
+          {
+            "dimension": "seniority",
+            "slice_value": "SR",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.76,
+            "median_width_lpa": 36.76,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "location": [
+          {
+            "dimension": "location",
+            "slice_value": "PUNE",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.76,
+            "median_width_lpa": 36.76,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "provenance_tier": [
+          {
+            "dimension": "provenance_tier",
+            "slice_value": "A",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 1.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 36.76,
+            "median_width_lpa": 36.76,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 0.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.19999999999999996,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ]
+      }
+    },
+    "base_catboost": {
+      "model_name": "CatBoost Quantile Base (Rung E Uncalibrated)",
+      "method": "uncalibrated_quantile",
+      "nominal_coverage": 0.8,
+      "conformal_correction": 0.0,
+      "sample_size": 1,
+      "overall_coverage": 0.0,
+      "overall_coverage_ci": null,
+      "overall_mean_width_lpa": 0.2699999999999996,
+      "overall_median_width_lpa": 0.2699999999999996,
+      "overall_width_ci": null,
+      "mean_calibration_error": 0.8,
+      "pinball_q10": 2.9970000000000017,
+      "pinball_q50": 1.67,
+      "pinball_q90": 0.36000000000000004,
+      "mean_pinball_loss": 1.6756666666666673,
+      "crossing_count": 0,
+      "crossing_rate": 0.0,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "tails": {
+        "global_underflow_q10": 1.0,
+        "global_overflow_q90": 0.0,
+        "tail_balance_ratio": 1.0,
+        "lower_tail_count": 1,
+        "lower_tail_coverage": 0.0,
+        "lower_tail_mean_width": 0.2699999999999996,
+        "upper_tail_count": 1,
+        "upper_tail_coverage": 0.0,
+        "upper_tail_mean_width": 0.2699999999999996
+      },
+      "recent_window": null,
+      "slices": {
+        "experience_band": [
+          {
+            "dimension": "experience_band",
+            "slice_value": "6-10",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 0.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 0.2699999999999996,
+            "median_width_lpa": 0.2699999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 1.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.8,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "role_family": [
+          {
+            "dimension": "role_family",
+            "slice_value": "DATA",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 0.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 0.2699999999999996,
+            "median_width_lpa": 0.2699999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 1.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.8,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "seniority": [
+          {
+            "dimension": "seniority",
+            "slice_value": "SR",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 0.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 0.2699999999999996,
+            "median_width_lpa": 0.2699999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 1.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.8,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "location": [
+          {
+            "dimension": "location",
+            "slice_value": "PUNE",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 0.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 0.2699999999999996,
+            "median_width_lpa": 0.2699999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 1.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.8,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ],
+        "provenance_tier": [
+          {
+            "dimension": "provenance_tier",
+            "slice_value": "A",
+            "sample_size": 1,
+            "is_low_support": true,
+            "support_status": "LOW_SUPPORT_FLAGGED",
+            "empirical_coverage": 0.0,
+            "coverage_ci_lower": null,
+            "coverage_ci_upper": null,
+            "mean_width_lpa": 0.2699999999999996,
+            "median_width_lpa": 0.2699999999999996,
+            "width_ci_lower": null,
+            "width_ci_upper": null,
+            "underflow_rate_q10": 1.0,
+            "overflow_rate_q90": 0.0,
+            "calibration_error": 0.8,
+            "abstention_count": 0,
+            "abstention_rate": 0.0
+          }
+        ]
+      }
+    }
+  },
+  "assumptions": {
+    "is_marginal": true,
+    "claims_individual_coverage": false,
+    "requires_exchangeability": true,
+    "temporal_drift_warning": true,
+    "calibration_split": "calibrate",
+    "target_measure": "guaranteed_cash_annual",
+    "description": "Conformal prediction intervals guarantee marginal coverage (1 - alpha) averaged across the population under exchangeability. They do NOT guarantee conditional coverage for specific individuals or subgroups. Macroeconomic drift, compensation inflation, and shifting occupational mixes can degrade empirical coverage over time; calibration sets must be updated on recent temporal windows."
+  },
+  "champion_verdict": {
+    "champion_model": "CatBoost CQR (Rung F)",
+    "status": "ACCEPTED_AS_RUNG_F_CHAMPION",
+    "reason": "CQR achieved empirical coverage of 100.0% (calibration error 20.0 pp vs target 80.0%), with adaptive interval width 36.27 LPA and zero crossing violations.",
+    "target_nominal_coverage": 0.8
+  }
+}
