@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.07 (Hierarchical Bayes versus GBM with conformal intervals in sparse cells; prior sensitivity (EXP-05))**
+**NEXT TASK: T6.08 (Staged versus joint modelling; error propagation from level mapping (EXP-08))**
 
 ## How to use this file
 
@@ -296,7 +296,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: report. Done when: compare-only or input decision recorded (R-MD-13). Needs: T6.03. Size: M.
 - [x] **T6.06** [AI] Missingness study; indicators only if justified (R-MD-15). (done 2026-10-18)
       Output: report section. Done when: the policy is written. Needs: T6.03. Size: S.
-- [ ] **T6.07** [AI] Hierarchical Bayes versus GBM with conformal intervals in sparse cells; prior sensitivity (EXP-05).
+- [x] **T6.07** [AI] Hierarchical Bayes versus GBM with conformal intervals in sparse cells; prior sensitivity (EXP-05). (done 2026-10-18)
       Output: report. Done when: a verdict by sample size band. Needs: T6.02. Size: M.
 - [ ] **T6.08** [AI] Staged versus joint modelling; error propagation from level mapping (EXP-08).
       Output: report. Done when: a verdict on staging. Needs: T6.03. Size: M.
