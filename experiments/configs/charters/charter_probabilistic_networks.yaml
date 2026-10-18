@@ -1,0 +1,67 @@
+# =============================================================================
+#  ArthaIQ -- Advanced Modeling Experiment Charter: Probabilistic Networks
+#  File: experiments/configs/charters/charter_probabilistic_networks.yaml
+#  Task: T7.01 (PRD Sec 5, FR-05, Rules R-MD-01, R-MD-05, R-MD-09, R-CD-01)
+# =============================================================================
+
+charter_id: "CHARTER-PROBABILISTIC-NETWORKS"
+experiment_id: "EXP-PGM-01"
+title: "Bayesian Networks & Probabilistic Graphical Models for Compensation Joint Distributions"
+task_id: "T7.01"
+governing_rules:
+  - "R-MD-01"  # Orderly ladder climbing & bootstrap CI
+  - "R-MD-05"  # Comprehensive evaluation metrics
+  - "R-MD-09"  # Charter required for probabilistic networks
+  - "R-UQ-01"  # Uncertainty quantification
+  - "R-CD-01"  # Pure typed Python, CPU-only inference, reproducible seeds
+priority_rank: 7
+expected_value: "LOW"
+computational_cost: "HIGH"
+operational_feasibility: "LOW_FEASIBLE"
+
+candidate_summary:
+  hypothesis: >
+    A directed acyclic graphical model (DAG) encoding structural causal dependencies
+    between role, education, location, employer tier, and unbundled compensation
+    components enables coherent conditional probability queries and scenario simulations
+    without risk of joint distribution violations.
+  baseline_champion: "Rung F Conformal CatBoost"
+  proposed_variants:
+    - name: "variant_a_discrete_bayesian_network"
+      description: "Discretized conditional probability tables (CPTs) with exact junction tree inference"
+      compute_type: "Pure Python exact belief propagation"
+    - name: "variant_b_gaussian_copula_network"
+      description: "Gaussian copula joint dependency structure with non-parametric empirical marginals"
+      compute_type: "scipy multivariate normal covariance estimation"
+
+evaluation_protocol:
+  dataset_snapshot_id: "SNAP-1FF34A8E9633"
+  split_protocol: "grouped_temporal_select"
+  evaluation_partition: "select"
+  seed: 42
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+
+keep_criteria:
+  primary_metric_threshold:
+    metric: "delta_mean_pinball_loss"
+    direction: "decrease"
+    min_effect_size_lpa: -0.050
+    confidence_interval: "95% bootstrap CI upper bound must be < 0.0"
+  secondary_metric_thresholds:
+    mdape_reduction_pp: 2.0
+    coverage_tolerance: [0.72, 0.88]
+    crossing_rate_max: 0.005
+    width_ratio_vs_champion_max: 1.00
+
+reject_criteria:
+  - "delta_mean_pinball_loss > -0.050 LPA"
+  - "95% bootstrap CI includes 0.0"
+  - "Discretization introduces excessive quantization error exceeding 1.0 LPA"
+  - "Junction tree or MCMC inference latency exceeds 200ms per query"
+
+defer_criteria:
+  - "Structural DAG inference is mathematically sound but predictive accuracy is inferior to gradient boosted decision trees on tabular regression"
+  - "Reserved for scenario simulation (Phase 8) rather than core point/interval compensation prediction"
+
+decision_authority: "Phase 7 Gate G7 Human Reviewer & AI Assistant"

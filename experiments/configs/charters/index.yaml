@@ -1,0 +1,93 @@
+# =============================================================================
+#  ArthaIQ -- Phase 7 Advanced Modeling Charters Index & Ranking
+#  File: experiments/configs/charters/index.yaml
+#  Task: T7.01 (PRD Sec 5, FR-05, Rules R-MD-01, R-MD-09, R-CD-01)
+# =============================================================================
+
+version: "1.0.0"
+governing_phase: 7
+author: "AI Assistant & Human Lead"
+date: "2026-10-19"
+governing_rule: "R-MD-09"
+description: >
+  Master index of candidate advanced modeling experiment charters ranked by
+  expected value (EV) and implementation/operational cost. Each candidate possesses
+  explicit pre-registered keep, defer, and reject criteria before execution.
+
+ranking_matrix:
+  - rank: 1
+    charter_id: "CHARTER-EXP-09"
+    experiment_id: "EXP-09"
+    task_id: "T7.02"
+    name: "Skills Feature Modeling: Curated Taxonomy & TF-IDF vs Sentence-Transformer Embeddings on CPU"
+    charter_file: "experiments/configs/charters/charter_exp09_skills_embeddings.yaml"
+    expected_value: "MEDIUM"
+    cost: "MEDIUM_HIGH"
+    expected_value_rationale: "Skills are prominent in tech compensation discourse; empirical testing determines if dense embeddings beat fast taxonomy"
+    cost_rationale: "Embeddings require tokenizer + embedding layer runtime on CPU; memory and latency budget must be verified"
+
+  - rank: 2
+    charter_id: "CHARTER-CAREER-TRAJ"
+    experiment_id: "EXP-TRAJ-01"
+    task_id: "T7.03"
+    name: "Career Trajectory Features vs Static Tenure and Total Experience"
+    charter_file: "experiments/configs/charters/charter_career_trajectory.yaml"
+    expected_value: "MEDIUM"
+    cost: "LOW_MEDIUM"
+    expected_value_rationale: "Velocity and stability features test whether dynamic trajectory adds value beyond static Mincerian YoE"
+    cost_rationale: "Low computation cost; requires careful point-in-time calculation to prevent temporal lookahead"
+
+  - rank: 3
+    charter_id: "CHARTER-EXP-10"
+    experiment_id: "EXP-10"
+    task_id: "T7.04"
+    name: "Employer Feature Modeling: Simple Categorical/Tier vs Graph-Based Talent-Flow Embeddings"
+    charter_file: "experiments/configs/charters/charter_exp10_employer_graphs.yaml"
+    expected_value: "LOW_MEDIUM"
+    cost: "HIGH"
+    expected_value_rationale: "Bipartite mobility graph could capture employer prestige, but data sparsity in PT1 limits dense graphs"
+    cost_rationale: "High complexity to maintain temporal isolation and k_min >= 5 anonymity floor on graph nodes"
+
+  - rank: 4
+    charter_id: "CHARTER-MACRO-REGIMES"
+    experiment_id: "EXP-MACRO-01"
+    task_id: "T7.05"
+    name: "Macroeconomic & Market-Regime Features with Release-Time As-Of Joins"
+    charter_file: "experiments/configs/charters/charter_macro_regimes.yaml"
+    expected_value: "HIGH"
+    cost: "LOW"
+    expected_value_rationale: "Macro series (MOSPI CPI, tech GDP) provide principled deflators and regime tracking"
+    cost_rationale: "Low computation overhead; strictly governed by publication-lag as-of joins"
+
+  - rank: 5
+    charter_id: "CHARTER-ENSEMBLING-STACKING"
+    experiment_id: "EXP-ENSEMBLE-01"
+    task_id: "T7.06"
+    name: "Model Ensembling & Quantile Stacking: Blending Gradient Boosting & Hierarchical Bayes"
+    charter_file: "experiments/configs/charters/charter_ensembling_stacking.yaml"
+    expected_value: "LOW_MEDIUM"
+    cost: "HIGH"
+    expected_value_rationale: "Stacking diverse models may slightly reduce pinball loss variance"
+    cost_rationale: "Multiplies serving footprint, inference latency, bundle size, and maintenance complexity"
+
+  - rank: 6
+    charter_id: "CHARTER-SURVIVAL-MODELS"
+    experiment_id: "EXP-SURV-01"
+    task_id: "T7.01"
+    name: "Parametric & Semi-Parametric Survival Models for Compensation Progression & Stagnation"
+    charter_file: "experiments/configs/charters/charter_survival_models.yaml"
+    expected_value: "LOW"
+    cost: "MEDIUM"
+    expected_value_rationale: "Hazard rates model time-to-promotion but cannot directly predict guaranteed cash intervals"
+    cost_rationale: "Requires longitudinal duration data not present in static cross-sectional compensation surveys"
+
+  - rank: 7
+    charter_id: "CHARTER-PROBABILISTIC-NETWORKS"
+    experiment_id: "EXP-PGM-01"
+    task_id: "T7.01"
+    name: "Bayesian Networks & Probabilistic Graphical Models for Compensation Joint Distributions"
+    charter_file: "experiments/configs/charters/charter_probabilistic_networks.yaml"
+    expected_value: "LOW"
+    cost: "HIGH"
+    expected_value_rationale: "Structural DAGs represent causal dependencies well but yield inferior regression precision on tabular pay"
+    cost_rationale: "Complex graph inference, discretization quantization errors, and high latency"
