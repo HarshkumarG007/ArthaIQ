@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Draft v0.6 (Phase 4 complete; Gate G0, G1, G2, G3, G4 ratified GO; Phase 5 active) |
+| Status                         | Draft v0.7 (Phase 5 complete; Gates G0, G1, G2, G3, G4, G5 ratified GO; Phase 6 active) |
 | Last updated                   | 2026-10-18                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T5.09 (Decision review and adversarial checklist)**
+**NEXT TASK: T6.01 (Feature specification for L0 to L3: definition, availability, source, leakage risk, privacy, expected utility, ablation plan)**
 
 ## How to use this file
 
@@ -262,10 +262,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `src/compintel/evaluation/abstention_audit.py`, `scripts/audit_abstention.py`, `Makefile` target `audit-abstention`, and audit report in `experiments/results/`. Done when: abstention rates, answered coverage with 95% bootstrap CIs, group disparity, and EXP-11 verdict on support thresholds are reported by slice. Needs: T5.07a. Size: M.
 - [x] **T5.08** [AI] Champion selection under pre-registered rules; model bundle; model card v0. (done 2026-10-18)
       Output: bundle and `docs/model-cards/`. Done when: the bundle loads and passes a smoke test. Needs: T5.07. Size: M.
-- [ ] **T5.09** [AI+HUMAN] Decision review and adversarial checklist.
+- [x] **T5.09** [AI+HUMAN] Decision review and adversarial checklist. (done 2026-10-18)
       Output: GO or NO-GO entry. Done when: recorded in `memory.md`. Needs: T5.08. Size: S.
 
-**Gate G5 (critical):** calibrated intervals and abstention accepted.
+**Gate G5 (critical):** calibrated intervals and abstention accepted. (ratified 2026-10-18: GO)
 
 ---
 
