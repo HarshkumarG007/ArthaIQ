@@ -21,6 +21,12 @@ from compintel.evaluation.baseline_report import (
     add_experience_band_column,
     run_baseline_evaluation_report,
 )
+from compintel.evaluation.champion import (
+    CandidateEvaluation,
+    ChampionSelectionEvaluator,
+    ChampionSelectionReport,
+    build_champion_bundle,
+)
 from compintel.evaluation.conformal_report import (
     ConformalCalibrationReport,
     ConformalCalibrationReportGenerator,
@@ -134,6 +140,9 @@ __all__ = [
     "BaselineReportConfig",
     "BaselineReportGenerator",
     "CalibrationMetrics",
+    "CandidateEvaluation",
+    "ChampionSelectionEvaluator",
+    "ChampionSelectionReport",
     "CohortSliceComparison",
     "ComprehensiveMetricsReport",
     "ConformalCalibrationReport",
@@ -186,6 +195,7 @@ __all__ = [
     "add_experience_band_column",
     "audit_split_leakage",
     "bootstrap_metric_ci",
+    "build_champion_bundle",
     "check_eval_lock",
     "compute_evaluation_report",
     "compute_normalized_file_sha256",

@@ -823,7 +823,7 @@ def reproduce_experiment(
             sec_orig = orig_metrics.get(section, {})
             sec_new = new_metrics.get(section, {})
             for m_key, orig_val in sec_orig.items():
-                if isinstance(orig_val, (int, float)):
+                if isinstance(orig_val, int | float):
                     new_val = sec_new.get(m_key)
                     if new_val is None:
                         discrepancies.append(
