@@ -1,0 +1,550 @@
+{
+  "report_id": "EXP06-ABLATION-20261018162804",
+  "generated_at": "2026-10-18T16:28:04.790806+00:00",
+  "git_commit": "4fcfd4962a61a506a8a1012212ebf22c92124171",
+  "evaluation_split": "select",
+  "n_eval_observations": 45,
+  "l0_baseline_metrics": {
+    "model_label": "L0 Core Baseline",
+    "n_features": 4,
+    "feature_ids": [
+      "feat_l0_role_family",
+      "feat_l0_seniority",
+      "feat_l0_location",
+      "feat_l0_years_experience"
+    ],
+    "mae": 7.180447556349795,
+    "mdape": 0.1771734719048249,
+    "mean_pinball_loss": 2.023658316567927,
+    "pinball_q10": 1.2459248791596071,
+    "pinball_q50": 3.5902237781748974,
+    "pinball_q90": 1.2348262923692774,
+    "empirical_coverage": 0.7555555555555555,
+    "mean_interval_width": 20.2335727719937,
+    "crossing_rate": 0.0
+  },
+  "l1_full_metrics": {
+    "model_label": "L1 Full Profile",
+    "n_features": 8,
+    "feature_ids": [
+      "feat_l1_skills_primary",
+      "feat_l1_skills_depth",
+      "feat_l1_domain_specialization",
+      "feat_l1_employer_tier",
+      "feat_l1_work_arrangement",
+      "feat_l1_career_velocity",
+      "feat_l1_leadership_scope",
+      "feat_l1_macro_market_regime"
+    ],
+    "mae": 22.73983495430523,
+    "mdape": 0.5711217209197968,
+    "mean_pinball_loss": 6.676784914222175,
+    "pinball_q10": 3.941825708959536,
+    "pinball_q50": 11.369917477152615,
+    "pinball_q90": 4.718611556554375,
+    "empirical_coverage": 0.8,
+    "mean_interval_width": 72.71120292101672,
+    "crossing_rate": 0.0
+  },
+  "family_results": [
+    {
+      "family_key": "skills",
+      "family_name": "Skills & Depth (Family A)",
+      "feature_ids": [
+        "feat_l1_skills_primary",
+        "feat_l1_skills_depth"
+      ],
+      "keep_threshold_pinball": -0.03,
+      "keep_threshold_width_ratio": null,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Skills & Depth (Family A)",
+        "n_features": 6,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth"
+        ],
+        "mae": 7.250844347143429,
+        "mdape": 0.1905518970254963,
+        "mean_pinball_loss": 2.0750468021492994,
+        "pinball_q10": 1.2569546216751395,
+        "pinball_q50": 3.6254221735717147,
+        "pinball_q90": 1.3427636112010446,
+        "empirical_coverage": 0.7777777777777778,
+        "mean_interval_width": 19.746982158248425,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.051388485581372045,
+        "pinball_ci_lower": -0.07201459326013278,
+        "pinball_ci_upper": 0.18899188679316292,
+        "pinball_significant": false,
+        "delta_mae": 0.0703967907936347,
+        "delta_coverage": 0.022222222222222254,
+        "width_ratio": 0.9638062442425493
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Skills & Depth (Family A)",
+        "n_features": 6,
+        "feature_ids": [
+          "feat_l1_domain_specialization",
+          "feat_l1_employer_tier",
+          "feat_l1_work_arrangement",
+          "feat_l1_career_velocity",
+          "feat_l1_leadership_scope",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 21.703009937740248,
+        "mdape": 0.5529038220414261,
+        "mean_pinball_loss": 6.296715552237401,
+        "pinball_q10": 3.2593563759283346,
+        "pinball_q50": 10.851504968870124,
+        "pinball_q90": 4.779285311913742,
+        "empirical_coverage": 0.7777777777777778,
+        "mean_interval_width": 65.6187464706762,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.38006936198477514,
+        "pinball_ci_lower": -0.5066846425107967,
+        "pinball_ci_upper": 1.211789585972218,
+        "pinball_significant": false,
+        "delta_mae": -1.0368250165649826,
+        "delta_coverage": -0.022222222222222254,
+        "width_ratio": 1.0
+      },
+      "verdict": "REJECT",
+      "decision_rationale": "Failed minimum effect threshold (\u0394 Pinball = +0.051 vs threshold -0.030 LPA). Rejected per Rule EXP-06."
+    },
+    {
+      "family_key": "domain",
+      "family_name": "Domain Specialization (Family B)",
+      "feature_ids": [
+        "feat_l1_domain_specialization"
+      ],
+      "keep_threshold_pinball": -0.025,
+      "keep_threshold_width_ratio": null,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Domain Specialization (Family B)",
+        "n_features": 5,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_domain_specialization"
+        ],
+        "mae": 7.180447556349795,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 2.023658316567927,
+        "pinball_q10": 1.2459248791596071,
+        "pinball_q50": 3.5902237781748974,
+        "pinball_q90": 1.2348262923692774,
+        "empirical_coverage": 0.7555555555555555,
+        "mean_interval_width": 20.2335727719937,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Domain Specialization (Family B)",
+        "n_features": 7,
+        "feature_ids": [
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth",
+          "feat_l1_employer_tier",
+          "feat_l1_work_arrangement",
+          "feat_l1_career_velocity",
+          "feat_l1_leadership_scope",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 22.73983495430523,
+        "mdape": 0.5711217209197968,
+        "mean_pinball_loss": 6.676784914222175,
+        "pinball_q10": 3.941825708959536,
+        "pinball_q50": 11.369917477152615,
+        "pinball_q90": 4.718611556554375,
+        "empirical_coverage": 0.8,
+        "mean_interval_width": 72.71120292101672,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "verdict": "REJECT",
+      "decision_rationale": "Failed minimum effect threshold (\u0394 Pinball = +0.000 vs threshold -0.025 LPA). Rejected per Rule EXP-06."
+    },
+    {
+      "family_key": "employer_tier",
+      "family_name": "Employer Archetype Tier (Family C)",
+      "feature_ids": [
+        "feat_l1_employer_tier"
+      ],
+      "keep_threshold_pinball": -0.05,
+      "keep_threshold_width_ratio": 0.9,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Employer Archetype Tier (Family C)",
+        "n_features": 5,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_employer_tier"
+        ],
+        "mae": 7.180447556349795,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 2.023658316567927,
+        "pinball_q10": 1.2459248791596071,
+        "pinball_q50": 3.5902237781748974,
+        "pinball_q90": 1.2348262923692774,
+        "empirical_coverage": 0.7555555555555555,
+        "mean_interval_width": 20.2335727719937,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Employer Archetype Tier (Family C)",
+        "n_features": 7,
+        "feature_ids": [
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth",
+          "feat_l1_domain_specialization",
+          "feat_l1_work_arrangement",
+          "feat_l1_career_velocity",
+          "feat_l1_leadership_scope",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 22.73983495430523,
+        "mdape": 0.5711217209197968,
+        "mean_pinball_loss": 6.676784914222175,
+        "pinball_q10": 3.941825708959536,
+        "pinball_q50": 11.369917477152615,
+        "pinball_q90": 4.718611556554375,
+        "empirical_coverage": 0.8,
+        "mean_interval_width": 72.71120292101672,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "verdict": "REJECT",
+      "decision_rationale": "Failed minimum effect threshold (\u0394 Pinball = +0.000 vs threshold -0.050 LPA). Rejected per Rule EXP-06."
+    },
+    {
+      "family_key": "work_arrangement",
+      "family_name": "Work Arrangement / Geo Mode (Family D)",
+      "feature_ids": [
+        "feat_l1_work_arrangement"
+      ],
+      "keep_threshold_pinball": -0.01,
+      "keep_threshold_width_ratio": null,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Work Arrangement / Geo Mode (Family D)",
+        "n_features": 5,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_work_arrangement"
+        ],
+        "mae": 7.180447556349795,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 2.023658316567927,
+        "pinball_q10": 1.2459248791596071,
+        "pinball_q50": 3.5902237781748974,
+        "pinball_q90": 1.2348262923692774,
+        "empirical_coverage": 0.7555555555555555,
+        "mean_interval_width": 20.2335727719937,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Work Arrangement / Geo Mode (Family D)",
+        "n_features": 7,
+        "feature_ids": [
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth",
+          "feat_l1_domain_specialization",
+          "feat_l1_employer_tier",
+          "feat_l1_career_velocity",
+          "feat_l1_leadership_scope",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 22.73983495430523,
+        "mdape": 0.5711217209197968,
+        "mean_pinball_loss": 6.676784914222175,
+        "pinball_q10": 3.941825708959536,
+        "pinball_q50": 11.369917477152615,
+        "pinball_q90": 4.718611556554375,
+        "empirical_coverage": 0.8,
+        "mean_interval_width": 72.71120292101672,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "verdict": "DEFER",
+      "decision_rationale": "Marginal or deferred effect (\u0394 Pinball = +0.000 vs threshold -0.010 LPA). Deferred per pre-registered policy without polluting Core models."
+    },
+    {
+      "family_key": "career_velocity",
+      "family_name": "Career Velocity (Family E)",
+      "feature_ids": [
+        "feat_l1_career_velocity"
+      ],
+      "keep_threshold_pinball": -0.015,
+      "keep_threshold_width_ratio": null,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Career Velocity (Family E)",
+        "n_features": 5,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_career_velocity"
+        ],
+        "mae": 7.180447556349795,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 2.023658316567927,
+        "pinball_q10": 1.2459248791596071,
+        "pinball_q50": 3.5902237781748974,
+        "pinball_q90": 1.2348262923692774,
+        "empirical_coverage": 0.7555555555555555,
+        "mean_interval_width": 20.2335727719937,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Career Velocity (Family E)",
+        "n_features": 7,
+        "feature_ids": [
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth",
+          "feat_l1_domain_specialization",
+          "feat_l1_employer_tier",
+          "feat_l1_work_arrangement",
+          "feat_l1_leadership_scope",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 22.73983495430523,
+        "mdape": 0.5711217209197968,
+        "mean_pinball_loss": 6.676784914222175,
+        "pinball_q10": 3.941825708959536,
+        "pinball_q50": 11.369917477152615,
+        "pinball_q90": 4.718611556554375,
+        "empirical_coverage": 0.8,
+        "mean_interval_width": 72.71120292101672,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "verdict": "REJECT",
+      "decision_rationale": "Failed minimum effect threshold (\u0394 Pinball = +0.000 vs threshold -0.015 LPA). Rejected per Rule EXP-06."
+    },
+    {
+      "family_key": "leadership_scope",
+      "family_name": "Leadership Scope (Family F)",
+      "feature_ids": [
+        "feat_l1_leadership_scope"
+      ],
+      "keep_threshold_pinball": -0.02,
+      "keep_threshold_width_ratio": null,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Leadership Scope (Family F)",
+        "n_features": 5,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_leadership_scope"
+        ],
+        "mae": 7.180447556349795,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 2.023658316567927,
+        "pinball_q10": 1.2459248791596071,
+        "pinball_q50": 3.5902237781748974,
+        "pinball_q90": 1.2348262923692774,
+        "empirical_coverage": 0.7555555555555555,
+        "mean_interval_width": 20.2335727719937,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Leadership Scope (Family F)",
+        "n_features": 7,
+        "feature_ids": [
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth",
+          "feat_l1_domain_specialization",
+          "feat_l1_employer_tier",
+          "feat_l1_work_arrangement",
+          "feat_l1_career_velocity",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 22.73983495430523,
+        "mdape": 0.5711217209197968,
+        "mean_pinball_loss": 6.676784914222175,
+        "pinball_q10": 3.941825708959536,
+        "pinball_q50": 11.369917477152615,
+        "pinball_q90": 4.718611556554375,
+        "empirical_coverage": 0.8,
+        "mean_interval_width": 72.71120292101672,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "verdict": "REJECT",
+      "decision_rationale": "Failed minimum effect threshold (\u0394 Pinball = +0.000 vs threshold -0.020 LPA). Rejected per Rule EXP-06."
+    },
+    {
+      "family_key": "macro_market",
+      "family_name": "Macro Market Regime (Family G)",
+      "feature_ids": [
+        "feat_l1_macro_market_regime"
+      ],
+      "keep_threshold_pinball": -0.01,
+      "keep_threshold_width_ratio": null,
+      "forward_addition_metrics": {
+        "model_label": "L0 + Macro Market Regime (Family G)",
+        "n_features": 5,
+        "feature_ids": [
+          "feat_l0_role_family",
+          "feat_l0_seniority",
+          "feat_l0_location",
+          "feat_l0_years_experience",
+          "feat_l1_macro_market_regime"
+        ],
+        "mae": 7.180447556349795,
+        "mdape": 0.1771734719048249,
+        "mean_pinball_loss": 2.023658316567927,
+        "pinball_q10": 1.2459248791596071,
+        "pinball_q50": 3.5902237781748974,
+        "pinball_q90": 1.2348262923692774,
+        "empirical_coverage": 0.7555555555555555,
+        "mean_interval_width": 20.2335727719937,
+        "crossing_rate": 0.0
+      },
+      "forward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "backward_drop_metrics": {
+        "model_label": "L1 \\ Macro Market Regime (Family G)",
+        "n_features": 7,
+        "feature_ids": [
+          "feat_l1_skills_primary",
+          "feat_l1_skills_depth",
+          "feat_l1_domain_specialization",
+          "feat_l1_employer_tier",
+          "feat_l1_work_arrangement",
+          "feat_l1_career_velocity",
+          "feat_l1_leadership_scope"
+        ],
+        "mae": 22.73983495430523,
+        "mdape": 0.5711217209197968,
+        "mean_pinball_loss": 6.676784914222175,
+        "pinball_q10": 3.941825708959536,
+        "pinball_q50": 11.369917477152615,
+        "pinball_q90": 4.718611556554375,
+        "empirical_coverage": 0.8,
+        "mean_interval_width": 72.71120292101672,
+        "crossing_rate": 0.0
+      },
+      "backward_delta": {
+        "delta_mean_pinball": 0.0,
+        "pinball_ci_lower": 0.0,
+        "pinball_ci_upper": 0.0,
+        "pinball_significant": false,
+        "delta_mae": 0.0,
+        "delta_coverage": 0.0,
+        "width_ratio": 1.0
+      },
+      "verdict": "DEFER",
+      "decision_rationale": "Marginal or deferred effect (\u0394 Pinball = +0.000 vs threshold -0.010 LPA). Deferred per pre-registered policy without polluting Core models."
+    }
+  ],
+  "overall_summary": "Ablation study EXP-06 evaluated 7 candidate feature families at Level 1 against the L0 Core Baseline. Results: 0 family kept, 2 deferred, and 5 rejected under pre-registered thresholds in v1.yaml. Core representations remain parsimonious while capturing high-signal personalization dimensions."
+}

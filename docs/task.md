@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.04 (Feature-family ablations: role, experience, skills, employer, location, macro (EXP-06))**
+**NEXT TASK: T6.05 (Current pay as a feature: anchoring and selection analysis (EXP-07))**
 
 ## How to use this file
 
@@ -290,7 +290,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `src/compintel/evaluation/stagewise_evaluation.py` with tests. Done when: nested models and masked-missingness pipelines evaluate across L0-L3 tiers, compute delta pinball loss, coverage, and interval width with 95% bootstrap CIs, and pass test suite with >= 90.0% coverage. Needs: T6.01, T5.08. Size: M.
   - [x] **T6.03b** [AI] Stage-wise personalization diagnostic CLI runner, publication report, and increment verdicts across L0-L3. (done 2026-10-18)
         Output: `docs/research/stagewise-evaluation-l0-l3.md`, `scripts/run_stagewise_evaluation.py`, and `experiments/results/`. Done when: CLI runner executes evaluation on dev partitions, generates Markdown and JSON reports with formal verdicts for each increment, and passes CI gates. Needs: T6.03a. Size: M.
-- [ ] **T6.04** [AI] Feature-family ablations: role, experience, skills, employer, location, macro (EXP-06).
+- [x] **T6.04** [AI] Feature-family ablations: role, experience, skills, employer, location, macro (EXP-06). (done 2026-10-18)
       Output: ablation table. Done when: each family is kept, deferred or rejected by the pre-registered rule. Needs: T6.03. Size: M.
 - [ ] **T6.05** [AI] Current pay as a feature: anchoring and selection analysis (EXP-07).
       Output: report. Done when: compare-only or input decision recorded (R-MD-13). Needs: T6.03. Size: M.

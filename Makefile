@@ -154,6 +154,12 @@ hierarchical-diagnostics:
 stagewise-evaluation:
 	uv run python scripts/run_stagewise_evaluation.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Feature-Family Ablation Study (Phase 6, T6.04, Rules R-MD-05, R-MD-09, EXP-06) -
+# Usage: make family-ablation [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+family-ablation:
+	uv run python scripts/run_family_ablation.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.
