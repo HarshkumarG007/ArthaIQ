@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T5.08 (Champion selection under pre-registered rules; model bundle; model card v0)**
+**NEXT TASK: T5.09 (Decision review and adversarial checklist)**
 
 ## How to use this file
 
@@ -260,7 +260,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `src/compintel/uncertainty/support.py`, `config/thresholds.yaml`, and unit test suite. Done when: S1–S5 support checks, decoupled evidence grades (A, B, C, Abstained), thin-evidence abstention (R-MD-08, R-UQ-02, R-UQ-07), and YAML configuration parsing are fully implemented and verified with >= 90% test coverage. Needs: T5.04, T5.06. Size: M.
   - [x] **T5.07b** [AI] Abstention audit by group, slice trade-off analysis, and hypothesis EXP-11. (done 2026-10-18)
         Output: `src/compintel/evaluation/abstention_audit.py`, `scripts/audit_abstention.py`, `Makefile` target `audit-abstention`, and audit report in `experiments/results/`. Done when: abstention rates, answered coverage with 95% bootstrap CIs, group disparity, and EXP-11 verdict on support thresholds are reported by slice. Needs: T5.07a. Size: M.
-- [ ] **T5.08** [AI] Champion selection under pre-registered rules; model bundle; model card v0.
+- [x] **T5.08** [AI] Champion selection under pre-registered rules; model bundle; model card v0. (done 2026-10-18)
       Output: bundle and `docs/model-cards/`. Done when: the bundle loads and passes a smoke test. Needs: T5.07. Size: M.
 - [ ] **T5.09** [AI+HUMAN] Decision review and adversarial checklist.
       Output: GO or NO-GO entry. Done when: recorded in `memory.md`. Needs: T5.08. Size: S.

@@ -3,12 +3,12 @@
 <div align="center">
 
 ```
-  █████╗ ██████╗ ████████╗██╗  ██╗ █████╗ ██╗ ██████╗ 
+  █████╗ ██████╗ ████████╗██╗  ██╗ █████╗ ██╗ ██████╗
  ██╔══██╗██╔══██╗╚══██╔══╝██║  ██║██╔══██╗██║██╔═══██╗
  ███████║██████╔╝   ██║   ███████║███████║██║██║   ██║
  ██╔══██║██╔══██╗   ██║   ██╔══██║██╔══██║██║██║   ██║
  ██║  ██║██║  ██║   ██║   ██║  ██║██║  ██║██║╚██████╔╝
- ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ 
+ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝
 ```
 
 **Ethical Compensation Intelligence & Decision-Support Platform for India Tech Careers**
@@ -374,7 +374,7 @@ ArthaIQ follows a strict 10-phase engineering lifecycle. Every phase closes with
 
 <div align="center">
 
-**Built with statistical rigor and engineering discipline for the Indian tech ecosystem.**  
+**Built with statistical rigor and engineering discipline for the Indian tech ecosystem.**
 *Questions or feedback? Check [`docs/memory.md`](docs/memory.md) or open an issue.*
 
 </div>

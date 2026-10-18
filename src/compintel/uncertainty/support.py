@@ -137,8 +137,12 @@ class S4SourceQualityConfig(BaseModel):
     grade_c_min_score: float = Field(default=65.0, ge=0.0, le=100.0)
     grade_b_min_score: float = Field(default=72.0, ge=0.0, le=100.0)
     grade_a_min_score: float = Field(default=80.0, ge=0.0, le=100.0)
-    allowed_provenance_tiers: list[str] = Field(default_factory=lambda: ["TIER_A", "TIER_B"])
-    disqualified_provenance_tiers: list[str] = Field(default_factory=lambda: ["TIER_C", "TIER_D"])
+    allowed_provenance_tiers: list[str] = Field(
+        default_factory=lambda: ["TIER_A", "TIER_B", "A", "B"]
+    )
+    disqualified_provenance_tiers: list[str] = Field(
+        default_factory=lambda: ["TIER_C", "TIER_D", "C", "D"]
+    )
 
 
 class S5IntervalUsefulnessConfig(BaseModel):
@@ -462,12 +466,13 @@ class SupportEvaluator:
         # Check S4: Source Quality (Rule R-UQ-07)
         # -------------------------------------------------------------------------
         sqsf_score = evidence.source_quality_score
-        prov_tier = evidence.provenance_tier.upper()
+        raw_tier = evidence.provenance_tier.upper()
+        prov_tier = f"TIER_{raw_tier}" if raw_tier in ("A", "B", "C", "D") else raw_tier
         s4_score_floor = cfg.s4_source_quality.abstention_floor_score
         s4_allowed_tiers = [t.upper() for t in cfg.s4_source_quality.allowed_provenance_tiers]
 
         s4_score_passed = sqsf_score >= s4_score_floor
-        s4_tier_passed = prov_tier in s4_allowed_tiers
+        s4_tier_passed = (prov_tier in s4_allowed_tiers) or (raw_tier in s4_allowed_tiers)
         s4_passed = s4_score_passed and s4_tier_passed
 
         if not s4_passed:

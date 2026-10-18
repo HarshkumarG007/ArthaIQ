@@ -59,4 +59,3 @@ Before any final-test run (T4.03, T5.08):
 |---|---|
 | 2026-10-13 | Stub created at T0.04 |
 | 2026-10-17 | Finalized to Accepted at Gate G4 (T4.09, Decision D-015) |
-

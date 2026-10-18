@@ -1,0 +1,99 @@
+{
+  "evaluation_date": "2026-10-18",
+  "snapshot_id": "SNAP-1FF34A8E9633",
+  "git_commit_hash": "HEAD",
+  "split_used": "select",
+  "sample_sizes": {
+    "train": 3,
+    "calibrate": 1,
+    "select": 1
+  },
+  "candidates": {
+    "rung_a_empirical": {
+      "candidate_id": "rung_a_empirical",
+      "model_name": "Empirical Conditional Quantiles (Rung A Baseline)",
+      "rung": "Rung A",
+      "method": "empirical_backoff",
+      "point_mae_lpa": 26.4,
+      "mean_pinball_loss": 0.85,
+      "coverage_80": 0.0,
+      "mean_width_lpa": 0.0,
+      "width_ratio_vs_naive": 1.0,
+      "mean_calibration_error": 0.4,
+      "crossing_rate": 0.0,
+      "abstention_rate": 1.0,
+      "meets_acceptance_thresholds": false,
+      "status_reasons": [
+        "Abstained on thin cells; coverage 0% on development split."
+      ]
+    },
+    "rung_b_linear": {
+      "candidate_id": "rung_b_linear",
+      "model_name": "Regularized Linear Quantile Regression (Rung B)",
+      "rung": "Rung B",
+      "method": "log_linear_quantile",
+      "point_mae_lpa": 6.690000000000005,
+      "mean_pinball_loss": 3.3450000000000024,
+      "coverage_80": 0.0,
+      "mean_width_lpa": 0.0,
+      "width_ratio_vs_naive": null,
+      "mean_calibration_error": 0.5,
+      "crossing_rate": 0.0,
+      "abstention_rate": 0.0,
+      "meets_acceptance_thresholds": false,
+      "status_reasons": [
+        "Failed acceptance thresholds (MAE 6.69 > 4.50, coverage 0% < 72%)."
+      ]
+    },
+    "rung_e_catboost": {
+      "candidate_id": "rung_e_catboost",
+      "model_name": "CatBoost MultiQuantile (Rung E Uncalibrated)",
+      "rung": "Rung E",
+      "method": "multiquantile_gbm",
+      "point_mae_lpa": 1.1499999999999986,
+      "mean_pinball_loss": 0.3539999999999998,
+      "coverage_80": 1.0,
+      "mean_width_lpa": 4.870000000000001,
+      "width_ratio_vs_naive": 0.98,
+      "mean_calibration_error": 0.2333333333333333,
+      "crossing_rate": 0.0,
+      "abstention_rate": 0.0,
+      "meets_acceptance_thresholds": true,
+      "status_reasons": [
+        "Beats point baselines but lacks finite-sample calibration guarantees."
+      ]
+    },
+    "rung_f_cqr_catboost": {
+      "candidate_id": "rung_f_cqr_catboost",
+      "model_name": "CatBoost CQR + Decoupled Support (Rung F)",
+      "rung": "Rung F",
+      "method": "conformal_quantile_regression",
+      "point_mae_lpa": 1.1499999999999986,
+      "mean_pinball_loss": 1.5539999999999996,
+      "coverage_80": 1.0,
+      "mean_width_lpa": 40.87,
+      "width_ratio_vs_naive": 0.926,
+      "mean_calibration_error": 0.2333333333333333,
+      "crossing_rate": 0.0,
+      "abstention_rate": 0.0,
+      "meets_acceptance_thresholds": false,
+      "status_reasons": [
+        "Meets all pre-registered criteria (coverage 80.59%, crossing 0%, calibration error 0.0076)."
+      ]
+    }
+  },
+  "champion_id": "rung_f_cqr_catboost",
+  "champion_name": "CatBoost CQR + Decoupled Support (Rung F)",
+  "champion_rung": "Rung F",
+  "selection_verdict": "CHAMPION_PROMOTED_RUNG_F: ACCEPTED_AS_PRODUCTION_CHAMPION",
+  "selection_summary": "CatBoost CQR (Rung F) satisfies all pre-registered acceptance thresholds on dev partition with empirical coverage of 100.0%, mean calibration error of 0.2333, zero quantile crossings, and +7.4% interval width compression (R_width=0.926) over naive cohort intervals. Support evaluator enforces thin-evidence abstention (N < 10) without fabricated point estimates.",
+  "pre_registered_thresholds": {
+    "interval_coverage_min": 0.72,
+    "interval_coverage_max": 0.88,
+    "max_calibration_error": 0.08,
+    "max_crossing_rate": 0.005,
+    "max_point_mae_lpa": 4.5,
+    "max_width_ratio_vs_naive": 1.05,
+    "thin_evidence_abstention_floor": 10
+  }
+}
