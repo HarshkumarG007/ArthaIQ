@@ -1,0 +1,53 @@
+{
+  "report_id": "EXP07-ANCHORING-20261018171707",
+  "generated_at": "2026-10-18T17:17:07.912760+00:00",
+  "git_commit": "ad2913b95d0db42fe40dc46de74a293043263954",
+  "evaluation_split": "select",
+  "n_eval_observations": 45,
+  "unanchored_metrics": {
+    "model_name": "Unanchored Model (Profile)",
+    "n_features": 4,
+    "mae": 7.180447556349795,
+    "mdape": 0.1771734719048249,
+    "mean_pinball_loss": 2.023658316567927,
+    "empirical_coverage": 0.7555555555555555,
+    "mean_interval_width": 20.2335727719937,
+    "crossing_rate": 0.0
+  },
+  "anchored_metrics": {
+    "model_name": "Anchored Model (+ Current Pay)",
+    "n_features": 5,
+    "mae": 1.5304907262790806,
+    "mdape": 0.02961767162344979,
+    "mean_pinball_loss": 0.46138405916504693,
+    "empirical_coverage": 0.7333333333333333,
+    "mean_interval_width": 3.8000945891283116,
+    "crossing_rate": 0.0
+  },
+  "anchoring_regression": {
+    "anchoring_weight_alpha": 0.8797993051839268,
+    "profile_weight_beta": 0.12020069481607322,
+    "alpha_ci_lower": 0.8329013969495502,
+    "alpha_ci_upper": 0.9329621523077204,
+    "is_excessively_anchored": true,
+    "threshold_alpha": 0.6
+  },
+  "cohort_disparity": {
+    "underpaid_cohort_size": 15,
+    "baseline_cohort_size": 30,
+    "underpaid_mean_current_pay": 11.081166666666666,
+    "baseline_mean_current_pay": 44.80633333333333,
+    "underpaid_unanchored_p50": 12.446828460195576,
+    "baseline_unanchored_p50": 48.45417681353646,
+    "unanchored_disparity_ratio": 0.7431216609438229,
+    "underpaid_anchored_p50": 12.954227277112402,
+    "baseline_anchored_p50": 53.001724729831615,
+    "anchored_disparity_ratio": 0.7555885710673635,
+    "delta_disparity": 0.01246691012354062,
+    "is_disparity_compounded": false,
+    "threshold_delta_disparity": 0.05
+  },
+  "verdict": "COMPARE_ONLY",
+  "governance_directive": "PERMANENT INVARIANT: feat_l3_current_guaranteed_cash is strictly quarantined to COMPARE_ONLY status. It SHALL NOT be admitted as an input feature into the PT1 Market Compensation Model.",
+  "executive_summary": "Under pre-registered hypothesis EXP-07, current pay fails the anchoring gate due to excessive anchoring weight (alpha = 88.0% >= 60.0%). Conditioning on current pay creates a tautological magnifier of past compensation and reinforces historical wage penalties for underpaid candidates. In accordance with Rule R-MD-13, current pay is permanently classified as COMPARE_ONLY and restricted to the PT6 benchmark engine."
+}

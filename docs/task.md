@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.05 (Current pay as a feature: anchoring and selection analysis (EXP-07))**
+**NEXT TASK: T6.06 (Missingness study; indicators only if justified (R-MD-15))**
 
 ## How to use this file
 
@@ -292,7 +292,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `docs/research/stagewise-evaluation-l0-l3.md`, `scripts/run_stagewise_evaluation.py`, and `experiments/results/`. Done when: CLI runner executes evaluation on dev partitions, generates Markdown and JSON reports with formal verdicts for each increment, and passes CI gates. Needs: T6.03a. Size: M.
 - [x] **T6.04** [AI] Feature-family ablations: role, experience, skills, employer, location, macro (EXP-06). (done 2026-10-18)
       Output: ablation table. Done when: each family is kept, deferred or rejected by the pre-registered rule. Needs: T6.03. Size: M.
-- [ ] **T6.05** [AI] Current pay as a feature: anchoring and selection analysis (EXP-07).
+- [x] **T6.05** [AI] Current pay as a feature: anchoring and selection analysis (EXP-07). (done 2026-10-18)
       Output: report. Done when: compare-only or input decision recorded (R-MD-13). Needs: T6.03. Size: M.
 - [ ] **T6.06** [AI] Missingness study; indicators only if justified (R-MD-15).
       Output: report section. Done when: the policy is written. Needs: T6.03. Size: S.
