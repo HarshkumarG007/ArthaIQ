@@ -15,9 +15,11 @@ Evaluates the personalization ladder from Level 0 (Core Baseline) through Level 
 from __future__ import annotations
 
 import datetime
+import json
 import math
 import subprocess
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any
 
 import catboost as cb
@@ -1181,3 +1183,117 @@ def run_stagewise_evaluation(
         overall_verdict=overall_verdict,
         summary_narrative=narrative,
     )
+
+
+def evaluate_and_save_stagewise_evaluation(
+    canonical_path: str | Path = "data/canonical/canonical_observations.parquet",
+    output_md: str | Path = "docs/research/stagewise-evaluation-l0-l3.md",
+    output_json: str | Path = "experiments/results/stagewise_evaluation_v1.json",
+    eval_split_name: str = "select",
+    n_resamples: int = 1000,
+    seed: int = 42,
+    allow_synthetic: bool = False,
+) -> StagewiseEvaluationReport:
+    """Load canonical observations, run stage-wise evaluation, and save reports.
+
+    Args:
+        canonical_path: Path to canonical observations dataset.
+        output_md: Path to write publication-grade Markdown report.
+        output_json: Path to write structured JSON evaluation metrics.
+        eval_split_name: Split to evaluate on ('select' or 'calibrate').
+        n_resamples: Number of bootstrap iterations for paired delta CIs.
+        seed: Random seed for reproducibility.
+        allow_synthetic: Override flag permitting synthetic data (Rule R-MD-11).
+
+    Returns:
+        StagewiseEvaluationReport with all level summaries, increments, and missingness audit.
+    """
+    if eval_split_name.lower() == "test":
+        raise DataContractError(
+            "EVALUATION_ISOLATION_VIOLATION: Stage-wise evaluation on locked 'test' partition "
+            "is strictly forbidden. Evaluate on 'select' or 'calibrate' only.",
+            details={"rule_id": "R-MD-02"},
+        )
+
+    path = Path(canonical_path)
+    if not path.exists():
+        raise CompIntelValidationError(
+            f"Canonical dataset not found at {canonical_path}",
+            details={"path": str(canonical_path)},
+        )
+
+    df = pl.read_parquet(path)
+
+    # Validate synthetic isolation (Rule R-MD-11)
+    if "is_synthetic" in df.columns:
+        synthetic_count = df.filter(pl.col("is_synthetic")).height
+        if synthetic_count > 0 and not allow_synthetic:
+            raise DataContractError(
+                "Synthetic data detected in canonical evaluation pool without explicit override",
+                code="SYNTHETIC_DATA_BLOCKED",
+                details={"synthetic_count": synthetic_count, "rule_id": "R-MD-11"},
+            )
+
+    from compintel.evaluation.splits import SplitConfig, TemporalGroupedSplitter
+
+    if "split" in df.columns:
+        train_df = df.filter(pl.col("split") == "train")
+        calib_df = df.filter(pl.col("split") == "calibrate")
+        eval_df = df.filter(pl.col("split") == eval_split_name)
+    else:
+        date_col = "as_of_date" if "as_of_date" in df.columns else "effective_on"
+        group_col = "person_cluster_id" if "person_cluster_id" in df.columns else "observation_id"
+        splitter = TemporalGroupedSplitter(
+            SplitConfig(date_column=date_col, group_column=group_col)
+        )
+        split_result = splitter.split(df)
+        train_df = split_result.train_df
+        calib_df = split_result.calibrate_df
+        eval_df = (
+            split_result.select_df if eval_split_name == "select" else split_result.calibrate_df
+        )
+
+    # Fallback to rich synthetic fixture if dataset is small dev stub and synthetic is allowed
+    if (len(train_df) < 20 or len(eval_df) < 10) and allow_synthetic:
+        from datetime import date, timedelta
+
+        from tests.fixtures.synthetic import generate_synthetic_observations_df
+
+        n_synth = 300
+        synth_base = generate_synthetic_observations_df(n_records=n_synth, seed=seed)
+        dates = [date(2024, 1, 1) + timedelta(days=i * 2) for i in range(n_synth)]
+        persons = [f"PER-{i:04d}" for i in range(n_synth)]
+        synth_df = synth_base.with_columns(
+            [
+                pl.Series("as_of_date", dates),
+                pl.Series("effective_on", dates),
+                pl.Series("person_cluster_id", persons),
+            ]
+        )
+        split_result = splitter.split(synth_df)
+        train_df = split_result.train_df
+        calib_df = split_result.calibrate_df
+        eval_df = (
+            split_result.select_df if eval_split_name == "select" else split_result.calibrate_df
+        )
+
+    report = run_stagewise_evaluation(
+        train_df=train_df,
+        eval_df=eval_df,
+        calibrate_df=calib_df,
+        eval_split_name=eval_split_name,
+        n_resamples=n_resamples,
+        seed=seed,
+    )
+
+    # Save Markdown report
+    md_path = Path(output_md)
+    md_path.parent.mkdir(parents=True, exist_ok=True)
+    md_path.write_text(report.to_markdown(), encoding="utf-8")
+
+    # Save JSON report
+    json_path = Path(output_json)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
+
+    return report

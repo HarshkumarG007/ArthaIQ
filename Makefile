@@ -149,6 +149,11 @@ champion-bundle:
 hierarchical-diagnostics:
 	uv run python scripts/run_hierarchical_diagnostics.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Stage-Wise Progressive Personalization Evaluation (Phase 6, T6.03b, Rules R-MD-05, R-MD-15, R-UQ-01) -
+# Usage: make stagewise-evaluation [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+stagewise-evaluation:
+	uv run python scripts/run_stagewise_evaluation.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.
