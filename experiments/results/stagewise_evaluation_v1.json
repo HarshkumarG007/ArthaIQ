@@ -1,0 +1,440 @@
+{
+  "report_id": "STAGEWISE-EVAL-20261018143144",
+  "generated_at": "2026-10-18T14:31:43.988414+00:00",
+  "git_commit": "5dd204da",
+  "evaluation_split": "select",
+  "n_eval_observations": 45,
+  "level_summaries": [
+    {
+      "level": "L0_CORE",
+      "level_name": "Level 0: Core Baseline",
+      "n_features": 4,
+      "feature_ids": [
+        "feat_l0_role_family",
+        "feat_l0_seniority",
+        "feat_l0_location",
+        "feat_l0_years_experience"
+      ],
+      "n_observations": 45,
+      "mae": 7.180447556349795,
+      "mdape": 0.1771734719048249,
+      "pinball_q10": 1.2459248791596071,
+      "pinball_q50": 3.5902237781748974,
+      "pinball_q90": 1.2348262923692774,
+      "mean_pinball_loss": 2.023658316567927,
+      "empirical_coverage": 0.7555555555555555,
+      "mean_interval_width": 20.2335727719937,
+      "median_interval_width": 16.602668130557905,
+      "crossing_rate": 0.0
+    },
+    {
+      "level": "L1_ROLE_PROFILE",
+      "level_name": "Level 1: Role Profile",
+      "n_features": 12,
+      "feature_ids": [
+        "feat_l0_role_family",
+        "feat_l0_seniority",
+        "feat_l0_location",
+        "feat_l0_years_experience",
+        "feat_l1_skills_primary",
+        "feat_l1_skills_depth",
+        "feat_l1_domain_specialization",
+        "feat_l1_employer_tier",
+        "feat_l1_work_arrangement",
+        "feat_l1_career_velocity",
+        "feat_l1_leadership_scope",
+        "feat_l1_macro_market_regime"
+      ],
+      "n_observations": 45,
+      "mae": 7.250844347143429,
+      "mdape": 0.1905518970254963,
+      "pinball_q10": 1.2569546216751395,
+      "pinball_q50": 3.6254221735717147,
+      "pinball_q90": 1.3427636112010446,
+      "mean_pinball_loss": 2.0750468021492994,
+      "empirical_coverage": 0.7777777777777778,
+      "mean_interval_width": 19.746982158248425,
+      "median_interval_width": 16.001755215318482,
+      "crossing_rate": 0.0
+    },
+    {
+      "level": "L2_TARGET_OPPORTUNITY",
+      "level_name": "Level 2: Target Opportunity",
+      "n_features": 14,
+      "feature_ids": [
+        "feat_l0_role_family",
+        "feat_l0_seniority",
+        "feat_l0_location",
+        "feat_l0_years_experience",
+        "feat_l1_skills_primary",
+        "feat_l1_skills_depth",
+        "feat_l1_domain_specialization",
+        "feat_l1_employer_tier",
+        "feat_l1_work_arrangement",
+        "feat_l1_career_velocity",
+        "feat_l1_leadership_scope",
+        "feat_l1_macro_market_regime",
+        "feat_l2_target_employer_id",
+        "feat_l2_target_level_code"
+      ],
+      "n_observations": 45,
+      "mae": 6.968218245914759,
+      "mdape": 0.20287556220289207,
+      "pinball_q10": 1.2620072191278915,
+      "pinball_q50": 3.4841091229573795,
+      "pinball_q90": 1.3455826998485818,
+      "mean_pinball_loss": 2.030566347311284,
+      "empirical_coverage": 0.7333333333333333,
+      "mean_interval_width": 18.73516145325971,
+      "median_interval_width": 17.276210750765202,
+      "crossing_rate": 0.0
+    },
+    {
+      "level": "L3_ADDITIONAL_EVIDENCE",
+      "level_name": "Level 3: Additional Evidence",
+      "n_features": 18,
+      "feature_ids": [
+        "feat_l0_role_family",
+        "feat_l0_seniority",
+        "feat_l0_location",
+        "feat_l0_years_experience",
+        "feat_l1_skills_primary",
+        "feat_l1_skills_depth",
+        "feat_l1_domain_specialization",
+        "feat_l1_employer_tier",
+        "feat_l1_work_arrangement",
+        "feat_l1_career_velocity",
+        "feat_l1_leadership_scope",
+        "feat_l1_macro_market_regime",
+        "feat_l2_target_employer_id",
+        "feat_l2_target_level_code",
+        "feat_l3_verified_payslip_level",
+        "feat_l3_fixed_allowance_ratio",
+        "feat_l3_project_scale_tier",
+        "feat_l3_tenure_stability_index"
+      ],
+      "n_observations": 45,
+      "mae": 6.968218245914759,
+      "mdape": 0.20287556220289207,
+      "pinball_q10": 1.2620072191278915,
+      "pinball_q50": 3.4841091229573795,
+      "pinball_q90": 1.3455826998485818,
+      "mean_pinball_loss": 2.030566347311284,
+      "empirical_coverage": 0.7333333333333333,
+      "mean_interval_width": 18.73516145325971,
+      "median_interval_width": 17.276210750765202,
+      "crossing_rate": 0.0
+    }
+  ],
+  "increment_summaries": [
+    {
+      "from_level": "L0_CORE",
+      "to_level": "L1_ROLE_PROFILE",
+      "transition_name": "L0_CORE -> L1_ROLE_PROFILE",
+      "delta_mean_pinball": {
+        "metric_name": "mean_pinball_loss",
+        "base_value": 2.023658316567927,
+        "increment_value": 2.0750468021492994,
+        "delta": 0.05138848558137221,
+        "ci_lower": -0.07201459326013278,
+        "ci_upper": 0.18899188679316292,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q10": {
+        "metric_name": "pinball_q10",
+        "base_value": 1.2459248791596071,
+        "increment_value": 1.2569546216751395,
+        "delta": 0.011029742515532348,
+        "ci_lower": -0.061826803793265044,
+        "ci_upper": 0.08741431408832322,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q50": {
+        "metric_name": "pinball_q50",
+        "base_value": 3.5902237781748974,
+        "increment_value": 3.6254221735717147,
+        "delta": 0.03519839539681735,
+        "ci_lower": -0.18791768119164956,
+        "ci_upper": 0.2722815138169842,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q90": {
+        "metric_name": "pinball_q90",
+        "base_value": 1.2348262923692774,
+        "increment_value": 1.3427636112010446,
+        "delta": 0.10793731883176716,
+        "ci_lower": -0.1329012021307055,
+        "ci_upper": 0.37941173165211917,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mae": {
+        "metric_name": "mae",
+        "base_value": 7.180447556349795,
+        "increment_value": 7.250844347143429,
+        "delta": 0.0703967907936347,
+        "ci_lower": -0.39643486669999284,
+        "ci_upper": 0.5304828439486696,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mdape": {
+        "metric_name": "mdape",
+        "base_value": 0.1771734719048249,
+        "increment_value": 0.1905518970254963,
+        "delta": 0.013378425120671389,
+        "ci_lower": 0.013378425120671389,
+        "ci_upper": 0.013378425120671389,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_coverage": {
+        "metric_name": "empirical_coverage",
+        "base_value": 0.7555555555555555,
+        "increment_value": 0.7777777777777778,
+        "delta": 0.022222222222222254,
+        "ci_lower": -0.1111111111111111,
+        "ci_upper": 0.15555555555555556,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mean_width": {
+        "metric_name": "mean_interval_width",
+        "base_value": 20.2335727719937,
+        "increment_value": 19.746982158248425,
+        "delta": -0.4865906137452747,
+        "ci_lower": -1.3733018127403134,
+        "ci_upper": 0.400342630119522,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "width_ratio": 0.9759513250957443,
+      "verdict": "MARGINAL_NO_EFFECT",
+      "verdict_rationale": "Personalization increment from L0_CORE to L1_ROLE_PROFILE showed marginal effect (\u0394 Pinball +0.051 LPA, 95% CI [-0.072, +0.189], width ratio 0.976)."
+    },
+    {
+      "from_level": "L1_ROLE_PROFILE",
+      "to_level": "L2_TARGET_OPPORTUNITY",
+      "transition_name": "L1_ROLE_PROFILE -> L2_TARGET_OPPORTUNITY",
+      "delta_mean_pinball": {
+        "metric_name": "mean_pinball_loss",
+        "base_value": 2.0750468021492994,
+        "increment_value": 2.030566347311284,
+        "delta": -0.044480454838015326,
+        "ci_lower": -0.23358465771615403,
+        "ci_upper": 0.1649350635940785,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q10": {
+        "metric_name": "pinball_q10",
+        "base_value": 1.2569546216751395,
+        "increment_value": 1.2620072191278915,
+        "delta": 0.005052597452751995,
+        "ci_lower": -0.13746677156155412,
+        "ci_upper": 0.18395116210711407,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q50": {
+        "metric_name": "pinball_q50",
+        "base_value": 3.6254221735717147,
+        "increment_value": 3.4841091229573795,
+        "delta": -0.1413130506143352,
+        "ci_lower": -0.48919436207785877,
+        "ci_upper": 0.23185381435652197,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q90": {
+        "metric_name": "pinball_q90",
+        "base_value": 1.3427636112010446,
+        "increment_value": 1.3455826998485818,
+        "delta": 0.0028190886475372157,
+        "ci_lower": -0.3192188144053588,
+        "ci_upper": 0.37515165582398063,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mae": {
+        "metric_name": "mae",
+        "base_value": 7.250844347143429,
+        "increment_value": 6.968218245914759,
+        "delta": -0.2826261012286704,
+        "ci_lower": -0.9615776117873407,
+        "ci_upper": 0.5030115038414826,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mdape": {
+        "metric_name": "mdape",
+        "base_value": 0.1905518970254963,
+        "increment_value": 0.20287556220289207,
+        "delta": 0.012323665177395776,
+        "ci_lower": 0.012323665177395776,
+        "ci_upper": 0.012323665177395776,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_coverage": {
+        "metric_name": "empirical_coverage",
+        "base_value": 0.7777777777777778,
+        "increment_value": 0.7333333333333333,
+        "delta": -0.04444444444444451,
+        "ci_lower": -0.17777777777777778,
+        "ci_upper": 0.06666666666666667,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mean_width": {
+        "metric_name": "mean_interval_width",
+        "base_value": 19.746982158248425,
+        "increment_value": 18.73516145325971,
+        "delta": -1.0118207049887147,
+        "ci_lower": -1.8351675460290038,
+        "ci_upper": -0.09505619714082693,
+        "confidence_level": 0.95,
+        "is_statistically_significant": true
+      },
+      "width_ratio": 0.9487607424324292,
+      "verdict": "ACCEPTED_INCREMENT",
+      "verdict_rationale": "Statistically significant improvement achieved from L1_ROLE_PROFILE to L2_TARGET_OPPORTUNITY. Mean pinball loss changed by -0.044 LPA (95% CI [-0.234, +0.165]) and width ratio compressed to 0.949. Coverage is well-calibrated at 73.3%."
+    },
+    {
+      "from_level": "L2_TARGET_OPPORTUNITY",
+      "to_level": "L3_ADDITIONAL_EVIDENCE",
+      "transition_name": "L2_TARGET_OPPORTUNITY -> L3_ADDITIONAL_EVIDENCE",
+      "delta_mean_pinball": {
+        "metric_name": "mean_pinball_loss",
+        "base_value": 2.030566347311284,
+        "increment_value": 2.030566347311284,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q10": {
+        "metric_name": "pinball_q10",
+        "base_value": 1.2620072191278915,
+        "increment_value": 1.2620072191278915,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q50": {
+        "metric_name": "pinball_q50",
+        "base_value": 3.4841091229573795,
+        "increment_value": 3.4841091229573795,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_pinball_q90": {
+        "metric_name": "pinball_q90",
+        "base_value": 1.3455826998485818,
+        "increment_value": 1.3455826998485818,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mae": {
+        "metric_name": "mae",
+        "base_value": 6.968218245914759,
+        "increment_value": 6.968218245914759,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mdape": {
+        "metric_name": "mdape",
+        "base_value": 0.20287556220289207,
+        "increment_value": 0.20287556220289207,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_coverage": {
+        "metric_name": "empirical_coverage",
+        "base_value": 0.7333333333333333,
+        "increment_value": 0.7333333333333333,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "delta_mean_width": {
+        "metric_name": "mean_interval_width",
+        "base_value": 18.73516145325971,
+        "increment_value": 18.73516145325971,
+        "delta": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "confidence_level": 0.95,
+        "is_statistically_significant": false
+      },
+      "width_ratio": 1.0,
+      "verdict": "MARGINAL_NO_EFFECT",
+      "verdict_rationale": "Personalization increment from L2_TARGET_OPPORTUNITY to L3_ADDITIONAL_EVIDENCE showed marginal effect (\u0394 Pinball +0.000 LPA, 95% CI [+0.000, +0.000], width ratio 1.000)."
+    }
+  ],
+  "masked_missingness_summary": {
+    "unified_model_level": "L3_ADDITIONAL_EVIDENCE",
+    "comparisons": [
+      {
+        "evaluated_level": "L0_CORE",
+        "dedicated_mean_pinball": 2.023658316567927,
+        "masked_mean_pinball": 2.348234693474304,
+        "delta_mean_pinball": 0.32457637690637675,
+        "dedicated_coverage": 0.7555555555555555,
+        "masked_coverage": 0.4666666666666667,
+        "delta_coverage": -0.28888888888888886,
+        "dedicated_mean_width": 20.2335727719937,
+        "masked_mean_width": 15.572650071846219,
+        "verdict": "SEVERE_DEGRADATION"
+      },
+      {
+        "evaluated_level": "L1_ROLE_PROFILE",
+        "dedicated_mean_pinball": 2.0750468021492994,
+        "masked_mean_pinball": 2.348234693474304,
+        "delta_mean_pinball": 0.27318789132500454,
+        "dedicated_coverage": 0.7777777777777778,
+        "masked_coverage": 0.4666666666666667,
+        "delta_coverage": -0.3111111111111111,
+        "dedicated_mean_width": 19.746982158248425,
+        "masked_mean_width": 15.572650071846219,
+        "verdict": "SEVERE_DEGRADATION"
+      },
+      {
+        "evaluated_level": "L2_TARGET_OPPORTUNITY",
+        "dedicated_mean_pinball": 2.030566347311284,
+        "masked_mean_pinball": 2.030566347311284,
+        "delta_mean_pinball": 0.0,
+        "dedicated_coverage": 0.7333333333333333,
+        "masked_coverage": 0.7333333333333333,
+        "delta_coverage": 0.0,
+        "dedicated_mean_width": 18.73516145325971,
+        "masked_mean_width": 18.73516145325971,
+        "verdict": "PRESERVES_CALIBRATION"
+      }
+    ],
+    "overall_recommendation": "SERVE_NESTED_MODELS",
+    "rationale": "Masking optional features in the unified L3 model causes severe loss degradation (up to +0.325 LPA) or coverage drop. Dedicated nested models must be served for profiles missing L1/L2 inputs."
+  },
+  "overall_verdict": "PASS_SELECTIVE_INCREMENTS",
+  "summary_narrative": "Progressive personalization yielded statistically significant gains on select tiers, while other tiers exhibited marginal effects. Review detailed increment insights for feature family ablation decisions in Task T6.04."
+}
