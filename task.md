@@ -253,7 +253,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: reports. Done when: slices below the minimum support are flagged, not hidden. Needs: T5.03. Size: M.
 - [x] **T5.05** [AI] Interval usefulness: width against a naive cohort interval at equal coverage (R-UQ-04, EXP-02). (done 2026-10-18)
       Output: report section. Done when: a verdict on usefulness is recorded. Needs: T5.03. Size: S.
-- [ ] **T5.06** [AI] Shift stress tests: temporal, geographic, rare cells (EXP-03).
+- [x] **T5.06** [AI] Shift stress tests: temporal, geographic, rare cells (EXP-03). (done 2026-10-18)
       Output: report section. Done when: degradation is quantified. Needs: T5.03. Size: M.
 - [ ] **T5.07** [AI] Support checks, abstention policy and evidence-grade rules; thresholds in `config/thresholds.yaml`; audit abstention by group (EXP-11).
       Output: `uncertainty/support` and config. Done when: coverage among answered requests and abstention rate are reported by slice. Needs: T5.04, T5.06. Size: L.
