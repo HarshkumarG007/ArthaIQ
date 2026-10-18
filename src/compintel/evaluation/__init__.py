@@ -177,6 +177,15 @@ from compintel.evaluation.shift_stress import (
     TemporalShiftMetrics,
     evaluate_and_save_shift_stress,
 )
+from compintel.evaluation.skills_embeddings_experiment import (
+    SkillsComparisonDelta,
+    SkillsDecisionVerdict,
+    SkillsEmbeddingVariant,
+    SkillsExperimentReport,
+    SkillsModelEvaluation,
+    evaluate_and_save_skills_experiment,
+    run_skills_embeddings_experiment,
+)
 from compintel.evaluation.sparse_cell_benchmark import (
     ModelBandMetrics,
     SparseCellBand,
@@ -307,6 +316,11 @@ __all__ = [
     "ShrinkageLevelDiagnostic",
     "SliceDimension",
     "SliceParityAudit",
+    "SkillsComparisonDelta",
+    "SkillsDecisionVerdict",
+    "SkillsEmbeddingVariant",
+    "SkillsExperimentReport",
+    "SkillsModelEvaluation",
     "SparseCellBand",
     "SparseCellBandComparison",
     "SparseCellBenchmarkReport",
@@ -347,6 +361,7 @@ __all__ = [
     "evaluate_and_save_interval_usefulness",
     "evaluate_and_save_missingness_study",
     "evaluate_and_save_shift_stress",
+    "evaluate_and_save_skills_experiment",
     "evaluate_and_save_sparse_cell_benchmark",
     "evaluate_and_save_staging_analysis",
     "evaluate_and_save_stagewise_evaluation",
@@ -384,6 +399,7 @@ __all__ = [
     "run_posterior_predictive_checks",
     "run_prior_predictive_checks",
     "run_prior_sensitivity_analysis",
+    "run_skills_embeddings_experiment",
     "run_sparse_cell_benchmark",
     "run_staging_analysis",
     "run_stagewise_evaluation",
