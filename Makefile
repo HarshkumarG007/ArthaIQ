@@ -184,10 +184,10 @@ staging-analysis:
 fairness-audit:
 	uv run python scripts/run_fairness_audit.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
-
-
-
-
+# ---- Skills Feature Modeling Experiment: Taxonomy vs Sentence Embeddings (Phase 7, T7.02, EXP-09) -
+# Usage: make skills-experiment [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+skills-experiment:
+	uv run python scripts/run_skills_experiment.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
