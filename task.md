@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T6.03 (Stage-wise evaluation L0 to L3: change in pinball loss, coverage and width with intervals; compare nested models with the masked-missingness model)**
+**NEXT TASK: T6.03b (Stage-wise personalization diagnostic CLI runner, publication report, and increment verdicts across L0-L3)**
 
 ## How to use this file
 
@@ -285,8 +285,11 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `src/compintel/models/hierarchical/` with tests. Done when: hierarchical partial pooling model trains on log pay, estimates group-level shrinkage weights, handles sparse cells natively by shrinking to parent priors, repairs quantile crossings, and produces valid P10/P50/P90 in nominal INR LPA. Needs: T6.01. Size: M.
   - [x] **T6.02b** [AI] Prior and posterior predictive checks, prior sensitivity analysis, and diagnostic report (R-UQ-06, EXP-05). (done 2026-10-18)
         Output: `docs/research/rung-c-diagnostics.md`, `scripts/run_hierarchical_diagnostics.py`, and `experiments/results/`. Done when: prior predictive checks, posterior predictive checks, shrinkage diagnostics, and prior variance sensitivity are documented with test suite. Needs: T6.02a. Size: M.
-- [ ] **T6.03** [AI] Stage-wise evaluation L0 to L3: change in pinball loss, coverage and width with intervals; compare nested models with the masked-missingness model.
-      Output: report. Done when: each increment has a verdict. Needs: T6.01. Size: L.
+- [ ] **T6.03** [AI] Stage-wise evaluation L0 to L3: change in pinball loss, coverage and width with intervals; compare nested models with the masked-missingness model (split per Rule R-WF-03):
+  - [x] **T6.03a** [AI] Stage-wise progressive evaluation engine and nested model trainer: train nested quantile models across L0 to L3, simulate masked missingness, compute pairwise delta metrics with bootstrap confidence intervals, and enforce evaluation contracts. (done 2026-10-18)
+        Output: `src/compintel/evaluation/stagewise_evaluation.py` with tests. Done when: nested models and masked-missingness pipelines evaluate across L0-L3 tiers, compute delta pinball loss, coverage, and interval width with 95% bootstrap CIs, and pass test suite with >= 90.0% coverage. Needs: T6.01, T5.08. Size: M.
+  - [ ] **T6.03b** [AI] Stage-wise personalization diagnostic CLI runner, publication report, and increment verdicts across L0-L3.
+        Output: `docs/research/stagewise-evaluation-l0-l3.md`, `scripts/run_stagewise_evaluation.py`, and `experiments/results/`. Done when: CLI runner executes evaluation on dev partitions, generates Markdown and JSON reports with formal verdicts for each increment, and passes CI gates. Needs: T6.03a. Size: M.
 - [ ] **T6.04** [AI] Feature-family ablations: role, experience, skills, employer, location, macro (EXP-06).
       Output: ablation table. Done when: each family is kept, deferred or rejected by the pre-registered rule. Needs: T6.03. Size: M.
 - [ ] **T6.05** [AI] Current pay as a feature: anchoring and selection analysis (EXP-07).
