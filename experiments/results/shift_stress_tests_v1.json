@@ -1,0 +1,75 @@
+{
+  "report_id": "SSR-2026-10-18-select",
+  "created_at": "2026-10-18T04:30:27.351728+00:00",
+  "dataset_snapshot_id": "SNAP-1FF34A8E9633",
+  "eval_split_name": "select",
+  "model_name": "catboost_cqr",
+  "nominal_target_coverage": 0.8,
+  "temporal_shift": {
+    "n_historical": 1,
+    "historical_coverage": 1.0,
+    "historical_mean_width": 36.27,
+    "n_recent": 1,
+    "recent_coverage_static": 1.0,
+    "recent_mean_width_static": 36.27,
+    "coverage_drift_static": 0.0,
+    "coverage_drift_static_ci_lower": 0.0,
+    "coverage_drift_static_ci_upper": 0.0,
+    "recent_coverage_recalibrated": 1.0,
+    "recent_mean_width_recalibrated": 36.27,
+    "recalibration_coverage_gain": 0.0,
+    "recalibration_coverage_gain_ci_lower": 0.0,
+    "recalibration_coverage_gain_ci_upper": 0.0,
+    "recalibration_width_change": 0.0,
+    "exp03_verdict": "DRIFT_NEGLIGIBLE",
+    "exp03_interpretation": "Coverage remained stable across historical (100.0%) and recent (100.0%) windows with negligible drift (+0.0 pp). Static calibration remains reliable.",
+    "recommended_recalibration_cadence": "PERIODIC_STATIC (Quarterly recalibration sufficient)"
+  },
+  "geographic_shift": {
+    "primary_hubs_coverage": 1.0,
+    "primary_hubs_mean_width": 36.27,
+    "regional_hubs_coverage": 0.0,
+    "regional_hubs_mean_width": 0.0,
+    "geo_coverage_disparity": -1.0,
+    "geo_width_ratio": 0.0,
+    "primary_obs_count": 1,
+    "regional_obs_count": 0,
+    "slices": [
+      {
+        "location": "PUNE",
+        "location_tier": "TIER_1_PRIMARY",
+        "n_obs": 1,
+        "is_low_support": true,
+        "flag_label": "**FLAGGED (N < 10)**",
+        "coverage": 1.0,
+        "mean_width": 36.27,
+        "median_width": 36.27,
+        "mae": 3.34
+      }
+    ]
+  },
+  "rare_cell_shift": {
+    "common_cells_coverage": 0.0,
+    "common_cells_mean_width": 0.0,
+    "rare_cells_coverage": 1.0,
+    "rare_cells_mean_width": 36.27,
+    "rare_coverage_gap": 1.0,
+    "rare_width_ratio": 1.0,
+    "total_cell_count": 1,
+    "flagged_cell_count": 1,
+    "slices": [
+      {
+        "cell_dimension": "role_seniority",
+        "cell_key": "DATA_SR",
+        "n_obs": 1,
+        "is_low_support": true,
+        "flag_label": "**FLAGGED (N < 10)**",
+        "coverage": 1.0,
+        "mean_width": 36.27,
+        "mae": 3.34
+      }
+    ]
+  },
+  "overall_degradation_quantified": true,
+  "executive_summary": "Evaluated CatBoost CQR on partition 'select' (N=1). Temporal shift analysis yields EXP-03 verdict **DRIFT_NEGLIGIBLE** (coverage drift: +0.0 pp, recalibration gain: +0.0 pp). Recommended recalibration cadence: `PERIODIC_STATIC (Quarterly recalibration sufficient)`. Geographic disparity between primary tech hubs and regional markets is -100.0 pp in coverage and 0.000 in interval width ratio. Identified 1 thin-support slices (N < 10) marked for automated abstention in task T5.07."
+}
