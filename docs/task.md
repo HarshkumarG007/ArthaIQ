@@ -251,7 +251,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `uncertainty/conformal`. Done when: marginal coverage is reported with its assumptions. Needs: T5.02. Size: M.
 - [x] **T5.04** [AI] Coverage and calibration reports by slice, recent window and tails. (done 2026-10-18)
       Output: reports. Done when: slices below the minimum support are flagged, not hidden. Needs: T5.03. Size: M.
-- [ ] **T5.05** [AI] Interval usefulness: width against a naive cohort interval at equal coverage (R-UQ-04, EXP-02).
+- [x] **T5.05** [AI] Interval usefulness: width against a naive cohort interval at equal coverage (R-UQ-04, EXP-02). (done 2026-10-18)
       Output: report section. Done when: a verdict on usefulness is recorded. Needs: T5.03. Size: S.
 - [ ] **T5.06** [AI] Shift stress tests: temporal, geographic, rare cells (EXP-03).
       Output: report section. Done when: degradation is quantified. Needs: T5.03. Size: M.

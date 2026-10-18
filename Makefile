@@ -123,6 +123,11 @@ benchmark-gbm:
 conformal-report:
 	uv run python scripts/generate_conformal_report.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(COVERAGE),--nominal-coverage $(COVERAGE),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Interval Usefulness Report (Phase 5, T5.05, Rules R-UQ-04, EXP-02) -----
+# Usage: make interval-usefulness [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+interval-usefulness:
+	uv run python scripts/evaluate_interval_usefulness.py $(if $(SNAPSHOT),--snapshot-id $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.

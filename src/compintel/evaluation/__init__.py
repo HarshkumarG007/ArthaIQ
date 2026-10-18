@@ -47,6 +47,13 @@ from compintel.evaluation.inflation import (
     OverlapDiagnostics,
     run_leakage_inflation_audit,
 )
+from compintel.evaluation.interval_usefulness import (
+    CohortSliceComparison,
+    IntervalUsefulnessEvaluator,
+    IntervalUsefulnessMetrics,
+    IntervalUsefulnessReport,
+    evaluate_and_save_interval_usefulness,
+)
 from compintel.evaluation.leakage import (
     LeakageAuditReport,
     audit_split_leakage,
@@ -107,6 +114,7 @@ __all__ = [
     "BaselineReportConfig",
     "BaselineReportGenerator",
     "CalibrationMetrics",
+    "CohortSliceComparison",
     "ComprehensiveMetricsReport",
     "ConformalCalibrationReport",
     "ConformalCalibrationReportGenerator",
@@ -123,6 +131,9 @@ __all__ = [
     "GBMBenchmarkReportConfig",
     "GBMBenchmarkReportGenerator",
     "IntervalMetrics",
+    "IntervalUsefulnessEvaluator",
+    "IntervalUsefulnessMetrics",
+    "IntervalUsefulnessReport",
     "LeakageAuditReport",
     "LeakageInflationAuditor",
     "LeakageInflationConfig",
@@ -152,6 +163,7 @@ __all__ = [
     "compute_normalized_file_sha256",
     "create_temporal_grouped_splits",
     "declare_contamination_and_unlock",
+    "evaluate_and_save_interval_usefulness",
     "evaluate_calibration_metrics",
     "evaluate_interval_metrics",
     "evaluate_point_metrics",
