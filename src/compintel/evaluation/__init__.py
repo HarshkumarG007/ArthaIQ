@@ -7,6 +7,13 @@ Provides:
 - Baselines and benchmark comparison.
 """
 
+from compintel.evaluation.abstention_audit import (
+    AbstentionAuditEvaluator,
+    AbstentionAuditReport,
+    AbstentionTradeoffSummary,
+    GroupAbstentionMetrics,
+    evaluate_and_save_abstention_audit,
+)
 from compintel.evaluation.baseline_report import (
     BaselineReport,
     BaselineReportConfig,
@@ -120,6 +127,9 @@ from compintel.evaluation.splits import (
 )
 
 __all__ = [
+    "AbstentionAuditEvaluator",
+    "AbstentionAuditReport",
+    "AbstentionTradeoffSummary",
     "BaselineReport",
     "BaselineReportConfig",
     "BaselineReportGenerator",
@@ -142,6 +152,7 @@ __all__ = [
     "GBMBenchmarkReportGenerator",
     "GeographicShiftSlice",
     "GeographicShiftSummary",
+    "GroupAbstentionMetrics",
     "IntervalMetrics",
     "IntervalUsefulnessEvaluator",
     "IntervalUsefulnessMetrics",
@@ -180,6 +191,7 @@ __all__ = [
     "compute_normalized_file_sha256",
     "create_temporal_grouped_splits",
     "declare_contamination_and_unlock",
+    "evaluate_and_save_abstention_audit",
     "evaluate_and_save_interval_usefulness",
     "evaluate_and_save_shift_stress",
     "evaluate_calibration_metrics",

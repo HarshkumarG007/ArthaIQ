@@ -5,7 +5,7 @@
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
-        interval-usefulness shift-stress-tests final-eval clean
+        interval-usefulness shift-stress-tests audit-abstention final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -133,6 +133,11 @@ interval-usefulness:
 # Usage: make shift-stress-tests [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
 shift-stress-tests:
 	uv run python scripts/run_shift_stress_tests.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
+# ---- Abstention & Coverage Audit (Phase 5, T5.07, Rules R-UQ-02, R-UQ-07, EXP-11) -
+# Usage: make audit-abstention [SNAPSHOT=<id>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+audit-abstention:
+	uv run python scripts/audit_abstention.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

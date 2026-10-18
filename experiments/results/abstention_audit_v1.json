@@ -1,0 +1,211 @@
+{
+  "run_id": "AUDIT-EXP11-20261018-064209",
+  "evaluated_at_utc": "2026-10-18T06:42:09.364034+00:00",
+  "split_evaluated": "select",
+  "total_observations": 1,
+  "tradeoff_summary": {
+    "total_requests": 1,
+    "overall_abstained_count": 1,
+    "overall_abstention_rate": 100.0,
+    "overall_abstention_rate_ci": [
+      100.0,
+      100.0
+    ],
+    "overall_answered_count": 0,
+    "overall_answered_rate": 0.0,
+    "overall_answered_coverage": 0.0,
+    "overall_answered_coverage_ci": [
+      0.0,
+      0.0
+    ],
+    "overall_unconstrained_coverage": 100.0,
+    "overall_unconstrained_coverage_ci": [
+      100.0,
+      100.0
+    ],
+    "coverage_gain_pp": -100.0,
+    "max_location_disparity_pp": 0.0,
+    "max_role_disparity_pp": 0.0,
+    "max_seniority_disparity_pp": 0.0,
+    "max_experience_disparity_pp": 0.0,
+    "primary_abstention_reason": "THIN_COHORT_EVIDENCE",
+    "exp11_verdict": "INSUFFICIENT_COVERAGE_GAIN",
+    "verdict_explanation": "Abstention rate of 100.0% failed to improve realized coverage (gain -100.0 pp).",
+    "support_threshold_recommendation": "CALIBRATE_CONFORMAL_WIDTHS"
+  },
+  "role_slices": [
+    {
+      "slice_dimension": "role_family",
+      "slice_value": "DATA",
+      "total_requests": 1,
+      "abstained_count": 1,
+      "abstention_rate": 100.0,
+      "abstention_rate_ci": [
+        100.0,
+        100.0
+      ],
+      "answered_count": 0,
+      "answered_rate": 0.0,
+      "answered_coverage": 0.0,
+      "answered_coverage_ci": [
+        0.0,
+        0.0
+      ],
+      "unconstrained_coverage": 100.0,
+      "unconstrained_coverage_ci": [
+        100.0,
+        100.0
+      ],
+      "coverage_gain_pp": -100.0,
+      "mean_answered_width_lpa": 0.0,
+      "median_answered_width_lpa": 0.0,
+      "grade_distribution": {
+        "ABSTAINED": 1
+      },
+      "reason_distribution": {
+        "THIN_COHORT_EVIDENCE": 1
+      },
+      "is_flagged_low_support": true
+    }
+  ],
+  "seniority_slices": [
+    {
+      "slice_dimension": "seniority",
+      "slice_value": "SR",
+      "total_requests": 1,
+      "abstained_count": 1,
+      "abstention_rate": 100.0,
+      "abstention_rate_ci": [
+        100.0,
+        100.0
+      ],
+      "answered_count": 0,
+      "answered_rate": 0.0,
+      "answered_coverage": 0.0,
+      "answered_coverage_ci": [
+        0.0,
+        0.0
+      ],
+      "unconstrained_coverage": 100.0,
+      "unconstrained_coverage_ci": [
+        100.0,
+        100.0
+      ],
+      "coverage_gain_pp": -100.0,
+      "mean_answered_width_lpa": 0.0,
+      "median_answered_width_lpa": 0.0,
+      "grade_distribution": {
+        "ABSTAINED": 1
+      },
+      "reason_distribution": {
+        "THIN_COHORT_EVIDENCE": 1
+      },
+      "is_flagged_low_support": true
+    }
+  ],
+  "location_slices": [
+    {
+      "slice_dimension": "location",
+      "slice_value": "PUNE",
+      "total_requests": 1,
+      "abstained_count": 1,
+      "abstention_rate": 100.0,
+      "abstention_rate_ci": [
+        100.0,
+        100.0
+      ],
+      "answered_count": 0,
+      "answered_rate": 0.0,
+      "answered_coverage": 0.0,
+      "answered_coverage_ci": [
+        0.0,
+        0.0
+      ],
+      "unconstrained_coverage": 100.0,
+      "unconstrained_coverage_ci": [
+        100.0,
+        100.0
+      ],
+      "coverage_gain_pp": -100.0,
+      "mean_answered_width_lpa": 0.0,
+      "median_answered_width_lpa": 0.0,
+      "grade_distribution": {
+        "ABSTAINED": 1
+      },
+      "reason_distribution": {
+        "THIN_COHORT_EVIDENCE": 1
+      },
+      "is_flagged_low_support": true
+    }
+  ],
+  "experience_slices": [
+    {
+      "slice_dimension": "experience_band",
+      "slice_value": "6-10",
+      "total_requests": 1,
+      "abstained_count": 1,
+      "abstention_rate": 100.0,
+      "abstention_rate_ci": [
+        100.0,
+        100.0
+      ],
+      "answered_count": 0,
+      "answered_rate": 0.0,
+      "answered_coverage": 0.0,
+      "answered_coverage_ci": [
+        0.0,
+        0.0
+      ],
+      "unconstrained_coverage": 100.0,
+      "unconstrained_coverage_ci": [
+        100.0,
+        100.0
+      ],
+      "coverage_gain_pp": -100.0,
+      "mean_answered_width_lpa": 0.0,
+      "median_answered_width_lpa": 0.0,
+      "grade_distribution": {
+        "ABSTAINED": 1
+      },
+      "reason_distribution": {
+        "THIN_COHORT_EVIDENCE": 1
+      },
+      "is_flagged_low_support": true
+    }
+  ],
+  "provenance_slices": [
+    {
+      "slice_dimension": "provenance_tier",
+      "slice_value": "A",
+      "total_requests": 1,
+      "abstained_count": 1,
+      "abstention_rate": 100.0,
+      "abstention_rate_ci": [
+        100.0,
+        100.0
+      ],
+      "answered_count": 0,
+      "answered_rate": 0.0,
+      "answered_coverage": 0.0,
+      "answered_coverage_ci": [
+        0.0,
+        0.0
+      ],
+      "unconstrained_coverage": 100.0,
+      "unconstrained_coverage_ci": [
+        100.0,
+        100.0
+      ],
+      "coverage_gain_pp": -100.0,
+      "mean_answered_width_lpa": 0.0,
+      "median_answered_width_lpa": 0.0,
+      "grade_distribution": {
+        "ABSTAINED": 1
+      },
+      "reason_distribution": {
+        "THIN_COHORT_EVIDENCE": 1
+      },
+      "is_flagged_low_support": true
+    }
+  ]
+}
