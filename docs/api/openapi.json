@@ -269,7 +269,31 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentModelResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/models/current/card": {
+      "get": {
+        "tags": [
+          "Models & Sources"
+        ],
+        "summary": "Active champion full model card markdown",
+        "description": "Return full markdown model card for active champion model.",
+        "operationId": "get_model_card_v1_models_current_card_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelCardResponse"
+                }
               }
             }
           }
@@ -290,9 +314,103 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "type": "object",
-                  "title": "Response List Sources V1 Sources Get"
+                  "$ref": "#/components/schemas/SourcesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/evidence/summary": {
+      "get": {
+        "tags": [
+          "Evidence & Transparency"
+        ],
+        "summary": "Global evidence base summary and transparency metrics",
+        "description": "Return high-level distribution and transparency metrics for active evidence base.",
+        "operationId": "get_evidence_summary_v1_evidence_summary_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/evidence/cohort": {
+      "get": {
+        "tags": [
+          "Evidence & Transparency"
+        ],
+        "summary": "Cohort-level sample size, recency, and support breakdown",
+        "description": "Return cohort-level evidence details, sample density, and support status.",
+        "operationId": "get_cohort_evidence_v1_evidence_cohort_get",
+        "parameters": [
+          {
+            "name": "occupation_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Canonical occupation ID or role family (e.g., SWE, DATA, MLAI).",
+              "title": "Occupation Id"
+            },
+            "description": "Canonical occupation ID or role family (e.g., SWE, DATA, MLAI)."
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Metro technology hub (e.g., BENGALURU, HYDERABAD, NCR).",
+              "title": "Location Id"
+            },
+            "description": "Metro technology hub (e.g., BENGALURU, HYDERABAD, NCR)."
+          },
+          {
+            "name": "seniority",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Standardized seniority level (JR, MID, SR, STAFF, PRINCIPAL).",
+              "title": "Seniority"
+            },
+            "description": "Standardized seniority level (JR, MID, SR, STAFF, PRINCIPAL)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortEvidenceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -385,6 +503,103 @@
         "title": "AbstentionReasonItem",
         "description": "Individual reason for model abstention (Rules R-MD-08, R-UQ-02)."
       },
+      "CohortEvidenceResponse": {
+        "properties": {
+          "occupation_id": {
+            "type": "string",
+            "title": "Occupation Id",
+            "description": "Queried occupation identifier."
+          },
+          "location_id": {
+            "type": "string",
+            "title": "Location Id",
+            "description": "Queried location identifier."
+          },
+          "seniority": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seniority",
+            "description": "Queried seniority tier."
+          },
+          "data_snapshot_id": {
+            "type": "string",
+            "title": "Data Snapshot Id",
+            "description": "Data snapshot ID."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Model version ID."
+          },
+          "cohort_n": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cohort N",
+            "description": "Sample size of comparable verified records."
+          },
+          "evidence_grade": {
+            "type": "string",
+            "title": "Evidence Grade",
+            "description": "Decoupled evidence grade (GRADE_A, GRADE_B, GRADE_C)."
+          },
+          "support_status": {
+            "type": "string",
+            "title": "Support Status",
+            "description": "Support status (SUPPORTED, GUARDED, THIN_SUPPORT)."
+          },
+          "is_supported": {
+            "type": "boolean",
+            "title": "Is Supported",
+            "description": "Whether cohort meets minimum support for estimation."
+          },
+          "source_mix": {
+            "items": {
+              "$ref": "#/components/schemas/SourceMixItem"
+            },
+            "type": "array",
+            "title": "Source Mix",
+            "description": "Breakdown of source contributions."
+          },
+          "median_observation_age_days": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Median Observation Age Days",
+            "description": "Median observation age in days."
+          },
+          "newest_observation_date": {
+            "type": "string",
+            "title": "Newest Observation Date",
+            "description": "Date of newest observation in cohort."
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "description": "Statutory decision-support disclosure."
+          }
+        },
+        "type": "object",
+        "required": [
+          "occupation_id",
+          "location_id",
+          "data_snapshot_id",
+          "model_version",
+          "cohort_n",
+          "evidence_grade",
+          "support_status",
+          "is_supported",
+          "median_observation_age_days",
+          "newest_observation_date",
+          "disclaimer"
+        ],
+        "title": "CohortEvidenceResponse",
+        "description": "Cell/cohort-level evidence lookup response for GET /v1/evidence/cohort."
+      },
       "ComparisonInfo": {
         "properties": {
           "current_compensation": {
@@ -417,6 +632,113 @@
         ],
         "title": "ComparisonInfo",
         "description": "Compare-only positioning of candidate's current compensation (PT6 / Rule R-MD-13)."
+      },
+      "CurrentModelResponse": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Active champion semantic version (e.g. 0.1.0)."
+          },
+          "bundle_name": {
+            "type": "string",
+            "title": "Bundle Name",
+            "description": "Champion bundle package name."
+          },
+          "rung": {
+            "type": "string",
+            "title": "Rung",
+            "description": "Benchmark ladder rung (e.g. Rung F)."
+          },
+          "target_variable": {
+            "type": "string",
+            "title": "Target Variable",
+            "description": "Primary compensation measure (guaranteed_cash_annual)."
+          },
+          "target_unit": {
+            "type": "string",
+            "title": "Target Unit",
+            "description": "Target currency and unit (nominal INR LPA)."
+          },
+          "created_at_utc": {
+            "type": "string",
+            "title": "Created At Utc",
+            "description": "UTC timestamp of model promotion."
+          },
+          "canonical_snapshot_id": {
+            "type": "string",
+            "title": "Canonical Snapshot Id",
+            "description": "Cryptographic dataset snapshot identifier."
+          },
+          "git_commit_hash": {
+            "type": "string",
+            "title": "Git Commit Hash",
+            "description": "Git commit hash of model training state."
+          },
+          "model_family": {
+            "type": "string",
+            "title": "Model Family",
+            "description": "Statistical learning model family."
+          },
+          "quantiles": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Quantiles",
+            "description": "Target quantile levels."
+          },
+          "metrics_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics Summary",
+            "description": "Pre-registered benchmark metrics."
+          },
+          "features": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Features",
+            "description": "Model input features."
+          },
+          "has_rollback": {
+            "type": "boolean",
+            "title": "Has Rollback",
+            "description": "Whether previous champion bundle is buffered for rollback.",
+            "default": false
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "Mandatory operational limitations and assumptions."
+          },
+          "operational_rules": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Operational Rules",
+            "description": "Governance rules enforced by serving runtime."
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_version",
+          "bundle_name",
+          "rung",
+          "target_variable",
+          "target_unit",
+          "created_at_utc",
+          "canonical_snapshot_id",
+          "git_commit_hash",
+          "model_family"
+        ],
+        "title": "CurrentModelResponse",
+        "description": "Runtime metadata, lineage, and card information for active champion model."
       },
       "Estimate": {
         "properties": {
@@ -594,6 +916,85 @@
         "title": "EvidenceInfo",
         "description": "Empirical cohort evidence metadata and provenance."
       },
+      "EvidenceSummaryResponse": {
+        "properties": {
+          "data_snapshot_id": {
+            "type": "string",
+            "title": "Data Snapshot Id",
+            "description": "Active canonical dataset snapshot ID."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Active model version ID."
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of",
+            "description": "Valuation / release date."
+          },
+          "total_verified_observations": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Verified Observations",
+            "description": "Total verified observations in snapshot."
+          },
+          "occupations_covered": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Occupations Covered",
+            "description": "Canonical roles represented."
+          },
+          "locations_covered": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Locations Covered",
+            "description": "Metro tech hubs represented."
+          },
+          "source_distribution": {
+            "items": {
+              "$ref": "#/components/schemas/SourceDistributionItem"
+            },
+            "type": "array",
+            "title": "Source Distribution",
+            "description": "Composition across sources."
+          },
+          "median_observation_age_days": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Median Observation Age Days",
+            "description": "Median age of observations in days."
+          },
+          "evidence_grades_policy": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Evidence Grades Policy",
+            "description": "Criteria for grades A, B, C."
+          },
+          "abstention_thresholds": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Abstention Thresholds",
+            "description": "Preregistered abstention cutoffs."
+          }
+        },
+        "type": "object",
+        "required": [
+          "data_snapshot_id",
+          "model_version",
+          "as_of",
+          "total_verified_observations",
+          "median_observation_age_days"
+        ],
+        "title": "EvidenceSummaryResponse",
+        "description": "Global evidence base summary for GET /v1/evidence/summary."
+      },
       "ExperienceInput": {
         "properties": {
           "total_years": {
@@ -739,6 +1140,33 @@
         ],
         "title": "LocationsResponse",
         "description": "Response payload for GET /v1/taxonomy/locations."
+      },
+      "ModelCardResponse": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Active champion semantic version."
+          },
+          "canonical_snapshot_id": {
+            "type": "string",
+            "title": "Canonical Snapshot Id",
+            "description": "Cryptographic dataset snapshot identifier."
+          },
+          "card_markdown": {
+            "type": "string",
+            "title": "Card Markdown",
+            "description": "Full model card markdown content."
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_version",
+          "canonical_snapshot_id",
+          "card_markdown"
+        ],
+        "title": "ModelCardResponse",
+        "description": "Model card full markdown and governance metadata."
       },
       "OccupationItem": {
         "properties": {
@@ -1051,6 +1479,110 @@
         "title": "SeniorityItem",
         "description": "Standardized seniority tier representation."
       },
+      "SourceDistributionItem": {
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "title": "Source Id",
+            "description": "Source identifier."
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name",
+            "description": "Source name."
+          },
+          "provenance_tier": {
+            "type": "string",
+            "title": "Provenance Tier",
+            "description": "SQSF provenance tier (TIER_A, TIER_B)."
+          },
+          "share": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Share",
+            "description": "Proportion of total observations."
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_id",
+          "source_name",
+          "provenance_tier",
+          "share"
+        ],
+        "title": "SourceDistributionItem",
+        "description": "Distribution share of an individual source type across the evidence base."
+      },
+      "SourceItem": {
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "title": "Source Id",
+            "description": "Unique source code (e.g. SRC-INT-VOL-01)."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Full descriptive title of data provider."
+          },
+          "licence": {
+            "type": "string",
+            "title": "Licence",
+            "description": "Legal license / consent basis under Rule R-DA-01."
+          },
+          "tier": {
+            "type": "string",
+            "title": "Tier",
+            "description": "Source Quality Scoring Framework tier (TIER_A, TIER_B)."
+          },
+          "training_eligible": {
+            "type": "boolean",
+            "title": "Training Eligible",
+            "description": "Whether source observations enter model training."
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Purpose",
+            "description": "Governance scope and purpose of the dataset."
+          },
+          "record_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Record Count",
+            "description": "Observation count in snapshot."
+          },
+          "freshness": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freshness",
+            "description": "Observation currency / update cadence."
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_id",
+          "name",
+          "licence",
+          "tier",
+          "training_eligible",
+          "purpose"
+        ],
+        "title": "SourceItem",
+        "description": "Approved data source specification and provenance metadata."
+      },
       "SourceMixItem": {
         "properties": {
           "source_type": {
@@ -1073,6 +1605,54 @@
         ],
         "title": "SourceMixItem",
         "description": "Observation provenance representation."
+      },
+      "SourcesResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total",
+            "description": "Total approved data sources."
+          },
+          "data_snapshot_id": {
+            "type": "string",
+            "title": "Data Snapshot Id",
+            "description": "Canonical data lineage snapshot ID."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Active serving model version ID."
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceItem"
+            },
+            "type": "array",
+            "title": "Sources",
+            "description": "Approved sources inventory."
+          },
+          "policy": {
+            "type": "string",
+            "title": "Policy",
+            "description": "Legal and licensing compliance policy statement."
+          },
+          "licence_gate_status": {
+            "type": "string",
+            "title": "Licence Gate Status",
+            "description": "Statutory license gate verification.",
+            "default": "COMPLIANT_R_DA_01"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "data_snapshot_id",
+          "model_version",
+          "policy"
+        ],
+        "title": "SourcesResponse",
+        "description": "Response payload for GET /v1/sources."
       },
       "ValidationError": {
         "properties": {

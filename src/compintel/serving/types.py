@@ -329,3 +329,164 @@ class SenioritiesResponse(BaseModel):
 
     total: int = Field(..., ge=0, description="Total seniority levels.")
     items: list[SeniorityItem] = Field(default_factory=list, description="Seniority items.")
+
+
+# -----------------------------------------------------------------------------
+# 5. Model Metadata, Sources, and Evidence Types (T9.05, architecture.md Sec 11)
+# -----------------------------------------------------------------------------
+
+
+class CurrentModelResponse(BaseModel):
+    """Runtime metadata, lineage, and card information for active champion model."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    model_version: str = Field(..., description="Active champion semantic version (e.g. 0.1.0).")
+    bundle_name: str = Field(..., description="Champion bundle package name.")
+    rung: str = Field(..., description="Benchmark ladder rung (e.g. Rung F).")
+    target_variable: str = Field(
+        ..., description="Primary compensation measure (guaranteed_cash_annual)."
+    )
+    target_unit: str = Field(..., description="Target currency and unit (nominal INR LPA).")
+    created_at_utc: str = Field(..., description="UTC timestamp of model promotion.")
+    canonical_snapshot_id: str = Field(
+        ..., description="Cryptographic dataset snapshot identifier."
+    )
+    git_commit_hash: str = Field(..., description="Git commit hash of model training state.")
+    model_family: str = Field(..., description="Statistical learning model family.")
+    quantiles: list[float] = Field(
+        default_factory=lambda: [0.10, 0.50, 0.90], description="Target quantile levels."
+    )
+    metrics_summary: dict[str, Any] = Field(
+        default_factory=dict, description="Pre-registered benchmark metrics."
+    )
+    features: list[str] = Field(default_factory=list, description="Model input features.")
+    has_rollback: bool = Field(
+        default=False, description="Whether previous champion bundle is buffered for rollback."
+    )
+    limitations: list[str] = Field(
+        default_factory=list, description="Mandatory operational limitations and assumptions."
+    )
+    operational_rules: list[str] = Field(
+        default_factory=list, description="Governance rules enforced by serving runtime."
+    )
+
+
+class ModelCardResponse(BaseModel):
+    """Model card full markdown and governance metadata."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    model_version: str = Field(..., description="Active champion semantic version.")
+    canonical_snapshot_id: str = Field(
+        ..., description="Cryptographic dataset snapshot identifier."
+    )
+    card_markdown: str = Field(..., description="Full model card markdown content.")
+
+
+class SourceItem(BaseModel):
+    """Approved data source specification and provenance metadata."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    source_id: str = Field(..., description="Unique source code (e.g. SRC-INT-VOL-01).")
+    name: str = Field(..., description="Full descriptive title of data provider.")
+    licence: str = Field(..., description="Legal license / consent basis under Rule R-DA-01.")
+    tier: str = Field(..., description="Source Quality Scoring Framework tier (TIER_A, TIER_B).")
+    training_eligible: bool = Field(
+        ..., description="Whether source observations enter model training."
+    )
+    purpose: str = Field(..., description="Governance scope and purpose of the dataset.")
+    record_count: int | None = Field(default=None, description="Observation count in snapshot.")
+    freshness: str | None = Field(
+        default=None, description="Observation currency / update cadence."
+    )
+
+
+class SourcesResponse(BaseModel):
+    """Response payload for GET /v1/sources."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    total: int = Field(..., ge=0, description="Total approved data sources.")
+    data_snapshot_id: str = Field(..., description="Canonical data lineage snapshot ID.")
+    model_version: str = Field(..., description="Active serving model version ID.")
+    sources: list[SourceItem] = Field(
+        default_factory=list, description="Approved sources inventory."
+    )
+    policy: str = Field(..., description="Legal and licensing compliance policy statement.")
+    licence_gate_status: str = Field(
+        default="COMPLIANT_R_DA_01", description="Statutory license gate verification."
+    )
+
+
+class SourceDistributionItem(BaseModel):
+    """Distribution share of an individual source type across the evidence base."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    source_id: str = Field(..., description="Source identifier.")
+    source_name: str = Field(..., description="Source name.")
+    provenance_tier: str = Field(..., description="SQSF provenance tier (TIER_A, TIER_B).")
+    share: float = Field(..., ge=0.0, le=1.0, description="Proportion of total observations.")
+
+
+class EvidenceSummaryResponse(BaseModel):
+    """Global evidence base summary for GET /v1/evidence/summary."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    data_snapshot_id: str = Field(..., description="Active canonical dataset snapshot ID.")
+    model_version: str = Field(..., description="Active model version ID.")
+    as_of: str = Field(..., description="Valuation / release date.")
+    total_verified_observations: int = Field(
+        ..., ge=0, description="Total verified observations in snapshot."
+    )
+    occupations_covered: list[str] = Field(
+        default_factory=list, description="Canonical roles represented."
+    )
+    locations_covered: list[str] = Field(
+        default_factory=list, description="Metro tech hubs represented."
+    )
+    source_distribution: list[SourceDistributionItem] = Field(
+        default_factory=list, description="Composition across sources."
+    )
+    median_observation_age_days: float = Field(
+        ..., ge=0.0, description="Median age of observations in days."
+    )
+    evidence_grades_policy: dict[str, str] = Field(
+        default_factory=dict, description="Criteria for grades A, B, C."
+    )
+    abstention_thresholds: dict[str, Any] = Field(
+        default_factory=dict, description="Preregistered abstention cutoffs."
+    )
+
+
+class CohortEvidenceResponse(BaseModel):
+    """Cell/cohort-level evidence lookup response for GET /v1/evidence/cohort."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    occupation_id: str = Field(..., description="Queried occupation identifier.")
+    location_id: str = Field(..., description="Queried location identifier.")
+    seniority: str | None = Field(default=None, description="Queried seniority tier.")
+    data_snapshot_id: str = Field(..., description="Data snapshot ID.")
+    model_version: str = Field(..., description="Model version ID.")
+    cohort_n: int = Field(..., ge=0, description="Sample size of comparable verified records.")
+    evidence_grade: str = Field(
+        ..., description="Decoupled evidence grade (GRADE_A, GRADE_B, GRADE_C)."
+    )
+    support_status: str = Field(
+        ..., description="Support status (SUPPORTED, GUARDED, THIN_SUPPORT)."
+    )
+    is_supported: bool = Field(
+        ..., description="Whether cohort meets minimum support for estimation."
+    )
+    source_mix: list[SourceMixItem] = Field(
+        default_factory=list, description="Breakdown of source contributions."
+    )
+    median_observation_age_days: float = Field(
+        ..., ge=0.0, description="Median observation age in days."
+    )
+    newest_observation_date: str = Field(..., description="Date of newest observation in cohort.")
+    disclaimer: str = Field(..., description="Statutory decision-support disclosure.")
