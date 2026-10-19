@@ -30,6 +30,15 @@ from compintel.evaluation.baseline_report import (
     add_experience_band_column,
     run_baseline_evaluation_report,
 )
+from compintel.evaluation.career_trajectory_experiment import (
+    TrajectoryComparisonDelta,
+    TrajectoryDecisionVerdict,
+    TrajectoryExperimentReport,
+    TrajectoryModelEvaluation,
+    TrajectoryVariant,
+    evaluate_and_save_career_trajectory,
+    run_career_trajectory_experiment,
+)
 from compintel.evaluation.champion import (
     CandidateEvaluation,
     ChampionSelectionEvaluator,
@@ -237,6 +246,11 @@ __all__ = [
     "AnchoringDecisionVerdict",
     "AnchoringModelMetrics",
     "AnchoringRegressionMetrics",
+    "TrajectoryComparisonDelta",
+    "TrajectoryDecisionVerdict",
+    "TrajectoryExperimentReport",
+    "TrajectoryModelEvaluation",
+    "TrajectoryVariant",
     "BaselineReport",
     "BaselineReportConfig",
     "BaselineReportGenerator",
@@ -355,6 +369,7 @@ __all__ = [
     "declare_contamination_and_unlock",
     "evaluate_and_save_abstention_audit",
     "evaluate_and_save_anchoring_analysis",
+    "evaluate_and_save_career_trajectory",
     "evaluate_and_save_fairness_audit",
     "evaluate_and_save_family_ablation",
     "evaluate_and_save_hierarchical_diagnostics",
@@ -388,6 +403,7 @@ __all__ = [
     "reproduce_experiment",
     "root_mean_squared_error",
     "run_baseline_evaluation_report",
+    "run_career_trajectory_experiment",
     "run_current_pay_anchoring_analysis",
     "run_fairness_audit",
     "run_family_ablation_study",

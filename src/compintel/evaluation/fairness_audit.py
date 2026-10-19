@@ -335,7 +335,8 @@ class FairnessAuditReport:
 
         for da in self.data_availability:
             status_icon = (
-                "✅" if da.availability_status == "ADEQUATE"
+                "✅"
+                if da.availability_status == "ADEQUATE"
                 else ("⚠️" if da.availability_status == "DATA_GAP" else "❌")
             )
             lines.append(
@@ -418,9 +419,9 @@ def _bootstrap_mean_ci(
     if len(arr) < 2:
         v = float(np.mean(arr)) if len(arr) > 0 else 0.0
         return v, v
-    boot = np.array([
-        np.mean(rng.choice(arr, size=len(arr), replace=True)) for _ in range(n_resamples)
-    ])
+    boot = np.array(
+        [np.mean(rng.choice(arr, size=len(arr), replace=True)) for _ in range(n_resamples)]
+    )
     return float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))
 
 
@@ -608,8 +609,12 @@ def _evaluate_slice_parity(
             gaps_and_mitigations=["No observations found for this slice dimension."],
         )
 
-    valid = [m for m in dim_metrics if m.n_observations >= PARITY_AVAILABILITY_MIN_N
-             and not (isinstance(m.mae_ratio_to_global, float) and np.isnan(m.mae_ratio_to_global))]
+    valid = [
+        m
+        for m in dim_metrics
+        if m.n_observations >= PARITY_AVAILABILITY_MIN_N
+        and not (isinstance(m.mae_ratio_to_global, float) and np.isnan(m.mae_ratio_to_global))
+    ]
     low_support = [m for m in dim_metrics if m.n_observations < LOW_SUPPORT_MIN_N]
 
     if not valid:
@@ -630,22 +635,16 @@ def _evaluate_slice_parity(
 
     max_mae_ratio = max(m.mae_ratio_to_global for m in valid)
     max_cov_gap = max(m.coverage_gap_to_global for m in valid)
-    max_abs_gap = max(
-        abs(m.abstention_rate - global_abstention) for m in valid
-    )
+    max_abs_gap = max(abs(m.abstention_rate - global_abstention) for m in valid)
 
     failing: list[str] = []
     if max_mae_ratio > PARITY_MAE_RATIO_THRESHOLD:
         failing.extend(
-            str(m.slice_value)
-            for m in valid
-            if m.mae_ratio_to_global > PARITY_MAE_RATIO_THRESHOLD
+            str(m.slice_value) for m in valid if m.mae_ratio_to_global > PARITY_MAE_RATIO_THRESHOLD
         )
     if max_cov_gap > PARITY_COVERAGE_MIN_GAP:
         failing.extend(
-            str(m.slice_value)
-            for m in valid
-            if m.coverage_gap_to_global > PARITY_COVERAGE_MIN_GAP
+            str(m.slice_value) for m in valid if m.coverage_gap_to_global > PARITY_COVERAGE_MIN_GAP
         )
 
     gaps: list[str] = []
@@ -713,7 +712,8 @@ def _build_data_availability(
         for tier, grp in df_geo.group_by("_geo_tier"):
             n = len(grp)
             status = (
-                "ADEQUATE" if n >= LOW_SUPPORT_MIN_N
+                "ADEQUATE"
+                if n >= LOW_SUPPORT_MIN_N
                 else ("DATA_GAP" if n >= PARITY_AVAILABILITY_MIN_N else "ABSENT")
             )
             note = (
@@ -725,13 +725,15 @@ def _build_data_availability(
                     else f"Insufficient data (N={n}); abstention expected for this tier."
                 )
             )
-            reports.append(DataAvailabilityReport(
-                dimension=SliceDimension.GEOGRAPHIC,
-                slice_value=str(tier[0]) if isinstance(tier, tuple) else str(tier),
-                n_observations=n,
-                availability_status=status,
-                availability_note=note,
-            ))
+            reports.append(
+                DataAvailabilityReport(
+                    dimension=SliceDimension.GEOGRAPHIC,
+                    slice_value=str(tier[0]) if isinstance(tier, tuple) else str(tier),
+                    n_observations=n,
+                    availability_status=status,
+                    availability_note=note,
+                )
+            )
 
     # Experience band
     if "years_experience" in df.columns:
@@ -742,7 +744,8 @@ def _build_data_availability(
             bands[band] = bands.get(band, 0) + 1
         for band, n in bands.items():
             status = (
-                "ADEQUATE" if n >= LOW_SUPPORT_MIN_N
+                "ADEQUATE"
+                if n >= LOW_SUPPORT_MIN_N
                 else ("DATA_GAP" if n >= PARITY_AVAILABILITY_MIN_N else "ABSENT")
             )
             note = (
@@ -750,47 +753,57 @@ def _build_data_availability(
                 if status == "ADEQUATE"
                 else f"Marginal data (N={n}) for experience band '{band}'."
             )
-            reports.append(DataAvailabilityReport(
-                dimension=SliceDimension.EXPERIENCE_BAND,
-                slice_value=band,
-                n_observations=n,
-                availability_status=status,
-                availability_note=note,
-            ))
+            reports.append(
+                DataAvailabilityReport(
+                    dimension=SliceDimension.EXPERIENCE_BAND,
+                    slice_value=band,
+                    n_observations=n,
+                    availability_status=status,
+                    availability_note=note,
+                )
+            )
 
     # Role family
     if "role_family" in df.columns:
         for role, grp in df.group_by("role_family"):
             n = len(grp)
             status = (
-                "ADEQUATE" if n >= LOW_SUPPORT_MIN_N
+                "ADEQUATE"
+                if n >= LOW_SUPPORT_MIN_N
                 else ("DATA_GAP" if n >= PARITY_AVAILABILITY_MIN_N else "ABSENT")
             )
-            reports.append(DataAvailabilityReport(
-                dimension=SliceDimension.ROLE_FAMILY,
-                slice_value=str(role[0]) if isinstance(role, tuple) else str(role),
-                n_observations=n,
-                availability_status=status,
-                availability_note="Adequate sample." if status == "ADEQUATE"
-                else f"Marginal data (N={n}).",
-            ))
+            reports.append(
+                DataAvailabilityReport(
+                    dimension=SliceDimension.ROLE_FAMILY,
+                    slice_value=str(role[0]) if isinstance(role, tuple) else str(role),
+                    n_observations=n,
+                    availability_status=status,
+                    availability_note="Adequate sample."
+                    if status == "ADEQUATE"
+                    else f"Marginal data (N={n}).",
+                )
+            )
 
     # Employer tier
     if "employer_tier" in df.columns:
         for tier, grp in df.group_by("employer_tier"):
             n = len(grp)
             status = (
-                "ADEQUATE" if n >= LOW_SUPPORT_MIN_N
+                "ADEQUATE"
+                if n >= LOW_SUPPORT_MIN_N
                 else ("DATA_GAP" if n >= PARITY_AVAILABILITY_MIN_N else "ABSENT")
             )
-            reports.append(DataAvailabilityReport(
-                dimension=SliceDimension.EMPLOYER_TIER,
-                slice_value=str(tier[0]) if isinstance(tier, tuple) else str(tier),
-                n_observations=n,
-                availability_status=status,
-                availability_note="Adequate sample." if status == "ADEQUATE"
-                else f"Marginal data (N={n}).",
-            ))
+            reports.append(
+                DataAvailabilityReport(
+                    dimension=SliceDimension.EMPLOYER_TIER,
+                    slice_value=str(tier[0]) if isinstance(tier, tuple) else str(tier),
+                    n_observations=n,
+                    availability_status=status,
+                    availability_note="Adequate sample."
+                    if status == "ADEQUATE"
+                    else f"Marginal data (N={n}).",
+                )
+            )
 
     return reports
 
@@ -865,37 +878,51 @@ def run_fairness_audit(
     all_group_metrics: list[GroupFairnessMetrics] = []
     eval_rows = eval_df.to_dicts()
 
-    def _slice_indices(mask: np.ndarray) -> tuple[
-        np.ndarray, np.ndarray, np.ndarray, np.ndarray
-    ]:
+    def _slice_indices(mask: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         return y_all[mask], p10_all[mask], p50_all[mask], p90_all[mask]
 
     # 4a. Geographic slices
     if "location" in eval_df.columns:
-        geo_assignments = np.array([
-            _assign_geo_tier(row.get("location")) for row in eval_rows
-        ])
+        geo_assignments = np.array([_assign_geo_tier(row.get("location")) for row in eval_rows])
         for geo_tier in sorted(set(geo_assignments)):
             mask = geo_assignments == geo_tier
             ys, ps10, ps50, ps90 = _slice_indices(mask)
             gm = _compute_group_metrics(
-                ys, ps10, ps50, ps90, global_mae, global_cov, global_abstention,
-                SliceDimension.GEOGRAPHIC, geo_tier, n_resamples=n_resamples, seed=seed
+                ys,
+                ps10,
+                ps50,
+                ps90,
+                global_mae,
+                global_cov,
+                global_abstention,
+                SliceDimension.GEOGRAPHIC,
+                geo_tier,
+                n_resamples=n_resamples,
+                seed=seed,
             )
             all_group_metrics.append(gm)
 
     # 4b. Experience band slices
     if "years_experience" in eval_df.columns:
         yoe_vals = eval_df["years_experience"].to_list()
-        band_assignments = np.array([
-            _assign_experience_band(float(v) if v is not None else None) for v in yoe_vals
-        ])
+        band_assignments = np.array(
+            [_assign_experience_band(float(v) if v is not None else None) for v in yoe_vals]
+        )
         for band in sorted(set(band_assignments)):
             mask = band_assignments == band
             ys, ps10, ps50, ps90 = _slice_indices(mask)
             gm = _compute_group_metrics(
-                ys, ps10, ps50, ps90, global_mae, global_cov, global_abstention,
-                SliceDimension.EXPERIENCE_BAND, band, n_resamples=n_resamples, seed=seed
+                ys,
+                ps10,
+                ps50,
+                ps90,
+                global_mae,
+                global_cov,
+                global_abstention,
+                SliceDimension.EXPERIENCE_BAND,
+                band,
+                n_resamples=n_resamples,
+                seed=seed,
             )
             all_group_metrics.append(gm)
 
@@ -907,8 +934,17 @@ def run_fairness_audit(
             mask = np.array([str(r) == role for r in roles])
             ys, ps10, ps50, ps90 = _slice_indices(mask)
             gm = _compute_group_metrics(
-                ys, ps10, ps50, ps90, global_mae, global_cov, global_abstention,
-                SliceDimension.ROLE_FAMILY, role, n_resamples=n_resamples, seed=seed
+                ys,
+                ps10,
+                ps50,
+                ps90,
+                global_mae,
+                global_cov,
+                global_abstention,
+                SliceDimension.ROLE_FAMILY,
+                role,
+                n_resamples=n_resamples,
+                seed=seed,
             )
             all_group_metrics.append(gm)
 
@@ -920,8 +956,17 @@ def run_fairness_audit(
             mask = np.array([str(t) == tier for t in tiers])
             ys, ps10, ps50, ps90 = _slice_indices(mask)
             gm = _compute_group_metrics(
-                ys, ps10, ps50, ps90, global_mae, global_cov, global_abstention,
-                SliceDimension.EMPLOYER_TIER, tier, n_resamples=n_resamples, seed=seed
+                ys,
+                ps10,
+                ps50,
+                ps90,
+                global_mae,
+                global_cov,
+                global_abstention,
+                SliceDimension.EMPLOYER_TIER,
+                tier,
+                n_resamples=n_resamples,
+                seed=seed,
             )
             all_group_metrics.append(gm)
 
@@ -1076,12 +1121,15 @@ def evaluate_and_save_fairness_audit(
         synth_base = generate_synthetic_observations_df(n_records=n_synth, seed=seed)
         dates = [_dt.date(2024, 1, 1) + _dt.timedelta(days=i * 2) for i in range(n_synth)]
         persons = [f"PER-{i:04d}" for i in range(n_synth)]
-        synth_df = synth_base.with_columns([
-            pl.Series("as_of_date", dates),
-            pl.Series("effective_on", dates),
-            pl.Series("person_cluster_id", persons),
-        ])
+        synth_df = synth_base.with_columns(
+            [
+                pl.Series("as_of_date", dates),
+                pl.Series("effective_on", dates),
+                pl.Series("person_cluster_id", persons),
+            ]
+        )
         from compintel.evaluation.splits import SplitConfig, TemporalGroupedSplitter
+
         splitter = TemporalGroupedSplitter(
             SplitConfig(date_column="as_of_date", group_column="person_cluster_id")
         )

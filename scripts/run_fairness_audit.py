@@ -165,6 +165,7 @@ def main() -> int:
     except Exception as exc:
         print(f"\n[UNEXPECTED ERROR] {exc}", file=sys.stderr)
         import traceback
+
         traceback.print_exc()
         return 2
 

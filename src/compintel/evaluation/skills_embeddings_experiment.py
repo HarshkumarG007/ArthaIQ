@@ -362,9 +362,7 @@ def _extract_skill_corpus(df: pl.DataFrame) -> list[str]:
             "MLAI": (
                 "python pytorch tensorflow deep_learning transformers mlops huggingface nlp cv"
             ),
-            "OTHER": (
-                "agile sprint_planning system_architecture stakeholder_management roadmap"
-            ),
+            "OTHER": ("agile sprint_planning system_architecture stakeholder_management roadmap"),
         }
         res: list[str] = []
         for i in range(len(df)):

@@ -142,7 +142,10 @@ class TestFairnessMetricComputation:
         p50 = y + 1.0
         p90 = y + 5.0
         metrics = _compute_group_metrics(
-            y, p10, p50, p90,
+            y,
+            p10,
+            p50,
+            p90,
             global_mae=2.0,
             global_coverage=0.80,
             global_abstention=0.0,
@@ -165,7 +168,10 @@ class TestFairnessMetricComputation:
     def test_compute_group_metrics_empty(self) -> None:
         empty = np.array([], dtype=np.float64)
         metrics = _compute_group_metrics(
-            empty, empty, empty, empty,
+            empty,
+            empty,
+            empty,
+            empty,
             global_mae=2.0,
             global_coverage=0.80,
             global_abstention=0.0,
@@ -180,9 +186,7 @@ class TestFairnessMetricComputation:
 class TestFairnessAuditEngine:
     """Test end-to-end fairness audit execution."""
 
-    def test_test_partition_is_strictly_locked(
-        self, synthetic_fairness_df: pl.DataFrame
-    ) -> None:
+    def test_test_partition_is_strictly_locked(self, synthetic_fairness_df: pl.DataFrame) -> None:
         train_df = synthetic_fairness_df[:40]
         eval_df = synthetic_fairness_df[40:]
         with pytest.raises(DataContractError, match="EVALUATION_ISOLATION_VIOLATION"):
@@ -206,9 +210,7 @@ class TestFairnessAuditEngine:
                 eval_split_name="select",
             )
 
-    def test_run_fairness_audit_success(
-        self, synthetic_fairness_df: pl.DataFrame
-    ) -> None:
+    def test_run_fairness_audit_success(self, synthetic_fairness_df: pl.DataFrame) -> None:
         train_df = synthetic_fairness_df[:40]
         eval_df = synthetic_fairness_df[40:]
         report = run_fairness_audit(
@@ -264,9 +266,7 @@ class TestEvaluateAndSaveFairnessAudit:
         assert json_path.exists()
         assert report.n_total_observations > 0
 
-    def test_cli_runner(
-        self, tmp_path: Path, synthetic_fairness_df: pl.DataFrame
-    ) -> None:
+    def test_cli_runner(self, tmp_path: Path, synthetic_fairness_df: pl.DataFrame) -> None:
         parquet_path = tmp_path / "canonical.parquet"
         synthetic_fairness_df.write_parquet(parquet_path)
 
@@ -275,12 +275,18 @@ class TestEvaluateAndSaveFairnessAudit:
 
         test_args = [
             "run_fairness_audit.py",
-            "--canonical-path", str(parquet_path),
-            "--output-md", str(md_path),
-            "--output-json", str(json_path),
-            "--split", "select",
-            "--n-resamples", "50",
-            "--seed", "42",
+            "--canonical-path",
+            str(parquet_path),
+            "--output-md",
+            str(md_path),
+            "--output-json",
+            str(json_path),
+            "--split",
+            "select",
+            "--n-resamples",
+            "50",
+            "--seed",
+            "42",
             "--allow-synthetic",
         ]
 
