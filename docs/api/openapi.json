@@ -164,9 +164,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response List Occupations V1 Taxonomy Occupations Get"
+                  "$ref": "#/components/schemas/OccupationsResponse"
                 }
               }
             }
@@ -218,9 +216,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response List Locations V1 Taxonomy Locations Get"
+                  "$ref": "#/components/schemas/LocationsResponse"
                 }
               }
             }
@@ -231,6 +227,28 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/taxonomy/seniorities": {
+      "get": {
+        "tags": [
+          "Taxonomy"
+        ],
+        "summary": "List canonical seniority levels",
+        "description": "Retrieve standardized Indian tech seniority tiers.",
+        "operationId": "list_seniorities_v1_taxonomy_seniorities_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SenioritiesResponse"
                 }
               }
             }
@@ -643,6 +661,156 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "LocationItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Standardized metro identifier (e.g. BENGALURU)."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Primary city / metro display name."
+          },
+          "state": {
+            "type": "string",
+            "title": "State",
+            "description": "State or union territory."
+          },
+          "tier": {
+            "type": "integer",
+            "maximum": 3.0,
+            "minimum": 1.0,
+            "title": "Tier",
+            "description": "Metro city tier classification."
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "description": "Common aliases and acronyms."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "state",
+          "tier"
+        ],
+        "title": "LocationItem",
+        "description": "Standardized Indian metro technology hub representation."
+      },
+      "LocationsResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total",
+            "description": "Total matching locations."
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query",
+            "description": "Applied search query filter."
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LocationItem"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "Location items."
+          }
+        },
+        "type": "object",
+        "required": [
+          "total"
+        ],
+        "title": "LocationsResponse",
+        "description": "Response payload for GET /v1/taxonomy/locations."
+      },
+      "OccupationItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Role family identifier (e.g. SWE, DATA, MLAI)."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable title."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Scope of technical discipline."
+          },
+          "examples": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Examples",
+            "description": "Common matching job titles."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description"
+        ],
+        "title": "OccupationItem",
+        "description": "Canonical occupational role family representation."
+      },
+      "OccupationsResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total",
+            "description": "Total matching occupations."
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query",
+            "description": "Applied search query filter."
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OccupationItem"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "Occupational items."
+          }
+        },
+        "type": "object",
+        "required": [
+          "total"
+        ],
+        "title": "OccupationsResponse",
+        "description": "Response payload for GET /v1/taxonomy/occupations."
+      },
       "ProblemDetails": {
         "properties": {
           "type": {
@@ -825,6 +993,63 @@
         ],
         "title": "ReliabilityInfo",
         "description": "Reliability and evidence grading attached to prediction."
+      },
+      "SenioritiesResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total",
+            "description": "Total seniority levels."
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SeniorityItem"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "Seniority items."
+          }
+        },
+        "type": "object",
+        "required": [
+          "total"
+        ],
+        "title": "SenioritiesResponse",
+        "description": "Response payload for GET /v1/taxonomy/seniorities."
+      },
+      "SeniorityItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Seniority code (JR, MID, SR, STAFF, PRINCIPAL)."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Display title for seniority tier."
+          },
+          "typical_years": {
+            "type": "string",
+            "title": "Typical Years",
+            "description": "Typical experience span in years."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Scope of independence and technical impact."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "typical_years",
+          "description"
+        ],
+        "title": "SeniorityItem",
+        "description": "Standardized seniority tier representation."
       },
       "SourceMixItem": {
         "properties": {

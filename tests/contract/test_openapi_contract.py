@@ -57,6 +57,7 @@ class TestOpenAPIContract:
             "/v1/estimates",
             "/v1/taxonomy/occupations",
             "/v1/taxonomy/locations",
+            "/v1/taxonomy/seniorities",
             "/v1/models/current",
             "/v1/sources",
         ]

@@ -261,3 +261,71 @@ class Abstained(BaseModel):
 
 # Union result type representing the outcome of estimate()
 EstimateResult = Estimate | Abstained
+
+
+# -----------------------------------------------------------------------------
+# 4. Taxonomy & Reference Lookup Types
+# -----------------------------------------------------------------------------
+
+
+class OccupationItem(BaseModel):
+    """Canonical occupational role family representation."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    id: str = Field(..., description="Role family identifier (e.g. SWE, DATA, MLAI).")
+    name: str = Field(..., description="Human-readable title.")
+    description: str = Field(..., description="Scope of technical discipline.")
+    examples: list[str] = Field(default_factory=list, description="Common matching job titles.")
+
+
+class OccupationsResponse(BaseModel):
+    """Response payload for GET /v1/taxonomy/occupations."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    total: int = Field(..., ge=0, description="Total matching occupations.")
+    query: str | None = Field(default=None, description="Applied search query filter.")
+    items: list[OccupationItem] = Field(default_factory=list, description="Occupational items.")
+
+
+class LocationItem(BaseModel):
+    """Standardized Indian metro technology hub representation."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    id: str = Field(..., description="Standardized metro identifier (e.g. BENGALURU).")
+    name: str = Field(..., description="Primary city / metro display name.")
+    state: str = Field(..., description="State or union territory.")
+    tier: int = Field(..., ge=1, le=3, description="Metro city tier classification.")
+    aliases: list[str] = Field(default_factory=list, description="Common aliases and acronyms.")
+
+
+class LocationsResponse(BaseModel):
+    """Response payload for GET /v1/taxonomy/locations."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    total: int = Field(..., ge=0, description="Total matching locations.")
+    query: str | None = Field(default=None, description="Applied search query filter.")
+    items: list[LocationItem] = Field(default_factory=list, description="Location items.")
+
+
+class SeniorityItem(BaseModel):
+    """Standardized seniority tier representation."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    id: str = Field(..., description="Seniority code (JR, MID, SR, STAFF, PRINCIPAL).")
+    name: str = Field(..., description="Display title for seniority tier.")
+    typical_years: str = Field(..., description="Typical experience span in years.")
+    description: str = Field(..., description="Scope of independence and technical impact.")
+
+
+class SenioritiesResponse(BaseModel):
+    """Response payload for GET /v1/taxonomy/seniorities."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    total: int = Field(..., ge=0, description="Total seniority levels.")
+    items: list[SeniorityItem] = Field(default_factory=list, description="Seniority items.")
