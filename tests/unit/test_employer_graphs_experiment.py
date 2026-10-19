@@ -87,6 +87,121 @@ def test_employer_target_encoder_unseen_cluster() -> None:
     assert transformed[0] == pytest.approx(2.5)
 
 
+def test_employer_target_encoder_zero_leakage_invariance_vs_in_sample() -> None:
+    """Regression Test: verify leave-one-out encoding is 100% invariant to observation's own target.
+
+    Proves that:
+    1. transform_leave_one_out satisfies d(encoded_i) / d(y_i) == 0 (zero leakage, R-MD-04).
+    2. The original in-sample transform() fails this test because y_i leaks into its own feature.
+    """
+    clusters = ["EMP-TARGET-TEST"] * 6
+    tiers = ["GCC"] * 6
+    y_base = np.array([2.0, 3.0, 4.0, 5.0, 6.0, 7.0], dtype=np.float64)
+
+    # 1. Fit baseline encoder
+    encoder_base = EmployerTargetEncoder(smoothing=10.0, k_min=5)
+    encoder_base.fit(clusters, tiers, y_base)
+    oof_base = encoder_base.transform_leave_one_out(clusters, tiers, y_base)
+    in_sample_base = encoder_base.transform(clusters, tiers)
+
+    # 2. Perturb row 0's target by +1000.0 (simulating extreme outlier or data variation)
+    y_perturbed = y_base.copy()
+    y_perturbed[0] = 1002.0
+
+    encoder_perturbed = EmployerTargetEncoder(smoothing=10.0, k_min=5)
+    encoder_perturbed.fit(clusters, tiers, y_perturbed)
+    oof_perturbed = encoder_perturbed.transform_leave_one_out(clusters, tiers, y_perturbed)
+    in_sample_perturbed = encoder_perturbed.transform(clusters, tiers)
+
+    # ZERO LEAKAGE INVARIANCE CHECK (Rule R-MD-04):
+    # Row 0's leave-one-out encoding MUST be bitwise/approx identical regardless of y_perturbed[0]!
+    assert oof_base[0] == pytest.approx(oof_perturbed[0], abs=1e-9)
+
+    # DEFECT PROOF: In-sample transformation WOULD HAVE FAILED by leaking y[0] directly:
+    assert in_sample_base[0] != pytest.approx(in_sample_perturbed[0])
+    assert in_sample_perturbed[0] > in_sample_base[0] + 50.0  # Massive in-sample leak!
+
+
+def test_employer_target_encoder_leave_one_out_exact_math() -> None:
+    """Verify analytical empirical Bayes leave-one-out formula matches hand calculation."""
+    # 6 records in EMP-A, tier TIER_1_PRODUCT
+    clusters = ["EMP-A"] * 6
+    tiers = ["TIER_1_PRODUCT"] * 6
+    y = np.array([2.0, 3.0, 4.0, 5.0, 6.0, 7.0], dtype=np.float64)
+
+    encoder = EmployerTargetEncoder(smoothing=10.0, k_min=5)
+    encoder.fit(clusters, tiers, y)
+    oof = encoder.transform_leave_one_out(clusters, tiers, y)
+
+    # For observation 0 (y_0 = 2.0):
+    # Excluded count n_-0 = 5 >= k_min (5)
+    # Excluded sum s_-0 = 3 + 4 + 5 + 6 + 7 = 25.0
+    # Excluded tier prior = 25.0 / 5 = 5.0
+    # Smoothed = (25.0 + 10.0 * 5.0) / (5 + 10.0) = 75.0 / 15.0 = 5.0
+    assert oof[0] == pytest.approx(5.0, abs=1e-9)
+
+    # For observation 5 (y_5 = 7.0):
+    # Excluded count n_-5 = 5 >= k_min (5)
+    # Excluded sum s_-5 = 2 + 3 + 4 + 5 + 6 = 20.0
+    # Excluded tier prior = 20.0 / 5 = 4.0
+    # Smoothed = (20.0 + 10.0 * 4.0) / (5 + 10.0) = 60.0 / 15.0 = 4.0
+    assert oof[5] == pytest.approx(4.0, abs=1e-9)
+
+
+def test_employer_target_encoder_singleton_and_empty_fallbacks() -> None:
+    """Verify safe handling of empty inputs, singletons, and missing cluster/tier values."""
+    encoder = EmployerTargetEncoder(smoothing=10.0, k_min=5)
+
+    # 1. Empty input arrays
+    assert len(encoder.transform_leave_one_out([], [], np.zeros(0))) == 0
+    assert len(encoder.transform([], [])) == 0
+
+    # 2. Singleton cluster (n=1) and singleton tier (n=1)
+    encoder.fit(["EMP-SINGLE"], ["GCC"], np.array([3.5]))
+    # For n=1, leave-one-out count is 0 -> collapses safely to global mean
+    oof_single = encoder.transform_leave_one_out(["EMP-SINGLE"], ["GCC"], np.array([3.5]))
+    assert oof_single[0] == pytest.approx(3.5)
+
+    # 3. Missing/None cluster and tier inputs
+    encoder_multi = EmployerTargetEncoder(smoothing=10.0, k_min=5)
+    encoder_multi.fit(
+        [None, "EMP-A", "EMP-A", "EMP-A", "EMP-A", "EMP-A"], [None] * 6, np.array([2.0] * 6)
+    )
+    oof_missing = encoder_multi.transform_leave_one_out([None], [None], np.array([2.0]))
+    assert len(oof_missing) == 1
+    assert not np.isnan(oof_missing[0])
+
+
+def test_employer_target_encoder_k_min_loo_boundary() -> None:
+    """Verify exact anonymity floor boundary under leave-one-out (Rule R-DA-10).
+
+    A cluster with total count N=5 has excluded count n_-i = 4 < 5 -> collapses to tier.
+    A cluster with total count N=6 has excluded count n_-i = 5 >= 5 -> empirical Bayes.
+    """
+    clusters = ["EMP-FIVE"] * 5 + ["EMP-SIX"] * 6
+    tiers = ["IT_SERVICES"] * 11
+    # EMP-FIVE has mean 1.0; EMP-SIX has mean 5.0
+    y = np.array([1.0] * 5 + [5.0] * 6, dtype=np.float64)
+
+    encoder = EmployerTargetEncoder(smoothing=10.0, k_min=5)
+    encoder.fit(clusters, tiers, y)
+    oof = encoder.transform_leave_one_out(clusters, tiers, y)
+
+    # For each observation in EMP-FIVE, excluded cluster count is 4 < 5:
+    # Must strictly collapse to tier prior excluding observation!
+    for i in range(5):
+        # Tier sum excluding row i is (4 * 1.0 + 6 * 5.0) = 34.0, count = 10 -> prior = 3.4
+        assert oof[i] == pytest.approx(3.4)
+
+    # For each observation in EMP-SIX, excluded cluster count is 5 >= 5:
+    # Receives empirical Bayes shrinkage!
+    for i in range(5, 11):
+        # Cluster sum excluding row i is 5 * 5.0 = 25.0, count = 5.
+        # Tier sum excluding row i is (5 * 1.0 + 5 * 5.0) = 30.0, count = 10 -> prior = 3.0
+        # Smoothed = (25.0 + 10.0 * 3.0) / (5 + 10.0) = 55.0 / 15.0 = 3.6666667
+        assert oof[i] == pytest.approx(55.0 / 15.0)
+
+
 # ==============================================================================
 # Unit Tests: Talent Flow Graph Embedder
 # ==============================================================================
