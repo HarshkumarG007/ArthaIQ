@@ -113,7 +113,9 @@ jobs:
         run: uv run python scripts/check_contrast.py
 
       - name: Verify self-hosted fonts (Rupee sign, tabular figures, OFL)
-        run: uv run python scripts/verify_fonts.py
+        run: |
+          uv run python scripts/verify_fonts.py
+          uv run pytest tests/unit/test_verify_fonts.py
 
       - name: Run web unit and formatting tests
         working-directory: apps/web
