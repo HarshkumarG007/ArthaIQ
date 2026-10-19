@@ -1,0 +1,102 @@
+{
+  "benchmark_metadata": {
+    "date": "2026-10-19",
+    "deployment_profile": "Profile A (Laptop/Workstation CPU)",
+    "os": "Windows 11 (AMD64)",
+    "python_version": "3.12.9",
+    "model_version": "0.1.0",
+    "data_snapshot_id": "SNAP-1FF34A8E9633",
+    "iterations": 1000,
+    "warmup_iterations": 50,
+    "total_wall_clock_sec": 3.93,
+    "throughput_req_per_sec": 254.5,
+    "error_rate_pct": 0.0
+  },
+  "http_endpoint_latency": {
+    "count": 1000.0,
+    "mean_ms": 3.372,
+    "std_ms": 1.362,
+    "min_ms": 2.588,
+    "p50_ms": 3.156,
+    "p90_ms": 3.922,
+    "p95_ms": 4.324,
+    "p99_ms": 6.28,
+    "max_ms": 27.727
+  },
+  "pure_python_estimate_latency": {
+    "count": 1000.0,
+    "mean_ms": 0.555,
+    "std_ms": 0.124,
+    "min_ms": 0.373,
+    "p50_ms": 0.518,
+    "p90_ms": 0.678,
+    "p95_ms": 0.767,
+    "p99_ms": 1.031,
+    "max_ms": 2.461
+  },
+  "per_profile_breakdown": {
+    "Core_L0_SWE_Mid_Bengaluru": {
+      "count": 200.0,
+      "mean_ms": 3.359,
+      "std_ms": 1.099,
+      "min_ms": 2.635,
+      "p50_ms": 3.181,
+      "p90_ms": 3.922,
+      "p95_ms": 4.392,
+      "p99_ms": 5.374,
+      "max_ms": 17.338
+    },
+    "Data_L1_Senior_Hyderabad_Skills": {
+      "count": 200.0,
+      "mean_ms": 3.396,
+      "std_ms": 1.79,
+      "min_ms": 2.639,
+      "p50_ms": 3.154,
+      "p90_ms": 3.948,
+      "p95_ms": 4.136,
+      "p99_ms": 5.864,
+      "max_ms": 27.727
+    },
+    "ML_L2_Staff_Pune_CompanyTier": {
+      "count": 200.0,
+      "mean_ms": 3.436,
+      "std_ms": 1.853,
+      "min_ms": 2.61,
+      "p50_ms": 3.131,
+      "p90_ms": 3.869,
+      "p95_ms": 4.573,
+      "p99_ms": 7.332,
+      "max_ms": 27.645
+    },
+    "Frontend_L3_CompareOnly_DelhiNCR": {
+      "count": 200.0,
+      "mean_ms": 3.307,
+      "std_ms": 0.592,
+      "min_ms": 2.626,
+      "p50_ms": 3.17,
+      "p90_ms": 3.975,
+      "p95_ms": 4.407,
+      "p99_ms": 6.28,
+      "max_ms": 6.337
+    },
+    "Abstention_Edge_Veteran_NonMetro": {
+      "count": 200.0,
+      "mean_ms": 3.359,
+      "std_ms": 1.055,
+      "min_ms": 2.588,
+      "p50_ms": 3.144,
+      "p90_ms": 3.978,
+      "p95_ms": 4.535,
+      "p99_ms": 6.125,
+      "max_ms": 16.1
+    }
+  },
+  "nfr02_sla_verdict": {
+    "measured_p95_ms": 4.324,
+    "internal_budget_gate_ms": 50.0,
+    "ux_ceiling_ms": 200.0,
+    "meets_internal_budget": true,
+    "recommended_nfr02_target": "p95 <= 50ms on Profile A (Laptop/Workstation CPU)",
+    "verdict": "VERIFIED_COMPLIANT"
+  }
+}

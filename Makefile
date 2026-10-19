@@ -5,7 +5,8 @@
 .PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
-        interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics final-eval clean
+        interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
+        benchmark-latency final-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -208,6 +209,11 @@ macro-regimes-experiment:
 # Usage: make ensembling-experiment [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1] [FORCE_MODELING=1]
 ensembling-experiment:
 	uv run python scripts/run_ensembling_experiment.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,) $(if $(FORCE_MODELING),--force-modeling,)
+
+# ---- Serving Latency Benchmark (Phase 9, T9.03, NFR-02) --------------------
+# Usage: make benchmark-latency [ITERATIONS=<int>] [WARMUP=<int>] [PROFILE=<str>]
+benchmark-latency:
+	uv run python scripts/benchmark_serving_latency.py $(if $(ITERATIONS),--iterations $(ITERATIONS),) $(if $(WARMUP),--warmup $(WARMUP),) $(if $(PROFILE),--profile-name "$(PROFILE)",)
 
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation

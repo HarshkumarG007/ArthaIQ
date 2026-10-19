@@ -22,7 +22,7 @@ Three deployment profiles are defined in `architecture.md` section 7: A (laptop/
 
 ## Items to measure before deciding (T9.14)
 
-- [ ] p95 estimate latency on Profile A (T9.03): is it within the NFR-02 target?
+- [x] p95 estimate latency on Profile A (T9.03): measured at 4.32ms (well within NFR-02 target <= 50ms)
 - [ ] Monthly cost estimate for Profile B (a small VM + managed Postgres)
 - [ ] Monthly cost estimate for a minimal Profile C footprint
 - [ ] Cold-start time for the containerized API

@@ -1,0 +1,894 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ArthaIQ Compensation Intelligence API",
+    "description": "India Tech Compensation Intelligence Serving Engine (Decision Support v1).",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Liveness and readiness health check",
+        "description": "Perform operational health check on serving bundle and runtime readiness.\n\nReturns:\n- 200 OK: Manager is initialized with an active, smoke-tested model bundle.\n- 503 Service Unavailable: No bundle is loaded or manager is unpromoted.",
+        "operationId": "health_check_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/livez": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Kubernetes liveness probe",
+        "description": "Basic process liveness check indicating FastAPI server is responsive.",
+        "operationId": "liveness_livez_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Liveness Livez Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Kubernetes readiness probe",
+        "description": "Readiness probe indicating whether API is primed to accept estimation traffic.",
+        "operationId": "readiness_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/estimates": {
+      "post": {
+        "tags": [
+          "Estimates"
+        ],
+        "summary": "Compute compensation estimate or statistically defensible abstention",
+        "description": "Serve point-in-time calibrated compensation intelligence.\n\nEvaluates candidate profile against active champion model bundle with support checks.\nReturns:\n- Estimate: Full P10, P50, P90 quantile span when statistical support criteria pass.\n- Abstained: Structured abstention with reasons and alternative fallback suggestions\n  when empirical support is thin or out of bounds (Rule R-UQ-02 / R-ER-04).",
+        "operationId": "create_estimate_v1_estimates_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstimateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Prediction result (either supported Estimate or structured Abstained).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Estimate"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Abstained"
+                    }
+                  ],
+                  "title": "Response Create Estimate V1 Estimates Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 Problem Details for invalid payload or measure/currency.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "RFC 9457 Problem Details when no champion model bundle is loaded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/taxonomy/occupations": {
+      "get": {
+        "tags": [
+          "Taxonomy"
+        ],
+        "summary": "List and search canonical role families",
+        "description": "Retrieve supported canonical occupational categories.",
+        "operationId": "list_occupations_v1_taxonomy_occupations_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Search term filter",
+              "title": "Q"
+            },
+            "description": "Search term filter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List Occupations V1 Taxonomy Occupations Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/taxonomy/locations": {
+      "get": {
+        "tags": [
+          "Taxonomy"
+        ],
+        "summary": "List and search supported metro locations",
+        "description": "Retrieve supported Indian technology metro tech hubs.",
+        "operationId": "list_locations_v1_taxonomy_locations_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Search term filter",
+              "title": "Q"
+            },
+            "description": "Search term filter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List Locations V1 Taxonomy Locations Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/models/current": {
+      "get": {
+        "tags": [
+          "Models & Sources"
+        ],
+        "summary": "Active champion model card and version info",
+        "description": "Return runtime metadata and governance information for active champion model.",
+        "operationId": "get_current_model_v1_models_current_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sources": {
+      "get": {
+        "tags": [
+          "Models & Sources"
+        ],
+        "summary": "Approved data sources, licenses, and provenance",
+        "description": "Return transparency inventory of approved data sources and licensing constraints.",
+        "operationId": "list_sources_v1_sources_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response List Sources V1 Sources Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Abstained": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Unique request tracing ID."
+          },
+          "status": {
+            "type": "string",
+            "const": "abstained",
+            "title": "Status",
+            "default": "abstained"
+          },
+          "reasons": {
+            "items": {
+              "$ref": "#/components/schemas/AbstentionReasonItem"
+            },
+            "type": "array",
+            "title": "Reasons",
+            "description": "Structured reasons for abstaining."
+          },
+          "fallbacks": {
+            "items": {
+              "$ref": "#/components/schemas/FallbackItem"
+            },
+            "type": "array",
+            "title": "Fallbacks",
+            "description": "Actionable query alternatives."
+          },
+          "disclaimer_id": {
+            "type": "string",
+            "title": "Disclaimer Id",
+            "description": "Statutory disclaimer identifier.",
+            "default": "decision_support_v1"
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of",
+            "description": "Valuation effective anchor date (YYYY-MM-DD)."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Serving model version identifier."
+          },
+          "data_snapshot_id": {
+            "type": "string",
+            "title": "Data Snapshot Id",
+            "description": "Data snapshot lineage identifier."
+          }
+        },
+        "type": "object",
+        "required": [
+          "reasons",
+          "as_of",
+          "model_version",
+          "data_snapshot_id"
+        ],
+        "title": "Abstained",
+        "description": "Statistically defensible abstention payload (status='abstained')."
+      },
+      "AbstentionReasonItem": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Machine-readable abstention code."
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "description": "Human-readable explanation of why the engine withheld estimation."
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "detail"
+        ],
+        "title": "AbstentionReasonItem",
+        "description": "Individual reason for model abstention (Rules R-MD-08, R-UQ-02)."
+      },
+      "ComparisonInfo": {
+        "properties": {
+          "current_compensation": {
+            "type": "number",
+            "title": "Current Compensation",
+            "description": "User-reported current base compensation in LPA."
+          },
+          "delta_to_median_lpa": {
+            "type": "number",
+            "title": "Delta To Median Lpa",
+            "description": "Difference from market median: current - p50."
+          },
+          "position_category": {
+            "type": "string",
+            "title": "Position Category",
+            "description": "Relative positioning: below_floor, below_median, median, above_median, top."
+          },
+          "percentile_band": {
+            "type": "string",
+            "title": "Percentile Band",
+            "description": "Estimated quantile band: <P10, P10-P50, P50-P90, >P90."
+          }
+        },
+        "type": "object",
+        "required": [
+          "current_compensation",
+          "delta_to_median_lpa",
+          "position_category",
+          "percentile_band"
+        ],
+        "title": "ComparisonInfo",
+        "description": "Compare-only positioning of candidate's current compensation (PT6 / Rule R-MD-13)."
+      },
+      "Estimate": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Unique request tracing ID."
+          },
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status",
+            "default": "ok"
+          },
+          "estimate": {
+            "$ref": "#/components/schemas/QuantileSpan"
+          },
+          "reliability": {
+            "$ref": "#/components/schemas/ReliabilityInfo"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/EvidenceInfo"
+          },
+          "profile_level_used": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "title": "Profile Level Used",
+            "description": "Level of personalization applied (0, 1, 2).",
+            "default": 0
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "description": "Non-fatal warnings or advisories."
+          },
+          "disclaimer_id": {
+            "type": "string",
+            "title": "Disclaimer Id",
+            "description": "Statutory disclaimer identifier.",
+            "default": "decision_support_v1"
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of",
+            "description": "Valuation effective anchor date (YYYY-MM-DD)."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Serving model version identifier."
+          },
+          "data_snapshot_id": {
+            "type": "string",
+            "title": "Data Snapshot Id",
+            "description": "Data snapshot lineage identifier."
+          },
+          "comparison": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComparisonInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Compare-only analysis if current pay provided (PT6)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "estimate",
+          "reliability",
+          "evidence",
+          "as_of",
+          "model_version",
+          "data_snapshot_id"
+        ],
+        "title": "Estimate",
+        "description": "Successful compensation intelligence estimate payload (status='ok')."
+      },
+      "EstimateRequest": {
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/ProfileRequest"
+          },
+          "measure": {
+            "type": "string",
+            "title": "Measure",
+            "description": "Compensation measure; PT1 strictly requires guaranteed_cash_annual.",
+            "default": "guaranteed_cash_annual"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Nominal currency code; ArthaIQ strictly prices in INR.",
+            "default": "INR"
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of",
+            "description": "Point-in-time valuation anchor date in ISO-8601 format (YYYY-MM-DD)."
+          },
+          "current_compensation": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Compensation",
+            "description": "Optional current pay in INR LPA for compare-only positioning (R-MD-13)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "profile"
+        ],
+        "title": "EstimateRequest",
+        "description": "Complete request payload for POST /v1/estimates."
+      },
+      "EvidenceInfo": {
+        "properties": {
+          "cohort_n": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cohort N",
+            "description": "Verified sample count in matching occupational cohort."
+          },
+          "source_mix": {
+            "items": {
+              "$ref": "#/components/schemas/SourceMixItem"
+            },
+            "type": "array",
+            "title": "Source Mix",
+            "description": "Provenance breakdown of cohort."
+          },
+          "median_observation_age_days": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Median Observation Age Days",
+            "description": "Median age of cohort observations in days."
+          },
+          "data_snapshot_id": {
+            "type": "string",
+            "title": "Data Snapshot Id",
+            "description": "Cryptographic canonical data lineage snapshot ID."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Active production model version."
+          }
+        },
+        "type": "object",
+        "required": [
+          "cohort_n",
+          "median_observation_age_days",
+          "data_snapshot_id",
+          "model_version"
+        ],
+        "title": "EvidenceInfo",
+        "description": "Empirical cohort evidence metadata and provenance."
+      },
+      "ExperienceInput": {
+        "properties": {
+          "total_years": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 50.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Years",
+            "description": "Total relevant professional experience in years."
+          },
+          "level_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level Id",
+            "description": "Standardized seniority tier (e.g., JR, MID, SR, STAFF, PRINCIPAL)."
+          }
+        },
+        "type": "object",
+        "title": "ExperienceInput",
+        "description": "Input experience structure conforming to architecture.md Section 11."
+      },
+      "FallbackItem": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "Fallback category (e.g. broader_cohort, remove_extras)."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Guidance on how to broaden search criteria."
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "description"
+        ],
+        "title": "FallbackItem",
+        "description": "Actionable user suggestion when model abstains on thin support."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ProblemDetails": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "URI reference that identifies the problem type.",
+            "default": "about:blank"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Short, human-readable summary of the problem type."
+          },
+          "status": {
+            "type": "integer",
+            "title": "Status",
+            "description": "HTTP status code generated by origin server for this occurrence."
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "description": "Human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "title": "Instance",
+            "description": "URI reference that identifies the specific occurrence of the problem."
+          },
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Stable, machine-readable application error code (Rule R-ER-04)."
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Correlation request identifier for tracing."
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors",
+            "description": "Optional structured validation error list."
+          },
+          "timestamp_utc": {
+            "type": "string",
+            "title": "Timestamp Utc",
+            "description": "ISO-8601 UTC timestamp of error occurrence."
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "status",
+          "detail",
+          "instance",
+          "code",
+          "request_id"
+        ],
+        "title": "ProblemDetails",
+        "description": "RFC 9457 Problem Details for HTTP APIs with CompIntel extensions."
+      },
+      "ProfileRequest": {
+        "properties": {
+          "occupation_id": {
+            "type": "string",
+            "title": "Occupation Id",
+            "description": "Occupation identifier or role family (e.g., SWE, DATA, MLAI)."
+          },
+          "location_id": {
+            "type": "string",
+            "title": "Location Id",
+            "description": "Geographic metro tech hub identifier (e.g., BENGALURU, HYDERABAD, PUNE)."
+          },
+          "experience": {
+            "$ref": "#/components/schemas/ExperienceInput",
+            "description": "Experience parameters including total years and seniority level."
+          },
+          "extras": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Extras",
+            "description": "Optional L1+ feature conditioning attributes (e.g. work_arrangement)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "occupation_id",
+          "location_id"
+        ],
+        "title": "ProfileRequest",
+        "description": "Profile payload submitted for compensation estimation."
+      },
+      "QuantileSpan": {
+        "properties": {
+          "p10": {
+            "type": "number",
+            "title": "P10",
+            "description": "10th percentile conservative market floor in LPA."
+          },
+          "p50": {
+            "type": "number",
+            "title": "P50",
+            "description": "50th percentile median benchmark in LPA."
+          },
+          "p90": {
+            "type": "number",
+            "title": "P90",
+            "description": "90th percentile upper premium tier in LPA."
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency denomination.",
+            "default": "INR"
+          },
+          "period": {
+            "type": "string",
+            "title": "Period",
+            "description": "Annualized pay period.",
+            "default": "annual"
+          },
+          "measure": {
+            "type": "string",
+            "title": "Measure",
+            "description": "Contractual base compensation.",
+            "default": "guaranteed_cash_annual"
+          },
+          "pre_tax": {
+            "type": "boolean",
+            "title": "Pre Tax",
+            "description": "Pre-tax gross compensation.",
+            "default": true
+          },
+          "nominal": {
+            "type": "boolean",
+            "title": "Nominal",
+            "description": "Nominal current INR value.",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "p10",
+          "p50",
+          "p90"
+        ],
+        "title": "QuantileSpan",
+        "description": "Empirical pay quantile span (P10, P50, P90) in nominal INR LPA."
+      },
+      "ReliabilityInfo": {
+        "properties": {
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Composite evidence grade: GRADE_A, GRADE_B, or GRADE_C."
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons",
+            "description": "Reason codes or caveats regarding evidence."
+          }
+        },
+        "type": "object",
+        "required": [
+          "grade"
+        ],
+        "title": "ReliabilityInfo",
+        "description": "Reliability and evidence grading attached to prediction."
+      },
+      "SourceMixItem": {
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "title": "Source Type",
+            "description": "Provenance category (e.g. statutory_filing, voluntary_intake)."
+          },
+          "share": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Share",
+            "description": "Fractional share of cohort data [0.0, 1.0]."
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_type",
+          "share"
+        ],
+        "title": "SourceMixItem",
+        "description": "Observation provenance representation."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

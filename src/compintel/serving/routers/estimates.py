@@ -13,6 +13,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Request, status
 
 from compintel.serving.core import estimate
+from compintel.serving.errors import ProblemDetails
 from compintel.serving.loader import ServingModelManager
 from compintel.serving.types import Abstained, Estimate, EstimateRequest
 
@@ -38,9 +39,11 @@ def _get_manager(request: Request) -> ServingModelManager | None:
             "description": "Prediction result (either supported Estimate or structured Abstained).",
         },
         422: {
+            "model": ProblemDetails,
             "description": "RFC 9457 Problem Details for invalid payload or measure/currency.",
         },
         503: {
+            "model": ProblemDetails,
             "description": "RFC 9457 Problem Details when no champion model bundle is loaded.",
         },
     },

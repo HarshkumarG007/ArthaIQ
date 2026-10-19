@@ -176,7 +176,7 @@ Priority: P0 must exist at its stage; P1 should; P2 is deferred. Stage: the firs
 | ID | Area | Requirement | Target | Verified by |
 |---|---|---|---|---|
 | NFR-01 | Reproducibility | Any reported metric reproduces from a commit hash, data snapshot id and seed with one documented command | Every reported metric | T3.13, T4.07 |
-| NFR-02 | Latency | p95 estimate latency on the chosen deployment profile | `[TBD: T9.03 after benchmark]` | T9.03 |
+| NFR-02 | Latency | p95 estimate latency on the chosen deployment profile | p95 <= 50ms on Profile A (measured: 4.32ms p95, 3.16ms p50; throughput 254.5 req/s) | T9.03 |
 | NFR-03 | Cost | Monthly infrastructure and data cost per deployment profile | `[TBD: ADR-0009]` | T9.14 |
 | NFR-04 | Privacy | Data minimization, purpose limitation, consent, retention and deletion; k_min on any displayed aggregate | Per ADR-0008 | T9.10, T9.16 |
 | NFR-05 | Security | OWASP ASVS-aligned baseline `[U: confirm current version]`, dependency audit and secret scanning in CI | No critical finding open at G9 | T9.12 |
