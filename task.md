@@ -395,8 +395,11 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `apps/web` scaffold, `scripts/check_contrast.py`, `scripts/verify_fonts.py`, and `apps/web/src/lib/formatMoney.ts`. Done when: contrast script passes in CI, font verification proves U+20B9 and `tnum` exist, and `formatMoney()` passes Indian grouping and lakh/crore rounding tests. Needs: T9.03. Size: M.
   - [x] **T9.07b** [AI] Accessible `RangeSpan` engineering dimension line component with states, table view alternative, ghost comparison, motion/reduced-motion, and ADR-0007 ratification. (done 2026-10-19)
         Output: `apps/web/src/components/RangeSpan.tsx` with tests and ratified ADR-0007. Done when: `RangeSpan` renders all states with SVG dimension line, accessible text alternative, toggleable table view, and passes component tests under Vitest. Needs: T9.07a. Size: M.
-- [ ] **T9.08** [AI] Screens: estimate flow, abstention, evidence, refine with `SpanDelta`, compare.
-      Output: screens. Done when: all states exist and e2e smoke passes. Needs: T9.07. Size: L.
+- [ ] **T9.08** [AI] Screens: estimate flow, abstention, evidence, refine with `SpanDelta`, compare (split per Rule R-WF-03):
+  - [x] **T9.08a** [AI] Core query, presentation & abstention components: `ProfileForm` (role, location, experience with 'not sure'), `EstimateHeadline`, `DefinitionPopover`, `EvidenceList`, `EvidenceGauge` (3-tick meter), `AbstentionNotice` (reason codes and fallbacks), `DisclaimerLine`, and API client service. (done 2026-10-19)
+        Output: `apps/web/src/components/` components and tests. Done when: submitting profile displays calibrated estimate with evidence or calm abstention notice, with unit tests passing under Vitest. Needs: T9.07b. Size: M.
+  - [ ] **T9.08b** [AI] Refinement, comparison & end-to-end screens: `SpanDelta` (ghost span with plain verbal delta), `PayCompare` (compare-only positioning, off-scale guards, caution notice), full `EstimateScreen`, and responsive flow smoke tests.
+        Output: screens and integration tests. Done when: all states exist, refine and compare flows work, and end-to-end smoke tests pass. Needs: T9.08a. Size: M.
 - [ ] **T9.09** [AI] Accessibility pass: automated and manual, per the checklist in `design.md` section 11.
       Output: report and fixes. Done when: checklist complete. Needs: T9.08. Size: M.
 - [ ] **T9.10** [AI] Contribution flow, consent, quarantine, deletion, k_min; ADR-0008.
