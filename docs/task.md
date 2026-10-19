@@ -400,7 +400,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `apps/web/src/components/` components and tests. Done when: submitting profile displays calibrated estimate with evidence or calm abstention notice, with unit tests passing under Vitest. Needs: T9.07b. Size: M.
   - [x] **T9.08b** [AI] Refinement, comparison & end-to-end screens: `SpanDelta` (ghost span with plain verbal delta), `PayCompare` (compare-only positioning, off-scale guards, caution notice), full `EstimateScreen`, and responsive flow smoke tests. (done 2026-10-19)
         Output: screens and integration tests. Done when: all states exist, refine and compare flows work, and end-to-end smoke tests pass. Needs: T9.08a. Size: M.
-- [ ] **T9.09** [AI] Accessibility pass: automated and manual, per the checklist in `design.md` section 11.
+- [x] **T9.09** [AI] Accessibility pass: automated and manual, per the checklist in `design.md` section 11. (done 2026-10-20)
       Output: report and fixes. Done when: checklist complete. Needs: T9.08. Size: M.
 - [ ] **T9.10** [AI] Contribution flow, consent, quarantine, deletion, k_min; ADR-0008.
       Output: flow and ADR. Done when: deletion removes the record from operational stores in a test. Needs: T9.06, T9.08. Size: L.
