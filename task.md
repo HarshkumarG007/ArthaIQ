@@ -328,7 +328,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
 - [x] **T7.05** [AI] Macro and market-regime features with release-time joins. (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
-- [ ] **T7.06** [AI] Ensembling or stacking, only if a charter shows a likely gain.
+- [x] **T7.06** [AI] Ensembling or stacking, only if a charter shows a likely gain. (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
 - [ ] **T7.07** [AI+HUMAN] Record outcomes: keep, defer, reject, with evidence.
       Output: `docs/research/rejected-ideas.md`. Done when: every charter has an outcome. Needs: T7.02 to T7.06. Size: S.

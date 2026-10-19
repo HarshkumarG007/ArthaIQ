@@ -204,6 +204,11 @@ employer-graphs-experiment:
 macro-regimes-experiment:
 	uv run python scripts/run_macro_regimes_experiment.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,) $(if $(FORCE_MODELING),--force-modeling,)
 
+# ---- Quantile Model Ensembling & Stacking Experiment (Phase 7, T7.06, EXP-ENSEMBLE) ---
+# Usage: make ensembling-experiment [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1] [FORCE_MODELING=1]
+ensembling-experiment:
+	uv run python scripts/run_ensembling_experiment.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,) $(if $(FORCE_MODELING),--force-modeling,)
+
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.
