@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T7.04 (Employer features: simple versus graph-based, only with representative data (EXP-10))**
+**NEXT TASK: T7.05 (Macro and market-regime features with release-time joins)**
 
 ## How to use this file
 
@@ -324,7 +324,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
 - [x] **T7.03** [AI] Career trajectory features versus tenure and experience. (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
-- [ ] **T7.04** [AI] Employer features: simple versus graph-based, only with representative data (EXP-10).
+- [x] **T7.04** [AI] Employer features: simple versus graph-based, only with representative data (EXP-10). (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
 - [ ] **T7.05** [AI] Macro and market-regime features with release-time joins.
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
