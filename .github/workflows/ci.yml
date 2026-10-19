@@ -75,6 +75,50 @@ jobs:
           uv run alembic downgrade 0001_initial_governance:base --sql > /dev/null
           uv run pytest tests/integration/test_migrations.py
 
+      - name: Verify WCAG 2.2 token contrast (T9.07)
+        run: uv run python scripts/check_contrast.py
+
+  # ---- Frontend (T9.07, ADR-0007) -------------------------------------------
+  frontend:
+    name: Frontend foundation and tests
+    runs-on: ubuntu-latest
+    needs: static
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: uv sync --extra dev
+
+      - name: Install web dependencies
+        working-directory: apps/web
+        run: npm ci
+
+      - name: Verify WCAG 2.2 token contrast
+        run: uv run python scripts/check_contrast.py
+
+      - name: Verify self-hosted fonts (Rupee sign, tabular figures, OFL)
+        run: uv run python scripts/verify_fonts.py
+
+      - name: Run web unit and formatting tests
+        working-directory: apps/web
+        run: npm run test
+
   # ---- Tests ----------------------------------------------------------------
   tests:
     name: Tests

@@ -347,3 +347,9 @@ forbidden_modules = [
     "compintel.evaluation",
     "compintel.governance",
 ]
+
+[dependency-groups]
+dev = [
+    "brotli>=1.2.0",
+    "fonttools>=4.66.1",
+]

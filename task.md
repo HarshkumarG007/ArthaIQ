@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T9.07 (Frontend scaffold: tokens, font verification, formatMoney, contrast script in CI, core components starting with RangeSpan)**
+**NEXT TASK: T9.07b (Accessible RangeSpan engineering dimension line component with states, table view alternative, ghost comparison, motion/reduced-motion, and ADR-0007 ratification)**
 
 ## How to use this file
 
@@ -390,8 +390,11 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: endpoints. Done when: responses carry snapshot and model ids. Needs: T9.03. Size: M.
 - [x] **T9.06** [AI] PostgreSQL schema and migrations for consent, contributions and the audit log, only what the beta needs. (done 2026-10-19)
       Output: migrations. Done when: up and down migrations run in CI. Needs: T9.02. Size: M.
-- [ ] **T9.07** [AI] Frontend scaffold: tokens, font verification (rupee sign, tabular figures), `formatMoney()`, contrast script in CI, core components starting with `RangeSpan`; ADR-0007.
-      Output: `apps/web` foundation. Done when: contrast script and formatter tests pass and fonts verified. Needs: T9.03. Size: L.
+- [ ] **T9.07** [AI] Frontend scaffold, tokens, font verification, formatter, and RangeSpan (split per Rule R-WF-03):
+  - [x] **T9.07a** [AI] Frontend scaffold, token system, contrast verification in CI, font verification (rupee sign ₹, tabular figures), and `formatMoney()` with test suite. (done 2026-10-19)
+        Output: `apps/web` scaffold, `scripts/check_contrast.py`, `scripts/verify_fonts.py`, and `apps/web/src/lib/formatMoney.ts`. Done when: contrast script passes in CI, font verification proves U+20B9 and `tnum` exist, and `formatMoney()` passes Indian grouping and lakh/crore rounding tests. Needs: T9.03. Size: M.
+  - [ ] **T9.07b** [AI] Accessible `RangeSpan` engineering dimension line component with states, table view alternative, ghost comparison, motion/reduced-motion, and ADR-0007 ratification.
+        Output: `apps/web/src/components/RangeSpan.tsx` with tests and ratified ADR-0007. Done when: `RangeSpan` renders all states with SVG dimension line, accessible text alternative, toggleable table view, and passes component tests under Vitest. Needs: T9.07a. Size: M.
 - [ ] **T9.08** [AI] Screens: estimate flow, abstention, evidence, refine with `SpanDelta`, compare.
       Output: screens. Done when: all states exist and e2e smoke passes. Needs: T9.07. Size: L.
 - [ ] **T9.09** [AI] Accessibility pass: automated and manual, per the checklist in `design.md` section 11.

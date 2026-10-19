@@ -73,6 +73,8 @@ apps/web/node_modules/
 apps/web/dist/
 apps/web/.next/
 apps/web/.vite/
+*.tsbuildinfo
+
 
 # ---- Docker ---------------------------------------------------------------
 infra/docker/*.env
