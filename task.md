@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T9.02 (FastAPI skeleton: health, versioned routers, RFC 9457 errors, request ids)**
+**NEXT TASK: T9.03 (`POST /v1/estimates` with contract tests, OpenAPI snapshot, latency benchmark; set the NFR-02 target)**
 
 ## How to use this file
 
@@ -380,7 +380,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 - [x] **T9.01** [AI] Serving package: bundle loader, as-of feature assembly, response types, abstention path. (done 2026-10-19)
       Output: `serving/core`. Done when: `estimate()` returns `Estimate` or `Abstained` in tests. Needs: G6. Size: M.
-- [ ] **T9.02** [AI] FastAPI skeleton: health, versioned routers, RFC 9457 errors, request ids.
+- [x] **T9.02** [AI] FastAPI skeleton: health, versioned routers, RFC 9457 errors, request ids. (done 2026-10-19)
       Output: `serving/app`. Done when: error contract tests pass. Needs: T9.01. Size: M.
 - [ ] **T9.03** [AI] `POST /v1/estimates` with contract tests, OpenAPI snapshot, latency benchmark; set the NFR-02 target.
       Output: endpoint and benchmark. Done when: p95 measured on the chosen profile. Needs: T9.02. Size: M.
