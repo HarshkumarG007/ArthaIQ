@@ -28,7 +28,10 @@ import subprocess
 import time
 from enum import StrEnum
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -237,7 +240,27 @@ class EmployerExperimentReport:
             "",
             "---",
             "",
-            "## 2. Comparative Performance Matrix",
+            "## 2. Upfront Graph Feasibility Gate (Gate 1 Audit)",
+            "",
+            f"- **Total Employer Nodes:** `{self.graph_audit.n_nodes}`",
+            (
+                f"- **Qualified Nodes (Degree $\\ge 3$):** "
+                f"`{self.graph_audit.n_qualified_nodes}` (Threshold: $\\ge 50$)"
+            ),
+            (
+                "- **Gate 1 Feasibility Status:** "
+                f"`{'PASSED (DENSE_GRAPH)' if not self.graph_audit.is_sparse else 'DEFERRED'}`"
+            ),
+            f"- **Audit Detail:** {self.graph_audit.sparsity_note}",
+            "",
+            "> [!NOTE]",
+            "> Under Rule `R-MD-09` and `CHARTER-EXP-10`, when fewer than 50 employer nodes",
+            "> have degree >= 3, graph talent mobility modeling is strictly `DEFER` without",
+            "> claiming predictive improvement.",
+            "",
+            "---",
+            "",
+            "## 3. Comparative Performance Matrix",
             "",
             "| Candidate Variant | Feats | Pinball (LPA) | MAE (LPA) | MDAPE (%) | "
             "Coverage | Width (LPA) | p95 Latency (ms) | Bundle (MB) |",
@@ -258,7 +281,7 @@ class EmployerExperimentReport:
                 "",
                 "---",
                 "",
-                "## 3. Paired Statistical Differences vs Champion Baseline",
+                "## 4. Paired Statistical Differences vs Champion Baseline",
                 "",
                 (
                     "Paired differences evaluated using 1,000 nonparametric bootstrap resamples "
@@ -285,7 +308,7 @@ class EmployerExperimentReport:
                 "",
                 "---",
                 "",
-                "## 4. Graph Density & Deferral Audit",
+                "## 5. Graph Density & Deferral Audit (Network Sparsity Diagnostics)",
                 "",
                 f"- **Total Employer Nodes:** `{self.graph_audit.n_nodes}`",
                 (
@@ -300,7 +323,7 @@ class EmployerExperimentReport:
                 "",
                 "---",
                 "",
-                "## 5. Engineering Directives & Pre-Registered Criteria Audit",
+                "## 6. Engineering Directives & Pre-Registered Criteria Audit",
                 "",
             ]
         )
@@ -452,8 +475,8 @@ def _assign_employer_tier(employer_name: str | None, cluster_id: str | None) -> 
 class EmployerTargetEncoder:
     """Out-of-fold smoothed empirical Bayes target encoder with k_min >= 5 floor.
 
-    Adheres to Rules R-MD-04 (fitted inside training folds) and R-DA-10
-    (k_min >= 5 anonymity floor; thin clusters shrink to parent tier).
+    Adheres to Rules R-MD-04 (fitted inside training folds, zero target leakage)
+    and R-DA-10 (k_min >= 5 anonymity floor; thin clusters shrink to parent tier).
     """
 
     def __init__(self, smoothing: float = 10.0, k_min: int = 5) -> None:
@@ -461,40 +484,56 @@ class EmployerTargetEncoder:
         self.k_min = k_min
         self.cluster_means_: dict[str, float] = {}
         self.cluster_counts_: dict[str, int] = {}
+        self.cluster_sums_: dict[str, float] = {}
+        self.cluster_to_tier_: dict[str, str] = {}
         self.tier_means_: dict[str, float] = {}
+        self.tier_counts_: dict[str, int] = {}
+        self.tier_sums_: dict[str, float] = {}
         self.global_mean_: float = 0.0
+        self.total_sum_: float = 0.0
+        self.total_count_: int = 0
 
     def fit(
         self,
-        clusters: list[str],
-        tiers: list[str],
+        clusters: Sequence[str | None],
+        tiers: Sequence[str | None],
         y_log: np.ndarray,
     ) -> EmployerTargetEncoder:
         """Fit empirical Bayes target encoding parameters on training split."""
-        self.global_mean_ = float(np.mean(y_log)) if len(y_log) > 0 else 2.50
+        clean_clusters = [str(c or "EMP-ANONYMOUS") for c in clusters]
+        clean_tiers = [str(t or "IT_SERVICES") for t in tiers]
 
-        # Tier-level means
+        self.total_count_ = len(y_log)
+        self.total_sum_ = float(np.sum(y_log)) if len(y_log) > 0 else 0.0
+        self.global_mean_ = self.total_sum_ / self.total_count_ if self.total_count_ > 0 else 2.50
+
+        # Tier-level means and sums
         tier_sums: dict[str, float] = {}
         tier_counts: dict[str, int] = {}
-        for tier_item, y in zip(tiers, y_log, strict=False):
+        for tier_item, y in zip(clean_tiers, y_log, strict=False):
             tier_sums[tier_item] = tier_sums.get(tier_item, 0.0) + float(y)
             tier_counts[tier_item] = tier_counts.get(tier_item, 0) + 1
+
+        self.tier_sums_ = tier_sums
+        self.tier_counts_ = tier_counts
 
         for tier_name, tier_count in tier_counts.items():
             self.tier_means_[tier_name] = (
                 tier_sums[tier_name] / tier_count if tier_count > 0 else self.global_mean_
             )
 
-        # Cluster-level means
+        # Cluster-level means and sums
         cluster_sums: dict[str, float] = {}
         cluster_counts: dict[str, int] = {}
         cluster_to_tier: dict[str, str] = {}
-        for cluster_id, tier_val, y in zip(clusters, tiers, y_log, strict=False):
+        for cluster_id, tier_val, y in zip(clean_clusters, clean_tiers, y_log, strict=False):
             cluster_sums[cluster_id] = cluster_sums.get(cluster_id, 0.0) + float(y)
             cluster_counts[cluster_id] = cluster_counts.get(cluster_id, 0) + 1
             cluster_to_tier[cluster_id] = tier_val
 
+        self.cluster_sums_ = cluster_sums
         self.cluster_counts_ = cluster_counts
+        self.cluster_to_tier_ = cluster_to_tier
 
         for cluster_key, count_val in cluster_counts.items():
             parent_tier = cluster_to_tier.get(cluster_key, "IT_SERVICES")
@@ -512,15 +551,82 @@ class EmployerTargetEncoder:
 
         return self
 
-    def transform(self, clusters: list[str], tiers: list[str]) -> np.ndarray:
-        """Transform employer clusters into smoothed target encoded features."""
-        out = np.zeros(len(clusters), dtype=np.float64)
-        for i, (c, t) in enumerate(zip(clusters, tiers, strict=False)):
+    def transform(
+        self,
+        clusters: Sequence[str | None],
+        tiers: Sequence[str | None],
+    ) -> np.ndarray:
+        """Transform employer clusters into smoothed target encoded features out-of-sample.
+
+        Used for calibration, validation, and evaluation observations where none of the targets
+        belong to the training set.
+        """
+        if len(clusters) == 0:
+            return np.zeros(0, dtype=np.float64)
+
+        clean_clusters = [str(c or "EMP-ANONYMOUS") for c in clusters]
+        clean_tiers = [str(t or "IT_SERVICES") for t in tiers]
+
+        out = np.zeros(len(clean_clusters), dtype=np.float64)
+        for i, (c, t) in enumerate(zip(clean_clusters, clean_tiers, strict=False)):
             if c in self.cluster_means_:
                 out[i] = self.cluster_means_[c]
             else:
                 # Unseen employer collapses to parent tier prior
                 out[i] = self.tier_means_.get(t, self.global_mean_)
+        return out
+
+    def transform_leave_one_out(
+        self,
+        clusters: Sequence[str | None],
+        tiers: Sequence[str | None],
+        y_log: np.ndarray,
+    ) -> np.ndarray:
+        """Transform training set using mathematically correct leave-one-out encoding (R-MD-04).
+
+        Guarantees that for every training observation i, target y_i is strictly subtracted
+        from the cluster sum/count, tier sum/count, and global sum/count. Consequently:
+        d(encoded_i) / d(y_i) = 0.
+        """
+        if len(clusters) == 0:
+            return np.zeros(0, dtype=np.float64)
+
+        clean_clusters = [str(c or "EMP-ANONYMOUS") for c in clusters]
+        clean_tiers = [str(t or "IT_SERVICES") for t in tiers]
+
+        out = np.zeros(len(clean_clusters), dtype=np.float64)
+        for i, (c, t, y_val) in enumerate(zip(clean_clusters, clean_tiers, y_log, strict=False)):
+            y = float(y_val)
+
+            # 1. Global leave-one-out mean
+            n_tot_loo = self.total_count_ - 1
+            s_tot_loo = self.total_sum_ - y
+            global_prior_loo = s_tot_loo / n_tot_loo if n_tot_loo > 0 else self.global_mean_
+
+            # 2. Tier leave-one-out prior
+            n_tier = self.tier_counts_.get(t, 0)
+            s_tier = self.tier_sums_.get(t, 0.0)
+            n_tier_loo = n_tier - 1
+            s_tier_loo = s_tier - y
+            tier_prior_loo = s_tier_loo / n_tier_loo if n_tier_loo > 0 else global_prior_loo
+
+            # 3. Cluster leave-one-out mean with k_min floor and empirical Bayes shrinkage
+            n_cluster = self.cluster_counts_.get(c, 0)
+            s_cluster = self.cluster_sums_.get(c, 0.0)
+            n_cluster_loo = n_cluster - 1
+            s_cluster_loo = s_cluster - y
+
+            if n_cluster_loo < self.k_min or n_cluster_loo <= 0:
+                # Rule R-DA-10: k_min floor strictly collapses thin clusters to parent tier prior
+                out[i] = tier_prior_loo
+            else:
+                # Empirical Bayes / m-estimate shrinkage to leave-one-out parent tier prior
+                raw_mean_loo = s_cluster_loo / n_cluster_loo
+                smoothed_loo = (n_cluster_loo * raw_mean_loo + self.smoothing * tier_prior_loo) / (
+                    n_cluster_loo + self.smoothing
+                )
+                out[i] = float(smoothed_loo)
+
         return out
 
 
@@ -876,6 +982,18 @@ def run_employer_graphs_experiment(
     seed: int = 42,
 ) -> EmployerExperimentReport:
     """Execute end-to-end Employer Feature Modeling Experiment (EXP-10)."""
+    # -------------------------------------------------------------------------
+    # Gate 1: Upfront Graph Feasibility Audit (CHARTER-EXP-10, R-MD-09)
+    # -------------------------------------------------------------------------
+    # Audit mobility network density before expensive model fitting.
+    # When fewer than 50 employer nodes have degree >= 3, the preregistered
+    # outcome is strictly DEFER, avoiding spurious predictive claims.
+    # -------------------------------------------------------------------------
+    graph_embedder = TalentFlowGraphEmbedder(n_components=2, k_min=5, seed=seed)
+    graph_embedder.fit(train_df=train_df)
+    sparsity_audit = graph_embedder.sparsity_audit_
+    graph_feasibility_passed = not sparsity_audit.is_sparse
+
     # 1. Target vector extraction
     target_col = "guaranteed_cash_annual"
     train_y = train_df[target_col].to_numpy().astype(np.float64)
@@ -947,8 +1065,9 @@ def run_employer_graphs_experiment(
     var_a_calib_x = base_calib_x.copy()
     var_a_eval_x = base_eval_x.copy()
 
-    var_a_train_x["feat_employer_target_encoded"] = target_encoder.transform(
-        train_clusters, train_tiers
+    # CRITICAL (Zero Leakage): Training set strictly uses leave-one-out encoding (R-MD-04)
+    var_a_train_x["feat_employer_target_encoded"] = target_encoder.transform_leave_one_out(
+        train_clusters, train_tiers, train_y
     )
     var_a_calib_x["feat_employer_target_encoded"] = target_encoder.transform(
         calib_clusters, calib_tiers
@@ -971,9 +1090,7 @@ def run_employer_graphs_experiment(
         seed=seed,
     )
 
-    # 5. Fit Variant B: Talent-Flow Graph Embedder on Training Data Only (R-MD-03, R-DA-10)
-    graph_embedder = TalentFlowGraphEmbedder(n_components=2, k_min=5, seed=seed)
-    graph_embedder.fit(train_df=train_df)
+    # 5. Variant B: Use As-Of Graph Embedder Fitted at Gate 1 (R-MD-03, R-DA-10)
 
     var_b_train_x = base_train_x.copy()
     var_b_calib_x = base_calib_x.copy()
@@ -1042,24 +1159,17 @@ def run_employer_graphs_experiment(
         )
 
         # Check Keep vs Reject vs Defer under CHARTER-EXP-10
-        if (
-            variant == EmployerVariant.VARIANT_B_GRAPH_EMBEDDING
-            and graph_embedder.sparsity_audit_.is_sparse
-        ):
-            # Check if gain is absent and graph is sparse -> formal deferral
-            if mean_delta > min_effect_lpa or not is_sig or ci_upper >= 0.0:
-                verdict = EmployerDecisionVerdict.DEFER
-                qualified = graph_embedder.sparsity_audit_.n_qualified_nodes
-                rationale = (
-                    f"Transition network is excessively sparse ({qualified}/50 "
-                    "nodes with degree >= 3) in current PT1 sample. Under Charter "
-                    "CHARTER-EXP-10 deferral criteria, graph talent mobility modeling "
-                    "is formally deferred until B2B employer syndication tranches provide "
-                    "dense cross-employer mobility graphs."
-                )
-            else:
-                verdict = EmployerDecisionVerdict.KEEP
-                rationale = "Unexpected significant gain despite sparse graph."
+        if variant == EmployerVariant.VARIANT_B_GRAPH_EMBEDDING and not graph_feasibility_passed:
+            # Upfront Gate 1 Deferral: excessive network sparsity (< 50 qualified nodes)
+            verdict = EmployerDecisionVerdict.DEFER
+            qualified = sparsity_audit.n_qualified_nodes
+            rationale = (
+                f"Gate 1 Graph Feasibility: Network is excessively sparse ({qualified}/50 "
+                "nodes with degree >= 3) in current PT1 sample. Under Charter "
+                "CHARTER-EXP-10 deferral criteria, graph talent mobility modeling "
+                "is formally deferred without claiming predictive improvement until "
+                "B2B employer syndication tranches provide dense cross-employer mobility graphs."
+            )
         elif mean_delta <= min_effect_lpa and is_sig and ci_upper < 0.0 and width_ratio <= 1.00:
             verdict = EmployerDecisionVerdict.KEEP
             rationale = (
