@@ -76,8 +76,17 @@ def compute_feature_schema_hash(feature_names: list[str]) -> str:
 
 
 def compute_file_sha256(file_path: Path) -> str:
-    """Compute SHA-256 digest of a local file."""
+    """Compute SHA-256 digest of a local file.
+
+    For text-based artifacts (.md, .txt, .json, .yaml, .yml), line endings are normalized
+    (\\r\\n -> \\n) before hashing to ensure identical cross-platform checksums.
+    """
     hasher = hashlib.sha256()
+    if file_path.suffix.lower() in {".md", ".txt", ".json", ".yaml", ".yml"}:
+        content = file_path.read_bytes().replace(b"\r\n", b"\n")
+        hasher.update(content)
+        return hasher.hexdigest()
+
     with file_path.open("rb") as f:
         while chunk := f.read(65536):
             hasher.update(chunk)
