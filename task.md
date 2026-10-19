@@ -330,10 +330,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
 - [x] **T7.06** [AI] Ensembling or stacking, only if a charter shows a likely gain. (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
-- [ ] **T7.07** [AI+HUMAN] Record outcomes: keep, defer, reject, with evidence.
+- [x] **T7.07** [AI+HUMAN] Record outcomes: keep, defer, reject, with evidence. (done 2026-10-19)
       Output: `docs/research/rejected-ideas.md`. Done when: every charter has an outcome. Needs: T7.02 to T7.06. Size: S.
 
-**Gate G7:** advanced modules kept or rejected.
+**Gate G7:** advanced modules kept or rejected. Ratified COMPLETE / NO PROMOTIONS 2026-10-19. Rung F L2 Champion strictly preserved.
 
 ---
 
