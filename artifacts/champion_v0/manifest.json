@@ -1,0 +1,14 @@
+{
+  "bundle_name": "arthaiq-champion-v0",
+  "model_version": "0.1.0",
+  "format_version": "1.0.0",
+  "bundle_format_version": "1.0.0",
+  "created_at_utc": "2026-10-18T08:50:04.728494+00:00",
+  "files": {
+    "base_model.joblib": "c7b3c39bcc2699dc0a3dc0a5b5726e03d889aacbe0673ad28736ce51cd7120ef",
+    "calibrator.joblib": "8636f3f89d1ae46b94a9cb9c5e2915bf6b0160ba18627b47d07cd9a7a3928b6b",
+    "support_evaluator.joblib": "e1f15334a00deb7d727220378092c5887510d030681aaffabba93cb4f8419b99",
+    "cohort_evidence.parquet": "370f7dec8591df2890732c2d1e0f3e3f4caedf8731c99ca08a599d779a406dce",
+    "model_card.md": "6b64d8fb4a769a9d49e3bf46a10732235c5507eae6b225a935e0b147a35a5644"
+  }
+}

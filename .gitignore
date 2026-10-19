@@ -8,8 +8,11 @@ data/
 # Only manifests and fixture metadata are tracked; the files themselves are not.
 # Tiny synthetic fixtures live in tests/fixtures/ and ARE tracked.
 
-# ---- Model artifacts (gitignored; registry manifest tracked) --------------
-artifacts/
+# ---- Model artifacts (gitignored except champion bundle v0) ---------------
+artifacts/*
+!artifacts/champion_v0/
+!artifacts/.gitkeep
+
 
 # ---- Python ---------------------------------------------------------------
 __pycache__/
