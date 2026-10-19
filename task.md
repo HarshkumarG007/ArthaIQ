@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T9.01 (Serving package: bundle loader, as-of feature assembly, response types, abstention path)**
+**NEXT TASK: T9.02 (FastAPI skeleton: health, versioned routers, RFC 9457 errors, request ids)**
 
 ## How to use this file
 
@@ -378,7 +378,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **NO-GO:** remain in Phase 9.
 > **Needs:** G6.
 
-- [ ] **T9.01** [AI] Serving package: bundle loader, as-of feature assembly, response types, abstention path.
+- [x] **T9.01** [AI] Serving package: bundle loader, as-of feature assembly, response types, abstention path. (done 2026-10-19)
       Output: `serving/core`. Done when: `estimate()` returns `Estimate` or `Abstained` in tests. Needs: G6. Size: M.
 - [ ] **T9.02** [AI] FastAPI skeleton: health, versioned routers, RFC 9457 errors, request ids.
       Output: `serving/app`. Done when: error contract tests pass. Needs: T9.01. Size: M.
