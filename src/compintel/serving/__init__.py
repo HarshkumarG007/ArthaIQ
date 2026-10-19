@@ -7,11 +7,13 @@ Exposes:
 - Serving runtime manager: ServingModelManager, get_default_serving_manager
 """
 
+from compintel.serving.app import app, create_app
 from compintel.serving.core import (
     estimate,
     get_default_serving_manager,
     reset_default_serving_manager,
 )
+from compintel.serving.errors import ProblemDetails
 from compintel.serving.loader import ServingModelManager
 from compintel.serving.types import (
     Abstained,
@@ -39,11 +41,14 @@ __all__ = [
     "EvidenceInfo",
     "ExperienceInput",
     "FallbackItem",
+    "ProblemDetails",
     "ProfileRequest",
     "QuantileSpan",
     "ReliabilityInfo",
     "ServingModelManager",
     "SourceMixItem",
+    "app",
+    "create_app",
     "estimate",
     "get_default_serving_manager",
     "reset_default_serving_manager",
