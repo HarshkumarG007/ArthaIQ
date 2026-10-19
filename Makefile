@@ -6,7 +6,7 @@
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
-        benchmark-latency final-eval clean
+        benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -232,6 +232,22 @@ install-hooks:
 audit:
 	pip-audit
 	bandit -r src/compintel/ -ll
+
+# ---- Database & Migrations (Phase 9, T9.06, ADR-0008) ----------------------
+migrate-up:
+	uv run alembic upgrade head
+
+migrate-down:
+	uv run alembic downgrade -1
+
+migrate-reset:
+	uv run alembic downgrade base
+
+migrate-check:
+	uv run alembic upgrade head --sql
+
+test-migrations:
+	uv run pytest tests/integration/test_migrations.py -v
 
 # ---- Docker (Phase 9+) -----------------------------------------------------
 build-image:

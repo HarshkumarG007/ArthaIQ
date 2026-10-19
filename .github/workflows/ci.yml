@@ -69,6 +69,12 @@ jobs:
       - name: Run contract tests
         run: uv run pytest tests/contract/ -m "contract"
 
+      - name: Verify database migrations up and down (T9.06)
+        run: |
+          uv run alembic upgrade head --sql > /dev/null
+          uv run alembic downgrade 0001_initial_governance:base --sql > /dev/null
+          uv run pytest tests/integration/test_migrations.py
+
   # ---- Tests ----------------------------------------------------------------
   tests:
     name: Tests

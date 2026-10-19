@@ -31,11 +31,13 @@ htmlcov/
 coverage.xml
 *.cover
 *.lcov
-.tox/
+*.tox/
 venv/
 .venv/
 env/
 ENV/
+*.db
+*.sqlite
 
 # ---- uv / pip-tools -------------------------------------------------------
 # lockfile IS committed (uv.lock or requirements*.txt)
