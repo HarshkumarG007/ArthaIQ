@@ -1,0 +1,21 @@
+{
+  "report_id": "EXP-ENSEMBLE-20261019-083346",
+  "charter_id": "CHARTER-ENSEMBLING-STACKING",
+  "generated_at": "2026-10-19T08:33:46.834315+00:00",
+  "git_commit": "eaa391e5",
+  "overall_verdict": "DEFER",
+  "modeling_executed": false,
+  "evaluation_split": "select",
+  "production_champion_retained": true,
+  "feasibility_audit": {
+    "status": "INSUFFICIENT_SAMPLE_SIZE",
+    "n_total_records": 3,
+    "n_train_records": 1,
+    "min_required_records": 100,
+    "is_synthetic": false,
+    "summary": "Observation panel contains 3 records (1 train), failing the required sufficiency threshold of >= 100 records. Cross-validated meta-learner stacking or multi-model blending on an underpowered panel is statistically unidentifiable and prone to extreme variance inflation. Under CHARTER-ENSEMBLING-STACKING deferral criteria, ensembling is formally deferred."
+  },
+  "executive_summary": "Gate 1 Feasibility DEFERRAL: The non-synthetic observation panel contains 3 records (1 in train), failing the pre-registered sufficiency threshold of >= 100. Cross-validated meta-learner stacking and multi-model ensembling on an underpowered panel is mathematically unidentifiable and prone to extreme variance inflation. Under Charter CHARTER-ENSEMBLING-STACKING deferral criteria, ensembling is formally DEFERRED. The production champion (Rung F L2 Conformal CatBoost) remains strictly unchanged.",
+  "governance_decision": "DEFER: Insufficient non-synthetic observations to train or evaluate an ensemble model. Champion Rung F L2 Conformal CatBoost is retained without ensembling overhead.",
+  "deltas": []
+}
