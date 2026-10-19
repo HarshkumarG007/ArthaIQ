@@ -16,6 +16,14 @@ export function App(): React.JSX.Element {
 
   return (
     <div className="min-h-screen bg-paper text-ink transition-colors selection:bg-span-wash selection:text-span-strong">
+      {/* Skip to Main Content Link for Keyboard and Screen Reader Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-span focus:text-on-span focus:rounded-control focus:shadow-md focus:outline-none focus:ring-2 focus:ring-focus font-sans text-xs font-semibold"
+      >
+        Skip to main content
+      </a>
+
       {/* Global Header */}
       <header className="border-b border-rule bg-sheet">
         <div className="max-w-content mx-auto px-4 sm:px-8 py-4 flex justify-between items-center">
@@ -41,7 +49,7 @@ export function App(): React.JSX.Element {
       </header>
 
       {/* Main Content */}
-      <main>
+      <main id="main-content" tabIndex={-1} className="focus:outline-none">
         <EstimateScreen />
       </main>
 

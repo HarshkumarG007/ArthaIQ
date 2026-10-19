@@ -68,11 +68,13 @@ export function ProfileForm({
   const [locationId, setLocationId] = useState<string>(
     initialValues?.location_id || "BENGALURU"
   );
-  const [yearsExperience, setYearsExperience] = useState<string>(
-    initialValues?.years_experience !== null && initialValues?.years_experience !== undefined
-      ? String(initialValues.years_experience)
-      : "4.0"
-  );
+  const [yearsExperience, setYearsExperience] = useState<string>(() => {
+    if (initialValues?.years_experience === null) return "";
+    if (initialValues?.years_experience !== undefined) {
+      return String(initialValues.years_experience);
+    }
+    return "4.0";
+  });
   const [notSureExperience, setNotSureExperience] = useState<boolean>(
     initialValues?.not_sure_experience || false
   );
