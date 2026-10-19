@@ -110,11 +110,33 @@ export function computeSimulatedEstimate(
   else if (location_id === "PUNE" || location_id === "MUMBAI") locMult = 1.0;
   else locMult = 0.92;
 
+  // Optional refinements multiplier (skills, industry, work arrangement)
+  let refMultiplier = 1.0;
+  let spreadMultiplier = 1.0;
+  if (profile.refinements) {
+    const { skills, industry, work_arrangement } = profile.refinements;
+    if (skills && skills.length > 0) {
+      refMultiplier += Math.min(0.15, skills.length * 0.04);
+      spreadMultiplier *= 0.92; // specialized skills sharpen interval slightly
+    }
+    if (industry === "PRODUCT_TECH") {
+      refMultiplier += 0.10;
+    } else if (industry === "FINTECH") {
+      refMultiplier += 0.15;
+    } else if (industry === "SERVICES") {
+      refMultiplier -= 0.08;
+    }
+    if (work_arrangement === "REMOTE") {
+      refMultiplier += 0.05;
+      spreadMultiplier *= 1.08; // remote spans are slightly wider
+    }
+  }
+
   // Quadratic tenure curve
   const tenureFactor = 1.0 + 0.12 * effYears - 0.0018 * Math.pow(effYears, 2);
-  const p50 = Math.round(baseP50 * locMult * tenureFactor * 10) / 10;
-  const p10 = Math.round(p50 * 0.68 * 10) / 10;
-  const p90 = Math.round(p50 * 1.48 * 10) / 10;
+  const p50 = Math.round(baseP50 * locMult * tenureFactor * refMultiplier * 10) / 10;
+  const p10 = Math.round(p50 * (0.68 * spreadMultiplier) * 10) / 10;
+  const p90 = Math.round(p50 * (1.48 * spreadMultiplier) * 10) / 10;
 
   // Evidence grade
   const grade = effYears <= 12 ? "GRADE_A" : "GRADE_B";

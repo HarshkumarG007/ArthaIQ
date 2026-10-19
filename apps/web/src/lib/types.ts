@@ -79,12 +79,19 @@ export interface AbstainedResponseData {
 
 export type EstimateApiResponse = EstimateResponseData | AbstainedResponseData;
 
+export interface ProfileRefinementData {
+  skills?: string[];
+  industry?: string;
+  work_arrangement?: string;
+}
+
 export interface ProfileFormData {
   occupation_id: string;
   location_id: string;
   years_experience: number | null;
   not_sure_experience: boolean;
   seniority_level?: string;
+  refinements?: ProfileRefinementData;
 }
 
 export interface TaxonomyOccupation {

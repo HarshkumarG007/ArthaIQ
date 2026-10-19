@@ -90,7 +90,18 @@ export function AbstentionNotice({
             fallbacks.map((fb, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <span className="text-ink-3">&bull;</span>
-                <span>{fb.description}</span>
+                <div className="flex-1">
+                  <span>{fb.description}</span>
+                  {onSelectFallback && (
+                    <button
+                      type="button"
+                      onClick={() => onSelectFallback(fb.type)}
+                      className="ml-2 text-span hover:underline font-medium focus:outline-none focus:ring-1 focus:ring-focus rounded"
+                    >
+                      Apply &rarr;
+                    </button>
+                  )}
+                </div>
               </li>
             ))
           ) : (
