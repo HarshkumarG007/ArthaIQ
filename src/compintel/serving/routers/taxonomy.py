@@ -6,7 +6,15 @@ from typing import Any
 
 from fastapi import APIRouter, Query
 
-from compintel.schema.enums import MetroLocation, RoleFamily
+from compintel.schema.enums import MetroLocation, RoleFamily, SeniorityLevel
+from compintel.serving.types import (
+    LocationItem,
+    LocationsResponse,
+    OccupationItem,
+    OccupationsResponse,
+    SenioritiesResponse,
+    SeniorityItem,
+)
 
 router = APIRouter(prefix="/v1/taxonomy", tags=["Taxonomy"])
 
@@ -94,41 +102,95 @@ _LOCATIONS: list[dict[str, Any]] = [
     },
 ]
 
+_SENIORITIES: list[dict[str, Any]] = [
+    {
+        "id": SeniorityLevel.JR.value,
+        "name": "Junior / Entry Level",
+        "typical_years": "0-2 years",
+        "description": "Early career contributor developing core competencies under supervision.",
+    },
+    {
+        "id": SeniorityLevel.MID.value,
+        "name": "Mid-Level Professional",
+        "typical_years": "3-5 years",
+        "description": "Independent contributor delivering features and components autonomously.",
+    },
+    {
+        "id": SeniorityLevel.SR.value,
+        "name": "Senior Professional",
+        "typical_years": "6-9 years",
+        "description": "Senior technical leader owning systems, patterns, and team mentorship.",
+    },
+    {
+        "id": SeniorityLevel.STAFF.value,
+        "name": "Staff Professional",
+        "typical_years": "10-14 years",
+        "description": "Organization-wide authority setting strategic technology roadmaps.",
+    },
+    {
+        "id": SeniorityLevel.PRINCIPAL.value,
+        "name": "Principal / Distinguished",
+        "typical_years": "15+ years",
+        "description": "Executive pioneer driving company-critical engineering innovation.",
+    },
+]
 
-@router.get("/occupations", summary="List and search canonical role families")
+
+@router.get(
+    "/occupations",
+    response_model=OccupationsResponse,
+    summary="List and search canonical role families",
+)
 async def list_occupations(
     q: str | None = Query(default=None, description="Search term filter"),
-) -> dict[str, Any]:
+) -> OccupationsResponse:
     """Retrieve supported canonical occupational categories."""
     if not q:
-        return {"total": len(_OCCUPATIONS), "items": _OCCUPATIONS}
+        items = [OccupationItem(**item) for item in _OCCUPATIONS]
+        return OccupationsResponse(total=len(items), query=None, items=items)
 
     query = q.strip().lower()
     matches = [
-        item
+        OccupationItem(**item)
         for item in _OCCUPATIONS
         if query in item["name"].lower()
         or query in item["id"].lower()
         or any(query in ex.lower() for ex in item.get("examples", []))
     ]
-    return {"total": len(matches), "query": q, "items": matches}
+    return OccupationsResponse(total=len(matches), query=q, items=matches)
 
 
-@router.get("/locations", summary="List and search supported metro locations")
+@router.get(
+    "/locations",
+    response_model=LocationsResponse,
+    summary="List and search supported metro locations",
+)
 async def list_locations(
     q: str | None = Query(default=None, description="Search term filter"),
-) -> dict[str, Any]:
+) -> LocationsResponse:
     """Retrieve supported Indian technology metro tech hubs."""
     if not q:
-        return {"total": len(_LOCATIONS), "items": _LOCATIONS}
+        items = [LocationItem(**item) for item in _LOCATIONS]
+        return LocationsResponse(total=len(items), query=None, items=items)
 
     query = q.strip().lower()
     matches = [
-        item
+        LocationItem(**item)
         for item in _LOCATIONS
         if query in item["name"].lower()
         or query in item["id"].lower()
         or query in item.get("state", "").lower()
         or any(query in alias.lower() for alias in item.get("aliases", []))
     ]
-    return {"total": len(matches), "query": q, "items": matches}
+    return LocationsResponse(total=len(matches), query=q, items=matches)
+
+
+@router.get(
+    "/seniorities",
+    response_model=SenioritiesResponse,
+    summary="List canonical seniority levels",
+)
+async def list_seniorities() -> SenioritiesResponse:
+    """Retrieve standardized Indian tech seniority tiers."""
+    items = [SeniorityItem(**item) for item in _SENIORITIES]
+    return SenioritiesResponse(total=len(items), items=items)

@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T9.04 (Taxonomy and location lookup endpoints)**
+**NEXT TASK: T9.05 (Evidence, model-card and sources endpoints and their data)**
 
 ## How to use this file
 
@@ -384,7 +384,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `serving/app`. Done when: error contract tests pass. Needs: T9.01. Size: M.
 - [x] **T9.03** [AI] `POST /v1/estimates` with contract tests, OpenAPI snapshot, latency benchmark; set the NFR-02 target. (done 2026-10-19)
       Output: endpoint and benchmark. Done when: p95 measured on the chosen profile. Needs: T9.02. Size: M.
-- [ ] **T9.04** [AI] Taxonomy and location lookup endpoints.
+- [x] **T9.04** [AI] Taxonomy and location lookup endpoints. (done 2026-10-19)
       Output: endpoints. Done when: contract tests pass. Needs: T9.02. Size: S.
 - [ ] **T9.05** [AI] Evidence, model-card and sources endpoints and their data.
       Output: endpoints. Done when: responses carry snapshot and model ids. Needs: T9.03. Size: M.
