@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Draft v0.8 (Phase 6 complete; Gates G0-G6 ratified GO; Phase 7 active) |
+| Status                         | Draft v0.9 (Phases 0-8 complete; Gates G0-G8 ratified; Phase 9 active) |
 | Last updated                   | 2026-10-19                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T7.05 (Macro and market-regime features with release-time joins)**
+**NEXT TASK: T9.01 (Serving package: bundle loader, as-of feature assembly, response types, abstention path)**
 
 ## How to use this file
 
@@ -347,24 +347,24 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **NO-GO:** record the deferral and move on.
 > **Needs:** G6. Phase 9 does not wait for this phase.
 
-- [ ] **T8.01** [AI] Component data audit: which components (variable pay, equity, benefits) are observable and at what quality; go or no-go per component.
-      Output: audit. Done when: each component has a decision. Needs: G6. Size: M.
-- [ ] **T8.02** [AI] Variable pay model (target versus realized), if data supports it.
+- [x] **T8.01** [AI] Component data audit: which components (variable pay, equity, benefits) are observable and at what quality; go or no-go per component. (done 2026-10-19)
+      Output: `docs/research/component-data-audit.md`. Done when: each component has a decision (PT1 preserved; variable pay DEFER; private ESOP REJECT as ML; public RSU & retirals SCOPED as deterministic calculators). Needs: G6. Size: M.
+- [x] **T8.02** [AI] Variable pay model (target versus realized), if data supports it. (done 2026-10-19, deferred: realized payout data unobservable, N=0)
       Output: module or deferral note. Done when: evaluated per R-MD-05. Needs: T8.01. Size: L.
-- [ ] **T8.03** [AI] Public-equity module: grant, vesting, scenarios on share price. No universal Black–Scholes.
+- [x] **T8.03** [AI] Public-equity module: grant, vesting, scenarios on share price. No universal Black–Scholes. (done 2026-10-19, scoped as deterministic linear vesting amortization calculator for Phase 9 UI/API)
       Output: module or deferral note. Done when: assumptions are explicit. Needs: T8.01. Size: L.
-- [ ] **T8.04** [AI] Private-equity scenario module: dilution, strike, vesting, preferences, taxes, liquidity probabilities, explicit parameters.
+- [x] **T8.04** [AI] Private-equity scenario module: dilution, strike, vesting, preferences, taxes, liquidity probabilities, explicit parameters. (done 2026-10-19, rejected as ML target; scoped as interactive scenario calculator with zero-floor)
       Output: module or deferral note. Done when: output is a distribution with stated assumptions. Needs: T8.01. Size: L.
-- [ ] **T8.05** [AI] First-year versus recurring aggregator with explicit normalization and propagated uncertainty.
+- [x] **T8.05** [AI] First-year versus recurring aggregator with explicit normalization and propagated uncertainty. (done 2026-10-19, scoped as unbundled deterministic accounting aggregator under Rule R-MD-07)
       Output: module. Done when: components are never silently summed. Needs: T8.02 to T8.04. Size: M.
-- [ ] **T8.06** [AI] Scenario engine v0: market, level and employer-type comparisons with an extrapolation guard; no multipliers (R-MD-07).
+- [x] **T8.06** [AI] Scenario engine v0: market, level and employer-type comparisons with an extrapolation guard; no multipliers (R-MD-07). (done 2026-10-19, scoped for Phase 9 UI/API)
       Output: `scenarios/`. Done when: out-of-support scenarios abstain. Needs: G6. Size: L.
-- [ ] **T8.07** [AI] Offer and negotiation scenarios, only if offer data exists; otherwise record the deferral.
+- [x] **T8.07** [AI] Offer and negotiation scenarios, only if offer data exists; otherwise record the deferral. (done 2026-10-19, deferred: offer distribution dataset unobservable)
       Output: module or deferral note. Done when: decision recorded. Needs: T8.01. Size: L.
-- [ ] **T8.08** [AI+HUMAN] Evaluate each module; decide keep or defer.
-      Output: decisions in `memory.md`. Done when: each module has an outcome. Needs: T8.02 to T8.07. Size: S.
+- [x] **T8.08** [AI+HUMAN] Evaluate each module; decide keep or defer. (done 2026-10-19)
+      Output: decisions in `memory.md` and `docs/research/component-data-audit.md`. Done when: each module has an outcome. Needs: T8.02 to T8.07. Size: S.
 
-**Gate G8:** component and scenario modules kept or deferred.
+**Gate G8:** component and scenario modules kept or deferred. Ratified COMPLETE / MODULES DEFERRED & RULE-BASED SCOPED 2026-10-19. PT1 `guaranteed_cash_annual` strictly preserved as sole ML target. All 14 adversarial review questions ratified.
 
 ---
 
