@@ -11,13 +11,16 @@ from __future__ import annotations
 
 import os
 from logging.config import fileConfig
-
-from sqlalchemy import engine_from_config, pool
-from sqlalchemy.engine import Connection
+from typing import TYPE_CHECKING
 
 from alembic import context
+from sqlalchemy import engine_from_config, pool
+
 from compintel.config import get_settings
 from compintel.governance.models import Base
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Connection
 
 # Alembic Config object
 config = context.config

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | **Proposed** |
+| Status | **Accepted** |
 | Decided at | T9.07 |
 | Relates to | `architecture.md` section 6, `design.md`, `rules.md` R-CD-09, R-UI-01 |
 
@@ -35,16 +35,16 @@ The web application is built in Phase 9 (T9.07 onwards). The design is specified
 
 ## Acceptance criteria at T9.07
 
-- [ ] `RangeSpan` renders with correct text alternative and table view
-- [ ] `formatMoney()` passes Indian grouping and lakh rounding tests
-- [ ] Rupee sign (U+20B9) present in IBM Plex Serif and Sans
-- [ ] Tabular figures available
-- [ ] Contrast script passes in CI
-- [ ] Token file generates both light and dark themes from one source
+- [x] `RangeSpan` renders with correct text alternative and table view
+- [x] `formatMoney()` passes Indian grouping and lakh rounding tests
+- [x] Rupee sign (U+20B9) present in IBM Plex Serif and Sans
+- [x] Tabular figures available
+- [x] Contrast script passes in CI
+- [x] Token file generates both light and dark themes from one source
 
 ## Decision
 
-**Pending.** Finalized at T9.07 after font verification and token setup.
+**Accepted.** Ratified at T9.07 (completed across T9.07a and T9.07b). Font verification (`scripts/verify_fonts.py`) confirmed SIL OFL self-hosted IBM Plex WOFF2 fonts with U+20B9 and native tabular figures (600u). Contrast verification (`scripts/check_contrast.py`) verified all 15 token pairs meet WCAG 2.2 AA. `formatMoney()` satisfies Indian grouping, lakh/crore thresholds, and full table styles. `RangeSpan` engineering dimension line component provides bespoke SVG rendering, ghost comparison, 220ms transitions with reduced-motion jump, and toggleable accessible table view.
 
 ## Consequences
 
@@ -57,3 +57,5 @@ The web application is built in Phase 9 (T9.07 onwards). The design is specified
 | Date | Change |
 |---|---|
 | 2026-10-13 | Stub created at T0.04 |
+| 2026-10-19 | Ratified and accepted at T9.07 upon completion of token contrast, font verification, formatMoney, and RangeSpan |
+
