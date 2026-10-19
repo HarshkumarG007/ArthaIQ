@@ -16,7 +16,6 @@ Creates:
 from __future__ import annotations
 
 import sqlalchemy as sa
-
 from alembic import op
 
 # revision identifiers, used by Alembic.
@@ -46,10 +45,16 @@ def upgrade() -> None:
         sa.Column("contributor_key", sa.Uuid(as_uuid=True), nullable=False),
         sa.Column("email_hash", sa.String(length=64), nullable=True),
         sa.Column("email_encrypted", sa.Text(), nullable=True),
-        sa.Column("auth_provider", sa.String(length=32), nullable=False, server_default="anonymous_token"),
+        sa.Column(
+            "auth_provider", sa.String(length=32), nullable=False, server_default="anonymous_token"
+        ),
         sa.Column("status", sa.String(length=20), nullable=False, server_default="active"),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
         schema=schema_identity,
     )
     op.create_index(
@@ -73,13 +78,24 @@ def upgrade() -> None:
         sa.Column("id", sa.Uuid(as_uuid=True), primary_key=True, nullable=False),
         sa.Column("contributor_key", sa.Uuid(as_uuid=True), nullable=False),
         sa.Column("consent_version", sa.String(length=32), nullable=False),
-        sa.Column("purpose_compensation_benchmarking", sa.Boolean(), nullable=False, server_default=sa.false()),
-        sa.Column("purpose_research_aggregation", sa.Boolean(), nullable=False, server_default=sa.false()),
-        sa.Column("purpose_future_contact", sa.Boolean(), nullable=False, server_default=sa.false()),
+        sa.Column(
+            "purpose_compensation_benchmarking",
+            sa.Boolean(),
+            nullable=False,
+            server_default=sa.false(),
+        ),
+        sa.Column(
+            "purpose_research_aggregation", sa.Boolean(), nullable=False, server_default=sa.false()
+        ),
+        sa.Column(
+            "purpose_future_contact", sa.Boolean(), nullable=False, server_default=sa.false()
+        ),
         sa.Column("status", sa.String(length=20), nullable=False, server_default="granted"),
         sa.Column("ip_hash", sa.String(length=64), nullable=True),
         sa.Column("user_agent_hash", sa.String(length=64), nullable=True),
-        sa.Column("granted_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "granted_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
         sa.Column("withdrawn_at", sa.DateTime(timezone=True), nullable=True),
         sa.Column("retention_expires_at", sa.DateTime(timezone=True), nullable=True),
         schema=schema_app,
@@ -114,9 +130,18 @@ def upgrade() -> None:
         sa.Column("benefits_annual", sa.Numeric(precision=12, scale=2), nullable=True),
         sa.Column("status", sa.String(length=20), nullable=False, server_default="submitted"),
         sa.Column("quarantine_reasons", sa.JSON(), nullable=True),
-        sa.Column("verification_level", sa.String(length=32), nullable=False, server_default="self_attested"),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "verification_level",
+            sa.String(length=32),
+            nullable=False,
+            server_default="self_attested",
+        ),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
         sa.ForeignKeyConstraint(["consent_id"], [consent_table_ref], ondelete="RESTRICT"),
         schema=schema_app,
     )
@@ -169,7 +194,9 @@ def upgrade() -> None:
         sa.Column("id", sa.Uuid(as_uuid=True), primary_key=True, nullable=False),
         sa.Column("contributor_key", sa.Uuid(as_uuid=True), nullable=False),
         sa.Column("status", sa.String(length=20), nullable=False, server_default="pending"),
-        sa.Column("requested_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "requested_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
         sa.Column("completed_at", sa.DateTime(timezone=True), nullable=True),
         sa.Column("reason", sa.String(length=256), nullable=True),
         sa.Column("records_purged_count", sa.Integer(), nullable=False, server_default="0"),
@@ -207,7 +234,9 @@ def upgrade() -> None:
         sa.Column("actor_id", sa.String(length=64), nullable=True),
         sa.Column("action", sa.String(length=32), nullable=False),
         sa.Column("details", sa.JSON(), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()
+        ),
         schema=schema_app,
     )
     op.create_index(
