@@ -1,0 +1,33 @@
+{
+  "report_id": "EXP-MACRO-20261019-060926",
+  "charter_id": "CHARTER-MACRO-REGIMES",
+  "task_id": "T7.05",
+  "generated_at": "2026-10-19T06:09:26.712355+00:00",
+  "git_commit": "96b46594f6f80685a98b0b035800253607e5ddca",
+  "eval_split_name": "select",
+  "n_eval_observations": 1,
+  "overall_verdict": "DEFER",
+  "modeling_executed": false,
+  "executive_summary": "Feasibility Gate 1 DEFERRAL: Eligible development observation panel spans 5 days (0.2 months), failing the pre-registered 24.0-month longitudinal threshold. Macro indicators (CPI inflation, FX rate volatility) exhibit negligible cross-sectional variance over this window and are collinear with time trends. In accordance with repository governance protocol and user instruction, expensive model fitting was skipped. The Rung F L2 Conformal CatBoost production champion remains strictly retained.",
+  "feasibility_audit": {
+    "status": "INSUFFICIENT_SPAN",
+    "observation_start": "2024-06-15",
+    "observation_end": "2024-06-20",
+    "observation_span_days": 5,
+    "observation_span_months": 0.16,
+    "min_required_months": 24.0,
+    "is_synthetic": false,
+    "n_eligible_records": 3,
+    "cpi_series_present": true,
+    "cpi_series_rows": 819,
+    "fx_series_present": true,
+    "fx_series_rows": 14024,
+    "provenance_tier": "TIER_4_SUPPLEMENTARY",
+    "license_id": "OGDL-IN",
+    "summary": "Observation panel spans 5 days (0.2 months), failing the pre-registered 24-month sufficiency threshold in CHARTER-MACRO-REGIMES. Macro indicators exhibit near-zero longitudinal variance over this horizon and are collinear with time trends. Preregistered DEFER enforced."
+  },
+  "baseline_metrics": null,
+  "variant_a_metrics": null,
+  "variant_b_metrics": null,
+  "deltas": []
+}

@@ -326,7 +326,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
 - [x] **T7.04** [AI] Employer features: simple versus graph-based, only with representative data (EXP-10). (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
-- [ ] **T7.05** [AI] Macro and market-regime features with release-time joins.
+- [x] **T7.05** [AI] Macro and market-regime features with release-time joins. (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
 - [ ] **T7.06** [AI] Ensembling or stacking, only if a charter shows a likely gain.
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
