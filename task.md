@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T7.03 (Career trajectory features versus tenure and experience)**
+**NEXT TASK: T7.04 (Employer features: simple versus graph-based, only with representative data (EXP-10))**
 
 ## How to use this file
 
@@ -322,7 +322,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `experiments/configs/`. Done when: each charter has keep and reject criteria (R-MD-09). Needs: G6. Size: M.
 - [x] **T7.02** [AI] Skills: curated taxonomy and TF-IDF versus sentence-transformer embeddings on CPU (EXP-09). (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.
-- [ ] **T7.03** [AI] Career trajectory features versus tenure and experience.
+- [x] **T7.03** [AI] Career trajectory features versus tenure and experience. (done 2026-10-19)
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: M.
 - [ ] **T7.04** [AI] Employer features: simple versus graph-based, only with representative data (EXP-10).
       Output: result. Done when: verdict recorded. Needs: T7.01. Size: L.

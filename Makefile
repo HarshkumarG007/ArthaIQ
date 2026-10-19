@@ -189,6 +189,11 @@ fairness-audit:
 skills-experiment:
 	uv run python scripts/run_skills_experiment.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
 
+# ---- Career Trajectory Modeling Experiment: Tenure & Velocity (Phase 7, T7.03, EXP-08) -
+# Usage: make career-trajectory-experiment [SNAPSHOT=<path>] [SEED=<int>] [SPLIT=<select|calibrate>] [ALLOW_SYNTHETIC=1]
+career-trajectory-experiment:
+	uv run python scripts/run_career_trajectory_experiment.py $(if $(SNAPSHOT),--canonical-path $(SNAPSHOT),) $(if $(SEED),--seed $(SEED),) $(if $(SPLIT),--split $(SPLIT),) $(if $(ALLOW_SYNTHETIC),--allow-synthetic,)
+
 # ---- Final evaluation (Phase 4+, R-MD-02) ----------------------------------
 # IMPORTANT: This touches the final test set. Running it twice is a violation
 # unless you declare the first run contaminated and refresh the test period.
