@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T9.06 (PostgreSQL schema and migrations for consent, contributions and the audit log, only what the beta needs)**
+**NEXT TASK: T9.07 (Frontend scaffold: tokens, font verification, formatMoney, contrast script in CI, core components starting with RangeSpan)**
 
 ## How to use this file
 
@@ -388,7 +388,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: endpoints. Done when: contract tests pass. Needs: T9.02. Size: S.
 - [x] **T9.05** [AI] Evidence, model-card and sources endpoints and their data. (done 2026-10-19)
       Output: endpoints. Done when: responses carry snapshot and model ids. Needs: T9.03. Size: M.
-- [ ] **T9.06** [AI] PostgreSQL schema and migrations for consent, contributions and the audit log, only what the beta needs.
+- [x] **T9.06** [AI] PostgreSQL schema and migrations for consent, contributions and the audit log, only what the beta needs. (done 2026-10-19)
       Output: migrations. Done when: up and down migrations run in CI. Needs: T9.02. Size: M.
 - [ ] **T9.07** [AI] Frontend scaffold: tokens, font verification (rupee sign, tabular figures), `formatMoney()`, contrast script in CI, core components starting with `RangeSpan`; ADR-0007.
       Output: `apps/web` foundation. Done when: contrast script and formatter tests pass and fonts verified. Needs: T9.03. Size: L.
