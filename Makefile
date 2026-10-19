@@ -249,6 +249,13 @@ migrate-check:
 test-migrations:
 	uv run pytest tests/integration/test_migrations.py -v
 
+# ---- Frontend Foundation & Design Tokens (Phase 9, T9.07) ------------------
+check-contrast:
+	uv run python scripts/check_contrast.py
+
+verify-fonts:
+	uv run python scripts/verify_fonts.py
+
 # ---- Docker (Phase 9+) -----------------------------------------------------
 build-image:
 	docker build -t compintel:dev -f infra/docker/Dockerfile .
