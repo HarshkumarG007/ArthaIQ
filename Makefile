@@ -289,6 +289,10 @@ load-test:
 fairness-audit-v2:
 	uv run python scripts/run_fairness_audit_v2.py --allow-synthetic
 
+# ---- Rollback Rehearsal (Phase 10, T10.02) ----------------------------------
+rollback-rehearsal:
+	uv run python scripts/run_rollback_rehearsal.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
