@@ -490,3 +490,61 @@ class CohortEvidenceResponse(BaseModel):
     )
     newest_observation_date: str = Field(..., description="Date of newest observation in cohort.")
     disclaimer: str = Field(..., description="Statutory decision-support disclosure.")
+
+
+# -----------------------------------------------------------------------------
+# 8. Pilot Feedback Types (PRD Section 11, T10.01)
+# -----------------------------------------------------------------------------
+
+
+class FeedbackSubmissionRequest(BaseModel):
+    """Anonymous pilot feedback payload for POST /v1/feedback."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    rating_clarity: int = Field(
+        ...,
+        ge=1,
+        le=5,
+        description="Clarity rating (1: completely unclear, 5: very clear).",
+    )
+    rating_usefulness: int = Field(
+        ...,
+        ge=1,
+        le=5,
+        description="Usefulness rating (1: not useful, 5: highly actionable).",
+    )
+    comprehension_confirmed: bool = Field(
+        default=False,
+        description=(
+            "User confirmation that range is an empirical estimate, "
+            "not a salary guarantee or appraisal."
+        ),
+    )
+    feedback_text: str | None = Field(
+        default=None,
+        max_length=500,
+        description="Optional qualitative feedback comment (max 500 characters, PII scrubbed).",
+    )
+    request_id: str | None = Field(
+        default=None,
+        description="Optional correlation request_id from prior estimate.",
+    )
+    surface: str = Field(
+        default="estimate_screen",
+        description="Product surface where feedback was submitted.",
+    )
+
+
+class FeedbackSubmissionResponse(BaseModel):
+    """Response returned upon successful feedback submission."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    status: Literal["received"] = "received"
+    feedback_id: str = Field(..., description="Unique anonymized feedback receipt ID.")
+    sanitized: bool = Field(
+        default=True,
+        description="Whether textual comments underwent automated PII scrubbing.",
+    )
+    received_at_utc: str = Field(..., description="ISO 8601 timestamp in UTC.")

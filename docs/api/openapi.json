@@ -435,6 +435,41 @@
           }
         }
       }
+    },
+    "/v1/feedback": {
+      "post": {
+        "tags": [
+          "Pilot Feedback"
+        ],
+        "summary": "Submit anonymous pilot feedback and comprehension validation",
+        "description": "Ingest anonymous user feedback from pilot cohort sessions.\n\nEnforces:\n- Automated server-side PII scrubbing on qualitative feedback comments.\n- Zero raw feedback text emitted to logs (Rule R-CD-06).\n- Prometheus telemetry tracking on comprehension confirmations.",
+        "operationId": "submit_feedback_v1_feedback_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackSubmissionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback successfully sanitized, instrumented, and acknowledged.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackSubmissionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error (Likert bounds 1-5 violated, comment > 500 chars)."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1066,6 +1101,101 @@
         ],
         "title": "FallbackItem",
         "description": "Actionable user suggestion when model abstains on thin support."
+      },
+      "FeedbackSubmissionRequest": {
+        "properties": {
+          "rating_clarity": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Rating Clarity",
+            "description": "Clarity rating (1: completely unclear, 5: very clear)."
+          },
+          "rating_usefulness": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Rating Usefulness",
+            "description": "Usefulness rating (1: not useful, 5: highly actionable)."
+          },
+          "comprehension_confirmed": {
+            "type": "boolean",
+            "title": "Comprehension Confirmed",
+            "description": "User confirmation that range is an empirical estimate, not a salary guarantee or appraisal.",
+            "default": false
+          },
+          "feedback_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Text",
+            "description": "Optional qualitative feedback comment (max 500 characters, PII scrubbed)."
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id",
+            "description": "Optional correlation request_id from prior estimate."
+          },
+          "surface": {
+            "type": "string",
+            "title": "Surface",
+            "description": "Product surface where feedback was submitted.",
+            "default": "estimate_screen"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rating_clarity",
+          "rating_usefulness"
+        ],
+        "title": "FeedbackSubmissionRequest",
+        "description": "Anonymous pilot feedback payload for POST /v1/feedback."
+      },
+      "FeedbackSubmissionResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "received",
+            "title": "Status",
+            "default": "received"
+          },
+          "feedback_id": {
+            "type": "string",
+            "title": "Feedback Id",
+            "description": "Unique anonymized feedback receipt ID."
+          },
+          "sanitized": {
+            "type": "boolean",
+            "title": "Sanitized",
+            "description": "Whether textual comments underwent automated PII scrubbing.",
+            "default": true
+          },
+          "received_at_utc": {
+            "type": "string",
+            "title": "Received At Utc",
+            "description": "ISO 8601 timestamp in UTC."
+          }
+        },
+        "type": "object",
+        "required": [
+          "feedback_id",
+          "received_at_utc"
+        ],
+        "title": "FeedbackSubmissionResponse",
+        "description": "Response returned upon successful feedback submission."
       },
       "HTTPValidationError": {
         "properties": {

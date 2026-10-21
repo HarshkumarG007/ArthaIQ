@@ -63,6 +63,7 @@ class TestOpenAPIContract:
             "/v1/sources",
             "/v1/evidence/summary",
             "/v1/evidence/cohort",
+            "/v1/feedback",
         ]
         for path in expected_paths:
             assert path in paths, f"Mandatory endpoint path '{path}' missing from OpenAPI spec."
@@ -111,6 +112,8 @@ class TestOpenAPIContract:
             "SourcesResponse",
             "EvidenceSummaryResponse",
             "CohortEvidenceResponse",
+            "FeedbackSubmissionRequest",
+            "FeedbackSubmissionResponse",
         ]
         for schema_name in expected_schemas:
             assert schema_name in schemas, (
