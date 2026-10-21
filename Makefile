@@ -6,7 +6,7 @@
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
-        benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations clean
+        benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -255,6 +255,10 @@ check-contrast:
 
 verify-fonts:
 	uv run python scripts/verify_fonts.py
+
+# ---- Security Verification (Phase 9, T9.12) --------------------------------
+security-scan:
+	uv run python scripts/run_security_scan.py
 
 # ---- Docker (Phase 9+) -----------------------------------------------------
 build-image:
