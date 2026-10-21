@@ -402,12 +402,21 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: screens and integration tests. Done when: all states exist, refine and compare flows work, and end-to-end smoke tests pass. Needs: T9.08a. Size: M.
 - [x] **T9.09** [AI] Accessibility pass: automated and manual, per the checklist in `design.md` section 11. (done 2026-10-20)
       Output: report and fixes. Done when: checklist complete. Needs: T9.08. Size: M.
-- [ ] **T9.10** [AI] Contribution flow, consent, quarantine, deletion, k_min; ADR-0008.
-      Output: flow and ADR. Done when: deletion removes the record from operational stores in a test. Needs: T9.06, T9.08. Size: L.
-- [ ] **T9.11** [AI] Monitoring: structured logs, metrics, drift and coverage jobs, freshness alarms, alerts.
-      Output: `monitoring/` and dashboards. Done when: alerts fire on injected faults in preview. Needs: T9.03. Size: L.
-- [ ] **T9.12** [AI] Security review: threat model, dependency audit, secret scan, ASVS checklist `[U]`; fix findings.
-      Output: review report. Done when: no critical finding is open. Needs: T9.10. Size: L.
+- [x] **T9.10** [AI] Contribution flow, consent, quarantine, deletion, k_min; ADR-0008 (split per Rule R-WF-03): (done 2026-10-21)
+  - [x] **T9.10a** [AI] Contribution & Deletion API service, quarantine & $k_{\min}$ enforcement, operational erasure test, and ADR-0008 ratification. (done 2026-10-21)
+        Output: governance service endpoints (`/v1/contributions`, `/v1/contributions/delete`), end-to-end deletion test suite, and ratified ADR-0008. Done when: deletion removes records from operational stores in an integration test and ADR-0008 is accepted. Needs: T9.06, T9.09. Size: M.
+  - [x] **T9.10b** [AI] Frontend `ContributionFlow` multi-step sequence, unbundled consent checkboxes, pay entry with definition helper, confirmation & deletion token UI, and integration tests. (done 2026-10-21)
+        Output: `ContributionFlow.tsx`, `MyDataModal.tsx`, and component tests. Done when: contribution and erasure flows work interactively and pass Vitest tests with 0 axe violations. Needs: T9.10a. Size: M.
+- [x] **T9.11** [AI] Monitoring: structured logs, metrics, drift and coverage jobs, freshness alarms, alerts (split per Rule R-WF-03): (done 2026-10-21)
+  - [x] **T9.11a** [AI] Serving observability & metrics telemetry: (done 2026-10-21): structured logging with request ID correlation, Prometheus/OpenMetrics telemetry engine & `/metrics` endpoint (request latency, HTTP status codes, abstention counters partitioned by reason & slice), and PII scrubbing audit.
+        Output: `src/compintel/monitoring/metrics.py`, `src/compintel/serving/telemetry.py`, `/metrics` endpoint, and unit/contract tests. Done when: serving requests emit scrubbed structured logs and Prometheus metrics show observed latency & abstention counts. Needs: T9.03. Size: M.
+  - [x] **T9.11b** [AI] Drift, coverage & freshness monitoring jobs and fault-injected alerting engine: PSI & KS drift detection, rolling coverage and abstention rate tracking per slice, source freshness alarms, and fault injection test suite. (done 2026-10-21)
+        Output: `src/compintel/monitoring/drift.py`, `src/compintel/monitoring/freshness.py`, `src/compintel/monitoring/alerts.py`, and alerting integration test suite. Done when: alerts fire on injected faults (stale data, distribution drift, coverage drop) in preview. Needs: T9.11a. Size: M.
+- [ ] **T9.12** [AI] Security review: threat model, dependency audit, secret scan, ASVS checklist `[U]`; fix findings (split per Rule R-WF-03):
+  - [x] **T9.12a** [AI] Automated security audit, dependency vulnerability scan, secret detection, and SAST linter checks: (done 2026-10-21): audit Python/Node dependencies, scan repo for secrets/tokens, run bandit/security linters, and fix any high/critical findings.
+        Output: `scripts/run_security_scan.py`, `docs/security/automated-audit-report.md`. Done when: zero high or critical vulnerabilities remain in dependencies or code. Needs: T9.10. Size: M.
+  - [ ] **T9.12b** [AI] Threat modeling, OWASP ASVS v4.0 checklist `[U]`, privacy attack verification & sign-off: STRIDE threat model on serving and contribution APIs, verification of ASVS controls, and security review report.
+        Output: `docs/security/threat-model.md`, `docs/security/asvs-checklist.md`, `docs/security/security-review-report.md`. Done when: ASVS checklist complete and zero unmitigated critical risks remain. Needs: T9.12a. Size: M.
 - [ ] **T9.13** [AI+HUMAN] Code review pass and refactor list.
       Output: review notes. Done when: findings triaged. Needs: T9.12. Size: M.
 - [ ] **T9.14** [AI] Preview deployment: containers, environments, minimal infrastructure as code, cost measurement; ADR-0009.
