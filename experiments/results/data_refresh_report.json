@@ -1,0 +1,138 @@
+{
+  "run_id": "REFRESH-C1D8793F",
+  "evaluated_at": "2026-10-21T17:01:52.391889Z",
+  "total_sources_evaluated": 14,
+  "fresh_count": 14,
+  "warning_count": 0,
+  "stale_count": 0,
+  "reports": [
+    {
+      "source_id": "SRC-INT-VOL-01",
+      "latest_observation_date": "2026-10-15T17:52:02.349446Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 6.0,
+      "sla_days": 30.0,
+      "status": "FRESH",
+      "description": "Source SRC-INT-VOL-01 is fresh: age 6.0 days is within 30.0 days SLA."
+    },
+    {
+      "source_id": "SRC-SUP-MAC-01",
+      "latest_observation_date": "2026-10-13T19:08:54.696306Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 45.0,
+      "status": "FRESH",
+      "description": "Source SRC-SUP-MAC-01 is fresh: age 7.9 days is within 45.0 days SLA."
+    },
+    {
+      "source_id": "SRC-IND-OFF-03",
+      "latest_observation_date": "2026-10-13T19:08:54.754340Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 60.0,
+      "status": "FRESH",
+      "description": "Source SRC-IND-OFF-03 is fresh: age 7.9 days is within 60.0 days SLA."
+    },
+    {
+      "source_id": "SRC-USA-DOL-01",
+      "latest_observation_date": "2026-10-13T19:08:54.782393Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 120.0,
+      "status": "FRESH",
+      "description": "Source SRC-USA-DOL-01 is fresh: age 7.9 days is within 120.0 days SLA."
+    },
+    {
+      "source_id": "SRC-USA-DOL-02",
+      "latest_observation_date": "2026-10-13T19:08:54.799880Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 120.0,
+      "status": "FRESH",
+      "description": "Source SRC-USA-DOL-02 is fresh: age 7.9 days is within 120.0 days SLA."
+    },
+    {
+      "source_id": "SRC-SUP-CORP-01",
+      "latest_observation_date": "2026-10-13T19:08:54.721310Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 180.0,
+      "status": "FRESH",
+      "description": "Source SRC-SUP-CORP-01 is fresh: age 7.9 days is within 180.0 days SLA."
+    },
+    {
+      "source_id": "SRC-IND-OFF-01",
+      "latest_observation_date": "2026-10-13T19:08:54.741263Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-IND-OFF-01 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-USA-BLS-01",
+      "latest_observation_date": "2026-10-13T19:08:54.766781Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-USA-BLS-01 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-KAG-SO-01",
+      "latest_observation_date": "2026-10-13T19:08:59.140851Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-KAG-SO-01 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-KAG-SO-02",
+      "latest_observation_date": "2026-10-13T19:09:02.998739Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-KAG-SO-02 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-KAG-AIJ-01",
+      "latest_observation_date": "2026-10-13T19:08:54.820690Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-KAG-AIJ-01 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-KAG-AIJ-02",
+      "latest_observation_date": "2026-10-13T19:08:54.845617Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-KAG-AIJ-02 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-SUP-TAX-01",
+      "latest_observation_date": "2026-10-13T19:08:54.875223Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-SUP-TAX-01 is fresh: age 7.9 days is within 365.0 days SLA."
+    },
+    {
+      "source_id": "SRC-SUP-TAX-02",
+      "latest_observation_date": "2026-10-13T19:08:54.900179Z",
+      "as_of_date": "2026-10-21T17:01:52.391889Z",
+      "age_days": 7.9,
+      "sla_days": 365.0,
+      "status": "FRESH",
+      "description": "Source SRC-SUP-TAX-02 is fresh: age 7.9 days is within 365.0 days SLA."
+    }
+  ],
+  "alerts_triggered": [],
+  "overall_status": "HEALTHY"
+}

@@ -297,6 +297,10 @@ rollback-rehearsal:
 coverage-tracking:
 	uv run python scripts/run_coverage_tracking.py --allow-synthetic
 
+# ---- Data Refresh Audit (Phase 10, T10.04) -----------------------------------
+data-refresh:
+	uv run python scripts/run_data_refresh.py
+
 
 # ---- Clean -----------------------------------------------------------------
 clean:

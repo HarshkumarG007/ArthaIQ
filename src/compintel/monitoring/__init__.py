@@ -30,9 +30,16 @@ from compintel.monitoring.drift import (
     evaluate_drift,
 )
 from compintel.monitoring.freshness import (
+    DEFAULT_SOURCE_SLAS,
+    DataRefreshJobResult,
     FreshnessReport,
     FreshnessStatus,
+    SourceFreshnessSLA,
     evaluate_freshness,
+    execute_data_refresh_job,
+    inspect_source_observation_dates,
+    load_source_freshness_slas,
+    render_data_refresh_markdown,
 )
 from compintel.monitoring.metrics import (
     Counter,
@@ -43,6 +50,7 @@ from compintel.monitoring.metrics import (
 )
 
 __all__ = [
+    "DEFAULT_SOURCE_SLAS",
     "AbstentionRateReport",
     "AbstentionStatus",
     "Alert",
@@ -53,6 +61,7 @@ __all__ = [
     "CoverageDashboardData",
     "CoverageReport",
     "CoverageStatus",
+    "DataRefreshJobResult",
     "DriftMethod",
     "DriftReport",
     "DriftStatus",
@@ -62,6 +71,7 @@ __all__ = [
     "Histogram",
     "MetricsRegistry",
     "SliceCoverageReport",
+    "SourceFreshnessSLA",
     "WeeklyCoverageBucket",
     "compute_ks",
     "compute_psi",
@@ -70,6 +80,10 @@ __all__ = [
     "evaluate_drift",
     "evaluate_freshness",
     "evaluate_slice_abstentions",
+    "execute_data_refresh_job",
     "get_metrics_registry",
+    "inspect_source_observation_dates",
+    "load_source_freshness_slas",
     "render_coverage_dashboard_markdown",
+    "render_data_refresh_markdown",
 ]
