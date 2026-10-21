@@ -11,8 +11,10 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import subprocess
 import sys
+import sysconfig
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -121,8 +123,9 @@ def scan_for_secrets(root_dir: Path) -> ScanResult:
 def audit_python_dependencies() -> ScanResult:
     """Run pip-audit on current virtual environment packages."""
     try:
+        site_packages = sysconfig.get_path("purelib")
         res = subprocess.run(
-            ["uvx", "pip-audit", "--path", ".venv/Lib/site-packages", "-f", "json"],
+            ["uvx", "pip-audit", "--path", site_packages, "-f", "json"],
             capture_output=True,
             text=True,
             check=False,
@@ -225,8 +228,15 @@ def audit_node_dependencies(web_dir: Path) -> ScanResult:
 def run_bandit_sast(target_dir: Path) -> ScanResult:
     """Run Bandit SAST for Medium and High severity security issues."""
     try:
+        # Cross-platform execution: prefer sys.executable -m bandit, fallback to PATH
+        bandit_bin = shutil.which("bandit")
+        if bandit_bin:
+            cmd = [bandit_bin, "-r", str(target_dir), "-ll", "-f", "json"]
+        else:
+            cmd = [sys.executable, "-m", "bandit", "-r", str(target_dir), "-ll", "-f", "json"]
+
         res = subprocess.run(
-            [".venv/Scripts/bandit.exe", "-r", str(target_dir), "-ll", "-f", "json"],
+            cmd,
             capture_output=True,
             text=True,
             check=False,
