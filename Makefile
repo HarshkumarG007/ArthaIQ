@@ -305,6 +305,10 @@ data-refresh:
 drift-recalibration:
 	uv run python scripts/run_drift_recalibration.py
 
+# ---- Pilot Feedback & Results Analysis (Phase 10, T10.06) --------------------
+feedback-analysis:
+	uv run python scripts/run_feedback_analysis.py
+
 
 # ---- Clean -----------------------------------------------------------------
 clean:

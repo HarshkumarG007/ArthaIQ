@@ -458,8 +458,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `config/freshness_slas.yaml`, `src/compintel/monitoring/freshness.py`, `scripts/run_data_refresh.py`, `docs/monitoring/data-refresh-status.md`, `experiments/results/data_refresh_report.json`. Done when: a stale source raises an alert. Needs: T9.11. Size: M.
 - [x] **T10.05** [AI] Drift triggers, recalibration and retraining procedure, champion and challenger: (done 2026-10-21)
       Output: `docs/runbooks/drift-recalibration-and-retraining.md`, `src/compintel/monitoring/recalibration.py`, `scripts/run_drift_recalibration.py`, `docs/monitoring/drift-recalibration-status.md`, `experiments/results/drift_recalibration_report.json`. Done when: a simulated drift triggers the documented action (simulated moderate drift triggers automated conformal recalibration q_hat recomputation; simulated severe drift triggers Challenger shadow evaluation and promotion review across 5 gates). Needs: T10.03. Size: M.
-- [ ] **T10.06** [AI] Analyze feedback and results; prioritized backlog; update the evidence register.
-      Output: backlog. Done when: top items have experiment charters. Needs: T10.01. Size: M.
+- [x] **T10.06** [AI] Analyze feedback and results; prioritized backlog; update the evidence register: (done 2026-10-21)
+      Output: `src/compintel/evaluation/pilot_analysis.py`, `scripts/run_feedback_analysis.py`, `docs/pilot/prioritized-backlog.md`, `docs/research/experiment-charters-phase10.md`, `docs/pilot/pilot-feedback-and-results-analysis.md`, `docs/research/evidence-register.csv`, `experiments/results/pilot_feedback_report.json`. Done when: top items have experiment charters (`CHARTER-EXP-13`, `CHARTER-EXP-16`, `CHARTER-EXP-14`, `CHARTER-EXP-15`) and evidence register is synchronized. Needs: T10.01. Size: M.
 - [ ] **T10.07** [AI+HUMAN] Post-pilot review: update PRD, architecture and memory; decide the next iteration.
       Output: updated docs. Done when: change logs updated. Needs: T10.06. Size: M.
 
@@ -485,6 +485,10 @@ Hypotheses to test, not results. Each needs a charter before work starts.
 | EXP-10 | Do graph-based employer features beat simple ones without leakage?                                                                                                              | Whether to keep graphs         | 7     | T7.04        |
 | EXP-11 | What is the trade-off between abstention and coverage, and is abstention uneven across groups?                                                                                  | Support thresholds             | 5, 6  | T5.07, T6.09 |
 | EXP-12 | How much does a random split inflate performance compared with grouped-temporal?                                                                                                | Diagnostic for leakage culture | 4     | T4.06        |
+| EXP-13 | Do group-conditional conformal adjustments q_hat_g compress slice coverage variance below 0.05 while preserving marginal 80% coverage?                                           | Slice-adaptive calibration     | 11    | T10.06       |
+| EXP-14 | Does targeted acquisition on sparse cells reduce epistemic interval width by >= 20% with 50% fewer samples?                                                                    | Active learning policy         | 11    | T10.06       |
+| EXP-15 | Can constrained monotonic quantile regression over competing offer structures predict counterfactual trade-offs without lone numbers?                                          | Counterfactual PT4 engine      | 12    | T10.06       |
+| EXP-16 | Does an autonomous dual-cadence freshness daemon eliminate source staleness incidents with zero operational toil?                                                               | Data ingestion daemon          | 11    | T10.06       |
 
 ## Appendix B: Parking lot
 

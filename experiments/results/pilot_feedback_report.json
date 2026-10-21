@@ -1,0 +1,210 @@
+{
+  "run_id": "PILOT-ANALYSIS-1452B3FE",
+  "evaluated_at": "2026-10-21T21:39:13.332195Z",
+  "total_feedback_submissions": 41,
+  "average_clarity_rating": 4.62,
+  "average_usefulness_rating": 4.54,
+  "comprehension_rate": 0.9419,
+  "metrics_evaluations": [
+    {
+      "metric_id": "M-01",
+      "name": "Comprehension Rate",
+      "target_sla": ">= 90.0%",
+      "observed_value": 0.9419,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "Rule R-FA-04, PRD Section 11",
+      "description": "Proportion of users correctly understanding range vs guarantee."
+    },
+    {
+      "metric_id": "M-02",
+      "name": "Task Completion Rate",
+      "target_sla": ">= 95.0%",
+      "observed_value": 0.984,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "PRD Section 11",
+      "description": "Proportion of queries resulting in clean supported estimate or abstention."
+    },
+    {
+      "metric_id": "M-03",
+      "name": "Abstention Integrity",
+      "target_sla": "Strictly 100.0%",
+      "observed_value": 1.0,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "Rules R-UQ-01, R-UQ-02, R-MD-08",
+      "description": "Zero lone numbers or speculative bounds rendered under thin support."
+    },
+    {
+      "metric_id": "M-04",
+      "name": "Realized Conformal Coverage",
+      "target_sla": "75.0% - 85.0%",
+      "observed_value": 0.802,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "PRD NFR-01, Rule R-UQ-03",
+      "description": "Empirical realized coverage of nominal 80% intervals [P10, P90]."
+    },
+    {
+      "metric_id": "M-05",
+      "name": "Interval Usefulness",
+      "target_sla": "<= 0.45",
+      "observed_value": 0.34,
+      "unit": "ratio",
+      "status": "PASS",
+      "governing_rule": "Rule R-UQ-04, PRD FR-05",
+      "description": "Median width ratio (Width / Median Pay) across supported queries."
+    },
+    {
+      "metric_id": "M-06",
+      "name": "Contribution Opt-In Rate",
+      "target_sla": ">= 15.0%",
+      "observed_value": 0.187,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "PRD Section 11",
+      "description": "Proportion of estimate viewers voluntarily initiating contribution flow."
+    },
+    {
+      "metric_id": "M-07",
+      "name": "Contribution Validity Rate",
+      "target_sla": ">= 90.0%",
+      "observed_value": 0.938,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "Rules R-DA-04, R-DA-05",
+      "description": "Proportion of voluntary contributions passing schema and quarantine bounds."
+    },
+    {
+      "metric_id": "M-08",
+      "name": "Serving Latency SLA (p95)",
+      "target_sla": "<= 50.0 ms",
+      "observed_value": 4.32,
+      "unit": "ms",
+      "status": "PASS",
+      "governing_rule": "PRD NFR-02, ADR-0009",
+      "description": "p95 HTTP inference latency across Profile B preview deployment."
+    },
+    {
+      "metric_id": "M-09",
+      "name": "Operational Uptime & Errors",
+      "target_sla": "< 0.10% errors (>= 99.9% uptime)",
+      "observed_value": 0.0002,
+      "unit": "pct",
+      "status": "PASS",
+      "governing_rule": "PRD NFR-07, Rule R-ER-04",
+      "description": "Server error rate across all public beta pilot traffic."
+    },
+    {
+      "metric_id": "M-10",
+      "name": "Zero PII Exposure",
+      "target_sla": "Strictly 0 incidents",
+      "observed_value": 0.0,
+      "unit": "count",
+      "status": "PASS",
+      "governing_rule": "Rules R-CD-06, R-DA-07, DPDPA 2023",
+      "description": "Confirmed zero PII occurrences logged in telemetry or report artifacts."
+    },
+    {
+      "metric_id": "M-11",
+      "name": "Operational Erasure Latency",
+      "target_sla": "< 2.0 s",
+      "observed_value": 0.14,
+      "unit": "seconds",
+      "status": "PASS",
+      "governing_rule": "ADR-0008, DPDPA 2023",
+      "description": "End-to-end execution latency for voluntary contribution erasure."
+    }
+  ],
+  "feedback_clusters": [
+    {
+      "theme_id": "THEME-01",
+      "theme_name": "Interval Realism and Calibration Transparency",
+      "mention_count": 62,
+      "percentage": 40.0,
+      "sentiment": "POSITIVE",
+      "representative_quote": "The range felt grounded and realistic compared to generic salary portals. Appreciated knowing the P10 and P90 boundaries instead of a single misleading number."
+    },
+    {
+      "theme_id": "THEME-02",
+      "theme_name": "Request for Competing Offer & Negotiation Scenarios (PT4)",
+      "mention_count": 45,
+      "percentage": 29.0,
+      "sentiment": "CONSTRUCTIVE",
+      "representative_quote": "Would love to model counter-offers when having competing offers from different cities or product vs service employers."
+    },
+    {
+      "theme_id": "THEME-03",
+      "theme_name": "Granular Slice Precision for High-Seniority and Tier-2 Metros",
+      "mention_count": 28,
+      "percentage": 18.1,
+      "sentiment": "CONSTRUCTIVE",
+      "representative_quote": "For 12+ years experience in Pune/Ahmedabad, the range was slightly wider. Calibrating by specific tech stack specialization would increase confidence."
+    },
+    {
+      "theme_id": "THEME-04",
+      "theme_name": "Appreciation of Honest Abstention over Guesswork",
+      "mention_count": 20,
+      "percentage": 12.9,
+      "sentiment": "POSITIVE",
+      "representative_quote": "When I tested an obscure profile, ArthaIQ abstained with a clear explanation rather than fabricating an answer. Very refreshing integrity."
+    }
+  ],
+  "prioritized_backlog": [
+    {
+      "item_id": "EXP-13",
+      "title": "Slice-Adaptive Conformal Prediction Intervals (Group-Conditional Calibration)",
+      "category": "MODELING",
+      "description": "Evaluate group-conditional conformal quantile corrections q_hat_g across role and experience slices to compress local coverage variance while preserving marginal 80% coverage guarantees (Rule R-UQ-03).",
+      "reach": 80,
+      "impact": 3.0,
+      "confidence": 0.9,
+      "effort": 3.0,
+      "rice_score": 72.0,
+      "has_charter": true,
+      "charter_id": "CHARTER-EXP-13"
+    },
+    {
+      "item_id": "EXP-16",
+      "title": "Automated Dual-Cadence Source Ingestion & Freshness Daemon",
+      "category": "OPERATIONS",
+      "description": "Transform scheduled data refresh into an autonomous event-driven daemon with Prometheus AlertManager webhook dispatch and automated manifest integrity verification.",
+      "reach": 100,
+      "impact": 1.5,
+      "confidence": 0.95,
+      "effort": 2.0,
+      "rice_score": 71.25,
+      "has_charter": true,
+      "charter_id": "CHARTER-EXP-16"
+    },
+    {
+      "item_id": "EXP-14",
+      "title": "Active Learning & Targeted Data Sourcing for Sparse Realization Cells",
+      "category": "DATA_ACQUISITION",
+      "description": "Deploy targeted voluntary intake prompts and B2B corporate pooling for the 18 sparse cells identified in coverage tracking (e.g. Tier-2 tech leads) to safely eliminate abstentions without bias.",
+      "reach": 65,
+      "impact": 2.5,
+      "confidence": 0.85,
+      "effort": 2.5,
+      "rice_score": 55.25,
+      "has_charter": true,
+      "charter_id": "CHARTER-EXP-14"
+    },
+    {
+      "item_id": "EXP-15",
+      "title": "Counterfactual Negotiation & Offer Scenario Modeling (PT4 Prototype)",
+      "category": "FEATURE",
+      "description": "Prototype prediction target PT4 (negotiation scenarios) using constrained quantile regression over competing offer structures without violating compare-only isolation.",
+      "reach": 75,
+      "impact": 2.5,
+      "confidence": 0.75,
+      "effort": 4.0,
+      "rice_score": 35.16,
+      "has_charter": true,
+      "charter_id": "CHARTER-EXP-15"
+    }
+  ],
+  "overall_verdict": "GO",
+  "summary": "Public Beta Pilot evaluation completed with verdict: GO. All 11 pre-registered PRD Section 11 metrics satisfied. Realized conformal coverage is 80.2% (in [75%, 85%]), user comprehension rate is 94.2% (>= 90%), p95 inference latency is 4.32ms (<= 50ms), and 0 PII incidents occurred across 41 feedback submissions. Top 4 backlog items are fully chartered."
+}
