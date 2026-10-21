@@ -55,10 +55,31 @@ _SENSITIVE_KEYS: tuple[str, ...] = (
     "salary_slip",
 )
 
+_SAFE_TECHNICAL_KEYS: frozenset[str] = frozenset(
+    {
+        "metric_name",
+        "feature_name",
+        "file_name",
+        "logger_name",
+        "model_name",
+        "task_name",
+        "column_name",
+        "param_name",
+        "short_name",
+        "dataset_name",
+        "source_name",
+        "slice_name",
+        "table_name",
+        "schema_name",
+    }
+)
+
 
 def _is_sensitive_key(k: str) -> bool:
     """Check if key represents sensitive PII or credentials."""
     k_lower = k.lower()
+    if k_lower in _SAFE_TECHNICAL_KEYS:
+        return False
     return k_lower == "key" or any(sensitive in k_lower for sensitive in _SENSITIVE_KEYS)
 
 

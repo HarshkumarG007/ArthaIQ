@@ -418,6 +418,30 @@ class MetricsRegistry:
             labelnames=["comprehension"],
         )
 
+        self.source_staleness_days = self.register_gauge(
+            name="arthaiq_source_staleness_days",
+            documentation="Observation age in days of approved data source.",
+            labelnames=["source_id"],
+        )
+
+        self.source_freshness_sla_days = self.register_gauge(
+            name="arthaiq_source_freshness_sla_days",
+            documentation="Maximum freshness SLA in days for approved data source.",
+            labelnames=["source_id"],
+        )
+
+        self.data_refresh_last_run_timestamp_seconds = self.register_gauge(
+            name="arthaiq_data_refresh_last_run_timestamp_seconds",
+            documentation="Unix timestamp of most recent data refresh job run.",
+            labelnames=[],
+        )
+
+        self.data_refresh_stale_sources_total = self.register_gauge(
+            name="arthaiq_data_refresh_stale_sources_total",
+            documentation="Number of approved data sources currently exceeding freshness SLA.",
+            labelnames=[],
+        )
+
     def register_counter(
         self,
         name: str,

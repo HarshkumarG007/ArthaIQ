@@ -454,8 +454,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: runbook. Done when: a rollback is rehearsed. Needs: T10.01. Size: M.
 - [x] **T10.03** [AI] Online coverage tracking from realized observations: (done 2026-10-21)
       Output: `src/compintel/monitoring/coverage.py`, `scripts/run_coverage_tracking.py`, `docs/monitoring/coverage-dashboard.md`, `experiments/results/coverage_tracking_report.json`. Done when: coverage with intervals is reported weekly and evaluated across operational slices. Needs: T9.11. Size: M.
-- [ ] **T10.04** [AI] Scheduled data refresh jobs with freshness SLAs.
-      Output: jobs. Done when: a stale source raises an alert. Needs: T9.11. Size: M.
+- [x] **T10.04** [AI] Scheduled data refresh jobs with freshness SLAs: (done 2026-10-21)
+      Output: `config/freshness_slas.yaml`, `src/compintel/monitoring/freshness.py`, `scripts/run_data_refresh.py`, `docs/monitoring/data-refresh-status.md`, `experiments/results/data_refresh_report.json`. Done when: a stale source raises an alert. Needs: T9.11. Size: M.
 - [ ] **T10.05** [AI] Drift triggers, recalibration and retraining procedure, champion and challenger.
       Output: procedure and job. Done when: a simulated drift triggers the documented action. Needs: T10.03. Size: M.
 - [ ] **T10.06** [AI] Analyze feedback and results; prioritized backlog; update the evidence register.

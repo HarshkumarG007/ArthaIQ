@@ -1,0 +1,132 @@
+# =============================================================================
+#  ArthaIQ -- Source Freshness Service Level Agreements (SLAs) & Cadences
+#  File: config/freshness_slas.yaml
+# =============================================================================
+#
+#  IMMUTABILITY & GOVERNANCE CONTRACT (PRD NFR-11, RSK-11, Rule R-DA-01, ADR-0005)
+#  This file defines the maximum allowed observation age (SLA in days), expected
+#  refresh cadence, automated ingestion capabilities, and operational response
+#  actions for every approved data source in ArthaIQ.
+#
+#  Threshold Rules:
+#  - Age < (0.75 * SLA): FRESH (Normal operation)
+#  - (0.75 * SLA) <= Age < SLA: WARNING (Approaching staleness alert)
+#  - Age >= SLA: STALE (CRITICAL alert dispatched, estimates marked guarded/stale)
+# =============================================================================
+
+version: "1.0.0"
+effective_date: "2026-10-21"
+status: "ACTIVE"
+
+sources:
+  SRC-INT-VOL-01:
+    name: "ArthaIQ Voluntary Intake Submissions"
+    sla_days: 30.0
+    refresh_cadence: "daily"
+    description: "Direct verified itemized compensation from user submissions. High frequency rolling stream."
+    auto_refreshable: true
+    staleness_action: "Trigger CRITICAL alert; flag ingestion stall; inspect API intake pipeline."
+
+  SRC-SUP-MAC-01:
+    name: "RBI DBIE Macro Indices (CPI & FX)"
+    sla_days: 45.0
+    refresh_cadence: "monthly"
+    description: "Monthly CPI-Urban deflator and daily USD/INR exchange rate series."
+    auto_refreshable: true
+    staleness_action: "Trigger CRITICAL alert; freeze deflation adjustments to latest valid CPI index."
+
+  SRC-IND-OFF-03:
+    name: "EPFO Monthly Payroll Microdata"
+    sla_days: 60.0
+    refresh_cadence: "monthly"
+    description: "Formal sector employment and net payroll addition reports published monthly by EPFO."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; notify data engineering to ingest latest statutory bulletin."
+
+  SRC-USA-DOL-01:
+    name: "US DOL Foreign Labor Certification LCA Disclosures"
+    sla_days: 120.0
+    refresh_cadence: "quarterly"
+    description: "Quarterly disclosure data for H-1B specialty occupation prevailing wages."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; flag cross-border anchor lag; ingest quarterly release."
+
+  SRC-USA-DOL-02:
+    name: "US DOL Foreign Labor Certification PERM Disclosures"
+    sla_days: 120.0
+    refresh_cadence: "quarterly"
+    description: "Quarterly disclosure data for permanent labor certification compensation."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; flag cross-border anchor lag; ingest quarterly release."
+
+  SRC-SUP-CORP-01:
+    name: "BSE/NSE Corporate Remuneration Filings (MRE Section 197)"
+    sla_days: 180.0
+    refresh_cadence: "quarterly"
+    description: "Statutory median remuneration disclosures from Indian listed IT corporate filings."
+    auto_refreshable: false
+    staleness_action: "Trigger WARNING at 135 days; trigger CRITICAL alert at 180 days; review MCA/BSE portal."
+
+  SRC-IND-OFF-01:
+    name: "MOSPI Periodic Labour Force Survey (PLFS)"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Annual microdata for national occupation wage prior floors and percentiles."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; schedule annual PLFS microdata ingestion upon MOSPI release."
+
+  SRC-USA-BLS-01:
+    name: "US BLS Occupational Employment and Wage Statistics (OEWS)"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Annual occupational wage estimates across tech job categories."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; schedule annual OEWS ingestion upon BLS release."
+
+  SRC-KAG-SO-01:
+    name: "Stack Overflow Developer Survey 2023"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Annual developer survey benchmark."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; verify superseded status against newer survey vintage."
+
+  SRC-KAG-SO-02:
+    name: "Stack Overflow Developer Survey 2024"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Annual developer survey benchmark."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; check for next annual release."
+
+  SRC-KAG-AIJ-01:
+    name: "AI/ML Jobs Salary Survey 2023"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Specialized AI engineering compensation benchmark."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; verify superseded status."
+
+  SRC-KAG-AIJ-02:
+    name: "AI/ML Jobs Salary Survey 2024"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Specialized AI engineering compensation benchmark."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert; check for next annual release."
+
+  SRC-SUP-TAX-01:
+    name: "Union Budget Income Tax Slabs"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "Central tax slabs (Old & New tax regime per Finance Act)."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert on annual Union Budget passage; update tax brackets."
+
+  SRC-SUP-TAX-02:
+    name: "State Professional Tax Slabs"
+    sla_days: 365.0
+    refresh_cadence: "annual"
+    description: "State professional tax rates across Karnataka, Maharashtra, Telangana, etc."
+    auto_refreshable: false
+    staleness_action: "Trigger CRITICAL alert on annual state finance updates."
