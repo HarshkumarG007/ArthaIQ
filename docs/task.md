@@ -424,8 +424,11 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `infra/docker/Dockerfile.api`, `infra/docker/Dockerfile.web`, `infra/docker/nginx.conf`, `infra/docker/docker-compose.yml`, `scripts/deploy_preview.py`. Done when: containers build and start with passing healthchecks. Needs: T9.13. Size: M.
   - [x] **T9.14b** [AI] Minimal Infrastructure as Code, cost estimation model, cold-start benchmarks, and ADR-0009 ratification: minimal IaC in infra/deploy/, empirical monthly cost model (Profile B vs C), cold-start & memory benchmarks, and ADR-0009 ratification. (done 2026-10-21)
         Output: `infra/deploy/preview-env.yaml`, `docs/research/deployment-cost-model-t914.md`, ratified `ADR-0009`. Done when: cost model documented and ADR-0009 is accepted. Needs: T9.14a. Size: M.
-- [ ] **T9.15** [AI+HUMAN] QA plan and run: unit, integration, end to end, load, abuse and rate limits, device matrix, web vitals, usability test with a comprehension check.
-      Output: QA report. Done when: pre-registered product thresholds are measured. Needs: T9.14, T9.09. Size: L.
+- [ ] **T9.15** [AI+HUMAN] QA plan and run: unit, integration, end to end, load, abuse and rate limits, device matrix, web vitals, usability test with a comprehension check; (split per Rule R-WF-03):
+  - [x] **T9.15a** [AI+HUMAN] QA Plan, Automated Test Suite Execution & Regression Matrix: formal QA test plan, multi-tier automated test suite execution (unit, property, contract, leakage, integration, migrations, Vitest frontend), end-to-end smoke verification runner, and code coverage/pre-registered threshold audit. (done 2026-10-21)
+        Output: `docs/qa/qa-plan-t915.md`, `scripts/run_qa_smoke.py`, test verification suites. Done when: QA plan documented, automated test suites execute green, and core coverage meets thresholds. Needs: T9.14. Size: M.
+  - [ ] **T9.15b** [AI+HUMAN] Non-Functional Verification: Load, Abuse, Device Matrix, Web Vitals & Usability Audit: concurrent load benchmark (measuring p95 latency under load), abuse & rate-limit stress test, responsive layout & Core Web Vitals audit, usability comprehension check, and consolidated QA Sign-Off Report.
+        Output: `scripts/run_load_test.py`, `docs/qa/qa-report-t915.md`. Done when: load/rate-limit thresholds pass, Core Web Vitals satisfy targets, and QA sign-off report is complete. Needs: T9.15a. Size: M.
 - [ ] **T9.16** [HUMAN] Legal and privacy sign-off: terms, notices, disclaimers, consent text.
       Output: sign-off record. Done when: recorded in `memory.md`. Needs: T9.10. Size: M.
 - [ ] **T9.17** [AI+HUMAN] Fairness audit v2 and final model card.
