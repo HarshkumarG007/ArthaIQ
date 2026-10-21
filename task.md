@@ -448,7 +448,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **NO-GO:** stay in public beta and iterate.
 > **Needs:** G9.
 
-- [ ] **T10.01** [HUMAN] Pilot plan: cohort, success metrics from PRD section 11, feedback instrumentation.
+- [x] **T10.01** [HUMAN] Pilot plan: cohort, success metrics from PRD section 11, feedback instrumentation. (done 2026-10-21)
       Output: plan. Done when: thresholds recorded before the pilot starts. Needs: G9. Size: M.
 - [ ] **T10.02** [AI+HUMAN] Production deployment and rollback runbook.
       Output: runbook. Done when: a rollback is rehearsed. Needs: T10.01. Size: M.

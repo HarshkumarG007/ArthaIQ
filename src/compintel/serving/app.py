@@ -26,6 +26,7 @@ from compintel.serving.middleware import (
 )
 from compintel.serving.routers.estimates import router as estimates_router
 from compintel.serving.routers.evidence import router as evidence_router
+from compintel.serving.routers.feedback import router as feedback_router
 from compintel.serving.routers.health import router as health_router
 from compintel.serving.routers.metrics import router as metrics_router
 from compintel.serving.routers.models import router as models_router
@@ -107,6 +108,7 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
     app.include_router(taxonomy_router)
     app.include_router(models_router)
     app.include_router(evidence_router)
+    app.include_router(feedback_router)
 
     return app
 

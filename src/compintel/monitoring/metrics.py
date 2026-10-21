@@ -412,6 +412,12 @@ class MetricsRegistry:
             buckets=WIDTH_HISTOGRAM_BUCKETS,
         )
 
+        self.pilot_feedback_total = self.register_counter(
+            name="arthaiq_pilot_feedback_total",
+            documentation="Total pilot feedback submissions received by comprehension status.",
+            labelnames=["comprehension"],
+        )
+
     def register_counter(
         self,
         name: str,
