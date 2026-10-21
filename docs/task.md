@@ -429,7 +429,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `docs/qa/qa-plan-t915.md`, `scripts/run_qa_smoke.py`, test verification suites. Done when: QA plan documented, automated test suites execute green, and core coverage meets thresholds. Needs: T9.14. Size: M.
   - [x] **T9.15b** [AI+HUMAN] Non-Functional Verification: Load, Abuse, Device Matrix, Web Vitals & Usability Audit: concurrent load benchmark (measuring p95 latency under load), abuse & rate-limit stress test, responsive layout & Core Web Vitals audit, usability comprehension check, and consolidated QA Sign-Off Report. (done 2026-10-21)
         Output: `scripts/run_load_test.py`, `docs/qa/qa-report-t915.md`. Done when: load/rate-limit thresholds pass, Core Web Vitals satisfy targets, and QA sign-off report is complete. Needs: T9.15a. Size: M.
-- [ ] **T9.16** [HUMAN] Legal and privacy sign-off: terms, notices, disclaimers, consent text.
+- [x] **T9.16** [HUMAN] Legal and privacy sign-off: terms, notices, disclaimers, consent text. (done 2026-10-21)
       Output: sign-off record. Done when: recorded in `memory.md`. Needs: T9.10. Size: M.
 - [ ] **T9.17** [AI+HUMAN] Fairness audit v2 and final model card.
       Output: audit and card. Done when: attached to the promotion. Needs: T9.15. Size: M.
