@@ -1,7 +1,8 @@
-"""FastAPI application factory and server entry point (Phase 9, Task T9.02).
+"""FastAPI application factory and server entry point (Phase 9, Task T9.02, T9.11a).
 
 Adheres to:
 - architecture.md Section 11: Pure function wrapped by FastAPI.
+- PRD FR-13 & NFR-07: Structured logs, Prometheus /metrics endpoint.
 - Rule R-ER-04: RFC 9457 problem details, request IDs, security headers, clean 5xx handling.
 - Rule R-MD-14: Serving bundle loader with startup validation and rollback support.
 - Rule R-CD-03: Architectural boundary; serving never imports ingestion/quality/eval.
@@ -26,6 +27,7 @@ from compintel.serving.middleware import (
 from compintel.serving.routers.estimates import router as estimates_router
 from compintel.serving.routers.evidence import router as evidence_router
 from compintel.serving.routers.health import router as health_router
+from compintel.serving.routers.metrics import router as metrics_router
 from compintel.serving.routers.models import router as models_router
 from compintel.serving.routers.taxonomy import router as taxonomy_router
 
@@ -85,7 +87,7 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
     # Request ID correlation
     app.add_middleware(RequestIDMiddleware)
 
-    # Access logging
+    # Access logging & metrics recording
     app.add_middleware(RequestLoggingMiddleware)
 
     # CORS allowlist
@@ -100,6 +102,7 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
 
     # 3. Mount Routers
     app.include_router(health_router)
+    app.include_router(metrics_router)
     app.include_router(estimates_router)
     app.include_router(taxonomy_router)
     app.include_router(models_router)

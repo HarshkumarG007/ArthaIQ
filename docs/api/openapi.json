@@ -70,6 +70,24 @@
         }
       }
     },
+    "/metrics": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Scrape Prometheus operational metrics",
+        "description": "Expose application metrics in standard Prometheus text exposition format (v0.0.4).\n\nReturns cumulative HTTP traffic counts, latency histograms, estimation outcomes,\nand abstention counters partitioned by reason and macro slice.",
+        "operationId": "get_metrics_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Standard Prometheus text format operational telemetry.",
+            "content": {
+              "text/plain; version=0.0.4; charset=utf-8": {}
+            }
+          }
+        }
+      }
+    },
     "/v1/estimates": {
       "post": {
         "tags": [
