@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Draft v0.9 (Phases 0-8 complete; Gates G0-G8 ratified; Phase 9 active) |
-| Last updated                   | 2026-10-19                                           |
+| Status                         | v1.0 (Phases 0-9 complete; Gates G0-G9 ratified; Phase 10 T10.01-T10.07 complete; Gate G10 ready) |
+| Last updated                   | 2026-10-21                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T9.07b (Accessible RangeSpan engineering dimension line component with states, table view alternative, ghost comparison, motion/reduced-motion, and ADR-0007 ratification)**
+**NEXT TASK: Gate G10 (critical): production decision**
 
 ## How to use this file
 
@@ -460,8 +460,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `docs/runbooks/drift-recalibration-and-retraining.md`, `src/compintel/monitoring/recalibration.py`, `scripts/run_drift_recalibration.py`, `docs/monitoring/drift-recalibration-status.md`, `experiments/results/drift_recalibration_report.json`. Done when: a simulated drift triggers the documented action (simulated moderate drift triggers automated conformal recalibration q_hat recomputation; simulated severe drift triggers Challenger shadow evaluation and promotion review across 5 gates). Needs: T10.03. Size: M.
 - [x] **T10.06** [AI] Analyze feedback and results; prioritized backlog; update the evidence register: (done 2026-10-21)
       Output: `src/compintel/evaluation/pilot_analysis.py`, `scripts/run_feedback_analysis.py`, `docs/pilot/prioritized-backlog.md`, `docs/research/experiment-charters-phase10.md`, `docs/pilot/pilot-feedback-and-results-analysis.md`, `docs/research/evidence-register.csv`, `experiments/results/pilot_feedback_report.json`. Done when: top items have experiment charters (`CHARTER-EXP-13`, `CHARTER-EXP-16`, `CHARTER-EXP-14`, `CHARTER-EXP-15`) and evidence register is synchronized. Needs: T10.01. Size: M.
-- [ ] **T10.07** [AI+HUMAN] Post-pilot review: update PRD, architecture and memory; decide the next iteration.
-      Output: updated docs. Done when: change logs updated. Needs: T10.06. Size: M.
+- [x] **T10.07** [AI+HUMAN] Post-pilot review: update PRD, architecture and memory; decide the next iteration: (done 2026-10-21)
+      Output: `docs/pilot/post-pilot-review.md`, updated `PRD.md` v1.1, `architecture.md` v1.0, `memory.md`, `task.md`. Done when: change logs updated, pilot scorecard ratified, and Phase 11/12 backlog roadmap formalized. Needs: T10.06. Size: M.
 
 **Gate G10 (critical):** production decision.
 
@@ -540,3 +540,7 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-13 | 0.3     | Phase 1 complete; Gate G1 ratified; ADR-0001/0002 accepted; targets PT1-PT6 formally specified    |
 | 2026-10-14 | 0.4     | Phase 2 complete; Gate G2 ratified (NO-GO on public data; data acquisition plan T2.10 ratified)  |
 | 2026-10-15 | 0.5     | Phase 3 underway: T3.01-T3.06 complete (Scaffolding, Schema, Normalization, Connector interface) |
+| 2026-10-18 | 0.6     | Phases 3-6 complete; Gates G3-G6 ratified (Baselines, Conformal CQR, Personalization)           |
+| 2026-10-19 | 0.7     | Phases 7-8 complete; Gates G7-G8 ratified (Ablation charters, Component data audit)             |
+| 2026-10-21 | 0.9     | Phase 9 complete; Gate G9 ratified GO (Production API, Docker, Security, QA, Fairness)          |
+| 2026-10-21 | 1.0     | Phase 10 T10.01-T10.07 complete (Pilot plan, Runbook, Coverage, Freshness, Drift, Review). NEXT: Gate G10 Production Decision. |

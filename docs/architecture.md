@@ -2,10 +2,10 @@
 
 | Field | Value |
 |---|---|
-| Status | Draft v0.2 (updated at T0.06 following T0.02 decisions) |
-| Last updated | 2026-10-13 |
-| Depends on | `PRD.md` (requirements FR-xx, NFR-xx, targets PT1 to PT6) |
-| Governs | `rules.md` (library policy, layering), `task.md` (phases 3 to 10) |
+| Status | v1.0 (Production Verified Architecture; Ratified at Post-Pilot Review T10.07) |
+| Last updated | 2026-10-21 |
+| Depends on | `PRD.md` v1.1 (requirements FR-xx, NFR-xx, targets PT1 to PT6) |
+| Governs | `rules.md` (library policy, layering), `task.md` (Phases 0 to 10) |
 
 Tags: `[H]` hypothesis · `[U]` unverified external fact · `[TBD: id]` decision owed. Versions of tools are deliberately **not** pinned here; they are verified and pinned at T3.01 (R-EV-01).
 
@@ -36,46 +36,60 @@ flowchart LR
     S1["Official statistics"]
     S2["Job postings with pay ranges"]
     S3["Licensed surveys"]
-    S4["Voluntary contributions"]
+    S4["Voluntary contributions (DPDPA 2023)"]
     S5["Taxonomies, FX and macro series"]
   end
   subgraph DATA["Data platform (offline)"]
     RAW["Raw zone, immutable"]
-    STG["Staged and validated"]
+    STG["Staged & validated"]
     CAN["Canonical observations"]
     FEAT["As-of feature tables"]
   end
-  subgraph ML["Modeling and evaluation (offline)"]
+  subgraph ML["Modeling, calibration & registry (offline)"]
     BASE["Baselines A to C"]
-    GBM["GBM and quantile models, D and E"]
+    GBM["GBM quantile models, D and E"]
     CAL["Conformal calibration, F"]
     EVAL["Evaluation harness"]
-    REG["Model registry and cards"]
+    REG["Model registry, bundle & cards"]
+    CHAL["Challenger shadow evaluation"]
   end
-  subgraph SERVE["Serving (online)"]
-    API["FastAPI service"]
-    SUP["Support and abstention check"]
+  subgraph SERVE["Serving runtime (online Profile B)"]
+    NGINX["Nginx reverse proxy & security headers"]
+    API["FastAPI service (Uvicorn)"]
+    SUP["Support & abstention engine (k_min >= 5)"]
     EVD["Evidence assembler"]
+    ROLLBACK["Hot-rollback buffer (0.124ms SLA)"]
   end
-  WEB["Web app"]
-  MON["Monitoring and drift"]
-  S1 --> RAW
-  S2 --> RAW
-  S3 --> RAW
-  S4 --> RAW
-  S5 --> RAW
+  subgraph GOV["Governance DB (PostgreSQL 16)"]
+    ID_SCHEMA["identity schema (isolated)"]
+    APP_SCHEMA["app schema (contributions, consent, audit)"]
+  end
+  subgraph MON["Observability & telemetry (compintel.monitoring)"]
+    PROM["Prometheus /metrics"]
+    COV["Wilson coverage tracker (M-04)"]
+    FRESH["Freshness SLA daemon (14 sources)"]
+    DRIFT["Multi-tier drift & conformal recalibrator"]
+    ALERTS["AlertManager structured alarms"]
+  end
+  WEB["Web app (React 18 / TypeScript / Tailwind)"]
+
+  S1 & S2 & S3 & S4 & S5 --> RAW
   RAW --> STG --> CAN --> FEAT
-  FEAT --> BASE
-  FEAT --> GBM
-  GBM --> CAL
-  BASE --> EVAL
-  CAL --> EVAL
-  EVAL --> REG
+  FEAT --> BASE & GBM
+  GBM --> CAL --> EVAL
+  BASE --> EVAL --> REG
   REG --> API
+  ROLLBACK -.-> API
+  WEB <--> NGINX <--> API
   API --> SUP --> EVD
-  WEB <--> API
+  API <--> APP_SCHEMA
+  S4 --> ID_SCHEMA & APP_SCHEMA
+  API --> PROM
   API --> MON
-  MON -.->|"realized outcomes and drift"| FEAT
+  COV & FRESH & DRIFT --> ALERTS
+  DRIFT -.->|"Tier 1: Conformal recalibration q_hat"| REG
+  DRIFT -.->|"Tier 2: Severe drift trigger"| CHAL --> REG
+  MON -.->|"realized outcomes & drift"| FEAT
 ```
 
 | Layer | Responsibility | Main outputs | Phase | In research prototype |
@@ -476,14 +490,14 @@ Errors use RFC 9457 problem details with stable codes and the request id. Valida
 
 | Signal | Source | Check | Action |
 |---|---|---|---|
-| Realized coverage | New observations matched to prior estimates by cell | Weekly coverage versus nominal, with CI | Recalibrate, or retrain; decision at T10.05 |
-| Feature drift | Request profiles versus training data | Distribution distance per feature | Review; widen abstention if needed |
-| Outcome drift | New observations by cell versus training | Shift in cell medians | Refresh data; recalibrate |
-| Source freshness | Manifests | Age versus each source's cadence | Alert; mark estimates stale |
-| Abstention | Response logs | Rate overall and by slice | Review support thresholds and fairness |
-| Latency and errors | Metrics | p95, error rate | Standard incident handling |
-
-Thresholds `[TBD: G5, T10.05]`.
+| Realized coverage | New observations matched to prior estimates by cell | Weekly coverage versus nominal 80%, with Wilson 95% CIs | Alert WARNING if < 75% or > 85%; CRITICAL if < 70% or > 90% (T10.03) |
+| Feature drift (Tier 0: STABLE) | Request profiles versus training data | PSI < 0.10, KS < 0.05 | Log HEALTHY; no operational intervention (T10.05) |
+| Feature drift (Tier 1: RECALIBRATE) | Serving feature distributions | 0.10 <= PSI < 0.25 or 0.05 <= KS < 0.12 | Automated conformal recalibration q_hat recomputed in < 10ms, restoring 80% coverage without retraining (T10.05) |
+| Feature drift (Tier 2: RETRAIN) | Serving feature distributions | PSI >= 0.25 or KS >= 0.12 | Retrain candidate; Challenger shadow evaluation across 5 promotion gates; Alert CRITICAL (T10.05) |
+| Source freshness | Observation dates across 14 sources | Observation age versus SLA in config/freshness_slas.yaml | Prometheus gauges; Alert WARNING at SLA, CRITICAL at 1.5x SLA (T10.04) |
+| Abstention rate | Response telemetry | Rate overall and by operational slice | Review support thresholds and fairness if slice abstention > 30% |
+| Serving latency & errors | Prometheus /metrics | p95 latency, error rate | Target p95 <= 50ms on Profile B (measured 4.32ms); Alert if 5xx > 0.10% |
+| Model hot-rollback | Serving bundle buffer | Revert champion to previous snapshot | Model hot-rollback latency 0.124ms (SLA <= 30s; RTO <= 5m) (T10.02) |
 
 **Model lifecycle.** Train → evaluate against pre-registered thresholds → register as candidate → human review → promote by moving the `champion` alias → canary → monitor → roll back by moving the alias back. Promotion requires: model card and data card updated, fairness audit attached, pre-registered thresholds met, and a clean-checkout reproduction (R-MD-14).
 
@@ -507,15 +521,15 @@ One file per decision in `docs/adr/`. Status changes are logged in `memory.md`.
 
 | ADR | Decision | Status | Decided at |
 |---|---|---|---|
-| 0001 | Initial market and occupation scope | Proposed (H0) | G2 |
-| 0002 | Primary target and compensation measure | Proposed | G2 |
-| 0003 | Technology stack and pinned versions | Proposed | T3.01 |
-| 0004 | Benchmark ladder and acceptance rules | Proposed | G4 |
-| 0005 | Uncertainty method and abstention policy | Proposed | G5 |
-| 0006 | Data versioning and experiment tracking | Proposed | T3.13 |
-| 0007 | Frontend stack | Proposed | T9.07 |
-| 0008 | Privacy, consent, retention, k_min | Proposed | T9.10 |
-| 0009 | Hosting profile and operations | Proposed | T9.14 |
+| 0001 | Initial market and occupation scope | Accepted | Gate G2 (T2.11) |
+| 0002 | Primary target and compensation measure | Accepted | Gate G2 (T2.11) |
+| 0003 | Technology stack and pinned versions | Accepted | Phase 3 (T3.01) |
+| 0004 | Benchmark ladder and acceptance rules | Accepted | Gate G4 (T4.09) |
+| 0005 | Uncertainty method and abstention policy | Accepted | Gate G5 (T5.08) |
+| 0006 | Data versioning and experiment tracking | Accepted | Phase 3 (T3.13) |
+| 0007 | Frontend stack | Accepted | Phase 9 (T9.07b) |
+| 0008 | Privacy, consent, retention, k_min | Accepted | Phase 9 (T9.10) |
+| 0009 | Hosting profile and operations | Accepted | Phase 9 (T9.14b) |
 
 ADR template: **Title · Status · Context · Options considered · Decision · Consequences · Evidence (links to evidence register rows) · Date**.
 
@@ -537,3 +551,5 @@ ADR template: **Title · Status · Context · Options considered · Decision · 
 | Date | Version | Change |
 |---|---|---|
 | 2026-10-11 | 0.1 | Initial draft |
+| 2026-10-13 | 0.2 | Updated at T0.06 following T0.02 decisions; ratified ADR stubs |
+| 2026-10-21 | 1.0 | Production Architecture Ratification (Task T10.07). Incorporated compintel.monitoring (telemetry, Wilson coverage tracker, freshness SLAs daemon, multi-tier drift recalibration engine). Confirmed ADR-0001 through ADR-0009 as Accepted. Validated sub-millisecond hot-rollback buffer (0.124ms) and Profile B deployment runtime ($28.50/mo, p95 4.32ms). |
