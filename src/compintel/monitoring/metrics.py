@@ -121,6 +121,13 @@ class Counter:
             raise ValueError(f"Metric {self.name} requires label values.")
         self._default_child.inc(amount)
 
+    @property
+    def value(self) -> float:
+        """Get current counter value without labels."""
+        if self._default_child is None:
+            raise ValueError(f"Metric {self.name} requires label values.")
+        return self._default_child.value
+
     def collect(self) -> list[str]:
         """Format metric into Prometheus text format lines."""
         lines = [
@@ -223,6 +230,13 @@ class Gauge:
         if self._default_child is None:
             raise ValueError(f"Metric {self.name} requires label values.")
         self._default_child.dec(amount)
+
+    @property
+    def value(self) -> float:
+        """Get current gauge value without labels."""
+        if self._default_child is None:
+            raise ValueError(f"Metric {self.name} requires label values.")
+        return self._default_child.value
 
     def collect(self) -> list[str]:
         """Format metric into Prometheus text format lines."""
@@ -440,6 +454,36 @@ class MetricsRegistry:
             name="arthaiq_data_refresh_stale_sources_total",
             documentation="Number of approved data sources currently exceeding freshness SLA.",
             labelnames=[],
+        )
+
+        self.feature_drift_psi = self.register_gauge(
+            name="arthaiq_feature_drift_psi",
+            documentation="Population Stability Index divergence value.",
+            labelnames=["feature_name"],
+        )
+
+        self.feature_drift_ks = self.register_gauge(
+            name="arthaiq_feature_drift_ks",
+            documentation="Kolmogorov-Smirnov continuous test statistic.",
+            labelnames=["feature_name"],
+        )
+
+        self.drift_trigger_tier = self.register_gauge(
+            name="arthaiq_drift_trigger_tier",
+            documentation="Active drift trigger tier (0=STABLE, 1=RECALIBRATE, 2=RETRAIN).",
+            labelnames=[],
+        )
+
+        self.conformal_quantile_value = self.register_gauge(
+            name="arthaiq_conformal_quantile_value",
+            documentation="Active conformal correction factor q_hat in LPA.",
+            labelnames=["method"],
+        )
+
+        self.challenger_pinball_loss = self.register_gauge(
+            name="arthaiq_challenger_pinball_loss",
+            documentation="Shadow Challenger model pinball loss.",
+            labelnames=["model_version"],
         )
 
     def register_counter(
