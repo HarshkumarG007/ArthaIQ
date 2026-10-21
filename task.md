@@ -431,8 +431,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `scripts/run_load_test.py`, `docs/qa/qa-report-t915.md`. Done when: load/rate-limit thresholds pass, Core Web Vitals satisfy targets, and QA sign-off report is complete. Needs: T9.15a. Size: M.
 - [x] **T9.16** [HUMAN] Legal and privacy sign-off: terms, notices, disclaimers, consent text. (done 2026-10-21)
       Output: sign-off record. Done when: recorded in `memory.md`. Needs: T9.10. Size: M.
-- [ ] **T9.17** [AI+HUMAN] Fairness audit v2 and final model card.
-      Output: audit and card. Done when: attached to the promotion. Needs: T9.15. Size: M.
+- [x] **T9.17** [AI+HUMAN] Fairness audit v2 and final model card: (done 2026-10-21)
+      Output: `src/compintel/evaluation/fairness_audit_v2.py`, `scripts/run_fairness_audit_v2.py`, `docs/research/fairness-audit-v2.md`, `experiments/results/fairness_audit_v2.json`, `docs/model-cards/model-card-final-v1.md`. Done when: attached to the promotion, parity across operational slices meets thresholds (MAE ratio <= 1.30, coverage gap <= 0.15), zero demographic proxy features, and publication-grade model card complete. Needs: T9.15. Size: M.
 
 **Gate G9 (critical):** public-beta readiness.
 

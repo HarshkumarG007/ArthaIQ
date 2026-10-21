@@ -7,7 +7,7 @@
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
-        preview-up preview-down preview-health qa-smoke load-test clean
+        preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -285,6 +285,9 @@ qa-smoke:
 
 load-test:
 	uv run python scripts/run_load_test.py --dry-run
+
+fairness-audit-v2:
+	uv run python scripts/run_fairness_audit_v2.py --allow-synthetic
 
 # ---- Clean -----------------------------------------------------------------
 clean:
