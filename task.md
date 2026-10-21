@@ -434,7 +434,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 - [x] **T9.17** [AI+HUMAN] Fairness audit v2 and final model card: (done 2026-10-21)
       Output: `src/compintel/evaluation/fairness_audit_v2.py`, `scripts/run_fairness_audit_v2.py`, `docs/research/fairness-audit-v2.md`, `experiments/results/fairness_audit_v2.json`, `docs/model-cards/model-card-final-v1.md`. Done when: attached to the promotion, parity across operational slices meets thresholds (MAE ratio <= 1.30, coverage gap <= 0.15), zero demographic proxy features, and publication-grade model card complete. Needs: T9.15. Size: M.
 
-**Gate G9 (critical):** public-beta readiness.
+**Gate G9 (critical):** public-beta readiness: **RATIFIED GO** (2026-10-21).
 
 ---
 
