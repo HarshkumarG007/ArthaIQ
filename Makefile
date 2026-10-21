@@ -7,7 +7,7 @@
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
-        preview-up preview-down preview-health qa-smoke clean
+        preview-up preview-down preview-health qa-smoke load-test clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -282,6 +282,9 @@ preview-health:
 
 qa-smoke:
 	uv run python scripts/run_qa_smoke.py
+
+load-test:
+	uv run python scripts/run_load_test.py --dry-run
 
 # ---- Clean -----------------------------------------------------------------
 clean:
