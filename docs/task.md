@@ -412,10 +412,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `src/compintel/monitoring/metrics.py`, `src/compintel/serving/telemetry.py`, `/metrics` endpoint, and unit/contract tests. Done when: serving requests emit scrubbed structured logs and Prometheus metrics show observed latency & abstention counts. Needs: T9.03. Size: M.
   - [x] **T9.11b** [AI] Drift, coverage & freshness monitoring jobs and fault-injected alerting engine: PSI & KS drift detection, rolling coverage and abstention rate tracking per slice, source freshness alarms, and fault injection test suite. (done 2026-10-21)
         Output: `src/compintel/monitoring/drift.py`, `src/compintel/monitoring/freshness.py`, `src/compintel/monitoring/alerts.py`, and alerting integration test suite. Done when: alerts fire on injected faults (stale data, distribution drift, coverage drop) in preview. Needs: T9.11a. Size: M.
-- [ ] **T9.12** [AI] Security review: threat model, dependency audit, secret scan, ASVS checklist `[U]`; fix findings (split per Rule R-WF-03):
+- [x] **T9.12** [AI] Security review: threat model, dependency audit, secret scan, ASVS checklist `[U]`; fix findings (split per Rule R-WF-03): (done 2026-10-21)
   - [x] **T9.12a** [AI] Automated security audit, dependency vulnerability scan, secret detection, and SAST linter checks: (done 2026-10-21): audit Python/Node dependencies, scan repo for secrets/tokens, run bandit/security linters, and fix any high/critical findings.
         Output: `scripts/run_security_scan.py`, `docs/security/automated-audit-report.md`. Done when: zero high or critical vulnerabilities remain in dependencies or code. Needs: T9.10. Size: M.
-  - [ ] **T9.12b** [AI] Threat modeling, OWASP ASVS v4.0 checklist `[U]`, privacy attack verification & sign-off: STRIDE threat model on serving and contribution APIs, verification of ASVS controls, and security review report.
+  - [x] **T9.12b** [AI] Threat modeling, OWASP ASVS v4.0 checklist `[U]`, privacy attack verification & sign-off: (done 2026-10-21): STRIDE threat model on serving and contribution APIs, verification of ASVS controls, and security review report.
         Output: `docs/security/threat-model.md`, `docs/security/asvs-checklist.md`, `docs/security/security-review-report.md`. Done when: ASVS checklist complete and zero unmitigated critical risks remain. Needs: T9.12a. Size: M.
 - [ ] **T9.13** [AI+HUMAN] Code review pass and refactor list.
       Output: review notes. Done when: findings triaged. Needs: T9.12. Size: M.
