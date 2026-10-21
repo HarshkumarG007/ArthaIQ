@@ -77,6 +77,10 @@ def create_sync_engine(
     if schema_translate_map is not None:
         execution_options["schema_translate_map"] = schema_translate_map
 
+    if "postgresql" in resolved_url and "sqlite" not in resolved_url:
+        kwargs.setdefault("pool_pre_ping", True)
+        kwargs.setdefault("pool_recycle", 300)
+
     return create_engine(resolved_url, echo=echo, execution_options=execution_options, **kwargs)
 
 
