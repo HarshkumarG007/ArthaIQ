@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.0 (Phases 0-9 complete; Gates G0-G9 ratified; Phase 10 T10.01-T10.07 complete; Gate G10 ready) |
+| Status                         | v1.1 (Phases 0-10 complete; Gates G0-G10 ratified; Production Launch Complete) |
 | Last updated                   | 2026-10-21                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Gate G10 (critical): production decision**
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)**
 
 ## How to use this file
 
@@ -463,7 +463,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 - [x] **T10.07** [AI+HUMAN] Post-pilot review: update PRD, architecture and memory; decide the next iteration: (done 2026-10-21)
       Output: `docs/pilot/post-pilot-review.md`, updated `PRD.md` v1.1, `architecture.md` v1.0, `memory.md`, `task.md`. Done when: change logs updated, pilot scorecard ratified, and Phase 11/12 backlog roadmap formalized. Needs: T10.06. Size: M.
 
-**Gate G10 (critical):** production decision.
+**Gate G10 (critical):** production decision. **GO ratified 2026-10-21** (recorded in `memory.md`; `docs/pilot/gate-g10-production-decision.md`).
 
 ---
 
@@ -544,3 +544,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-19 | 0.7     | Phases 7-8 complete; Gates G7-G8 ratified (Ablation charters, Component data audit)             |
 | 2026-10-21 | 0.9     | Phase 9 complete; Gate G9 ratified GO (Production API, Docker, Security, QA, Fairness)          |
 | 2026-10-21 | 1.0     | Phase 10 T10.01-T10.07 complete (Pilot plan, Runbook, Coverage, Freshness, Drift, Review). NEXT: Gate G10 Production Decision. |
+| 2026-10-21 | 1.1     | Phase 10 complete; Gate G10 ratified GO; Production Launch & General Availability authorized. NEXT: Phase 11 (EXP-13, EXP-16). |
