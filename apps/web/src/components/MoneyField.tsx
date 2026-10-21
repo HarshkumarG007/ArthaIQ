@@ -149,7 +149,7 @@ export function MoneyField({
           <input
             id="money-field-input"
             type="text"
-            inputMode="numeric"
+            inputMode="decimal"
             value={rawText}
             onChange={handleTextChange}
             placeholder={period === "annual" ? "e.g. 28,00,000" : "e.g. 2,30,000"}

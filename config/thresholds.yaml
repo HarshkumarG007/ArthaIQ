@@ -196,3 +196,11 @@ abstention_reasons:
     title: "Excessive Interval Uncertainty"
     explanation: "The conformalized prediction interval is wider than a naive uncalibrated cohort, indicating high variance."
     guidance: "Provide additional profile dimensions or compare against broader benchmark bands."
+
+# -----------------------------------------------------------------------------
+# 5. Governance, Privacy & Small-Cell Suppression (Rule R-DA-10, ADR-0008)
+# -----------------------------------------------------------------------------
+governance:
+  k_min_persons: 5
+  retention_months: 24
+  consent_version: "dpdpa_v1"
