@@ -11,7 +11,7 @@ from __future__ import annotations
 import os
 from contextlib import contextmanager
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from alembic import command
 from alembic.config import Config
@@ -65,6 +65,7 @@ def create_sync_engine(
     url: str | None = None,
     echo: bool = False,
     schema_translate_map: dict[str | None, str | None] | None = None,
+    **kwargs: Any,
 ) -> Engine:
     """Create a synchronous SQLAlchemy engine.
 
@@ -72,11 +73,11 @@ def create_sync_engine(
     can be passed to collapse PostgreSQL schemas into the default SQLite database.
     """
     resolved_url = get_sync_database_url(url)
-    execution_options = {}
+    execution_options = kwargs.pop("execution_options", {})
     if schema_translate_map is not None:
         execution_options["schema_translate_map"] = schema_translate_map
 
-    return create_engine(resolved_url, echo=echo, execution_options=execution_options)
+    return create_engine(resolved_url, echo=echo, execution_options=execution_options, **kwargs)
 
 
 def run_migrations_up(db_url: str | None = None, revision: str = "head") -> None:
@@ -91,9 +92,27 @@ def run_migrations_down(db_url: str | None = None, revision: str = "base") -> No
     command.downgrade(cfg, revision)
 
 
+def get_db(engine: Engine | None = None) -> Generator[Session, None, None]:
+    """Provide a transactional database session for FastAPI dependencies or manual usage."""
+    if engine is None:
+        engine = create_sync_engine()
+    factory = sessionmaker(bind=engine, expire_on_commit=False)
+    session = factory()
+    try:
+        yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
 @contextmanager
-def get_db_session(engine: Engine) -> Generator[Session, None, None]:
-    """Provide a transactional database session."""
+def get_db_session(engine: Engine | None = None) -> Generator[Session, None, None]:
+    """Provide a transactional database session context manager."""
+    if engine is None:
+        engine = create_sync_engine()
     factory = sessionmaker(bind=engine, expire_on_commit=False)
     session = factory()
     try:
