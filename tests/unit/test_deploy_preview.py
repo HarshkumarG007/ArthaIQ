@@ -292,3 +292,63 @@ def test_main_entrypoint_up_dry_run() -> None:
     """Tests main entry point with dry-run arguments."""
     exit_code = main(["--dry-run", "up", "--no-wait"])
     assert exit_code == 0
+
+
+# -----------------------------------------------------------------------------
+# 4. Preview Environment IaC & ADR-0009 Ratification Tests (T9.14b)
+# -----------------------------------------------------------------------------
+@pytest.mark.unit
+def test_preview_env_iac_specification() -> None:
+    """Verifies that infra/deploy/preview-env.yaml contains valid Profile B declarations."""
+    iac_path = Path("infra/deploy/preview-env.yaml")
+    assert iac_path.exists(), "infra/deploy/preview-env.yaml must exist"
+
+    with iac_path.open(encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+
+    # Top-level sections
+    assert "environment" in config
+    assert "host" in config
+    assert "network" in config
+    assert "services" in config
+    assert "backup_and_retention" in config
+    assert "monitoring_and_alerts" in config
+
+    # Profile B specification
+    assert config["environment"]["profile"] == "B"
+    assert config["environment"]["name"] == "preview"
+    assert "t4g.medium" in config["host"]["instance_type"]
+
+    # Services
+    services = config["services"]
+    assert "nginx" in services
+    assert "api" in services
+    assert "database" in services
+    assert services["api"]["healthcheck"]["path"] == "/livez"
+
+
+@pytest.mark.unit
+def test_adr_0009_ratification_status() -> None:
+    """Verifies that ADR-0009 is accepted and documents Profile B decision."""
+    adr_path = Path("docs/adr/ADR-0009-hosting-profile-and-operations.md")
+    assert adr_path.exists(), "ADR-0009 must exist"
+
+    content = adr_path.read_text(encoding="utf-8")
+    assert "| Status | **Accepted** |" in content
+    assert "Adopt Profile B as the ratified hosting profile" in content
+    assert "4.32 ms" in content
+    assert "$28.50" in content
+
+
+@pytest.mark.unit
+def test_deployment_cost_model_report_structure() -> None:
+    """Verifies that deployment-cost-model-t914.md exists and documents benchmarks."""
+    report_path = Path("docs/research/deployment-cost-model-t914.md")
+    assert report_path.exists(), "Cost model report must exist"
+
+    content = report_path.read_text(encoding="utf-8")
+    assert "Profile B vs Profile C" in content
+    assert "4.32 ms" in content
+    assert "Cold-Start" in content
+    assert "Throughput Capacity" in content
+    assert "Graduation Triggers" in content

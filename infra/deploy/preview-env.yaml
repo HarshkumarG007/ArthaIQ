@@ -1,0 +1,129 @@
+# -----------------------------------------------------------------------------
+# CompIntel Preview Environment Specification (Profile B — Public Beta)
+# -----------------------------------------------------------------------------
+# Declarative Infrastructure as Code (IaC) configuration adhering to:
+# - ADR-0009: Hosting Profile and Operations (Profile B: Hardened Cloud VM)
+# - PRD Section 8: NFR-02 (<50ms p95 latency), NFR-03 (Gzip/HTTP/2), NFR-07 (SLAs)
+# - OWASP ASVS v4.0: Non-root execution, CSP, rate limiting, zero PII logging
+# -----------------------------------------------------------------------------
+
+environment:
+  name: preview
+  profile: B
+  version: "0.1.0"
+  region: ap-south-1 # Asia Pacific (Mumbai) for minimum India latency
+
+host:
+  instance_type: "t4g.medium" # 2 vCPU (Arm64 Graviton2/3), 4 GB RAM
+  operating_system: "Ubuntu 24.04 LTS"
+  storage:
+    root_volume_gb: 40
+    volume_type: "gp3"
+    iops: 3000
+    throughput_mbps: 125
+  swap_gb: 2 # Safety buffer for sudden memory spikes
+
+network:
+  ingress:
+    ports:
+      - port: 80
+        protocol: tcp
+        source: "0.0.0.0/0"
+        action: "redirect-to-https"
+      - port: 443
+        protocol: tcp
+        source: "0.0.0.0/0"
+        action: "allow"
+      - port: 22
+        protocol: tcp
+        source: "admin-ip-allowlist"
+        action: "ssh-key-only"
+  egress:
+    destination: "0.0.0.0/0"
+    action: "allow"
+  dns:
+    zone: "arthaiq.in"
+    cdn_proxy: true # Cloudflare Proxy for DDoS mitigation and global edge caching
+
+services:
+  nginx:
+    container_name: "compintel-web"
+    image: "compintel/web:latest"
+    ports:
+      - "80:80"
+      - "443:443"
+    resources:
+      cpu_limit: "0.5"
+      memory_limit_mb: 256
+    security_headers:
+      content_security_policy: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self';"
+      x_frame_options: "DENY"
+      x_content_type_options: "nosniff"
+      referrer_policy: "strict-origin-when-cross-origin"
+    rate_limits:
+      estimates_rpm: 60
+      contributions_rpm: 10
+      burst: 20
+
+  api:
+    container_name: "compintel-api"
+    image: "compintel/api:latest"
+    internal_port: 8000
+    replicas: 2 # 2 Uvicorn worker processes behind Nginx upstream
+    resources:
+      cpu_limit: "1.5"
+      memory_limit_mb: 1536
+    environment_variables:
+      APP_ENV: "preview"
+      LOG_LEVEL: "INFO"
+      LOG_FORMAT: "json"
+      CHAMPION_MODEL_VERSION: "0.1.0"
+      K_MIN: 5
+    healthcheck:
+      path: "/livez"
+      interval_sec: 10
+      timeout_sec: 5
+      retries: 3
+
+  database:
+    container_name: "compintel-db"
+    image: "postgres:16-alpine"
+    internal_port: 5432
+    resources:
+      cpu_limit: "1.0"
+      memory_limit_mb: 1024
+    storage:
+      data_volume: "/var/lib/compintel/pgdata"
+    tuning:
+      shared_buffers: "256MB"
+      work_mem: "16MB"
+      maintenance_work_mem: "64MB"
+      effective_cache_size: "768MB"
+      max_connections: 50
+    healthcheck:
+      command: "pg_isready -U compintel -d compintel"
+      interval_sec: 5
+      timeout_sec: 5
+      retries: 5
+
+backup_and_retention:
+  database_backup:
+    schedule: "0 2 * * *" # Daily at 02:00 UTC
+    tool: "pg_dump -Fc"
+    destination: "s3://compintel-backups-ap-south-1/preview/db/"
+    retention_days: 30
+    encryption: "AES-256"
+  model_artifacts:
+    source: "artifacts/"
+    destination: "s3://compintel-backups-ap-south-1/artifacts/"
+    versioning: true
+
+monitoring_and_alerts:
+  metrics_endpoint: "/metrics"
+  scrape_interval_sec: 30
+  alarm_thresholds:
+    p95_latency_ms: 50 # NFR-02 violation trigger
+    error_rate_5xx_percent: 1.0 # >1% 5xx errors over 5m
+    abstention_rate_spike_percent: 50.0 # >50% queries abstaining over 1h
+    cpu_utilization_percent: 85.0
+    disk_utilization_percent: 80.0

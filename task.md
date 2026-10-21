@@ -419,10 +419,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `docs/security/threat-model.md`, `docs/security/asvs-checklist.md`, `docs/security/security-review-report.md`. Done when: ASVS checklist complete and zero unmitigated critical risks remain. Needs: T9.12a. Size: M.
 - [x] **T9.13** [AI+HUMAN] Code review pass and refactor list: (done 2026-10-21)
       Output: review notes. Done when: findings triaged. Needs: T9.12. Size: M.
-- [ ] **T9.14** [AI] Preview deployment: containers, environments, minimal infrastructure as code, cost measurement; ADR-0009 (split per Rule R-WF-03):
+- [x] **T9.14** [AI] Preview deployment: containers, environments, minimal infrastructure as code, cost measurement; ADR-0009 (split per Rule R-WF-03): (done 2026-10-21)
   - [x] **T9.14a** [AI] Multi-stage containerization, Docker Compose preview stack, and one-command deployment harness: multi-stage production Dockerfile.api and Dockerfile.web, Nginx reverse proxy with security headers, unified docker-compose.yml with PostgreSQL 16, deploy_preview.py CLI runner, and health verification. (done 2026-10-21)
         Output: `infra/docker/Dockerfile.api`, `infra/docker/Dockerfile.web`, `infra/docker/nginx.conf`, `infra/docker/docker-compose.yml`, `scripts/deploy_preview.py`. Done when: containers build and start with passing healthchecks. Needs: T9.13. Size: M.
-  - [ ] **T9.14b** [AI] Minimal Infrastructure as Code, cost estimation model, cold-start benchmarks, and ADR-0009 ratification: minimal IaC in infra/deploy/, empirical monthly cost model (Profile B vs C), cold-start & memory benchmarks, and ADR-0009 ratification.
+  - [x] **T9.14b** [AI] Minimal Infrastructure as Code, cost estimation model, cold-start benchmarks, and ADR-0009 ratification: minimal IaC in infra/deploy/, empirical monthly cost model (Profile B vs C), cold-start & memory benchmarks, and ADR-0009 ratification. (done 2026-10-21)
         Output: `infra/deploy/preview-env.yaml`, `docs/research/deployment-cost-model-t914.md`, ratified `ADR-0009`. Done when: cost model documented and ADR-0009 is accepted. Needs: T9.14a. Size: M.
 - [ ] **T9.15** [AI+HUMAN] QA plan and run: unit, integration, end to end, load, abuse and rate limits, device matrix, web vitals, usability test with a comprehension check.
       Output: QA report. Done when: pre-registered product thresholds are measured. Needs: T9.14, T9.09. Size: L.
