@@ -220,6 +220,20 @@ from compintel.evaluation.missingness_study import (
     evaluate_and_save_missingness_study,
     run_missingness_indicator_study,
 )
+from compintel.evaluation.pilot_analysis import (
+    BacklogItem,
+    FeedbackClusterSummary,
+    MetricStatus,
+    PilotFeedbackAnalysisResult,
+    PilotMetricEvaluation,
+    PilotVerdict,
+    cluster_qualitative_feedback,
+    evaluate_pilot_metrics,
+    execute_pilot_feedback_analysis,
+    generate_prioritized_backlog,
+    render_pilot_analysis_markdown,
+    update_evidence_register,
+)
 from compintel.evaluation.shift_stress import (
     GeographicShiftSlice,
     GeographicShiftSummary,
@@ -504,5 +518,17 @@ __all__ = [
     "seed_group_leak",
     "seed_observation_id_leak",
     "seed_temporal_lookahead_leak",
+    "BacklogItem",
+    "FeedbackClusterSummary",
+    "MetricStatus",
+    "PilotFeedbackAnalysisResult",
+    "PilotMetricEvaluation",
+    "PilotVerdict",
+    "cluster_qualitative_feedback",
+    "evaluate_pilot_metrics",
+    "execute_pilot_feedback_analysis",
+    "generate_prioritized_backlog",
+    "render_pilot_analysis_markdown",
+    "update_evidence_register",
     "verify_preregistration_hash",
 ]
