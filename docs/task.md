@@ -417,7 +417,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
         Output: `scripts/run_security_scan.py`, `docs/security/automated-audit-report.md`. Done when: zero high or critical vulnerabilities remain in dependencies or code. Needs: T9.10. Size: M.
   - [x] **T9.12b** [AI] Threat modeling, OWASP ASVS v4.0 checklist `[U]`, privacy attack verification & sign-off: (done 2026-10-21): STRIDE threat model on serving and contribution APIs, verification of ASVS controls, and security review report.
         Output: `docs/security/threat-model.md`, `docs/security/asvs-checklist.md`, `docs/security/security-review-report.md`. Done when: ASVS checklist complete and zero unmitigated critical risks remain. Needs: T9.12a. Size: M.
-- [ ] **T9.13** [AI+HUMAN] Code review pass and refactor list.
+- [x] **T9.13** [AI+HUMAN] Code review pass and refactor list: (done 2026-10-21)
       Output: review notes. Done when: findings triaged. Needs: T9.12. Size: M.
 - [ ] **T9.14** [AI] Preview deployment: containers, environments, minimal infrastructure as code, cost measurement; ADR-0009.
       Output: preview environment. Done when: deployed by one command. Needs: T9.12. Size: L.

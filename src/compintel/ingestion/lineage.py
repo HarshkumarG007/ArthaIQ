@@ -200,7 +200,12 @@ def get_git_commit(repo_root: Path | None = None) -> str:
     2. git rev-parse HEAD execution in repo_root
     3. Fallback deterministic 40-char zero-hash if not inside a git repository
     """
-    env_commit = os.environ.get("ARTHAIQ_COMMIT") or os.environ.get("GIT_COMMIT")
+    env_commit = (
+        os.environ.get("ARTHAIQ_COMMIT")
+        or os.environ.get("GIT_COMMIT")
+        or os.environ.get("GIT_COMMIT_SHA")
+        or os.environ.get("GITHUB_SHA")
+    )
     if env_commit and env_commit.strip():
         return env_commit.strip()
 

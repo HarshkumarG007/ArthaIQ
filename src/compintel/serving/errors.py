@@ -156,7 +156,7 @@ async def request_validation_exception_handler(
         )
 
     return create_problem_response(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
         title="Unprocessable Entity",
         detail="The request payload failed structural validation.",
         code="VALIDATION_ERROR",
@@ -173,7 +173,7 @@ async def app_validation_exception_handler(
     """Handler for domain-level ValidationError (HTTP 422)."""
     code = exc.code or "VALIDATION_ERROR"
     return create_problem_response(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
         title="Unprocessable Entity",
         detail=str(exc),
         code=code,
