@@ -452,8 +452,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: plan. Done when: thresholds recorded before the pilot starts. Needs: G9. Size: M.
 - [x] **T10.02** [AI+HUMAN] Production deployment and rollback runbook. (done 2026-10-21)
       Output: runbook. Done when: a rollback is rehearsed. Needs: T10.01. Size: M.
-- [ ] **T10.03** [AI] Online coverage tracking from realized observations.
-      Output: job and dashboard. Done when: coverage with intervals is reported weekly. Needs: T9.11. Size: M.
+- [x] **T10.03** [AI] Online coverage tracking from realized observations: (done 2026-10-21)
+      Output: `src/compintel/monitoring/coverage.py`, `scripts/run_coverage_tracking.py`, `docs/monitoring/coverage-dashboard.md`, `experiments/results/coverage_tracking_report.json`. Done when: coverage with intervals is reported weekly and evaluated across operational slices. Needs: T9.11. Size: M.
 - [ ] **T10.04** [AI] Scheduled data refresh jobs with freshness SLAs.
       Output: jobs. Done when: a stale source raises an alert. Needs: T9.11. Size: M.
 - [ ] **T10.05** [AI] Drift triggers, recalibration and retraining procedure, champion and challenger.

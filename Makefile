@@ -7,7 +7,7 @@
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
-        preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 clean
+        preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 rollback-rehearsal coverage-tracking clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -292,6 +292,11 @@ fairness-audit-v2:
 # ---- Rollback Rehearsal (Phase 10, T10.02) ----------------------------------
 rollback-rehearsal:
 	uv run python scripts/run_rollback_rehearsal.py
+
+# ---- Coverage Tracking (Phase 10, T10.03) -----------------------------------
+coverage-tracking:
+	uv run python scripts/run_coverage_tracking.py --allow-synthetic
+
 
 # ---- Clean -----------------------------------------------------------------
 clean:

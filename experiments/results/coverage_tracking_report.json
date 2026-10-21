@@ -1,0 +1,357 @@
+{
+  "as_of_date": "2026-10-21",
+  "active_model_version": "0.1.0",
+  "aggregate_coverage": {
+    "nominal_coverage": 0.8,
+    "empirical_coverage": 0.8017,
+    "n_eval": 232,
+    "coverage_delta": 0.0,
+    "status": "HEALTHY",
+    "description": "Coverage healthy: empirical coverage 80.2% matches nominal 80.0% guarantee (n=232)."
+  },
+  "weekly_trend": [
+    {
+      "week_label": "2026-W37",
+      "start_date": "2026-09-07",
+      "end_date": "2026-09-13",
+      "n_observations": 32,
+      "covered_count": 26,
+      "empirical_coverage": 0.8125,
+      "ci_lower": 0.6469,
+      "ci_upper": 0.9111,
+      "nominal_target": 0.8,
+      "status": "HEALTHY"
+    },
+    {
+      "week_label": "2026-W38",
+      "start_date": "2026-09-14",
+      "end_date": "2026-09-20",
+      "n_observations": 36,
+      "covered_count": 29,
+      "empirical_coverage": 0.8056,
+      "ci_lower": 0.6497,
+      "ci_upper": 0.9025,
+      "nominal_target": 0.8,
+      "status": "HEALTHY"
+    },
+    {
+      "week_label": "2026-W39",
+      "start_date": "2026-09-21",
+      "end_date": "2026-09-27",
+      "n_observations": 38,
+      "covered_count": 30,
+      "empirical_coverage": 0.7895,
+      "ci_lower": 0.6365,
+      "ci_upper": 0.8893,
+      "nominal_target": 0.8,
+      "status": "HEALTHY"
+    },
+    {
+      "week_label": "2026-W40",
+      "start_date": "2026-09-28",
+      "end_date": "2026-10-04",
+      "n_observations": 40,
+      "covered_count": 32,
+      "empirical_coverage": 0.8,
+      "ci_lower": 0.6524,
+      "ci_upper": 0.895,
+      "nominal_target": 0.8,
+      "status": "HEALTHY"
+    },
+    {
+      "week_label": "2026-W41",
+      "start_date": "2026-10-05",
+      "end_date": "2026-10-11",
+      "n_observations": 44,
+      "covered_count": 35,
+      "empirical_coverage": 0.7955,
+      "ci_lower": 0.655,
+      "ci_upper": 0.8885,
+      "nominal_target": 0.8,
+      "status": "HEALTHY"
+    },
+    {
+      "week_label": "2026-W42",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-18",
+      "n_observations": 42,
+      "covered_count": 34,
+      "empirical_coverage": 0.8095,
+      "ci_lower": 0.667,
+      "ci_upper": 0.9002,
+      "nominal_target": 0.8,
+      "status": "HEALTHY"
+    }
+  ],
+  "slice_breakdown": [
+    {
+      "slice_dimension": "role_family",
+      "slice_value": "SWE",
+      "n_observations": 129,
+      "empirical_coverage": 0.7674,
+      "ci_lower": 0.6875,
+      "ci_upper": 0.832,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "role_family",
+      "slice_value": "DATA",
+      "n_observations": 68,
+      "empirical_coverage": 0.8529,
+      "ci_lower": 0.75,
+      "ci_upper": 0.9181,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "role_family",
+      "slice_value": "MLAI",
+      "n_observations": 35,
+      "empirical_coverage": 0.8286,
+      "ci_lower": 0.6732,
+      "ci_upper": 0.919,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "seniority",
+      "slice_value": "JR",
+      "n_observations": 45,
+      "empirical_coverage": 0.8444,
+      "ci_lower": 0.7122,
+      "ci_upper": 0.9225,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "seniority",
+      "slice_value": "MID",
+      "n_observations": 97,
+      "empirical_coverage": 0.8041,
+      "ci_lower": 0.7142,
+      "ci_upper": 0.8709,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "seniority",
+      "slice_value": "SR",
+      "n_observations": 49,
+      "empirical_coverage": 0.7959,
+      "ci_lower": 0.6636,
+      "ci_upper": 0.8852,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "seniority",
+      "slice_value": "STAFF",
+      "n_observations": 41,
+      "empirical_coverage": 0.7561,
+      "ci_lower": 0.6066,
+      "ci_upper": 0.8617,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "location",
+      "slice_value": "BENGALURU",
+      "n_observations": 81,
+      "empirical_coverage": 0.8272,
+      "ci_lower": 0.7305,
+      "ci_upper": 0.8942,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "location",
+      "slice_value": "HYDERABAD",
+      "n_observations": 47,
+      "empirical_coverage": 0.8511,
+      "ci_lower": 0.7231,
+      "ci_upper": 0.9259,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "location",
+      "slice_value": "NCR",
+      "n_observations": 47,
+      "empirical_coverage": 0.8085,
+      "ci_lower": 0.6746,
+      "ci_upper": 0.8958,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "location",
+      "slice_value": "PUNE",
+      "n_observations": 21,
+      "empirical_coverage": 0.6667,
+      "ci_lower": 0.4537,
+      "ci_upper": 0.8281,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "location",
+      "slice_value": "MUMBAI",
+      "n_observations": 25,
+      "empirical_coverage": 0.68,
+      "ci_lower": 0.4841,
+      "ci_upper": 0.8279,
+      "status": "HEALTHY"
+    },
+    {
+      "slice_dimension": "location",
+      "slice_value": "CHENNAI",
+      "n_observations": 11,
+      "empirical_coverage": 0.9091,
+      "ci_lower": 0.6226,
+      "ci_upper": 0.9838,
+      "status": "HEALTHY"
+    }
+  ],
+  "abstention_summary": [
+    {
+      "slice_type": "role_family",
+      "slice_value": "SWE",
+      "total_queries": 129,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in role_family=SWE is normal (0.0%, n=129)."
+    },
+    {
+      "slice_type": "role_family",
+      "slice_value": "DATA",
+      "total_queries": 68,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in role_family=DATA is normal (0.0%, n=68)."
+    },
+    {
+      "slice_type": "role_family",
+      "slice_value": "MLAI",
+      "total_queries": 35,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in role_family=MLAI is normal (0.0%, n=35)."
+    },
+    {
+      "slice_type": "seniority",
+      "slice_value": "JR",
+      "total_queries": 45,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in seniority=JR is normal (0.0%, n=45)."
+    },
+    {
+      "slice_type": "seniority",
+      "slice_value": "MID",
+      "total_queries": 97,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in seniority=MID is normal (0.0%, n=97)."
+    },
+    {
+      "slice_type": "seniority",
+      "slice_value": "SR",
+      "total_queries": 49,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in seniority=SR is normal (0.0%, n=49)."
+    },
+    {
+      "slice_type": "seniority",
+      "slice_value": "STAFF",
+      "total_queries": 41,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in seniority=STAFF is normal (0.0%, n=41)."
+    },
+    {
+      "slice_type": "location",
+      "slice_value": "BENGALURU",
+      "total_queries": 81,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in location=BENGALURU is normal (0.0%, n=81)."
+    },
+    {
+      "slice_type": "location",
+      "slice_value": "HYDERABAD",
+      "total_queries": 47,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in location=HYDERABAD is normal (0.0%, n=47)."
+    },
+    {
+      "slice_type": "location",
+      "slice_value": "NCR",
+      "total_queries": 47,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in location=NCR is normal (0.0%, n=47)."
+    },
+    {
+      "slice_type": "location",
+      "slice_value": "PUNE",
+      "total_queries": 21,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in location=PUNE is normal (0.0%, n=21)."
+    },
+    {
+      "slice_type": "location",
+      "slice_value": "MUMBAI",
+      "total_queries": 25,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in location=MUMBAI is normal (0.0%, n=25)."
+    },
+    {
+      "slice_type": "location",
+      "slice_value": "CHENNAI",
+      "total_queries": 11,
+      "abstained_queries": 0,
+      "abstention_rate": 0.0,
+      "threshold_warning": 0.3,
+      "threshold_critical": 0.5,
+      "status": "NORMAL",
+      "description": "Abstention rate in location=CHENNAI is normal (0.0%, n=11)."
+    }
+  ],
+  "target_range": [
+    0.75,
+    0.85
+  ],
+  "governance_verdict": "PASS_GO: Realized conformal coverage satisfies PRD Section 11 M-04 (80.2% in [75%, 85%]). Ready for Gate G10 production evaluation.",
+  "alerts": [],
+  "timestamp": "2026-10-21T16:08:24.196937+00:00"
+}
