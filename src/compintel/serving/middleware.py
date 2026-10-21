@@ -1,7 +1,8 @@
-"""Serving middlewares for request correlation, security headers, and structured logging.
+"""Serving middlewares for request correlation, security headers, structured logging, and metrics.
 
 Adheres to:
 - architecture.md Section 11 & Section 12: Request IDs on all requests; security headers.
+- PRD FR-13 & NFR-07: Internal monitoring, latency and request counters.
 - Rule R-ER-04: Responses carry request_id for end-to-end tracing.
 - Rule R-DA-07: Structured logging without sensitive inputs or PII.
 - Rule R-CD-03: Architectural boundary; serving never imports ingestion/quality/eval.
@@ -17,6 +18,7 @@ from uuid import uuid4
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
 from compintel.logging import get_logger
+from compintel.monitoring.metrics import get_metrics_registry
 
 if TYPE_CHECKING:
     from starlette.requests import Request
@@ -25,6 +27,34 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 _VALID_REQ_ID_PATTERN = re.compile(r"^[a-zA-Z0-9_\-]{1,64}$")
+
+_KNOWN_PATHS: frozenset[str] = frozenset(
+    {
+        "/healthz",
+        "/livez",
+        "/readyz",
+        "/metrics",
+        "/v1/estimates",
+        "/v1/models/current",
+        "/v1/models/current/card",
+        "/v1/sources",
+        "/v1/taxonomy/roles",
+        "/v1/taxonomy/seniorities",
+        "/v1/taxonomy/locations",
+        "/v1/taxonomy/measures",
+        "/v1/evidence/summary",
+        "/v1/contributions",
+        "/v1/contributions/delete",
+    }
+)
+
+
+def _normalize_metric_path(raw_path: str) -> str:
+    """Normalize URI path to prevent metric cardinality explosion."""
+    cleaned = raw_path.split("?")[0].rstrip("/") or "/"
+    if cleaned in _KNOWN_PATHS:
+        return cleaned
+    return "/other"
 
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
@@ -67,14 +97,14 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
-    """Emits structured access logs for requests and responses (Rule R-DA-07, R-CD-06)."""
+    """Emits structured access logs and Prometheus metrics (Rule R-DA-07, R-CD-06, NFR-07)."""
 
     async def dispatch(
         self,
         request: Request,
         call_next: RequestResponseEndpoint,
     ) -> Response:
-        """Log request arrival and completion with latency."""
+        """Log request arrival and completion with latency and update Prometheus metrics."""
         start_time = time.perf_counter()
         req_id = getattr(request.state, "request_id", None) or request.headers.get(
             "X-Request-ID", "unknown"
@@ -82,14 +112,32 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 
         path = request.url.path if request.url else "/unknown"
         method = request.method
+        metric_path = _normalize_metric_path(path)
+        metrics = get_metrics_registry()
 
-        response = await call_next(request)
+        metrics.active_requests.labels(method=method).inc()
+        try:
+            response = await call_next(request)
+        finally:
+            metrics.active_requests.labels(method=method).dec()
 
-        duration_ms = round((time.perf_counter() - start_time) * 1000, 2)
+        duration_sec = time.perf_counter() - start_time
+        duration_ms = round(duration_sec * 1000, 2)
         status_code = response.status_code
 
-        # Log at debug for health checks to prevent log spam, info for standard traffic
-        if path in ("/healthz", "/livez", "/readyz"):
+        # Record standard operational telemetry
+        metrics.http_requests_total.labels(
+            method=method,
+            path=metric_path,
+            status=str(status_code),
+        ).inc()
+        metrics.http_request_duration_seconds.labels(
+            method=method,
+            path=metric_path,
+        ).observe(duration_sec)
+
+        # Log at debug for health/metrics checks to prevent log spam, info for standard traffic
+        if path in ("/healthz", "/livez", "/readyz", "/metrics"):
             logger.debug(
                 "http_health_check",
                 request_id=req_id,
