@@ -301,6 +301,10 @@ coverage-tracking:
 data-refresh:
 	uv run python scripts/run_data_refresh.py
 
+# ---- Drift Triggers & Recalibration (Phase 10, T10.05) -----------------------
+drift-recalibration:
+	uv run python scripts/run_drift_recalibration.py
+
 
 # ---- Clean -----------------------------------------------------------------
 clean:

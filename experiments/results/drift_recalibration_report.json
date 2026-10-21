@@ -1,0 +1,54 @@
+{
+  "run_id": "DRIFT-JOB-55BEFFCB",
+  "evaluated_at": "2026-10-21T20:45:40.762630Z",
+  "overall_trigger_level": "STABLE",
+  "overall_status": "HEALTHY",
+  "feature_reports": [
+    {
+      "feature_name": "metro_location",
+      "method": "PSI",
+      "statistic": 0.0,
+      "p_value": null,
+      "threshold_warning": 0.1,
+      "threshold_critical": 0.25,
+      "status": "STABLE",
+      "description": "Distribution is stable (PSI=0.000 < 0.1)."
+    },
+    {
+      "feature_name": "role_family",
+      "method": "PSI",
+      "statistic": 0.0,
+      "p_value": null,
+      "threshold_warning": 0.1,
+      "threshold_critical": 0.25,
+      "status": "STABLE",
+      "description": "Distribution is stable (PSI=0.000 < 0.1)."
+    },
+    {
+      "feature_name": "seniority_level",
+      "method": "PSI",
+      "statistic": 0.0,
+      "p_value": null,
+      "threshold_warning": 0.1,
+      "threshold_critical": 0.25,
+      "status": "STABLE",
+      "description": "Distribution is stable (PSI=0.000 < 0.1)."
+    },
+    {
+      "feature_name": "yoe_total",
+      "method": "KS",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "threshold_warning": 0.05,
+      "threshold_critical": 0.12,
+      "status": "STABLE",
+      "description": "Distribution is stable (KS=0.000 < 0.05, p=1.0000)."
+    }
+  ],
+  "max_psi": 0.0,
+  "max_ks": 0.0,
+  "recalibration_result": null,
+  "challenger_result": null,
+  "alerts_triggered": [],
+  "action_executed": "Nominal Monitoring: All feature distributions are within statistical tolerance."
+}
