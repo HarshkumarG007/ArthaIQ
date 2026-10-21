@@ -1,0 +1,86 @@
+# -----------------------------------------------------------------------------
+# CompIntel Preview Environment — Docker Compose Definition (T9.14a)
+# -----------------------------------------------------------------------------
+# Services:
+#   1. db: PostgreSQL 16 Alpine with healthcheck and persistent volume
+#   2. api: CompIntel FastAPI Serving Engine (Python 3.12, multi-stage, non-root)
+#   3. web: CompIntel React 18 SPA + Nginx Reverse Proxy (Node 22 multi-stage)
+# -----------------------------------------------------------------------------
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: compintel-preview-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-compintel}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-compintel_preview_secret_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-compintel}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-compintel} -d ${POSTGRES_DB:-compintel}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - compintel-preview
+    restart: unless-stopped
+
+  api:
+    container_name: compintel-preview-api
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
+    environment:
+      APP_ENV: preview
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-compintel}:${POSTGRES_PASSWORD:-compintel_preview_secret_2026}@db:5432/${POSTGRES_DB:-compintel}
+      PORT: 8000
+      HOST: 0.0.0.0
+      LOG_LEVEL: INFO
+      LOG_FORMAT: json
+      CORS_ORIGINS: http://localhost:8080,http://127.0.0.1:8080,http://localhost:3000
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/livez"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - compintel-preview
+    restart: unless-stopped
+
+  web:
+    container_name: compintel-preview-web
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
+    networks:
+      - compintel-preview
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  compintel-preview:
+    driver: bridge

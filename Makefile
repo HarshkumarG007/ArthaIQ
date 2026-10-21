@@ -6,7 +6,8 @@
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
-        benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan clean
+        benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
+        preview-up preview-down preview-health clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -269,6 +270,15 @@ compose-up:
 
 compose-down:
 	docker compose -f infra/docker/docker-compose.yml down
+
+preview-up:
+	uv run python scripts/deploy_preview.py up --build --wait
+
+preview-down:
+	uv run python scripts/deploy_preview.py down
+
+preview-health:
+	uv run python scripts/deploy_preview.py health
 
 # ---- Clean -----------------------------------------------------------------
 clean:
