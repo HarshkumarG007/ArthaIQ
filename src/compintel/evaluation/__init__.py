@@ -97,6 +97,14 @@ from compintel.evaluation.fairness_audit import (
     run_fairness_audit,
     scan_demographic_proxy_compliance,
 )
+from compintel.evaluation.fairness_audit_v2 import (
+    FairnessAuditReportV2,
+    SliceDimensionAudit,
+    SubgroupFairnessMetrics,
+    evaluate_fairness_audit_v2,
+    format_markdown_report_v2,
+    run_and_save_fairness_audit_v2,
+)
 from compintel.evaluation.family_ablation import (
     FamilyAblationDelta,
     FamilyAblationItem,
@@ -339,6 +347,12 @@ __all__ = [
     "GeographicShiftSummary",
     "GroupAbstentionMetrics",
     "GroupFairnessMetrics",
+    "FairnessAuditReportV2",
+    "SliceDimensionAudit",
+    "SubgroupFairnessMetrics",
+    "evaluate_fairness_audit_v2",
+    "format_markdown_report_v2",
+    "run_and_save_fairness_audit_v2",
     "HierarchicalDiagnosticsReport",
     "IntervalMetrics",
     "IntervalUsefulnessEvaluator",
