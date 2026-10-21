@@ -450,7 +450,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 - [x] **T10.01** [HUMAN] Pilot plan: cohort, success metrics from PRD section 11, feedback instrumentation. (done 2026-10-21)
       Output: plan. Done when: thresholds recorded before the pilot starts. Needs: G9. Size: M.
-- [ ] **T10.02** [AI+HUMAN] Production deployment and rollback runbook.
+- [x] **T10.02** [AI+HUMAN] Production deployment and rollback runbook. (done 2026-10-21)
       Output: runbook. Done when: a rollback is rehearsed. Needs: T10.01. Size: M.
 - [ ] **T10.03** [AI] Online coverage tracking from realized observations.
       Output: job and dashboard. Done when: coverage with intervals is reported weekly. Needs: T9.11. Size: M.

@@ -1,0 +1,79 @@
+{
+  "title": "ArthaIQ Production Deployment & Rollback Rehearsal Report",
+  "timestamp_utc": "2026-10-21T14:35:19.505611+00:00",
+  "task_id": "T10.02",
+  "overall_status": "PASSED",
+  "rto_sla_met": true,
+  "rpo_sla_met": true,
+  "model_rollback": {
+    "status": "PASSED",
+    "initial_version": "0.1.0",
+    "challenger_version": "0.2.0-rc1",
+    "restored_version": "0.1.0",
+    "rollback_latency_ms": 0.124,
+    "steps": [
+      {
+        "step": 1,
+        "name": "load_initial_champion",
+        "active_version": "0.1.0",
+        "has_rollback": false,
+        "passed": true
+      },
+      {
+        "step": 2,
+        "name": "baseline_prediction",
+        "p10": 0.5,
+        "p50": 17.99,
+        "p90": 40.05,
+        "grade": "GRADE_B",
+        "passed": true
+      },
+      {
+        "step": 3,
+        "name": "promote_challenger",
+        "active_version": "0.2.0-rc1",
+        "buffered_version": "0.1.0",
+        "passed": true
+      },
+      {
+        "step": 4,
+        "name": "execute_hot_rollback",
+        "restored_version": "0.1.0",
+        "rollback_latency_ms": 0.124,
+        "buffer_cleared": true,
+        "passed": true
+      },
+      {
+        "step": 5,
+        "name": "verify_post_rollback_parity",
+        "p10_matched": true,
+        "p50_matched": true,
+        "p90_matched": true,
+        "passed": true
+      },
+      {
+        "step": 6,
+        "name": "verify_secondary_rollback_blocked",
+        "blocked": true,
+        "passed": true
+      }
+    ]
+  },
+  "container_rollback": {
+    "status": "SIMULATED_PASS",
+    "orchestrator": "Docker Compose (Profile B)",
+    "revert_commands": [
+      "docker tag arthaiq-api:previous arthaiq-api:latest",
+      "docker tag arthaiq-web:previous arthaiq-web:latest",
+      "docker compose -f infra/docker/docker-compose.yml up -d --no-deps api web",
+      "uv run alembic downgrade -1",
+      "curl -f http://localhost:8000/readyz"
+    ],
+    "health_probes": [
+      "/livez",
+      "/readyz",
+      "/"
+    ],
+    "target_rto_seconds": 30.0
+  }
+}
