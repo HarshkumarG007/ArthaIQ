@@ -1,0 +1,98 @@
+{
+  "gate": "Gate G12",
+  "title": "Phase 12 Benchmark & Gate G12 Ratification Review",
+  "evaluated_at_utc": "2026-10-22 23:02:15 UTC",
+  "verdict": "GO",
+  "recommendation": "RATIFIED / UNCONDITIONAL GO \u2014 Promote Active Learning Targeted Sourcing Policy and PT4 Counterfactual Negotiation Scenario Engine into ArthaIQ Production Stack.",
+  "charter_summaries": {
+    "EXP-14": {
+      "charter_id": "CHARTER-EXP-14",
+      "name": "Active Learning & Targeted Sourcing for Sparse Realization Cells",
+      "verdict": "PROMOTE",
+      "all_criteria_passed": true,
+      "sparse_width_reduction_pct": 32.45,
+      "abstention_reduction_pp": 75.0,
+      "empirical_coverage_pct": 80.69,
+      "relative_cost_ratio": 0.27,
+      "keep_criteria": {
+        "criterion_1_width_reduction": {
+          "passed": true,
+          "target_threshold_pct": ">= 20.0%",
+          "baseline_mean_width_lpa": 25.38,
+          "final_mean_width_lpa": 17.15,
+          "reduction_pct": 32.45
+        },
+        "criterion_2_abstention_drop": {
+          "passed": true,
+          "target_threshold_pct": ">= 15.0% drop",
+          "baseline_abstention_rate": 0.85,
+          "final_abstention_rate": 0.1,
+          "drop_pp": 75.0,
+          "quantile_crossing_rate": 0.0
+        },
+        "criterion_3_empirical_coverage": {
+          "passed": true,
+          "target_band": "[75.0%, 85.0%]",
+          "measured_coverage": 0.8069
+        },
+        "criterion_4_cost_efficiency": {
+          "passed": true,
+          "max_relative_cost_multiplier": "<= 2.0x",
+          "relative_cost_per_informative_sample": 0.27,
+          "cost_per_informative_sample_active": 1.42,
+          "cost_per_informative_sample_uniform": 5.36
+        }
+      }
+    },
+    "EXP-15": {
+      "charter_id": "CHARTER-EXP-15",
+      "name": "Counterfactual Negotiation Scenario Modeling (PT4 Prototype)",
+      "verdict": "PROMOTE",
+      "all_criteria_passed": true,
+      "monotonicity_satisfaction_pct": 100.0,
+      "empirical_coverage_pct": 79.98,
+      "zero_lone_number_compliance_pct": 100.0,
+      "latency_p95_ms": 4.03,
+      "benchmark_transcripts_count": 500,
+      "keep_criteria": {
+        "criterion_1_monotonicity": {
+          "verdict": "PASS",
+          "target": ">= 98.0%",
+          "measured": "100.00%"
+        },
+        "criterion_2_coverage": {
+          "verdict": "PASS",
+          "target": "[75.0%, 85.0%]",
+          "measured": "79.98%"
+        },
+        "criterion_3_zero_lone_numbers": {
+          "verdict": "PASS",
+          "target": "100.0% range compliance",
+          "measured": "100.0%"
+        },
+        "criterion_4_latency": {
+          "verdict": "PASS",
+          "target": "p95 <= 150.0 ms",
+          "measured": "4.03 ms"
+        }
+      }
+    }
+  },
+  "phase12_gate_conditions": {
+    "sparse_cell_width_narrows_ge_20pct": {
+      "target": ">= 20.0%",
+      "measured": "32.45%",
+      "passed": true
+    },
+    "pt4_monotonicity_ge_98pct": {
+      "target": ">= 98.0%",
+      "measured": "100.00%",
+      "passed": true
+    },
+    "zero_lone_numbers_in_counterfactual_outputs": {
+      "target": "100.0%",
+      "measured": "100.0%",
+      "passed": true
+    }
+  }
+}
