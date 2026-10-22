@@ -1,0 +1,17 @@
+source_id: SRC-IND-OFF-01
+source_short_name: MOSPI PLFS 2023-24
+licence_id: OGL-India-1.0
+licence_name: "Open Government Data Licence (India) \u2014 MOSPI Data Dissemination\
+  \ Policy"
+licence_status: approved
+sqs: 82.6
+sqsf_tier: TIER_2_POPULATION_BENCHMARK
+generated_at_utc: '2026-10-13T19:08:54.741263+00:00'
+immutable: true
+files:
+- file_name: plfs_2023_24_layout_sched_10_4.csv
+  file_size_bytes: 964
+  sha256: 5b6682886d5cf6431a8fb261d9457520c0cfb1e0116a0519b4d3a96270a86471
+- file_name: plfs_urban_tech_macro_anchors.csv
+  file_size_bytes: 639
+  sha256: 4b894662bbd9496f238540a9eecdf3ebe192ffbd26785559d8deab1a3fba7c68

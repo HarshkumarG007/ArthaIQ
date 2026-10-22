@@ -1,0 +1,13 @@
+source_id: SRC-USA-DOL-02
+source_short_name: US DOL PERM Disclosures
+licence_id: CC0-1.0
+licence_name: "US Federal Government Work \u2014 Public Domain (17 USC 105)"
+licence_status: approved
+sqs: 74.4
+sqsf_tier: TIER_3_MARKET_SIGNAL
+generated_at_utc: '2026-10-13T19:08:54.799880+00:00'
+immutable: true
+files:
+- file_name: dol_perm_fy24_certified_tech_sample.csv
+  file_size_bytes: 672
+  sha256: 004b8e0e7a15fcc1cc6bf87134845f8bfd7e9246a53f618e336bd075bea8a2b0

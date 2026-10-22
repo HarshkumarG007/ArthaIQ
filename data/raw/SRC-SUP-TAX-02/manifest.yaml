@@ -1,0 +1,14 @@
+source_id: SRC-SUP-TAX-02
+source_short_name: ESCO Skills Taxonomy v1.1
+licence_id: ODbL-1.0
+licence_name: European Commission Open Data / Open Data Commons Open Database License
+  (ODbL)
+licence_status: approved
+sqs: 79.8
+sqsf_tier: TIER_4_SUPPLEMENTARY
+generated_at_utc: '2026-10-13T19:08:54.900179+00:00'
+immutable: true
+files:
+- file_name: esco_skills_tech_hierarchy.csv
+  file_size_bytes: 843
+  sha256: 3f956d0a93f7e5619f7c73f75906f2b63be3661c600fc2de567c5e72913bb4a7

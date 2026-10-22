@@ -1,0 +1,16 @@
+source_id: SRC-SUP-TAX-01
+source_short_name: O*NET 29.0 Database
+licence_id: CC-BY-4.0
+licence_name: Creative Commons Attribution 4.0 International (CC-BY 4.0)
+licence_status: approved
+sqs: 84.4
+sqsf_tier: TIER_4_SUPPLEMENTARY
+generated_at_utc: '2026-10-13T19:08:54.875223+00:00'
+immutable: true
+files:
+- file_name: occupation_data_tech.csv
+  file_size_bytes: 793
+  sha256: 4932765f833a3d762c8c151285874f5333b40fe20148d566b1e1c4c126f5ef1a
+- file_name: technology_skills_tech_roles.csv
+  file_size_bytes: 803
+  sha256: ea33ed6435edd4e66af10c9809024bbc29b984d12e14ccd8fb70ceccac71e452

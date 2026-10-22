@@ -1,0 +1,13 @@
+source_id: SRC-KAG-SO-01
+source_short_name: Stack Overflow Survey 2024
+licence_id: ODbL-1.0
+licence_name: Open Database Licence 1.0
+licence_status: approved
+sqs: 72.2
+sqsf_tier: TIER_3_MARKET_SIGNAL
+generated_at_utc: '2026-10-13T19:08:59.140851+00:00'
+immutable: true
+files:
+- file_name: so_survey_2024_raw_sample.csv
+  file_size_bytes: 800500
+  sha256: 0e5e5bd5b0edf6c09889c72028dc6201682f4e1099f0d15f9b7567b91bea4e1c
