@@ -3,11 +3,11 @@
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
 | Status                         | v1.1 (Phases 0-10 complete; Gates G0-G10 ratified; Production Launch Complete) |
-| Last updated                   | 2026-10-21                                           |
+| Last updated                   | 2026-10-22                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)**
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Complete; NEXT: Phase 12 T12.01)
 
 ## How to use this file
 
@@ -481,10 +481,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `src/compintel/uncertainty/slice_conformal.py`, `scripts/run_slice_conformal_benchmark.py`, `docs/research/slice-conformal-exp13.md`, `experiments/results/slice_conformal_report.json`, `tests/unit/test_slice_conformal.py`. Done when: all cells (N >= 20) have empirical coverage within [76%, 84%]; median interval width growth <= +5.0%; cross-slice variance reduced >= 30%; all 4 keep criteria pass with PROMOTE verdict. Needs: G10. Size: L.
 - [x] **T11.02** [AI] EXP-16: Automated Dual-Cadence Source Ingestion & Freshness Daemon — implement async event-driven daemon per CHARTER-EXP-16: (done 2026-10-22)
       Output: `src/compintel/ingestion/daemon.py`, `scripts/run_ingestion_daemon.py`, `docs/research/ingestion-daemon-exp16.md`, `experiments/results/ingestion_daemon_report.json`, `tests/unit/test_ingestion_daemon.py`. Done when: 30-day staleness violation rate = 0; contribution-to-quarantine latency <= 15 min; zero PII retained in daemon pipeline; all 4 keep criteria pass with PROMOTE verdict. Needs: G10. Size: L.
-- [ ] **T11.03** [AI+HUMAN] Phase 11 benchmark & gate review: compare slice coverage before and after EXP-13; verify EXP-16 30-day staleness record.
-      Output: updated docs/pilot/prioritized-backlog.md, docs/pilot/post-pilot-review.md (Phase 11 addendum). Done when: both EXP-13 and EXP-16 meet pre-registered keep criteria. Needs: T11.01, T11.02. Size: M.
+- [x] **T11.03** [AI+HUMAN] Phase 11 benchmark & gate review: compare slice coverage before and after EXP-13; verify EXP-16 30-day staleness record: (done 2026-10-22)
+      Output: `docs/pilot/prioritized-backlog.md`, `docs/pilot/post-pilot-review.md` (Phase 11 addendum), `docs/pilot/gate-g11-review.md`, `scripts/run_phase11_review.py`, `experiments/results/phase11_gate_g11_report.json`, `tests/unit/test_phase11_gate_g11.py`. Done when: both EXP-13 and EXP-16 meet pre-registered keep criteria; Gate G11 ratified GO; champion bundle updated with slice-adaptive conformal and ingestion daemon. Needs: T11.01, T11.02. Size: M.
 
-**Gate G11:** EXP-13 and EXP-16 meet pre-registered keep criteria; Phase 11 champion bundle updated.
+**Gate G11:** EXP-13 and EXP-16 meet pre-registered keep criteria; Phase 11 champion bundle updated. (ratified GO 2026-10-22)
 
 ---
 
@@ -865,6 +865,11 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | docs/research/ingestion-daemon-exp16.md | T11.02 |
 | experiments/results/ingestion_daemon_report.json | T11.02 |
 | tests/unit/test_ingestion_daemon.py | T11.02 |
+| scripts/run_phase11_review.py | T11.03 |
+| docs/pilot/gate-g11-review.md | T11.03 |
+| experiments/results/phase11_gate_g11_report.json | T11.03 |
+| tests/unit/test_phase11_gate_g11.py | T11.03 |
+| docs/pilot/post-pilot-review.md (Phase 11 Addendum) | Gate G11 |
 
 ## Change log
 
@@ -883,4 +888,5 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-22 | 1.2     | Appendix C fully expanded: all 150+ deliverables across Phases 0–10 catalogued by phase, with scripts, src modules, docs, experiments, infra, and artifacts. |
 | 2026-10-22 | 1.3     | Task T11.01 complete: EXP-13 Slice-Adaptive Conformal Prediction Intervals implemented with Empirical Bayes shrinkage, all 4 keep criteria passed with PROMOTE verdict, 8/8 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T11.02 (EXP-16 Ingestion Daemon). |
 | 2026-10-22 | 1.4     | Task T11.02 complete: EXP-16 Automated Dual-Cadence Source Ingestion & Freshness Daemon implemented (`compintel.ingestion.daemon`), all 4 keep criteria passed with PROMOTE verdict (0 staleness violations, p95 intake latency 11.35 min <= 15 min, 100% canary quarantine accuracy, zero PII leaks), 15/15 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T11.03 (Phase 11 Benchmark & Gate G11 Review). |
+| 2026-10-22 | 1.5     | Task T11.03 and Gate G11 complete: Phase 11 benchmark & gate review executed (`scripts/run_phase11_review.py`), EXP-13 and EXP-16 keep criteria verified (89.05% slice variance reduction, 0 staleness violations in 30d trial), Gate G11 ratified GO (`docs/pilot/gate-g11-review.md`), Post-Pilot Review updated with Phase 11 Addendum (`docs/pilot/post-pilot-review.md`), Prioritized Backlog updated with EXP-14 and EXP-15 as active next (`docs/pilot/prioritized-backlog.md`), ModelBundle upgraded with SliceAdaptiveConformalRegressor support. NEXT: Phase 12 (T12.01 EXP-14 Active Learning for Sparse Cells). |
 

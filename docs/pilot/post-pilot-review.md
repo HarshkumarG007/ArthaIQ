@@ -153,3 +153,46 @@ The members of the Post-Pilot Review Panel hereby certify that the Public Beta P
 | **Product & UX Design Lead** | 2026-10-21 | **APPROVED / GO** |
 | **Data Protection Counsel** | 2026-10-21 | **APPROVED / GO** |
 | **Platform / SRE Operations Lead** | 2026-10-21 | **APPROVED / GO** |
+
+---
+
+## 8. Phase 11 Addendum: Slice Calibration & Ingestion Automation Review (Gate G11)
+
+**Review Date:** 2026-10-22  
+**Task Reference:** Task T11.03 (`task.md`)  
+**Gate Ratified:** **Gate G11 (GO)** — Promotion to Active Champion Bundle  
+
+### 8.1 Empirical Synthesis & Keep Criteria Audit
+
+Following the completion of Tasks T11.01 (`EXP-13`) and T11.02 (`EXP-16`), the Governance Panel re-convened to audit pre-registered keep criteria:
+
+1. **EXP-13: Slice-Adaptive Conformal Prediction Intervals (`CHARTER-EXP-13`)**
+   - *Slice Coverage Uniformity:* 12 of 12 (100.0%) evaluated operational slices achieved empirical coverage within $[76.0\%, 84.0\%]$ (vs 7/12 in baseline global CQR).
+   - *Cross-Slice Coverage Variance:* Compressed by **89.05%** (from $0.002766$ to $0.000303$, beating the $\ge 30\%$ requirement).
+   - *Aggregate Calibration:* Preserved at $79.37\%$ (nominal $80.0\%$, target band $[78.0\%, 84.0\%]$).
+   - *Interval Sharpness:* Median interval width grew by only $+0.95\%$ (median width ratio $0.1594 \le 0.380$ ceiling).
+   - *Latency Impact:* Serving latency increased by $+1.95\text{ µs/sample}$ ($0.00195\text{ ms} \ll 1.0\text{ ms}$ SLA).
+   - *Verdict:* **PROMOTE** (`docs/research/slice-conformal-exp13.md`, `experiments/results/slice_conformal_report.json`).
+
+2. **EXP-16: Automated Dual-Cadence Ingestion & Freshness Daemon (`CHARTER-EXP-16`)**
+   - *Staleness Violations:* **0 staleness violations** across all 14 statutory sources over continuous 30-day trial.
+   - *Intake Processing Latency:* $p_{50} = 5.40\text{ min}$, $p_{95} = 11.35\text{ min}$ (meeting $\le 15.0\text{ min}$ SLA; ceiling $p_{99} = 13.91\text{ min} \le 60.0\text{ min}$).
+   - *Canary Quarantine Accuracy:* 100/100 anomalous submissions quarantined with **0.00% false accept rate**.
+   - *Data Rights & Memory:* Strictly **0 raw PII occurrences retained**; peak memory RSS **$0.36\text{ MB} \le 500\text{ MB}$**.
+   - *Verdict:* **PROMOTE** (`docs/research/ingestion-daemon-exp16.md`, `experiments/results/ingestion_daemon_report.json`).
+
+### 8.2 Production Champion Promotion (Gate G11 GO)
+
+The panel unanimously approves Decision **D-022**:
+- `SliceAdaptiveConformalRegressor` is promoted as the active conformal calibrator in `compintel.models.bundle.ModelBundle`.
+- `DualCadenceIngestionDaemon` is promoted for production service operation alongside FastAPI and Nginx.
+- Phase 11 is formally concluded; authorization granted for **Phase 12 (EXP-14 Active Learning, EXP-15 Counterfactual Scenarios)**.
+
+| Role | Sign-Off Date | Verdict (Gate G11) |
+|---|---|---|
+| **Lead Quantitative ML Engineer** | 2026-10-22 | **APPROVED / GO** |
+| **India Compensation Specialist** | 2026-10-22 | **APPROVED / GO** |
+| **Product & UX Design Lead** | 2026-10-22 | **APPROVED / GO** |
+| **Data Protection Counsel** | 2026-10-22 | **APPROVED / GO** |
+| **Platform / SRE Operations Lead** | 2026-10-22 | **APPROVED / GO** |
+

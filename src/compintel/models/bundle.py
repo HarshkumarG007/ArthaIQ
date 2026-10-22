@@ -54,6 +54,7 @@ from compintel.uncertainty.support import (
 if TYPE_CHECKING:
     from compintel.models.gbm.quantile import BaseGBMQuantileModel
     from compintel.uncertainty.conformal import CalibratedPrediction, ConformalQuantileRegressor
+    from compintel.uncertainty.slice_conformal import SliceAdaptiveConformalRegressor
 
 ProfileInput: TypeAlias = CandidateProfile
 CohortEvidenceInput: TypeAlias = CohortEvidenceContext
@@ -284,7 +285,7 @@ class ModelBundle:
         self,
         metadata: BundleMetadata,
         base_model: BaseGBMQuantileModel,
-        calibrator: ConformalQuantileRegressor,
+        calibrator: ConformalQuantileRegressor | SliceAdaptiveConformalRegressor,
         support_evaluator: SupportEvaluator,
         cohort_evidence_table: pl.DataFrame | None = None,
         model_card_markdown: str | None = None,

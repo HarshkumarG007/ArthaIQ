@@ -318,6 +318,10 @@ slice-conformal-benchmark:
 ingestion-daemon:
 	uv run python scripts/run_ingestion_daemon.py
 
+# ---- Phase 11 Benchmark & Gate G11 Ratification Review (Phase 11, T11.03) ------
+phase11-review:
+	uv run python scripts/run_phase11_review.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
