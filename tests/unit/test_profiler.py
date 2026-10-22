@@ -56,8 +56,11 @@ def test_profile_source_directory_on_acquired_raw() -> None:
     raw_dir = repo_root / "data" / "raw"
     target_source = raw_dir / "SRC-SUP-CORP-01"
 
-    if not target_source.exists():
-        pytest.skip("SRC-SUP-CORP-01 not acquired locally in data/raw/ (gitignored per R-DA-08)")
+    target_csv = target_source / "listed_it_mre_fy24.csv"
+    if not target_source.exists() or not target_csv.exists():
+        pytest.skip(
+            "SRC-SUP-CORP-01 CSV not acquired locally in data/raw/ (gitignored per R-DA-08)"
+        )
 
     profiles = profile_source_directory("SRC-SUP-CORP-01", raw_dir)
     assert len(profiles) == 1
