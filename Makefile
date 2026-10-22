@@ -310,6 +310,10 @@ feedback-analysis:
 	uv run python scripts/run_feedback_analysis.py
 
 
+# ---- Slice-Adaptive Conformal Benchmark (Phase 11, T11.01, CHARTER-EXP-13) -
+slice-conformal-benchmark:
+	uv run python scripts/run_slice_conformal_benchmark.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

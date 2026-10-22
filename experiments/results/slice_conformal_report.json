@@ -1,0 +1,227 @@
+{
+  "charter_id": "CHARTER-EXP-13",
+  "experiment_name": "Slice-Adaptive Conformal Prediction Intervals",
+  "timestamp": "2026-10-22 13:26:30 UTC",
+  "verdict": "PROMOTE",
+  "keep_criteria": {
+    "criterion_1_slice_coverage": {
+      "passed": true,
+      "threshold": ">= 75% slices in [76.0%, 84.0%], variance reduction >= 30%, zero slices in reject zone (<74% or >86%)",
+      "treatment_pass_rate": "12/12 (100.0%)",
+      "baseline_pass_rate": "7/12"
+    },
+    "criterion_2_aggregate_coverage": {
+      "passed": true,
+      "threshold": "[78.0%, 84.0%]",
+      "value": 0.7937
+    },
+    "criterion_3_width_growth": {
+      "passed": true,
+      "threshold": "<= +5.0% growth and ratio <= 0.380",
+      "growth_percent": 0.95,
+      "final_ratio": 0.1594
+    },
+    "criterion_4_latency_overhead": {
+      "passed": true,
+      "threshold": "<= 1000 \u00b5s",
+      "overhead_us": 1.95
+    }
+  },
+  "comparison": {
+    "variance_reduction_percent": 89.05,
+    "width_growth_percent": 0.95,
+    "latency_overhead_us": 1.95
+  },
+  "baseline": {
+    "n_evaluated": 6000,
+    "aggregate_coverage": 0.7908,
+    "aggregate_mean_width": 9.26,
+    "aggregate_median_width": 5.67,
+    "aggregate_median_width_ratio": 0.1579,
+    "slice_coverage_variance": 0.002766,
+    "slice_results": {
+      "DATA:JUNIOR": {
+        "n_samples": 489,
+        "coverage": 0.8078,
+        "mean_width": 4.46,
+        "median_width_ratio": 0.2182,
+        "in_keep_band": true
+      },
+      "DATA:MID": {
+        "n_samples": 543,
+        "coverage": 0.7182,
+        "mean_width": 5.08,
+        "median_width_ratio": 0.1293,
+        "in_keep_band": false
+      },
+      "DATA:SENIOR": {
+        "n_samples": 489,
+        "coverage": 0.8364,
+        "mean_width": 15.62,
+        "median_width_ratio": 0.1778,
+        "in_keep_band": true
+      },
+      "MANAGEMENT:JUNIOR": {
+        "n_samples": 490,
+        "coverage": 0.7286,
+        "mean_width": 3.1,
+        "median_width_ratio": 0.1401,
+        "in_keep_band": false
+      },
+      "MANAGEMENT:MID": {
+        "n_samples": 488,
+        "coverage": 0.8012,
+        "mean_width": 6.53,
+        "median_width_ratio": 0.1489,
+        "in_keep_band": true
+      },
+      "MANAGEMENT:SENIOR": {
+        "n_samples": 495,
+        "coverage": 0.8707,
+        "mean_width": 23.53,
+        "median_width_ratio": 0.2619,
+        "in_keep_band": false
+      },
+      "MLAI:JUNIOR": {
+        "n_samples": 491,
+        "coverage": 0.7678,
+        "mean_width": 3.38,
+        "median_width_ratio": 0.1515,
+        "in_keep_band": true
+      },
+      "MLAI:MID": {
+        "n_samples": 476,
+        "coverage": 0.729,
+        "mean_width": 5.67,
+        "median_width_ratio": 0.131,
+        "in_keep_band": false
+      },
+      "MLAI:SENIOR": {
+        "n_samples": 483,
+        "coverage": 0.8923,
+        "mean_width": 21.56,
+        "median_width_ratio": 0.2447,
+        "in_keep_band": false
+      },
+      "SOFTWARE:JUNIOR": {
+        "n_samples": 498,
+        "coverage": 0.7972,
+        "mean_width": 5.36,
+        "median_width_ratio": 0.2694,
+        "in_keep_band": true
+      },
+      "SOFTWARE:MID": {
+        "n_samples": 539,
+        "coverage": 0.7737,
+        "mean_width": 5.63,
+        "median_width_ratio": 0.1482,
+        "in_keep_band": true
+      },
+      "SOFTWARE:SENIOR": {
+        "n_samples": 519,
+        "coverage": 0.7765,
+        "mean_width": 11.9,
+        "median_width_ratio": 0.1451,
+        "in_keep_band": true
+      }
+    },
+    "total_latency_ms": 103.79,
+    "latency_per_sample_us": 17.3
+  },
+  "treatment": {
+    "n_evaluated": 6000,
+    "aggregate_coverage": 0.7937,
+    "aggregate_mean_width": 8.84,
+    "aggregate_median_width": 5.99,
+    "aggregate_median_width_ratio": 0.1594,
+    "slice_coverage_variance": 0.000303,
+    "slice_results": {
+      "DATA:JUNIOR": {
+        "n_samples": 489,
+        "coverage": 0.82,
+        "mean_width": 4.56,
+        "median_width_ratio": 0.2228,
+        "in_keep_band": true
+      },
+      "DATA:MID": {
+        "n_samples": 543,
+        "coverage": 0.7864,
+        "mean_width": 5.78,
+        "median_width_ratio": 0.1474,
+        "in_keep_band": true
+      },
+      "DATA:SENIOR": {
+        "n_samples": 489,
+        "coverage": 0.8078,
+        "mean_width": 14.53,
+        "median_width_ratio": 0.1641,
+        "in_keep_band": true
+      },
+      "MANAGEMENT:JUNIOR": {
+        "n_samples": 490,
+        "coverage": 0.7837,
+        "mean_width": 3.35,
+        "median_width_ratio": 0.151,
+        "in_keep_band": true
+      },
+      "MANAGEMENT:MID": {
+        "n_samples": 488,
+        "coverage": 0.7848,
+        "mean_width": 6.19,
+        "median_width_ratio": 0.1407,
+        "in_keep_band": true
+      },
+      "MANAGEMENT:SENIOR": {
+        "n_samples": 495,
+        "coverage": 0.7899,
+        "mean_width": 20.44,
+        "median_width_ratio": 0.226,
+        "in_keep_band": true
+      },
+      "MLAI:JUNIOR": {
+        "n_samples": 491,
+        "coverage": 0.78,
+        "mean_width": 3.47,
+        "median_width_ratio": 0.1559,
+        "in_keep_band": true
+      },
+      "MLAI:MID": {
+        "n_samples": 476,
+        "coverage": 0.7857,
+        "mean_width": 6.35,
+        "median_width_ratio": 0.1467,
+        "in_keep_band": true
+      },
+      "MLAI:SENIOR": {
+        "n_samples": 483,
+        "coverage": 0.8219,
+        "mean_width": 18.77,
+        "median_width_ratio": 0.2121,
+        "in_keep_band": true
+      },
+      "SOFTWARE:JUNIOR": {
+        "n_samples": 498,
+        "coverage": 0.8193,
+        "mean_width": 5.57,
+        "median_width_ratio": 0.2801,
+        "in_keep_band": true
+      },
+      "SOFTWARE:MID": {
+        "n_samples": 539,
+        "coverage": 0.7699,
+        "mean_width": 5.55,
+        "median_width_ratio": 0.1462,
+        "in_keep_band": true
+      },
+      "SOFTWARE:SENIOR": {
+        "n_samples": 519,
+        "coverage": 0.7784,
+        "mean_width": 12.02,
+        "median_width_ratio": 0.1466,
+        "in_keep_band": true
+      }
+    },
+    "total_latency_ms": 115.51,
+    "latency_per_sample_us": 19.25
+  }
+}
