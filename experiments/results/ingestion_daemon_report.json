@@ -1,0 +1,39 @@
+{
+  "charter_id": "CHARTER-EXP-16",
+  "experiment_name": "Automated Dual-Cadence Source Ingestion & Freshness Daemon",
+  "timestamp": "2026-10-22 14:09:45 UTC",
+  "verdict": "PROMOTE",
+  "keep_criteria": {
+    "criterion_1_staleness_violations": {
+      "passed": true,
+      "threshold": "100% zero staleness violations over continuous 30-day window",
+      "value": "0 violations"
+    },
+    "criterion_2_ingestion_latency": {
+      "passed": true,
+      "threshold": "<= 15.0 minutes (ceiling <= 60.0 min)",
+      "median_minutes": 5.4,
+      "p95_minutes": 11.35,
+      "max_minutes": 11.99
+    },
+    "criterion_3_canary_quarantine_rate": {
+      "passed": true,
+      "threshold": "0.00% false accepts (100% quarantine of non-compliant schemas)",
+      "quarantined_count": "100/100",
+      "false_accept_rate_percent": 0.0
+    },
+    "criterion_4_zero_pii_and_memory": {
+      "passed": true,
+      "threshold": "Zero PII leakage, Peak Memory RSS <= 500 MB",
+      "pii_quarantined": 52,
+      "peak_memory_mb": 0.36
+    }
+  },
+  "metrics": {
+    "total_valid_processed": 1500,
+    "total_anomalies_evaluated": 100,
+    "days_monitored": 30,
+    "median_latency_seconds": 324.27,
+    "peak_memory_mb": 0.36
+  }
+}
