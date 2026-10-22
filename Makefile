@@ -7,7 +7,8 @@
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
-        preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 rollback-rehearsal coverage-tracking clean
+        preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 rollback-rehearsal coverage-tracking \
+        slice-conformal-benchmark ingestion-daemon phase11-review active-learning clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -321,6 +322,10 @@ ingestion-daemon:
 # ---- Phase 11 Benchmark & Gate G11 Ratification Review (Phase 11, T11.03) ------
 phase11-review:
 	uv run python scripts/run_phase11_review.py
+
+# ---- Active Learning & Targeted Data Sourcing (Phase 12, T12.01, CHARTER-EXP-14) -
+active-learning:
+	uv run python scripts/run_active_learning.py
 
 # ---- Clean -----------------------------------------------------------------
 clean:

@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Complete; NEXT: Phase 12 T12.01)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phase 11 complete; T12.01 complete; NEXT: Phase 12 T12.02)
 
 ## How to use this file
 
@@ -498,7 +498,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **NO-GO:** iterate in Phase 12.
 > **Needs:** G11.
 
-- [ ] **T12.01** [AI] EXP-14: Active Learning & Targeted Sourcing for Sparse Cells — implement acquisition utility model and targeted recruitment routing per CHARTER-EXP-14.
+- [x] **T12.01** [AI] EXP-14: Active Learning & Targeted Sourcing for Sparse Cells — implement acquisition utility model and targeted recruitment routing per CHARTER-EXP-14. (done 2026-10-22)
       Output: src/compintel/acquisition/active_learning.py, scripts/run_active_learning.py, docs/research/active-learning-exp14.md, experiments/results/active_learning_report.json. Done when: average interval width on target sparse cells narrows by >= 20% from Phase 11 baseline; cell abstention drops by >= 15%; nominal coverage maintained in [75%, 85%]. Needs: G11. Size: XL.
 - [ ] **T12.02** [AI] EXP-15: Counterfactual Negotiation Scenario Modeling (PT4 Prototype) — implement constrained monotonic counterfactual engine per CHARTER-EXP-15.
       Output: src/compintel/serving/counterfactual.py, pps/web/src/components/NegotiationScenario.tsx, scripts/run_counterfactual_eval.py, docs/research/counterfactual-exp15.md, experiments/results/counterfactual_report.json. Done when: monotonicity satisfaction >= 98%; counterfactual interval coverage in [75%, 85%]; zero point-estimate outputs; UI prototype passes comprehension check. Needs: G11. Size: XL.
@@ -871,6 +871,17 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | tests/unit/test_phase11_gate_g11.py | T11.03 |
 | docs/pilot/post-pilot-review.md (Phase 11 Addendum) | Gate G11 |
 
+### Phase 12: Targeted Sourcing & Scenario Intelligence
+
+| Deliverable | Task |
+| --- | --- |
+| src/compintel/acquisition/active_learning.py | T12.01 |
+| src/compintel/acquisition/__init__.py | T12.01 |
+| scripts/run_active_learning.py | T12.01 |
+| docs/research/active-learning-exp14.md | T12.01 |
+| experiments/results/active_learning_report.json | T12.01 |
+| tests/unit/test_active_learning.py | T12.01 |
+
 ## Change log
 
 | Date       | Version | Change                                                                                           |
@@ -889,4 +900,5 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-22 | 1.3     | Task T11.01 complete: EXP-13 Slice-Adaptive Conformal Prediction Intervals implemented with Empirical Bayes shrinkage, all 4 keep criteria passed with PROMOTE verdict, 8/8 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T11.02 (EXP-16 Ingestion Daemon). |
 | 2026-10-22 | 1.4     | Task T11.02 complete: EXP-16 Automated Dual-Cadence Source Ingestion & Freshness Daemon implemented (`compintel.ingestion.daemon`), all 4 keep criteria passed with PROMOTE verdict (0 staleness violations, p95 intake latency 11.35 min <= 15 min, 100% canary quarantine accuracy, zero PII leaks), 15/15 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T11.03 (Phase 11 Benchmark & Gate G11 Review). |
 | 2026-10-22 | 1.5     | Task T11.03 and Gate G11 complete: Phase 11 benchmark & gate review executed (`scripts/run_phase11_review.py`), EXP-13 and EXP-16 keep criteria verified (89.05% slice variance reduction, 0 staleness violations in 30d trial), Gate G11 ratified GO (`docs/pilot/gate-g11-review.md`), Post-Pilot Review updated with Phase 11 Addendum (`docs/pilot/post-pilot-review.md`), Prioritized Backlog updated with EXP-14 and EXP-15 as active next (`docs/pilot/prioritized-backlog.md`), ModelBundle upgraded with SliceAdaptiveConformalRegressor support. NEXT: Phase 12 (T12.01 EXP-14 Active Learning for Sparse Cells). |
+| 2026-10-22 | 1.6     | Task T12.01 complete: EXP-14 Active Learning & Targeted Data Sourcing for Sparse Realization Cells implemented (`compintel.acquisition.active_learning`), all 4 keep criteria passed with PROMOTE verdict (32.45% width reduction >= 20%, 75.0 pp abstention drop >= 15%, 80.69% empirical coverage in [75%, 85%], 0.27x relative cost per informative sample <= 2.0x), 11/11 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T12.02 (EXP-15 Counterfactual Negotiation Scenario Modeling). |
 
