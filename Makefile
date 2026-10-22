@@ -314,6 +314,10 @@ feedback-analysis:
 slice-conformal-benchmark:
 	uv run python scripts/run_slice_conformal_benchmark.py
 
+# ---- Dual-Cadence Ingestion Daemon Benchmark (Phase 11, T11.02, CHARTER-EXP-16) -
+ingestion-daemon:
+	uv run python scripts/run_ingestion_daemon.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

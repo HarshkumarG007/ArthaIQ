@@ -479,8 +479,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 - [x] **T11.01** [AI] EXP-13: Slice-Adaptive Conformal Prediction Intervals — implement group-conditional calibrator with empirical Bayes shrinkage per CHARTER-EXP-13: (done 2026-10-22)
       Output: `src/compintel/uncertainty/slice_conformal.py`, `scripts/run_slice_conformal_benchmark.py`, `docs/research/slice-conformal-exp13.md`, `experiments/results/slice_conformal_report.json`, `tests/unit/test_slice_conformal.py`. Done when: all cells (N >= 20) have empirical coverage within [76%, 84%]; median interval width growth <= +5.0%; cross-slice variance reduced >= 30%; all 4 keep criteria pass with PROMOTE verdict. Needs: G10. Size: L.
-- [ ] **T11.02** [AI] EXP-16: Automated Dual-Cadence Source Ingestion & Freshness Daemon — implement async event-driven daemon per CHARTER-EXP-16.
-      Output: src/compintel/ingestion/daemon.py, scripts/run_ingestion_daemon.py, docs/research/ingestion-daemon-exp16.md, experiments/results/ingestion_daemon_report.json. Done when: 30-day staleness violation rate = 0; contribution-to-quarantine latency <= 15 min; zero PII retained in daemon pipeline. Needs: G10. Size: L.
+- [x] **T11.02** [AI] EXP-16: Automated Dual-Cadence Source Ingestion & Freshness Daemon — implement async event-driven daemon per CHARTER-EXP-16: (done 2026-10-22)
+      Output: `src/compintel/ingestion/daemon.py`, `scripts/run_ingestion_daemon.py`, `docs/research/ingestion-daemon-exp16.md`, `experiments/results/ingestion_daemon_report.json`, `tests/unit/test_ingestion_daemon.py`. Done when: 30-day staleness violation rate = 0; contribution-to-quarantine latency <= 15 min; zero PII retained in daemon pipeline; all 4 keep criteria pass with PROMOTE verdict. Needs: G10. Size: L.
 - [ ] **T11.03** [AI+HUMAN] Phase 11 benchmark & gate review: compare slice coverage before and after EXP-13; verify EXP-16 30-day staleness record.
       Output: updated docs/pilot/prioritized-backlog.md, docs/pilot/post-pilot-review.md (Phase 11 addendum). Done when: both EXP-13 and EXP-16 meet pre-registered keep criteria. Needs: T11.01, T11.02. Size: M.
 
@@ -860,6 +860,11 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | docs/research/slice-conformal-exp13.md | T11.01 |
 | experiments/results/slice_conformal_report.json | T11.01 |
 | tests/unit/test_slice_conformal.py | T11.01 |
+| src/compintel/ingestion/daemon.py | T11.02 |
+| scripts/run_ingestion_daemon.py | T11.02 |
+| docs/research/ingestion-daemon-exp16.md | T11.02 |
+| experiments/results/ingestion_daemon_report.json | T11.02 |
+| tests/unit/test_ingestion_daemon.py | T11.02 |
 
 ## Change log
 
@@ -877,3 +882,5 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-21 | 1.1     | Phase 10 complete; Gate G10 ratified GO; Production Launch & General Availability authorized. NEXT: Phase 11 (EXP-13, EXP-16). |
 | 2026-10-22 | 1.2     | Appendix C fully expanded: all 150+ deliverables across Phases 0–10 catalogued by phase, with scripts, src modules, docs, experiments, infra, and artifacts. |
 | 2026-10-22 | 1.3     | Task T11.01 complete: EXP-13 Slice-Adaptive Conformal Prediction Intervals implemented with Empirical Bayes shrinkage, all 4 keep criteria passed with PROMOTE verdict, 8/8 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T11.02 (EXP-16 Ingestion Daemon). |
+| 2026-10-22 | 1.4     | Task T11.02 complete: EXP-16 Automated Dual-Cadence Source Ingestion & Freshness Daemon implemented (`compintel.ingestion.daemon`), all 4 keep criteria passed with PROMOTE verdict (0 staleness violations, p95 intake latency 11.35 min <= 15 min, 100% canary quarantine accuracy, zero PII leaks), 15/15 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T11.03 (Phase 11 Benchmark & Gate G11 Review). |
+
