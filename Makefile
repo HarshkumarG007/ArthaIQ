@@ -8,7 +8,7 @@
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
         preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 rollback-rehearsal coverage-tracking \
-        slice-conformal-benchmark ingestion-daemon phase11-review active-learning clean
+        slice-conformal-benchmark ingestion-daemon phase11-review active-learning counterfactual-eval clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -326,6 +326,10 @@ phase11-review:
 # ---- Active Learning & Targeted Data Sourcing (Phase 12, T12.01, CHARTER-EXP-14) -
 active-learning:
 	uv run python scripts/run_active_learning.py
+
+# ---- Counterfactual Negotiation Scenario Modeling (Phase 12, T12.02, CHARTER-EXP-15) -
+counterfactual-eval:
+	uv run python scripts/run_counterfactual_eval.py
 
 # ---- Clean -----------------------------------------------------------------
 clean:

@@ -470,6 +470,90 @@
           }
         }
       }
+    },
+    "/v1/scenarios": {
+      "post": {
+        "tags": [
+          "Scenarios"
+        ],
+        "summary": "Compute constrained counterfactual scenario frontier (PT4)",
+        "description": "Generate monotonic counterfactual compensation frontier.\n\nSimulates experience, promotion, or metro relocation parameter perturbations\nunder structural monotonicity constraints without emitting lone numbers.",
+        "operationId": "generate_counterfactual_scenario_v1_scenarios_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CounterfactualQuery"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Counterfactual scenario frontier with explicit uncertainty bounds.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CounterfactualScenarioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 Problem Details for invalid scenario parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scenarios/dual-offer": {
+      "post": {
+        "tags": [
+          "Scenarios"
+        ],
+        "summary": "Evaluate dual offer trade-off analysis (PT4)",
+        "description": "Evaluate trade-off and risk-adjusted positioning between two competing offers.\n\nCompares fixed guaranteed cash, equity, and variable components against candidate\nmarket quantile distribution, calculating net in-hand take-home bounds.",
+        "operationId": "evaluate_dual_offer_scenario_v1_scenarios_dual_offer_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DualOfferComparisonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Risk-adjusted multi-component trade-off analysis and tax bounds.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DualOfferComparisonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 Problem Details for invalid offer structures.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -686,6 +770,142 @@
         "title": "ComparisonInfo",
         "description": "Compare-only positioning of candidate's current compensation (PT6 / Rule R-MD-13)."
       },
+      "CounterfactualQuery": {
+        "properties": {
+          "role_family": {
+            "type": "string",
+            "title": "Role Family",
+            "description": "Canonical role family (e.g. 'SWE', 'DATA', 'MLAI')."
+          },
+          "seniority": {
+            "type": "string",
+            "title": "Seniority",
+            "description": "Starting seniority tier (e.g. 'JR', 'MID', 'SR')."
+          },
+          "location": {
+            "type": "string",
+            "title": "Location",
+            "description": "Metro tech hub (e.g. 'BENGALURU', 'HYDERABAD')."
+          },
+          "years_experience": {
+            "type": "number",
+            "maximum": 50.0,
+            "minimum": 0.0,
+            "title": "Years Experience",
+            "description": "Current total years of professional experience."
+          },
+          "scenario_type": {
+            "$ref": "#/components/schemas/ScenarioType",
+            "description": "Target counterfactual simulation dimension.",
+            "default": "EXPERIENCE_PROGRESSION"
+          },
+          "target_cash_lpa": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Cash Lpa",
+            "description": "Optional desired target guaranteed cash LPA for inversion."
+          },
+          "target_seniority": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Seniority",
+            "description": "Target seniority tier for promotion scenario."
+          },
+          "target_location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Location",
+            "description": "Target metro location for relocation scenario."
+          }
+        },
+        "type": "object",
+        "required": [
+          "role_family",
+          "seniority",
+          "location",
+          "years_experience"
+        ],
+        "title": "CounterfactualQuery",
+        "description": "Candidate query specifying baseline profile and desired scenario exploration."
+      },
+      "CounterfactualScenarioResponse": {
+        "properties": {
+          "charter_id": {
+            "type": "string",
+            "title": "Charter Id",
+            "default": "CHARTER-EXP-15"
+          },
+          "scenario_type": {
+            "$ref": "#/components/schemas/ScenarioType"
+          },
+          "baseline_profile": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Baseline Profile"
+          },
+          "baseline_cash_span": {
+            "$ref": "#/components/schemas/QuantileSpan"
+          },
+          "frontier_points": {
+            "items": {
+              "$ref": "#/components/schemas/ScenarioFrontierPoint"
+            },
+            "type": "array",
+            "title": "Frontier Points"
+          },
+          "monotonicity_satisfaction_pct": {
+            "type": "number",
+            "title": "Monotonicity Satisfaction Pct",
+            "description": "Overall percentage of perturbation steps satisfying monotonicity."
+          },
+          "zero_lone_numbers_verified": {
+            "type": "boolean",
+            "title": "Zero Lone Numbers Verified",
+            "description": "Strict invariant: all outputs are ranges [P10, P50, P90].",
+            "default": true
+          },
+          "generation_latency_ms": {
+            "type": "number",
+            "title": "Generation Latency Ms",
+            "description": "Total elapsed computation latency in milliseconds."
+          },
+          "statutory_disclaimer": {
+            "type": "string",
+            "title": "Statutory Disclaimer",
+            "default": "Counterfactual scenario estimates are mathematical quantile projections under empirical distributions, not an appraisal, legal offer, or financial guarantee."
+          }
+        },
+        "type": "object",
+        "required": [
+          "scenario_type",
+          "baseline_profile",
+          "baseline_cash_span",
+          "frontier_points",
+          "monotonicity_satisfaction_pct",
+          "generation_latency_ms"
+        ],
+        "title": "CounterfactualScenarioResponse",
+        "description": "Complete response payload for counterfactual scenario modeling (PT4)."
+      },
       "CurrentModelResponse": {
         "properties": {
           "model_version": {
@@ -792,6 +1012,109 @@
         ],
         "title": "CurrentModelResponse",
         "description": "Runtime metadata, lineage, and card information for active champion model."
+      },
+      "DualOfferComparisonRequest": {
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/ProfileRequest"
+          },
+          "offer_a": {
+            "$ref": "#/components/schemas/OfferStructure",
+            "description": "First competing offer structure."
+          },
+          "offer_b": {
+            "$ref": "#/components/schemas/OfferStructure",
+            "description": "Second competing offer structure."
+          }
+        },
+        "type": "object",
+        "required": [
+          "profile",
+          "offer_a",
+          "offer_b"
+        ],
+        "title": "DualOfferComparisonRequest",
+        "description": "Request payload comparing competing offer structures against candidate profile."
+      },
+      "DualOfferComparisonResponse": {
+        "properties": {
+          "charter_id": {
+            "type": "string",
+            "title": "Charter Id",
+            "default": "CHARTER-EXP-15"
+          },
+          "candidate_market_baseline": {
+            "$ref": "#/components/schemas/QuantileSpan"
+          },
+          "offer_a": {
+            "$ref": "#/components/schemas/OfferStructure"
+          },
+          "offer_b": {
+            "$ref": "#/components/schemas/OfferStructure"
+          },
+          "offer_a_percentile_position": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Offer A Percentile Position"
+          },
+          "offer_b_percentile_position": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Offer B Percentile Position"
+          },
+          "offer_a_tax_adjusted_cash": {
+            "$ref": "#/components/schemas/TaxAdjustedTakeHome"
+          },
+          "offer_b_tax_adjusted_cash": {
+            "$ref": "#/components/schemas/TaxAdjustedTakeHome"
+          },
+          "guaranteed_cash_delta_lpa": {
+            "type": "number",
+            "title": "Guaranteed Cash Delta Lpa"
+          },
+          "total_on_target_earnings_delta_lpa": {
+            "type": "number",
+            "title": "Total On Target Earnings Delta Lpa"
+          },
+          "equity_risk_uncertainty_spread_lpa": {
+            "type": "number",
+            "title": "Equity Risk Uncertainty Spread Lpa"
+          },
+          "comparison_summary": {
+            "type": "string",
+            "title": "Comparison Summary"
+          },
+          "zero_lone_numbers_verified": {
+            "type": "boolean",
+            "title": "Zero Lone Numbers Verified",
+            "default": true
+          },
+          "generation_latency_ms": {
+            "type": "number",
+            "title": "Generation Latency Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "candidate_market_baseline",
+          "offer_a",
+          "offer_b",
+          "offer_a_percentile_position",
+          "offer_b_percentile_position",
+          "offer_a_tax_adjusted_cash",
+          "offer_b_tax_adjusted_cash",
+          "guaranteed_cash_delta_lpa",
+          "total_on_target_earnings_delta_lpa",
+          "equity_risk_uncertainty_spread_lpa",
+          "comparison_summary",
+          "generation_latency_ms"
+        ],
+        "title": "DualOfferComparisonResponse",
+        "description": "Risk-adjusted comparison between competing compensation offer structures."
       },
       "Estimate": {
         "properties": {
@@ -1387,6 +1710,61 @@
         "title": "OccupationsResponse",
         "description": "Response payload for GET /v1/taxonomy/occupations."
       },
+      "OfferStructure": {
+        "properties": {
+          "offer_label": {
+            "type": "string",
+            "title": "Offer Label",
+            "description": "Descriptive identifier (e.g. 'Offer A - BigTech')."
+          },
+          "guaranteed_cash_annual": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Guaranteed Cash Annual",
+            "description": "Base fixed annual cash component in LPA."
+          },
+          "equity_annualized": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Equity Annualized",
+            "description": "Annualized vested equity value (RSU/ESOP) in LPA.",
+            "default": 0.0
+          },
+          "variable_performance_annual": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Variable Performance Annual",
+            "description": "Target performance bonus / variable pay in LPA.",
+            "default": 0.0
+          },
+          "joining_bonus_one_time": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Joining Bonus One Time",
+            "description": "One-time sign-on bonus in LPA.",
+            "default": 0.0
+          },
+          "employer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Employer Name",
+            "description": "Optional employer tag."
+          }
+        },
+        "type": "object",
+        "required": [
+          "offer_label",
+          "guaranteed_cash_annual"
+        ],
+        "title": "OfferStructure",
+        "description": "Structured compensation offer components in nominal INR LPA."
+      },
       "ProblemDetails": {
         "properties": {
           "type": {
@@ -1569,6 +1947,92 @@
         ],
         "title": "ReliabilityInfo",
         "description": "Reliability and evidence grading attached to prediction."
+      },
+      "ScenarioFrontierPoint": {
+        "properties": {
+          "perturbation_label": {
+            "type": "string",
+            "title": "Perturbation Label",
+            "description": "Human-readable label of the scenario parameter change."
+          },
+          "perturbed_profile": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Perturbed Profile",
+            "description": "Normalized profile feature dictionary under perturbation."
+          },
+          "guaranteed_cash_span": {
+            "$ref": "#/components/schemas/QuantileSpan",
+            "description": "Predicted guaranteed cash annual bounds [P10, P50, P90] in LPA."
+          },
+          "interval_width_lpa": {
+            "type": "number",
+            "title": "Interval Width Lpa",
+            "description": "Conformal 80% prediction interval width (P90 - P10) in LPA."
+          },
+          "delta_p10_lpa": {
+            "type": "number",
+            "title": "Delta P10 Lpa",
+            "description": "Change in P10 bound relative to baseline factual P10 in LPA."
+          },
+          "delta_p50_lpa": {
+            "type": "number",
+            "title": "Delta P50 Lpa",
+            "description": "Change in median benchmark relative to baseline factual P50 in LPA."
+          },
+          "delta_p90_lpa": {
+            "type": "number",
+            "title": "Delta P90 Lpa",
+            "description": "Change in P90 bound relative to baseline factual P90 in LPA."
+          },
+          "conformal_coverage": {
+            "type": "number",
+            "title": "Conformal Coverage",
+            "description": "Nominal conformal coverage probability.",
+            "default": 0.8
+          },
+          "tradeoff_uncertainty_lpa": {
+            "type": "number",
+            "title": "Tradeoff Uncertainty Lpa",
+            "description": "Uncertainty margin associated with the parameter perturbation."
+          },
+          "tax_adjusted_take_home": {
+            "$ref": "#/components/schemas/TaxAdjustedTakeHome",
+            "description": "Net in-hand annual take-home bounds under Section 115BAC."
+          },
+          "monotonicity_satisfied": {
+            "type": "boolean",
+            "title": "Monotonicity Satisfied",
+            "description": "Whether this frontier point respects structural monotonicity."
+          }
+        },
+        "type": "object",
+        "required": [
+          "perturbation_label",
+          "perturbed_profile",
+          "guaranteed_cash_span",
+          "interval_width_lpa",
+          "delta_p10_lpa",
+          "delta_p50_lpa",
+          "delta_p90_lpa",
+          "tradeoff_uncertainty_lpa",
+          "tax_adjusted_take_home",
+          "monotonicity_satisfied"
+        ],
+        "title": "ScenarioFrontierPoint",
+        "description": "Single perturbed scenario condition along the counterfactual frontier."
+      },
+      "ScenarioType": {
+        "type": "string",
+        "enum": [
+          "EXPERIENCE_PROGRESSION",
+          "SENIORITY_PROMOTION",
+          "METRO_RELOCATION",
+          "OFFER_STRUCTURING",
+          "DUAL_OFFER_COMPARISON"
+        ],
+        "title": "ScenarioType",
+        "description": "Categorical classification of negotiation counterfactual scenarios."
       },
       "SenioritiesResponse": {
         "properties": {
@@ -1801,6 +2265,39 @@
         ],
         "title": "SourcesResponse",
         "description": "Response payload for GET /v1/sources."
+      },
+      "TaxAdjustedTakeHome": {
+        "properties": {
+          "p10_net_lpa": {
+            "type": "number",
+            "title": "P10 Net Lpa",
+            "description": "10th percentile net annual take-home after statutory tax in LPA."
+          },
+          "p50_net_lpa": {
+            "type": "number",
+            "title": "P50 Net Lpa",
+            "description": "Median net annual take-home after statutory tax in LPA."
+          },
+          "p90_net_lpa": {
+            "type": "number",
+            "title": "P90 Net Lpa",
+            "description": "90th percentile net annual take-home after statutory tax in LPA."
+          },
+          "effective_tax_rate_p50_pct": {
+            "type": "number",
+            "title": "Effective Tax Rate P50 Pct",
+            "description": "Effective statutory income tax rate at median pay."
+          }
+        },
+        "type": "object",
+        "required": [
+          "p10_net_lpa",
+          "p50_net_lpa",
+          "p90_net_lpa",
+          "effective_tax_rate_p50_pct"
+        ],
+        "title": "TaxAdjustedTakeHome",
+        "description": "Net in-hand annual compensation estimate under India New Tax Regime (Section 115BAC)."
       },
       "ValidationError": {
         "properties": {

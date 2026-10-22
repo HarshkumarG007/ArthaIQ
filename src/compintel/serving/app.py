@@ -30,6 +30,7 @@ from compintel.serving.routers.feedback import router as feedback_router
 from compintel.serving.routers.health import router as health_router
 from compintel.serving.routers.metrics import router as metrics_router
 from compintel.serving.routers.models import router as models_router
+from compintel.serving.routers.scenarios import router as scenarios_router
 from compintel.serving.routers.taxonomy import router as taxonomy_router
 
 if TYPE_CHECKING:
@@ -109,6 +110,7 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
     app.include_router(models_router)
     app.include_router(evidence_router)
     app.include_router(feedback_router)
+    app.include_router(scenarios_router)
 
     return app
 
