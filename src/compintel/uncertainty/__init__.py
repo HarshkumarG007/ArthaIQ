@@ -10,6 +10,12 @@ from compintel.uncertainty.conformal import (
     SplitConformalCalibrator,
     compute_conformal_quantile,
 )
+from compintel.uncertainty.slice_conformal import (
+    SliceAdaptiveConformalRegressor,
+    SliceConformalConfig,
+    SliceConformalSummary,
+    SliceGroupCalibration,
+)
 from compintel.uncertainty.support import (
     AbstentionReason,
     CandidateProfile,
@@ -35,6 +41,10 @@ __all__ = [
     "ConformalMethod",
     "ConformalQuantileRegressor",
     "EvidenceGrade",
+    "SliceAdaptiveConformalRegressor",
+    "SliceConformalConfig",
+    "SliceConformalSummary",
+    "SliceGroupCalibration",
     "SourceQualityTier",
     "SplitConformalCalibrator",
     "SupportCheckDetail",
