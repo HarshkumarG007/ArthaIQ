@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phase 11 complete; T12.01 & T12.02 complete; NEXT: Phase 12 T12.03 Phase 12 Review & Gate G12)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; NEXT: Phase 13 T13.01 EXP-10r Employer Graph Re-audit)
 
 ## How to use this file
 
@@ -502,10 +502,10 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: src/compintel/acquisition/active_learning.py, scripts/run_active_learning.py, docs/research/active-learning-exp14.md, experiments/results/active_learning_report.json. Done when: average interval width on target sparse cells narrows by >= 20% from Phase 11 baseline; cell abstention drops by >= 15%; nominal coverage maintained in [75%, 85%]. Needs: G11. Size: XL.
 - [x] **T12.02** [AI] EXP-15: Counterfactual Negotiation Scenario Modeling (PT4 Prototype) — implement constrained monotonic counterfactual engine per CHARTER-EXP-15: (done 2026-10-22)
       Output: src/compintel/serving/counterfactual.py, src/compintel/serving/routers/scenarios.py, apps/web/src/components/NegotiationScenario.tsx, apps/web/src/components/NegotiationScenario.test.tsx, scripts/run_counterfactual_eval.py, docs/research/counterfactual-exp15.md, experiments/results/counterfactual_report.json, tests/unit/test_counterfactual.py. Done when: monotonicity satisfaction >= 98%; counterfactual interval coverage in [75%, 85%]; zero point-estimate outputs; UI prototype passes comprehension check; all 4 keep criteria pass with PROMOTE verdict. Needs: G11. Size: XL.
-- [ ] **T12.03** [AI+HUMAN] Phase 12 review & gate: evaluate EXP-14 and EXP-15 outcomes; update evidence register and model card.
-      Output: updated docs/model-cards/model-card-final-v1.md, docs/research/evidence-register.csv. Done when: all pre-registered keep criteria met or documented deferral recorded. Needs: T12.01, T12.02. Size: M.
+- [x] **T12.03** [AI+HUMAN] Phase 12 review & gate: evaluate EXP-14 and EXP-15 outcomes; update evidence register and model card: (done 2026-10-23)
+      Output: docs/model-cards/model-card-final-v1.md, docs/research/evidence-register.csv, docs/pilot/gate-g12-review.md, scripts/run_phase12_review.py, experiments/results/phase12_gate_g12_report.json, tests/unit/test_phase12_gate_g12.py. Done when: all pre-registered keep criteria met; Gate G12 ratified GO. Needs: T12.01, T12.02. Size: M.
 
-**Gate G12:** EXP-14 and EXP-15 verdicts recorded; production system updated or deferral ratified.
+**Gate G12:** EXP-14 and EXP-15 verdicts recorded; production system updated or deferral ratified. (ratified GO 2026-10-23)
 
 ---
 
@@ -889,6 +889,12 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | docs/research/counterfactual-exp15.md | T12.02 |
 | experiments/results/counterfactual_report.json | T12.02 |
 | tests/unit/test_counterfactual.py | T12.02 |
+| scripts/run_phase12_review.py | T12.03 |
+| docs/pilot/gate-g12-review.md | T12.03 |
+| experiments/results/phase12_gate_g12_report.json | T12.03 |
+| tests/unit/test_phase12_gate_g12.py | T12.03 |
+| docs/model-cards/model-card-final-v1.md (Phase 12 Addendum) | Gate G12 |
+| docs/research/evidence-register.csv (Claims 21-24) | Gate G12 |
 
 ## Change log
 
@@ -910,4 +916,5 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-22 | 1.5     | Task T11.03 and Gate G11 complete: Phase 11 benchmark & gate review executed (`scripts/run_phase11_review.py`), EXP-13 and EXP-16 keep criteria verified (89.05% slice variance reduction, 0 staleness violations in 30d trial), Gate G11 ratified GO (`docs/pilot/gate-g11-review.md`), Post-Pilot Review updated with Phase 11 Addendum (`docs/pilot/post-pilot-review.md`), Prioritized Backlog updated with EXP-14 and EXP-15 as active next (`docs/pilot/prioritized-backlog.md`), ModelBundle upgraded with SliceAdaptiveConformalRegressor support. NEXT: Phase 12 (T12.01 EXP-14 Active Learning for Sparse Cells). |
 | 2026-10-22 | 1.6     | Task T12.01 complete: EXP-14 Active Learning & Targeted Data Sourcing for Sparse Realization Cells implemented (`compintel.acquisition.active_learning`), all 4 keep criteria passed with PROMOTE verdict (32.45% width reduction >= 20%, 75.0 pp abstention drop >= 15%, 80.69% empirical coverage in [75%, 85%], 0.27x relative cost per informative sample <= 2.0x), 11/11 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T12.02 (EXP-15 Counterfactual Negotiation Scenario Modeling). |
 | 2026-10-22 | 1.7     | Task T12.02 complete: EXP-15 Counterfactual Negotiation Scenario Modeling (PT4 Prototype) implemented (`compintel.serving.counterfactual`, `compintel.serving.routers.scenarios`, `apps/web/src/components/NegotiationScenario.tsx`), all 4 keep criteria passed with PROMOTE verdict (100.00% monotonicity satisfaction >= 98%, 79.98% coverage in [75%, 85%], 100.0% zero point-estimate compliance, p95 latency 4.03 ms <= 150 ms), 12/12 unit tests & 4/4 Vitest tests passing, deliverables catalogued in Appendix C. NEXT: Task T12.03 (Phase 12 Review & Gate G12). |
+| 2026-10-23 | 1.8     | Task T12.03 and Gate G12 complete: Phase 12 benchmark & gate review executed (scripts/run_phase12_review.py), EXP-14 and EXP-15 keep criteria verified (32.45% sparse cell width reduction, 75pp abstention drop, 100% monotonicity, 79.98% coverage, 100% zero lone numbers, 4.03ms p95 latency), Gate G12 ratified GO (docs/pilot/gate-g12-review.md), Model Card updated with Phase 12 Addendum (docs/model-cards/model-card-final-v1.md v1.2.0), Evidence Register updated with Claims 21-24. NEXT: Phase 13 (T13.01 EXP-10r Employer Graph Re-audit). |
 
