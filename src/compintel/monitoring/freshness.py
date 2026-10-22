@@ -337,44 +337,55 @@ def inspect_source_observation_dates(
         raw_dir = repo_root / "data" / "raw"
 
     dates: dict[str, datetime] = {}
-    if not raw_dir.exists():
-        return dates
 
-    for child in raw_dir.iterdir():
-        if not child.is_dir():
-            continue
-        source_id = child.name
-        manifest_file = child / "manifest.yaml"
-        if manifest_file.exists():
-            try:
-                with open(manifest_file, encoding="utf-8") as f:
-                    manifest_data = yaml.safe_load(f)
-                if isinstance(manifest_data, dict):
-                    gen_at = manifest_data.get("generated_at_utc")
-                    if gen_at and isinstance(gen_at, str):
-                        parsed = _parse_iso_datetime(gen_at)
-                        if parsed:
-                            dates[source_id] = parsed
-                            continue
-            except Exception as exc:
-                logger.warning("failed_reading_manifest_date", source_id=source_id, error=str(exc))
+    # 1. Primary inspection: data/raw/<source_id>/manifest.yaml
+    if raw_dir.exists():
+        for child in raw_dir.iterdir():
+            if not child.is_dir():
+                continue
+            source_id = child.name
+            manifest_file = child / "manifest.yaml"
+            if manifest_file.exists():
+                try:
+                    with open(manifest_file, encoding="utf-8") as f:
+                        manifest_data = yaml.safe_load(f)
+                    if isinstance(manifest_data, dict):
+                        gen_at = manifest_data.get("generated_at_utc")
+                        if gen_at and isinstance(gen_at, str):
+                            parsed = _parse_iso_datetime(gen_at)
+                            if parsed:
+                                dates[source_id] = parsed
+                except Exception as exc:
+                    logger.warning(
+                        "failed_reading_manifest_date", source_id=source_id, error=str(exc)
+                    )
 
-        # Fallback to config/sources/<source_id>.yaml
-        cfg_file = repo_root / "config" / "sources" / f"{source_id}.yaml"
-        if cfg_file.exists():
+    # 2. Secondary inspection: scan config/sources/*.yaml for any sources not yet populated
+    sources_cfg_dir = repo_root / "config" / "sources"
+    if sources_cfg_dir.exists():
+        for cfg_file in sorted(sources_cfg_dir.glob("*.yaml")):
+            source_id = cfg_file.stem
+            if source_id in dates or source_id.startswith("."):
+                continue
             try:
                 with open(cfg_file, encoding="utf-8") as f:
                     cfg_data = yaml.safe_load(f)
                 if isinstance(cfg_data, dict):
+                    # Check retrieval_date
                     retrieval_str = cfg_data.get("retrieval_date")
                     if retrieval_str and isinstance(retrieval_str, str):
-                        try:
-                            parsed_date = datetime.strptime(retrieval_str, "%Y-%m-%d").replace(
-                                tzinfo=UTC
-                            )
-                            dates[source_id] = parsed_date
-                        except ValueError:
-                            pass
+                        parsed = _parse_iso_datetime(retrieval_str)
+                        if parsed:
+                            dates[source_id] = parsed
+                            continue
+                    # Check reference_period end/vintage
+                    ref_period = cfg_data.get("reference_period")
+                    if isinstance(ref_period, dict):
+                        end_str = ref_period.get("end") or ref_period.get("vintage")
+                        if end_str and isinstance(end_str, str):
+                            parsed = _parse_iso_datetime(end_str)
+                            if parsed:
+                                dates[source_id] = parsed
             except Exception as exc:
                 logger.warning(
                     "failed_reading_source_config_date", source_id=source_id, error=str(exc)

@@ -1,0 +1,13 @@
+source_id: SRC-KAG-AIJ-01
+source_short_name: ai-jobs.net DS Salaries 2023
+licence_id: CC0-1.0
+licence_name: Creative Commons Zero v1.0 Universal (Public Domain Dedication)
+licence_status: approved
+sqs: 60.2
+sqsf_tier: TIER_4_SUPPLEMENTARY
+generated_at_utc: '2026-10-13T19:08:54.820690+00:00'
+immutable: true
+files:
+- file_name: ai_jobs_ds_salaries_2023.csv
+  file_size_bytes: 737
+  sha256: f8ba81c7dba8c126636f2a54a775f474e4e676942ece0db6667c922dcfc50260

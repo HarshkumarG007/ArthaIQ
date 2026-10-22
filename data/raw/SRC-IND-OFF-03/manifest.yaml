@@ -1,0 +1,13 @@
+source_id: SRC-IND-OFF-03
+source_short_name: Labour Bureau QES IT/BPO
+licence_id: OGL-India-1.0
+licence_name: "Open Government Data \u2014 Ministry of Labour Publications"
+licence_status: approved
+sqs: 59.2
+sqsf_tier: TIER_6_MACRO_CONTEXT_ONLY
+generated_at_utc: '2026-10-13T19:08:54.754340+00:00'
+immutable: true
+files:
+- file_name: qes_it_bpo_formal_employment.csv
+  file_size_bytes: 324
+  sha256: 387018749d8ba8832da260fadcf3aea552ba29f14877e12de7e8ee7d65584887

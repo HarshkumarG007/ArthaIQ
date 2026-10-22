@@ -104,6 +104,19 @@ class TestManifestInspection:
             assert dt.tzinfo is not None
             assert dt.year >= 2024
 
+    def test_inspect_source_observation_dates_fallback_when_raw_missing(
+        self, repo_root: Path, tmp_path: Path
+    ) -> None:
+        """Verify fallback to config/sources/*.yaml when raw data directory is absent."""
+        empty_raw = tmp_path / "empty_raw"
+        dates = inspect_source_observation_dates(repo_root, raw_dir=empty_raw)
+        assert len(dates) > 0
+        assert "SRC-INT-VOL-01" in dates
+        assert "SRC-IND-OFF-01" in dates
+        for _sid, dt in dates.items():
+            assert dt.tzinfo is not None
+            assert dt.year >= 2024
+
 
 class TestDataRefreshExecution:
     """Tests for scheduled data refresh execution and alert triggers."""
