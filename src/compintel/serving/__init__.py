@@ -13,6 +13,18 @@ from compintel.serving.core import (
     get_default_serving_manager,
     reset_default_serving_manager,
 )
+from compintel.serving.counterfactual import (
+    CounterfactualConfig,
+    CounterfactualQuery,
+    CounterfactualScenarioEngine,
+    CounterfactualScenarioResponse,
+    DualOfferComparisonResponse,
+    IndiaNewTaxRegimeEngine,
+    OfferStructure,
+    ScenarioFrontierPoint,
+    ScenarioType,
+    TaxAdjustedTakeHome,
+)
 from compintel.serving.errors import ProblemDetails
 from compintel.serving.loader import ServingModelManager
 from compintel.serving.types import (
@@ -37,6 +49,11 @@ __all__ = [
     "Abstained",
     "AbstentionReasonItem",
     "ComparisonInfo",
+    "CounterfactualConfig",
+    "CounterfactualQuery",
+    "CounterfactualScenarioEngine",
+    "CounterfactualScenarioResponse",
+    "DualOfferComparisonResponse",
     "Estimate",
     "EstimateRequest",
     "EstimateResult",
@@ -45,12 +62,17 @@ __all__ = [
     "FallbackItem",
     "FeedbackSubmissionRequest",
     "FeedbackSubmissionResponse",
+    "IndiaNewTaxRegimeEngine",
+    "OfferStructure",
     "ProblemDetails",
     "ProfileRequest",
     "QuantileSpan",
     "ReliabilityInfo",
+    "ScenarioFrontierPoint",
+    "ScenarioType",
     "ServingModelManager",
     "SourceMixItem",
+    "TaxAdjustedTakeHome",
     "app",
     "create_app",
     "estimate",

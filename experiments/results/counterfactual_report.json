@@ -1,0 +1,41 @@
+{
+  "charter_id": "CHARTER-EXP-15",
+  "experiment_name": "Counterfactual Negotiation & Offer Scenario Modeling (PT4 Prototype)",
+  "timestamp": "2026-10-22 23:45:00 UTC",
+  "benchmark_transcripts_count": 500,
+  "verdict": "PROMOTE",
+  "keep_criteria": {
+    "criterion_1_monotonicity": {
+      "verdict": "PASS",
+      "target": ">= 98.0%",
+      "measured": "100.00%"
+    },
+    "criterion_2_coverage": {
+      "verdict": "PASS",
+      "target": "[75.0%, 85.0%]",
+      "measured": "79.98%"
+    },
+    "criterion_3_zero_lone_numbers": {
+      "verdict": "PASS",
+      "target": "100.0% range compliance",
+      "measured": "100.0%"
+    },
+    "criterion_4_latency": {
+      "verdict": "PASS",
+      "target": "p95 <= 150.0 ms",
+      "measured": "4.03 ms"
+    }
+  },
+  "performance_metrics": {
+    "monotonicity_satisfaction_pct": 100.0,
+    "empirical_coverage_pct": 79.98,
+    "zero_lone_numbers_compliance_pct": 100.0,
+    "p50_latency_ms": 3.16,
+    "p95_latency_ms": 4.03,
+    "p99_latency_ms": 8.6
+  },
+  "executive_summary": {
+    "verdict": "PROMOTE",
+    "all_criteria_passed": true
+  }
+}
