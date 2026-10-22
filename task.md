@@ -467,6 +467,93 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ---
 
+## Phase 11: Slice Calibration & Ingestion Automation
+
+> **Objective:** improve coverage equity across subgroups and eliminate manual ingestion toil.
+> **Inputs and tools:** production champion bundle; compintel.uncertainty.slice_conformal, async ingestion daemon.
+> **Deliverables:** slice-adaptive calibrator, dual-cadence daemon, benchmark reports.
+> **Effort (assumption):** 3 to 4 weeks.
+> **GO if:** all slice coverage within [76%, 84%]; zero source staleness violations in 30-day trial; zero PII in daemon pipeline.
+> **NO-GO:** iterate in Phase 11.
+> **Needs:** G10.
+
+- [ ] **T11.01** [AI] EXP-13: Slice-Adaptive Conformal Prediction Intervals — implement group-conditional calibrator with empirical Bayes shrinkage per CHARTER-EXP-13.
+      Output: src/compintel/uncertainty/slice_conformal.py, scripts/run_slice_conformal_benchmark.py, docs/research/slice-conformal-exp13.md, experiments/results/slice_conformal_report.json. Done when: all cells (N >= 20) have empirical coverage within [76%, 84%]; median interval width growth <= +5.0%; champion bundle swap-in tests pass. Needs: G10. Size: L.
+- [ ] **T11.02** [AI] EXP-16: Automated Dual-Cadence Source Ingestion & Freshness Daemon — implement async event-driven daemon per CHARTER-EXP-16.
+      Output: src/compintel/ingestion/daemon.py, scripts/run_ingestion_daemon.py, docs/research/ingestion-daemon-exp16.md, experiments/results/ingestion_daemon_report.json. Done when: 30-day staleness violation rate = 0; contribution-to-quarantine latency <= 15 min; zero PII retained in daemon pipeline. Needs: G10. Size: L.
+- [ ] **T11.03** [AI+HUMAN] Phase 11 benchmark & gate review: compare slice coverage before and after EXP-13; verify EXP-16 30-day staleness record.
+      Output: updated docs/pilot/prioritized-backlog.md, docs/pilot/post-pilot-review.md (Phase 11 addendum). Done when: both EXP-13 and EXP-16 meet pre-registered keep criteria. Needs: T11.01, T11.02. Size: M.
+
+**Gate G11:** EXP-13 and EXP-16 meet pre-registered keep criteria; Phase 11 champion bundle updated.
+
+---
+
+## Phase 12: Targeted Sourcing & Scenario Intelligence
+
+> **Objective:** shrink thin-cell uncertainty and prototype interactive offer comparison.
+> **Inputs and tools:** active learning acquisition model; monotonic quantile counterfactual engine; Phase 11 champion.
+> **Deliverables:** sparse-cell active learning policy, PT4 counterfactual prototype, data-growth audit.
+> **Effort (assumption):** 8 to 12 weeks.
+> **GO if:** sparse-cell interval width narrows by >= 20%; PT4 monotonicity >= 98%; zero lone numbers in counterfactual outputs.
+> **NO-GO:** iterate in Phase 12.
+> **Needs:** G11.
+
+- [ ] **T12.01** [AI] EXP-14: Active Learning & Targeted Sourcing for Sparse Cells — implement acquisition utility model and targeted recruitment routing per CHARTER-EXP-14.
+      Output: src/compintel/acquisition/active_learning.py, scripts/run_active_learning.py, docs/research/active-learning-exp14.md, experiments/results/active_learning_report.json. Done when: average interval width on target sparse cells narrows by >= 20% from Phase 11 baseline; cell abstention drops by >= 15%; nominal coverage maintained in [75%, 85%]. Needs: G11. Size: XL.
+- [ ] **T12.02** [AI] EXP-15: Counterfactual Negotiation Scenario Modeling (PT4 Prototype) — implement constrained monotonic counterfactual engine per CHARTER-EXP-15.
+      Output: src/compintel/serving/counterfactual.py, pps/web/src/components/NegotiationScenario.tsx, scripts/run_counterfactual_eval.py, docs/research/counterfactual-exp15.md, experiments/results/counterfactual_report.json. Done when: monotonicity satisfaction >= 98%; counterfactual interval coverage in [75%, 85%]; zero point-estimate outputs; UI prototype passes comprehension check. Needs: G11. Size: XL.
+- [ ] **T12.03** [AI+HUMAN] Phase 12 review & gate: evaluate EXP-14 and EXP-15 outcomes; update evidence register and model card.
+      Output: updated docs/model-cards/model-card-final-v1.md, docs/research/evidence-register.csv. Done when: all pre-registered keep criteria met or documented deferral recorded. Needs: T12.01, T12.02. Size: M.
+
+**Gate G12:** EXP-14 and EXP-15 verdicts recorded; production system updated or deferral ratified.
+
+---
+
+## Phase 13: Deferred Architecture Re-evaluation (Data-Growth Triggered)
+
+> **Objective:** re-evaluate the six Phase 7 DEFERRED candidates now that live production data is accumulating.
+> **Inputs and tools:** EXP-16 ingestion daemon data; longitudinal contribution panel; updated non-synthetic record counts.
+> **Governing Rule:** R-MD-09 — each re-evaluation requires a fresh pre-registered charter update before any implementation.
+> **Trigger policy:** Each task is gated by a DATA FEASIBILITY AUDIT that must pass before the experiment re-runs. If the audit fails, the task remains deferred with the next audit date recorded.
+> **Needs:** G12.
+
+### 13.A: Employer Graph Feasibility Re-audit (EXP-10r)
+
+- [ ] **T13.01** [AI] Employer graph feasibility audit: count connected employer nodes (degree >= 3) in the post-EXP-16 production panel. Re-run CHARTER-EXP-10 bipartite graph embeddings if and only if N_nodes >= 50. Otherwise record deferral with next audit date. (trigger: 6 months post-EXP-16 daemon activation)
+      Output: docs/research/employer-graph-reaudit-phase13.md, experiments/results/employer_graph_reaudit.json. Done when: feasibility verdict recorded and either graph experiment runs with charter or formal deferral is documented. Needs: T11.02 operational for >= 6 months. Size: M.
+
+### 13.B: Quantile Ensembling Feasibility Re-gate (EXP-ENSEMBLE-01r)
+
+- [ ] **T13.02** [AI] Non-synthetic development panel size audit: if panel N >= 100 non-synthetic records, rerun convex quantile blender (QuantileEnsembleBlender) + meta-learner stacking feasibility under CHARTER-ENSEMBLING-STACKING. Otherwise document deferral. (trigger: data audit shows N >= 100)
+      Output: docs/research/ensemble-reaudit-phase13.md, experiments/results/ensemble_reaudit.json. Done when: feasibility verdict recorded. Needs: T11.02 operational. Size: M.
+
+### 13.C: Skills TF-IDF Power-Gated Retest (EXP-09r)
+
+- [ ] **T13.03** [AI] Run statistical power analysis for EXP-09 Variant A (TF-IDF skills taxonomy). If non-synthetic panel N >= 500, rerun the charter with bootstrapped CI on pinball delta. Variant B (sentence-transformers on CPU) remains REJECTED until GPU serving is justified. (trigger: N >= 500 non-synthetic records)
+      Output: docs/research/skills-reaudit-phase13.md, experiments/results/skills_reaudit.json. Done when: power-gated verdict recorded (PROMOTE / DEFER with updated N-required). Needs: T11.02 operational. Size: M.
+
+### 13.D: Longitudinal Schema Extension (enables EXP-TRAJ & EXP-SURV future re-evaluation)
+
+- [ ] **T13.04** [AI+HUMAN] Add optional longitudinal career-event fields to the voluntary contribution schema (ADR-0008 amendment): career_start_date, last_promotion_date, and right_censored_exit_flag — all strictly optional, DPDPA-compliant, default null, never required for core compensation prediction.
+      Output: updated src/compintel/schema/, migration, docs/adr/ADR-0008-privacy-consent-retention-kmin.md amendment, DPDPA impact note. Done when: schema migration passes CI, PII review signed off, fields appear in contribution API with documented optionality. Needs: G12. Size: M.
+- [ ] **T13.05** [AI] EXP-TRAJ career trajectory feature re-evaluation: once longitudinal panel spans >= 12 calendar months of realized observations (estimated Phase 14 / mid-2028), re-run career velocity and promotion-acceleration features per an updated CHARTER-CAREER-TRAJ charter. (trigger: 12-month longitudinal panel)
+      Output: docs/research/career-trajectory-reaudit-phase13.md, experiments/results/career_trajectory_reaudit.json. Done when: charter updated and verdict recorded. Needs: T13.04 and >= 12 months of data. Size: L.
+
+### 13.E: Macro Regime Features Long-Range Calendar Trigger (EXP-MACRO-01r)
+
+- [ ] **T13.06** [AI] Macro regime feature re-evaluation: once production system has accumulated >= 24 calendar months of continuous nominal INR observations (estimated October 2028), run a fresh Gate 1 feasibility audit per CHARTER-MACRO-REGIMES. If the 24-month panel threshold is met, proceed with real-pay deflation + conformal inverse re-inflation pipeline. (trigger: October 2028 calendar date OR explicit data audit confirming >= 24 months)
+      Output: docs/research/macro-regimes-reaudit-phase13.md. Done when: feasibility verdict documented. Needs: G12, 24-month production window. Size: L.
+
+### 13.F: Copula Dependency Structure for Multi-Component PT4 (EXP-PGM-01r)
+
+- [ ] **T13.07** [AI] Evaluate Gaussian copula joint dependency structure (non-parametric empirical marginals, no discretization) as a PT4 scenario correlation layer on top of the Phase 12 EXP-15 counterfactual engine — strictly limited to scenario UI, never used for core compensation point estimation. Charter update required before implementation.
+      Output: docs/research/copula-pt4-phase13.md, experiments/results/copula_pt4_report.json. Done when: pre-registered charter written and empirical verdict recorded (PROMOTE to PT4 UI or REJECT). Needs: T12.02. Size: L.
+
+**Gate G13:** all Phase 13 feasibility audits completed with documented verdicts; at least one PROMOTE verdict achieved OR all formally deferred with next trigger dates recorded.
+
+---
+
+
 ## Appendix A: Prioritized experiment backlog
 
 Hypotheses to test, not results. Each needs a charter before work starts.
@@ -489,6 +576,13 @@ Hypotheses to test, not results. Each needs a charter before work starts.
 | EXP-14 | Does targeted acquisition on sparse cells reduce epistemic interval width by >= 20% with 50% fewer samples?                                                                    | Active learning policy         | 11    | T10.06       |
 | EXP-15 | Can constrained monotonic quantile regression over competing offer structures predict counterfactual trade-offs without lone numbers?                                          | Counterfactual PT4 engine      | 12    | T10.06       |
 | EXP-16 | Does an autonomous dual-cadence freshness daemon eliminate source staleness incidents with zero operational toil?                                                               | Data ingestion daemon          | 11    | T10.06       |
+| EXP-09r | *(Re-evaluation)* With N >= 500 non-synthetic records, does TF-IDF skills taxonomy (Variant A) achieve a statistically significant delta Pinball < -0.050 LPA?             | Skills features (power-gated)  | 13    | T13.03       |
+| EXP-10r | *(Re-evaluation)* With >= 50 connected employer nodes, do bipartite graph embeddings outperform tabular tiers on Pinball and coverage?                                     | Employer graph embeddings      | 13    | T13.01       |
+| EXP-TRAJ-r | *(Re-evaluation)* With >= 12 months of longitudinal data, do career velocity features significantly narrow prediction intervals?                                        | Career trajectory features     | 13    | T13.05       |
+| EXP-MACRO-r | *(Re-evaluation, Oct 2028)* With >= 24 months of continuous observations, does real-pay deflation + conformal re-inflation reduce MdAPE by >= 2 pp?                  | Macro regime features          | 13    | T13.06       |
+| EXP-SURV-r | *(Long-range)* With right-censored tenure timestamps collected via T13.04 schema extension, do survival models provide actionable tenure-duration intelligence?         | Tenure hazard modeling         | 14+   | T13.05       |
+| EXP-ENSEMBLE-r | *(Re-evaluation)* With N >= 100 non-synthetic panel records, does convex quantile blending + meta-learner stacking beat the champion by >= -0.050 LPA?            | Quantile ensembling            | 13    | T13.02       |
+| EXP-PGM-r | *(Re-evaluation, PT4 only)* Does a Gaussian copula dependency structure improve multi-component scenario correlation in the PT4 counterfactual UI?                      | Copula PT4 scenario layer      | 13    | T13.07       |
 
 ## Appendix B: Parking lot
 

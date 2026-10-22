@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import functools
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Self
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from compintel.errors import ConfigError
@@ -135,6 +135,28 @@ class Settings(BaseSettings):
                 code="INVALID_K_MIN",
             )
         return v
+
+    @model_validator(mode="after")
+    def validate_production_configuration(self) -> Self:
+        """Enforce production security controls (OWASP ASVS & Rule R-CD-05)."""
+        if self.app_env == "production":
+            # 1. Require strong, non-empty secret_key
+            if self.secret_key is None or len(self.secret_key.get_secret_value().strip()) < 32:
+                msg = (
+                    "Production deployment requires a secure secret_key of at least 32 characters."
+                )
+                raise ConfigError(msg, code="INSECURE_SECRET_KEY")
+
+            # 2. Reject default/placeholder credentials in database_url
+            db_url = self.database_url.lower()
+            insecure_patterns = ("compintel_preview_secret", "postgres:postgres@", "localhost")
+            if any(pattern in db_url for pattern in insecure_patterns):
+                msg = (
+                    "Production deployment cannot use default/local database credentials "
+                    "in database_url."
+                )
+                raise ConfigError(msg, code="INSECURE_DATABASE_URL")
+        return self
 
     def is_production(self) -> bool:
         """Check if running in production mode."""
