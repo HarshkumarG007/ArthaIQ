@@ -121,6 +121,10 @@ jobs:
         working-directory: apps/web
         run: npm run test
 
+      - name: Build web production bundle (Vite)
+        working-directory: apps/web
+        run: npm run build
+
   # ---- Tests ----------------------------------------------------------------
   tests:
     name: Tests
@@ -164,10 +168,8 @@ jobs:
 
       - name: pip-audit
         run: pip install pip-audit && pip-audit
-        continue-on-error: true
 
       - name: Secret scan (gitleaks)
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true

@@ -42,6 +42,10 @@ def test_environment_overrides(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("LOG_FORMAT", "console")
     monkeypatch.setenv("K_MIN", "10")
     monkeypatch.setenv("OBSERVATION_WINDOW_DAYS", "365")
+    monkeypatch.setenv("SECRET_KEY", "prod_super_secret_signing_key_at_least_32_characters_long")
+    monkeypatch.setenv(
+        "DATABASE_URL", "postgresql+asyncpg://prod_user:prod_pass@db.prod.internal:5432/compintel"
+    )
 
     settings = Settings()
     assert settings.app_env == "production"
@@ -51,6 +55,32 @@ def test_environment_overrides(monkeypatch: pytest.MonkeyPatch) -> None:
     assert settings.observation_window_days == 365
     assert settings.is_production() is True
     assert settings.is_local() is False
+
+
+@pytest.mark.unit
+def test_production_fail_fast_on_missing_secret(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Verify production environment rejects missing or weak secret_key."""
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv(
+        "DATABASE_URL", "postgresql+asyncpg://prod_user:prod_pass@db.prod.internal:5432/compintel"
+    )
+    monkeypatch.delenv("SECRET_KEY", raising=False)
+
+    with pytest.raises((ValidationError, ConfigError)):
+        Settings()
+
+
+@pytest.mark.unit
+def test_production_fail_fast_on_insecure_database_url(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Verify production environment rejects default or localhost database credentials."""
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv("SECRET_KEY", "prod_super_secret_signing_key_at_least_32_characters_long")
+    monkeypatch.setenv(
+        "DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/compintel"
+    )
+
+    with pytest.raises((ValidationError, ConfigError)):
+        Settings()
 
 
 @pytest.mark.unit

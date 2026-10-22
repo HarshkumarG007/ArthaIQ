@@ -15,8 +15,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-compintel}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-compintel_preview_secret_2026}
       POSTGRES_DB: ${POSTGRES_DB:-compintel}
+    # Bound strictly to 127.0.0.1 loopback for local dev/inspection; never exposed to public 0.0.0.0 interface
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -42,8 +43,9 @@ services:
       LOG_LEVEL: INFO
       LOG_FORMAT: json
       CORS_ORIGINS: http://localhost:8080,http://127.0.0.1:8080,http://localhost:3000
+    # Bound strictly to 127.0.0.1 loopback; external traffic must route exclusively through web reverse proxy
     ports:
-      - "${API_PORT:-8000}:8000"
+      - "127.0.0.1:${API_PORT:-8000}:8000"
     depends_on:
       db:
         condition: service_healthy

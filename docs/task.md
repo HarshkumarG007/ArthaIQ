@@ -467,6 +467,93 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ---
 
+## Phase 11: Slice Calibration & Ingestion Automation
+
+> **Objective:** improve coverage equity across subgroups and eliminate manual ingestion toil.
+> **Inputs and tools:** production champion bundle; compintel.uncertainty.slice_conformal, async ingestion daemon.
+> **Deliverables:** slice-adaptive calibrator, dual-cadence daemon, benchmark reports.
+> **Effort (assumption):** 3 to 4 weeks.
+> **GO if:** all slice coverage within [76%, 84%]; zero source staleness violations in 30-day trial; zero PII in daemon pipeline.
+> **NO-GO:** iterate in Phase 11.
+> **Needs:** G10.
+
+- [ ] **T11.01** [AI] EXP-13: Slice-Adaptive Conformal Prediction Intervals — implement group-conditional calibrator with empirical Bayes shrinkage per CHARTER-EXP-13.
+      Output: src/compintel/uncertainty/slice_conformal.py, scripts/run_slice_conformal_benchmark.py, docs/research/slice-conformal-exp13.md, experiments/results/slice_conformal_report.json. Done when: all cells (N >= 20) have empirical coverage within [76%, 84%]; median interval width growth <= +5.0%; champion bundle swap-in tests pass. Needs: G10. Size: L.
+- [ ] **T11.02** [AI] EXP-16: Automated Dual-Cadence Source Ingestion & Freshness Daemon — implement async event-driven daemon per CHARTER-EXP-16.
+      Output: src/compintel/ingestion/daemon.py, scripts/run_ingestion_daemon.py, docs/research/ingestion-daemon-exp16.md, experiments/results/ingestion_daemon_report.json. Done when: 30-day staleness violation rate = 0; contribution-to-quarantine latency <= 15 min; zero PII retained in daemon pipeline. Needs: G10. Size: L.
+- [ ] **T11.03** [AI+HUMAN] Phase 11 benchmark & gate review: compare slice coverage before and after EXP-13; verify EXP-16 30-day staleness record.
+      Output: updated docs/pilot/prioritized-backlog.md, docs/pilot/post-pilot-review.md (Phase 11 addendum). Done when: both EXP-13 and EXP-16 meet pre-registered keep criteria. Needs: T11.01, T11.02. Size: M.
+
+**Gate G11:** EXP-13 and EXP-16 meet pre-registered keep criteria; Phase 11 champion bundle updated.
+
+---
+
+## Phase 12: Targeted Sourcing & Scenario Intelligence
+
+> **Objective:** shrink thin-cell uncertainty and prototype interactive offer comparison.
+> **Inputs and tools:** active learning acquisition model; monotonic quantile counterfactual engine; Phase 11 champion.
+> **Deliverables:** sparse-cell active learning policy, PT4 counterfactual prototype, data-growth audit.
+> **Effort (assumption):** 8 to 12 weeks.
+> **GO if:** sparse-cell interval width narrows by >= 20%; PT4 monotonicity >= 98%; zero lone numbers in counterfactual outputs.
+> **NO-GO:** iterate in Phase 12.
+> **Needs:** G11.
+
+- [ ] **T12.01** [AI] EXP-14: Active Learning & Targeted Sourcing for Sparse Cells — implement acquisition utility model and targeted recruitment routing per CHARTER-EXP-14.
+      Output: src/compintel/acquisition/active_learning.py, scripts/run_active_learning.py, docs/research/active-learning-exp14.md, experiments/results/active_learning_report.json. Done when: average interval width on target sparse cells narrows by >= 20% from Phase 11 baseline; cell abstention drops by >= 15%; nominal coverage maintained in [75%, 85%]. Needs: G11. Size: XL.
+- [ ] **T12.02** [AI] EXP-15: Counterfactual Negotiation Scenario Modeling (PT4 Prototype) — implement constrained monotonic counterfactual engine per CHARTER-EXP-15.
+      Output: src/compintel/serving/counterfactual.py, pps/web/src/components/NegotiationScenario.tsx, scripts/run_counterfactual_eval.py, docs/research/counterfactual-exp15.md, experiments/results/counterfactual_report.json. Done when: monotonicity satisfaction >= 98%; counterfactual interval coverage in [75%, 85%]; zero point-estimate outputs; UI prototype passes comprehension check. Needs: G11. Size: XL.
+- [ ] **T12.03** [AI+HUMAN] Phase 12 review & gate: evaluate EXP-14 and EXP-15 outcomes; update evidence register and model card.
+      Output: updated docs/model-cards/model-card-final-v1.md, docs/research/evidence-register.csv. Done when: all pre-registered keep criteria met or documented deferral recorded. Needs: T12.01, T12.02. Size: M.
+
+**Gate G12:** EXP-14 and EXP-15 verdicts recorded; production system updated or deferral ratified.
+
+---
+
+## Phase 13: Deferred Architecture Re-evaluation (Data-Growth Triggered)
+
+> **Objective:** re-evaluate the six Phase 7 DEFERRED candidates now that live production data is accumulating.
+> **Inputs and tools:** EXP-16 ingestion daemon data; longitudinal contribution panel; updated non-synthetic record counts.
+> **Governing Rule:** R-MD-09 — each re-evaluation requires a fresh pre-registered charter update before any implementation.
+> **Trigger policy:** Each task is gated by a DATA FEASIBILITY AUDIT that must pass before the experiment re-runs. If the audit fails, the task remains deferred with the next audit date recorded.
+> **Needs:** G12.
+
+### 13.A: Employer Graph Feasibility Re-audit (EXP-10r)
+
+- [ ] **T13.01** [AI] Employer graph feasibility audit: count connected employer nodes (degree >= 3) in the post-EXP-16 production panel. Re-run CHARTER-EXP-10 bipartite graph embeddings if and only if N_nodes >= 50. Otherwise record deferral with next audit date. (trigger: 6 months post-EXP-16 daemon activation)
+      Output: docs/research/employer-graph-reaudit-phase13.md, experiments/results/employer_graph_reaudit.json. Done when: feasibility verdict recorded and either graph experiment runs with charter or formal deferral is documented. Needs: T11.02 operational for >= 6 months. Size: M.
+
+### 13.B: Quantile Ensembling Feasibility Re-gate (EXP-ENSEMBLE-01r)
+
+- [ ] **T13.02** [AI] Non-synthetic development panel size audit: if panel N >= 100 non-synthetic records, rerun convex quantile blender (QuantileEnsembleBlender) + meta-learner stacking feasibility under CHARTER-ENSEMBLING-STACKING. Otherwise document deferral. (trigger: data audit shows N >= 100)
+      Output: docs/research/ensemble-reaudit-phase13.md, experiments/results/ensemble_reaudit.json. Done when: feasibility verdict recorded. Needs: T11.02 operational. Size: M.
+
+### 13.C: Skills TF-IDF Power-Gated Retest (EXP-09r)
+
+- [ ] **T13.03** [AI] Run statistical power analysis for EXP-09 Variant A (TF-IDF skills taxonomy). If non-synthetic panel N >= 500, rerun the charter with bootstrapped CI on pinball delta. Variant B (sentence-transformers on CPU) remains REJECTED until GPU serving is justified. (trigger: N >= 500 non-synthetic records)
+      Output: docs/research/skills-reaudit-phase13.md, experiments/results/skills_reaudit.json. Done when: power-gated verdict recorded (PROMOTE / DEFER with updated N-required). Needs: T11.02 operational. Size: M.
+
+### 13.D: Longitudinal Schema Extension (enables EXP-TRAJ & EXP-SURV future re-evaluation)
+
+- [ ] **T13.04** [AI+HUMAN] Add optional longitudinal career-event fields to the voluntary contribution schema (ADR-0008 amendment): career_start_date, last_promotion_date, and right_censored_exit_flag — all strictly optional, DPDPA-compliant, default null, never required for core compensation prediction.
+      Output: updated src/compintel/schema/, migration, docs/adr/ADR-0008-privacy-consent-retention-kmin.md amendment, DPDPA impact note. Done when: schema migration passes CI, PII review signed off, fields appear in contribution API with documented optionality. Needs: G12. Size: M.
+- [ ] **T13.05** [AI] EXP-TRAJ career trajectory feature re-evaluation: once longitudinal panel spans >= 12 calendar months of realized observations (estimated Phase 14 / mid-2028), re-run career velocity and promotion-acceleration features per an updated CHARTER-CAREER-TRAJ charter. (trigger: 12-month longitudinal panel)
+      Output: docs/research/career-trajectory-reaudit-phase13.md, experiments/results/career_trajectory_reaudit.json. Done when: charter updated and verdict recorded. Needs: T13.04 and >= 12 months of data. Size: L.
+
+### 13.E: Macro Regime Features Long-Range Calendar Trigger (EXP-MACRO-01r)
+
+- [ ] **T13.06** [AI] Macro regime feature re-evaluation: once production system has accumulated >= 24 calendar months of continuous nominal INR observations (estimated October 2028), run a fresh Gate 1 feasibility audit per CHARTER-MACRO-REGIMES. If the 24-month panel threshold is met, proceed with real-pay deflation + conformal inverse re-inflation pipeline. (trigger: October 2028 calendar date OR explicit data audit confirming >= 24 months)
+      Output: docs/research/macro-regimes-reaudit-phase13.md. Done when: feasibility verdict documented. Needs: G12, 24-month production window. Size: L.
+
+### 13.F: Copula Dependency Structure for Multi-Component PT4 (EXP-PGM-01r)
+
+- [ ] **T13.07** [AI] Evaluate Gaussian copula joint dependency structure (non-parametric empirical marginals, no discretization) as a PT4 scenario correlation layer on top of the Phase 12 EXP-15 counterfactual engine — strictly limited to scenario UI, never used for core compensation point estimation. Charter update required before implementation.
+      Output: docs/research/copula-pt4-phase13.md, experiments/results/copula_pt4_report.json. Done when: pre-registered charter written and empirical verdict recorded (PROMOTE to PT4 UI or REJECT). Needs: T12.02. Size: L.
+
+**Gate G13:** all Phase 13 feasibility audits completed with documented verdicts; at least one PROMOTE verdict achieved OR all formally deferred with next trigger dates recorded.
+
+---
+
+
 ## Appendix A: Prioritized experiment backlog
 
 Hypotheses to test, not results. Each needs a charter before work starts.
@@ -489,6 +576,13 @@ Hypotheses to test, not results. Each needs a charter before work starts.
 | EXP-14 | Does targeted acquisition on sparse cells reduce epistemic interval width by >= 20% with 50% fewer samples?                                                                    | Active learning policy         | 11    | T10.06       |
 | EXP-15 | Can constrained monotonic quantile regression over competing offer structures predict counterfactual trade-offs without lone numbers?                                          | Counterfactual PT4 engine      | 12    | T10.06       |
 | EXP-16 | Does an autonomous dual-cadence freshness daemon eliminate source staleness incidents with zero operational toil?                                                               | Data ingestion daemon          | 11    | T10.06       |
+| EXP-09r | *(Re-evaluation)* With N >= 500 non-synthetic records, does TF-IDF skills taxonomy (Variant A) achieve a statistically significant delta Pinball < -0.050 LPA?             | Skills features (power-gated)  | 13    | T13.03       |
+| EXP-10r | *(Re-evaluation)* With >= 50 connected employer nodes, do bipartite graph embeddings outperform tabular tiers on Pinball and coverage?                                     | Employer graph embeddings      | 13    | T13.01       |
+| EXP-TRAJ-r | *(Re-evaluation)* With >= 12 months of longitudinal data, do career velocity features significantly narrow prediction intervals?                                        | Career trajectory features     | 13    | T13.05       |
+| EXP-MACRO-r | *(Re-evaluation, Oct 2028)* With >= 24 months of continuous observations, does real-pay deflation + conformal re-inflation reduce MdAPE by >= 2 pp?                  | Macro regime features          | 13    | T13.06       |
+| EXP-SURV-r | *(Long-range)* With right-censored tenure timestamps collected via T13.04 schema extension, do survival models provide actionable tenure-duration intelligence?         | Tenure hazard modeling         | 14+   | T13.05       |
+| EXP-ENSEMBLE-r | *(Re-evaluation)* With N >= 100 non-synthetic panel records, does convex quantile blending + meta-learner stacking beat the champion by >= -0.050 LPA?            | Quantile ensembling            | 13    | T13.02       |
+| EXP-PGM-r | *(Re-evaluation, PT4 only)* Does a Gaussian copula dependency structure improve multi-component scenario correlation in the PT4 counterfactual UI?                      | Copula PT4 scenario layer      | 13    | T13.07       |
 
 ## Appendix B: Parking lot
 
@@ -501,35 +595,261 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 
 ## Appendix C: Deliverables map
 
-| File                                                         | Produced by                                                 |
-| ------------------------------------------------------------ | ----------------------------------------------------------- |
-| `docs/research/00-master-research-prompt.md`                 | T0.01                                                       |
-| `docs/adr/ADR-0001` to `ADR-0009`                            | T0.04, then the tasks named in `architecture.md` section 15 |
-| `docs/adr/ADR-0001-market-and-occupational-scope.md`         | T1.13, finalized T2.11                                      |
-| `docs/adr/ADR-0002-primary-target-and-comp-measure.md`       | T1.13, finalized T2.11                                      |
-| `docs/adr/ADR-0003-technology-stack-and-pinned-versions.md`  | T3.01                                                       |
-| `docs/research/01-targets.md`                                | T1.01                                                       |
-| `docs/research/02-comp-definitions.md`                       | T1.02                                                       |
-| `docs/research/03-users.md`                                  | T1.03, T1.04                                                |
-| `docs/research/evidence-register.csv`                        | T1.05, maintained throughout                                |
-| `docs/research/04-source-catalog.md`                         | T1.06 to T1.09                                              |
-| `docs/research/05-source-scoring.md`                         | T1.10                                                       |
-| `docs/research/06-architecture-autopsy.md`                   | T1.11                                                       |
-| `docs/research/07-premortem-risk-register.md`                | T1.12                                                       |
-| `docs/research/08-scope-memo.md`                             | T1.13                                                       |
-| `experiments/preregistration/sufficiency-v1.yaml`            | T2.01                                                       |
-| `config/sources/*.yaml`                                      | T2.02, T2.05                                                |
-| `docs/data-cards/*.md`                                       | T2.04, T2.06                                                |
-| `docs/research/09-sufficiency-analysis.md`                   | T2.09                                                       |
-| `docs/research/10-data-acquisition-plan.md`                  | T2.10 (conditional)                                         |
-| `src/compintel/config.py`, `errors.py`, `logging.py`         | T3.03                                                       |
-| `src/compintel/schema/` (enums, entities, canonical)         | T3.04                                                       |
-| `src/compintel/normalization/` (annual, denom, FX, CPI)       | T3.05                                                       |
-| `src/compintel/ingestion/` (connector, manifest, gates)      | T3.06                                                       |
-| `experiments/preregistration/v1.yaml`                        | T4.03                                                       |
-| `docs/model-cards/*.md`                                      | T5.08, T9.17                                                |
-| `docs/research/feature-spec.md`                              | T6.01                                                       |
-| `docs/research/rejected-ideas.md`                            | T7.07                                                       |
+> Grouped by phase; links are relative to the repository root.
+
+### Phase 0: Foundation & Setup
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/research/00-master-research-prompt.md | T0.01 |
+| .github/PULL_REQUEST_TEMPLATE/pull_request_template.md | T0.04 |
+| docs/adr/ADR-0001 to ADR-0009 (stubs) | T0.04, then tasks named in rchitecture.md section 15 |
+
+### Phase 1: Research, Targets & Sources
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/research/01-targets.md | T1.01 |
+| docs/research/02-comp-definitions.md | T1.02 |
+| docs/research/03-users.md | T1.03, T1.04 |
+| docs/research/evidence-register.csv | T1.05, maintained throughout (updated T10.06) |
+| docs/research/04-source-catalog.md | T1.06 to T1.09 |
+| docs/research/05-source-scoring.md | T1.10 |
+| docs/research/06-architecture-autopsy.md | T1.11 |
+| docs/research/07-premortem-risk-register.md | T1.12 |
+| docs/research/08-scope-memo.md | T1.13 |
+| docs/adr/ADR-0001-initial-market-and-occupation-scope.md | T1.13, finalized T2.11 |
+| docs/adr/ADR-0002-primary-target-and-compensation-measure.md | T1.13, finalized T2.11 |
+
+### Phase 2: Feasibility & Sufficiency
+
+| File | Produced by |
+| ---- | ----------- |
+| experiments/preregistration/sufficiency-v1.yaml | T2.01 |
+| config/sources/*.yaml | T2.02, T2.05 |
+| docs/research/kaggle-dataset-audit-v0.1.md | T2.03 |
+| docs/data-cards/*.md | T2.04, T2.06 |
+| experiments/results/coverage_table.md | T2.07 |
+| experiments/results/coverage_map_v1.{csv,parquet} | T2.07 |
+| docs/research/09-sufficiency-analysis.md | T2.09 |
+| docs/research/10-data-acquisition-plan.md | T2.10 (conditional) |
+
+### Phase 3: Schema, Ingestion & Lineage
+
+| File | Produced by |
+| ---- | ----------- |
+| src/compintel/config.py, errors.py, logging.py | T3.03 |
+| src/compintel/schema/ (enums, entities, canonical) | T3.04 |
+| src/compintel/normalization/ (annual, denom, FX, CPI) | T3.05 |
+| src/compintel/ingestion/ (connector, manifest, gates) | T3.06 |
+| docs/adr/ADR-0003-technology-stack-and-pinned-versions.md | T3.01 |
+| docs/adr/ADR-0006-data-versioning-and-experiment-tracking.md | T3.06 |
+| docs/quality/data-quality-report.md | T3.08, T3.09 |
+| docs/research/pt1-prototype-exclusion-report.md | T3.11 |
+| experiments/results/pt1_prototype_exclusion_report.md | T3.11 |
+| scripts/acquire_sources.py | T3.06 |
+| scripts/reproduce_data.py | T3.06 |
+| scripts/profile_all_sources.py | T3.07 |
+| scripts/generate_data_quality_report.py | T3.08 |
+| scripts/compute_coverage_map.py | T2.07 |
+| scripts/compute_sufficiency.py | T2.09 |
+| scripts/construct_pt1_prototype.py | T3.11 |
+| scripts/validate_sources.py | T3.06 |
+| scripts/apply_field_mappings.py | T3.05 |
+
+### Phase 4: Baselines & Leakage-Free Evaluation
+
+| File | Produced by |
+| ---- | ----------- |
+| experiments/preregistration/v1.yaml | T4.03 |
+| docs/adr/ADR-0004-benchmark-ladder-and-acceptance-rules.md | T4.03 |
+| src/compintel/models/baselines/empirical.py | T4.04 (Rung A) |
+| src/compintel/models/baselines/linear.py | T4.05 (Rung B) |
+| src/compintel/evaluation/splits.py | T4.06 |
+| src/compintel/evaluation/leakage.py | T4.06 |
+| src/compintel/evaluation/inflation.py | T4.06 (EXP-12) |
+| src/compintel/evaluation/metrics.py | T4.07 |
+| src/compintel/evaluation/lock.py | T4.08 |
+| src/compintel/evaluation/experiment.py | T4.08 |
+| src/compintel/evaluation/baseline_report.py | T4.09 |
+| experiments/results/baseline_report_v1.{md,json} | T4.09 |
+| experiments/results/leakage_inflation_audit.{md,json} | T4.06 (EXP-12) |
+| scripts/generate_baseline_report.py | T4.09 |
+| scripts/run_leakage_audit.py | T4.06 |
+| scripts/run_experiment.py | T4.08 |
+| scripts/run_final_eval.py | T4.08 |
+
+### Phase 5: Quantile Modeling & Uncertainty
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/adr/ADR-0005-uncertainty-method-and-abstention-policy.md | T5.01 |
+| src/compintel/models/gbm/point.py | T5.02 (Rung D) |
+| src/compintel/models/gbm/cv.py | T5.02 |
+| experiments/results/rung_d_report_v1.{md,json} | T5.02 |
+| src/compintel/models/gbm/quantile.py | T5.03 (Rung E) |
+| src/compintel/uncertainty/conformal.py | T5.04 (Rung F) |
+| src/compintel/evaluation/conformal_report.py | T5.04 |
+| experiments/results/conformal_report_v1.{md,json} | T5.04 |
+| experiments/results/bootstrap_precision_v1.{parquet,csv} | T5.04 |
+| src/compintel/evaluation/interval_usefulness.py | T5.05 (EXP-02) |
+| experiments/results/interval_usefulness_v1.{md,json} | T5.05 |
+| src/compintel/evaluation/shift_stress.py | T5.06 (EXP-03) |
+| experiments/results/shift_stress_tests_v1.{md,json} | T5.06 |
+| src/compintel/uncertainty/support.py | T5.07 (EXP-11) |
+| src/compintel/evaluation/abstention_audit.py | T5.07 |
+| experiments/results/abstention_audit_v1.{md,json} | T5.07 |
+| src/compintel/models/bundle.py | T5.08 |
+| src/compintel/serving/loader.py | T5.08 |
+| src/compintel/evaluation/champion.py | T5.08 |
+| rtifacts/champion_v0/ | T5.08 |
+| docs/model-cards/model-card-v0.md | T5.08 |
+| experiments/results/champion_selection_v1.{md,json} | T5.08 |
+| scripts/run_gbm_benchmark.py | T5.02 |
+| scripts/generate_conformal_report.py | T5.04 |
+| scripts/evaluate_interval_usefulness.py | T5.05 |
+| scripts/run_shift_stress_tests.py | T5.06 |
+| scripts/audit_abstention.py | T5.07 |
+| scripts/build_champion_bundle.py | T5.08 |
+
+### Phase 6: Progressive Personalization
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/research/feature-spec.md | T6.01 |
+| src/compintel/features/spec.py | T6.01 |
+| docs/research/stagewise-evaluation-l0-l3.md | T6.03 |
+| experiments/results/stagewise_evaluation_v1.json | T6.03 |
+| docs/research/feature-family-ablations.md | T6.04 (EXP-06) |
+| experiments/results/feature_family_ablations_v1.json | T6.04 |
+| docs/research/current-pay-anchoring-exp07.md | T6.05 (EXP-07) |
+| experiments/results/current_pay_anchoring_v1.json | T6.05 |
+| docs/research/missingness-policy-r-md-15.md | T6.06 (R-MD-15) |
+| experiments/results/missingness_study_v1.json | T6.06 |
+| src/compintel/models/hierarchical/ | T6.07 (EXP-05, Rung C) |
+| docs/research/hierarchical-vs-gbm-sparse-cells-exp05.md | T6.07 (EXP-05) |
+| docs/research/rung-c-diagnostics.md | T6.07 |
+| experiments/results/hierarchical_diagnostics_v1.json | T6.07 |
+| experiments/results/hierarchical_vs_gbm_sparse_v1.json | T6.07 |
+| docs/research/staged-vs-joint-modelling-exp08.md | T6.08 (EXP-08) |
+| experiments/results/staged_vs_joint_modelling_v1.json | T6.08 |
+| docs/research/fairness-audit-v1.md | T6.09 |
+| experiments/results/fairness_audit_v1.json | T6.09 |
+| scripts/run_stagewise_evaluation.py | T6.03 |
+| scripts/run_family_ablation.py | T6.04 |
+| scripts/run_anchoring_analysis.py | T6.05 |
+| scripts/run_missingness_study.py | T6.06 |
+| scripts/run_hierarchical_diagnostics.py | T6.07 |
+| scripts/run_sparse_cell_benchmark.py | T6.07 |
+| scripts/run_staging_analysis.py | T6.08 |
+| scripts/run_fairness_audit.py | T6.09 |
+
+### Phase 7: Advanced Features & Ablations
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/research/experiment-charters-phase7.md | T7.01 |
+| docs/research/skills-embeddings-exp09.md | T7.02 (EXP-09) |
+| experiments/results/skills_embeddings_exp09.json | T7.02 |
+| docs/research/career-trajectory.md | T7.03 (EXP-TRAJ) |
+| experiments/results/career_trajectory_exp_v1.json | T7.03 |
+| docs/research/employer-graphs-exp10.md | T7.04 (EXP-10) |
+| experiments/results/employer_graphs_exp10.json | T7.04 |
+| docs/research/macro-regimes-exp-macro.md | T7.05 (EXP-MACRO) |
+| experiments/results/macro_regimes_exp_macro.json | T7.05 |
+| docs/research/ensembling-stacking-exp-ensemble.md | T7.06 (EXP-ENSEMBLE) |
+| experiments/results/ensembling_exp_v1.json | T7.06 |
+| docs/research/rejected-ideas.md | T7.07 |
+| scripts/run_skills_experiment.py | T7.02 |
+| scripts/run_career_trajectory_experiment.py | T7.03 |
+| scripts/run_employer_graphs_experiment.py | T7.04 |
+| scripts/run_macro_regimes_experiment.py | T7.05 |
+| scripts/run_ensembling_experiment.py | T7.06 |
+
+### Phase 8: Compensation Components & Scenario Simulation
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/research/component-data-audit.md | T8.01 |
+
+### Phase 9: API, Application, Security & Deployment
+
+| File | Produced by |
+| ---- | ----------- |
+| src/compintel/serving/app.py | T9.02 |
+| src/compintel/serving/errors.py | T9.02 |
+| src/compintel/serving/middleware.py | T9.02 |
+| docs/research/latency-benchmark-nfr02.md | T9.03 (NFR-02) |
+| experiments/results/latency_benchmark_v1.json | T9.03 |
+| src/compintel/governance/models.py | T9.06 |
+| src/compintel/governance/audit.py | T9.06 |
+| src/compintel/governance/db.py | T9.06 |
+| pps/web/ | T9.07, T9.08, T9.10b |
+| scripts/check_contrast.py | T9.07a |
+| scripts/verify_fonts.py | T9.07a |
+| docs/research/accessibility-audit-t909.md | T9.09 |
+| src/compintel/monitoring/metrics.py | T9.11a |
+| src/compintel/monitoring/drift.py | T9.11b |
+| src/compintel/monitoring/freshness.py | T9.11b, T10.04 |
+| src/compintel/monitoring/alerts.py | T9.11b |
+| scripts/run_security_scan.py | T9.12a |
+| docs/security/automated-audit-report.md | T9.12a |
+| docs/security/threat-model.md | T9.12b |
+| docs/security/asvs-checklist.md | T9.12b |
+| docs/security/security-review-report.md | T9.12b |
+| docs/reviews/code-review-t913.md | T9.13 |
+| infra/docker/Dockerfile.api, Dockerfile.web | T9.14a |
+| infra/docker/nginx.conf, docker-compose.yml | T9.14a |
+| scripts/deploy_preview.py | T9.14a |
+| infra/deploy/preview-env.yaml | T9.14b |
+| docs/research/deployment-cost-model-t914.md | T9.14b |
+| docs/adr/ADR-0009-hosting-profile-and-operations.md | T9.14b |
+| docs/qa/qa-plan-t915.md | T9.15a |
+| scripts/run_qa_smoke.py | T9.15a |
+| scripts/run_load_test.py | T9.15b |
+| docs/qa/qa-report-t915.md | T9.15b |
+| docs/legal/privacy-notice.md | T9.16 |
+| docs/legal/terms-of-service.md | T9.16 |
+| docs/legal/disclaimers-and-notices.md | T9.16 |
+| docs/legal/legal-privacy-sign-off.md | T9.16 |
+| docs/adr/ADR-0007-frontend-stack.md | T9.07b |
+| docs/adr/ADR-0008-privacy-consent-retention-kmin.md | T9.10a |
+| docs/research/fairness-audit-v2.md | T9.17 |
+| experiments/results/fairness_audit_v2.json | T9.17 |
+| docs/model-cards/model-card-final-v1.md | T9.17 |
+| scripts/run_fairness_audit_v2.py | T9.17 |
+| scripts/benchmark_serving_latency.py | T9.03 |
+
+### Phase 10: Pilot, Monitoring & Iteration
+
+| File | Produced by |
+| ---- | ----------- |
+| docs/pilot/pilot-plan.md | T10.01 |
+| docs/runbooks/production-deployment-and-rollback.md | T10.02 |
+| scripts/run_rollback_rehearsal.py | T10.02 |
+| experiments/results/rollback_rehearsal_report.json | T10.02 |
+| src/compintel/monitoring/coverage.py | T10.03 |
+| scripts/run_coverage_tracking.py | T10.03 |
+| docs/monitoring/coverage-dashboard.md | T10.03 |
+| experiments/results/coverage_tracking_report.json | T10.03 |
+| experiments/results/coverage_chart.svg | T10.03 |
+| config/freshness_slas.yaml | T10.04 |
+| scripts/run_data_refresh.py | T10.04 |
+| docs/monitoring/data-refresh-status.md | T10.04 |
+| experiments/results/data_refresh_report.json | T10.04 |
+| docs/runbooks/drift-recalibration-and-retraining.md | T10.05 |
+| src/compintel/monitoring/recalibration.py | T10.05 |
+| scripts/run_drift_recalibration.py | T10.05 |
+| docs/monitoring/drift-recalibration-status.md | T10.05 |
+| experiments/results/drift_recalibration_report.json | T10.05 |
+| src/compintel/evaluation/pilot_analysis.py | T10.06 |
+| scripts/run_feedback_analysis.py | T10.06 |
+| docs/pilot/pilot-feedback-and-results-analysis.md | T10.06 |
+| docs/pilot/prioritized-backlog.md | T10.06 |
+| docs/research/experiment-charters-phase10.md | T10.06 |
+| experiments/results/pilot_feedback_report.json | T10.06 |
+| docs/pilot/post-pilot-review.md | T10.07 |
+| docs/pilot/gate-g10-production-decision.md | Gate G10 |
 
 ## Change log
 
@@ -545,3 +865,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-21 | 0.9     | Phase 9 complete; Gate G9 ratified GO (Production API, Docker, Security, QA, Fairness)          |
 | 2026-10-21 | 1.0     | Phase 10 T10.01-T10.07 complete (Pilot plan, Runbook, Coverage, Freshness, Drift, Review). NEXT: Gate G10 Production Decision. |
 | 2026-10-21 | 1.1     | Phase 10 complete; Gate G10 ratified GO; Production Launch & General Availability authorized. NEXT: Phase 11 (EXP-13, EXP-16). |
+| 2026-10-22 | 1.2     | Appendix C fully expanded: all 150+ deliverables across Phases 0–10 catalogued by phase, with scripts, src modules, docs, experiments, infra, and artifacts. |
