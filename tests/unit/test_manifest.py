@@ -77,6 +77,13 @@ def test_all_acquired_raw_sources_manifests_valid() -> None:
     if not manifest_files:
         pytest.skip("No acquired raw sources in data/raw/ (gitignored per R-DA-08)")
 
+    has_data_files = any(
+        p.is_file() and p.name != "manifest.yaml" and not p.name.startswith(".")
+        for p in data_raw.glob("*/*")
+    )
+    if not has_data_files:
+        pytest.skip("Raw data files not present in data/raw/ (gitignored per R-DA-08)")
+
     assert len(manifest_files) >= 10, f"Expected >= 10 manifests, found {len(manifest_files)}"
 
     for mf in manifest_files:

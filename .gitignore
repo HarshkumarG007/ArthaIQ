@@ -4,12 +4,7 @@
 # ===========================================================================
 
 # ---- Data (R-DA-08) -------------------------------------------------------
-data/**
-!data/
-!data/**/
-!data/**/manifest.yaml
-!data/**/canonical_lineage.json
-!data/**/.gitkeep
+data/
 # Only manifests and fixture metadata are tracked; the files themselves are not.
 # Tiny synthetic fixtures live in tests/fixtures/ and ARE tracked.
 

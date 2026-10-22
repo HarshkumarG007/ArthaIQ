@@ -32,7 +32,15 @@ def repo_root() -> Path:
 def require_raw_manifests(repo_root: Path) -> None:
     """Require acquired raw source manifests to be present locally (R-DA-08)."""
     raw_dir = repo_root / "data" / "raw"
-    if not raw_dir.exists() or not any(raw_dir.glob("*/manifest.yaml")):
+    has_raw_data = (
+        raw_dir.exists()
+        and any(raw_dir.glob("*/manifest.yaml"))
+        and any(
+            p.is_file() and p.name != "manifest.yaml" and not p.name.startswith(".")
+            for p in raw_dir.glob("*/*")
+        )
+    )
+    if not has_raw_data:
         pytest.skip(
             "Local raw data store not present in clean checkout (Rule R-DA-08). "
             "Run 'make reproduce-data' locally."
