@@ -80,7 +80,16 @@ def run_phase11_review(
     exp16_verdict = daemon_data.get("verdict", "REJECT")
 
     # 3. Overall Gate G11 Verdict Determination
-    g11_verdict = "GO" if (exp13_passed and exp16_passed and exp13_verdict == "PROMOTE" and exp16_verdict == "PROMOTE") else "NO-GO"
+    g11_verdict = (
+        "GO"
+        if (
+            exp13_passed
+            and exp16_passed
+            and exp13_verdict == "PROMOTE"
+            and exp16_verdict == "PROMOTE"
+        )
+        else "NO-GO"
+    )
 
     review_report = {
         "gate": "Gate G11",
@@ -99,9 +108,15 @@ def run_phase11_review(
                 "name": "Slice-Adaptive Conformal Prediction Intervals",
                 "verdict": exp13_verdict,
                 "all_criteria_passed": exp13_passed,
-                "slice_variance_reduction_pct": slice_data.get("comparison", {}).get("variance_reduction_percent", 0.0),
-                "median_width_growth_pct": slice_data.get("comparison", {}).get("width_growth_percent", 0.0),
-                "latency_overhead_us": slice_data.get("comparison", {}).get("latency_overhead_us", 0.0),
+                "slice_variance_reduction_pct": slice_data.get("comparison", {}).get(
+                    "variance_reduction_percent", 0.0
+                ),
+                "median_width_growth_pct": slice_data.get("comparison", {}).get(
+                    "width_growth_percent", 0.0
+                ),
+                "latency_overhead_us": slice_data.get("comparison", {}).get(
+                    "latency_overhead_us", 0.0
+                ),
                 "slices_in_band_ratio": "12/12 (100.0%)",
                 "keep_criteria": exp13_criteria,
             },
@@ -111,10 +126,14 @@ def run_phase11_review(
                 "verdict": exp16_verdict,
                 "all_criteria_passed": exp16_passed,
                 "staleness_violations_30d": 0,
-                "intake_latency_p95_minutes": exp16_criteria.get("criterion_2_ingestion_latency", {}).get("p95_minutes", 0.0),
+                "intake_latency_p95_minutes": exp16_criteria.get(
+                    "criterion_2_ingestion_latency", {}
+                ).get("p95_minutes", 0.0),
                 "canary_quarantine_rate": "100/100 (0.00% false accepts)",
                 "pii_leaks": 0,
-                "peak_rss_mb": exp16_criteria.get("criterion_4_zero_pii_and_memory", {}).get("peak_memory_mb", 0.0),
+                "peak_rss_mb": exp16_criteria.get("criterion_4_zero_pii_and_memory", {}).get(
+                    "peak_memory_mb", 0.0
+                ),
                 "keep_criteria": exp16_criteria,
             },
         },
@@ -167,10 +186,18 @@ def main(argv: list[str] | None = None) -> int:
 
         print(f"\nVerdict: {report['verdict']}")
         print(f"Recommendation: {report['recommendation']}")
-        print(f"\nEXP-13 Slice Variance Reduction: {report['charter_summaries']['EXP-13']['slice_variance_reduction_pct']}%")
-        print(f"EXP-13 Slices in [76%, 84%]: {report['charter_summaries']['EXP-13']['slices_in_band_ratio']}")
-        print(f"EXP-16 30-Day Staleness Violations: {report['charter_summaries']['EXP-16']['staleness_violations_30d']}")
-        print(f"EXP-16 p95 Intake Latency: {report['charter_summaries']['EXP-16']['intake_latency_p95_minutes']} min")
+        print(
+            f"\nEXP-13 Slice Variance Reduction: {report['charter_summaries']['EXP-13']['slice_variance_reduction_pct']}%"
+        )
+        print(
+            f"EXP-13 Slices in [76%, 84%]: {report['charter_summaries']['EXP-13']['slices_in_band_ratio']}"
+        )
+        print(
+            f"EXP-16 30-Day Staleness Violations: {report['charter_summaries']['EXP-16']['staleness_violations_30d']}"
+        )
+        print(
+            f"EXP-16 p95 Intake Latency: {report['charter_summaries']['EXP-16']['intake_latency_p95_minutes']} min"
+        )
         print(f"EXP-16 PII Leaks: {report['charter_summaries']['EXP-16']['pii_leaks']}")
         print("\nReport successfully generated at:", out_path)
         return 0

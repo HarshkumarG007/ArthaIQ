@@ -359,9 +359,7 @@ class SliceAdaptiveConformalRegressor:
             n_total_calibration=n_cal,
             global_conformal_quantile=self._global_quantile,
             n_slices_calibrated=len(self._group_calibrations),
-            slice_calibrations={
-                ":".join(k): v for k, v in self._group_calibrations.items()
-            },
+            slice_calibrations={":".join(k): v for k, v in self._group_calibrations.items()},
             aggregate_empirical_coverage=agg_cov,
             aggregate_mean_width=agg_mean_w,
             aggregate_median_width=agg_med_w,
