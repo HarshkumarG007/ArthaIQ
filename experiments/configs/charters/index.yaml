@@ -91,3 +91,14 @@ ranking_matrix:
     cost: "HIGH"
     expected_value_rationale: "Structural DAGs represent causal dependencies well but yield inferior regression precision on tabular pay"
     cost_rationale: "Complex graph inference, discretization quantization errors, and high latency"
+
+  - rank: 8
+    charter_id: "CHARTER-COPULA-PT4"
+    experiment_id: "EXP-PGM-01r"
+    task_id: "T13.07"
+    name: "Gaussian Copula Multi-Component Dependency Structure for PT4 Scenario UI"
+    charter_file: "experiments/configs/charters/charter_copula_pt4.yaml"
+    expected_value: "HIGH"
+    cost: "LOW"
+    expected_value_rationale: "Non-parametric empirical marginals with Gaussian copula capture realistic multi-component pay correlations without discretization"
+    cost_rationale: "Microsecond CPU inference; strictly restricted to PT4 scenario UI with zero core model impact"

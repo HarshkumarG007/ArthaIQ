@@ -1,0 +1,69 @@
+# =============================================================================
+#  ArthaIQ -- Advanced Modeling Experiment Charter: Copula PT4 Dependency Structure
+#  File: experiments/configs/charters/charter_copula_pt4.yaml
+#  Task: T13.07 (PRD Sec 5, FR-05, Rules R-MD-01, R-MD-05, R-MD-08, R-MD-09, R-UQ-01, R-UQ-05, R-CD-01)
+# =============================================================================
+
+charter_id: "CHARTER-COPULA-PT4"
+experiment_id: "EXP-PGM-01r"
+title: "Gaussian Copula Multi-Component Dependency Structure for PT4 Scenario UI"
+task_id: "T13.07"
+governing_rules:
+  - "R-MD-01"  # Orderly ladder climbing & bootstrap CI
+  - "R-MD-05"  # Comprehensive evaluation metrics with bootstrap CIs
+  - "R-MD-08"  # Guardrails against lone numbers and uncalibrated point estimates
+  - "R-MD-09"  # Experiment charter required before implementation
+  - "R-UQ-01"  # Uncertainty quantification; calibrated intervals [P10, P50, P90]
+  - "R-UQ-05"  # Strict monotonic non-crossing quantiles guarantee
+  - "R-CD-01"  # Pure typed Python, CPU-only inference, reproducible seeds
+priority_rank: 8
+expected_value: "HIGH"
+computational_cost: "LOW"
+operational_feasibility: "HIGH_FEASIBLE"
+
+candidate_summary:
+  hypothesis: >
+    A Gaussian copula joint dependency structure using non-parametric empirical marginal
+    probability integral transforms preserves realistic multivariate rank correlations across
+    base cash, equity grants, and variable performance bonuses without parametric distortion,
+    enabling coherent multi-component negotiation scenario trade-offs in the PT4 interactive
+    UI at microsecond CPU latency, without compromising or modifying core compensation point
+    estimation models.
+  baseline_model: "Independent empirical marginals (zero-correlation assumption R = I)"
+  proposed_variant: "Gaussian copula dependency structure with empirical PIT marginals and Cholesky conditional sampling"
+  scope_boundary: >
+    Strictly restricted to PT4 interactive counterfactual scenario UI; never used for core
+    compensation point estimation or core uncertainty quantification (which remains exclusively
+    governed by Champion Rung F Level 2 Conformal CatBoost).
+
+evaluation_protocol:
+  dataset_source: "Post-EXP-16 cumulative non-synthetic production panel + canonical multi-component offer transcripts"
+  sample_size: 500
+  evaluation_components:
+    - "guaranteed_cash_annual"
+    - "equity_annualized"
+    - "variable_performance_annual"
+  seed: 42
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+
+keep_criteria:
+  primary_rank_correlation_fidelity:
+    metric: "max_absolute_spearman_error"
+    direction: "decrease"
+    max_error_threshold: 0.050
+    confidence_interval: "95% bootstrap CI upper bound must be <= 0.050"
+  secondary_metric_thresholds:
+    zero_point_estimate_compliance_pct: 100.0
+    quantile_crossing_rate_max: 0.000
+    p95_simulation_latency_ms_max: 25.0
+    empirical_joint_coverage_bounds: [0.75, 0.85]
+    core_model_uncontaminated: true
+
+reject_criteria:
+  - "Maximum Spearman rank correlation error > 0.050 for any component pair"
+  - "Quantile crossing rate > 0.005 (0.5%)"
+  - "p95 scenario simulation latency exceeds 50.0 ms"
+  - "Any contamination or replacement of core Champion CatBoost point estimation"
+
+decision_authority: "Phase 13 Gate G13 Human Reviewer & AI Assistant"

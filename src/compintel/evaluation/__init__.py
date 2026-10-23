@@ -63,6 +63,17 @@ from compintel.evaluation.conformal_report import (
     RecentWindowMetrics,
     TailAnalysisMetrics,
 )
+from compintel.evaluation.copula_pt4_experiment import (
+    CopulaEvaluationMetrics,
+    CopulaExperimentReport,
+    CopulaVerdict,
+    EmpiricalMarginalTransformer,
+    GaussianCopulaJointModel,
+    PairwiseCorrelationMetrics,
+    evaluate_and_save_copula_pt4_experiment,
+    evaluate_copula_experiment,
+    run_copula_pt4_experiment,
+)
 from compintel.evaluation.employer_graph_reaudit import (
     EmployerGraphFeasibilityStatus,
     EmployerGraphReauditReport,
@@ -615,4 +626,13 @@ __all__ = [
     "audit_macro_panel_sufficiency",
     "evaluate_and_save_macro_regimes_reaudit",
     "run_macro_regimes_reaudit",
+    "CopulaEvaluationMetrics",
+    "CopulaExperimentReport",
+    "CopulaVerdict",
+    "EmpiricalMarginalTransformer",
+    "GaussianCopulaJointModel",
+    "PairwiseCorrelationMetrics",
+    "evaluate_and_save_copula_pt4_experiment",
+    "evaluate_copula_experiment",
+    "run_copula_pt4_experiment",
 ]
