@@ -1,0 +1,116 @@
+{
+  "gate": "Gate G13",
+  "title": "Phase 13 Benchmark & Gate G13 Ratification Review",
+  "evaluated_at_utc": "2026-10-23 15:24:44 UTC",
+  "verdict": "GO",
+  "recommendation": "RATIFIED / UNCONDITIONAL GO \u2014 Promote Gaussian Copula Joint Dependency Structure (EXP-PGM-01r) to ArthaIQ PT4 Interactive Negotiation Scenario UI Layer. Retain Champion Rung F Level 2 Conformal CatBoost strictly unmodified for core compensation estimation. Ratify documented DEFER/REJECT verdicts and long-range re-audit trigger schedules for EXP-10r, EXP-ENSEMBLE-01r, EXP-09r, EXP-TRAJ-r, and EXP-MACRO-01r.",
+  "charter_summaries": {
+    "EXP-10r": {
+      "charter_id": "CHARTER-EXP-10r",
+      "name": "Employer Graph Feasibility Re-audit",
+      "verdict": "DEFER",
+      "gate1_passed": false,
+      "qualified_clusters": 16,
+      "qualified_clusters_required": 50,
+      "next_trigger_condition": "Phase 14 data growth milestone: B2B employer syndication tranches yield >= 500 cross-company transition records with >= 50 qualified clusters."
+    },
+    "EXP-ENSEMBLE-01r": {
+      "charter_id": "CHARTER-ENSEMBLING-STACKING",
+      "name": "Quantile Model Ensembling & Stacking Re-audit",
+      "verdict": "REJECT",
+      "delta_pinball_loss_lpa": 0.13204563214983214,
+      "interval_width_ratio": 1.0146781880584155,
+      "operational_complexity_rejected": true
+    },
+    "EXP-09r": {
+      "charter_id": "CHARTER-EXP-09r",
+      "name": "Skills TF-IDF Power-Gated Re-audit",
+      "verdict": "DEFER",
+      "gate1_passed": false,
+      "achieved_power_pct": 45.62,
+      "target_power_pct": 80.0,
+      "current_sample_size": 219,
+      "required_sample_size": 500,
+      "next_trigger_condition": "Non-synthetic cumulative panel size N >= 500 verified records"
+    },
+    "EXP-TRAJ-r": {
+      "charter_id": "CHARTER-CAREER-TRAJ-r",
+      "name": "Career Trajectory Longitudinal Feasibility Re-audit",
+      "verdict": "DEFER",
+      "gate1_passed": false,
+      "realized_span_months": 0.0,
+      "required_span_months": 12.0,
+      "populated_milestones": 0,
+      "required_milestones": 100,
+      "next_trigger_condition": "Longitudinal panel >= 12.0 calendar months AND verified longitudinal records >= 100"
+    },
+    "EXP-MACRO-01r": {
+      "charter_id": "CHARTER-MACRO-REGIMES-r",
+      "name": "Macro Regimes Long-Range Calendar Trigger Re-audit",
+      "verdict": "DEFER",
+      "gate1_passed": false,
+      "realized_span_months": 0.0,
+      "required_span_months": 24.0,
+      "next_trigger_condition": "Accumulation of >= 24.0 calendar months of nominal observations OR 2028-10-01 trigger"
+    },
+    "EXP-PGM-01r": {
+      "charter_id": "CHARTER-COPULA-PT4",
+      "name": "Gaussian Copula Multi-Component Dependency Structure",
+      "verdict": "PROMOTE",
+      "all_criteria_passed": true,
+      "max_spearman_error": 0.0388,
+      "quantile_crossing_rate_pct": 0.0,
+      "empirical_joint_coverage_pct": 78.0,
+      "latency_p95_ms": 0.86,
+      "zero_lone_number_compliant": true,
+      "core_model_uncontaminated": true
+    }
+  },
+  "phase13_gate_conditions": {
+    "all_audits_completed_with_documented_verdicts": {
+      "target": "6/6 audits completed",
+      "measured": "6/6 audits completed",
+      "passed": true
+    },
+    "at_least_one_promote_verdict_achieved": {
+      "target": ">= 1 PROMOTE verdict",
+      "measured": "1 PROMOTE verdict (PROMOTE)",
+      "passed": true
+    },
+    "all_deferred_audits_have_trigger_conditions_recorded": {
+      "target": "100% deferred charters have triggers",
+      "measured": "4/4 deferred charters have triggers recorded",
+      "passed": true
+    },
+    "copula_rank_correlation_error_le_0_050": {
+      "target": "<= 0.050",
+      "measured": "0.0388",
+      "passed": true
+    },
+    "copula_quantile_crossings_zero": {
+      "target": "0.00%",
+      "measured": "0.00%",
+      "passed": true
+    },
+    "copula_joint_coverage_in_nominal_window": {
+      "target": "[75.0%, 85.0%]",
+      "measured": "78.00%",
+      "passed": true
+    },
+    "copula_simulation_latency_p95_le_25ms": {
+      "target": "<= 25.0 ms",
+      "measured": "0.86 ms",
+      "passed": true
+    },
+    "zero_contamination_of_core_compensation_models": {
+      "target": "True (Rung F Champion retained unmodified)",
+      "measured": "True",
+      "passed": true
+    },
+    "zero_lone_numbers_in_scenario_outputs": {
+      "target": "True (100% compliant intervals)",
+      "measured": "True",
+      "passed": true
+    }
+  }
+}

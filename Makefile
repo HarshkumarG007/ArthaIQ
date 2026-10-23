@@ -9,7 +9,7 @@
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
         preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 rollback-rehearsal coverage-tracking \
         slice-conformal-benchmark ingestion-daemon phase11-review active-learning counterfactual-eval phase12-review \
-        employer-graph-reaudit ensemble-reaudit skills-reaudit clean
+        employer-graph-reaudit ensemble-reaudit skills-reaudit career-trajectory-reaudit macro-regimes-reaudit copula-pt4-experiment phase13-review clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -359,6 +359,10 @@ macro-regimes-reaudit:
 # ---- Copula Dependency Structure for Multi-Component PT4 (Phase 13, T13.07, CHARTER-COPULA-PT4) -
 copula-pt4-experiment:
 	uv run python scripts/run_copula_pt4_experiment.py
+
+# ---- Phase 13 Benchmark & Gate G13 Ratification Review (Phase 13, Gate G13) ------
+phase13-review:
+	uv run python scripts/run_phase13_review.py
 
 # ---- Clean -----------------------------------------------------------------
 clean:

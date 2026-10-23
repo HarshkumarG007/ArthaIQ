@@ -2,9 +2,9 @@
 
 | Field | Value |
 |---|---|
-| Document Version | 1.2.0 (Phase 12 Promotion) |
+| Document Version | 1.3.0 (Phase 13 Promotion & Re-audit; supersedes 1.2.0 (Phase 12 Promotion)) |
 | Release Date | 2026-10-23 |
-| Model Identifier | `arthaiq-champion-v1.2.0` |
+| Model Identifier | `arthaiq-champion-v1.3.0` |
 | Benchmark Ladder Rung | **Rung F (Champion)** under ADR-0004 |
 | Target Measure | PT1: `guaranteed_cash_annual` (Nominal INR LPA, Gross Pretax) |
 | Deployment Profile | Profile B (`t4g.medium` Graviton3, ADR-0009) |
@@ -157,7 +157,25 @@ To support candidate decision-making without emitting uncalibrated point estimat
 
 ---
 
-## 9. Model Card Sign-Off
+## 9. Phase 13 Addendum: Multi-Component Copula Scenario Structure & Re-audit Ratification (EXP-PGM-01r)
+
+In Phase 13, the platform evaluated accumulating 6-month non-synthetic production data across 6 research charters under Gate G13 (`docs/pilot/gate-g13-review.md`):
+
+### 9.1 Gaussian Copula Scenario Dependency Layer (`src/compintel/evaluation/copula_pt4_experiment.py`, EXP-PGM-01r)
+To prevent unrealistic multi-component compensation permutations in the PT4 negotiation scenario UI, a Gaussian copula rank-correlation layer with non-parametric empirical marginal probability integral transforms (PIT) was promoted:
+- **Multi-Component Trade-off Dependency:** Preserves empirical correlation structure between base cash (`guaranteed_cash_annual`), equity grants (`equity_annualized`), and performance bonuses (`variable_performance_annual`).
+- **Rank-Correlation Preservation:** Achieved maximum Spearman rank correlation error $|\Delta \rho| = 0.0388 \le 0.050$ across all component pairs (vs $|\Delta \rho| > 0.60$ under independent marginal assumptions).
+- **Monotonic Non-Crossing Quantiles:** Enforces Chernozhukov sorting projection with $0.00\%$ crossing rate across simulated draws ($P_{10} \le P_{50} \le P_{90}$).
+- **Joint Calibration & Efficiency:** Maintained $78.00\%$ empirical joint coverage in the $[75.0\%, 85.0\%]$ nominal window at $p_{95} = 0.86\text{ ms}$ CPU simulation latency.
+- **Architectural Boundary Guard (Rules R-MD-08 & R-CD-03):** The copula layer is strictly integrated into the PT4 interactive negotiation scenario UI layer (`compintel.serving.counterfactual`). Core compensation point and interval predictions remain 100% governed by Champion Rung F Level 2 Conformal CatBoost without model contamination or lone numbers.
+
+### 9.2 Architecture Re-audit & Re-gate Verdicts
+- **Quantile Model Ensembling (`EXP-ENSEMBLE-01r`):** Convex quantile stacking degraded pinball loss by $+0.1320\text{ LPA}$ and widened interval widths by $+1.47\%$. Permanently **REJECTED**; Champion CatBoost retained unmodified.
+- **Disciplined Feasibility Deferrals:** `EXP-10r` (Employer Graphs, 16 clusters $< 50$), `EXP-09r` (Skills TF-IDF, $45.6\%$ power $< 80.0\%$), `EXP-TRAJ-r` (Career Trajectories, $5.9$ mo $< 12.0$ mo span), and `EXP-MACRO-01r` (Macro Regimes, $5.9$ mo $< 24.0$ mo span) were formally **DEFERRED** with pre-registered triggers, preventing speculative model drift.
+
+---
+
+## 10. Model Card Sign-Off
 
 | Reviewer Role | Signatory | Determination | Date | Status |
 |---|---|---|---|---|
