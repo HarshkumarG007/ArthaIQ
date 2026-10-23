@@ -1,0 +1,98 @@
+{
+  "report_id": "EXP09R-SKILLS-20261023041519",
+  "charter_id": "CHARTER-EXP-09r",
+  "task_id": "T13.03",
+  "generated_at": "2026-10-23T04:15:19.321666+00:00",
+  "git_commit": "23a6f62a",
+  "months_operational": 6.0,
+  "n_total_observations": 219,
+  "n_non_synthetic": 219,
+  "n_train": 0,
+  "n_calibrate": 0,
+  "n_eval": 0,
+  "evaluation_split": "select",
+  "feasibility_audit": {
+    "status": "UNDERPOWERED_DEFER",
+    "n_total_records": 219,
+    "n_non_synthetic": 219,
+    "n_synthetic": 0,
+    "is_synthetic": false,
+    "power_metrics": {
+      "effect_size_delta": -0.05,
+      "std_dev_delta": 0.4,
+      "alpha": 0.05,
+      "target_power": 0.8,
+      "required_sample_size": 500,
+      "current_sample_size": 219,
+      "achieved_power": 0.45615198378333566,
+      "sample_size_deficit": 281,
+      "power_curve": [
+        {
+          "sample_size": 50,
+          "power": 0.1409,
+          "qualification": "Severely Underpowered"
+        },
+        {
+          "sample_size": 100,
+          "power": 0.2389,
+          "qualification": "Severely Underpowered"
+        },
+        {
+          "sample_size": 150,
+          "power": 0.3339,
+          "qualification": "Underpowered (DEFER Trigger)"
+        },
+        {
+          "sample_size": 200,
+          "power": 0.4238,
+          "qualification": "Underpowered (DEFER Trigger)"
+        },
+        {
+          "sample_size": 219,
+          "power": 0.4562,
+          "qualification": "Underpowered (DEFER Trigger)"
+        },
+        {
+          "sample_size": 300,
+          "power": 0.5813,
+          "qualification": "Underpowered (DEFER Trigger)"
+        },
+        {
+          "sample_size": 400,
+          "power": 0.7054,
+          "qualification": "Approaching Sufficiency"
+        },
+        {
+          "sample_size": 500,
+          "power": 0.7982,
+          "qualification": "Approaching Sufficiency"
+        },
+        {
+          "sample_size": 750,
+          "power": 0.9283,
+          "qualification": "Powered for Pre-Registered Testing"
+        },
+        {
+          "sample_size": 1000,
+          "power": 0.9769,
+          "qualification": "High Power"
+        }
+      ]
+    },
+    "summary": "Gate 1 feasibility deferred: non-synthetic panel size N = 219 is underpowered relative to required threshold (N >= 500), achieving only 45.6% statistical power (deficit: 281 observations, 54.4% Type II error risk). Retest deferred under Rule R-MD-01."
+  },
+  "gate1_passed": false,
+  "modeling_executed": false,
+  "variant_a_verdict": "DEFER",
+  "variant_b_verdict": "REJECT",
+  "overall_verdict": "DEFER",
+  "champion_status": "RETAINED_UNMODIFIED",
+  "baseline_metrics": null,
+  "variant_a_metrics": null,
+  "variant_b_metrics": null,
+  "paired_difference_variant_a": null,
+  "executive_summary": "Statistical power analysis for EXP-09r confirms that the current 6-month non-synthetic production panel (N = 219 observations) is underpowered to test pre-registered effect threshold (delta pinball loss <= -0.05 LPA) with 80.0% power (achieved power: 45.6%, deficit: 281 records, 54.4% Type II error risk). In accordance with Rule R-MD-01, empirical re-training is formally DEFERRED until panel achieves N >= 500 records. Variant B (sentence-transformers on CPU) remains REJECTED due to CPU serving latency constraints. Champion Rung F Level 2 Conformal CatBoost is strictly retained unmodified.",
+  "governance_decision": "Ratify formal Gate 1 DEFER for Variant A under CHARTER-EXP-09r. Maintain Champion Rung F CatBoost without skills text overhead. Schedule next power audit for panel milestone N >= 500.",
+  "next_scheduled_audit_date": "2027-04-21",
+  "next_audit_trigger_condition": "Non-synthetic cumulative panel size N >= 500 verified records"
+}

@@ -529,7 +529,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ### 13.C: Skills TF-IDF Power-Gated Retest (EXP-09r)
 
-- [ ] **T13.03** [AI] Run statistical power analysis for EXP-09 Variant A (TF-IDF skills taxonomy). If non-synthetic panel N >= 500, rerun the charter with bootstrapped CI on pinball delta. Variant B (sentence-transformers on CPU) remains REJECTED until GPU serving is justified. (trigger: N >= 500 non-synthetic records)
+- [x] **T13.03** [AI] Run statistical power analysis for EXP-09 Variant A (TF-IDF skills taxonomy). If non-synthetic panel N >= 500, rerun the charter with bootstrapped CI on pinball delta. Variant B (sentence-transformers on CPU) remains REJECTED until GPU serving is justified. (done 2026-10-23)
       Output: docs/research/skills-reaudit-phase13.md, experiments/results/skills_reaudit.json. Done when: power-gated verdict recorded (PROMOTE / DEFER with updated N-required). Needs: T11.02 operational. Size: M.
 
 ### 13.D: Longitudinal Schema Extension (enables EXP-TRAJ & EXP-SURV future re-evaluation)
@@ -912,6 +912,12 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/results/ensemble_reaudit.json | T13.02 |
 | tests/unit/test_ensemble_reaudit.py | T13.02 |
 | docs/research/evidence-register.csv (Claim 26) | T13.02 |
+| src/compintel/evaluation/skills_reaudit.py | T13.03 |
+| scripts/run_skills_reaudit.py | T13.03 |
+| docs/research/skills-reaudit-phase13.md | T13.03 |
+| experiments/results/skills_reaudit.json | T13.03 |
+| tests/unit/test_skills_reaudit.py | T13.03 |
+| docs/research/evidence-register.csv (Claim 27) | T13.03 |
 
 ## Change log
 
@@ -937,3 +943,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-23 | 1.9     | Task T13.01 complete: EXP-10r Employer Graph Feasibility Re-audit executed on 6-month post-EXP-16 cumulative production panel (219 non-synthetic observations); Gate 1 audit verified 16 qualified employer clusters with degree >= 3 (< 50 required), triggering unconditional Gate 1 DEFER under CHARTER-EXP-10r without claiming predictive improvement; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified without GNN complexity; next audit deferred to Phase 14 B2B syndication milestone; unit test suite passing (8/8). NEXT: Task T13.02 (EXP-ENSEMBLE-01r Quantile Ensembling Re-gate). |
 | 2026-10-23 | 1.10    | Task T13.02 complete: EXP-ENSEMBLE-01r Quantile Ensembling Feasibility Re-audit executed on cumulative non-synthetic panel (219 observations); Gate 1 sample sufficiency passed (N = 219 >= 100); empirical modeling of convex quantile blender (CatBoost CQR + LightGBM MultiQuantile with Chernozhukov monotone sorting projection) yielded pinball loss increase (+0.1320 LPA [95% CI: +0.0243, +0.2442 LPA]) and interval widening (+1.47%), triggering unconditional REJECT verdict under CHARTER-ENSEMBLING-STACKING; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified; 9/9 unit tests passing; Claim 26 registered. NEXT: Task T13.03 (EXP-09r Skills TF-IDF Power-Gated Retest). |
 | 2026-10-23 | 1.11    | Remediated CI security audit failures: (1) Replaced high-entropy mock receipt key in apps/web/src/components/ContributionFlow.test.tsx resolving gitleaks generic-api-key false positive; (2) Added .gitleaks.toml configuration extending default rules with test fixture allowlist; (3) Added fetch-depth: 0 to actions/checkout in .github/workflows/ci.yml for complete git history; (4) Upgraded virtualenv to 21.14.13 in uv.lock remediating CVE-2026-113722 in pip-audit. All security checks, 93 Vitest tests, and Python test suite pass 100% green. |
+| 2026-10-23 | 1.12    | Task T13.03 complete: EXP-09r Skills TF-IDF Power-Gated Re-audit executed on 6-month non-synthetic panel (219 observations); paired t-power analysis verified that current sample size achieves only 45.6% power against pre-registered keep threshold (delta pinball loss <= -0.050 LPA, N >= 500 required for 80.0% power), triggering unconditional Gate 1 DEFER under CHARTER-EXP-09r to prevent Type II error; Variant B (sentence-transformers on CPU) permanently REJECT due to CPU latency constraints; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified; 11/11 unit tests passing; Claim 27 registered. NEXT: Task T13.04 (Longitudinal Schema Extension). |
