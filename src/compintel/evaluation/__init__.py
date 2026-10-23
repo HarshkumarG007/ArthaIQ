@@ -39,6 +39,15 @@ from compintel.evaluation.career_trajectory_experiment import (
     evaluate_and_save_career_trajectory,
     run_career_trajectory_experiment,
 )
+from compintel.evaluation.career_trajectory_reaudit import (
+    CareerTrajectoryReauditReport,
+    CareerTrajectoryReauditVerdict,
+    LongitudinalAuditStatus,
+    LongitudinalPanelMetrics,
+    audit_longitudinal_panel_depth,
+    evaluate_and_save_career_trajectory_reaudit,
+    run_career_trajectory_reaudit,
+)
 from compintel.evaluation.champion import (
     CandidateEvaluation,
     ChampionSelectionEvaluator,
@@ -583,4 +592,11 @@ __all__ = [
     "evaluate_and_save_skills_reaudit",
     "generate_power_curve",
     "run_skills_reaudit",
+    "CareerTrajectoryReauditReport",
+    "CareerTrajectoryReauditVerdict",
+    "LongitudinalAuditStatus",
+    "LongitudinalPanelMetrics",
+    "audit_longitudinal_panel_depth",
+    "evaluate_and_save_career_trajectory_reaudit",
+    "run_career_trajectory_reaudit",
 ]
