@@ -562,6 +562,12 @@ def audit_macro_panel_sufficiency(
 
     # Check macro series
     macro_path = Path(macro_dir)
+    if not macro_path.is_absolute() and not macro_path.exists():
+        repo_root = Path(__file__).resolve().parents[3]
+        candidate = repo_root / macro_dir
+        if candidate.exists():
+            macro_path = candidate
+
     cpi_path = macro_path / "cpi_urban_monthly.csv"
     fx_path = macro_path / "inr_usd_fx_daily.csv"
     manifest_path = macro_path / "manifest.yaml"
@@ -655,10 +661,17 @@ def run_macro_regimes_reaudit(
                 },
             )
 
+    macro_p = Path(macro_dir)
+    if not macro_p.is_absolute() and not macro_p.exists():
+        repo_root = Path(__file__).resolve().parents[3]
+        candidate = repo_root / macro_dir
+        if candidate.exists():
+            macro_p = candidate
+
     panel_metrics = audit_macro_panel_sufficiency(
         df=panel_df,
         min_span_months=min_span_months,
-        macro_dir=macro_dir,
+        macro_dir=macro_p,
     )
 
     now_utc = datetime.datetime.now(UTC).isoformat()
@@ -772,7 +785,7 @@ def run_macro_regimes_reaudit(
         train_df=train_df,
         eval_df=eval_df,
         calibrate_df=calib_df,
-        macro_dir=macro_dir,
+        macro_dir=macro_p,
         eval_split_name="select",
         n_resamples=n_resamples,
         seed=seed,
