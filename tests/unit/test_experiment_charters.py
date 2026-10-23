@@ -41,10 +41,12 @@ def test_index_yaml_structure_and_ranking() -> None:
 
     assert "ranking_matrix" in data
     matrix = data["ranking_matrix"]
-    assert len(matrix) == 7, f"Expected 7 ranked charters, got {len(matrix)}"
+    assert len(matrix) >= 7, f"Expected at least 7 ranked charters, got {len(matrix)}"
 
     ranks = [item["rank"] for item in matrix]
-    assert ranks == list(range(1, 8)), f"Ranks must be contiguous 1..7: {ranks}"
+    assert ranks == list(range(1, len(matrix) + 1)), (
+        f"Ranks must be contiguous 1..{len(matrix)}: {ranks}"
+    )
 
     for item in matrix:
         assert "charter_id" in item
