@@ -54,6 +54,16 @@ from compintel.evaluation.conformal_report import (
     RecentWindowMetrics,
     TailAnalysisMetrics,
 )
+from compintel.evaluation.employer_graph_reaudit import (
+    EmployerGraphFeasibilityStatus,
+    EmployerGraphReauditReport,
+    EmployerGraphTopologyMetrics,
+    ReauditVerdict,
+    audit_employer_graph_topology,
+    build_post_exp16_cumulative_panel,
+    evaluate_and_save_employer_graph_reaudit,
+    run_employer_graph_reaudit,
+)
 from compintel.evaluation.employer_graphs_experiment import (
     EmployerComparisonDelta,
     EmployerDecisionVerdict,
@@ -531,4 +541,12 @@ __all__ = [
     "render_pilot_analysis_markdown",
     "update_evidence_register",
     "verify_preregistration_hash",
+    "EmployerGraphFeasibilityStatus",
+    "EmployerGraphReauditReport",
+    "EmployerGraphTopologyMetrics",
+    "ReauditVerdict",
+    "audit_employer_graph_topology",
+    "build_post_exp16_cumulative_panel",
+    "evaluate_and_save_employer_graph_reaudit",
+    "run_employer_graph_reaudit",
 ]
