@@ -9,7 +9,7 @@
         benchmark-latency final-eval migrate-up migrate-down migrate-reset migrate-check test-migrations security-scan \
         preview-up preview-down preview-health qa-smoke load-test fairness-audit-v2 rollback-rehearsal coverage-tracking \
         slice-conformal-benchmark ingestion-daemon phase11-review active-learning counterfactual-eval phase12-review \
-        employer-graph-reaudit ensemble-reaudit clean
+        employer-graph-reaudit ensemble-reaudit skills-reaudit clean
 
 
 # ---- Help ------------------------------------------------------------------
@@ -343,6 +343,10 @@ employer-graph-reaudit:
 # ---- Quantile Ensembling Feasibility Re-audit (Phase 13, T13.02, CHARTER-ENSEMBLING-STACKING) -
 ensemble-reaudit:
 	uv run python scripts/run_ensemble_reaudit.py
+
+# ---- Skills TF-IDF Power-Gated Retest (Phase 13, T13.03, CHARTER-EXP-09r) ----
+skills-reaudit:
+	uv run python scripts/run_skills_reaudit.py
 
 # ---- Clean -----------------------------------------------------------------
 clean:

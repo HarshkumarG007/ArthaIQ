@@ -269,6 +269,19 @@ from compintel.evaluation.skills_embeddings_experiment import (
     evaluate_and_save_skills_experiment,
     run_skills_embeddings_experiment,
 )
+from compintel.evaluation.skills_reaudit import (
+    PowerAnalysisMetrics,
+    PowerAuditStatus,
+    SkillsFeasibilityAudit,
+    SkillsReauditReport,
+    SkillsReauditVerdict,
+    audit_skills_feasibility,
+    calculate_achieved_power,
+    calculate_required_sample_size,
+    evaluate_and_save_skills_reaudit,
+    generate_power_curve,
+    run_skills_reaudit,
+)
 from compintel.evaluation.sparse_cell_benchmark import (
     ModelBandMetrics,
     SparseCellBand,
@@ -559,4 +572,15 @@ __all__ = [
     "ReauditOutcomeVerdict",
     "evaluate_and_save_ensemble_reaudit",
     "run_ensemble_reaudit",
+    "PowerAnalysisMetrics",
+    "PowerAuditStatus",
+    "SkillsFeasibilityAudit",
+    "SkillsReauditReport",
+    "SkillsReauditVerdict",
+    "audit_skills_feasibility",
+    "calculate_achieved_power",
+    "calculate_required_sample_size",
+    "evaluate_and_save_skills_reaudit",
+    "generate_power_curve",
+    "run_skills_reaudit",
 ]
