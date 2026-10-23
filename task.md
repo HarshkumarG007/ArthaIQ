@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 underway: T13.01 complete; NEXT: T13.02 EXP-ENSEMBLE-01r Quantile Ensembling Re-gate)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 underway: T13.01 & T13.02 complete; NEXT: T13.03 EXP-09r Skills TF-IDF Power-Gated Retest)
 
 ## How to use this file
 
@@ -524,7 +524,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ### 13.B: Quantile Ensembling Feasibility Re-gate (EXP-ENSEMBLE-01r)
 
-- [ ] **T13.02** [AI] Non-synthetic development panel size audit: if panel N >= 100 non-synthetic records, rerun convex quantile blender (QuantileEnsembleBlender) + meta-learner stacking feasibility under CHARTER-ENSEMBLING-STACKING. Otherwise document deferral. (trigger: data audit shows N >= 100)
+- [x] **T13.02** [AI] Non-synthetic development panel size audit: if panel N >= 100 non-synthetic records, rerun convex quantile blender (QuantileEnsembleBlender) + meta-learner stacking feasibility under CHARTER-ENSEMBLING-STACKING. Otherwise document deferral. (done 2026-10-23)
       Output: docs/research/ensemble-reaudit-phase13.md, experiments/results/ensemble_reaudit.json. Done when: feasibility verdict recorded. Needs: T11.02 operational. Size: M.
 
 ### 13.C: Skills TF-IDF Power-Gated Retest (EXP-09r)
@@ -906,6 +906,12 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/results/employer_graph_reaudit.json | T13.01 |
 | tests/unit/test_employer_graph_reaudit.py | T13.01 |
 | docs/research/evidence-register.csv (Claim 25) | T13.01 |
+| src/compintel/evaluation/ensemble_reaudit.py | T13.02 |
+| scripts/run_ensemble_reaudit.py | T13.02 |
+| docs/research/ensemble-reaudit-phase13.md | T13.02 |
+| experiments/results/ensemble_reaudit.json | T13.02 |
+| tests/unit/test_ensemble_reaudit.py | T13.02 |
+| docs/research/evidence-register.csv (Claim 26) | T13.02 |
 
 ## Change log
 
@@ -929,3 +935,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-22 | 1.7     | Task T12.02 complete: EXP-15 Counterfactual Negotiation Scenario Modeling (PT4 Prototype) implemented (`compintel.serving.counterfactual`, `compintel.serving.routers.scenarios`, `apps/web/src/components/NegotiationScenario.tsx`), all 4 keep criteria passed with PROMOTE verdict (100.00% monotonicity satisfaction >= 98%, 79.98% coverage in [75%, 85%], 100.0% zero point-estimate compliance, p95 latency 4.03 ms <= 150 ms), 12/12 unit tests & 4/4 Vitest tests passing, deliverables catalogued in Appendix C. NEXT: Task T12.03 (Phase 12 Review & Gate G12). |
 | 2026-10-23 | 1.8     | Task T12.03 and Gate G12 complete: Phase 12 benchmark & gate review executed (scripts/run_phase12_review.py), EXP-14 and EXP-15 keep criteria verified (32.45% sparse cell width reduction, 75pp abstention drop, 100% monotonicity, 79.98% coverage, 100% zero lone numbers, 4.03ms p95 latency), Gate G12 ratified GO (docs/pilot/gate-g12-review.md), Model Card updated with Phase 12 Addendum (docs/model-cards/model-card-final-v1.md v1.2.0), Evidence Register updated with Claims 21-24. NEXT: Phase 13 (T13.01 EXP-10r Employer Graph Re-audit). |
 | 2026-10-23 | 1.9     | Task T13.01 complete: EXP-10r Employer Graph Feasibility Re-audit executed on 6-month post-EXP-16 cumulative production panel (219 non-synthetic observations); Gate 1 audit verified 16 qualified employer clusters with degree >= 3 (< 50 required), triggering unconditional Gate 1 DEFER under CHARTER-EXP-10r without claiming predictive improvement; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified without GNN complexity; next audit deferred to Phase 14 B2B syndication milestone; unit test suite passing (8/8). NEXT: Task T13.02 (EXP-ENSEMBLE-01r Quantile Ensembling Re-gate). |
+| 2026-10-23 | 1.10    | Task T13.02 complete: EXP-ENSEMBLE-01r Quantile Ensembling Feasibility Re-audit executed on cumulative non-synthetic panel (219 observations); Gate 1 sample sufficiency passed (N = 219 >= 100); empirical modeling of convex quantile blender (CatBoost CQR + LightGBM MultiQuantile with Chernozhukov monotone sorting projection) yielded pinball loss increase (+0.1320 LPA [95% CI: +0.0243, +0.2442 LPA]) and interval widening (+1.47%), triggering unconditional REJECT verdict under CHARTER-ENSEMBLING-STACKING; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified; 9/9 unit tests passing; Claim 26 registered. NEXT: Task T13.03 (EXP-09r Skills TF-IDF Power-Gated Retest). |
