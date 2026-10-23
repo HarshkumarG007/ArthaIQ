@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "compintel"
-version = "0.0.1.dev0"
+version = "1.0.0"
 description = "Personalized compensation intelligence and decision-support tool"
 readme = "README.md"
 requires-python = ">=3.11"

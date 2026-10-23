@@ -1,0 +1,45 @@
+{
+  "gate": "Gate G14",
+  "title": "Phase 14 Benchmark & Gate G14 Ratification Review",
+  "evaluated_at_utc": "2026-10-23 23:48:10 UTC",
+  "verdict": "GO",
+  "recommendation": "RATIFIED / UNCONDITIONAL GO \u2014 Formally promote SRC-B2B-01 Enterprise Syndication Intake Protocol, Differential Privacy Small-Cell Pooling (k_min >= 5), and Pre-registered Charters (CHARTER-EXP-10r-v2, CHARTER-CAREER-TRAJ-r-v2). Champion Rung F Level 2 Conformal CatBoost strictly preserved unmodified for core compensation estimation. Authorize GA v1.0.0 official release.",
+  "deliverables_summary": {
+    "SRC-B2B-01": {
+      "specification_compliant": true,
+      "provenance_tier": "TIER_1_GROUND_TRUTH",
+      "sqs": 98.0,
+      "k_min_floor": 5,
+      "dpdpa_2023_compliant": true,
+      "wage_coarsening_step_inr": 50000.0,
+      "date_coarsening": "quarterly",
+      "cci_anti_collusion_safe_harbor": {
+        "min_distinct_employers": 5,
+        "max_single_employer_share": 0.35,
+        "min_data_age_months": 3,
+        "compliant": true
+      }
+    },
+    "ingestion_and_privacy_pooling": {
+      "connector_pii_keys_barred": 18,
+      "k_min_suppression_verified": true,
+      "wage_coarsening_verified": true,
+      "quarterly_coarsening_verified": true,
+      "cci_safe_harbor_verified": true,
+      "privacy_pooler_passed": true
+    },
+    "charter_preregistration": {
+      "index_contiguous_and_valid": true,
+      "charter_exp10r_v2_status": "PRE-REGISTERED (Rank 9)",
+      "charter_career_traj_v2_status": "PRE-REGISTERED (Rank 10)",
+      "charters_valid": true
+    },
+    "ui_and_operational_health": {
+      "pt4_copula_ui_integrated": true,
+      "vitest_passing_count": 96,
+      "axe_accessibility_violations": 0,
+      "production_sources_fresh": "14/14",
+      "drift_alerts": 0
+    }
+  }
+}

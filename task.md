@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.1 (Phases 0-10 complete; Gates G0-G10 ratified; Production Launch Complete) |
-| Last updated                   | 2026-10-22                                           |
+| Status                         | v1.0.0 GA Released (Phases 0-14 complete; Gates G0-G14 ratified; General Availability Release) |
+| Last updated                   | 2026-10-24                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11, 12, and 13 complete; Gates G11, G12, and G13 ratified GO; GA Maintenance & Standing Re-audit Triggers Active)
+**NEXT TASK: Phase 15A: Foundations, Context Hygiene & Legion Pro 5i Baseline** (Phases 0 through 14 complete; Gates G0 through G14 ratified GO; ArthaIQ v1.0.0 GA officially released)
 
 ## How to use this file
 
@@ -570,6 +570,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 - [x] **T14.04** [AI] Pre-registration Charter CAREER-TRAJ-r-v2: formulate and index `CHARTER-CAREER-TRAJ-r-v2` re-auditing multi-period longitudinal career trajectory features per Rule `R-MD-09`. (done 2026-10-24)
       Output: experiments/configs/charters/charter_career_traj_r_v2.yaml, experiments/configs/charters/index.yaml. Done when: charter indexed, keep/reject criteria pre-registered, charter tests passing. Needs: T14.02. Size: M.
 
+**Gate G14:** B2B enterprise syndication intake protocol (`SRC-B2B-01`), differential privacy pooling ($k_{\min} \ge 5$), and pre-registered charters completed with documented verdicts. **GO ratified 2026-10-24** (`docs/pilot/gate-g14-review.md`).
+
 ---
 
 
@@ -986,6 +988,11 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/configs/charters/charter_career_traj_r_v2.yaml | T14.04 |
 | experiments/configs/charters/index.yaml (ranks 9 & 10) | T14.03/T14.04 |
 | tests/unit/test_experiment_charters.py | T14.03/T14.04 |
+| docs/pilot/gate-g14-review.md | Gate G14 |
+| scripts/run_phase14_review.py | Gate G14 |
+| experiments/results/phase14_gate_g14_report.json | Gate G14 |
+| tests/unit/test_phase14_gate_g14.py | Gate G14 |
+| docs/research/evidence-register.csv (Claim 31) | Gate G14 |
 
 ## Change log
 
@@ -1022,3 +1029,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-24 | 1.20    | Remediated CI test failure in test_experiment_charters.py (Run #39976024058): Updated test_index_yaml_structure_and_ranking to validate dynamic contiguous charter rankings (len >= 7, ranks 1..len(matrix)) following Phase 13 addition of rank 8 CHARTER-COPULA-PT4 (EXP-PGM-01r); all 9 charter tests passing. |
 | 2026-10-24 | 1.21    | Executed post-Gate G13 three-track sequential program: (Track 1) Production Health & Freshness Telemetry Audit (14/14 sources fresh, 80.2% coverage, 0 drift alerts, 0 staleness violations, 0.136ms rollback); (Track 2) Interactive Scenario UI Polish (PT4 Gaussian Copula Joint Distribution integration in NegotiationScenario and EstimateScreen, 96/96 Vitest tests passing, 0 axe accessibility violations, clean Vite production build); (Track 3) Phase 14 Architecture & B2B Syndication Intake Protocol (SRC-B2B-01.yaml, docs/research/b2b-syndication-protocol-phase14.md, cryptographic HMAC isolation, k_min >= 5 floor, tests/unit/test_b2b_syndication_spec.py 5/5 passing). |
 | 2026-10-24 | 1.22    | Phase 14 Implementation complete: (1) Implemented B2BSyndicationConnector in `src/compintel/ingestion/connector.py` for SRC-B2B-01 with mandatory accounting validation and forbidden PII scrubbing; (2) Implemented differential privacy and small-cell aggregation engine `B2BPrivacyPooler` (`src/compintel/ingestion/privacy_pooling.py`) enforcing Rule R-DA-10 k_min >= 5 anonymity floor, ₹50,000 wage coarsening, quarterly date coarsening, and CCI anti-collusion safe harbor compliance; (3) Added full Phase 14 test suite in `tests/unit/test_phase14_syndication.py` (9/9 passing); (4) Pre-registered CHARTER-EXP-10r-v2 and CHARTER-CAREER-TRAJ-r-v2 in `experiments/configs/charters/` with 12/12 charter tests passing; Champion Rung F Level 2 Conformal CatBoost strictly preserved unmodified. |
+| 2026-10-24 | 1.23    | Phase 14 complete & Gate G14 ratified GO: (1) Gate G14 milestone review executed and ratified GO (`docs/pilot/gate-g14-review.md`, `scripts/run_phase14_review.py`, `experiments/results/phase14_gate_g14_report.json`, `tests/unit/test_phase14_gate_g14.py` 3/3 passing); (2) Evidence Register Claim 31 registered for B2B Enterprise Syndication Intake and Differential Privacy Pooling; (3) Decision D-025 approved; (4) Package versions bumped to 1.0.0 (`pyproject.toml`, `apps/web/package.json`); (5) ArthaIQ v1.0.0 General Availability officially released on GitHub. |
