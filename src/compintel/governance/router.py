@@ -9,6 +9,7 @@ Exposes:
 from __future__ import annotations
 
 import uuid
+from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
@@ -22,6 +23,7 @@ from compintel.governance.db import get_db
 from compintel.governance.service import (
     ConsentRequiredError,
     ContributionSubmission,
+    GovernanceError,
     RecordNotFoundError,
     execute_erasure,
     submit_contribution,
@@ -57,6 +59,18 @@ class ContributionCreateRequest(BaseModel):
     consent_future_contact: bool = Field(False, description="Optional consent for future contact.")
     consent_version: str = Field("dpdpa_v1", description="Active consent terms version.")
     email: str | None = Field(None, description="Optional email for receiving deletion token.")
+    career_start_date: date | None = Field(
+        None,
+        description="Optional date contributor began professional technology career (YYYY-MM-DD).",
+    )
+    last_promotion_date: date | None = Field(
+        None,
+        description="Optional date of contributor's last level change / promotion (YYYY-MM-DD).",
+    )
+    right_censored_exit_flag: bool | None = Field(
+        None,
+        description="Optional flag: True if record marks role exit, False/None if continuing.",
+    )
 
 
 class ContributionCreateResponse(BaseModel):
@@ -127,11 +141,14 @@ def create_contribution(
         email=payload.email,
         ip_address=client_ip,
         user_agent=user_agent,
+        career_start_date=payload.career_start_date,
+        last_promotion_date=payload.last_promotion_date,
+        right_censored_exit_flag=payload.right_censored_exit_flag,
     )
 
     try:
         receipt = submit_contribution(session=session, submission=submission)
-    except ConsentRequiredError as err:
+    except (ConsentRequiredError, GovernanceError) as err:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail=str(err),

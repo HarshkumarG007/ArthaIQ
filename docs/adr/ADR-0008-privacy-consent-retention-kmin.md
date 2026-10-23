@@ -47,6 +47,20 @@ The system collects voluntarily contributed compensation records (SRC-INT-VOL-01
 
 **Accepted:** Document uploads (e.g. unredacted payslips, offer letters, Form 16 PDFs) are **strictly prohibited** in public beta. All voluntary contributions rely on self-attested numeric entry verified against statistical consistency filters and duplicate quarantine.
 
+### 6. Longitudinal Career Event Telemetry (Phase 13.D Schema Extension)
+
+**Accepted (Task T13.04):**
+- **Fields Added:** Three optional longitudinal career-event attributes are added to `app.contributions` and the canonical observation schema:
+  1. `career_start_date` (`Date | None`): Effective date when contributor commenced professional technology career.
+  2. `last_promotion_date` (`Date | None`): Effective date of contributor's most recent title, band, or level change.
+  3. `right_censored_exit_flag` (`Boolean | None`): Indicator where `True` denotes a verified role exit event, and `False` or `None` denotes continuing active tenure.
+- **DPDPA 2023 Compliance & Data Minimization:**
+  - **Strictly Optional:** All three fields default to `null` and are 100% voluntary.
+  - **Unbundled Research Purpose:** Longitudinal event fields are processed exclusively under the existing unbundled `purpose_research_aggregation` consent checkbox. If research consent is withheld, these attributes are stripped at intake before operational storage.
+  - **Zero Core Prediction Dependency:** Neither point estimation nor conformal prediction intervals consume these attributes. The production champion Rung F Level 2 Conformal CatBoost bundle remains completely independent of longitudinal fields.
+  - **Identical Retention & Erasure Cascade:** Subject to the mandatory 24-month retention window and immediate hard-deletion purge cascade upon deletion token submission (PRD US-07).
+  - **Future Research Enablement:** Enables empirical re-evaluation of career velocity features (`EXP-TRAJ-r`, Task T13.05) and tenure duration models (`EXP-SURV-r`) once panel depth spans $\ge 12$ calendar months.
+
 ## Database Roles & Access Matrix
 
 | Role | Access Permissions |
@@ -61,13 +75,17 @@ The system collects voluntarily contributed compensation records (SRC-INT-VOL-01
 - The `k_min` threshold is enforced across all reporting pipelines and API endpoints.
 - Deletion requests execute an immediate operational purge verified by automated integration test suites.
 - The append-only audit trail preserves compliance proof for DPDPA regulatory auditability.
+- Voluntary contributors may optionally submit career milestone dates without affecting compensation prediction.
 
 ## Evidence
 
 - `src/compintel/governance/models.py`: Relational schemas for identity, consent, contributions, deletion requests, and audit trail.
 - `src/compintel/governance/service.py`: Intake validation, quarantine filters, $k_{\min}$ enforcement, and operational erasure cascade.
 - `src/compintel/governance/router.py`: REST endpoints (`POST /v1/contributions`, `DELETE /v1/me/data`).
+- `alembic/versions/0002_longitudinal_career_schema.py`: Migration adding optional longitudinal career attributes.
+- `docs/legal/dpdpa-longitudinal-schema-amendment.md`: Formal DPDPA 2023 Data Protection Impact Note.
 - `tests/integration/test_contribution_lifecycle.py`: End-to-end integration test verifying operational erasure.
+- `tests/integration/test_migrations.py`: Migration integration test verifying up and down schema evolution.
 
 ## Change Log
 
@@ -75,3 +93,4 @@ The system collects voluntarily contributed compensation records (SRC-INT-VOL-01
 |---|---|
 | 2026-10-13 | Stub created at T0.04 |
 | 2026-10-20 | Ratified as Accepted with $k_{\min} = 5$, unbundled DPDPA consent, 24m retention, operational erasure cascade (T9.10a) |
+| 2026-10-23 | Amended for Task T13.04: Added Section 6 defining optional longitudinal career-event fields (career_start_date, last_promotion_date, right_censored_exit_flag) under DPDPA data minimization rules |

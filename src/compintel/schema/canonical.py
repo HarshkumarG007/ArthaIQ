@@ -235,6 +235,20 @@ class CompensationObservation(BaseModel):
         description="Deterministic rejection reason code if quarantined.",
     )
 
+    # 6. Longitudinal Career Progression (ADR-0008 Amendment, Task T13.04)
+    career_start_date: date | None = Field(
+        default=None,
+        description="Optional date contributor began professional technology career.",
+    )
+    last_promotion_date: date | None = Field(
+        default=None,
+        description="Optional date of contributor's last level change or promotion.",
+    )
+    right_censored_exit_flag: bool | None = Field(
+        default=None,
+        description="Optional flag: True if record marks role exit, False/None if continuing.",
+    )
+
     @field_validator("observation_id", "source_id", "canonical_title", "raw_title", "raw_location")
     @classmethod
     def validate_non_blank_strings(cls, v: str) -> str:
@@ -279,6 +293,23 @@ class CompensationObservation(BaseModel):
                 f"advertised_max_annual ({self.advertised_max_annual}).",
                 code="INVALID_ADVERTISED_RANGE",
                 details={"observation_id": self.observation_id},
+            )
+
+        # Longitudinal career event ordering (Task T13.04)
+        if (
+            self.career_start_date is not None
+            and self.last_promotion_date is not None
+            and self.last_promotion_date < self.career_start_date
+        ):
+            raise DataContractError(
+                f"last_promotion_date ({self.last_promotion_date}) cannot precede "
+                f"career_start_date ({self.career_start_date}).",
+                code="INVALID_LONGITUDINAL_DATES",
+                details={
+                    "observation_id": self.observation_id,
+                    "career_start_date": str(self.career_start_date),
+                    "last_promotion_date": str(self.last_promotion_date),
+                },
             )
 
         return self
@@ -326,6 +357,9 @@ canonical_dataframe_schema = pa.DataFrameSchema(
         "raw_pay_period": pa.Column(pl.String, nullable=False),
         "is_unbundled_aggregate": pa.Column(pl.Boolean, nullable=False),
         "quarantine_status": pa.Column(pl.Boolean, nullable=False),
+        "career_start_date": pa.Column(pl.Date, nullable=True, required=False),
+        "last_promotion_date": pa.Column(pl.Date, nullable=True, required=False),
+        "right_censored_exit_flag": pa.Column(pl.Boolean, nullable=True, required=False),
     },
     strict=False,
     coerce=True,
