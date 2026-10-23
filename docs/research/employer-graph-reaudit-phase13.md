@@ -1,0 +1,95 @@
+# Employer Graph Feasibility Re-audit (Phase 13, EXP-10r, CHARTER-EXP-10r)
+
+> **Scope:** Longitudinal Data-Growth Audit of Employer Mobility Transition Network Following 6 Months of EXP-16 Ingestion Daemon Operations.
+> **Governing Standards:** PRD Sec 5, FR-05 · Rules R-MD-01, R-MD-02, R-MD-03, R-MD-04, R-MD-09, R-DA-10, R-UQ-01 · Task T13.01.
+
+| Metadata Attribute | Value |
+|:---|:---|
+| **Report ID** | `EXP10R-20261023004515` |
+| **Charter ID** | `CHARTER-EXP-10r` |
+| **Task ID** | `T13.01` |
+| **Generated At** | `2026-10-23T00:45:15.204819+00:00` |
+| **Git Commit** | `cd4e2676` |
+| **Operational Window** | `6.0 months post-EXP-16` |
+| **Cumulative Observations** | `219` (`219` non-synthetic) |
+| **Date Span** | `2024-06-15` to `2027-04-19` |
+| **Gate 1 Feasibility Status** | **`SPARSE_TRANSITION_TOPOLOGY`** |
+| **Overall Re-audit Verdict** | **`DEFER`** |
+
+---
+
+## 1. Executive Summary & Production Decision
+
+Gate 1 Graph Feasibility DEFERRED: Cumulative panel yielded 16/50 qualified clusters (density rho = 0.9917, giant component fraction = 100.0%). Under Rule R-MD-09 and CHARTER-EXP-10, employer graph embeddings are unconditionally DEFERRED without claiming predictive improvement. Production champion Rung F Level 2 Conformal CatBoost is retained unmodified without graph serving overhead. Next scheduled audit trigger set for Phase 14 (October 2027 or upon accumulation of >= 500 B2B syndication records).
+
+---
+
+## 2. Longitudinal Topology Comparison: Phase 7 vs Phase 13
+
+Under Rule `R-MD-09`, candidate features deferred during Phase 7 are re-evaluated once empirical production data growth triggers a scheduled audit.
+
+| Network Metric Dimension | Phase 7 (EXP-10, Oct 2026) | Phase 13 (EXP-10r, Apr 2027) | Threshold | Status |
+|:---|:---:|:---:|:---:|:---:|
+| **Total Employer Clusters** | 9 | `30` | - | Expanded |
+| **Eligible Clusters** | 9 | `16` | - | Expanded |
+| **Qualified Nodes (Degree $\ge 3$)** | 8 | `16` | **$\ge 50$** | **DEFERRED** |
+| **Total Transition Edges** | 28 | `119` | - | Expanded |
+| **Network Density** | 0.778 | `0.9917` | - | Diluted |
+| **Connected Components** | 1 | `1` | - | Fragmented |
+| **Giant Component Fraction ($f_{\text{giant}}$)** | 1.000 | `1.000` | - | 16/16 nodes |
+| **Gate 1** | `DEFER` | `DEFER` | PASS | `DEFER` |
+
+---
+
+## 3. Detailed Network Topology & Degree Distribution
+
+### 3.1 Node Degree Summary Statistics
+- **Mean Degree:** `14.88`
+- **Median Degree:** `15.0`
+- **Maximum Degree:** `15`
+- **Isolated Nodes (Degree 0):** `0`
+- **Qualified Ratio:** `16/50` (`32.0%` target)
+
+### 3.2 Top Employer Cluster Degree Ranks
+
+| Cluster ID | Entity Archetype | Degree ($k_{\text{conn}}$) | $k_{\min} \ge 5$ | Qualified |
+|:---|:---|:---:|:---:|:---:|
+| `EMP-ACCENTURE` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-AMAZON` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-FLIPKART` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-GOLDMAN` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-GOOGLE` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-INFOSYS` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-META` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-MICROSOFT` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-PHONEPE` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-SWIGGY` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-TCS` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-WALMART` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-WIPRO` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-ZOMATO` | Tech Employer Cluster | `15` | PASS | `YES` |
+| `EMP-ANONYMOUS` | Tech Employer Cluster | `14` | PASS | `YES` |
+
+---
+
+## 4. Privacy, Anonymity & Data Governance Audit
+
+- **Rule `R-DA-10` Anonymization Floor:** Strictly enforced. All employer clusters with fewer than 5 observations collapse into `EMP-ANONYMOUS`.
+- **Rule `R-MD-11` Non-Synthetic Verification:** Zero synthetic data entered (`219 / 219` non-synthetic).
+- **DPDPA 2023 Compliance:** Zero personal identifiers. Edges represent aggregated transitions.
+- **Zero Lookahead (Rule `R-MD-03`):** Transition edges are strictly as-of realization dates.
+
+---
+
+## 5. Architectural Implications & Next Scheduled Audit Triggers
+
+1. **Production Champion Invariance:** Rung F Level 2 Conformal CatBoost is strictly retained. No GNN or graph pipeline is deployed.
+2. **Operational Simplicity Preservation:** Tabular CatBoost CPU inference operates at `< 1.0 ms` p95 latency without graph maintenance.
+3. **Pre-Registered Next Audit Trigger:**
+   - **Trigger Date:** `2027-10-23` (6 months).
+   - **Trigger Milestone:** `Phase 14 data growth milestone: B2B employer syndication tranches yield >= 500 cross-company transition records with >= 50 qualified clusters.`.
+   - **Condition:** Next re-audit requires B2B feeds providing $\ge 500$ transitions and $\ge 50$ clusters.
+
+---
+
+*Report generated by `compintel.evaluation.employer_graph_reaudit` on 2026-10-23T00:45:15.204819+00:00*

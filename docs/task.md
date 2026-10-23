@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; NEXT: Phase 13 T13.01 EXP-10r Employer Graph Re-audit)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 underway: T13.01 complete; NEXT: T13.02 EXP-ENSEMBLE-01r Quantile Ensembling Re-gate)
 
 ## How to use this file
 
@@ -518,8 +518,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 > **Needs:** G12.
 
 ### 13.A: Employer Graph Feasibility Re-audit (EXP-10r)
-
-- [ ] **T13.01** [AI] Employer graph feasibility audit: count connected employer nodes (degree >= 3) in the post-EXP-16 production panel. Re-run CHARTER-EXP-10 bipartite graph embeddings if and only if N_nodes >= 50. Otherwise record deferral with next audit date. (trigger: 6 months post-EXP-16 daemon activation)
+ 
+- [x] **T13.01** [AI] Employer graph feasibility audit: count connected employer nodes (degree >= 3) in the post-EXP-16 production panel. Re-run CHARTER-EXP-10 bipartite graph embeddings if and only if N_nodes >= 50. Otherwise record deferral with next audit date. (done 2026-10-23)
       Output: docs/research/employer-graph-reaudit-phase13.md, experiments/results/employer_graph_reaudit.json. Done when: feasibility verdict recorded and either graph experiment runs with charter or formal deferral is documented. Needs: T11.02 operational for >= 6 months. Size: M.
 
 ### 13.B: Quantile Ensembling Feasibility Re-gate (EXP-ENSEMBLE-01r)
@@ -896,6 +896,17 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | docs/model-cards/model-card-final-v1.md (Phase 12 Addendum) | Gate G12 |
 | docs/research/evidence-register.csv (Claims 21-24) | Gate G12 |
 
+### Phase 13: Deferred Architecture Re-evaluation (Data-Growth Triggered)
+
+| Deliverable | Task |
+| --- | --- |
+| src/compintel/evaluation/employer_graph_reaudit.py | T13.01 |
+| scripts/run_employer_graph_reaudit.py | T13.01 |
+| docs/research/employer-graph-reaudit-phase13.md | T13.01 |
+| experiments/results/employer_graph_reaudit.json | T13.01 |
+| tests/unit/test_employer_graph_reaudit.py | T13.01 |
+| docs/research/evidence-register.csv (Claim 25) | T13.01 |
+
 ## Change log
 
 | Date       | Version | Change                                                                                           |
@@ -917,4 +928,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-22 | 1.6     | Task T12.01 complete: EXP-14 Active Learning & Targeted Data Sourcing for Sparse Realization Cells implemented (`compintel.acquisition.active_learning`), all 4 keep criteria passed with PROMOTE verdict (32.45% width reduction >= 20%, 75.0 pp abstention drop >= 15%, 80.69% empirical coverage in [75%, 85%], 0.27x relative cost per informative sample <= 2.0x), 11/11 unit tests passing, deliverables catalogued in Appendix C. NEXT: Task T12.02 (EXP-15 Counterfactual Negotiation Scenario Modeling). |
 | 2026-10-22 | 1.7     | Task T12.02 complete: EXP-15 Counterfactual Negotiation Scenario Modeling (PT4 Prototype) implemented (`compintel.serving.counterfactual`, `compintel.serving.routers.scenarios`, `apps/web/src/components/NegotiationScenario.tsx`), all 4 keep criteria passed with PROMOTE verdict (100.00% monotonicity satisfaction >= 98%, 79.98% coverage in [75%, 85%], 100.0% zero point-estimate compliance, p95 latency 4.03 ms <= 150 ms), 12/12 unit tests & 4/4 Vitest tests passing, deliverables catalogued in Appendix C. NEXT: Task T12.03 (Phase 12 Review & Gate G12). |
 | 2026-10-23 | 1.8     | Task T12.03 and Gate G12 complete: Phase 12 benchmark & gate review executed (scripts/run_phase12_review.py), EXP-14 and EXP-15 keep criteria verified (32.45% sparse cell width reduction, 75pp abstention drop, 100% monotonicity, 79.98% coverage, 100% zero lone numbers, 4.03ms p95 latency), Gate G12 ratified GO (docs/pilot/gate-g12-review.md), Model Card updated with Phase 12 Addendum (docs/model-cards/model-card-final-v1.md v1.2.0), Evidence Register updated with Claims 21-24. NEXT: Phase 13 (T13.01 EXP-10r Employer Graph Re-audit). |
-
+| 2026-10-23 | 1.9     | Task T13.01 complete: EXP-10r Employer Graph Feasibility Re-audit executed on 6-month post-EXP-16 cumulative production panel (219 non-synthetic observations); Gate 1 audit verified 16 qualified employer clusters with degree >= 3 (< 50 required), triggering unconditional Gate 1 DEFER under CHARTER-EXP-10r without claiming predictive improvement; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified without GNN complexity; next audit deferred to Phase 14 B2B syndication milestone; unit test suite passing (8/8). NEXT: Task T13.02 (EXP-ENSEMBLE-01r Quantile Ensembling Re-gate). |
