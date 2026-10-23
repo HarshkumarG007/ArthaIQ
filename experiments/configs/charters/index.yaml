@@ -102,3 +102,26 @@ ranking_matrix:
     cost: "LOW"
     expected_value_rationale: "Non-parametric empirical marginals with Gaussian copula capture realistic multi-component pay correlations without discretization"
     cost_rationale: "Microsecond CPU inference; strictly restricted to PT4 scenario UI with zero core model impact"
+
+  - rank: 9
+    charter_id: "CHARTER-EXP-10r-v2"
+    experiment_id: "EXP-10r-v2"
+    task_id: "T14.03"
+    name: "Employer Feature Modeling: Simple Categorical/Tier vs Graph-Based Talent-Flow Embeddings (B2B Re-audit)"
+    charter_file: "experiments/configs/charters/charter_exp10r_v2.yaml"
+    expected_value: "HIGH"
+    cost: "MEDIUM"
+    expected_value_rationale: "B2B enterprise HRIS syndication supplies dense mobility graphs overcoming PT1 sparsity bottleneck"
+    cost_rationale: "Medium cost; requires strict temporal cutoff partitioning and k_min >= 5 anonymity floor"
+
+  - rank: 10
+    charter_id: "CHARTER-CAREER-TRAJ-r-v2"
+    experiment_id: "EXP-TRAJ-01r-v2"
+    task_id: "T14.04"
+    name: "Career Trajectory Longitudinal Re-audit under Multi-Period B2B Syndication Panels"
+    charter_file: "experiments/configs/charters/charter_career_traj_r_v2.yaml"
+    expected_value: "HIGH"
+    cost: "LOW_MEDIUM"
+    expected_value_rationale: "Multi-quarter longitudinal panel tracks verified point-in-time promotion and velocity dynamics"
+    cost_rationale: "Deterministic feature computation with verified zero lookahead leakage"
+

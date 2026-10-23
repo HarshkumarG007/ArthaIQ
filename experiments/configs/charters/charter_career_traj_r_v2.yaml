@@ -1,0 +1,72 @@
+# =============================================================================
+#  ArthaIQ -- Advanced Modeling Experiment Charter: Career Trajectory Re-audit (v2)
+#  File: experiments/configs/charters/charter_career_traj_r_v2.yaml
+#  Task: T14.04 (PRD Sec 5, FR-05, Rules R-MD-01, R-MD-05, R-MD-09, R-CD-01)
+# =============================================================================
+
+charter_id: "CHARTER-CAREER-TRAJ-r-v2"
+experiment_id: "EXP-TRAJ-01r-v2"
+title: "Career Trajectory Longitudinal Re-audit under Multi-Period B2B Syndication Panels"
+task_id: "T14.04"
+governing_rules:
+  - "R-MD-01"  # Orderly ladder climbing & bootstrap CI
+  - "R-MD-03"  # Grouped-temporal isolation & no lookahead leakage
+  - "R-MD-05"  # Comprehensive evaluation metrics
+  - "R-MD-09"  # Experiment charter before implementation
+  - "R-MD-15"  # Missingness indicator policy
+priority_rank: 10
+expected_value: "HIGH"
+computational_cost: "LOW_MEDIUM"
+operational_feasibility: "FEASIBLE"
+
+candidate_summary:
+  hypothesis: >
+    Longitudinal quarterly B2B payroll snapshots provide verified multi-period tenure,
+    promotion cadence, and career velocity without relying on voluntary self-reported
+    career timelines. Dynamic trajectory features derived point-in-time improve interval
+    sharpness and reduce pinball loss beyond static Mincerian YoE.
+  baseline_champion: "Rung F Conformal CatBoost on L2 features (YoE + quadratic Mincerian curve)"
+  proposed_variants:
+    - name: "variant_a_syndicated_career_velocity"
+      description: "Seniority level progression rate per year of verified experience (seniority_ordinal / max(YoE, 1.0))"
+      compute_type: "Deterministic scalar transformation"
+    - name: "variant_b_longitudinal_trajectory_vector"
+      description: "Composite vector: career_velocity + verified_tenure_stability + promotion_acceleration_rate"
+      compute_type: "Deterministic point-in-time panel feature extraction"
+
+evaluation_protocol:
+  dataset_snapshot_id: "SNAP-B2B-PHASE14"
+  split_protocol: "grouped_temporal_select"
+  evaluation_partition: "select"
+  seed: 42
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+
+keep_criteria:
+  primary_metric_threshold:
+    metric: "delta_mean_pinball_loss"
+    direction: "decrease"
+    min_effect_size_lpa: -0.050
+    confidence_interval: "95% bootstrap CI upper bound must be < 0.0"
+  secondary_metric_thresholds:
+    mdape_reduction_pp: 2.0
+    coverage_tolerance: [0.72, 0.88]
+    crossing_rate_max: 0.005
+    width_ratio_vs_champion_max: 1.00
+  latency_and_budget_gates:
+    p95_inference_latency_ms: 10.0
+    max_memory_footprint_mb: 50.0
+    max_bundle_size_mb: 5.0
+    device_constraint: "CPU only"
+
+reject_criteria:
+  - "delta_mean_pinball_loss > -0.050 LPA (effect size insufficient per R-MD-01)"
+  - "95% bootstrap CI includes 0.0"
+  - "Trajectory computation requires future snapshot observations (temporal lookahead violation)"
+  - "Increases feature collection burden without statistically detectable benefit"
+
+defer_criteria:
+  - "Longitudinal panel depth is < 4 consecutive quarters per employee pseudonym"
+  - "Employee attrition or panel churn exceeds 60% across consecutive quarterly observations"
+
+decision_authority: "Phase 14 Gate G14 Technical Reviewer & Governance Lead"

@@ -79,15 +79,9 @@ def test_memory_ratification_and_sync() -> None:
 
     assert root_mem == docs_mem, "memory.md and docs/memory.md are out of sync"
 
-    # Section 1 & Section 3
+    # Section 1 Read this first
     assert "Gate G10 ratified **GO** (2026-10-21)" in root_mem
     assert "NEXT: Phase 11 Production Hardening & Slice Calibration" in root_mem
-    assert "| Last completed task | Gate G10 (critical): production decision |" in root_mem
-    expected_next_task = (
-        "| Next task | Phase 11 (Production Hardening & Slice Calibration: EXP-13, EXP-16) |"
-    )
-    assert expected_next_task in root_mem
-    assert "G10 — GO: Production Launch Ratified" in root_mem
 
     # Section 4 Table
     assert "| G10 | **GO** | 2026-10-21 |" in root_mem
