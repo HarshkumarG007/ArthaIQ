@@ -13,7 +13,7 @@ from __future__ import annotations
 import secrets
 import uuid
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
@@ -105,6 +105,9 @@ class ContributionSubmission:
     email: str | None = None
     ip_address: str | None = None
     user_agent: str | None = None
+    career_start_date: date | None = None
+    last_promotion_date: date | None = None
+    right_censored_exit_flag: bool | None = None
 
 
 @dataclass(frozen=True)
@@ -147,6 +150,18 @@ def submit_contribution(
         raise ConsentRequiredError(
             "Explicit unbundled consent for compensation benchmarking is required "
             "to register a contribution under DPDPA 2023."
+        )
+
+    # 1.1 Enforce longitudinal career timeline consistency (Task T13.04)
+    if (
+        submission.career_start_date is not None
+        and submission.last_promotion_date is not None
+        and submission.last_promotion_date < submission.career_start_date
+    ):
+        raise GovernanceError(
+            "Invalid longitudinal career timeline: "
+            f"last_promotion_date ({submission.last_promotion_date}) "
+            f"cannot precede career_start_date ({submission.career_start_date})."
         )
 
     # 2. Intake Anomaly & Quarantine Checks (Rule R-DA-03)
@@ -214,6 +229,9 @@ def submit_contribution(
         benefits_annual=submission.benefits_annual,
         company_raw=submission.company_raw,
         company_stage=submission.company_stage,
+        career_start_date=submission.career_start_date,
+        last_promotion_date=submission.last_promotion_date,
+        right_censored_exit_flag=submission.right_censored_exit_flag,
         status=status,
         quarantine_reasons=quarantine_reasons if quarantine_reasons else None,
     )

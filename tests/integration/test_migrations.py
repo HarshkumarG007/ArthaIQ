@@ -72,6 +72,16 @@ def test_migration_up_and_down_lifecycle(temp_sqlite_db: str) -> None:
         missing = expected_tables - set(table_names)
         assert expected_tables.issubset(set(table_names)), f"Missing tables: {missing}"
 
+        # Verify longitudinal career columns exist on contributions table (Task T13.04)
+        contrib_cols = {c["name"] for c in inspector.get_columns("contributions")}
+        longitudinal_cols = {
+            "career_start_date",
+            "last_promotion_date",
+            "right_censored_exit_flag",
+        }
+        missing_cols = longitudinal_cols - contrib_cols
+        assert longitudinal_cols.issubset(contrib_cols), f"Missing columns: {missing_cols}"
+
         # 2. Downgrade back to base
         run_migrations_down(temp_sqlite_db, revision="base")
 
@@ -92,6 +102,8 @@ def test_migration_up_and_down_lifecycle(temp_sqlite_db: str) -> None:
         inspector_after_reup = inspect(engine)
         recreated_tables = set(inspector_after_reup.get_table_names())
         assert expected_tables.issubset(recreated_tables)
+        recreated_cols = {c["name"] for c in inspector_after_reup.get_columns("contributions")}
+        assert longitudinal_cols.issubset(recreated_cols)
     finally:
         engine.dispose()
 
@@ -118,9 +130,21 @@ def test_offline_postgresql_ddl_generation() -> None:
     assert "CREATE TABLE app.audit_log" in sql_up
     assert "REFERENCES app.consent_records (id)" in sql_up
 
-    # Run alembic downgrade base --sql
+    # Verify longitudinal career columns in upgrade script (Task T13.04)
+    assert "ALTER TABLE app.contributions ADD COLUMN career_start_date DATE;" in sql_up
+    assert "ALTER TABLE app.contributions ADD COLUMN last_promotion_date DATE;" in sql_up
+    assert "ALTER TABLE app.contributions ADD COLUMN right_censored_exit_flag BOOLEAN;" in sql_up
+
+    # Run alembic downgrade base --sql from 0002_longitudinal_career_schema
     result_down = subprocess.run(
-        [sys.executable, "-m", "alembic", "downgrade", "0001_initial_governance:base", "--sql"],
+        [
+            sys.executable,
+            "-m",
+            "alembic",
+            "downgrade",
+            "0002_longitudinal_career_schema:base",
+            "--sql",
+        ],
         capture_output=True,
         text=True,
         check=True,
@@ -128,6 +152,9 @@ def test_offline_postgresql_ddl_generation() -> None:
     sql_down = result_down.stdout
 
     # Verify reverse drop order in downgrade script
+    assert "ALTER TABLE app.contributions DROP COLUMN right_censored_exit_flag;" in sql_down
+    assert "ALTER TABLE app.contributions DROP COLUMN last_promotion_date;" in sql_down
+    assert "ALTER TABLE app.contributions DROP COLUMN career_start_date;" in sql_down
     assert "DROP TABLE app.audit_log;" in sql_down
     assert "DROP TABLE app.deletion_requests;" in sql_down
     assert "DROP TABLE app.contributions;" in sql_down

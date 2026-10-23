@@ -15,7 +15,7 @@ Serving and pipeline database roles have no access to the identity schema.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
 
@@ -23,6 +23,7 @@ from sqlalchemy import (
     JSON,
     BigInteger,
     Boolean,
+    Date,
     DateTime,
     ForeignKey,
     Integer,
@@ -307,6 +308,21 @@ class Contribution(Base):
         Numeric(12, 2),
         nullable=True,
         doc="Statutory retiral / EPF / gratuity benefits.",
+    )
+    career_start_date: Mapped[date | None] = mapped_column(
+        Date,
+        nullable=True,
+        doc="Optional date contributor began professional technology career (ADR-0008).",
+    )
+    last_promotion_date: Mapped[date | None] = mapped_column(
+        Date,
+        nullable=True,
+        doc="Optional date of contributor's last level change or promotion (ADR-0008).",
+    )
+    right_censored_exit_flag: Mapped[bool | None] = mapped_column(
+        Boolean,
+        nullable=True,
+        doc="Optional flag: True if record marks role exit, False/None if continuing.",
     )
     status: Mapped[str] = mapped_column(
         String(20),
