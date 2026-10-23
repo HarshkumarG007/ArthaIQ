@@ -1,8 +1,8 @@
 # ArthaIQ Data Freshness & Scheduled Refresh Status
 
 > **Governance & Compliance:** PRD NFR-11, RSK-11, Rule R-DA-01, Task T10.04.
-> **System Health:** **🟢 PASS / HEALTHY** | **Evaluated As-Of:** `2026-10-21 17:01:52 UTC`
-> **Run ID:** `REFRESH-C1D8793F`
+> **System Health:** **🟢 PASS / HEALTHY** | **Evaluated As-Of:** `2026-10-23 18:42:36 UTC`
+> **Run ID:** `REFRESH-1DF06DB4`
 
 ## 1. Executive Summary
 
@@ -20,20 +20,20 @@
 
 | Source ID | Source Name | Cadence | Max SLA (Days) | Observed Age (Days) | Status | Operational Action |
 |:---|:---|:---:|:---:|:---:|:---:|:---|
-| `SRC-IND-OFF-01` | MOSPI Periodic Labour Force Survey (PLFS) | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-IND-OFF-03` | EPFO Monthly Payroll Microdata | Monthly | `60d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-INT-VOL-01` | ArthaIQ Voluntary Intake Submissions | Daily | `30d` | `6.0d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-KAG-AIJ-01` | AI/ML Jobs Salary Survey 2023 | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-KAG-AIJ-02` | AI/ML Jobs Salary Survey 2024 | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-KAG-SO-01` | Stack Overflow Developer Survey 2023 | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-KAG-SO-02` | Stack Overflow Developer Survey 2024 | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-SUP-CORP-01` | BSE/NSE Corporate Remuneration Filings (MRE Section 197) | Quarterly | `180d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-SUP-MAC-01` | RBI DBIE Macro Indices (CPI & FX) | Monthly | `45d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-SUP-TAX-01` | Union Budget Income Tax Slabs | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-SUP-TAX-02` | State Professional Tax Slabs | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-USA-BLS-01` | US BLS Occupational Employment and Wage Statistics (OEWS) | Annual | `365d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-USA-DOL-01` | US DOL Foreign Labor Certification LCA Disclosures | Quarterly | `120d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
-| `SRC-USA-DOL-02` | US DOL Foreign Labor Certification PERM Disclosures | Quarterly | `120d` | `7.9d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-IND-OFF-01` | MOSPI Periodic Labour Force Survey (PLFS) | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-IND-OFF-03` | EPFO Monthly Payroll Microdata | Monthly | `60d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-INT-VOL-01` | ArthaIQ Voluntary Intake Submissions | Daily | `30d` | `8.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-KAG-AIJ-01` | AI/ML Jobs Salary Survey 2023 | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-KAG-AIJ-02` | AI/ML Jobs Salary Survey 2024 | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-KAG-SO-01` | Stack Overflow Developer Survey 2023 | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-KAG-SO-02` | Stack Overflow Developer Survey 2024 | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-SUP-CORP-01` | BSE/NSE Corporate Remuneration Filings (MRE Section 197) | Quarterly | `180d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-SUP-MAC-01` | RBI DBIE Macro Indices (CPI & FX) | Monthly | `45d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-SUP-TAX-01` | Union Budget Income Tax Slabs | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-SUP-TAX-02` | State Professional Tax Slabs | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-USA-BLS-01` | US BLS Occupational Employment and Wage Statistics (OEWS) | Annual | `365d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-USA-DOL-01` | US DOL Foreign Labor Certification LCA Disclosures | Quarterly | `120d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
+| `SRC-USA-DOL-02` | US DOL Foreign Labor Certification PERM Disclosures | Quarterly | `120d` | `10.0d` | 🟢 FRESH | Nominal monitoring |
 
 ---
 

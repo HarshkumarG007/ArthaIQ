@@ -947,6 +947,14 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | tests/unit/test_phase13_gate_g13.py | Gate G13 |
 | docs/model-cards/model-card-final-v1.md (Phase 13 Addendum v1.3.0) | Gate G13 |
 
+| apps/web/src/components/NegotiationScenario.tsx | Phase 14 Track 2 |
+| apps/web/src/components/NegotiationScenario.test.tsx | Phase 14 Track 2 |
+| apps/web/src/components/EstimateScreen.tsx | Phase 14 Track 2 |
+| apps/web/src/components/RefinementAndCompare.test.tsx | Phase 14 Track 2 |
+| config/sources/SRC-B2B-01.yaml | Phase 14 Track 3 |
+| docs/research/b2b-syndication-protocol-phase14.md | Phase 14 Track 3 |
+| tests/unit/test_b2b_syndication_spec.py | Phase 14 Track 3 |
+
 ## Change log
 
 | Date       | Version | Change                                                                                           |
@@ -980,3 +988,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-23 | 1.18    | Remediated CI security audit failure (Run #39962504271): Upgraded brotli from 1.2.0 to 1.2.1 in pyproject.toml [dependency-groups] dev and uv.lock, resolving PYSEC-2026-4322; verified pip-audit reports 0 known vulnerabilities; verified all security checks, font verification, and unit tests pass cleanly. |
 | 2026-10-23 | 1.19    | Gate G13 complete: Phase 13 benchmark & gate review executed (`scripts/run_phase13_review.py`, `docs/pilot/gate-g13-review.md`), EXP-PGM-01r Gaussian copula scenario dependency structure promoted to PT4 UI (max Spearman error 0.0388 <= 0.050, 0 crossings, 78.00% joint coverage, p95 latency 0.86ms <= 25ms, zero core model contamination), EXP-ENSEMBLE-01r rejected (pinball degradation +0.1320 LPA), EXP-10r/EXP-09r/EXP-TRAJ-r/EXP-MACRO-01r formally deferred with pre-registered triggers, Gate G13 ratified GO (Decision D-024), Model Card updated to v1.3.0 with Phase 13 Addendum, 4/4 Gate G13 tests passing. |
 | 2026-10-24 | 1.20    | Remediated CI test failure in test_experiment_charters.py (Run #39976024058): Updated test_index_yaml_structure_and_ranking to validate dynamic contiguous charter rankings (len >= 7, ranks 1..len(matrix)) following Phase 13 addition of rank 8 CHARTER-COPULA-PT4 (EXP-PGM-01r); all 9 charter tests passing. |
+| 2026-10-24 | 1.21    | Executed post-Gate G13 three-track sequential program: (Track 1) Production Health & Freshness Telemetry Audit (14/14 sources fresh, 80.2% coverage, 0 drift alerts, 0 staleness violations, 0.136ms rollback); (Track 2) Interactive Scenario UI Polish (PT4 Gaussian Copula Joint Distribution integration in NegotiationScenario and EstimateScreen, 96/96 Vitest tests passing, 0 axe accessibility violations, clean Vite production build); (Track 3) Phase 14 Architecture & B2B Syndication Intake Protocol (SRC-B2B-01.yaml, docs/research/b2b-syndication-protocol-phase14.md, cryptographic HMAC isolation, k_min >= 5 floor, tests/unit/test_b2b_syndication_spec.py 5/5 passing). |

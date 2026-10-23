@@ -1,8 +1,8 @@
 # ArthaIQ Distribution Drift & Recalibration Status
 
 > **Governance & Operations:** PRD FR-13, NFR-07, US-08, Rule R-MD-14, Task T10.05.
-> **System Health:** **🟢 PASS / HEALTHY** | **Evaluated As-Of:** `2026-10-21 20:45:40 UTC`
-> **Run ID:** `DRIFT-JOB-55BEFFCB` | **Trigger Tier:** **🟢 Tier 0 (Nominal / Stable)**
+> **System Health:** **🟢 PASS / HEALTHY** | **Evaluated As-Of:** `2026-10-23 18:43:33 UTC`
+> **Run ID:** `DRIFT-JOB-F233F076` | **Trigger Tier:** **🟢 Tier 0 (Nominal / Stable)**
 
 ## 1. Executive Summary
 

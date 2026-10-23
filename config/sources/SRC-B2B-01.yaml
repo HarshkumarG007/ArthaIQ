@@ -1,0 +1,138 @@
+source_id: SRC-B2B-01
+short_name: ArthaIQ B2B Syndication
+long_name: ArthaIQ Governed B2B Enterprise Employer Compensation Syndication Protocol (Phase 14)
+provider: ArthaIQ Enterprise Benchmarking Consortium (Phase 14 Architecture)
+primary_url: https://arthaiq.internal/syndication
+download_url: internal://data/primary/b2b-syndication-tranches.parquet
+country: IN
+currency_primary: INR
+reference_period:
+  collection_cadence: quarterly_batch
+  design_version: v1.0
+retrieval_date: '2026-10-24'
+verification_status: DESIGN_SPECIFICATION
+licence:
+  spdx_id: PROPRIETARY-B2B-CONSORTIUM-GRANT
+  name: ArthaIQ Enterprise Data Syndication Agreement & Bilateral Confidentiality Charter (DPDPA 2023 & CCI Compliant)
+  terms_url: https://arthaiq.internal/terms/b2b-syndication
+  terms_reviewed_date: '2026-10-24'
+  terms_reviewed_by: AI Assistant under human governance review (Track 3)
+  is_open: false
+  permits_research_use: true
+  permits_commercial_use: true
+  permits_redistribution: false
+  redistribution_conditions: Strict aggregation only; k-anonymity >= 5 enforced; no individual or single-tenant redistribution.
+  scraping_prohibited: true
+  terms_of_service_violation_risk: NONE
+  personal_data_present: false
+  privacy_safeguards:
+    dpdpa_2023_compliant: true
+    gdpr_compliant: true
+    k_anonymity_min: 5
+    differential_privacy_epsilon: 1.0
+    client_side_redaction: true
+    cryptographic_deduplication_hash: HMAC-SHA256(tenant_salt, employee_synthetic_id)
+    pii_storage: NEVER_STORED
+    anti_trust_safe_harbor: CCI historical wage benchmarking compliance (minimum 3-month lag)
+  qualified_counsel_required: true
+ingestion_status: approved_for_design
+ingestion_role: primary_ground_truth
+pipeline_routing:
+- PT1_direct_training
+- PT2_direct_training
+- PT3_direct_training
+- PT4_direct_training
+- PT6_direct_training
+prohibited_routing:
+- public_unaggregated_export
+- single_tenant_isolation_breach
+notes: 'Phase 14 operational protocol for bulk verified employer compensation data intake.
+  Enables future EXP-10r transition network re-audit and EXP-TRAJ-r career trajectory re-audit
+  by delivering verified cross-company transitions (N >= 500) and longitudinal milestone spans
+  under cryptographic tenant isolation and k_min >= 5 cell suppression. Pre-registered SQS: 98.0.
+'
+sqs: 98.0
+sqsf_tier: TIER_1_GROUND_TRUTH
+change_log:
+- date: '2026-10-24'
+  task: Phase 14 Track 3 Planning
+  action: Created operational B2B syndication intake specification (SRC-B2B-01).
+canonical_field_mappings:
+- source_field: fixed_base_annual_inr
+  canonical_measure: basic_salary_annual
+  comp_type: fixed
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT1
+  - PT2
+  unbundling_status: itemized
+  exclusion_reason: null
+  transformation: direct_identity
+- source_field: fixed_allowances_annual_inr
+  canonical_measure: fixed_allowances_annual
+  comp_type: fixed
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT1
+  - PT2
+  unbundling_status: itemized
+  exclusion_reason: null
+  transformation: direct_identity
+- source_field: guaranteed_cash_annual_inr
+  canonical_measure: guaranteed_cash_annual
+  comp_type: fixed
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT1
+  - PT2
+  unbundling_status: itemized
+  exclusion_reason: null
+  transformation: sum(basic_salary_annual, fixed_allowances_annual)
+- source_field: variable_bonus_annual_inr
+  canonical_measure: variable_cash_annual
+  comp_type: variable
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT4
+  - PT6_benchmark
+  unbundling_status: itemized
+  exclusion_reason: Excluded from PT1 recurring cash per R-MD-07; admitted for PT4 copula and PT6 total compensation.
+- source_field: annualized_equity_grant_inr
+  canonical_measure: equity_annualized_grant
+  comp_type: equity
+  currency: INR
+  period: annual
+  tax_basis: gross_pre_tax
+  admissible_targets:
+  - PT4
+  - PT6_benchmark
+  unbundling_status: itemized
+  exclusion_reason: Excluded from PT1 recurring cash per R-MD-07; admitted for PT4 copula and PT6 total compensation.
+- source_field: total_cost_to_company_inr
+  canonical_measure: ctc_annual
+  comp_type: total_cost
+  currency: INR
+  period: annual
+  tax_basis: employer_cost
+  admissible_targets:
+  - PT6_benchmark
+  unbundling_status: itemized
+  exclusion_reason: Total cost package including statutory overhead; unbundled before PT1 training.
+- source_field: statutory_provident_fund_annual_inr
+  canonical_measure: employer_contributions_annual
+  comp_type: statutory_overhead
+  currency: INR
+  period: annual
+  tax_basis: employer_cost
+  admissible_targets:
+  - statutory_overhead_accounting
+  unbundling_status: itemized
+  exclusion_reason: Statutory EPF employer contribution (12% of basic); excluded from guaranteed employee cash.

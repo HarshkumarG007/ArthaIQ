@@ -2,7 +2,7 @@
 
 > **Operational Monitoring Report** | Evaluated on realized market observations | Conforms to PRD NFR-01 and Rule R-UQ-03.
 
-- **As of Date:** `2026-10-21`
+- **As of Date:** `2026-10-23`
 - **Active Model Champion Version:** `0.1.0`
 - **Nominal Target Coverage:** `80.0%` (PRD M-04 Tolerance Band: `75% – 85%`)
 - **Total Evaluated Realized Observations:** `232`

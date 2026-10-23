@@ -7,6 +7,7 @@ import { PayCompare } from "./PayCompare";
 import { EvidenceList } from "./EvidenceList";
 import { AbstentionNotice } from "./AbstentionNotice";
 import { DisclaimerLine } from "./DisclaimerLine";
+import { NegotiationScenario } from "./NegotiationScenario";
 import { fetchSalaryEstimate } from "../lib/api";
 import {
   ProfileFormData,
@@ -125,6 +126,7 @@ export function EstimateScreen({
   // Panels visibility
   const [isRefineOpen, setIsRefineOpen] = useState<boolean>(false);
   const [isCompareOpen, setIsCompareOpen] = useState<boolean>(false);
+  const [isScenarioOpen, setIsScenarioOpen] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<"none" | "methodology" | "sources">("none");
 
   // Refinement draft state
@@ -494,6 +496,19 @@ export function EstimateScreen({
                 >
                   {isCompareOpen ? "Close pay comparison" : "Compare with my pay"}
                 </button>
+                <button
+                  type="button"
+                  data-testid="toggle-scenario-btn"
+                  onClick={() => setIsScenarioOpen(!isScenarioOpen)}
+                  aria-expanded={isScenarioOpen}
+                  className={`px-4 py-2 rounded-control text-xs font-sans font-medium min-h-[44px] transition-colors ${
+                    isScenarioOpen
+                      ? "bg-span text-on-span"
+                      : "border border-rule-strong text-ink hover:bg-sunken focus:outline-none focus:ring-2 focus:ring-focus"
+                  }`}
+                >
+                  {isScenarioOpen ? "Close scenario modeling" : "Scenario modeling (PT4 Copula)"}
+                </button>
               </div>
 
               {/* 4. Compare Panel (when toggled) */}
@@ -508,6 +523,30 @@ export function EstimateScreen({
                       unit: "lpa",
                       measure: "Guaranteed cash pay",
                       date: "October 2026",
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* 4b. Scenario Modeling Panel (PT4 Copula, when toggled) */}
+              {isScenarioOpen && (
+                <div data-testid="inline-scenario-container" className="pt-2">
+                  <NegotiationScenario
+                    baselineProfile={{
+                      role: profileData.occupation_id,
+                      seniority:
+                        (profileData.years_experience ?? 4) >= 8
+                          ? "SR"
+                          : (profileData.years_experience ?? 4) >= 4
+                          ? "MID"
+                          : "ENTRY",
+                      location: profileData.location_id,
+                      yoe: Math.round(profileData.years_experience ?? 4),
+                    }}
+                    baselineSpan={{
+                      p10: okEstimate.estimate.p10,
+                      p50: okEstimate.estimate.p50,
+                      p90: okEstimate.estimate.p90,
                     }}
                   />
                 </div>
