@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 complete: T13.01-T13.07 complete; NEXT: Gate G13 Review)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11, 12, and 13 complete; Gates G11, G12, and G13 ratified GO; GA Maintenance & Standing Re-audit Triggers Active)
 
 ## How to use this file
 
@@ -941,6 +941,11 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/results/copula_pt4_report.json | T13.07 |
 | tests/unit/test_copula_pt4_experiment.py | T13.07 |
 | docs/research/evidence-register.csv (Claim 30) | T13.07 |
+| docs/pilot/gate-g13-review.md | Gate G13 |
+| scripts/run_phase13_review.py | Gate G13 |
+| experiments/results/phase13_gate_g13_report.json | Gate G13 |
+| tests/unit/test_phase13_gate_g13.py | Gate G13 |
+| docs/model-cards/model-card-final-v1.md (Phase 13 Addendum v1.3.0) | Gate G13 |
 
 ## Change log
 
