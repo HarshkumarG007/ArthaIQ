@@ -76,6 +76,12 @@ from compintel.evaluation.employer_graphs_experiment import (
     evaluate_and_save_employer_graphs_experiment,
     run_employer_graphs_experiment,
 )
+from compintel.evaluation.ensemble_reaudit import (
+    EnsembleReauditReport,
+    ReauditOutcomeVerdict,
+    evaluate_and_save_ensemble_reaudit,
+    run_ensemble_reaudit,
+)
 from compintel.evaluation.ensembling_experiment import (
     EnsembleDecisionVerdict,
     EnsembleExperimentReport,
@@ -549,4 +555,8 @@ __all__ = [
     "build_post_exp16_cumulative_panel",
     "evaluate_and_save_employer_graph_reaudit",
     "run_employer_graph_reaudit",
+    "EnsembleReauditReport",
+    "ReauditOutcomeVerdict",
+    "evaluate_and_save_ensemble_reaudit",
+    "run_ensemble_reaudit",
 ]
