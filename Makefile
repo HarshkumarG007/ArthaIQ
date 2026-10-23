@@ -356,6 +356,10 @@ career-trajectory-reaudit:
 macro-regimes-reaudit:
 	uv run python scripts/run_macro_regimes_reaudit.py
 
+# ---- Copula Dependency Structure for Multi-Component PT4 (Phase 13, T13.07, CHARTER-COPULA-PT4) -
+copula-pt4-experiment:
+	uv run python scripts/run_copula_pt4_experiment.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

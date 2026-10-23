@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 underway: T13.01-T13.05 complete; NEXT: T13.06 Macro Regime Features Long-Range Calendar Trigger)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 complete: T13.01-T13.07 complete; NEXT: Gate G13 Review)
 
 ## How to use this file
 
@@ -546,7 +546,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ### 13.F: Copula Dependency Structure for Multi-Component PT4 (EXP-PGM-01r)
 
-- [ ] **T13.07** [AI] Evaluate Gaussian copula joint dependency structure (non-parametric empirical marginals, no discretization) as a PT4 scenario correlation layer on top of the Phase 12 EXP-15 counterfactual engine — strictly limited to scenario UI, never used for core compensation point estimation. Charter update required before implementation.
+- [x] **T13.07** [AI] Evaluate Gaussian copula joint dependency structure (non-parametric empirical marginals, no discretization) as a PT4 scenario correlation layer on top of the Phase 12 EXP-15 counterfactual engine — strictly limited to scenario UI, never used for core compensation point estimation. Charter update required before implementation. (done 2026-10-23)
       Output: docs/research/copula-pt4-phase13.md, experiments/results/copula_pt4_report.json. Done when: pre-registered charter written and empirical verdict recorded (PROMOTE to PT4 UI or REJECT). Needs: T12.02. Size: L.
 
 **Gate G13:** all Phase 13 feasibility audits completed with documented verdicts; at least one PROMOTE verdict achieved OR all formally deferred with next trigger dates recorded.
@@ -934,6 +934,13 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/results/macro_regimes_reaudit.json | T13.06 |
 | tests/unit/test_macro_regimes_reaudit.py | T13.06 |
 | docs/research/evidence-register.csv (Claim 29) | T13.06 |
+| experiments/configs/charters/charter_copula_pt4.yaml | T13.07 |
+| src/compintel/evaluation/copula_pt4_experiment.py | T13.07 |
+| scripts/run_copula_pt4_experiment.py | T13.07 |
+| docs/research/copula-pt4-phase13.md | T13.07 |
+| experiments/results/copula_pt4_report.json | T13.07 |
+| tests/unit/test_copula_pt4_experiment.py | T13.07 |
+| docs/research/evidence-register.csv (Claim 30) | T13.07 |
 
 ## Change log
 
@@ -963,3 +970,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-23 | 1.13    | Task T13.04 complete: Added optional longitudinal career-event fields (`career_start_date`, `last_promotion_date`, `right_censored_exit_flag`) to voluntary contribution schema, canonical models, and database models under ADR-0008 amendment; created Alembic migration 0002_longitudinal_career_schema; authored DPDPA 2023 Regulatory Impact Note (`docs/legal/dpdpa-longitudinal-schema-amendment.md`); verified zero interference with ML serving models; 10/10 unit tests passing; 4/4 migration tests passing. NEXT: Task T13.05 (EXP-TRAJ Career Trajectory Re-evaluation). |
 | 2026-10-23 | 1.14    | Task T13.05 complete: EXP-TRAJ-r Career Trajectory Feasibility Re-audit executed on 6-month non-synthetic panel (219 observations); Gate 1 panel depth audit verified that realized observation calendar span (5.9 months < 12.0 months required) and populated milestone telemetry (0 < 100 records required) trigger unconditional Gate 1 DEFER under CHARTER-CAREER-TRAJ-r without speculative modeling; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified without trajectory complexity or collection friction; 10/10 unit tests passing; Claim 28 registered. NEXT: Task T13.06 (Macro Regime Features Long-Range Calendar Trigger). |
 | 2026-10-23 | 1.15    | Task T13.06 complete: EXP-MACRO-01r Macro Regimes Long-Range Calendar Trigger re-audit executed on 6-month non-synthetic panel (219 observations); Gate 1 panel span audit verified that realized observation calendar span (5.9 months < 24.0 months required) fails the pre-registered multi-year threshold, triggering unconditional Gate 1 DEFER under CHARTER-MACRO-REGIMES-r without speculative modeling; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified with zero external macro dependencies; next audit trigger pre-registered for October 2028 calendar date; 11/11 unit tests passing; Claim 29 registered. NEXT: Task T13.07 (Copula Dependency Structure for Multi-Component PT4). |
+| 2026-10-23 | 1.16    | Task T13.07 complete: EXP-PGM-01r Gaussian Copula Multi-Component Dependency Structure evaluated on 500 benchmark offer cases; non-parametric empirical marginals with Gaussian copula rank correlation preserve realistic dependency across base cash, equity grant, and variable bonus (max |Δρ| = 0.0388 <= 0.050), 0.00% quantile crossing rate, 78.00% empirical joint coverage, and sub-millisecond CPU simulation latency (p95 = 0.86 ms <= 25.0 ms), ratifying formal PROMOTE verdict under CHARTER-COPULA-PT4 to the PT4 negotiation scenario UI; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified for core estimation; 11/11 unit tests passing; Claim 30 registered. NEXT: Gate G13 Review. |
