@@ -1,0 +1,31 @@
+{
+  "report_id": "EXPTRAJR-20261023075026",
+  "charter_id": "CHARTER-CAREER-TRAJ-r",
+  "experiment_id": "EXP-TRAJ-r",
+  "task_id": "T13.05",
+  "generated_at": "2026-10-23T07:50:26.841036+00:00",
+  "git_commit": "ced0d62c",
+  "audit_status": "INSUFFICIENT_SPAN_DEFER",
+  "verdict": "DEFER",
+  "panel_metrics": {
+    "total_records": 219,
+    "non_synthetic_records": 219,
+    "synthetic_records": 0,
+    "panel_start_date": "2026-10-22",
+    "panel_end_date": "2027-04-19",
+    "panel_span_days": 179,
+    "panel_span_months": 5.88,
+    "required_span_months": 12.0,
+    "longitudinal_populated_records": 0,
+    "required_longitudinal_records": 100,
+    "is_span_sufficient": false,
+    "is_depth_sufficient": false,
+    "span_deficit_months": 6.12,
+    "record_deficit": 100
+  },
+  "model_evaluation": null,
+  "champion_status": "RETAINED_UNMODIFIED (Rung F Level 2 Conformal CatBoost)",
+  "next_trigger_date": "2028-06-30 (Phase 14 B2B Syndication Milestone)",
+  "next_trigger_condition": "Longitudinal panel >= 12.0 calendar months AND verified longitudinal records >= 100",
+  "executive_summary": "Gate 1 Longitudinal Feasibility DEFERRED: Cumulative non-synthetic production panel spans 5.9 calendar months (179 days, threshold: >= 12.0 months) with 0 verified records with populated longitudinal milestone dates (threshold: >= 100 records). In strict accordance with CHARTER-CAREER-TRAJ-r and Rule R-MD-09, empirical modeling is held in abeyance to prevent premature model training and survivor/recall bias on truncated career histories. Production Champion Rung F Level 2 Conformal CatBoost is strictly retained unmodified without career trajectory complexity or collection burden. Next audit pre-registered for Phase 14 B2B syndication intake (estimated mid-2028)."
+}

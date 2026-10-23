@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 underway: T13.01 & T13.02 complete; NEXT: T13.03 EXP-09r Skills TF-IDF Power-Gated Retest)
+**NEXT TASK: Phase 11: Production Hardening & Slice Calibration (EXP-13, EXP-16)** (Phases 11 & 12 complete; Gates G11 & G12 ratified GO; Phase 13 underway: T13.01-T13.05 complete; NEXT: T13.06 Macro Regime Features Long-Range Calendar Trigger)
 
 ## How to use this file
 
@@ -536,7 +536,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 - [x] **T13.04** [AI+HUMAN] Add optional longitudinal career-event fields to the voluntary contribution schema (ADR-0008 amendment): career_start_date, last_promotion_date, and right_censored_exit_flag — all strictly optional, DPDPA-compliant, default null, never required for core compensation prediction. (done 2026-10-23)
       Output: updated src/compintel/schema/, migration, docs/adr/ADR-0008-privacy-consent-retention-kmin.md amendment, DPDPA impact note. Done when: schema migration passes CI, PII review signed off, fields appear in contribution API with documented optionality. Needs: G12. Size: M.
-- [ ] **T13.05** [AI] EXP-TRAJ career trajectory feature re-evaluation: once longitudinal panel spans >= 12 calendar months of realized observations (estimated Phase 14 / mid-2028), re-run career velocity and promotion-acceleration features per an updated CHARTER-CAREER-TRAJ charter. (trigger: 12-month longitudinal panel)
+- [x] **T13.05** [AI] EXP-TRAJ career trajectory feature re-evaluation: once longitudinal panel spans >= 12 calendar months of realized observations (estimated Phase 14 / mid-2028), re-run career velocity and promotion-acceleration features per an updated CHARTER-CAREER-TRAJ charter. (trigger: 12-month longitudinal panel) (done 2026-10-23)
       Output: docs/research/career-trajectory-reaudit-phase13.md, experiments/results/career_trajectory_reaudit.json. Done when: charter updated and verdict recorded. Needs: T13.04 and >= 12 months of data. Size: L.
 
 ### 13.E: Macro Regime Features Long-Range Calendar Trigger (EXP-MACRO-01r)
@@ -922,6 +922,12 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | docs/adr/ADR-0008-privacy-consent-retention-kmin.md (amendment) | T13.04 |
 | docs/legal/dpdpa-longitudinal-schema-amendment.md | T13.04 |
 | tests/unit/test_longitudinal_schema.py | T13.04 |
+| src/compintel/evaluation/career_trajectory_reaudit.py | T13.05 |
+| scripts/run_career_trajectory_reaudit.py | T13.05 |
+| docs/research/career-trajectory-reaudit-phase13.md | T13.05 |
+| experiments/results/career_trajectory_reaudit.json | T13.05 |
+| tests/unit/test_career_trajectory_reaudit.py | T13.05 |
+| docs/research/evidence-register.csv (Claim 28) | T13.05 |
 
 ## Change log
 
@@ -949,3 +955,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-23 | 1.11    | Remediated CI security audit failures: (1) Replaced high-entropy mock receipt key in apps/web/src/components/ContributionFlow.test.tsx resolving gitleaks generic-api-key false positive; (2) Added .gitleaks.toml configuration extending default rules with test fixture allowlist; (3) Added fetch-depth: 0 to actions/checkout in .github/workflows/ci.yml for complete git history; (4) Upgraded virtualenv to 21.14.13 in uv.lock remediating CVE-2026-113722 in pip-audit. All security checks, 93 Vitest tests, and Python test suite pass 100% green. |
 | 2026-10-23 | 1.12    | Task T13.03 complete: EXP-09r Skills TF-IDF Power-Gated Re-audit executed on 6-month non-synthetic panel (219 observations); paired t-power analysis verified that current sample size achieves only 45.6% power against pre-registered keep threshold (delta pinball loss <= -0.050 LPA, N >= 500 required for 80.0% power), triggering unconditional Gate 1 DEFER under CHARTER-EXP-09r to prevent Type II error; Variant B (sentence-transformers on CPU) permanently REJECT due to CPU latency constraints; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified; 11/11 unit tests passing; Claim 27 registered. NEXT: Task T13.04 (Longitudinal Schema Extension). |
 | 2026-10-23 | 1.13    | Task T13.04 complete: Added optional longitudinal career-event fields (`career_start_date`, `last_promotion_date`, `right_censored_exit_flag`) to voluntary contribution schema, canonical models, and database models under ADR-0008 amendment; created Alembic migration 0002_longitudinal_career_schema; authored DPDPA 2023 Regulatory Impact Note (`docs/legal/dpdpa-longitudinal-schema-amendment.md`); verified zero interference with ML serving models; 10/10 unit tests passing; 4/4 migration tests passing. NEXT: Task T13.05 (EXP-TRAJ Career Trajectory Re-evaluation). |
+| 2026-10-23 | 1.14    | Task T13.05 complete: EXP-TRAJ-r Career Trajectory Feasibility Re-audit executed on 6-month non-synthetic panel (219 observations); Gate 1 panel depth audit verified that realized observation calendar span (5.9 months < 12.0 months required) and populated milestone telemetry (0 < 100 records required) trigger unconditional Gate 1 DEFER under CHARTER-CAREER-TRAJ-r without speculative modeling; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified without trajectory complexity or collection friction; 10/10 unit tests passing; Claim 28 registered. NEXT: Task T13.06 (Macro Regime Features Long-Range Calendar Trigger). |

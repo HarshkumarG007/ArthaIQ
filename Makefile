@@ -348,6 +348,10 @@ ensemble-reaudit:
 skills-reaudit:
 	uv run python scripts/run_skills_reaudit.py
 
+# ---- Career Trajectory Feature Re-evaluation (Phase 13, T13.05, CHARTER-CAREER-TRAJ-r) -
+career-trajectory-reaudit:
+	uv run python scripts/run_career_trajectory_reaudit.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
