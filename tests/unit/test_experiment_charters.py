@@ -68,6 +68,8 @@ def test_index_yaml_structure_and_ranking() -> None:
         "charter_ensembling_stacking.yaml",
         "charter_survival_models.yaml",
         "charter_probabilistic_networks.yaml",
+        "charter_exp10r_v2.yaml",
+        "charter_career_traj_r_v2.yaml",
     ],
 )
 def test_individual_charter_conformance(filename: str) -> None:
@@ -107,3 +109,18 @@ def test_individual_charter_conformance(filename: str) -> None:
     reject = charter["reject_criteria"]
     assert isinstance(reject, list)
     assert len(reject) >= 3, f"{filename} must have at least 3 reject criteria"
+
+
+def test_copula_charter_conformance() -> None:
+    """Verify charter_copula_pt4.yaml conforms to governance requirements."""
+    filepath = CHARTERS_DIR / "charter_copula_pt4.yaml"
+    assert filepath.is_file(), f"Charter missing: {filepath}"
+
+    with open(filepath, encoding="utf-8") as f:
+        charter = yaml.safe_load(f)
+
+    assert charter["charter_id"] == "CHARTER-COPULA-PT4"
+    assert "R-MD-09" in charter["governing_rules"]
+    assert "candidate_summary" in charter
+    assert "keep_criteria" in charter
+    assert len(charter["reject_criteria"]) >= 3

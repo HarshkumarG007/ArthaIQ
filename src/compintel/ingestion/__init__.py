@@ -6,6 +6,7 @@ Governs Rules R-DA-01, R-DA-02, and R-DA-03.
 from compintel.ingestion.connector import (
     CONNECTOR_REGISTRY,
     AIJobsSalariesConnector,
+    B2BSyndicationConnector,
     BaseConnector,
     BLSOEWSConnector,
     CorporateDisclosuresConnector,
@@ -53,10 +54,13 @@ from compintel.ingestion.manifest import (
     verify_licence_gate,
     verify_manifest,
 )
+from compintel.ingestion.privacy_pooling import B2BPrivacyPooler
 
 __all__ = [
     "AIJobsSalariesConnector",
     "AutomatedCanary",
+    "B2BPrivacyPooler",
+    "B2BSyndicationConnector",
     "BLSOEWSConnector",
     "CONNECTOR_REGISTRY",
     "BaseConnector",

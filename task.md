@@ -553,6 +553,25 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ---
 
+## Phase 14: B2B Enterprise Syndication & Longitudinal Panel Integration
+
+> **Objective:** establish secure, privacy-preserving B2B enterprise syndication intake (SRC-B2B-01) with cryptographic isolation, k_min >= 5 cell aggregation floor, and multi-period longitudinal panel modeling charters.
+> **Inputs and tools:** B2B syndication specification, differential privacy pooler, enterprise HRIS tranches, charters index.
+> **Governing Rules:** R-DA-01, R-DA-02, R-DA-10, R-MD-09, R-MD-11, R-UQ-01, R-UQ-05, R-CD-01, R-CD-06.
+> **Safe Harbor:** CCI wage benchmarking safe harbor compliance (multi-employer pooling, >= 5 distinct tenants, max 35% concentration).
+> **Needs:** G13.
+
+- [x] **T14.01** [AI] B2B Syndication Protocol & Intake Specification (`SRC-B2B-01`): design enterprise HRIS/payroll syndication protocol, cryptographic tenant isolation (HMAC-SHA256), small-cell aggregation floor ($k_{\min} \ge 5$), zero raw PII retention, and CCI anti-collusion safe harbor standards. (done 2026-10-24)
+      Output: config/sources/SRC-B2B-01.yaml, docs/research/b2b-syndication-protocol-phase14.md, tests/unit/test_b2b_syndication_spec.py. Done when: source config validated, specification document approved, 5/5 unit tests passing. Needs: G13. Size: M.
+- [x] **T14.02** [AI] Differential Privacy Pooling & Connector Implementation: implement `B2BPrivacyPooler` and `B2BSyndicationConnector` (`src/compintel/ingestion/privacy_pooling.py`, `src/compintel/ingestion/connector.py`) enforcing $k_{\min} \ge 5$ under Rule `R-DA-10`, ₹50,000 wage coarsening, quarterly date coarsening, and accounting identity validation (`guaranteed_cash_annual == basic + allowances`). (done 2026-10-24)
+      Output: src/compintel/ingestion/privacy_pooling.py, src/compintel/ingestion/connector.py, tests/unit/test_phase14_syndication.py. Done when: connector extracts parquet/csv, rejects forbidden PII, validates accounting identity, pooler passes safe harbor audits, 9/9 unit tests passing. Needs: T14.01. Size: L.
+- [x] **T14.03** [AI] Pre-registration Charter EXP-10r-v2: formulate and index `CHARTER-EXP-10r-v2` re-auditing employer talent-flow graphs under dense B2B syndication panels per Rule `R-MD-09`. (done 2026-10-24)
+      Output: experiments/configs/charters/charter_exp10r_v2.yaml, experiments/configs/charters/index.yaml. Done when: charter indexed, keep/reject criteria pre-registered, charter tests passing. Needs: T14.02. Size: M.
+- [x] **T14.04** [AI] Pre-registration Charter CAREER-TRAJ-r-v2: formulate and index `CHARTER-CAREER-TRAJ-r-v2` re-auditing multi-period longitudinal career trajectory features per Rule `R-MD-09`. (done 2026-10-24)
+      Output: experiments/configs/charters/charter_career_traj_r_v2.yaml, experiments/configs/charters/index.yaml. Done when: charter indexed, keep/reject criteria pre-registered, charter tests passing. Needs: T14.02. Size: M.
+
+---
+
 
 ## Appendix A: Prioritized experiment backlog
 
@@ -583,6 +602,8 @@ Hypotheses to test, not results. Each needs a charter before work starts.
 | EXP-SURV-r | *(Long-range)* With right-censored tenure timestamps collected via T13.04 schema extension, do survival models provide actionable tenure-duration intelligence?         | Tenure hazard modeling         | 14+   | T13.05       |
 | EXP-ENSEMBLE-r | *(Re-evaluation)* With N >= 100 non-synthetic panel records, does convex quantile blending + meta-learner stacking beat the champion by >= -0.050 LPA?            | Quantile ensembling            | 13    | T13.02       |
 | EXP-PGM-r | *(Re-evaluation, PT4 only)* Does a Gaussian copula dependency structure improve multi-component scenario correlation in the PT4 counterfactual UI?                      | Copula PT4 scenario layer      | 13    | T13.07       |
+| EXP-10r-v2 | *(Re-audit)* With dense B2B syndication cross-employer mobility, do talent-flow graph embeddings outperform discrete employer tiers? | Employer graph embeddings (v2) | 14    | T14.03       |
+| EXP-TRAJ-01r-v2 | *(Re-audit)* With multi-quarter B2B longitudinal payroll panels, do point-in-time trajectory features improve interval sharpness? | Longitudinal trajectory (v2)   | 14    | T14.04       |
 
 ## Appendix B: Parking lot
 
@@ -947,13 +968,24 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | tests/unit/test_phase13_gate_g13.py | Gate G13 |
 | docs/model-cards/model-card-final-v1.md (Phase 13 Addendum v1.3.0) | Gate G13 |
 
+### Phase 14: B2B Enterprise Syndication & Longitudinal Panel Integration
+
+| Deliverable | Task |
+| --- | --- |
 | apps/web/src/components/NegotiationScenario.tsx | Phase 14 Track 2 |
 | apps/web/src/components/NegotiationScenario.test.tsx | Phase 14 Track 2 |
 | apps/web/src/components/EstimateScreen.tsx | Phase 14 Track 2 |
 | apps/web/src/components/RefinementAndCompare.test.tsx | Phase 14 Track 2 |
-| config/sources/SRC-B2B-01.yaml | Phase 14 Track 3 |
-| docs/research/b2b-syndication-protocol-phase14.md | Phase 14 Track 3 |
-| tests/unit/test_b2b_syndication_spec.py | Phase 14 Track 3 |
+| config/sources/SRC-B2B-01.yaml | T14.01 |
+| docs/research/b2b-syndication-protocol-phase14.md | T14.01 |
+| tests/unit/test_b2b_syndication_spec.py | T14.01 |
+| src/compintel/ingestion/privacy_pooling.py | T14.02 |
+| src/compintel/ingestion/connector.py (B2BSyndicationConnector) | T14.02 |
+| tests/unit/test_phase14_syndication.py | T14.02 |
+| experiments/configs/charters/charter_exp10r_v2.yaml | T14.03 |
+| experiments/configs/charters/charter_career_traj_r_v2.yaml | T14.04 |
+| experiments/configs/charters/index.yaml (ranks 9 & 10) | T14.03/T14.04 |
+| tests/unit/test_experiment_charters.py | T14.03/T14.04 |
 
 ## Change log
 
@@ -989,3 +1021,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-23 | 1.19    | Gate G13 complete: Phase 13 benchmark & gate review executed (`scripts/run_phase13_review.py`, `docs/pilot/gate-g13-review.md`), EXP-PGM-01r Gaussian copula scenario dependency structure promoted to PT4 UI (max Spearman error 0.0388 <= 0.050, 0 crossings, 78.00% joint coverage, p95 latency 0.86ms <= 25ms, zero core model contamination), EXP-ENSEMBLE-01r rejected (pinball degradation +0.1320 LPA), EXP-10r/EXP-09r/EXP-TRAJ-r/EXP-MACRO-01r formally deferred with pre-registered triggers, Gate G13 ratified GO (Decision D-024), Model Card updated to v1.3.0 with Phase 13 Addendum, 4/4 Gate G13 tests passing. |
 | 2026-10-24 | 1.20    | Remediated CI test failure in test_experiment_charters.py (Run #39976024058): Updated test_index_yaml_structure_and_ranking to validate dynamic contiguous charter rankings (len >= 7, ranks 1..len(matrix)) following Phase 13 addition of rank 8 CHARTER-COPULA-PT4 (EXP-PGM-01r); all 9 charter tests passing. |
 | 2026-10-24 | 1.21    | Executed post-Gate G13 three-track sequential program: (Track 1) Production Health & Freshness Telemetry Audit (14/14 sources fresh, 80.2% coverage, 0 drift alerts, 0 staleness violations, 0.136ms rollback); (Track 2) Interactive Scenario UI Polish (PT4 Gaussian Copula Joint Distribution integration in NegotiationScenario and EstimateScreen, 96/96 Vitest tests passing, 0 axe accessibility violations, clean Vite production build); (Track 3) Phase 14 Architecture & B2B Syndication Intake Protocol (SRC-B2B-01.yaml, docs/research/b2b-syndication-protocol-phase14.md, cryptographic HMAC isolation, k_min >= 5 floor, tests/unit/test_b2b_syndication_spec.py 5/5 passing). |
+| 2026-10-24 | 1.22    | Phase 14 Implementation complete: (1) Implemented B2BSyndicationConnector in `src/compintel/ingestion/connector.py` for SRC-B2B-01 with mandatory accounting validation and forbidden PII scrubbing; (2) Implemented differential privacy and small-cell aggregation engine `B2BPrivacyPooler` (`src/compintel/ingestion/privacy_pooling.py`) enforcing Rule R-DA-10 k_min >= 5 anonymity floor, ₹50,000 wage coarsening, quarterly date coarsening, and CCI anti-collusion safe harbor compliance; (3) Added full Phase 14 test suite in `tests/unit/test_phase14_syndication.py` (9/9 passing); (4) Pre-registered CHARTER-EXP-10r-v2 and CHARTER-CAREER-TRAJ-r-v2 in `experiments/configs/charters/` with 12/12 charter tests passing; Champion Rung F Level 2 Conformal CatBoost strictly preserved unmodified. |

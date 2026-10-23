@@ -834,12 +834,114 @@ class VoluntaryIntakeConnector(BaseConnector):
             raise FileNotFoundError(msg)
 
 
+class B2BSyndicationConnector(BaseConnector):
+    """Connector for Governed B2B Enterprise Employer Compensation Syndication (SRC-B2B-01).
+
+    Enforces:
+    1. Zero Raw PII (Rule R-CD-06 & R-DA-07): strictly rejects personal names, emails, phones,
+       PAN, Aadhaar, UAN, and bank accounts.
+    2. Deductive Accounting Validation (Rule R-MD-07): guaranteed_cash == basic + allowances.
+    3. Immutable Manifest Checksum Verification (Rule R-DA-02).
+    """
+
+    source_id: str = "SRC-B2B-01"
+    data_file_name: str = "b2b_syndication_tranches.parquet"
+    csv_file_name: str = "b2b_syndication_tranches.csv"
+
+    FORBIDDEN_PII_KEYS: frozenset[str] = frozenset(
+        {
+            "name",
+            "employee_name",
+            "first_name",
+            "last_name",
+            "email",
+            "personal_email",
+            "work_email",
+            "phone",
+            "phone_number",
+            "mobile",
+            "pan",
+            "pan_number",
+            "aadhaar",
+            "aadhaar_number",
+            "uan",
+            "bank_account",
+            "account_number",
+            "ip_address",
+        }
+    )
+
+    def extract_raw_records(self) -> Iterator[RawRecord]:
+        """Extract RawRecord stream from syndicated B2B enterprise tranches."""
+        config = self.verify_licence()
+        self.verify_manifest()
+
+        parquet_file = self.source_raw_dir / self.data_file_name
+        csv_file = self.source_raw_dir / self.csv_file_name
+
+        ref_period = config.get("reference_period", {})
+        source_version = str(ref_period.get("design_version", "v1.0"))
+        licence_meta = config.get("licence", {})
+        license_id = str(licence_meta.get("spdx_id", "PROPRIETARY-B2B-CONSORTIUM-GRANT"))
+        retrieved_at = self.get_manifest_retrieved_at()
+
+        rows: list[dict[str, Any]] = []
+        if parquet_file.exists():
+            df = pl.read_parquet(parquet_file)
+            rows = [dict(r) for r in df.iter_rows(named=True)]
+        elif csv_file.exists():
+            with open(csv_file, encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                rows = [dict(r) for r in reader]
+        else:
+            msg = f"Raw B2B syndication data file not found: {parquet_file} or {csv_file}"
+            raise FileNotFoundError(msg)
+
+        for row in rows:
+            clean_row = {str(k) if k is not None else "_extra_": v for k, v in row.items()}
+            detected_pii = self.FORBIDDEN_PII_KEYS.intersection(clean_row.keys())
+            if detected_pii:
+                msg = f"Forbidden PII keys detected in B2B syndication payload: {detected_pii}"
+                raise ValueError(msg)
+
+            # Validate accounting identity if line items are present
+            if "basic_salary_annual" in clean_row and "fixed_allowances_annual" in clean_row:
+                try:
+                    basic = float(clean_row["basic_salary_annual"])
+                    allowances = float(clean_row["fixed_allowances_annual"])
+                    cash_val = (
+                        float(clean_row["guaranteed_cash_annual"])
+                        if "guaranteed_cash_annual" in clean_row
+                        else None
+                    )
+                except (ValueError, TypeError):
+                    cash_val = None
+
+                if cash_val is not None and abs(cash_val - (basic + allowances)) > 100.0:
+                    msg = (
+                        f"Accounting mismatch in B2B record: cash {cash_val} != "
+                        f"basic {basic} + allowances {allowances}"
+                    )
+                    raise ValueError(msg)
+
+            record_hash = compute_record_hash(clean_row)
+            yield RawRecord(
+                source_id=self.source_id,
+                source_version=source_version,
+                license_id=license_id,
+                retrieved_at=retrieved_at,
+                raw_payload=clean_row,
+                record_hash=record_hash,
+            )
+
+
 # Alias
 StackOverflowSurveyConnector = StackOverflowSurvey2024Connector
 
 
 # Master registry mapping approved source IDs to connector implementations
 CONNECTOR_REGISTRY: dict[str, type[BaseConnector]] = {
+    "SRC-B2B-01": B2BSyndicationConnector,
     "SRC-IND-OFF-01": MOSPIPLFSConnector,
     "SRC-IND-OFF-03": LabourBureauQESConnector,
     "SRC-INT-VOL-01": VoluntaryIntakeConnector,
