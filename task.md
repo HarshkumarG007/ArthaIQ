@@ -541,8 +541,8 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 ### 13.E: Macro Regime Features Long-Range Calendar Trigger (EXP-MACRO-01r)
 
-- [ ] **T13.06** [AI] Macro regime feature re-evaluation: once production system has accumulated >= 24 calendar months of continuous nominal INR observations (estimated October 2028), run a fresh Gate 1 feasibility audit per CHARTER-MACRO-REGIMES. If the 24-month panel threshold is met, proceed with real-pay deflation + conformal inverse re-inflation pipeline. (trigger: October 2028 calendar date OR explicit data audit confirming >= 24 months)
-      Output: docs/research/macro-regimes-reaudit-phase13.md. Done when: feasibility verdict documented. Needs: G12, 24-month production window. Size: L.
+- [x] **T13.06** [AI] Macro regime feature re-evaluation: once production system has accumulated >= 24 calendar months of continuous nominal INR observations (estimated October 2028), run a fresh Gate 1 feasibility audit per CHARTER-MACRO-REGIMES. If the 24-month panel threshold is met, proceed with real-pay deflation + conformal inverse re-inflation pipeline. (trigger: October 2028 calendar date OR explicit data audit confirming >= 24 months) (done 2026-10-23)
+      Output: docs/research/macro-regimes-reaudit-phase13.md, experiments/results/macro_regimes_reaudit.json. Done when: feasibility verdict documented. Needs: G12, 24-month production window. Size: L.
 
 ### 13.F: Copula Dependency Structure for Multi-Component PT4 (EXP-PGM-01r)
 
@@ -928,6 +928,12 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/results/career_trajectory_reaudit.json | T13.05 |
 | tests/unit/test_career_trajectory_reaudit.py | T13.05 |
 | docs/research/evidence-register.csv (Claim 28) | T13.05 |
+| src/compintel/evaluation/macro_regimes_reaudit.py | T13.06 |
+| scripts/run_macro_regimes_reaudit.py | T13.06 |
+| docs/research/macro-regimes-reaudit-phase13.md | T13.06 |
+| experiments/results/macro_regimes_reaudit.json | T13.06 |
+| tests/unit/test_macro_regimes_reaudit.py | T13.06 |
+| docs/research/evidence-register.csv (Claim 29) | T13.06 |
 
 ## Change log
 
@@ -956,3 +962,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-23 | 1.12    | Task T13.03 complete: EXP-09r Skills TF-IDF Power-Gated Re-audit executed on 6-month non-synthetic panel (219 observations); paired t-power analysis verified that current sample size achieves only 45.6% power against pre-registered keep threshold (delta pinball loss <= -0.050 LPA, N >= 500 required for 80.0% power), triggering unconditional Gate 1 DEFER under CHARTER-EXP-09r to prevent Type II error; Variant B (sentence-transformers on CPU) permanently REJECT due to CPU latency constraints; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified; 11/11 unit tests passing; Claim 27 registered. NEXT: Task T13.04 (Longitudinal Schema Extension). |
 | 2026-10-23 | 1.13    | Task T13.04 complete: Added optional longitudinal career-event fields (`career_start_date`, `last_promotion_date`, `right_censored_exit_flag`) to voluntary contribution schema, canonical models, and database models under ADR-0008 amendment; created Alembic migration 0002_longitudinal_career_schema; authored DPDPA 2023 Regulatory Impact Note (`docs/legal/dpdpa-longitudinal-schema-amendment.md`); verified zero interference with ML serving models; 10/10 unit tests passing; 4/4 migration tests passing. NEXT: Task T13.05 (EXP-TRAJ Career Trajectory Re-evaluation). |
 | 2026-10-23 | 1.14    | Task T13.05 complete: EXP-TRAJ-r Career Trajectory Feasibility Re-audit executed on 6-month non-synthetic panel (219 observations); Gate 1 panel depth audit verified that realized observation calendar span (5.9 months < 12.0 months required) and populated milestone telemetry (0 < 100 records required) trigger unconditional Gate 1 DEFER under CHARTER-CAREER-TRAJ-r without speculative modeling; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified without trajectory complexity or collection friction; 10/10 unit tests passing; Claim 28 registered. NEXT: Task T13.06 (Macro Regime Features Long-Range Calendar Trigger). |
+| 2026-10-23 | 1.15    | Task T13.06 complete: EXP-MACRO-01r Macro Regimes Long-Range Calendar Trigger re-audit executed on 6-month non-synthetic panel (219 observations); Gate 1 panel span audit verified that realized observation calendar span (5.9 months < 24.0 months required) fails the pre-registered multi-year threshold, triggering unconditional Gate 1 DEFER under CHARTER-MACRO-REGIMES-r without speculative modeling; Champion Rung F Level 2 Conformal CatBoost strictly retained unmodified with zero external macro dependencies; next audit trigger pre-registered for October 2028 calendar date; 11/11 unit tests passing; Claim 29 registered. NEXT: Task T13.07 (Copula Dependency Structure for Multi-Component PT4). |
