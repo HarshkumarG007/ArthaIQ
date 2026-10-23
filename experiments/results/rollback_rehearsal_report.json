@@ -1,6 +1,6 @@
 {
   "title": "ArthaIQ Production Deployment & Rollback Rehearsal Report",
-  "timestamp_utc": "2026-10-21T14:35:19.505611+00:00",
+  "timestamp_utc": "2026-10-23T18:43:59.755119+00:00",
   "task_id": "T10.02",
   "overall_status": "PASSED",
   "rto_sla_met": true,
@@ -10,7 +10,7 @@
     "initial_version": "0.1.0",
     "challenger_version": "0.2.0-rc1",
     "restored_version": "0.1.0",
-    "rollback_latency_ms": 0.124,
+    "rollback_latency_ms": 0.136,
     "steps": [
       {
         "step": 1,
@@ -39,7 +39,7 @@
         "step": 4,
         "name": "execute_hot_rollback",
         "restored_version": "0.1.0",
-        "rollback_latency_ms": 0.124,
+        "rollback_latency_ms": 0.136,
         "buffer_cleared": true,
         "passed": true
       },

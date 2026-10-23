@@ -243,6 +243,25 @@ describe("EstimateScreen Integration", () => {
     expect(screen.queryByTestId("inline-pay-compare-container")).not.toBeInTheDocument();
   });
 
+  it("toggles scenario modeling (PT4 copula) in EstimateScreen", () => {
+    render(<EstimateScreen initialEstimate={sampleEstimate} />);
+
+    const scenarioBtn = screen.getByTestId("toggle-scenario-btn");
+    expect(scenarioBtn).toBeInTheDocument();
+    expect(scenarioBtn).toHaveTextContent("Scenario modeling (PT4 Copula)");
+    expect(screen.queryByTestId("inline-scenario-container")).not.toBeInTheDocument();
+
+    // Open Scenario panel
+    fireEvent.click(scenarioBtn);
+    expect(screen.getByTestId("inline-scenario-container")).toBeInTheDocument();
+    expect(screen.getByText(/PT4 Copula Engine/i)).toBeInTheDocument();
+    expect(scenarioBtn).toHaveTextContent("Close scenario modeling");
+
+    // Close Scenario panel
+    fireEvent.click(scenarioBtn);
+    expect(screen.queryByTestId("inline-scenario-container")).not.toBeInTheDocument();
+  });
+
   it("opens and closes accessible methodology modal on Escape", () => {
     render(<EstimateScreen initialEstimate={sampleEstimate} />);
 

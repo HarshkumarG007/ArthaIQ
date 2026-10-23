@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Charter ID** | `CHARTER-EXP-16` |
-| **Date** | 2026-10-22 14:09:45 UTC |
+| **Date** | 2026-10-23 18:43:50 UTC |
 | **Status / Verdict** | ✅ **RATIFIED / PROMOTE** |
 | **Governing Rules** | `PRD NFR-11`, `RSK-11`, `Rule R-DA-01`, `Rule R-DA-03`, `Rule R-MD-07`, `Rule R-MD-09`, `Rule R-CD-06` |
 
@@ -56,7 +56,7 @@ This experiment evaluates the **Automated Dual-Cadence Source Ingestion & Freshn
 {
   "charter_id": "CHARTER-EXP-16",
   "experiment_name": "Automated Dual-Cadence Source Ingestion & Freshness Daemon",
-  "timestamp": "2026-10-22 14:09:45 UTC",
+  "timestamp": "2026-10-23 18:43:50 UTC",
   "verdict": "PROMOTE",
   "metrics": {
     "total_valid_processed": 1500,

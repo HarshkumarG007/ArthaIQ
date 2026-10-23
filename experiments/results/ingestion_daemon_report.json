@@ -1,7 +1,7 @@
 {
   "charter_id": "CHARTER-EXP-16",
   "experiment_name": "Automated Dual-Cadence Source Ingestion & Freshness Daemon",
-  "timestamp": "2026-10-22 14:09:45 UTC",
+  "timestamp": "2026-10-23 18:43:50 UTC",
   "verdict": "PROMOTE",
   "keep_criteria": {
     "criterion_1_staleness_violations": {
