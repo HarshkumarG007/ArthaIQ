@@ -1,0 +1,15 @@
+# .gitleaks.toml
+# ArthaIQ Secret Detection Configuration
+# Extends default Gitleaks rule set and ignores mock test fixtures.
+
+title = "ArthaIQ Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist for unit test mock fixtures and test files"
+paths = [
+    '''(^|/)tests/.*''',
+    '''.*\.test\.(tsx?|jsx?|py)$''',
+]

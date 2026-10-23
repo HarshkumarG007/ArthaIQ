@@ -244,7 +244,7 @@ describe("MyDataModal", () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        contributor_key: "test-key-aabbccdd-0000-1111-2222-333344445555",
+        contributor_key: "test-key-mock-receipt-001",
         status: "completed",
         records_purged_count: 1,
         message: "Your record is permanently removed.",
