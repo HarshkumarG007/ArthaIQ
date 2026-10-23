@@ -43,10 +43,75 @@ def cumulative_panel() -> pl.DataFrame:
     return build_post_exp16_cumulative_panel(months_operational=6.0, seed=42)
 
 
-def test_audit_macro_panel_sufficiency_current_panel(cumulative_panel: pl.DataFrame) -> None:
+@pytest.fixture
+def sample_macro_dir(tmp_path: Path) -> Path:
+    """Create a self-contained macro directory with valid CPI and FX series (Rule R-DA-08)."""
+    macro_dir = tmp_path / "macro"
+    macro_dir.mkdir(parents=True, exist_ok=True)
+
+    manifest_yaml = """source_id: SRC-SUP-MAC-01
+source_short_name: RBI DBIE Macro Series
+licence_id: OGDL-IN
+licence_name: Open Government Data License - India
+licence_status: approved
+sqs: 94.4
+sqsf_tier: TIER_4_SUPPLEMENTARY
+generated_at_utc: '2026-10-13T19:08:54.696306+00:00'
+immutable: true
+"""
+    (macro_dir / "manifest.yaml").write_text(manifest_yaml, encoding="utf-8")
+
+    # 1. Generate monthly CPI from 1958 to 2028 (covering all historical and forward test dates)
+    cpi_rows = ["observation_date,INDCPIALLMINMEI", "1958-01-01,1.50"]
+    curr = date(2020, 1, 1)
+    end_cpi = date(2028, 12, 1)
+    cpi_val = 150.0
+    while curr <= end_cpi:
+        cpi_rows.append(f"{curr.isoformat()},{cpi_val:.2f}")
+        year = curr.year + (curr.month // 12)
+        month = (curr.month % 12) + 1
+        curr = date(year, month, 1)
+        cpi_val += 0.50
+
+    (macro_dir / "cpi_urban_monthly.csv").write_text("\n".join(cpi_rows) + "\n", encoding="utf-8")
+
+    # 2. Generate daily FX rates from 1973 to 2028
+    fx_rows = ["observation_date,DEXINUS", "1973-01-02,8.02"]
+    curr_fx = date(2020, 1, 1)
+    end_fx = date(2028, 12, 1)
+    fx_val = 82.50
+    while curr_fx <= end_fx:
+        if curr_fx.weekday() < 5:  # Monday - Friday trading days
+            fx_rows.append(f"{curr_fx.isoformat()},{fx_val:.2f}")
+            fx_val = round(fx_val + 0.002, 4)
+        curr_fx += timedelta(days=1)
+
+    (macro_dir / "inr_usd_fx_daily.csv").write_text("\n".join(fx_rows) + "\n", encoding="utf-8")
+    return macro_dir
+
+
+@pytest.fixture
+def macro_data_dir(sample_macro_dir: Path) -> Path:
+    """Return local raw macro dir if acquired; otherwise self-contained fixture (Rule R-DA-08)."""
+    raw_dir = Path("data/raw/SRC-SUP-MAC-01")
+    if not raw_dir.is_absolute() and not raw_dir.exists():
+        repo_root = Path(__file__).resolve().parents[2]
+        candidate = repo_root / raw_dir
+        if candidate.exists():
+            raw_dir = candidate
+
+    if (raw_dir / "cpi_urban_monthly.csv").exists() and (raw_dir / "inr_usd_fx_daily.csv").exists():
+        return raw_dir
+    return sample_macro_dir
+
+
+def test_audit_macro_panel_sufficiency_current_panel(
+    cumulative_panel: pl.DataFrame, macro_data_dir: Path
+) -> None:
     """Verify panel span and macro availability on the live 6-month production panel."""
     metrics = audit_macro_panel_sufficiency(
         df=cumulative_panel,
+        macro_dir=macro_data_dir,
         min_span_months=24.0,
     )
 
@@ -61,11 +126,14 @@ def test_audit_macro_panel_sufficiency_current_panel(cumulative_panel: pl.DataFr
     assert metrics.span_deficit_days > 500
     assert not metrics.calendar_trigger_met
     assert metrics.cpi_series_present
-    assert metrics.cpi_series_rows == 819
+    assert metrics.cpi_series_rows > 0
     assert metrics.fx_series_present
-    assert metrics.fx_series_rows == 14024
+    assert metrics.fx_series_rows > 0
     assert metrics.license_id == "OGDL-IN"
     assert metrics.provenance_tier == "TIER_4_SUPPLEMENTARY"
+    if "SRC-SUP-MAC-01" in str(macro_data_dir):
+        assert metrics.cpi_series_rows == 819
+        assert metrics.fx_series_rows == 14024
 
 
 def test_audit_macro_panel_sufficiency_sufficient_span() -> None:
@@ -130,7 +198,9 @@ def test_audit_validation_errors(cumulative_panel: pl.DataFrame) -> None:
         audit_macro_panel_sufficiency(df=cumulative_panel, min_span_months=-12.0)
 
 
-def test_synthetic_data_quarantine_guard(cumulative_panel: pl.DataFrame) -> None:
+def test_synthetic_data_quarantine_guard(
+    cumulative_panel: pl.DataFrame, macro_data_dir: Path
+) -> None:
     """Verify strict synthetic data isolation under Rule R-MD-11."""
     synthetic_row = cumulative_panel.slice(0, 1).with_columns(
         pl.lit(True).alias("is_synthetic"),
@@ -145,7 +215,11 @@ def test_synthetic_data_quarantine_guard(cumulative_panel: pl.DataFrame) -> None
     assert exc_info.value.details.get("rule_id") == "R-MD-11"
 
     # Permitted when explicit override is provided
-    report = run_macro_regimes_reaudit(contaminated_panel, allow_synthetic=True)
+    report = run_macro_regimes_reaudit(
+        contaminated_panel,
+        allow_synthetic=True,
+        macro_dir=macro_data_dir,
+    )
     assert report.panel_metrics.synthetic_records == 1
 
 
@@ -165,10 +239,13 @@ def test_missing_macro_series_detection(cumulative_panel: pl.DataFrame, tmp_path
     assert not report.panel_metrics.fx_series_present
 
 
-def test_run_macro_regimes_reaudit_default_defer(cumulative_panel: pl.DataFrame) -> None:
+def test_run_macro_regimes_reaudit_default_defer(
+    cumulative_panel: pl.DataFrame, macro_data_dir: Path
+) -> None:
     """Verify default Gate 1 DEFER verdict on the 6-month post-EXP-16 production panel."""
     report = run_macro_regimes_reaudit(
         panel_df=cumulative_panel,
+        macro_dir=macro_data_dir,
         allow_synthetic=False,
         force_experiment=False,
         seed=42,
@@ -186,10 +263,13 @@ def test_run_macro_regimes_reaudit_default_defer(cumulative_panel: pl.DataFrame)
     assert "Gate 1 Longitudinal Feasibility DEFERRED" in report.executive_summary
 
 
-def test_run_macro_regimes_reaudit_force_experiment(cumulative_panel: pl.DataFrame) -> None:
+def test_run_macro_regimes_reaudit_force_experiment(
+    cumulative_panel: pl.DataFrame, macro_data_dir: Path
+) -> None:
     """Verify forced empirical modeling execution on cumulative panel."""
     report = run_macro_regimes_reaudit(
         panel_df=cumulative_panel,
+        macro_dir=macro_data_dir,
         allow_synthetic=False,
         force_experiment=True,
         n_resamples=50,
@@ -204,10 +284,13 @@ def test_run_macro_regimes_reaudit_force_experiment(cumulative_panel: pl.DataFra
     assert len(report.model_evaluation["deltas"]) == 2
 
 
-def test_report_serialization_and_markdown(cumulative_panel: pl.DataFrame) -> None:
+def test_report_serialization_and_markdown(
+    cumulative_panel: pl.DataFrame, macro_data_dir: Path
+) -> None:
     """Verify report serialization to JSON dictionary and publication-grade Markdown."""
     report = run_macro_regimes_reaudit(
         panel_df=cumulative_panel,
+        macro_dir=macro_data_dir,
         allow_synthetic=False,
         force_experiment=False,
         seed=42,
@@ -237,12 +320,15 @@ def test_report_serialization_and_markdown(cumulative_panel: pl.DataFrame) -> No
     assert "## 6. Empirical Modeling Status" in md
     assert "## 7. Production Champion Retention & Phase 13 Architectural Impact" in md
     assert "2028-10-01" in md
-    assert "819 monthly rows" in md
-    assert "14,024 daily rows" in md
+    assert f"{report.panel_metrics.cpi_series_rows:,} monthly rows" in md
+    assert f"{report.panel_metrics.fx_series_rows:,} daily rows" in md
+    if "SRC-SUP-MAC-01" in str(macro_data_dir):
+        assert "819 monthly rows" in md
+        assert "14,024 daily rows" in md
 
 
 def test_evaluate_and_save_macro_regimes_reaudit_tmp_path(
-    cumulative_panel: pl.DataFrame, tmp_path: Path
+    cumulative_panel: pl.DataFrame, macro_data_dir: Path, tmp_path: Path
 ) -> None:
     """Verify persistence of Markdown memo and JSON report to disk."""
     out_dir = tmp_path / "results"
@@ -250,6 +336,7 @@ def test_evaluate_and_save_macro_regimes_reaudit_tmp_path(
 
     report = evaluate_and_save_macro_regimes_reaudit(
         output_dir=out_dir,
+        macro_dir=macro_data_dir,
         min_span_months=24.0,
         allow_synthetic=False,
         force_experiment=False,
