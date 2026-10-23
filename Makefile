@@ -352,6 +352,10 @@ skills-reaudit:
 career-trajectory-reaudit:
 	uv run python scripts/run_career_trajectory_reaudit.py
 
+# ---- Macro Regime Features Long-Range Calendar Trigger (Phase 13, T13.06, CHARTER-MACRO-REGIMES-r) -
+macro-regimes-reaudit:
+	uv run python scripts/run_macro_regimes_reaudit.py
+
 # ---- Clean -----------------------------------------------------------------
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

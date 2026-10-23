@@ -211,6 +211,15 @@ from compintel.evaluation.macro_regimes_experiment import (
     evaluate_and_save_macro_regimes_experiment,
     run_macro_regimes_experiment,
 )
+from compintel.evaluation.macro_regimes_reaudit import (
+    MacroAuditStatus,
+    MacroPanelMetrics,
+    MacroReauditReport,
+    MacroReauditVerdict,
+    audit_macro_panel_sufficiency,
+    evaluate_and_save_macro_regimes_reaudit,
+    run_macro_regimes_reaudit,
+)
 from compintel.evaluation.metrics import (
     CalibrationMetrics,
     ComprehensiveMetricsReport,
@@ -599,4 +608,11 @@ __all__ = [
     "audit_longitudinal_panel_depth",
     "evaluate_and_save_career_trajectory_reaudit",
     "run_career_trajectory_reaudit",
+    "MacroAuditStatus",
+    "MacroPanelMetrics",
+    "MacroReauditReport",
+    "MacroReauditVerdict",
+    "audit_macro_panel_sufficiency",
+    "evaluate_and_save_macro_regimes_reaudit",
+    "run_macro_regimes_reaudit",
 ]
