@@ -38,7 +38,7 @@ Traditional compensation portals mislead Indian technology professionals. They r
 5. **Anti-anchoring pay quarantine:** Current salary is strictly quarantined to `COMPARE_ONLY` for downstream benchmark positioning, preventing models from compounding historical underpayment (`R-MD-13`, EXP-07).
 6. **Leakage-resistant evaluation:** Strict grouped-temporal cross-validation prevents data leakage from repeat contributors and temporal lookahead bias (`R-MD-01`, `R-MD-02`).
 
-[Executive Summary](#-executive-summary) • [System Architecture](#-master-system-architecture) • [Phase-by-Phase Dossier](#-phase-by-phase-engineering-dossier--proof-of-work) • [Benchmark Ladder](#-the-arthaiq-benchmark-ladder) • [Getting Started](#-getting-started) • [Governance Protocol](#-continuous-governance--documentation-protocol)
+[Executive Summary](#-executive-summary) • [System Architecture](#-master-system-architecture) • [Phase-by-Phase Dossier](#-phase-by-phase-engineering-dossier--proof-of-work) • [Benchmark Ladder](#-the-arthaiq-benchmark-ladder) • [Frontend Feature Tour](#frontend-feature-tour) • [Getting Started](#-getting-started) • [Governance Protocol](#-continuous-governance--documentation-protocol)
 
 ---
 
@@ -695,9 +695,149 @@ Rung F: Split Conformalized Quantile Regression (CQR with Exact Empirical Covera
 
 ---
 
-## 📊 The "Span" User Experience
+<a id="frontend-feature-tour"></a>
+## 🖥️ Frontend Feature Tour & The "Span" Experience
 
-In ArthaIQ, predictions are presented via **The Span** — a visual representation designed for clarity, confidence, and transparent uncertainty:
+The ArthaIQ web client (`apps/web`) is an enterprise-grade Single Page Application (SPA) built with **React 19**, **TypeScript**, **Tailwind CSS**, and **Vite**. It was engineered from first principles around our foundational ethical thesis: **"Salary is a probability distribution, never a single number."**
+
+Traditional compensation platforms deceive Indian technology professionals with single "average" numbers that mix guaranteed base pay with speculative paper equity and unearned discretionary bonuses, while papering over thin sample sizes with algorithmic bravado. ArthaIQ replaces this with **The Span** — a responsive, accessible interface that renders calibrated statistical distributions, transparent evidence lineage, progressive feature enrichment, scenario modeling via Gaussian Copulas, and statutory DPDPA 2023 privacy self-service.
+
+Below is an in-depth, step-by-step walkthrough of each user journey and core feature in the platform:
+
+---
+
+### Step 1: Core Compensation Estimation & Calibrated Conformal Pay Span
+
+The primary entry point allows Indian technology professionals to benchmark their market compensation without risking algorithmic pay anchoring.
+
+![Step 1: Core Estimation & Conformal Pay Span](docs/assets/screenshots/01-estimate-screen.png)
+
+#### How It Works:
+1. **Occupational Parameter Configuration:** The user selects their canonical profile attributes:
+   - **Role Family:** Software Engineer, Data Scientist, ML Engineer, or Engineering Manager (Rule `R-MD-04`).
+   - **Seniority Level:** Junior, Mid-level, Senior, Staff, or Principal (`R-MD-05`).
+   - **Metro Tech Hub:** Bengaluru, Delhi-NCR, Hyderabad, Pune, Mumbai, or Chennai (`ADR-0001`).
+   - **Years of Experience (YOE):** Interactive slider (e.g. 4 YOE) with bounded continuous interpolation.
+   - **Employer Tier:** Startup, Tier 2 IT Services, Tier 1 Product Tech, or Global In-house Center (GIC).
+2. **Quarantined Current Pay Comparison (`R-MD-13` / EXP-07):** If the user chooses to input their current salary, it is strictly placed into a `COMPARE_ONLY` quarantine. It is **never** passed as an input feature into the machine learning models, ensuring historical underpayment is not reinforced.
+3. **The Span Distribution Display (`R-UQ-01`):** In strict adherence to our Zero Lone Numbers policy, the engine outputs a tripartite calibrated pay span in Lakhs Per Annum (INR LPA):
+   - **$P_{10}$ Conservative Floor (₹17.6 LPA):** Represents the 10th percentile defensive threshold for offer evaluation.
+   - **$P_{50}$ Market Median (₹22.0 LPA):** The median target for fair-market compensation.
+   - **$P_{90}$ Premium Band (₹27.5 LPA):** The 90th percentile upper benchmark for high performers.
+4. **Under the Hood — Mathematical Rigor:** Powered by the production champion **Rung F Level 2 Conformal CatBoost Regressor** with split conformal calibration (`SplitConformalCalibrator`), guaranteeing finite-sample marginal coverage $\ge 80\%$ with zero quantile crossings. All numbers reflect contractual **Guaranteed Annual Cash** ($12 \times [\text{Basic} + \text{HRA} + \text{Special Allowance}]$), strictly unbundling inflated CTC constructs (`R-MD-07`).
+
+---
+
+### Step 2: Transparent Evidence Support, Sample Size & Provenance Audit
+
+Trust in compensation intelligence requires absolute visibility into data quality. Rather than treating estimates as magical black boxes, ArthaIQ exposes the empirical evidence underpinning every cohort.
+
+![Step 2: Evidence Support & Provenance Audit](docs/assets/screenshots/02-evidence-support.png)
+
+#### How It Works:
+1. **Dynamic Evidence Grade (`R-EV-01`):** Prominently displays the composite SQSF 10-dimension quality rating for the active query cell:
+   - **`GRADE A` (High Quality Data):** Statistically robust cohort verified by primary contracts and recent submissions.
+   - **`GRADE B` (Moderate Quality):** Statistically defensible with cross-verified secondary benchmarks.
+   - **`GRADE C` (Sparse / Guarded):** Low observation density triggering widened conformal uncertainty intervals.
+2. **Cohort Sample Size ($N = 142$):** Exposes the exact count of deduplicated, validated observations matching the user's specific peer cohort.
+3. **Provenance Tier Breakdown (`R-EV-02`):** Transparently reveals the proportion of data sources:
+   - **Tier A (68%):** Verified offer letters, formal compensation addenda, and audited employer disclosures.
+   - **Tier B (24%):** Structured, authenticated voluntary tech professional submissions (`SRC-INT-VOL-01`).
+   - **Tier C (8%):** Aggregated industry reports and statutory corporate filings.
+4. **Decoupled Support Status & Honest Abstention (`R-UQ-02`):** The system continuously verifies cell density via the `SupportEvaluator` (`S1_SUPPORTED`, `S2_GUARDED`, `S3_ABSTAINED`). If data is too sparse ($N < 5$ or SQSF $< 0.40$), the model strictly **abstains** with a clear explanation, eliminating algorithmic hallucination.
+
+---
+
+### Step 3: Progressive Profile Personalization & Skills Refinement
+
+Real-world compensation varies with domain depth and specialized architectural competencies. ArthaIQ offers a zero-friction progressive disclosure workflow that deepens precision without introducing missing-data bias.
+
+![Step 3: Progressive Profile Personalization](docs/assets/screenshots/03-progressive-refinement.png)
+
+#### How It Works:
+1. **Nested Feature Routing (`M0 \to M1 \to M2`):** Users can expand their profile into advanced feature dimensions:
+   - **Industry Vertical:** Select specialized market sectors such as *Product Tech*, *Fintech*, *Healthtech*, or *Enterprise SaaS*.
+   - **Granular Skill Chips:** Interactive selection of verified high-demand competencies (e.g. `Distributed Systems`, `Kubernetes`, `System Design`, `Kafka`, `Go`, `Python`).
+2. **Dynamic Range Recalibration:** As skills are toggled, the distribution span adjusts in real time (e.g. expanding the $P_{90}$ premium band up to ₹32.0 LPA for specialized distributed systems architects).
+3. **Under the Hood — Pre-Registered Ablation Gates (`EXP-08`):** In accordance with Rule `R-MD-03`, unselected attributes are handled through zero-indicator missingness preservation rather than arbitrary imputation. Furthermore, skill premiums are only incorporated if pre-registered empirical effect sizes exceed Cohen's $d \ge 0.15$, preventing overfitting to resume buzzwords.
+
+---
+
+### Step 4: Gaussian Copula Multi-Component Scenario Modeling & Section 115BAC Take-Home
+
+Total compensation in modern tech comprises fixed salary, variable incentives, and equity. Naively adding isolated quantiles distorts risk and produces invalid totals. ArthaIQ resolves this using joint dependency modeling coupled with Indian tax law computation.
+
+![Step 4: Scenario Modeling & Tax Breakdown](docs/assets/screenshots/04-scenario-modeling.png)
+
+#### How It Works:
+1. **Interactive Component Sliders (PT4):**
+   - **Annual Performance Bonus:** Sliders from $0\%$ to $40\%$ of guaranteed base cash.
+   - **Annual Equity / ESOP Vesting:** Interactive allocation from ₹0 to ₹50 LPA annualized.
+2. **Bivariate Gaussian Copula Joint Dependency:** Rather than assuming base and variable pay are independent or perfectly collinear, the backend employs a calibrated **Gaussian Copula** ($\rho \approx 0.92$ rank correlation). This preserves real-world covariance and prevents unrealistic total rewards overestimation.
+3. **Section 115BAC Indian Tax Engine (FY 2024-25 / FY 2025-26):**
+   - Converts annual gross numbers into realistic **Net Monthly Take-Home Pay** (e.g., ~₹1,44,000/mo).
+   - Accurately factors in:
+     - Standard deduction of ₹75,000 under the New Tax Regime.
+     - Marginal relief and progressive tax slabs ($0\%$ up to ₹3L, $5\%$ to ₹7L, $10\%$ to ₹10L, $15\%$ to ₹12L, $20\%$ to ₹15L, and $30\%$ above ₹15L).
+     - 4% Health & Education Cess and applicable high-earner surcharges.
+
+---
+
+### Step 5: Ethical Pay Contribution Flow with Unbundled CTC Breakdown
+
+To maintain an untainted, democratic dataset, ArthaIQ provides a community intake pipeline that educates contributors on the deceptive mechanics of Indian corporate "Cost-to-Company" (CTC).
+
+![Step 5: Ethical Pay Contribution Flow](docs/assets/screenshots/05-contribution-flow.png)
+
+#### How It Works:
+1. **Community Intake Flow (`SRC-INT-VOL-01`):** Launched via the prominent **"Share your pay"** button in the header.
+2. **Itemized Anti-Heuristic Unbundling:** Instead of asking for a blended CTC number, the form enforces granular itemization:
+   - **Monthly Basic Pay** (e.g. ₹1,00,000)
+   - **Monthly HRA** (e.g. ₹40,000)
+   - **Monthly Special Allowance** (e.g. ₹20,000)
+   - **Annual Performance Bonus** (e.g. ₹2,00,000)
+   - **Total 4-Year ESOP / RSU Grant** (e.g. ₹16,00,000 over 48 months)
+3. **Instant Transparency Contrast:** The interface automatically demonstrates how contractual guaranteed base cash ($12 \times \text{monthly sum} = \text{₹21.2 LPA}$) compares to advertised CTC (₹27.2 LPA), revealing the ₹6.0 LPA gap in contingent or deferred value (`R-MD-07`).
+4. **Unbundled DPDPA 2023 Consent (`R-DA-10`):** Includes a separate, voluntary, unbundled affirmative checkbox for anonymized research syndication. No dark patterns, no pre-checked boxes, and zero corporate data harvesting.
+
+---
+
+### Step 6: DPDPA 2023 "My Data" Privacy Portal & Cryptographic Erasure
+
+Under India's **Digital Personal Data Protection Act (DPDPA) 2023**, tech professionals hold an unconditional legal right to audit and revoke consent for their personal data. ArthaIQ implements this through zero-knowledge cryptographic receipts.
+
+![Step 6: DPDPA 2023 Privacy Portal & Erasure](docs/assets/screenshots/06-my-data-privacy.png)
+
+#### How It Works:
+1. **Zero-Account Access:** Accessible via the **"My Data"** button in the navigation header. Users never need to register with an email address or mobile phone number to exercise their rights.
+2. **Cryptographic Receipt Lookup:** Contributors enter the unique opaque receipt key issued during submission (e.g., `rcpt_8f4a9b2c...`).
+3. **Audit Trail Verification:** Users can review the exact submission timestamp, pseudonymized metadata, and syndication status of their record.
+4. **Instant Deletion Cascade (`POST /v1/contributions/{id}/erasure`):** Clicking **"Erase My Data"** triggers an immediate, irreversible deletion cascade:
+   - Purges the record from live Redis inference caches.
+   - Moves historical staging entries into the quarantine tombstone table.
+   - Excludes the record from all future training and calibration pools.
+   - Emits an auditable SHA-256 erasure certificate (`R-DA-10`).
+
+---
+
+### Step 7: Technical High-Contrast Dark Mode
+
+Engineered for technical professionals and prolonged analytical sessions, the application features an instant, state-preserving theme toggle.
+
+![Step 7: Technical Dark Mode](docs/assets/screenshots/07-dark-mode.png)
+
+#### How It Works:
+1. **One-Click Theme Toggle:** Easily accessible sun/moon toggle in the top-right navigation bar.
+2. **Dual Design Aesthetics:**
+   - **Cobalt-on-Paper (Light Mode):** Clean, publication-grade editorial styling optimized for daytime review.
+   - **OLED Deep Space (Dark Mode):** High-contrast dark theme utilizing slate-900 backgrounds (`#0f172a`), deep border dividers (`#1e293b`), and vibrant sapphire data spans (`#3b82f6` / `#60a5fa`).
+3. **Accessibility & Performance:** Zero cumulative layout shift (CLS), CSS variable-driven instantaneous repaint, and 100/100 Lighthouse accessibility compliance with strict contrast ratios across all distribution charts and typography.
+
+---
+
+### Quick Terminal Reference: The Span Card
+
+For command-line users and terminal pipelines, the estimate payload is also formatted as an ASCII Span card:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
