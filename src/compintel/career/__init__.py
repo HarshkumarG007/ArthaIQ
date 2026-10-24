@@ -13,6 +13,13 @@ from compintel.career.engine import (
     StubCompensationAdapter,
     TaxonomyPort,
 )
+from compintel.career.gap import (
+    check_prerequisites_satisfied,
+    evaluate_competency_gap,
+    get_actionable_gaps,
+    get_required_nodes_for_level,
+    is_record_stale,
+)
 from compintel.career.graph import (
     build_data_family_graph,
     export_data_family_graph,
@@ -109,14 +116,19 @@ __all__ = [
     "VerificationState",
     "build_data_family_graph",
     "build_difficulty_rubrics_manifest",
+    "check_prerequisites_satisfied",
     "compute_bundle_sha256",
     "enforce_taxonomy_licence_gate",
+    "evaluate_competency_gap",
     "export_data_family_graph",
     "export_difficulty_rubrics",
     "generate_data_family_taxonomy",
+    "get_actionable_gaps",
     "get_career_roadmap",
     "get_competency_rubric",
     "get_prerequisite_closure",
+    "get_required_nodes_for_level",
+    "is_record_stale",
     "load_data_family_graph",
     "load_difficulty_rubrics",
     "validate_anti_causal_copy",

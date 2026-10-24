@@ -293,6 +293,8 @@ class CompetencyGap(BaseModel):
     current_state: VerificationState
     is_satisfied: bool
     prerequisites_satisfied: bool
+    missing_prerequisites: list[str] = Field(default_factory=list)
+    recheck_suggested: bool = False
 
 
 class CompetencyGapReport(BaseModel):
@@ -306,7 +308,10 @@ class CompetencyGapReport(BaseModel):
     demonstrated_count: int
     self_reported_count: int
     unproven_count: int
+    recheck_suggested_count: int = 0
     gap_nodes: list[str] = Field(default_factory=list)
+    actionable_gap_nodes: list[str] = Field(default_factory=list)
+    blocked_gap_nodes: list[str] = Field(default_factory=list)
     gaps: list[CompetencyGap] = Field(default_factory=list)
 
 

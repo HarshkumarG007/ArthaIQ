@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.16 Evidence Ledger & Gap Calculator** (T15.15 Domain Engine Skeleton & Ports completed; 10th import contract kept; ports green)
+**NEXT TASK: Phase 15C: T15.17 Topological Roadmap Scheduler** (T15.16 Evidence Ledger & Gap Calculator completed; mathematical invariants proven; property tests green)
 
 ## How to use this file
 
@@ -633,7 +633,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 - [x] **T15.15** [AI] Domain engine skeleton & ports: implement `compintel.career.engine` structure, verify 10th architectural import contract (`Career only imports schema`), and specify ports for compensation evidence and taxonomy. (done 2026-10-24)
       Output: `src/compintel/career/engine.py`. Done when: boundary check passes and port contracts are green. Needs: Gate G15B. Size: M.
-- [ ] **T15.16** [AI] Evidence ledger & gap calculator: evaluate demonstrated competency states against role requirements, enforcing invariant that gaps are never negative, monotonic under verification, and idempotent.
+- [x] **T15.16** [AI] Evidence ledger & gap calculator: evaluate demonstrated competency states against role requirements, enforcing invariant that gaps are never negative, monotonic under verification, and idempotent. (done 2026-10-24)
       Output: `src/compintel/career/gap.py`. Done when: property tests prove mathematical invariants. Needs: T15.15. Size: M.
 - [ ] **T15.17** [AI] Topological roadmap scheduler: generate dependency-respecting learning plan partitioned by weekly available hours budget, expressing effort strictly as heuristic ranges.
       Output: `src/compintel/career/roadmap.py`. Done when: prerequisite order is guaranteed and hours budget is never violated. Needs: T15.16. Size: L.

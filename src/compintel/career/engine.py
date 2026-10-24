@@ -14,11 +14,14 @@ from compintel.career.graph import load_data_family_graph
 from compintel.career.rubric import load_difficulty_rubrics
 from compintel.career.schema import (
     CompensationEvidenceSummary,
+    CompetencyGapReport,
     CompetencyGraphManifest,
     CompetencyNode,
     DifficultyRubricEntry,
     DifficultyRubricsManifest,
+    EvidenceLedger,
     RoleLevel,
+    VerificationState,
     validate_anti_causal_text,
 )
 
@@ -267,3 +270,31 @@ class CareerEngine:
         # Enforce Rule R-CR-01 anti-causal validation
         validate_anti_causal_text(evidence.disclaimer, "pay_evidence.disclaimer")
         return evidence
+
+    def evaluate_gap(
+        self,
+        ledger: EvidenceLedger,
+        target_level: RoleLevel,
+        family: str = "DATA",
+        target_role: str = "Data Professional",
+        min_satisfied_state: VerificationState = VerificationState.DEMONSTRATED,
+        as_of_date: str | None = None,
+        max_age_days: int = 730,
+    ) -> CompetencyGapReport:
+        """Evaluate candidate evidence ledger against target role requirements.
+
+        Enforces Rule R-CR-03 (State Beats Score):
+        Returns discrete verification state accounting, actionable gaps, and blocked gaps.
+        """
+        from compintel.career.gap import evaluate_competency_gap
+
+        manifest = self.get_graph(family)
+        return evaluate_competency_gap(
+            ledger=ledger,
+            target_level=target_level,
+            graph=manifest,
+            target_role=target_role,
+            min_satisfied_state=min_satisfied_state,
+            as_of_date=as_of_date,
+            max_age_days=max_age_days,
+        )
