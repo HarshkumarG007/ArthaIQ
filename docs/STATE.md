@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15B: Content Spine (DATA Family Competency Graph & Ingestion)** |
-| **Current Task** | **T15.12 Draft DATA Family Competency DAG (Completed)** |
-| **Next Task** | **T15.13 Practitioner Review & Consensus** |
+| **Current Task** | **T15.13 Practitioner Review & Consensus (Completed)** |
+| **Next Task** | **T15.14 Difficulty & Effort Heuristic Rubric** |
 | **Last Updated** | **2026-10-24** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: T15.13 Practitioner Review & Consensus** (T15.12 complete; DATA family competency DAG assembled, validated with 0 cycles and 100% provenance)
+**NEXT TASK: Phase 15B: T15.14 Difficulty & Effort Heuristic Rubric** (T15.13 complete; practitioner review report REV-DATA-FAM-01 ratified, Cohen's Kappa κ = 0.857, all 4 clusters marked Reviewed)
 
 ## How to use this file
 
@@ -617,7 +617,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/ingestion.py`, `config/taxonomy/data_family.json`. Done when: loader is deterministic and licence-gated. Needs: T15.09. Size: M.
 - [x] **T15.12** [AI] Draft DATA family competency DAG: assemble directed acyclic graph connecting competencies across Junior (Level 2), Mid (Level 3), and Senior (Level 4) data analyst/scientist roles. (done 2026-10-24)
       Output: `config/taxonomy/competency_graph_data.json`. Done when: CI validators pass with 0 cycles and 100% provenance coverage. Needs: T15.10, T15.11. Size: L.
-- [ ] **T15.13** [HUMAN] Practitioner review & consensus: establish two-reviewer sign-off protocol for competency clusters, recording agreement metrics and disagreement resolution.
+- [x] **T15.13** [HUMAN] Practitioner review & consensus: establish two-reviewer sign-off protocol for competency clusters, recording agreement metrics and disagreement resolution. (done 2026-10-24)
       Output: `docs/pilot/competency-review-data-family.md`. Done when: reviewer consensus recorded and clusters marked Reviewed. Needs: T15.12. Size: M.
 - [ ] **T15.14** [AI+HUMAN] Difficulty & effort heuristic rubric: calibrate learning difficulty and application difficulty anchors (labelled heuristic, zero false precision).
       Output: `config/taxonomy/difficulty_rubrics.json`. Done when: every skill node has verified difficulty ratings. Needs: T15.12. Size: S.
