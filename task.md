@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: T15.11 Taxonomy Ingestion & Crosswalk** (T15.10 complete; DAG acyclicity, bounds, provenance & copy validators operational)
+**NEXT TASK: Phase 15B: T15.12 Draft DATA Family Competency DAG** (T15.11 complete; deterministic O*NET 28.0 & ESCO v1.1.1 ingestion & SHA-256 manifest operational)
 
 ## How to use this file
 
@@ -613,7 +613,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/schema.py`, JSON schema exports. Done when: invalid fixtures are rejected and type validation passes. Needs: Gate G15A. Size: M.
 - [x] **T15.10** [AI] CI DAG & content validators: implement graph acyclicity validator (NetworkX / topological sort), level bound validator, mandatory provenance checker, and copy-lint banning causal pay phrases. (done 2026-10-24)
       Output: `src/compintel/career/validators.py`, failing test fixtures. Done when: every rule has a verified failing test. Needs: T15.09. Size: M.
-- [ ] **T15.11** [AI] Taxonomy ingestion & crosswalk: build deterministic loaders for O*NET 28.0 (DATA occupations: 15-2051.01 Data Scientist, 15-2051.02 Data Analyst) and ESCO v1.1.1 transversal skills into `config/taxonomy/` with checksums and attribution manifests.
+- [x] **T15.11** [AI] Taxonomy ingestion & crosswalk: build deterministic loaders for O*NET 28.0 (DATA occupations: 15-2051.01 Data Scientist, 15-2051.02 Data Analyst) and ESCO v1.1.1 transversal skills into `config/taxonomy/` with checksums and attribution manifests. (done 2026-10-24)
       Output: `src/compintel/career/ingestion.py`, `config/taxonomy/data_family.json`. Done when: loader is deterministic and licence-gated. Needs: T15.09. Size: M.
 - [ ] **T15.12** [AI] Draft DATA family competency DAG: assemble directed acyclic graph connecting competencies across Junior (Level 2), Mid (Level 3), and Senior (Level 4) data analyst/scientist roles.
       Output: `config/taxonomy/competency_graph_data.json`. Done when: CI validators pass with 0 cycles and 100% provenance coverage. Needs: T15.10, T15.11. Size: L.

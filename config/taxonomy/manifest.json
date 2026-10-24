@@ -1,0 +1,21 @@
+{
+  "bundle_sha256": "145d295b4e4b49d69f3494a22cb9276ad263bdd507a99af7ddb77deb365e2953",
+  "element_counts_by_category": {
+    "business_communication": 3,
+    "core_analytics": 4,
+    "data_engineering": 3,
+    "experimentation": 2,
+    "statistical_modeling": 2
+  },
+  "generated_at": "2026-10-24T18:00:00Z",
+  "licence_classes": [
+    "CC-BY-4.0",
+    "EU-OPEN-REUSE"
+  ],
+  "manifest_version": "v1.0",
+  "sources_included": [
+    "ONET-28.0",
+    "ESCO-1.1.1"
+  ],
+  "total_elements": 14
+}

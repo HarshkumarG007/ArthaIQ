@@ -6,6 +6,14 @@ and deterministic flaw-finding practice.
 
 from __future__ import annotations
 
+from compintel.career.ingestion import (
+    TaxonomyBundle,
+    TaxonomyElement,
+    TaxonomyManifest,
+    compute_bundle_sha256,
+    enforce_taxonomy_licence_gate,
+    generate_data_family_taxonomy,
+)
 from compintel.career.schema import (
     CompetencyCategory,
     CompetencyGap,
@@ -55,10 +63,16 @@ __all__ = [
     "LevelOrderError",
     "ProvenanceComplianceError",
     "RoleLevel",
+    "TaxonomyBundle",
+    "TaxonomyElement",
     "TaxonomyLicense",
+    "TaxonomyManifest",
     "TaxonomyProvenance",
     "TaxonomySource",
     "VerificationState",
+    "compute_bundle_sha256",
+    "enforce_taxonomy_licence_gate",
+    "generate_data_family_taxonomy",
     "validate_anti_causal_copy",
     "validate_anti_causal_text",
     "validate_competency_graph",

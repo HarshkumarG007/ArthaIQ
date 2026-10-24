@@ -1,0 +1,267 @@
+{
+  "bundle_id": "taxonomy-data-family-v1",
+  "elements": [
+    {
+      "category": "experimentation",
+      "code": "15-2051.01.T01",
+      "description": "Design randomized controlled trials, sample size calculations, hypothesis tests, and variance reduction.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.01.T01",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Statistical Hypothesis Testing and A/B Experiments"
+    },
+    {
+      "category": "statistical_modeling",
+      "code": "15-2051.01.T02",
+      "description": "Train and evaluate supervised classification and regression models using calibrated loss functions.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.01.T02",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Predictive Modeling and Supervised Learning"
+    },
+    {
+      "category": "data_engineering",
+      "code": "15-2051.01.T03",
+      "description": "Construct predictive features, target transformations, and temporal splits ensuring zero data leakage.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.01.T03",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Feature Engineering and Leakage Prevention"
+    },
+    {
+      "category": "data_engineering",
+      "code": "15-2051.01.T04",
+      "description": "Architect distributed dataset transformations, partitioning strategies, and caching using Apache Spark.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.01.T04",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Distributed Big Data Processing with Spark"
+    },
+    {
+      "category": "experimentation",
+      "code": "15-2051.01.T05",
+      "description": "Formulate causal DAGs, propensity score matching, and instrumental variable designs for non-randomized data.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.01.T05",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Causal Inference and Observational Studies"
+    },
+    {
+      "category": "core_analytics",
+      "code": "15-2051.02.T01",
+      "description": "Formulate relational SQL queries, table joins, aggregations, and subqueries to extract business data.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.02.T01",
+        "source_id": "ONET-28.0"
+      },
+      "title": "SQL Query Optimization and Joins"
+    },
+    {
+      "category": "core_analytics",
+      "code": "15-2051.02.T02",
+      "description": "Utilize analytical window frames, PARTITION BY, and ranking functions for sequential business analytics.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.02.T02",
+        "source_id": "ONET-28.0"
+      },
+      "title": "SQL Window Functions and Analytical Partitions"
+    },
+    {
+      "category": "core_analytics",
+      "code": "15-2051.02.T03",
+      "description": "Audit datasets for null values, schema drift, outlier entries, and integrity violations prior to reporting.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.02.T03",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Data Hygiene and Anomaly Detection"
+    },
+    {
+      "category": "business_communication",
+      "code": "15-2051.02.T04",
+      "description": "Design interactive analytical dashboards to monitor core operational and financial business metrics.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.02.T04",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Dashboard Design and Metric Reporting"
+    },
+    {
+      "category": "statistical_modeling",
+      "code": "15-2051.02.T05",
+      "description": "Conduct univariate and bivariate statistical exploratory analysis to identify distributions and trends.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-2051.02.T05",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Exploratory Data Analysis and Distributions"
+    },
+    {
+      "category": "core_analytics",
+      "code": "ESCO.T.001",
+      "description": "Deconstruct complex business problems into structured, verifiable analytical hypotheses.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.T.001",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Analytical Reasoning and Problem Decomposition"
+    },
+    {
+      "category": "business_communication",
+      "code": "ESCO.T.002",
+      "description": "Author reproducible analytical specifications, methodology documentation, and code comments.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.T.002",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Technical Documentation and Reproduction Standards"
+    },
+    {
+      "category": "business_communication",
+      "code": "ESCO.T.003",
+      "description": "Present probabilistic insights and uncertainty bounds clearly to cross-functional decision makers.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.T.003",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Stakeholder Evidence Communication"
+    },
+    {
+      "category": "data_engineering",
+      "code": "ESCO.T.004",
+      "description": "Apply data protection principles, pseudonymization techniques, and compliance checks under DPDP guidelines.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.T.004",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Ethical Data Governance and Privacy Safeguards"
+    }
+  ],
+  "generated_at": "2026-10-24T18:00:00Z",
+  "manifest": {
+    "bundle_sha256": "145d295b4e4b49d69f3494a22cb9276ad263bdd507a99af7ddb77deb365e2953",
+    "element_counts_by_category": {
+      "business_communication": 3,
+      "core_analytics": 4,
+      "data_engineering": 3,
+      "experimentation": 2,
+      "statistical_modeling": 2
+    },
+    "generated_at": "2026-10-24T18:00:00Z",
+    "licence_classes": [
+      "CC-BY-4.0",
+      "EU-OPEN-REUSE"
+    ],
+    "manifest_version": "v1.0",
+    "sources_included": [
+      "ONET-28.0",
+      "ESCO-1.1.1"
+    ],
+    "total_elements": 14
+  },
+  "role_family": "DATA",
+  "version": "1.0.0"
+}
