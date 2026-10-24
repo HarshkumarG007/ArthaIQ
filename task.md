@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15A: T15.07 Regulatory Brief for Counsel (DPDP 2023 & Consumer Protection)** (T15.00-T15.06 complete; Claim 32 registered)
+**NEXT TASK: Phase 15A: T15.08 Parallel Developer Loop Acceleration (pytest-xdist & check-fast)** (T15.00-T15.07 complete; DPDP brief drafted)
 
 ## How to use this file
 
@@ -596,7 +596,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `experiments/configs/charters/charter_career_arch_01.yaml`. Done when: charter indexed and verified by tests. Needs: T15.04. Size: S.
 - [x] **T15.06** [AI] Taxonomy licence & provenance audit: verify O*NET CC BY 4.0 terms, correct ESCO acknowledgment entry, mark NQR restricted, and specify UI attribution component. (done 2026-10-24)
       Output: `docs/research/evidence-register.csv` update, taxonomy attribution spec. Done when: all sources verified. Needs: T15.04. Size: S.
-- [ ] **T15.07** [HUMAN] Regulatory brief for counsel: prepare briefing document on DPDP 2023 compliance, 18+ user declaration, and consumer protection copy disclaimers.
+- [x] **T15.07** [HUMAN] Regulatory brief for counsel: prepare briefing document on DPDP 2023 compliance, 18+ user declaration, and consumer protection copy disclaimers. (done 2026-10-24)
       Output: `docs/legal/dpdp-career-architect-brief.md`. Done when: brief drafted and review date set. Needs: T15.04. Size: M.
 - [ ] **T15.08** [AI] Parallel developer loop acceleration: integrate `pytest-xdist`, create `make check-fast` target, and verify order-independent test execution.
       Output: `pyproject.toml` update, `Makefile` update. Done when: test suite passes in parallel 5 consecutive runs. Needs: T15.00. Size: S.
