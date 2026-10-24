@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: Gate G15B DATA Family Competency Graph Ratification** (T15.14 complete; difficulty & effort heuristic rubrics calibrated, verified, and exported with SHA-256 7b35b905996f5329a4abe7acf12049b4f1cc249b459edee36cfcd973d085b9ce)
+**NEXT TASK: Phase 15C: T15.15 Domain Engine Skeleton & Ports** (Gate G15B ratified GO; Decision D-027; DATA family content spine complete)
 
 ## How to use this file
 
@@ -622,7 +622,31 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 - [x] **T15.14** [AI+HUMAN] Difficulty & effort heuristic rubric: calibrate learning difficulty and application difficulty anchors (labelled heuristic, zero false precision). (done 2026-10-24)
       Output: `config/taxonomy/difficulty_rubrics.json`. Done when: every skill node has verified difficulty ratings. Needs: T15.12. Size: S.
 
-**Gate G15B:** DATA family competency graph ratified: CI validators green (0 cycles, 100% provenance), practitioner review complete, difficulty heuristics recorded.
+**Gate G15B:** DATA family competency graph ratified: CI validators green (0 cycles, 100% provenance), practitioner review complete, difficulty heuristics recorded. (RATIFIED GO 2026-10-24; Decision D-027)
+
+---
+
+### Phase 15C: Deterministic Engine (Evidence Ledger, Gap Calculator, Roadmap, Pay Port & API)
+
+**Objective:** The logic behind every screen, with zero Large Language Models on the runtime serving path (ADR-0010).
+**Needs:** Gate G15B.
+
+- [ ] **T15.15** [AI] Domain engine skeleton & ports: implement `compintel.career.engine` structure, verify 10th architectural import contract (`Career only imports schema`), and specify ports for compensation evidence and taxonomy.
+      Output: `src/compintel/career/engine.py`. Done when: boundary check passes and port contracts are green. Needs: Gate G15B. Size: M.
+- [ ] **T15.16** [AI] Evidence ledger & gap calculator: evaluate demonstrated competency states against role requirements, enforcing invariant that gaps are never negative, monotonic under verification, and idempotent.
+      Output: `src/compintel/career/gap.py`. Done when: property tests prove mathematical invariants. Needs: T15.15. Size: M.
+- [ ] **T15.17** [AI] Topological roadmap scheduler: generate dependency-respecting learning plan partitioned by weekly available hours budget, expressing effort strictly as heuristic ranges.
+      Output: `src/compintel/career/roadmap.py`. Done when: prerequisite order is guaranteed and hours budget is never violated. Needs: T15.16. Size: L.
+- [ ] **T15.18** [AI] Difficulty & effort estimator service: calculate cumulative heuristic effort ranges and application difficulty for targeted transitions with disclaimer enforcement.
+      Output: `src/compintel/career/effort.py`. Done when: estimates match rubric anchors and reject single points. Needs: T15.14, T15.17. Size: S.
+- [ ] **T15.19** [AI] Pay-to-role resolver through compensation port: map target compensation to empirical role cells through decoupled port, honestly abstaining when cell support is insufficient (R-CR-02, R-UQ-01).
+      Output: `src/compintel/career/pay_resolver.py`. Done when: tests prove zero extrapolation and clean abstention. Needs: T15.15. Size: M.
+- [ ] **T15.20** [AI] Job description intake & sanitization: accept untrusted text, sanitize against injection/XSS, and extract matching taxonomy competencies with RapidFuzz/TF-IDF without persistent server retention.
+      Output: `src/compintel/career/intake.py`. Done when: sanitization fuzz tests pass and zero data is written to disk. Needs: T15.15. Size: M.
+- [ ] **T15.21** [AI] Stateless `/v1/career/*` FastAPI router: implement endpoints for gap analysis, roadmaps, and intake with RFC 9457 error contracts, rate limiting, and OpenAPI snapshot.
+      Output: `src/compintel/serving/routers/career.py`. Done when: contract test suite passes cleanly. Needs: T15.16, T15.17, T15.19, T15.20. Size: M.
+
+**Gate G15C:** Deterministic career engine ratified: mypy strict, boundary checks, property tests, and contract tests pass, abstention path proven, and zero runtime LLMs on serving path.
 
 ---
 

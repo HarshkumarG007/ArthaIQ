@@ -5,9 +5,9 @@
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
-| **Active Subphase** | **Phase 15B: Content Spine (DATA Family Competency Graph & Ingestion)** |
-| **Current Task** | **T15.14 Difficulty & Effort Heuristic Rubric (Completed)** |
-| **Next Task** | **Gate G15B DATA Family Competency Graph Ratification** |
+| **Active Subphase** | **Phase 15C: Deterministic Engine (Evidence Ledger, Gap Calculator, Roadmap, Pay Port & API)** |
+| **Current Task** | **Gate G15B DATA Family Competency Graph Ratification (Completed)** |
+| **Next Task** | **Phase 15C: T15.15 Domain Engine Skeleton & Ports** |
 | **Last Updated** | **2026-10-24** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
@@ -41,11 +41,11 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 
 | ID | Date | Gate | Summary & Operational Impact |
 |:---|:---|:---|:---|
-| **D-021** | 2026-10-21 | **Gate G10** | Unanimous GO ratification for General Availability production launch. |
-| **D-022** | 2026-10-22 | **Gate G11** | Promoted EXP-13 slice-adaptive conformal regressor & EXP-16 automated ingestion daemon. |
 | **D-023** | 2026-10-23 | **Gate G12** | Promoted EXP-14 active learning for sparse cells & EXP-15 counterfactual scenario modeling. |
 | **D-024** | 2026-10-23 | **Gate G13** | Promoted EXP-PGM-01r Gaussian copula to PT4 UI; rejected ensembling; deferred GNNs & trajectories. |
 | **D-025** | 2026-10-24 | **Gate G14** | Ratified SRC-B2B-01 enterprise intake, differential privacy pooling ($k_{\min} \ge 5$), CCI safe harbors, and authorized v1.0.0 GA release. |
+| **D-026** | 2026-10-24 | **Gate G15A** | Ratified Career Architect foundations, Legion Pro 5i baseline, AGENTS.md, .agents/rules/, PRD v1.2, ADRs 0010–0013, CHARTER-CAREER-ARCH-01, and pytest-xdist acceleration. |
+| **D-027** | 2026-10-24 | **Gate G15B** | Ratified DATA family competency DAG (14 nodes, 0 cycles, 100% provenance), CI validators, practitioner consensus (κ = 0.857), and difficulty heuristic rubrics. |
 
 ---
 
