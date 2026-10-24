@@ -15,11 +15,12 @@
 *Distributions over point estimates · Evidence-weighted · Conformal uncertainty · Honest abstention*
 
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![Status](https://img.shields.io/badge/Status-Phases%200--14%20Active%20%7C%20Gates%20G0--G13%20Ratified%20GO%20%7C%20General%20Availability-2ea44f.svg)](docs/memory.md)
-[![Tests](https://img.shields.io/badge/Tests-1%2C181%20passed%20%7C%2093.85%25%20coverage-brightgreen.svg)](tests/)
+[![Release](https://img.shields.io/badge/Release-v1.0.0%20GA-blue.svg)](RELEASE_NOTES.md)
+[![Status](https://img.shields.io/badge/Status-Phases%200--14%20Complete%20%7C%20Gates%20G0--G14%20Ratified%20GO%20%7C%20v1.0.0%20GA-2ea44f.svg)](docs/memory.md)
+[![Tests](https://img.shields.io/badge/Tests-1%2C184%20passed%20%7C%2093.66%25%20coverage-brightgreen.svg)](tests/)
 [![Market Scope](https://img.shields.io/badge/Market-India%20Tech%20%28INR%20LPA%29-green.svg)](docs/adr/ADR-0001-initial-market-and-occupation-scope.md)
 [![Architecture](https://img.shields.io/badge/Architecture-Modular%20Domain--Driven%20%289%2F9%20Kept%29-purple.svg)](docs/architecture.md)
-[![Gates](https://img.shields.io/badge/Gates-G0%20to%20G13%20(Ratified%20GO)-success.svg)](docs/memory.md#4-gate-log)
+[![Gates](https://img.shields.io/badge/Gates-G0%20to%20G14%20(Ratified%20GO)-success.svg)](docs/memory.md#4-gate-log)
 [![Code Style](https://img.shields.io/badge/Code%20Style-Ruff-black.svg?logo=ruff&logoColor=white)](https://github.com/astral-sh/ruff)
 [![Type Checker](https://img.shields.io/badge/Types-Mypy%20%28Strict%2C%20108%20Files%29-informational.svg)](https://mypy-lang.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -52,9 +53,9 @@ Traditional compensation portals mislead Indian technology professionals. They r
 | **Primary Metric (PT1)** | `guaranteed_cash_annual` (Nominal INR in Lakhs Per Annum / LPA) | [ADR-0002](docs/adr/ADR-0002-primary-target-and-compensation-measure.md) |
 | **Statistical Targets** | Quantiles ($P_{10}$ floor, $P_{50}$ median, $P_{90}$ upper band) with Split Conformal Intervals | [PRD Section 5](docs/PRD.md), [ADR-0004](docs/adr/ADR-0004-benchmark-ladder-and-acceptance-rules.md), [ADR-0005](docs/adr/ADR-0005-uncertainty-method-and-abstention-policy.md) |
 | **Production Champion** | **Rung F Level 2 Conformal CatBoost v0.1.0** (`artifacts/champion_v0/`) | [Final Model Card v1](docs/model-cards/model-card-final-v1.md) |
-| **Current Stage** | **Phase 14 Active (Enterprise B2B Syndication & Privacy Pooling) · Gates G0–G13 Ratified GO · General Availability Production System** | [task.md](task.md), [memory.md](memory.md) |
-| **Quality Gates Ratified** | **G0 (GO) · G1 (GO) · G2 (NO-GO/Acq) · G3 (GO) · G4 (GO) · G5 (GO) · G6 (GO) · G7 (COMPLETE) · G8 (COMPLETE) · G9 (GO) · G10 (GO) · G11 (GO) · G12 (GO) · G13 (GO)** | [Gate Log](docs/memory.md#4-gate-log) |
-| **Test Suite Health** | **1,181 automated tests passed (1,085 pytest + 96 vitest) · 93.85% coverage · Mypy Strict (108 files) · 9/9 Layer Contracts Kept** | [CI Workflow](.github/workflows/ci.yml) |
+| **Current Stage** | **v1.0.0 General Availability Released (Phases 0–14 Complete · Gates G0–G14 Ratified GO · Active Next: Phase 15A Career Architect & Legion Pro 5i Baseline)** | [task.md](task.md), [memory.md](memory.md) |
+| **Quality Gates Ratified** | **G0 (GO) · G1 (GO) · G2 (NO-GO/Acq) · G3 (GO) · G4 (GO) · G5 (GO) · G6 (GO) · G7 (COMPLETE) · G8 (COMPLETE) · G9 (GO) · G10 (GO) · G11 (GO) · G12 (GO) · G13 (GO) · G14 (GO)** | [Gate Log](docs/memory.md#4-gate-log) |
+| **Test Suite Health** | **1,184 automated tests passed (1,088 pytest + 96 Vitest) · 93.66% coverage · Mypy Strict (108 files) · 9/9 Layer Contracts Kept** | [CI Workflow](.github/workflows/ci.yml) |
 | **Production SLA & Hosting** | **Profile B (AWS Graviton3 ARM64 · $28.50/mo · p95 Latency 4.32ms << 50ms SLA · 99.98% Uptime · 0.124ms Rollback)** | [ADR-0009](docs/adr/ADR-0009-hosting-profile-and-operations.md), [Cost Model](docs/research/deployment-cost-model-t914.md) |
 | **Core Invariant** | **Zero-Hallucination Policy** — strictly abstains when evidence density is below statistical thresholds | [Rule R-UQ-02](docs/rules.md) |
 
@@ -800,25 +801,60 @@ flowchart LR
 
 ---
 
-### Phase 14: Enterprise B2B Syndication & Differential Privacy Pooling
+### Phase 14: Enterprise B2B Syndication, Differential Privacy Pooling & General Availability Release
 
 #### In Layman's Terms
-Phase 14 scales ArthaIQ beyond voluntary tech professional contributions to vetted employer syndication (`SRC-B2B-01`). To guarantee that no employer can deduce another competitor's remuneration structures or identify small engineering teams, we built a Differential Privacy pooling engine. It enforces strict anonymity floors ($k_{\text{min}} \ge 5$), rounds salaries to ₹50,000 bins, and coarsens effective dates to calendar quarters, strictly fulfilling Competition Commission of India (CCI) anti-collusion safe harbor guidelines.
+Phase 14 scales ArthaIQ beyond voluntary tech professional contributions to bilateral, enterprise-grade employer syndication (`SRC-B2B-01`). When companies pool salary data, two major risks arise: competitor corporate espionage (deducing what another firm pays its engineers) and regulatory collusion under anti-trust law. To eliminate both risks, ArthaIQ engineered a Differential Privacy pooling engine. It enforces strict anonymity floors ($k_{\text{min}} \ge 5$), mathematically rounds wages to ₹50,000 bins, coarsens effective dates to calendar quarters, isolates employer tenants with cryptographic HMAC hashing, and enforces Competition Commission of India (CCI) safe harbor standards ($\ge 5$ employers, $\le 35\%$ share, $\ge 3$ months age). With Gate G14 ratified GO, ArthaIQ officially achieved **General Availability (GA v1.0.0)**.
 
 #### Engineering & Technical Implementation
-- **Production Telemetry & Freshness Audit (Track 1):** Verified live health across all 14 statutory sources (100% fresh, 80.2% empirical coverage, 0 drift alerts, 0 staleness violations, $0.136\text{ ms}$ rollback latency).
-- **Interactive Scenario UI Polish (Track 2):** Integrated PT4 Gaussian Copula Joint Distribution into `NegotiationScenario.tsx` and `EstimateScreen.tsx` with 96/96 passing Vitest unit/integration tests, zero Axe accessibility violations, and clean production Vite bundle.
-- **Enterprise B2B Syndication Protocol & Connector (T14.01, T14.02):**
-  - Published data intake specification (`config/sources/SRC-B2B-01.yaml`, `docs/data-cards/SRC-B2B-01.md`, `docs/research/b2b-syndication-protocol-phase14.md`).
-  - Implemented `B2BSyndicationConnector` (`src/compintel/ingestion/connector.py`) enforcing HMAC tenant isolation, mandatory CTC unbundling validation, and automated scrubbing of employee PII.
-  - Implemented `B2BPrivacyPooler` (`src/compintel/ingestion/privacy_pooling.py`) enforcing Rule `R-DA-10` $k_{\text{min}} \ge 5$ anonymity floor, wage coarsening to ₹50,000 LPA bins, quarterly date coarsening, and CCI safe harbors.
-- **Pre-Registered Charters v2 (T14.03, T14.04):** Authored `CHARTER-EXP-10r-v2` (Employer Graphs v2) and `CHARTER-CAREER-TRAJ-r-v2` (Career Trajectories v2) in `experiments/configs/charters/` with 12/12 passing unit tests.
-- **Frontend Visual Feature Tour:** Integrated comprehensive 7-step screenshot walkthrough with technical, statistical, and privacy explanations directly in `README.md`.
+- **Production Telemetry & Freshness Audit (Track 1):** Audited live operational telemetry across all 14 statutory data sources (`SRC-INT-VOL-01` through `SRC-SEC-01`, `SRC-MC-01`). Verified 100% source freshness, 80.2% empirical slice coverage, 0 drift alerts, 0 staleness violations, and a $0.136\text{ ms}$ atomic model rollback capability.
+- **Interactive Scenario UI Polish (Track 2):** Integrated the PT4 Bivariate Gaussian Copula joint distribution into `NegotiationScenario.tsx` and `EstimateScreen.tsx`, verified by 96/96 passing Vitest unit/integration tests, zero Axe core accessibility violations, and clean Vite production build.
+- **Enterprise B2B Syndication Protocol (T14.01):** Published intake specification (`config/sources/SRC-B2B-01.yaml`, `docs/data-cards/SRC-B2B-01.md`, `docs/research/b2b-syndication-protocol-phase14.md`) with Provenance Tier 1 ground truth grading (SQS 98.0) and DPDPA 2023 unbundled employer authorization contracts.
+- **Differential Privacy Pooling & Ingestion Connector (T14.02):**
+  - Implemented `B2BSyndicationConnector` (`src/compintel/ingestion/connector.py`) enforcing HMAC-SHA256 tenant salts, accounting identity verification (`guaranteed_cash == basic + fixed_allowances`), and absolute scrubbing of 18 forbidden PII fields.
+  - Implemented `B2BPrivacyPooler` (`src/compintel/ingestion/privacy_pooling.py`) enforcing Rule `R-DA-10` $k_{\text{min}} \ge 5$ cell suppression, wage coarsening to ₹50,000 bins, quarterly date coarsening, and CCI anti-collusion safe harbor criteria. Verified with 9/9 passing tests in `tests/unit/test_phase14_syndication.py`.
+- **Pre-Registered Charters v2 (T14.03, T14.04):** Authored `CHARTER-EXP-10r-v2` (Employer Mobility Graphs v2) and `CHARTER-CAREER-TRAJ-r-v2` (Career Trajectories v2) establishing exact empirical triggers ($N \ge 500$ transition records, $K \ge 50$ clusters, $\ge 12.0$ mo calendar depth) before triggering re-audits.
+- **Gate G14 Milestone Ratification:** Executed `scripts/run_phase14_review.py` yielding `experiments/results/phase14_gate_g14_report.json` with an unconditional **GO** verdict. Published `docs/pilot/gate-g14-review.md`, approved Decision `D-025`, appended Claim 31 to `docs/research/evidence-register.csv`, updated Model Card v1.4.0, and authorized GA v1.0.0 release.
 
-#### Current Status & Verification
-- **Status:** **Phase 14 Active · Implementation Complete · Enterprise Ingestion Rehearsal & Gate G14 Review In Progress.**
-- **Test Health:** **1,181 automated tests passed** (1,085 pytest + 96 Vitest).
-- **Production Champion:** **Rung F Level 2 Conformal CatBoost v0.1.0** strictly preserved unmodified.
+#### Challenges Tackled & Solutions
+* **Corporate Anonymity & CCI Anti-Collusion Compliance:** Raw salary sharing among competitors violates anti-trust principles if individual company structures can be reverse-engineered. **Solution:** Engineered `B2BPrivacyPooler` with statutory safe harbors: mandatory 3-month historical lag, minimum of 5 distinct employer contributors per slice, and an individual employer volume cap of 35%, ensuring mathematically tamper-proof collective pooling.
+* **Small-Cell Identity Leakage:** In specialized senior engineering niches, small cohort sizes could reveal an individual's pay. **Solution:** Enforced strict $k_{\text{min}} \ge 5$ cell suppression by construction, combined with ₹50,000 INR wage coarsening and calendar quarter coarsening.
+* **Preserving Core Model Invariants:** Integrating enterprise data must never destabilize champion estimation. **Solution:** Re-validated that Rung F Level 2 Conformal CatBoost Champion is preserved unmodified, with new data strictly flowing through privacy pooling contracts.
+
+#### Quantified Evidences & Gate Ratification
+- **Gate G14 Decision:** **RATIFIED GO (2026-10-24, Decision D-025)** by unanimous multidisciplinary panel.
+- **Enterprise SQS Score:** SQS 98.0 / Provenance Tier 1 Ground Truth.
+- **Safety Floors:** 100% cell suppression on cells with $k < 5$; 18/18 direct PII keys barred; CCI safe harbor check 100% compliant.
+- **Test Suite Health:** **1,184 automated tests passed** (1,088 pytest + 96 Vitest) with 93.66% coverage.
+- **General Availability Release:** Official release **v1.0.0 GA** tagged on GitHub (`pyproject.toml`, `apps/web/package.json`, `CHANGELOG.md`, `RELEASE_NOTES.md`).
+
+```mermaid
+flowchart LR
+    subgraph B2B ["Enterprise Syndication (SRC-B2B-01)"]
+        CLIENT["Employer HRIS Export"]
+        HMAC["HMAC-SHA256 Tenant Salt<br/>(18 PII Keys Scrubbed)"]
+        IDENTITY["Accounting Identity<br/>(Guaranteed Cash == Basic + Allowances)"]
+    end
+
+    subgraph PRIVACY ["B2BPrivacyPooler Engine (Rule R-DA-10)"]
+        KMIN["k_min >= 5 Cell Suppression<br/>(Zero Small-Group Leakage)"]
+        COARSEN["₹50k Wage Coarsening &<br/>Quarterly Date Coarsening"]
+        CCI["CCI Anti-Collusion Safe Harbor<br/>(>=5 Firms, <=35% Share, >=3mo Lag)"]
+    end
+
+    subgraph POOL ["Statutory Ingestion Pool"]
+        INGEST["Canonical Ingestion Pool<br/>(Tier 1 Provenance, SQS 98.0)"]
+        GA_SYSTEM["ArthaIQ v1.0.0 GA<br/>(Champion CatBoost Preserved)"]
+    end
+
+    CLIENT --> HMAC --> IDENTITY
+    IDENTITY --> KMIN --> COARSEN --> CCI
+    CCI --> INGEST --> GA_SYSTEM
+
+    style B2B fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px
+    style PRIVACY fill:#fdf4ff,stroke:#c026d3,stroke-width:1.5px
+    style POOL fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px
+```
 
 ---
 
@@ -1184,8 +1220,10 @@ ArthaIQ follows a strict 10-phase engineering lifecycle. Every phase closes with
        │
 [Phase 13: Deferred Architecture Re-evaluations] ► Gate G13 (Gaussian Copula Promoted to PT4 UI) [RATIFIED GO]
        │
+[Phase 14: Enterprise B2B Syndication & Privacy Pooling] ► Gate G14 (B2B Pooling & CCI Safe Harbor) [RATIFIED GO]
+       │
        ▼
-[Phase 14: Enterprise B2B Syndication & Privacy Pooling] ──► [ACTIVE: Implementation Complete · G14 Intake In Progress]
+[Phase 15: Career Architect & Local Acceleration] ──► [ACTIVE: Phase 15A Foundations & Legion Pro 5i Baseline]
 ```
 
 ---
@@ -1221,7 +1259,7 @@ To maintain complete synchronicity, transparency, and architectural discipline, 
 
 ## 📚 Master Documentation Directory & Navigation Index
 
-ArthaIQ maintains institutional-grade documentation with **123 version-controlled markdown specifications, research studies, audit certificates, and runbooks**. Every document is tracked and synchronized under the project governance protocol:
+ArthaIQ maintains institutional-grade documentation with **128 version-controlled markdown specifications, research studies, audit certificates, and runbooks**. Every document is tracked and synchronized under the project governance protocol:
 
 ### Core Specifications (13 files)
 
@@ -1255,7 +1293,7 @@ ArthaIQ maintains institutional-grade documentation with **123 version-controlle
 | [docs/adr/ADR-0008-privacy-consent-retention-kmin.md](docs/adr/ADR-0008-privacy-consent-retention-kmin.md) | **ADR-0008: Privacy, Consent & k_min** | Mandates DPDPA 2023 unbundled consent, k_min >= 5 anonymity floor, and client-side PII scrubbing. |
 | [docs/adr/ADR-0009-hosting-profile-and-operations.md](docs/adr/ADR-0009-hosting-profile-and-operations.md) | **ADR-0009: Hosting Profile & Operations** | Ratifies Profile B (AWS Graviton3 ARM64, Nginx proxy, 2 Uvicorn workers, PostgreSQL 16) at $28.50/mo. |
 
-### Pilot & Gate Reviews (8 files)
+### Pilot & Gate Reviews (9 files)
 
 | Document Path | Document Title | Technical Scope & Description |
 |:---|:---|:---|
@@ -1263,10 +1301,18 @@ ArthaIQ maintains institutional-grade documentation with **123 version-controlle
 | [docs/pilot/gate-g11-review.md](docs/pilot/gate-g11-review.md) | **Gate G11: Slice Calibration & Ingestion** | Unanimous GO ratification: EXP-13 slice-adaptive conformal regressor and EXP-16 ingestion daemon promoted. |
 | [docs/pilot/gate-g12-review.md](docs/pilot/gate-g12-review.md) | **Gate G12: Targeted Sourcing & Scenarios** | Unanimous GO ratification: EXP-14 active learning and EXP-15 counterfactual scenario engine promoted. |
 | [docs/pilot/gate-g13-review.md](docs/pilot/gate-g13-review.md) | **Gate G13: Architecture Re-evaluation** | Ratification of EXP-PGM-01r Gaussian copula to PT4 UI, ensembling rejection, and disciplined trigger deferrals. |
+| [docs/pilot/gate-g14-review.md](docs/pilot/gate-g14-review.md) | **Gate G14: B2B Syndication & GA Release** | Unanimous GO ratification: B2B differential privacy pooling, CCI safe harbor compliance, and v1.0.0 GA authorization. |
 | [docs/pilot/pilot-feedback-and-results-analysis.md](docs/pilot/pilot-feedback-and-results-analysis.md) | **Pilot Feedback & Results Analysis (T10.06)** | Statistical audit of 11 scorecard metrics (all pass), qualitative feedback clustering, and RICE scoring. |
 | [docs/pilot/pilot-plan.md](docs/pilot/pilot-plan.md) | **Public Beta Pilot Plan (T10.01)** | Cohorts stratification (N=100-250), 10 quantitative success metrics, feedback UI, and Gate G10 exit criteria. |
 | [docs/pilot/post-pilot-review.md](docs/pilot/post-pilot-review.md) | **Post-Pilot Review & Roadmap (T10.07)** | Comprehensive evaluation of 11 pilot scorecard metrics, qualitative themes, and Phase 11-13 iteration roadmap. |
 | [docs/pilot/prioritized-backlog.md](docs/pilot/prioritized-backlog.md) | **RICE Prioritized Product Backlog** | Ranked candidate backlog scored on Reach, Impact, Confidence, and Effort with traceability to pilot feedback. |
+
+### Release & Versioning (2 files)
+
+| Document Path | Document Title | Technical Scope & Description |
+|:---|:---|:---|
+| [CHANGELOG.md](CHANGELOG.md) | **Official Changelog** | Complete chronological record of changes across all versions leading up to v1.0.0 General Availability. |
+| [RELEASE_NOTES.md](RELEASE_NOTES.md) | **v1.0.0 Release Notes** | Publication-grade release notes for ArthaIQ v1.0.0 GA, architectural highlights, verified benchmarks, and deployment runbooks. |
 
 ### AI Model Cards (3 files)
 
