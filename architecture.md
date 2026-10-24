@@ -2,8 +2,8 @@
 
 | Field | Value |
 |---|---|
-| Status | v1.0 (Production Verified Architecture; Ratified at Post-Pilot Review T10.07) |
-| Last updated | 2026-10-21 |
+| Status | v1.1 (v1.0 Production Verified; Phase 15A Career Architect Foundations Ratified; ADR-0010 to ADR-0013 Accepted) |
+| Last updated | 2026-10-24 |
 | Depends on | `PRD.md` v1.1 (requirements FR-xx, NFR-xx, targets PT1 to PT6) |
 | Governs | `rules.md` (library policy, layering), `task.md` (Phases 0 to 10) |
 
@@ -530,6 +530,10 @@ One file per decision in `docs/adr/`. Status changes are logged in `memory.md`.
 | 0007 | Frontend stack | Accepted | Phase 9 (T9.07b) |
 | 0008 | Privacy, consent, retention, k_min | Accepted | Phase 9 (T9.10) |
 | 0009 | Hosting profile and operations | Accepted | Phase 9 (T9.14b) |
+| 0010 | LLM boundary and anti-causal invariants | Accepted | Phase 15A (T15.04) |
+| 0011 | Competency graph and evidence ledger | Accepted | Phase 15A (T15.04) |
+| 0012 | Local-first profile and privacy architecture | Accepted | Phase 15A (T15.04) |
+| 0013 | Deterministic scenario scoring | Accepted | Phase 15A (T15.04) |
 
 ADR template: **Title · Status · Context · Options considered · Decision · Consequences · Evidence (links to evidence register rows) · Date**.
 
@@ -553,3 +557,4 @@ ADR template: **Title · Status · Context · Options considered · Decision · 
 | 2026-10-11 | 0.1 | Initial draft |
 | 2026-10-13 | 0.2 | Updated at T0.06 following T0.02 decisions; ratified ADR stubs |
 | 2026-10-21 | 1.0 | Production Architecture Ratification (Task T10.07). Incorporated compintel.monitoring (telemetry, Wilson coverage tracker, freshness SLAs daemon, multi-tier drift recalibration engine). Confirmed ADR-0001 through ADR-0009 as Accepted. Validated sub-millisecond hot-rollback buffer (0.124ms) and Profile B deployment runtime ($28.50/mo, p95 4.32ms). |
+| 2026-10-24 | 1.1 | Career Architect Foundations Ratification (Task T15.04). Indexed and ratified ADR-0010 (LLM Boundary & Anti-Causal Invariants), ADR-0011 (Competency Graph & Evidence Ledger), ADR-0012 (Local-First Profile & Privacy Architecture), and ADR-0013 (Deterministic Scenario Scoring). |

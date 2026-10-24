@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15A: T15.04 Foundational ADRs for Career Architect (ADR-0010 to ADR-0013)** (T15.00-T15.03 complete; PRD v1.2 ratified with FR-21 to FR-26 and Persona C)
+**NEXT TASK: Phase 15A: T15.05 Experiment Charter Pre-registration (CHARTER-CAREER-ARCH-01)** (T15.00-T15.04 complete; ADRs 0010-0013 Accepted)
 
 ## How to use this file
 
@@ -590,7 +590,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `AGENTS.md`, `.agents/rules/*.md`, `scripts/lint_agent_rules.py`. Done when: linter runs in CI and flags malformed frontmatter. Needs: T15.01. Size: M.
 - [x] **T15.03** [HUMAN] PRD delta for Career Architect: specify requirements FR-21 to FR-26, promote Persona C, restate anti-causal invariants and non-goals. (done 2026-10-24)
       Output: `PRD.md` delta, `docs/PRD.md`. Done when: PRD updated with change log entry. Needs: T15.02. Size: S.
-- [ ] **T15.04** [AI+HUMAN] Foundational ADRs for Career Architect: author ADR-0010 (LLM Boundary & Anti-Causal Invariants), ADR-0011 (Competency Graph & Evidence Ledger), ADR-0012 (Local-First Profile & Privacy Architecture), ADR-0013 (Deterministic Scenario Scoring).
+- [x] **T15.04** [AI+HUMAN] Foundational ADRs for Career Architect: author ADR-0010 (LLM Boundary & Anti-Causal Invariants), ADR-0011 (Competency Graph & Evidence Ledger), ADR-0012 (Local-First Profile & Privacy Architecture), ADR-0013 (Deterministic Scenario Scoring). (done 2026-10-24)
       Output: `docs/adr/ADR-0010-*.md` through `ADR-0013-*.md`. Done when: all four ADRs Accepted with evidence links. Needs: T15.03. Size: M.
 - [ ] **T15.05** [AI+HUMAN] Experiment charter pre-registration: formulate and index `CHARTER-CAREER-ARCH-01` pre-registering hypotheses, metrics, and kill criteria under Rule `R-MD-09`.
       Output: `experiments/configs/charters/charter_career_arch_01.yaml`. Done when: charter indexed and verified by tests. Needs: T15.04. Size: S.

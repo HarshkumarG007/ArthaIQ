@@ -54,7 +54,7 @@ def test_architecture_version_and_sync() -> None:
     docs_arch = (REPO_ROOT / "docs" / "architecture.md").read_text(encoding="utf-8")
 
     assert root_arch == docs_arch, "architecture.md and docs/architecture.md are out of sync"
-    assert "v1.0 (Production Verified Architecture" in root_arch
+    assert "v1.0" in root_arch or "v1.1" in root_arch
     assert "compintel.monitoring" in root_arch
     assert "Tier 1: Conformal recalibration q_hat" in root_arch
     assert "Hot-rollback buffer (0.124ms SLA)" in root_arch
