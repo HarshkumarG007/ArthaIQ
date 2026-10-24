@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15A: T15.05 Experiment Charter Pre-registration (CHARTER-CAREER-ARCH-01)** (T15.00-T15.04 complete; ADRs 0010-0013 Accepted)
+**NEXT TASK: Phase 15A: T15.06 Taxonomy Licence & Provenance Audit** (T15.00-T15.05 complete; CHARTER-CAREER-ARCH-01 pre-registered)
 
 ## How to use this file
 
@@ -592,7 +592,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `PRD.md` delta, `docs/PRD.md`. Done when: PRD updated with change log entry. Needs: T15.02. Size: S.
 - [x] **T15.04** [AI+HUMAN] Foundational ADRs for Career Architect: author ADR-0010 (LLM Boundary & Anti-Causal Invariants), ADR-0011 (Competency Graph & Evidence Ledger), ADR-0012 (Local-First Profile & Privacy Architecture), ADR-0013 (Deterministic Scenario Scoring). (done 2026-10-24)
       Output: `docs/adr/ADR-0010-*.md` through `ADR-0013-*.md`. Done when: all four ADRs Accepted with evidence links. Needs: T15.03. Size: M.
-- [ ] **T15.05** [AI+HUMAN] Experiment charter pre-registration: formulate and index `CHARTER-CAREER-ARCH-01` pre-registering hypotheses, metrics, and kill criteria under Rule `R-MD-09`.
+- [x] **T15.05** [AI+HUMAN] Experiment charter pre-registration: formulate and index `CHARTER-CAREER-ARCH-01` pre-registering hypotheses, metrics, and kill criteria under Rule `R-MD-09`. (done 2026-10-24)
       Output: `experiments/configs/charters/charter_career_arch_01.yaml`. Done when: charter indexed and verified by tests. Needs: T15.04. Size: S.
 - [ ] **T15.06** [AI] Taxonomy licence & provenance audit: verify O*NET CC BY 4.0 terms, correct ESCO acknowledgment entry, mark NQR restricted, and specify UI attribution component.
       Output: `docs/research/evidence-register.csv` update, taxonomy attribution spec. Done when: all sources verified. Needs: T15.04. Size: S.

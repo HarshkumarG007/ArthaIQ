@@ -124,3 +124,23 @@ def test_copula_charter_conformance() -> None:
     assert "candidate_summary" in charter
     assert "keep_criteria" in charter
     assert len(charter["reject_criteria"]) >= 3
+
+
+def test_career_architect_charter_conformance() -> None:
+    """Verify charter_career_arch_01.yaml conforms to governance requirements."""
+    filepath = CHARTERS_DIR / "charter_career_arch_01.yaml"
+    assert filepath.is_file(), f"Charter missing: {filepath}"
+
+    with open(filepath, encoding="utf-8") as f:
+        charter = yaml.safe_load(f)
+
+    assert charter["charter_id"] == "CHARTER-CAREER-ARCH-01"
+    assert charter["experiment_id"] == "EXP-CAREER-01"
+    assert "R-MD-09" in charter["governing_rules"]
+    assert "R-CR-01" in charter["governing_rules"]
+    assert "R-CR-12" in charter["governing_rules"]
+    assert "R-SC-07" in charter["governing_rules"]
+    assert charter["priority_rank"] == 11
+    assert "candidate_summary" in charter
+    assert "keep_criteria" in charter
+    assert len(charter["reject_criteria"]) >= 5

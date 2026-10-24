@@ -1,0 +1,70 @@
+# =============================================================================
+#  ArthaIQ -- Advanced Modeling Experiment Charter: Career Architect
+#  File: experiments/configs/charters/charter_career_arch_01.yaml
+#  Task: T15.05 (PRD v1.2 FR-21 to FR-26, ADR-0010 to 0013, Rules R-MD-09, R-CR-01..15)
+# =============================================================================
+
+charter_id: "CHARTER-CAREER-ARCH-01"
+experiment_id: "EXP-CAREER-01"
+title: "Career Architect: Competency Graph, Evidence Ledger, and Deterministic Scenario Scorer"
+task_id: "T15.05"
+governing_rules:
+  - "R-MD-09"  # Pre-registered experiment charter required before implementation
+  - "R-CR-01"  # Strict anti-causal pay invariant
+  - "R-CR-02"  # Two streams two places (separate pay and role requirements)
+  - "R-CR-03"  # State beats score (tri-state verification model)
+  - "R-CR-04"  # Controlled taxonomy provenance metadata required
+  - "R-CR-05"  # Roadmap scheduling with heuristic effort badges
+  - "R-CR-08"  # Deterministic scenario rubric scoring with false-flag penalty
+  - "R-CR-12"  # Local-first browser IndexedDB persistence
+  - "R-SC-07"  # Absolute prohibition of runtime LLMs on the serving path
+  - "R-CD-01"  # 100% strict Python type annotations and contracts
+priority_rank: 11
+expected_value: "HIGH"
+computational_cost: "LOW"
+operational_feasibility: "HIGH_FEASIBLE"
+
+candidate_summary:
+  hypothesis: >
+    Controlled taxonomy ingestion (O*NET CC BY 4.0, ESCO) structured as a Directed Acyclic Graph
+    for the DATA family, combined with a local-first tri-state evidence ledger (Unproven, Self-reported,
+    Demonstrated) and deterministic flaw-finding rubric scoring, produces an actionable, ethically honest
+    capability-building experience that eliminates causal pay illusions and preserves sub-50ms deterministic
+    responsiveness on client and server.
+  baseline_champion: "Stateless compensation range estimation (PT1-PT2 champion bundle alone with zero career progression support)"
+  proposed_variants:
+    - "Deterministic DAG competency graph + local-first IndexedDB ledger + topological roadmap generator + deterministic flaw-finding scenario engine"
+  scope_boundary: >
+    Strictly restricted to the DATA family (Data Analyst junior-to-mid levels); decoupled from core
+    compensation estimation models; zero runtime LLMs on the synchronous request/serving path.
+
+evaluation_protocol:
+  dataset_source: "O*NET 28.0 and ESCO v1.1.1 standardized taxonomies + deterministic flaw-finding challenge rubrics"
+  sample_size: 5
+  evaluation_components:
+    - "competency_dag_topological_order"
+    - "evidence_ledger_state_transitions"
+    - "deterministic_rubric_scoring"
+    - "local_first_storage_isolation"
+  seed: 42
+  confidence_level: 0.95
+
+keep_criteria:
+  primary_fidelity_metric:
+    metric: "deterministic_scoring_reproducibility_pct"
+    direction: "increase"
+    target_threshold: 100.0
+    description: "Identical scenario flag submissions must yield 100.0% identical score and defect identification."
+  secondary_metric_thresholds:
+    zero_causal_claims_compliance_pct: 100.0
+    graph_dag_cycles_count: 0
+    client_side_storage_type: "IndexedDB"
+    server_side_career_profiles_count: 0
+    scenario_evaluation_latency_ms_max: 50.0
+
+reject_criteria:
+  - "Any causal pay promise (e.g. learning X yields ₹Y increase) found in UI copy, API payload, or generated roadmap (violates R-CR-01)."
+  - "Any runtime LLM placed on the synchronous API serving path (violates R-SC-07, ADR-0010)."
+  - "Cyclic dependencies detected in the competency graph or failure of topological roadmap generation (violates FR-23)."
+  - "Persistence of user career profiles, skill gaps, or résumé text in a centralized server-side database (violates R-CR-12, ADR-0012)."
+  - "Non-deterministic scenario grading or rubric answer keys leaked to client payloads (violates R-CR-08, ADR-0013)."

@@ -125,3 +125,15 @@ ranking_matrix:
     expected_value_rationale: "Multi-quarter longitudinal panel tracks verified point-in-time promotion and velocity dynamics"
     cost_rationale: "Deterministic feature computation with verified zero lookahead leakage"
 
+  - rank: 11
+    charter_id: "CHARTER-CAREER-ARCH-01"
+    experiment_id: "EXP-CAREER-01"
+    task_id: "T15.05"
+    name: "Career Architect: Competency Graph, Evidence Ledger, and Deterministic Scenario Scorer"
+    charter_file: "experiments/configs/charters/charter_career_arch_01.yaml"
+    expected_value: "HIGH"
+    cost: "LOW"
+    expected_value_rationale: "Empirical competency DAG and deterministic flaw-finding scenarios provide actionable career intelligence without causal pay illusions"
+    cost_rationale: "Deterministic pure Python and TypeScript execution on local client and server; zero runtime LLM costs"
+
+
