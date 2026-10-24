@@ -2,7 +2,7 @@
 # See docs/architecture.md section 14 for the CI/CD pipeline.
 # Versions are pinned at T3.01. Many targets are stubs until their phase starts.
 
-.PHONY: help check lint typecheck boundary-check test test-unit test-property test-contract \
+.PHONY: help check lint typecheck boundary-check agent-rules test test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
@@ -34,7 +34,7 @@ help:
 	@echo "Pinned versions: see pyproject.toml (finalized at T3.01)"
 
 # ---- Full check (used in CI) -----------------------------------------------
-check: lint typecheck boundary-check test-cov
+check: lint typecheck boundary-check agent-rules test-cov
 
 # ---- Lint ------------------------------------------------------------------
 lint:
@@ -52,6 +52,10 @@ typecheck:
 # ---- Architecture boundary check (R-CD-03) --------------------------------
 boundary-check:
 	lint-imports
+
+# ---- Antigravity agent rules lint ------------------------------------------
+agent-rules:
+	python scripts/lint_agent_rules.py
 
 
 # ---- Tests -----------------------------------------------------------------

@@ -18,7 +18,7 @@ Every rule has an id. When you deviate from one, cite the id in `memory.md` and 
 | ID | Rule |
 |---|---|
 | R-WF-01 | **Never skip directly from IDEA → AI → DEPLOY.** Do not write code for a task until its prerequisites in `task.md` are ticked and the previous gate is recorded GO in `memory.md`. |
-| R-WF-02 | **Session start.** Read `memory.md` in full, then the `NEXT TASK` in `task.md`, then only the sections of `PRD.md`, `architecture.md`, `design.md` and this file that the task references. Do not read or touch unrelated modules. |
+| R-WF-02 | **Session start & context hygiene.** Read `docs/STATE.md` first for current operational state, active milestone, and last ratified decisions. Then read `NEXT TASK` in `task.md`, and open specific topic rule files in `docs/rules/` (`00-workflow.md`, `10-python.md`, `20-frontend.md`, `30-career-honesty.md`, `40-security-privacy.md`) or sections of `memory.md`, `PRD.md`, `architecture.md`, or `design.md` on demand using `@` mentions. Do not read or touch unrelated modules. |
 | R-WF-03 | One task per session or pull request. If a task is sized L, propose a split (T#.##a, T#.##b) in `task.md` and wait for approval. |
 | R-WF-04 | **Plan first.** Before coding, post: files to create or change, tests to add, assumptions, risks. For M and L tasks, and any task touching data, privacy or security, wait for an explicit "go". |
 | R-WF-05 | A task is done only when its Definition of Done (section 10) is met **and shown**: commands run and their output summarized. Then, and only then, tick the box. |
@@ -268,8 +268,30 @@ Run before promoting any model, closing a gate, or releasing. Answer each in wri
 11. Use protected attributes as inputs.
 12. Describe an association or model attribution as a cause.
 
-## 17. Change log
+## 17. Career Architect Invariants (R-CR)
+
+| ID | Rule | Description |
+|---|---|---|
+| **R-CR-01** | **No Causal Pay Claims** | Outputs never state or imply that learning a skill, earning a certificate, or finishing a scenario raises pay or guarantees job placement. |
+| **R-CR-02** | **Separate Evidence Streams** | Pay evidence and role competency requirements remain separate objects in the API and separate panels in the UI. No composite score. |
+| **R-CR-03** | **State Beats Score** | Show ledger states (`Unproven`, `Self-reported`, `Demonstrated`), counts, and verification dates. Never emit readiness percentages. |
+| **R-CR-04** | **Provenance on Every Item** | Every skill, prerequisite, level requirement, scenario, and rubric carries source ID, reviewer, review date, version, and status. |
+| **R-CR-05** | **Heuristics Explicitly Labelled** | Difficulty and effort estimates must be visibly labelled `Heuristic` until empirical calibration attempts accumulate. |
+| **R-CR-06** | **Pay Overlay Obeys Engine** | Queries compensation port only; preserves $k_{\min} \ge 5$, conformal prediction intervals, and honest abstention. |
+| **R-CR-07** | **Interests Only Reorder** | User interests only reorder exploration paths; they never modify required competency bars or imply candidate ability. |
+| **R-CR-08** | **Deterministic Scoring** | Scenario scores are derived deterministically from rubrics and expected findings. Model feedback is purely advisory. |
+| **R-CR-09** | **Pasted Text is Untrusted Data** | Job descriptions and resumes are length-capped, sanitized, rendered safely, and never placed in privileged instructions. |
+| **R-CR-10** | **Approved Taxonomies Only** | Taxonomies load only from approved sources: O*NET (CC BY 4.0), ESCO (EU Commission reuse acknowledgment). NQR restricted. |
+| **R-CR-11** | **Practice, Not Certification** | UI copy and visuals never imply a credential, badge, official certificate, or employer endorsement. |
+| **R-CR-12** | **Local-First Personal Data** | Profiles, skill ledgers, and roadmaps reside on the user's device via IndexedDB by default. No server storage in MVP. |
+| **R-CR-13** | **Zero Dark Patterns** | No streaks, countdowns, false urgency, or gating roadmaps behind salary data contribution. |
+| **R-CR-14** | **Decoupled Fallback Utility** | The user journey remains 100% useful when the pay engine abstains or when the user is offline. |
+| **R-CR-15** | **LLM Boundary (ADR-0010)** | Zero runtime LLM on serving path. Offline authoring assistance only; forbidden from the runtime request path. |
+
+## 18. Change log
 
 | Date | Version | Change |
 |---|---|---|
 | 2026-10-11 | 0.1 | Initial draft |
+| 2026-10-13 | 0.2 | D-010 invariants added (T0.06) |
+| 2026-10-24 | 0.3 | Task T15.01: Context hygiene instituted (`docs/STATE.md`), R-WF-02 updated, modular topic files created (`docs/rules/`), and Career Architect invariants added (R-CR-01 to R-CR-15). |

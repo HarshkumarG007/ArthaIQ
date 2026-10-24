@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15A: Foundations, Context Hygiene & Legion Pro 5i Baseline** (Phases 0 through 14 complete; Gates G0 through G14 ratified GO; ArthaIQ v1.0.0 GA officially released)
+**NEXT TASK: Phase 15A: T15.03 PRD Delta (FR-21 to FR-26)** (T15.00, T15.01, T15.02 complete; AGENTS.md, .agents/rules, lint_agent_rules.py in CI)
 
 ## How to use this file
 
@@ -571,6 +571,37 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: experiments/configs/charters/charter_career_traj_r_v2.yaml, experiments/configs/charters/index.yaml. Done when: charter indexed, keep/reject criteria pre-registered, charter tests passing. Needs: T14.02. Size: M.
 
 **Gate G14:** B2B enterprise syndication intake protocol (`SRC-B2B-01`), differential privacy pooling ($k_{\min} \ge 5$), and pre-registered charters completed with documented verdicts. **GO ratified 2026-10-24** (`docs/pilot/gate-g14-review.md`).
+
+---
+
+## Phase 15: Career Architect & Local Acceleration
+
+### Phase 15A: Foundations, Context Hygiene & Legion Pro 5i Baseline
+
+> **Objective:** establish hardware performance baselines on the Legion Pro 5i (i7-14650HX, RTX 4060, 16GB RAM), institute context hygiene with `docs/STATE.md` and modular agent rules, pre-register PRD delta (FR-21 to FR-26), author foundational ADRs (0010–0013), and accelerate parallel test execution with `pytest-xdist`.
+> **Governing Rules:** R-WF-01, R-WF-02, R-WF-08, R-WF-09, R-CD-01, R-CD-03, R-TS-01, R-SC-07, R-CR-01 to R-CR-15.
+> **Needs:** Gate G14.
+
+- [x] **T15.00** [AI+HUMAN] Hardware baseline and Legion Pro 5i resource profiling: measure idle/peak RAM, CPU test scaling (1, 4, 6, 8 workers), cold/warm Mypy, Vite build speed, and thermals. (done 2026-10-24)
+      Output: `docs/pilot/hardware-baseline.md`. Done when: all baseline metrics measured and recorded with WSL2 and worker settings. Needs: G14. Size: M.
+- [x] **T15.01** [AI] Context hygiene & memory archiving: archive historical memory session rows, create compact `docs/STATE.md` snapshot (~6 KB), split `rules.md` into modular topic files under `docs/rules/`, and update Rule `R-WF-02`. (done 2026-10-24)
+      Output: `docs/STATE.md`, `docs/rules/*.md`. Done when: session required reading is <= 15 KB and canonical parity verified. Needs: T15.00. Size: S.
+- [x] **T15.02** [AI] Antigravity instruction & rules configuration: create root constitution `AGENTS.md`, modular `.agents/rules/` (00-workflow, 10-python, 20-frontend, 30-career-honesty, 40-security-privacy), `.agents/skills/`, and rule linter `scripts/lint_agent_rules.py`. (done 2026-10-24)
+      Output: `AGENTS.md`, `.agents/rules/*.md`, `scripts/lint_agent_rules.py`. Done when: linter runs in CI and flags malformed frontmatter. Needs: T15.01. Size: M.
+- [ ] **T15.03** [HUMAN] PRD delta for Career Architect: specify requirements FR-21 to FR-26, promote Persona C, restate anti-causal invariants and non-goals.
+      Output: `PRD.md` delta, `docs/PRD.md`. Done when: PRD updated with change log entry. Needs: T15.02. Size: S.
+- [ ] **T15.04** [AI+HUMAN] Foundational ADRs for Career Architect: author ADR-0010 (LLM Boundary & Anti-Causal Invariants), ADR-0011 (Competency Graph & Evidence Ledger), ADR-0012 (Local-First Profile & Privacy Architecture), ADR-0013 (Deterministic Scenario Scoring).
+      Output: `docs/adr/ADR-0010-*.md` through `ADR-0013-*.md`. Done when: all four ADRs Accepted with evidence links. Needs: T15.03. Size: M.
+- [ ] **T15.05** [AI+HUMAN] Experiment charter pre-registration: formulate and index `CHARTER-CAREER-ARCH-01` pre-registering hypotheses, metrics, and kill criteria under Rule `R-MD-09`.
+      Output: `experiments/configs/charters/charter_career_arch_01.yaml`. Done when: charter indexed and verified by tests. Needs: T15.04. Size: S.
+- [ ] **T15.06** [AI] Taxonomy licence & provenance audit: verify O*NET CC BY 4.0 terms, correct ESCO acknowledgment entry, mark NQR restricted, and specify UI attribution component.
+      Output: `docs/research/evidence-register.csv` update, taxonomy attribution spec. Done when: all sources verified. Needs: T15.04. Size: S.
+- [ ] **T15.07** [HUMAN] Regulatory brief for counsel: prepare briefing document on DPDP 2023 compliance, 18+ user declaration, and consumer protection copy disclaimers.
+      Output: `docs/legal/dpdp-career-architect-brief.md`. Done when: brief drafted and review date set. Needs: T15.04. Size: M.
+- [ ] **T15.08** [AI] Parallel developer loop acceleration: integrate `pytest-xdist`, create `make check-fast` target, and verify order-independent test execution.
+      Output: `pyproject.toml` update, `Makefile` update. Done when: test suite passes in parallel 5 consecutive runs. Needs: T15.00. Size: S.
+
+**Gate G15A:** Phase 15A foundations ratified: hardware baseline recorded, context hygiene operational (`docs/STATE.md`), rules lint passing in CI, PRD delta and ADRs 0010–0013 accepted.
 
 ---
 
