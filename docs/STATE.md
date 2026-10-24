@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15C: Deterministic Engine (Evidence Ledger, Gap Calculator, Roadmap, Pay Port & API)** |
-| **Current Task** | **Gate G15B DATA Family Competency Graph Ratification (Completed)** |
-| **Next Task** | **Phase 15C: T15.15 Domain Engine Skeleton & Ports** |
+| **Current Task** | **T15.15 Domain Engine Skeleton & Ports (Completed)** |
+| **Next Task** | **Phase 15C: T15.16 Evidence Ledger & Gap Calculator** |
 | **Last Updated** | **2026-10-24** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

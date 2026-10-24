@@ -308,3 +308,53 @@ class CompetencyGapReport(BaseModel):
     unproven_count: int
     gap_nodes: list[str] = Field(default_factory=list)
     gaps: list[CompetencyGap] = Field(default_factory=list)
+
+
+class CompensationEvidenceSummary(BaseModel):
+    """Independent compensation distribution summary returned via CompensationPort.
+
+    Strictly isolated from competency scores and skill graphs (Rule R-CR-02).
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    role_family: str
+    seniority: RoleLevel
+    location: str
+    currency: str = "INR"
+    unit: str = "LPA"
+    p10: float | None = None
+    p50: float | None = None
+    p90: float | None = None
+    interval_width: float | None = None
+    evidence_grade: str | None = None  # High, Moderate, Low, Insufficient
+    abstention_reason: str | None = None
+    sample_size: int | None = None
+    as_of_date: str | None = None
+    disclaimer: str = Field(
+        default=(
+            "Conditional statistical distribution benchmark. Not an appraisal, offer, "
+            "or guarantee of individual pay (Rules R-CR-01, R-UQ-01)."
+        )
+    )
+
+    @field_validator("disclaimer")
+    @classmethod
+    def check_disclaimer_anti_causal(cls, v: str) -> str:
+        return validate_anti_causal_text(v, "disclaimer")
+
+    @model_validator(mode="after")
+    def validate_quantiles_or_abstention(self) -> Self:
+        if self.abstention_reason is not None:
+            return self
+        if (
+            self.p10 is not None
+            and self.p50 is not None
+            and self.p90 is not None
+            and not (self.p10 <= self.p50 <= self.p90)
+        ):
+            raise ValueError(
+                f"Quantiles must be monotonically ordered P10 <= P50 <= P90, got "
+                f"P10={self.p10}, P50={self.p50}, P90={self.p90}"
+            )
+        return self

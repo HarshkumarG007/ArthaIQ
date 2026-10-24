@@ -6,6 +6,13 @@ and deterministic flaw-finding practice.
 
 from __future__ import annotations
 
+from compintel.career.engine import (
+    CareerEngine,
+    CompensationPort,
+    FilesystemTaxonomyAdapter,
+    StubCompensationAdapter,
+    TaxonomyPort,
+)
 from compintel.career.graph import (
     build_data_family_graph,
     export_data_family_graph,
@@ -29,6 +36,7 @@ from compintel.career.rubric import (
     load_difficulty_rubrics,
 )
 from compintel.career.schema import (
+    CompensationEvidenceSummary,
     CompetencyCategory,
     CompetencyGap,
     CompetencyGapReport,
@@ -66,7 +74,10 @@ from compintel.career.validators import (
 
 __all__ = [
     "AntiCausalCopyError",
+    "CareerEngine",
     "CareerValidationError",
+    "CompensationEvidenceSummary",
+    "CompensationPort",
     "CompetencyCategory",
     "CompetencyGap",
     "CompetencyGapReport",
@@ -81,15 +92,18 @@ __all__ = [
     "EvidenceLedger",
     "EvidenceRecord",
     "EvidenceType",
+    "FilesystemTaxonomyAdapter",
     "GraphCycleError",
     "HEURISTIC_DISCLAIMER",
     "LevelOrderError",
     "ProvenanceComplianceError",
     "RoleLevel",
+    "StubCompensationAdapter",
     "TaxonomyBundle",
     "TaxonomyElement",
     "TaxonomyLicense",
     "TaxonomyManifest",
+    "TaxonomyPort",
     "TaxonomyProvenance",
     "TaxonomySource",
     "VerificationState",

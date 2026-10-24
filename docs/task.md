@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.15 Domain Engine Skeleton & Ports** (Gate G15B ratified GO; Decision D-027; DATA family content spine complete)
+**NEXT TASK: Phase 15C: T15.16 Evidence Ledger & Gap Calculator** (T15.15 Domain Engine Skeleton & Ports completed; 10th import contract kept; ports green)
 
 ## How to use this file
 
@@ -631,7 +631,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 **Objective:** The logic behind every screen, with zero Large Language Models on the runtime serving path (ADR-0010).
 **Needs:** Gate G15B.
 
-- [ ] **T15.15** [AI] Domain engine skeleton & ports: implement `compintel.career.engine` structure, verify 10th architectural import contract (`Career only imports schema`), and specify ports for compensation evidence and taxonomy.
+- [x] **T15.15** [AI] Domain engine skeleton & ports: implement `compintel.career.engine` structure, verify 10th architectural import contract (`Career only imports schema`), and specify ports for compensation evidence and taxonomy. (done 2026-10-24)
       Output: `src/compintel/career/engine.py`. Done when: boundary check passes and port contracts are green. Needs: Gate G15B. Size: M.
 - [ ] **T15.16** [AI] Evidence ledger & gap calculator: evaluate demonstrated competency states against role requirements, enforcing invariant that gaps are never negative, monotonic under verification, and idempotent.
       Output: `src/compintel/career/gap.py`. Done when: property tests prove mathematical invariants. Needs: T15.15. Size: M.
