@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: T15.10 CI DAG & Content Validators** (T15.09 complete; career schemas & JSON exports operational)
+**NEXT TASK: Phase 15B: T15.11 Taxonomy Ingestion & Crosswalk** (T15.10 complete; DAG acyclicity, bounds, provenance & copy validators operational)
 
 ## How to use this file
 
@@ -611,7 +611,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 - [x] **T15.09** [AI] Pydantic v2 career schema contracts: define core data models for competency nodes, prerequisites, level requirements, evidence types, verification states (`Unproven`, `Self-reported`, `Demonstrated`), and provenance metadata with JSON Schema export. (done 2026-10-24)
       Output: `src/compintel/career/schema.py`, JSON schema exports. Done when: invalid fixtures are rejected and type validation passes. Needs: Gate G15A. Size: M.
-- [ ] **T15.10** [AI] CI DAG & content validators: implement graph acyclicity validator (NetworkX / topological sort), level bound validator, mandatory provenance checker, and copy-lint banning causal pay phrases.
+- [x] **T15.10** [AI] CI DAG & content validators: implement graph acyclicity validator (NetworkX / topological sort), level bound validator, mandatory provenance checker, and copy-lint banning causal pay phrases. (done 2026-10-24)
       Output: `src/compintel/career/validators.py`, failing test fixtures. Done when: every rule has a verified failing test. Needs: T15.09. Size: M.
 - [ ] **T15.11** [AI] Taxonomy ingestion & crosswalk: build deterministic loaders for O*NET 28.0 (DATA occupations: 15-2051.01 Data Scientist, 15-2051.02 Data Analyst) and ESCO v1.1.1 transversal skills into `config/taxonomy/` with checksums and attribution manifests.
       Output: `src/compintel/career/ingestion.py`, `config/taxonomy/data_family.json`. Done when: loader is deterministic and licence-gated. Needs: T15.09. Size: M.

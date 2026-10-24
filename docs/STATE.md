@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15B: Content Spine (DATA Family Competency Graph & Ingestion)** |
-| **Current Task** | **T15.09 Pydantic v2 Career & Competency Schema Contracts (Completed)** |
-| **Next Task** | **T15.10 CI DAG & Content Validators** |
+| **Current Task** | **T15.10 CI DAG & Content Validators (Completed)** |
+| **Next Task** | **T15.11 Taxonomy Ingestion & Crosswalk** |
 | **Last Updated** | **2026-10-24** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
