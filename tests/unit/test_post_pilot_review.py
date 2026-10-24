@@ -78,6 +78,7 @@ def test_task_breakdown_sync_and_pointer() -> None:
     assert (
         "**NEXT TASK: Gate G10 (critical): production decision**" in root_task
         or "**NEXT TASK: Phase 11" in root_task
+        or "**NEXT TASK: Phase 15" in root_task
     )
     assert "| 2026-10-21 | 1.0     | Phase 10 T10.01-T10.07 complete" in root_task
 
