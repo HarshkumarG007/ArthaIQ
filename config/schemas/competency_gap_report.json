@@ -1,0 +1,108 @@
+{
+  "$defs": {
+    "CompetencyGap": {
+      "additionalProperties": false,
+      "description": "Individual gap diagnostic for a target role requirement.",
+      "properties": {
+        "competency_id": {
+          "title": "Competency Id",
+          "type": "string"
+        },
+        "required_level": {
+          "$ref": "#/$defs/RoleLevel"
+        },
+        "current_state": {
+          "$ref": "#/$defs/VerificationState"
+        },
+        "is_satisfied": {
+          "title": "Is Satisfied",
+          "type": "boolean"
+        },
+        "prerequisites_satisfied": {
+          "title": "Prerequisites Satisfied",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "competency_id",
+        "required_level",
+        "current_state",
+        "is_satisfied",
+        "prerequisites_satisfied"
+      ],
+      "title": "CompetencyGap",
+      "type": "object"
+    },
+    "RoleLevel": {
+      "description": "Standard occupational levels within a role family (PRD FR-21).",
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "title": "RoleLevel",
+      "type": "integer"
+    },
+    "VerificationState": {
+      "description": "Tri-state competency verification model (Rule R-CR-03, ADR-0011).\n\nState beats score: arbitrary continuous percentage progress bars are prohibited.",
+      "enum": [
+        "Unproven",
+        "Self-reported",
+        "Demonstrated"
+      ],
+      "title": "VerificationState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Comprehensive gap analysis report for a candidate and target role.",
+  "properties": {
+    "target_role": {
+      "title": "Target Role",
+      "type": "string"
+    },
+    "target_level": {
+      "$ref": "#/$defs/RoleLevel"
+    },
+    "total_required": {
+      "title": "Total Required",
+      "type": "integer"
+    },
+    "demonstrated_count": {
+      "title": "Demonstrated Count",
+      "type": "integer"
+    },
+    "self_reported_count": {
+      "title": "Self Reported Count",
+      "type": "integer"
+    },
+    "unproven_count": {
+      "title": "Unproven Count",
+      "type": "integer"
+    },
+    "gap_nodes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Gap Nodes",
+      "type": "array"
+    },
+    "gaps": {
+      "items": {
+        "$ref": "#/$defs/CompetencyGap"
+      },
+      "title": "Gaps",
+      "type": "array"
+    }
+  },
+  "required": [
+    "target_role",
+    "target_level",
+    "total_required",
+    "demonstrated_count",
+    "self_reported_count",
+    "unproven_count"
+  ],
+  "title": "CompetencyGapReport",
+  "type": "object"
+}

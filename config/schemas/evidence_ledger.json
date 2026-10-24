@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "EvidenceRecord": {
+      "additionalProperties": false,
+      "description": "User competency verification record within the local evidence ledger.",
+      "properties": {
+        "competency_id": {
+          "title": "Competency Id",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/VerificationState"
+        },
+        "evidence_type": {
+          "$ref": "#/$defs/EvidenceType"
+        },
+        "recorded_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T.*Z$",
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "verification_artifact_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verification Artifact Ref"
+        }
+      },
+      "required": [
+        "competency_id",
+        "state",
+        "evidence_type",
+        "recorded_at"
+      ],
+      "title": "EvidenceRecord",
+      "type": "object"
+    },
+    "EvidenceType": {
+      "description": "Taxonomy of admissible capability evidence.",
+      "enum": [
+        "self_attestation",
+        "flaw_scenario",
+        "code_exercise",
+        "portfolio_artifact"
+      ],
+      "title": "EvidenceType",
+      "type": "string"
+    },
+    "VerificationState": {
+      "description": "Tri-state competency verification model (Rule R-CR-03, ADR-0011).\n\nState beats score: arbitrary continuous percentage progress bars are prohibited.",
+      "enum": [
+        "Unproven",
+        "Self-reported",
+        "Demonstrated"
+      ],
+      "title": "VerificationState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Client-side career evidence ledger (stored in IndexedDB).",
+  "properties": {
+    "ledger_version": {
+      "default": "v1.0",
+      "title": "Ledger Version",
+      "type": "string"
+    },
+    "records": {
+      "additionalProperties": {
+        "$ref": "#/$defs/EvidenceRecord"
+      },
+      "title": "Records",
+      "type": "object"
+    },
+    "last_updated": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T.*Z$",
+      "title": "Last Updated",
+      "type": "string"
+    }
+  },
+  "required": [
+    "last_updated"
+  ],
+  "title": "EvidenceLedger",
+  "type": "object"
+}

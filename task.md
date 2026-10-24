@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: T15.09 Pydantic v2 Career & Competency Schema Contracts** (Phase 15A Complete; Gate G15A Ratified GO)
+**NEXT TASK: Phase 15B: T15.10 CI DAG & Content Validators** (T15.09 complete; career schemas & JSON exports operational)
 
 ## How to use this file
 
@@ -609,7 +609,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
 
 Objective: Assemble a reviewed, sourced competency graph for the DATA role family (levels 2-4: Junior, Mid, Senior) with automated topological acyclicity validation and deterministic provenance tracking under CC BY 4.0 and EU Open Reuse.
 
-- [ ] **T15.09** [AI] Pydantic v2 career schema contracts: define core data models for competency nodes, prerequisites, level requirements, evidence types, verification states (`Unproven`, `Self-reported`, `Demonstrated`), and provenance metadata with JSON Schema export.
+- [x] **T15.09** [AI] Pydantic v2 career schema contracts: define core data models for competency nodes, prerequisites, level requirements, evidence types, verification states (`Unproven`, `Self-reported`, `Demonstrated`), and provenance metadata with JSON Schema export. (done 2026-10-24)
       Output: `src/compintel/career/schema.py`, JSON schema exports. Done when: invalid fixtures are rejected and type validation passes. Needs: Gate G15A. Size: M.
 - [ ] **T15.10** [AI] CI DAG & content validators: implement graph acyclicity validator (NetworkX / topological sort), level bound validator, mandatory provenance checker, and copy-lint banning causal pay phrases.
       Output: `src/compintel/career/validators.py`, failing test fixtures. Done when: every rule has a verified failing test. Needs: T15.09. Size: M.

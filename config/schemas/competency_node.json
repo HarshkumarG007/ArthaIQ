@@ -1,0 +1,198 @@
+{
+  "$defs": {
+    "CompetencyCategory": {
+      "description": "Taxonomy clusters for the DATA role family.",
+      "enum": [
+        "core_analytics",
+        "data_engineering",
+        "statistical_modeling",
+        "experimentation",
+        "business_communication"
+      ],
+      "title": "CompetencyCategory",
+      "type": "string"
+    },
+    "DifficultyRubric": {
+      "additionalProperties": false,
+      "description": "Calibrated difficulty anchors for a competency (Rule R-CR-05).",
+      "properties": {
+        "learning_difficulty": {
+          "maximum": 5.0,
+          "minimum": 1.0,
+          "title": "Learning Difficulty",
+          "type": "number"
+        },
+        "application_difficulty": {
+          "maximum": 5.0,
+          "minimum": 1.0,
+          "title": "Application Difficulty",
+          "type": "number"
+        },
+        "is_heuristic": {
+          "const": true,
+          "default": true,
+          "description": "Must remain True: difficulty is heuristic, not empirical fact",
+          "title": "Is Heuristic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "learning_difficulty",
+        "application_difficulty"
+      ],
+      "title": "DifficultyRubric",
+      "type": "object"
+    },
+    "RoleLevel": {
+      "description": "Standard occupational levels within a role family (PRD FR-21).",
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "title": "RoleLevel",
+      "type": "integer"
+    },
+    "TaxonomyLicense": {
+      "description": "Approved licence classes for ingested taxonomies.",
+      "enum": [
+        "CC-BY-4.0",
+        "EU-OPEN-REUSE",
+        "PROPRIETARY-INTERNAL"
+      ],
+      "title": "TaxonomyLicense",
+      "type": "string"
+    },
+    "TaxonomyProvenance": {
+      "additionalProperties": false,
+      "description": "Attribution and provenance record for taxonomy elements (Rule R-CR-04).",
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/TaxonomySource"
+        },
+        "source_code": {
+          "description": "Origin code in parent taxonomy",
+          "minLength": 1,
+          "title": "Source Code",
+          "type": "string"
+        },
+        "license": {
+          "$ref": "#/$defs/TaxonomyLicense"
+        },
+        "attribution_required": {
+          "default": true,
+          "title": "Attribution Required",
+          "type": "boolean"
+        },
+        "attribution_text": {
+          "description": "Statutory attribution notice",
+          "minLength": 5,
+          "title": "Attribution Text",
+          "type": "string"
+        },
+        "modified_flag": {
+          "default": false,
+          "description": "True if adapted or re-anchored",
+          "title": "Modified Flag",
+          "type": "boolean"
+        },
+        "curator": {
+          "description": "Name or role of reviewing curator",
+          "minLength": 2,
+          "title": "Curator",
+          "type": "string"
+        },
+        "curated_date": {
+          "description": "YYYY-MM-DD",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Curated Date",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_code",
+        "license",
+        "attribution_text",
+        "curator",
+        "curated_date"
+      ],
+      "title": "TaxonomyProvenance",
+      "type": "object"
+    },
+    "TaxonomySource": {
+      "description": "Approved external labour taxonomy sources (ADR-0011).",
+      "enum": [
+        "ONET-28.0",
+        "ESCO-1.1.1",
+        "ARTHAIQ-CURATED"
+      ],
+      "title": "TaxonomySource",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Atomic competency node within the Directed Acyclic Graph (DAG).",
+  "properties": {
+    "id": {
+      "description": "Dot-separated ID",
+      "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 100,
+      "minLength": 3,
+      "title": "Title",
+      "type": "string"
+    },
+    "description": {
+      "maxLength": 1000,
+      "minLength": 10,
+      "title": "Description",
+      "type": "string"
+    },
+    "category": {
+      "$ref": "#/$defs/CompetencyCategory"
+    },
+    "role_family": {
+      "const": "DATA",
+      "default": "DATA",
+      "description": "Scoped to DATA family in Phase 15",
+      "title": "Role Family",
+      "type": "string"
+    },
+    "target_levels": {
+      "items": {
+        "$ref": "#/$defs/RoleLevel"
+      },
+      "minItems": 1,
+      "title": "Target Levels",
+      "type": "array"
+    },
+    "prerequisite_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Prerequisite Ids",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/TaxonomyProvenance"
+    },
+    "difficulty": {
+      "$ref": "#/$defs/DifficultyRubric"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "description",
+    "category",
+    "target_levels",
+    "provenance",
+    "difficulty"
+  ],
+  "title": "CompetencyNode",
+  "type": "object"
+}

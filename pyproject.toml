@@ -349,6 +349,26 @@ forbidden_modules = [
     "compintel.governance",
 ]
 
+[[tool.importlinter.contracts]]
+name = "Career only imports schema"
+type = "forbidden"
+source_modules = ["compintel.career"]
+forbidden_modules = [
+    "compintel.models",
+    "compintel.serving",
+    "compintel.evaluation",
+    "compintel.ingestion",
+    "compintel.governance",
+    "compintel.quality",
+    "compintel.features",
+    "compintel.normalization",
+    "compintel.uncertainty",
+    "compintel.monitoring",
+    "compintel.explain",
+    "compintel.scenarios",
+    "compintel.equity",
+]
+
 [dependency-groups]
 dev = [
     "brotli>=1.2.1",
