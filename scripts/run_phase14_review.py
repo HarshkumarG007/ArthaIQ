@@ -64,7 +64,9 @@ def run_phase14_review(
     # 2. Audit SRC-B2B-01 YAML Specification
     spec_data = yaml.safe_load(spec_path.read_text(encoding="utf-8"))
     assert spec_data.get("source_id") == "SRC-B2B-01", "Invalid source_id in spec"
-    assert spec_data.get("sqsf_tier") == "TIER_1_GROUND_TRUTH", "Expected TIER_1_GROUND_TRUTH provenance"
+    assert spec_data.get("sqsf_tier") == "TIER_1_GROUND_TRUTH", (
+        "Expected TIER_1_GROUND_TRUTH provenance"
+    )
     assert spec_data.get("sqs", 0) >= 95.0, "Expected SQS >= 95.0"
 
     privacy_safeguards = spec_data.get("licence", {}).get("privacy_safeguards", {})
@@ -110,14 +112,21 @@ def run_phase14_review(
         {"tenant_token": "T5", "role": "SWE"},
         {"tenant_token": "T1", "role": "SWE"},
     ]
-    passed_cci, msg_cci = B2BPrivacyPooler.verify_cci_safe_harbor(cohort, min_employers=5, max_share=0.35)
+    passed_cci, msg_cci = B2BPrivacyPooler.verify_cci_safe_harbor(
+        cohort, min_employers=5, max_share=0.35
+    )
     assert passed_cci is True, f"Expected CCI safe harbor to pass, got: {msg_cci}"
 
     # Small cell k-anonymity test
     k_cohort = [
         {"role": "DATA", "seniority": "MID", "location": "BLR", "prior_employer_cluster": "EMP-01"},
         {"role": "DATA", "seniority": "MID", "location": "BLR", "prior_employer_cluster": "EMP-01"},
-        {"role": "DATA", "seniority": "MID", "location": "BLR", "prior_employer_cluster": "EMP-02"},  # size 1 < 5
+        {
+            "role": "DATA",
+            "seniority": "MID",
+            "location": "BLR",
+            "prior_employer_cluster": "EMP-02",
+        },  # size 1 < 5
     ]
     k_result = B2BPrivacyPooler.apply_k_anonymity_floor(k_cohort, k_min=2)
     assert k_result[0]["prior_employer_cluster"] == "EMP-01"
