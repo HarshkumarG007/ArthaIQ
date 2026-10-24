@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: T15.12 Draft DATA Family Competency DAG** (T15.11 complete; deterministic O*NET 28.0 & ESCO v1.1.1 ingestion & SHA-256 manifest operational)
+**NEXT TASK: Phase 15B: T15.13 Practitioner Review & Consensus** (T15.12 complete; DATA family competency DAG assembled, validated with 0 cycles and 100% provenance)
 
 ## How to use this file
 
@@ -615,7 +615,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/validators.py`, failing test fixtures. Done when: every rule has a verified failing test. Needs: T15.09. Size: M.
 - [x] **T15.11** [AI] Taxonomy ingestion & crosswalk: build deterministic loaders for O*NET 28.0 (DATA occupations: 15-2051.01 Data Scientist, 15-2051.02 Data Analyst) and ESCO v1.1.1 transversal skills into `config/taxonomy/` with checksums and attribution manifests. (done 2026-10-24)
       Output: `src/compintel/career/ingestion.py`, `config/taxonomy/data_family.json`. Done when: loader is deterministic and licence-gated. Needs: T15.09. Size: M.
-- [ ] **T15.12** [AI] Draft DATA family competency DAG: assemble directed acyclic graph connecting competencies across Junior (Level 2), Mid (Level 3), and Senior (Level 4) data analyst/scientist roles.
+- [x] **T15.12** [AI] Draft DATA family competency DAG: assemble directed acyclic graph connecting competencies across Junior (Level 2), Mid (Level 3), and Senior (Level 4) data analyst/scientist roles. (done 2026-10-24)
       Output: `config/taxonomy/competency_graph_data.json`. Done when: CI validators pass with 0 cycles and 100% provenance coverage. Needs: T15.10, T15.11. Size: L.
 - [ ] **T15.13** [HUMAN] Practitioner review & consensus: establish two-reviewer sign-off protocol for competency clusters, recording agreement metrics and disagreement resolution.
       Output: `docs/pilot/competency-review-data-family.md`. Done when: reviewer consensus recorded and clusters marked Reviewed. Needs: T15.12. Size: M.
