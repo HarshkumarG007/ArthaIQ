@@ -2,7 +2,7 @@
 # See docs/architecture.md section 14 for the CI/CD pipeline.
 # Versions are pinned at T3.01. Many targets are stubs until their phase starts.
 
-.PHONY: help check lint typecheck boundary-check agent-rules test test-unit test-property test-contract \
+.PHONY: help check check-fast lint typecheck boundary-check agent-rules test test-fast test-unit test-property test-contract \
         test-leakage test-integration test-synthetic coverage-map sufficiency reproduce-data quality-report \
         audit-leakage experiment reproduce-experiment baseline-report benchmark-gbm conformal-report \
         interval-usefulness shift-stress-tests audit-abstention champion-bundle hierarchical-diagnostics \
@@ -17,9 +17,11 @@ help:
 	@echo "CompIntel development targets"
 	@echo ""
 	@echo "  make check            Full local check (lint + types + tests)"
+	@echo "  make check-fast       Fast inner developer loop (lint + types + parallel unit/contract tests)"
 	@echo "  make lint             ruff lint and format check"
 	@echo "  make typecheck        mypy strict"
 	@echo "  make test             All test suites"
+	@echo "  make test-fast        Fast parallel unit and contract tests (-n 4)"
 	@echo "  make test-unit        Unit tests only"
 	@echo "  make test-property    Hypothesis property tests"
 	@echo "  make test-contract    Data and API contract tests"
@@ -35,6 +37,9 @@ help:
 
 # ---- Full check (used in CI) -----------------------------------------------
 check: lint typecheck boundary-check agent-rules test-cov
+
+# ---- Fast check (inner developer loop, Task T15.08) -------------------------
+check-fast: lint typecheck boundary-check agent-rules test-fast
 
 # ---- Lint ------------------------------------------------------------------
 lint:
@@ -59,6 +64,9 @@ agent-rules:
 
 
 # ---- Tests -----------------------------------------------------------------
+test-fast:
+	pytest -n 4 tests/unit/ tests/contract/ -m "not e2e and not slow"
+
 test:
 	pytest tests/ -m "not e2e and not slow"
 

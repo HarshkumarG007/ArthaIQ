@@ -5,9 +5,9 @@
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
-| **Active Subphase** | **Phase 15A: Foundations, Context Hygiene & Legion Pro 5i Baseline** |
-| **Current Task** | **T15.07 Regulatory Brief for Counsel (DPDP 2023 & Consumer Protection) (Completed)** |
-| **Next Task** | **T15.08 Parallel Developer Loop Acceleration (pytest-xdist & check-fast)** |
+| **Active Subphase** | **Phase 15B: Content Spine (DATA Family Competency Graph & Ingestion)** |
+| **Current Task** | **Gate G15A Ratification & T15.08 Parallel Loop Acceleration (Completed)** |
+| **Next Task** | **T15.09 Pydantic v2 Career & Competency Schema Contracts** |
 | **Last Updated** | **2026-10-24** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

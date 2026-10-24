@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15A: T15.08 Parallel Developer Loop Acceleration (pytest-xdist & check-fast)** (T15.00-T15.07 complete; DPDP brief drafted)
+**NEXT TASK: Phase 15B: T15.09 Pydantic v2 Career & Competency Schema Contracts** (Phase 15A Complete; Gate G15A Ratified GO)
 
 ## How to use this file
 
@@ -598,10 +598,31 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `docs/research/evidence-register.csv` update, taxonomy attribution spec. Done when: all sources verified. Needs: T15.04. Size: S.
 - [x] **T15.07** [HUMAN] Regulatory brief for counsel: prepare briefing document on DPDP 2023 compliance, 18+ user declaration, and consumer protection copy disclaimers. (done 2026-10-24)
       Output: `docs/legal/dpdp-career-architect-brief.md`. Done when: brief drafted and review date set. Needs: T15.04. Size: M.
-- [ ] **T15.08** [AI] Parallel developer loop acceleration: integrate `pytest-xdist`, create `make check-fast` target, and verify order-independent test execution.
+- [x] **T15.08** [AI] Parallel developer loop acceleration: integrate `pytest-xdist`, create `make check-fast` target, and verify order-independent test execution. (done 2026-10-24)
       Output: `pyproject.toml` update, `Makefile` update. Done when: test suite passes in parallel 5 consecutive runs. Needs: T15.00. Size: S.
 
-**Gate G15A:** Phase 15A foundations ratified: hardware baseline recorded, context hygiene operational (`docs/STATE.md`), rules lint passing in CI, PRD delta and ADRs 0010–0013 accepted.
+**Gate G15A:** Phase 15A foundations ratified: hardware baseline recorded, context hygiene operational (`docs/STATE.md`), rules lint passing in CI, PRD delta and ADRs 0010–0013 accepted. (RATIFIED GO 2026-10-24; Decision D-026)
+
+---
+
+### Phase 15B: Content Spine (DATA Family Competency Graph & Ingestion)
+
+Objective: Assemble a reviewed, sourced competency graph for the DATA role family (levels 2-4: Junior, Mid, Senior) with automated topological acyclicity validation and deterministic provenance tracking under CC BY 4.0 and EU Open Reuse.
+
+- [ ] **T15.09** [AI] Pydantic v2 career schema contracts: define core data models for competency nodes, prerequisites, level requirements, evidence types, verification states (`Unproven`, `Self-reported`, `Demonstrated`), and provenance metadata with JSON Schema export.
+      Output: `src/compintel/career/schema.py`, JSON schema exports. Done when: invalid fixtures are rejected and type validation passes. Needs: Gate G15A. Size: M.
+- [ ] **T15.10** [AI] CI DAG & content validators: implement graph acyclicity validator (NetworkX / topological sort), level bound validator, mandatory provenance checker, and copy-lint banning causal pay phrases.
+      Output: `src/compintel/career/validators.py`, failing test fixtures. Done when: every rule has a verified failing test. Needs: T15.09. Size: M.
+- [ ] **T15.11** [AI] Taxonomy ingestion & crosswalk: build deterministic loaders for O*NET 28.0 (DATA occupations: 15-2051.01 Data Scientist, 15-2051.02 Data Analyst) and ESCO v1.1.1 transversal skills into `config/taxonomy/` with checksums and attribution manifests.
+      Output: `src/compintel/career/ingestion.py`, `config/taxonomy/data_family.json`. Done when: loader is deterministic and licence-gated. Needs: T15.09. Size: M.
+- [ ] **T15.12** [AI] Draft DATA family competency DAG: assemble directed acyclic graph connecting competencies across Junior (Level 2), Mid (Level 3), and Senior (Level 4) data analyst/scientist roles.
+      Output: `config/taxonomy/competency_graph_data.json`. Done when: CI validators pass with 0 cycles and 100% provenance coverage. Needs: T15.10, T15.11. Size: L.
+- [ ] **T15.13** [HUMAN] Practitioner review & consensus: establish two-reviewer sign-off protocol for competency clusters, recording agreement metrics and disagreement resolution.
+      Output: `docs/pilot/competency-review-data-family.md`. Done when: reviewer consensus recorded and clusters marked Reviewed. Needs: T15.12. Size: M.
+- [ ] **T15.14** [AI+HUMAN] Difficulty & effort heuristic rubric: calibrate learning difficulty and application difficulty anchors (labelled heuristic, zero false precision).
+      Output: `config/taxonomy/difficulty_rubrics.json`. Done when: every skill node has verified difficulty ratings. Needs: T15.12. Size: S.
+
+**Gate G15B:** DATA family competency graph ratified: CI validators green (0 cycles, 100% provenance), practitioner review complete, difficulty heuristics recorded.
 
 ---
 
