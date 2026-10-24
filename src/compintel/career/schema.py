@@ -363,3 +363,41 @@ class CompensationEvidenceSummary(BaseModel):
                 f"P10={self.p10}, P50={self.p50}, P90={self.p90}"
             )
         return self
+
+
+class RoadmapMilestone(BaseModel):
+    """Individual sequence step within a scheduled career roadmap."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    step_number: int = Field(..., ge=1)
+    competency_id: str
+    title: str
+    category: CompetencyCategory
+    target_levels: list[RoleLevel]
+    prerequisite_ids: list[str] = Field(default_factory=list)
+    learning_difficulty: float = Field(..., ge=1.0, le=5.0)
+    application_difficulty: float = Field(..., ge=1.0, le=5.0)
+    effort_range: EffortRange
+    estimated_weeks_range: tuple[int, int]
+
+
+class ScheduledRoadmap(BaseModel):
+    """Topologically sorted, pacing-budgeted learning roadmap towards a target role."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    target_role: str
+    target_level: RoleLevel
+    weekly_hours_budget: float = Field(..., ge=1.0)
+    total_milestones: int = Field(..., ge=0)
+    cumulative_effort_range: EffortRange | None = None
+    estimated_total_weeks_range: tuple[int, int]
+    milestones: list[RoadmapMilestone] = Field(default_factory=list)
+    is_heuristic: bool = True
+    disclaimer: str
+
+    @field_validator("disclaimer")
+    @classmethod
+    def check_disclaimer_anti_causal(cls, v: str) -> str:
+        return validate_anti_causal_text(v, "disclaimer")

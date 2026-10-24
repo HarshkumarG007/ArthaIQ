@@ -35,6 +35,10 @@ from compintel.career.ingestion import (
     enforce_taxonomy_licence_gate,
     generate_data_family_taxonomy,
 )
+from compintel.career.roadmap import (
+    calculate_weeks_range,
+    schedule_topological_roadmap,
+)
 from compintel.career.rubric import (
     HEURISTIC_DISCLAIMER,
     build_difficulty_rubrics_manifest,
@@ -57,7 +61,9 @@ from compintel.career.schema import (
     EvidenceLedger,
     EvidenceRecord,
     EvidenceType,
+    RoadmapMilestone,
     RoleLevel,
+    ScheduledRoadmap,
     TaxonomyLicense,
     TaxonomyProvenance,
     TaxonomySource,
@@ -104,7 +110,9 @@ __all__ = [
     "HEURISTIC_DISCLAIMER",
     "LevelOrderError",
     "ProvenanceComplianceError",
+    "RoadmapMilestone",
     "RoleLevel",
+    "ScheduledRoadmap",
     "StubCompensationAdapter",
     "TaxonomyBundle",
     "TaxonomyElement",
@@ -116,6 +124,7 @@ __all__ = [
     "VerificationState",
     "build_data_family_graph",
     "build_difficulty_rubrics_manifest",
+    "calculate_weeks_range",
     "check_prerequisites_satisfied",
     "compute_bundle_sha256",
     "enforce_taxonomy_licence_gate",
@@ -131,6 +140,7 @@ __all__ = [
     "is_record_stale",
     "load_data_family_graph",
     "load_difficulty_rubrics",
+    "schedule_topological_roadmap",
     "validate_anti_causal_copy",
     "validate_anti_causal_text",
     "validate_competency_graph",

@@ -21,6 +21,7 @@ from compintel.career.schema import (
     DifficultyRubricsManifest,
     EvidenceLedger,
     RoleLevel,
+    ScheduledRoadmap,
     VerificationState,
     validate_anti_causal_text,
 )
@@ -50,6 +51,10 @@ class TaxonomyPort(Protocol):
 
     def get_all_rubrics(self) -> dict[str, DifficultyRubricEntry]:
         """Retrieve all calibrated difficulty rubrics."""
+        ...
+
+    def get_rubrics_manifest(self) -> DifficultyRubricsManifest:
+        """Retrieve the container manifest for all calibrated difficulty rubrics."""
         ...
 
 
@@ -126,6 +131,10 @@ class FilesystemTaxonomyAdapter:
     def get_all_rubrics(self) -> dict[str, DifficultyRubricEntry]:
         """Retrieve all calibrated rubrics."""
         return dict(self._rubrics_by_id)
+
+    def get_rubrics_manifest(self) -> DifficultyRubricsManifest:
+        """Retrieve the container manifest for all calibrated difficulty rubrics."""
+        return self._rubrics_manifest
 
 
 class StubCompensationAdapter:
@@ -297,4 +306,39 @@ class CareerEngine:
             min_satisfied_state=min_satisfied_state,
             as_of_date=as_of_date,
             max_age_days=max_age_days,
+        )
+
+    def generate_roadmap(
+        self,
+        ledger: EvidenceLedger,
+        target_level: RoleLevel,
+        weekly_hours_budget: float = 10.0,
+        family: str = "DATA",
+        target_role: str = "Data Professional",
+        min_satisfied_state: VerificationState = VerificationState.DEMONSTRATED,
+    ) -> ScheduledRoadmap:
+        """Generate dependency-respecting learning plan partitioned by weekly hours budget.
+
+        Enforces Rule R-CR-05 (Weekly Pacing & Effort Ranges) and Rule R-CR-01
+        (Anti-Causal Invariants).
+        """
+        from compintel.career.roadmap import schedule_topological_roadmap
+
+        gap_report = self.evaluate_gap(
+            ledger=ledger,
+            target_level=target_level,
+            family=family,
+            target_role=target_role,
+            min_satisfied_state=min_satisfied_state,
+        )
+        graph = self.get_graph(family)
+        rubrics = self._taxonomy_port.get_rubrics_manifest()
+
+        return schedule_topological_roadmap(
+            gap_nodes=gap_report.gap_nodes,
+            graph=graph,
+            rubrics=rubrics,
+            target_role=target_role,
+            target_level=target_level,
+            weekly_hours_budget=weekly_hours_budget,
         )

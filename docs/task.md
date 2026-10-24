@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.17 Topological Roadmap Scheduler** (T15.16 Evidence Ledger & Gap Calculator completed; mathematical invariants proven; property tests green)
+**NEXT TASK: Phase 15C: T15.18 Difficulty & Effort Estimator Service** (T15.17 Topological Roadmap Scheduler completed; DAG precedence guaranteed; property tests green)
 
 ## How to use this file
 
@@ -635,7 +635,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/engine.py`. Done when: boundary check passes and port contracts are green. Needs: Gate G15B. Size: M.
 - [x] **T15.16** [AI] Evidence ledger & gap calculator: evaluate demonstrated competency states against role requirements, enforcing invariant that gaps are never negative, monotonic under verification, and idempotent. (done 2026-10-24)
       Output: `src/compintel/career/gap.py`. Done when: property tests prove mathematical invariants. Needs: T15.15. Size: M.
-- [ ] **T15.17** [AI] Topological roadmap scheduler: generate dependency-respecting learning plan partitioned by weekly available hours budget, expressing effort strictly as heuristic ranges.
+- [x] **T15.17** [AI] Topological roadmap scheduler: generate dependency-respecting learning plan partitioned by weekly available hours budget, expressing effort strictly as heuristic ranges. (done 2026-10-24)
       Output: `src/compintel/career/roadmap.py`. Done when: prerequisite order is guaranteed and hours budget is never violated. Needs: T15.16. Size: L.
 - [ ] **T15.18** [AI] Difficulty & effort estimator service: calculate cumulative heuristic effort ranges and application difficulty for targeted transitions with disclaimer enforcement.
       Output: `src/compintel/career/effort.py`. Done when: estimates match rubric anchors and reject single points. Needs: T15.14, T15.17. Size: S.
