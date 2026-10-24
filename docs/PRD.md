@@ -5,8 +5,8 @@ Project identity: **ArthaIQ** (Compensation Intelligence · India-first)
 
 | Field | Value |
 |---|---|
-| Status | v1.1 (Ratified at Post-Pilot Review T10.07; Public Beta validated; Production Ready) |
-| Last updated | 2026-10-21 |
+| Status | v1.2 (v1.1 Post-Pilot Ratified; Phase 15 Career Architect Delta; Persona C Promoted; FR-21 to FR-26 Added) |
+| Last updated | 2026-10-24 |
 | Owner | _your name_ |
 | Workflow position | Step 1, define what you want to build (tracker in `memory.md`) |
 | Companion docs | `architecture.md`, `rules.md`, `design.md`, `task.md`, `memory.md`, `research/00-master-research-prompt.md` |
@@ -69,7 +69,7 @@ All rows are `[H]` until user research (T1.03, T1.04) and data research (Phases 
 |---|---|---|---|---|
 | A. Offer evaluator | Holds or expects an offer for a role in a city | Is this offer inside a realistic range for someone like me? | A range with a stated definition and evidence, and a clear "cannot tell" when evidence is thin | Primary |
 | B. Pay benchmarker | Employed, wondering whether current pay is typical | Where does my pay sit against comparable people? | A percentile band with uncertainty, using terms that match their payslip | Primary |
-| C. Career explorer | Considering a change of role, level, city or employer type | How do ranges differ across these options, and how sure are we? | Side-by-side ranges labelled as associations | Secondary, after MVP |
+| C. Capability builder & career transitioner | Evaluating or pursuing a transition into/within data analytics/science | What competencies does this role require, where are my verifiable gaps, and how do I build them without false causal pay promises? | A structured Gap Map, local-first evidence ledger, dependency-aware practice roadmap, and deterministic scenario challenges decoupled from pay | Primary (Phase 15) |
 | D. HR or compensation analyst | Benchmarks roles for an employer | Different needs: job matching, survey participation, pay-setting | Out of scope until a separate legal and ethical risk assessment exists | Deferred |
 
 **Uses the product must not support**: ranking or screening candidates for employment; setting or negotiating an individual's pay on an employer's behalf; legal, tax or payroll advice; any formal appraisal.
@@ -166,6 +166,12 @@ Priority: P0 must exist at its stage; P1 should; P2 is deferred. Stage: the firs
 | FR-18 | A decision-support statement is visible on every estimate view and present in every API estimate response. | P0 | RP, PB | T9.03, T9.08 |
 | FR-19 | Decoupled evidence framework (D-010): Source Quality Tier (institutional, triangulated disclosures, verified self-reports) and Prediction Support (deduplicated cell density, representativeness, source independence, recency, target consistency) are assessed independently. Invariant: sample size alone cannot justify an estimate. Abstention triggers whenever support, coverage or reliability fail preregistered thresholds. Thresholds fixed at G5. | P0 | RP, PB | T5.07, T5.08 |
 | FR-20 | Level 2 and Level 3 inputs (target employer and level, recruiter range, offers, verified pay) are admitted one family at a time, each only after an ablation shows value. | P2 | Deferred | T6.01, T6.03 |
+| FR-21 | Competency Graph & Provenance Metadata. Controlled taxonomy ingestion (O*NET CC BY 4.0, ESCO EU reuse) mapping skills, clusters, and seniority levels for the DATA family (Junior to Mid). Every competency requirement carries source ID, reviewer name, review date, version, and status (`R-CR-04`). | P0 | Career | T15.10, T15.11 |
+| FR-22 | Local-First Evidence Ledger & Gap Map. Client-side persistence in IndexedDB storing competency states (`Unproven`, `Self-reported`, `Demonstrated`), verification dates, and proof artifacts. Gaps rendered as dimension spans; zero readiness percentages or composite scores (`R-CR-03`, `R-CR-12`). | P0 | Career | T15.21, T15.42 |
+| FR-23 | Dependency-Aware Topological Roadmap Generator. Algorithmic roadmap ordering prerequisites first, scheduling within user's weekly available hours with heuristic effort ranges. Strictly bans causal pay language (`R-CR-01`, `R-CR-05`). | P0 | Career | T15.22, T15.45 |
+| FR-24 | Deterministic Flaw-Finding Practice Workspace. Interactive split workspace with code/query/chart artifacts and keyboard navigation (`j`/`k`/`f`). Deterministic server-side scoring based on rubrics with false-flag penalties; zero answer keys leaked to client (`R-CR-08`). | P0 | Career | T15.31, T15.48 |
+| FR-25 | Decoupled Compensation Port Resolver. Queries compensation engine through dedicated port. Enforces $k_{\min} \ge 5$, conformal bounds, and honest abstention. Decoupled so career workflows remain 100% useful when pay abstains (`R-CR-02`, `R-CR-06`, `R-CR-14`). | P0 | Career | T15.24, T15.47 |
+| FR-26 | Untrusted Job Description & Résumé Intake. Length-capped, sanitized intake extracting skills via deterministic matching (rapidfuzz, TF-IDF). Stored only locally by user choice; strictly isolated from system prompts (`R-CR-09`). | P1 | Career | T15.25, T15.49 |
 
 **Evidence and support framework (D-010).** Evaluated across two independent dimensions: (1) Source Quality Tier (Grade A institutional filings/verified payroll; Grade B triangulated/normalized disclosures; Grade C verified self-reports; Grade D unverified supplementary signals) and (2) Prediction Support Level (Supported, Guarded, Abstained). Abstention is triggered if data is single-source dependent, heavily unrepresentative, stale, or below preregistered cell density thresholds. Thresholds `[TBD: T5.07, G5]`.
 
@@ -269,6 +275,10 @@ Engagement maximization is not a success metric. Retention, streaks and urgency 
 | In-hand salary and tax computation | Out of scope | Jurisdiction-specific and changes often | Separate project |
 | Purchasing-power or affordability outputs | Deferred | Must stay distinct from nominal pay | Phase 8 or later |
 | Native mobile apps | Deferred | Responsive web comes first | After PB |
+| Official credentialing, badges, or employer certification | Rejected | ArthaIQ is a capability-practice tool, not an accredited certifying body (`R-CR-11`) | Not planned |
+| Runtime LLMs on the request serving path | Rejected | High latency, non-deterministic drift, prompt injection risk (`R-SC-07`, `R-CR-15`) | Formal ADR and threat model (ADR-0010) |
+| Server-side persistence of user career profiles | Rejected in MVP | Data minimization and local-first privacy under India DPDP Act 2023 (`R-CR-12`) | User opt-in sync ADR |
+| Composite readiness percentages combining pay and skills | Rejected | Fuses empirical market data with subjective competency ratings (`R-CR-02`, `R-CR-03`) | Never |
 
 ---
 
@@ -344,6 +354,18 @@ One go/no-go decision closes each phase of `task.md`. Details and failure paths 
 | G8 | Component and scenario modules kept or deferred | |
 | G9 | Public-beta readiness | Yes |
 | G10 | Production decision | Yes |
+| G11 | Slice calibration & ingestion automation ratified (EXP-13, EXP-16 promoted) | Yes |
+| G12 | Targeted sourcing & scenario intelligence ratified (EXP-14, EXP-15 promoted) | Yes |
+| G13 | Architecture re-evaluation ratified (EXP-PGM-01r copula promoted to PT4 UI) | Yes |
+| G14 | B2B enterprise syndication & differential privacy pooling ratified; v1.0.0 GA released | Yes |
+| G15A | Career Architect foundations, context hygiene & hardware baseline ratified | Yes |
+| G15B | Competency graph & taxonomy ingestion ratified | Yes |
+| G15C | Deterministic engine & gap calculator ratified | Yes |
+| G15D | Practice scenarios & deterministic scorer ratified | Yes |
+| G15E | Career dashboard & local-first IndexedDB UI ratified | Yes |
+| G15F | Reliability & calibration programme ratified | Yes |
+| G15G | Security, DPDP privacy & regulatory compliance ratified | Yes |
+| G15H | Career Architect pilot & GA release ratified | Yes |
 
 Phases 7 and 8 are optional branches. Phase 9 needs G6, not G8.
 
@@ -375,3 +397,4 @@ Phases 7 and 8 are optional branches. Phase 9 needs G6, not G8.
 | 2026-10-13 | 0.2 | Ratified at T0.03 following T0.02 decisions; updated validity matrix at T2.05 |
 | 2026-10-14 | 1.0 | Ratified v1.0 at Gate G2 (Task T2.11). Replaced H0 with finalized India Tech scope (ADR-0001) and guaranteed_cash_annual measure (ADR-0002). Incorporated Gate G2 evaluation findings and the Primary Data Acquisition Programme (T2.10). Fixed k_min = 5 (ADR-0008, R-DA-10). |
 | 2026-10-21 | 1.1 | Post-Pilot Review ratification (Task T10.07). Recorded empirical validation of all 11 pilot scorecard metrics (M-01 to M-11; 100% pass rate). Ratified Profile B hosting cost ($28.50/mo), freshness SLAs (config/freshness_slas.yaml), and production latency SLA (p95 <= 50ms). Established Phase 11 and Phase 12 product evolution roadmap based on RICE-prioritized backlog (EXP-13 through EXP-16). |
+| 2026-10-24 | 1.2 | Phase 15 Career Architect PRD Delta (Task T15.03). Promoted Persona C (Capability Builder) to primary status. Added functional requirements FR-21 to FR-26 (Competency graph, local-first evidence ledger, dependency roadmap, deterministic practice workspace, decoupled pay port, and untrusted job description intake). Restated anti-causal pay invariants, zero candidate ranking, and local-first privacy architecture. |

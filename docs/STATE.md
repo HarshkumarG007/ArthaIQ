@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15A: Foundations, Context Hygiene & Legion Pro 5i Baseline** |
-| **Current Task** | **T15.02 Antigravity Instruction & Rules Configuration (Completed)** |
-| **Next Task** | **T15.03 PRD Delta for Career Architect (FR-21 to FR-26)** |
+| **Current Task** | **T15.03 PRD Delta for Career Architect (Completed)** |
+| **Next Task** | **T15.04 Foundational ADRs for Career Architect (ADR-0010 to ADR-0013)** |
 | **Last Updated** | **2026-10-24** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

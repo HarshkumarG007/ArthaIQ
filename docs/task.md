@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15A: T15.03 PRD Delta (FR-21 to FR-26)** (T15.00, T15.01, T15.02 complete; AGENTS.md, .agents/rules, lint_agent_rules.py in CI)
+**NEXT TASK: Phase 15A: T15.04 Foundational ADRs for Career Architect (ADR-0010 to ADR-0013)** (T15.00-T15.03 complete; PRD v1.2 ratified with FR-21 to FR-26 and Persona C)
 
 ## How to use this file
 
@@ -588,7 +588,7 @@ Sizes are planning assumptions: **S** about two hours of focused assisted work, 
       Output: `docs/STATE.md`, `docs/rules/*.md`. Done when: session required reading is <= 15 KB and canonical parity verified. Needs: T15.00. Size: S.
 - [x] **T15.02** [AI] Antigravity instruction & rules configuration: create root constitution `AGENTS.md`, modular `.agents/rules/` (00-workflow, 10-python, 20-frontend, 30-career-honesty, 40-security-privacy), `.agents/skills/`, and rule linter `scripts/lint_agent_rules.py`. (done 2026-10-24)
       Output: `AGENTS.md`, `.agents/rules/*.md`, `scripts/lint_agent_rules.py`. Done when: linter runs in CI and flags malformed frontmatter. Needs: T15.01. Size: M.
-- [ ] **T15.03** [HUMAN] PRD delta for Career Architect: specify requirements FR-21 to FR-26, promote Persona C, restate anti-causal invariants and non-goals.
+- [x] **T15.03** [HUMAN] PRD delta for Career Architect: specify requirements FR-21 to FR-26, promote Persona C, restate anti-causal invariants and non-goals. (done 2026-10-24)
       Output: `PRD.md` delta, `docs/PRD.md`. Done when: PRD updated with change log entry. Needs: T15.02. Size: S.
 - [ ] **T15.04** [AI+HUMAN] Foundational ADRs for Career Architect: author ADR-0010 (LLM Boundary & Anti-Causal Invariants), ADR-0011 (Competency Graph & Evidence Ledger), ADR-0012 (Local-First Profile & Privacy Architecture), ADR-0013 (Deterministic Scenario Scoring).
       Output: `docs/adr/ADR-0010-*.md` through `ADR-0013-*.md`. Done when: all four ADRs Accepted with evidence links. Needs: T15.03. Size: M.

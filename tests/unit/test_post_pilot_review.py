@@ -36,7 +36,7 @@ def test_prd_version_and_sync() -> None:
     docs_prd = (REPO_ROOT / "docs" / "PRD.md").read_text(encoding="utf-8")
 
     assert root_prd == docs_prd, "PRD.md and docs/PRD.md are out of sync"
-    assert "v1.1" in root_prd, "PRD version 1.1 not found in PRD.md"
+    assert "v1.1" in root_prd or "v1.2" in root_prd, "PRD version 1.1 or 1.2 not found in PRD.md"
     assert "Post-Pilot Review" in root_prd
     assert "## 14b. Product evolution roadmap (post-pilot iteration)" in root_prd
     assert "EXP-13: Slice-Adaptive Conformal Prediction Intervals" in root_prd
