@@ -12,6 +12,7 @@ from compintel.career.schema import (
     CompetencyGapReport,
     CompetencyGraphManifest,
     CompetencyNode,
+    DifficultyRubricsManifest,
     EvidenceLedger,
 )
 
@@ -28,6 +29,7 @@ def export_schemas() -> None:
         "competency_graph_manifest.json": CompetencyGraphManifest.model_json_schema(),
         "evidence_ledger.json": EvidenceLedger.model_json_schema(),
         "competency_gap_report.json": CompetencyGapReport.model_json_schema(),
+        "difficulty_rubrics_manifest.json": DifficultyRubricsManifest.model_json_schema(),
     }
 
     for filename, schema_dict in schemas.items():

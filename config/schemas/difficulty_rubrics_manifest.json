@@ -1,0 +1,193 @@
+{
+  "$defs": {
+    "DifficultyAnchorDefinition": {
+      "additionalProperties": false,
+      "description": "Definition of an anchor point on a 1.0-5.0 difficulty scale (Rule R-CR-05).",
+      "properties": {
+        "scale": {
+          "description": "'learning' or 'application'",
+          "pattern": "^(learning|application)$",
+          "title": "Scale",
+          "type": "string"
+        },
+        "level": {
+          "description": "Anchor level (1.0 to 5.0)",
+          "maximum": 5.0,
+          "minimum": 1.0,
+          "title": "Level",
+          "type": "number"
+        },
+        "label": {
+          "description": "Short human-readable label",
+          "maxLength": 50,
+          "minLength": 3,
+          "title": "Label",
+          "type": "string"
+        },
+        "anchor_description": {
+          "description": "Description of criteria",
+          "maxLength": 500,
+          "minLength": 10,
+          "title": "Anchor Description",
+          "type": "string"
+        },
+        "typical_signals": {
+          "description": "Observable signals/indicators",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Typical Signals",
+          "type": "array"
+        }
+      },
+      "required": [
+        "scale",
+        "level",
+        "label",
+        "anchor_description",
+        "typical_signals"
+      ],
+      "title": "DifficultyAnchorDefinition",
+      "type": "object"
+    },
+    "DifficultyRubricEntry": {
+      "additionalProperties": false,
+      "description": "Full rubric calibration entry for a single competency (Rule R-CR-05).",
+      "properties": {
+        "node_id": {
+          "description": "Dot-separated ID",
+          "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$",
+          "title": "Node Id",
+          "type": "string"
+        },
+        "learning_difficulty": {
+          "maximum": 5.0,
+          "minimum": 1.0,
+          "title": "Learning Difficulty",
+          "type": "number"
+        },
+        "application_difficulty": {
+          "maximum": 5.0,
+          "minimum": 1.0,
+          "title": "Application Difficulty",
+          "type": "number"
+        },
+        "effort_hours": {
+          "$ref": "#/$defs/EffortRange"
+        },
+        "learning_rationale": {
+          "maxLength": 500,
+          "minLength": 10,
+          "title": "Learning Rationale",
+          "type": "string"
+        },
+        "application_rationale": {
+          "maxLength": 500,
+          "minLength": 10,
+          "title": "Application Rationale",
+          "type": "string"
+        },
+        "is_heuristic": {
+          "const": true,
+          "default": true,
+          "title": "Is Heuristic",
+          "type": "boolean"
+        },
+        "disclaimer": {
+          "default": "Estimated based on practitioner consensus. Individual effort varies with prior background.",
+          "maxLength": 300,
+          "minLength": 20,
+          "title": "Disclaimer",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "learning_difficulty",
+        "application_difficulty",
+        "effort_hours",
+        "learning_rationale",
+        "application_rationale"
+      ],
+      "title": "DifficultyRubricEntry",
+      "type": "object"
+    },
+    "EffortRange": {
+      "additionalProperties": false,
+      "description": "Heuristic effort hours range for a competency (Rule R-CR-05).",
+      "properties": {
+        "min_hours": {
+          "description": "Minimum heuristic effort in hours",
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Min Hours",
+          "type": "integer"
+        },
+        "max_hours": {
+          "description": "Maximum heuristic effort in hours",
+          "maximum": 1000,
+          "minimum": 2,
+          "title": "Max Hours",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "min_hours",
+        "max_hours"
+      ],
+      "title": "EffortRange",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Manifest containing all calibrated difficulty rubrics and anchors for a role family.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "role_family": {
+      "default": "DATA",
+      "title": "Role Family",
+      "type": "string"
+    },
+    "heuristic_disclaimer": {
+      "default": "Estimated based on practitioner consensus. Individual effort varies with prior background.",
+      "title": "Heuristic Disclaimer",
+      "type": "string"
+    },
+    "learning_anchors": {
+      "items": {
+        "$ref": "#/$defs/DifficultyAnchorDefinition"
+      },
+      "minItems": 5,
+      "title": "Learning Anchors",
+      "type": "array"
+    },
+    "application_anchors": {
+      "items": {
+        "$ref": "#/$defs/DifficultyAnchorDefinition"
+      },
+      "minItems": 5,
+      "title": "Application Anchors",
+      "type": "array"
+    },
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/DifficultyRubricEntry"
+      },
+      "minItems": 1,
+      "title": "Entries",
+      "type": "array"
+    }
+  },
+  "required": [
+    "learning_anchors",
+    "application_anchors",
+    "entries"
+  ],
+  "title": "DifficultyRubricsManifest",
+  "type": "object"
+}

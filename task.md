@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15B: T15.14 Difficulty & Effort Heuristic Rubric** (T15.13 complete; practitioner review report REV-DATA-FAM-01 ratified, Cohen's Kappa κ = 0.857, all 4 clusters marked Reviewed)
+**NEXT TASK: Phase 15B: Gate G15B DATA Family Competency Graph Ratification** (T15.14 complete; difficulty & effort heuristic rubrics calibrated, verified, and exported with SHA-256 7b35b905996f5329a4abe7acf12049b4f1cc249b459edee36cfcd973d085b9ce)
 
 ## How to use this file
 
@@ -619,7 +619,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `config/taxonomy/competency_graph_data.json`. Done when: CI validators pass with 0 cycles and 100% provenance coverage. Needs: T15.10, T15.11. Size: L.
 - [x] **T15.13** [HUMAN] Practitioner review & consensus: establish two-reviewer sign-off protocol for competency clusters, recording agreement metrics and disagreement resolution. (done 2026-10-24)
       Output: `docs/pilot/competency-review-data-family.md`. Done when: reviewer consensus recorded and clusters marked Reviewed. Needs: T15.12. Size: M.
-- [ ] **T15.14** [AI+HUMAN] Difficulty & effort heuristic rubric: calibrate learning difficulty and application difficulty anchors (labelled heuristic, zero false precision).
+- [x] **T15.14** [AI+HUMAN] Difficulty & effort heuristic rubric: calibrate learning difficulty and application difficulty anchors (labelled heuristic, zero false precision). (done 2026-10-24)
       Output: `config/taxonomy/difficulty_rubrics.json`. Done when: every skill node has verified difficulty ratings. Needs: T15.12. Size: S.
 
 **Gate G15B:** DATA family competency graph ratified: CI validators green (0 cycles, 100% provenance), practitioner review complete, difficulty heuristics recorded.

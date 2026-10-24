@@ -1,0 +1,459 @@
+"""Calibrated difficulty and effort heuristic rubric engine (Task T15.14).
+
+Enforces Rule R-CR-05:
+1. Difficulty ratings (learning and application) anchored on 1.0-5.0 scales.
+2. Labelled heuristic with statutory non-guarantee disclaimers.
+3. Effort expressed strictly as ranges in hours, never single-point false precision.
+4. Zero causal pay or career advancement promises.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+from compintel.career.schema import (
+    DifficultyAnchorDefinition,
+    DifficultyRubricEntry,
+    DifficultyRubricsManifest,
+    EffortRange,
+    validate_anti_causal_text,
+)
+
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+DEFAULT_RUBRICS_PATH = REPO_ROOT / "config" / "taxonomy" / "difficulty_rubrics.json"
+
+HEURISTIC_DISCLAIMER = (
+    "Estimated based on practitioner consensus. Individual effort varies with prior background."
+)
+
+LEARNING_ANCHORS: list[dict[str, Any]] = [
+    {
+        "scale": "learning",
+        "level": 1.0,
+        "label": "Introductory / Declarative",
+        "anchor_description": (
+            "Syntax-level understanding self-teachable in under 15 hours "
+            "without formal prerequisites."
+        ),
+        "typical_signals": [
+            "Follows basic documentation tutorials without debugging",
+            "Understands core data types and keywords",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 2.0,
+        "label": "Foundational Practical",
+        "anchor_description": (
+            "Standard tooling patterns and descriptive methods mastered in 15 to 40 hours "
+            "with basic programming prerequisites."
+        ),
+        "typical_signals": [
+            "Writes structured SQL queries and descriptive summaries",
+            "Identifies basic anomalies and data hygiene issues",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 3.0,
+        "label": "Intermediate Systemic",
+        "anchor_description": (
+            "Requires multi-step analytical reasoning, algorithmic tradeoffs, "
+            "and edge-case management (30 to 65 hours)."
+        ),
+        "typical_signals": [
+            "Implements window partitions and statistical hypothesis tests",
+            "Trains supervised models with disciplined cross-validation",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 4.0,
+        "label": "Advanced Methodological / Architectural",
+        "anchor_description": (
+            "Theoretical, econometric, or distributed architectural concepts "
+            "demanding deep technical foundations (50 to 100 hours)."
+        ),
+        "typical_signals": [
+            "Applies causal inference identification frameworks",
+            "Configures distributed cluster execution and partitions",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 5.0,
+        "label": "Expert Frontier",
+        "anchor_description": (
+            "Novel algorithmic research, complex identification strategies, "
+            "and multi-petabyte distributed consensus (>100 hours)."
+        ),
+        "typical_signals": [
+            "Designs custom estimation estimators under confounding",
+            "Architects enterprise-wide data platform operating systems",
+        ],
+    },
+]
+
+APPLICATION_ANCHORS: list[dict[str, Any]] = [
+    {
+        "scale": "application",
+        "level": 1.0,
+        "label": "Isolated Templated",
+        "anchor_description": (
+            "Execution within clean sandbox environments against scripted expectations."
+        ),
+        "typical_signals": [
+            "Executes queries against pre-filtered tables",
+            "Passes deterministic unit checks in controlled notebooks",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 2.0,
+        "label": "Guided Production",
+        "anchor_description": (
+            "Applied to production schemas with established conventions and peer review."
+        ),
+        "typical_signals": [
+            "Discovers standard outliers and missing values in upstream feeds",
+            "Builds standardized reporting queries on normalized schemas",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 3.0,
+        "label": "Unconstrained Real-World",
+        "anchor_description": (
+            "Navigates messy production anomalies, schema drift, "
+            "and multi-departmental metric definitions."
+        ),
+        "typical_signals": [
+            "Debugs silent pipeline corruption and missingness mechanisms",
+            "Reconciles conflicting KPI definitions across operational tables",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 4.0,
+        "label": "High-Stakes Production",
+        "anchor_description": (
+            "Mission-critical applications where mistakes compromise live user traffic, "
+            "inference latency, or model validity."
+        ),
+        "typical_signals": [
+            "Prevents subtle temporal lookahead leakage in asynchronous stores",
+            "Monitors online experimentation without sample ratio mismatches",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 5.0,
+        "label": "Strategic Enterprise Architecture",
+        "anchor_description": (
+            "Organizational-level impact involving causal policy counterfactuals "
+            "or distributed cluster survivability."
+        ),
+        "typical_signals": [
+            "Evaluates irreversible business policy interventions under unobserved confounders",
+            "Diagnoses complex distributed memory spills and partition skew at scale",
+        ],
+    },
+]
+
+DATA_FAMILY_RUBRIC_ENTRIES: list[dict[str, Any]] = [
+    {
+        "node_id": "data.gen.l2_prob_decomp",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 2.0,
+        "effort_hours": {"min_hours": 15, "max_hours": 25},
+        "learning_rationale": (
+            "Structured reasoning frameworks and hypothesis tree decomposition "
+            "covered in foundational analytics curricula."
+        ),
+        "application_rationale": (
+            "Applied directly to break down ambiguous business questions "
+            "into measurable analytic queries."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.gen.l2_ethics",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 20, "max_hours": 35},
+        "learning_rationale": (
+            "Core privacy principles under India DPDP Act 2023 and PII classification "
+            "are conceptually well-defined."
+        ),
+        "application_rationale": (
+            "Operational enforcement of purpose limitation, data masking, and audit "
+            "trails across messy pipelines requires diligence."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.anl.l2_sql_basic",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 2.0,
+        "effort_hours": {"min_hours": 25, "max_hours": 40},
+        "learning_rationale": (
+            "Declarative relational algebra (SELECT, WHERE, GROUP BY, JOIN) has "
+            "abundant interactive learning environments."
+        ),
+        "application_rationale": (
+            "Authoring performant single-engine queries against production tables "
+            "with proper filtering and join conditions."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.anl.l2_eda",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 2.0,
+        "effort_hours": {"min_hours": 20, "max_hours": 35},
+        "learning_rationale": (
+            "Descriptive statistics (median, variance, IQR, visual histograms) are "
+            "standard foundational components."
+        ),
+        "application_rationale": (
+            "Conducting exploratory data health checks and uncovering skew in tabular datasets."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.anl.l2_hygiene",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 20, "max_hours": 35},
+        "learning_rationale": (
+            "Validation rules (type casting, null handling, uniqueness constraints) "
+            "are deterministic and direct."
+        ),
+        "application_rationale": (
+            "Diagnosing silent data corruption and missingness mechanisms in live upstream feeds."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.anl.l3_sql_adv",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 30, "max_hours": 50},
+        "learning_rationale": (
+            "Conceptual mastery of window partitions, analytic frames, and CTE recursion "
+            "over streaming rows."
+        ),
+        "application_rationale": (
+            "Writing optimized cohort retention curves and rolling time-series metrics "
+            "without table scan penalties."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.anl.l3_dashboard",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 25, "max_hours": 40},
+        "learning_rationale": (
+            "Modern BI tools provide visual interfaces for dimensional modeling "
+            "and metric visualizations."
+        ),
+        "application_rationale": (
+            "Harmonizing conflicting KPI definitions across business units and designing "
+            "responsive low-latency dashboards."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.gen.l3_docs",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 15, "max_hours": 25},
+        "learning_rationale": (
+            "Documentation conventions (markdown data dictionaries, dbt schemas, "
+            "git commits) are standardized."
+        ),
+        "application_rationale": (
+            "Sustaining living metadata registries and documentation across evolving "
+            "pipelines without drift."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.gen.l3_stakeholder",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 4.0,
+        "effort_hours": {"min_hours": 30, "max_hours": 45},
+        "learning_rationale": (
+            "Requires understanding statistical confidence, uncertainty representation, "
+            "and human cognitive biases."
+        ),
+        "application_rationale": (
+            "Presenting probabilistic intervals and risk tradeoffs to senior business leaders "
+            "under organizational pressure."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.sci.l3_exp_design",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 4.0,
+        "effort_hours": {"min_hours": 35, "max_hours": 55},
+        "learning_rationale": (
+            "Hypothesis testing theory, sample size calculations, p-values, "
+            "and statistical power foundations."
+        ),
+        "application_rationale": (
+            "Preventing sample ratio mismatch, early stopping biases, and network interference "
+            "in live online tests."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.sci.l3_ml_supervised",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 40, "max_hours": 65},
+        "learning_rationale": (
+            "Supervised loss functions, regularization, gradient boosting, and evaluation metrics."
+        ),
+        "application_rationale": (
+            "Training, tuning, and validating models without data leakage or "
+            "over-fitting in deployment."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.sci.l3_feat_eng",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 4.0,
+        "effort_hours": {"min_hours": 35, "max_hours": 55},
+        "learning_rationale": (
+            "Mathematical formulations of feature transformations, target encodings, "
+            "and temporal aggregations."
+        ),
+        "application_rationale": (
+            "Building deterministic transformation pipelines with strict train/test isolation "
+            "and zero lookahead leakage."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.sci.l4_causal",
+        "learning_difficulty": 4.0,
+        "application_difficulty": 5.0,
+        "effort_hours": {"min_hours": 60, "max_hours": 100},
+        "learning_rationale": (
+            "Econometric theory, potential outcomes framework, DAG confounding, "
+            "and quasi-experimental designs."
+        ),
+        "application_rationale": (
+            "Evaluating organizational policy interventions and treatment effects "
+            "under unobserved confounders."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "data.sci.l4_bigdata",
+        "learning_difficulty": 4.0,
+        "application_difficulty": 5.0,
+        "effort_hours": {"min_hours": 50, "max_hours": 90},
+        "learning_rationale": (
+            "Distributed computation paradigms, Spark execution DAGs, Catalyst optimizer, "
+            "and partition schemas."
+        ),
+        "application_rationale": (
+            "Diagnosing memory spills, partition skew, and cluster bottlenecks on "
+            "multi-terabyte datasets."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+]
+
+
+def build_difficulty_rubrics_manifest() -> DifficultyRubricsManifest:
+    """Build the canonical DifficultyRubricsManifest for the DATA role family."""
+    learning_anchors = [
+        DifficultyAnchorDefinition.model_validate(anchor) for anchor in LEARNING_ANCHORS
+    ]
+    application_anchors = [
+        DifficultyAnchorDefinition.model_validate(anchor) for anchor in APPLICATION_ANCHORS
+    ]
+    entries = [
+        DifficultyRubricEntry(
+            node_id=item["node_id"],
+            learning_difficulty=item["learning_difficulty"],
+            application_difficulty=item["application_difficulty"],
+            effort_hours=EffortRange.model_validate(item["effort_hours"]),
+            learning_rationale=item["learning_rationale"],
+            application_rationale=item["application_rationale"],
+            is_heuristic=True,
+            disclaimer=item["disclaimer"],
+        )
+        for item in DATA_FAMILY_RUBRIC_ENTRIES
+    ]
+
+    # Rule R-CR-01 anti-causal copy validation
+    for entry in entries:
+        validate_anti_causal_text(entry.learning_rationale, "learning_rationale")
+        validate_anti_causal_text(entry.application_rationale, "application_rationale")
+
+    return DifficultyRubricsManifest(
+        schema_version="1.0.0",
+        role_family="DATA",
+        heuristic_disclaimer=HEURISTIC_DISCLAIMER,
+        learning_anchors=learning_anchors,
+        application_anchors=application_anchors,
+        entries=entries,
+    )
+
+
+def export_difficulty_rubrics(output_path: Path | None = None) -> tuple[Path, str]:
+    """Deterministically serialize the rubrics manifest to JSON with SHA-256."""
+    target_path = output_path or DEFAULT_RUBRICS_PATH
+    manifest = build_difficulty_rubrics_manifest()
+
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = manifest.model_dump_json(indent=2) + "\n"
+    target_path.write_text(serialized, encoding="utf-8")
+
+    checksum = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+    return target_path, checksum
+
+
+def load_difficulty_rubrics(input_path: Path | None = None) -> DifficultyRubricsManifest:
+    """Load and validate the difficulty rubrics manifest from JSON."""
+    target_path = input_path or DEFAULT_RUBRICS_PATH
+    if not target_path.is_file():
+        raise FileNotFoundError(f"Rubrics file not found at {target_path}")
+
+    raw_data = json.loads(target_path.read_text(encoding="utf-8"))
+    return DifficultyRubricsManifest.model_validate(raw_data)
+
+
+def get_competency_rubric(
+    node_id: str, manifest: DifficultyRubricsManifest | None = None
+) -> DifficultyRubricEntry:
+    """Retrieve rubric calibration entry for a specific competency node."""
+    active_manifest = manifest or load_difficulty_rubrics()
+    for entry in active_manifest.entries:
+        if entry.node_id == node_id:
+            return entry
+    raise KeyError(f"Competency node '{node_id}' not found in difficulty rubrics")

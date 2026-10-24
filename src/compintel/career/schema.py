@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import re
 from enum import IntEnum, StrEnum
-from typing import Literal
+from typing import Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from compintel.schema.enums import RoleFamily
 
@@ -122,6 +122,24 @@ class TaxonomyProvenance(BaseModel):
     curated_date: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$", description="YYYY-MM-DD")
 
 
+class EffortRange(BaseModel):
+    """Heuristic effort hours range for a competency (Rule R-CR-05)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    min_hours: int = Field(..., ge=1, le=500, description="Minimum heuristic effort in hours")
+    max_hours: int = Field(..., ge=2, le=1000, description="Maximum heuristic effort in hours")
+
+    @model_validator(mode="after")
+    def validate_range(self) -> Self:
+        if self.min_hours >= self.max_hours:
+            raise ValueError(
+                f"min_hours ({self.min_hours}) must be strictly less than "
+                f"max_hours ({self.max_hours})"
+            )
+        return self
+
+
 class DifficultyRubric(BaseModel):
     """Calibrated difficulty anchors for a competency (Rule R-CR-05)."""
 
@@ -132,6 +150,78 @@ class DifficultyRubric(BaseModel):
     is_heuristic: Literal[True] = Field(
         default=True, description="Must remain True: difficulty is heuristic, not empirical fact"
     )
+    effort_hours: EffortRange | None = Field(
+        default=None, description="Heuristic effort hours range (Rule R-CR-05)"
+    )
+    rationale: str | None = Field(
+        default=None, description="Practitioner justification for difficulty anchors"
+    )
+
+
+class DifficultyAnchorDefinition(BaseModel):
+    """Definition of an anchor point on a 1.0-5.0 difficulty scale (Rule R-CR-05)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    scale: str = Field(
+        ..., pattern=r"^(learning|application)$", description="'learning' or 'application'"
+    )
+    level: float = Field(..., ge=1.0, le=5.0, description="Anchor level (1.0 to 5.0)")
+    label: str = Field(..., min_length=3, max_length=50, description="Short human-readable label")
+    anchor_description: str = Field(
+        ..., min_length=10, max_length=500, description="Description of criteria"
+    )
+    typical_signals: list[str] = Field(
+        ..., min_length=1, description="Observable signals/indicators"
+    )
+
+
+class DifficultyRubricEntry(BaseModel):
+    """Full rubric calibration entry for a single competency (Rule R-CR-05)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    node_id: str = Field(
+        ..., pattern=r"^[a-z0-9_]+(\.[a-z0-9_]+)+$", description="Dot-separated ID"
+    )
+    learning_difficulty: float = Field(..., ge=1.0, le=5.0)
+    application_difficulty: float = Field(..., ge=1.0, le=5.0)
+    effort_hours: EffortRange
+    learning_rationale: str = Field(..., min_length=10, max_length=500)
+    application_rationale: str = Field(..., min_length=10, max_length=500)
+    is_heuristic: Literal[True] = Field(default=True)
+    disclaimer: str = Field(
+        default=(
+            "Estimated based on practitioner consensus. "
+            "Individual effort varies with prior background."
+        ),
+        min_length=20,
+        max_length=300,
+    )
+
+    @field_validator("learning_rationale", "application_rationale")
+    @classmethod
+    def check_anti_causal(cls, v: str, info: object) -> str:
+        field_name = getattr(info, "field_name", "rationale")
+        return validate_anti_causal_text(v, field_name)
+
+
+class DifficultyRubricsManifest(BaseModel):
+    """Manifest containing all calibrated difficulty rubrics and anchors for a role family."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    schema_version: str = Field(default="1.0.0")
+    role_family: str = Field(default="DATA")
+    heuristic_disclaimer: str = Field(
+        default=(
+            "Estimated based on practitioner consensus. "
+            "Individual effort varies with prior background."
+        )
+    )
+    learning_anchors: list[DifficultyAnchorDefinition] = Field(..., min_length=5)
+    application_anchors: list[DifficultyAnchorDefinition] = Field(..., min_length=5)
+    entries: list[DifficultyRubricEntry] = Field(..., min_length=1)
 
 
 class CompetencyNode(BaseModel):

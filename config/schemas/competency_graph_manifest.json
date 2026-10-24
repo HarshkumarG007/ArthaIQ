@@ -100,6 +100,31 @@
           "description": "Must remain True: difficulty is heuristic, not empirical fact",
           "title": "Is Heuristic",
           "type": "boolean"
+        },
+        "effort_hours": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EffortRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Heuristic effort hours range (Rule R-CR-05)"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Practitioner justification for difficulty anchors",
+          "title": "Rationale"
         }
       },
       "required": [
@@ -107,6 +132,32 @@
         "application_difficulty"
       ],
       "title": "DifficultyRubric",
+      "type": "object"
+    },
+    "EffortRange": {
+      "additionalProperties": false,
+      "description": "Heuristic effort hours range for a competency (Rule R-CR-05).",
+      "properties": {
+        "min_hours": {
+          "description": "Minimum heuristic effort in hours",
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Min Hours",
+          "type": "integer"
+        },
+        "max_hours": {
+          "description": "Maximum heuristic effort in hours",
+          "maximum": 1000,
+          "minimum": 2,
+          "title": "Max Hours",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "min_hours",
+        "max_hours"
+      ],
+      "title": "EffortRange",
       "type": "object"
     },
     "RoleLevel": {
