@@ -3,11 +3,11 @@
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
 | Status                         | v1.0.0 GA Released (Phases 0-14 complete; Gates G0-G14 ratified; General Availability Release) |
-| Last updated                   | 2026-10-24                                           |
+| Last updated                   | 2026-10-25                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.19 Pay-to-Role Resolver through Compensation Port** (T15.18 Difficulty & Effort Estimator completed; single-point rejection proven; 90 tests green)
+**NEXT TASK: Phase 15C: T15.20 Job Description Intake & Sanitization** (T15.19 Pay-to-Role Resolver completed; zero extrapolation & honest abstention proven; 111 tests green)
 
 ## How to use this file
 
@@ -639,7 +639,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/roadmap.py`. Done when: prerequisite order is guaranteed and hours budget is never violated. Needs: T15.16. Size: L.
 - [x] **T15.18** [AI] Difficulty & effort estimator service: calculate cumulative heuristic effort ranges and application difficulty for targeted transitions with disclaimer enforcement. (done 2026-10-24)
       Output: `src/compintel/career/effort.py`. Done when: estimates match rubric anchors and reject single points. Needs: T15.14, T15.17. Size: S.
-- [ ] **T15.19** [AI] Pay-to-role resolver through compensation port: map target compensation to empirical role cells through decoupled port, honestly abstaining when cell support is insufficient (R-CR-02, R-UQ-01).
+- [x] **T15.19** [AI] Pay-to-role resolver through compensation port: map target compensation to empirical role cells through decoupled port, honestly abstaining when cell support is insufficient (R-CR-02, R-UQ-01). (done 2026-10-25)
       Output: `src/compintel/career/pay_resolver.py`. Done when: tests prove zero extrapolation and clean abstention. Needs: T15.15. Size: M.
 - [ ] **T15.20** [AI] Job description intake & sanitization: accept untrusted text, sanitize against injection/XSS, and extract matching taxonomy competencies with RapidFuzz/TF-IDF without persistent server retention.
       Output: `src/compintel/career/intake.py`. Done when: sanitization fuzz tests pass and zero data is written to disk. Needs: T15.15. Size: M.

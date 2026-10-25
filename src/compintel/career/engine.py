@@ -14,12 +14,14 @@ from compintel.career.graph import load_data_family_graph
 from compintel.career.rubric import load_difficulty_rubrics
 from compintel.career.schema import (
     CompensationEvidenceSummary,
+    CompensationPort,
     CompetencyGapReport,
     CompetencyGraphManifest,
     CompetencyNode,
     DifficultyRubricEntry,
     DifficultyRubricsManifest,
     EvidenceLedger,
+    PayToRoleResolution,
     RoleLevel,
     ScheduledRoadmap,
     TransitionEffortEstimate,
@@ -29,6 +31,14 @@ from compintel.career.schema import (
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+
+__all__ = [
+    "CareerEngine",
+    "CompensationPort",
+    "FilesystemTaxonomyAdapter",
+    "StubCompensationAdapter",
+    "TaxonomyPort",
+]
 
 DEFAULT_SPARSE_CELL_REASON: str = "Sparse cell data support below minimum threshold (Rule R-UQ-01)."
 
@@ -59,24 +69,6 @@ class TaxonomyPort(Protocol):
 
     def get_rubrics_manifest(self) -> DifficultyRubricsManifest:
         """Retrieve the container manifest for all calibrated difficulty rubrics."""
-        ...
-
-
-@runtime_checkable
-class CompensationPort(Protocol):
-    """Port for querying decoupled compensation distributions.
-
-    Strictly separate from career competency graphs and requirements (Rule R-CR-02).
-    Never produces composite or skill-conditioned pay promises (Rule R-CR-01).
-    """
-
-    def get_compensation_evidence(
-        self,
-        role_family: str,
-        seniority: RoleLevel,
-        location: str,
-    ) -> CompensationEvidenceSummary:
-        """Retrieve compensation benchmark distribution or honest abstention for role cell."""
         ...
 
 
@@ -372,4 +364,44 @@ class CareerEngine:
             rubrics=rubrics,
             target_role=target_role,
             pacing_budgets=pacing_budgets,
+        )
+
+    def resolve_pay_to_roles(
+        self,
+        target_pay: float | tuple[float, float],
+        family: str = "DATA",
+        location_filter: str | None = None,
+        locations: Sequence[str] | None = None,
+        seniorities: Sequence[RoleLevel] | None = None,
+    ) -> PayToRoleResolution:
+        """Resolve target compensation against empirical role cells via decoupled port.
+
+        If compensation_port is unconfigured, honestly abstains per Rule R-CR-14.
+        """
+        if self._compensation_port is None:
+            t_min = target_pay if isinstance(target_pay, (int, float)) else target_pay[0]
+            t_max = target_pay if isinstance(target_pay, (int, float)) else target_pay[1]
+            return PayToRoleResolution(
+                target_pay_min_lpa=float(t_min),
+                target_pay_max_lpa=float(t_max),
+                role_family=family,
+                location_filter=location_filter,
+                is_abstaining=True,
+                abstention_reason=(
+                    "Compensation port unconfigured; system operating in offline "
+                    "requirements-first mode without pay distribution data (Rule R-CR-14)."
+                ),
+                matched_cells=[],
+                nearest_alternatives=[],
+            )
+
+        from compintel.career.pay_resolver import resolve_target_pay_to_roles
+
+        return resolve_target_pay_to_roles(
+            target_pay=target_pay,
+            compensation_port=self._compensation_port,
+            role_family=family,
+            location_filter=location_filter,
+            locations=locations,
+            seniorities=seniorities,
         )

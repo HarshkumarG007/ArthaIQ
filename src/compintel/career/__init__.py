@@ -39,6 +39,10 @@ from compintel.career.ingestion import (
     enforce_taxonomy_licence_gate,
     generate_data_family_taxonomy,
 )
+from compintel.career.pay_resolver import (
+    calculate_interval_overlap,
+    resolve_target_pay_to_roles,
+)
 from compintel.career.roadmap import (
     calculate_weeks_range,
     schedule_topological_roadmap,
@@ -66,6 +70,9 @@ from compintel.career.schema import (
     EvidenceRecord,
     EvidenceType,
     PacingOption,
+    PayCellMatch,
+    PayCellMatchStatus,
+    PayToRoleResolution,
     RoadmapMilestone,
     RoleLevel,
     ScheduledRoadmap,
@@ -116,6 +123,9 @@ __all__ = [
     "HEURISTIC_DISCLAIMER",
     "LevelOrderError",
     "PacingOption",
+    "PayCellMatch",
+    "PayCellMatchStatus",
+    "PayToRoleResolution",
     "ProvenanceComplianceError",
     "RoadmapMilestone",
     "RoleLevel",
@@ -132,6 +142,7 @@ __all__ = [
     "VerificationState",
     "build_data_family_graph",
     "build_difficulty_rubrics_manifest",
+    "calculate_interval_overlap",
     "calculate_weeks_range",
     "check_prerequisites_satisfied",
     "compute_bundle_sha256",
@@ -150,6 +161,7 @@ __all__ = [
     "is_record_stale",
     "load_data_family_graph",
     "load_difficulty_rubrics",
+    "resolve_target_pay_to_roles",
     "schedule_topological_roadmap",
     "validate_anti_causal_copy",
     "validate_anti_causal_text",

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import re
 from enum import IntEnum, StrEnum
-from typing import Literal, Self
+from typing import Literal, Protocol, Self, runtime_checkable
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -365,6 +365,24 @@ class CompensationEvidenceSummary(BaseModel):
         return self
 
 
+@runtime_checkable
+class CompensationPort(Protocol):
+    """Port for querying decoupled compensation distributions.
+
+    Strictly separate from career competency graphs and requirements (Rule R-CR-02).
+    Never produces composite or skill-conditioned pay promises (Rule R-CR-01).
+    """
+
+    def get_compensation_evidence(
+        self,
+        role_family: str,
+        seniority: RoleLevel,
+        location: str,
+    ) -> CompensationEvidenceSummary:
+        """Retrieve compensation benchmark distribution or honest abstention for role cell."""
+        ...
+
+
 class RoadmapMilestone(BaseModel):
     """Individual sequence step within a scheduled career roadmap."""
 
@@ -428,6 +446,54 @@ class TransitionEffortEstimate(BaseModel):
     pacing_options: list[PacingOption] = Field(default_factory=list)
     is_heuristic: Literal[True] = Field(default=True)
     disclaimer: str
+
+    @field_validator("disclaimer")
+    @classmethod
+    def check_disclaimer_anti_causal(cls, v: str) -> str:
+        return validate_anti_causal_text(v, "disclaimer")
+
+
+class PayCellMatchStatus(StrEnum):
+    """Categorization of empirical pay cell alignment with target compensation query."""
+
+    CONTAINED = "contained"
+    NEAR_BOUNDARY = "near_boundary"
+    OUT_OF_BOUNDS = "out_of_bounds"
+
+
+class PayCellMatch(BaseModel):
+    """Evaluation of an empirical role cell against a target compensation query."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    role_family: str
+    seniority: RoleLevel
+    location: str
+    compensation: CompensationEvidenceSummary
+    match_status: PayCellMatchStatus
+    overlap_ratio: float = Field(..., ge=0.0, le=1.0)
+    distance_to_median_lpa: float
+
+
+class PayToRoleResolution(BaseModel):
+    """Result of resolving a target pay query against empirical compensation cells."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    target_pay_min_lpa: float = Field(..., gt=0.0)
+    target_pay_max_lpa: float = Field(..., gt=0.0)
+    role_family: str
+    location_filter: str | None = None
+    is_abstaining: bool
+    abstention_reason: str | None = None
+    matched_cells: list[PayCellMatch] = Field(default_factory=list)
+    nearest_alternatives: list[PayCellMatch] = Field(default_factory=list)
+    disclaimer: str = Field(
+        default=(
+            "Statistical compensation distribution matching. Not an appraisal, offer, "
+            "or guarantee of individual pay (Rules R-CR-01, R-UQ-01)."
+        )
+    )
 
     @field_validator("disclaimer")
     @classmethod
