@@ -401,3 +401,35 @@ class ScheduledRoadmap(BaseModel):
     @classmethod
     def check_disclaimer_anti_causal(cls, v: str) -> str:
         return validate_anti_causal_text(v, "disclaimer")
+
+
+class PacingOption(BaseModel):
+    """Estimated duration interval under a specific weekly hours study/practice budget."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    weekly_hours: float = Field(..., ge=1.0)
+    estimated_weeks_range: tuple[int, int]
+
+
+class TransitionEffortEstimate(BaseModel):
+    """Aggregate heuristic effort, dual difficulty profile, and pacing projections."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    target_role: str
+    target_level: RoleLevel
+    competency_count: int = Field(..., ge=0)
+    cumulative_effort_range: EffortRange | None = None
+    peak_learning_difficulty: float = Field(default=0.0, ge=0.0, le=5.0)
+    mean_learning_difficulty: float = Field(default=0.0, ge=0.0, le=5.0)
+    peak_application_difficulty: float = Field(default=0.0, ge=0.0, le=5.0)
+    mean_application_difficulty: float = Field(default=0.0, ge=0.0, le=5.0)
+    pacing_options: list[PacingOption] = Field(default_factory=list)
+    is_heuristic: Literal[True] = Field(default=True)
+    disclaimer: str
+
+    @field_validator("disclaimer")
+    @classmethod
+    def check_disclaimer_anti_causal(cls, v: str) -> str:
+        return validate_anti_causal_text(v, "disclaimer")

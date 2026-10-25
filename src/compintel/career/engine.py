@@ -8,7 +8,7 @@ Import Linter Contract 10) and the two-streams two-places invariant (Rule R-CR-0
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from compintel.career.graph import load_data_family_graph
 from compintel.career.rubric import load_difficulty_rubrics
@@ -22,9 +22,13 @@ from compintel.career.schema import (
     EvidenceLedger,
     RoleLevel,
     ScheduledRoadmap,
+    TransitionEffortEstimate,
     VerificationState,
     validate_anti_causal_text,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 DEFAULT_SPARSE_CELL_REASON: str = "Sparse cell data support below minimum threshold (Rule R-UQ-01)."
 
@@ -341,4 +345,31 @@ class CareerEngine:
             target_role=target_role,
             target_level=target_level,
             weekly_hours_budget=weekly_hours_budget,
+        )
+
+    def estimate_transition_effort(
+        self,
+        ledger: EvidenceLedger,
+        target_level: RoleLevel,
+        family: str = "DATA",
+        target_role: str = "Data Professional",
+        pacing_budgets: Sequence[float] | None = None,
+    ) -> TransitionEffortEstimate:
+        """Calculate cumulative heuristic effort range and dual difficulty profile for transition.
+
+        Enforces Rule R-CR-05 (Weekly Pacing & Effort Ranges) and Rule R-UQ-01
+        (Zero Lone Numbers).
+        """
+        from compintel.career.effort import estimate_role_transition_effort
+
+        graph = self.get_graph(family)
+        rubrics = self._taxonomy_port.get_rubrics_manifest()
+
+        return estimate_role_transition_effort(
+            ledger=ledger,
+            target_level=target_level,
+            graph=graph,
+            rubrics=rubrics,
+            target_role=target_role,
+            pacing_budgets=pacing_budgets,
         )

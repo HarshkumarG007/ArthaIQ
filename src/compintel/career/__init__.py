@@ -6,6 +6,10 @@ and deterministic flaw-finding practice.
 
 from __future__ import annotations
 
+from compintel.career.effort import (
+    estimate_role_transition_effort,
+    estimate_transition_effort,
+)
 from compintel.career.engine import (
     CareerEngine,
     CompensationPort,
@@ -61,12 +65,14 @@ from compintel.career.schema import (
     EvidenceLedger,
     EvidenceRecord,
     EvidenceType,
+    PacingOption,
     RoadmapMilestone,
     RoleLevel,
     ScheduledRoadmap,
     TaxonomyLicense,
     TaxonomyProvenance,
     TaxonomySource,
+    TransitionEffortEstimate,
     VerificationState,
     validate_anti_causal_text,
 )
@@ -109,6 +115,7 @@ __all__ = [
     "GraphCycleError",
     "HEURISTIC_DISCLAIMER",
     "LevelOrderError",
+    "PacingOption",
     "ProvenanceComplianceError",
     "RoadmapMilestone",
     "RoleLevel",
@@ -121,6 +128,7 @@ __all__ = [
     "TaxonomyPort",
     "TaxonomyProvenance",
     "TaxonomySource",
+    "TransitionEffortEstimate",
     "VerificationState",
     "build_data_family_graph",
     "build_difficulty_rubrics_manifest",
@@ -128,6 +136,8 @@ __all__ = [
     "check_prerequisites_satisfied",
     "compute_bundle_sha256",
     "enforce_taxonomy_licence_gate",
+    "estimate_role_transition_effort",
+    "estimate_transition_effort",
     "evaluate_competency_gap",
     "export_data_family_graph",
     "export_difficulty_rubrics",

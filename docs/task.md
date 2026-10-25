@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.18 Difficulty & Effort Estimator Service** (T15.17 Topological Roadmap Scheduler completed; DAG precedence guaranteed; property tests green)
+**NEXT TASK: Phase 15C: T15.19 Pay-to-Role Resolver through Compensation Port** (T15.18 Difficulty & Effort Estimator completed; single-point rejection proven; 90 tests green)
 
 ## How to use this file
 
@@ -637,7 +637,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/gap.py`. Done when: property tests prove mathematical invariants. Needs: T15.15. Size: M.
 - [x] **T15.17** [AI] Topological roadmap scheduler: generate dependency-respecting learning plan partitioned by weekly available hours budget, expressing effort strictly as heuristic ranges. (done 2026-10-24)
       Output: `src/compintel/career/roadmap.py`. Done when: prerequisite order is guaranteed and hours budget is never violated. Needs: T15.16. Size: L.
-- [ ] **T15.18** [AI] Difficulty & effort estimator service: calculate cumulative heuristic effort ranges and application difficulty for targeted transitions with disclaimer enforcement.
+- [x] **T15.18** [AI] Difficulty & effort estimator service: calculate cumulative heuristic effort ranges and application difficulty for targeted transitions with disclaimer enforcement. (done 2026-10-24)
       Output: `src/compintel/career/effort.py`. Done when: estimates match rubric anchors and reject single points. Needs: T15.14, T15.17. Size: S.
 - [ ] **T15.19** [AI] Pay-to-role resolver through compensation port: map target compensation to empirical role cells through decoupled port, honestly abstaining when cell support is insufficient (R-CR-02, R-UQ-01).
       Output: `src/compintel/career/pay_resolver.py`. Done when: tests prove zero extrapolation and clean abstention. Needs: T15.15. Size: M.
