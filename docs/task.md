@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.20 Job Description Intake & Sanitization** (T15.19 Pay-to-Role Resolver completed; zero extrapolation & honest abstention proven; 111 tests green)
+**NEXT TASK: Phase 15C: T15.21 Stateless /v1/career/* FastAPI Router** (T15.20 Job Description Intake & Sanitization completed; zero server retention & 97.8% coverage proven; 105 tests green)
 
 ## How to use this file
 
@@ -641,7 +641,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/effort.py`. Done when: estimates match rubric anchors and reject single points. Needs: T15.14, T15.17. Size: S.
 - [x] **T15.19** [AI] Pay-to-role resolver through compensation port: map target compensation to empirical role cells through decoupled port, honestly abstaining when cell support is insufficient (R-CR-02, R-UQ-01). (done 2026-10-25)
       Output: `src/compintel/career/pay_resolver.py`. Done when: tests prove zero extrapolation and clean abstention. Needs: T15.15. Size: M.
-- [ ] **T15.20** [AI] Job description intake & sanitization: accept untrusted text, sanitize against injection/XSS, and extract matching taxonomy competencies with RapidFuzz/TF-IDF without persistent server retention.
+- [x] **T15.20** [AI] Job description intake & sanitization: accept untrusted text, sanitize against injection/XSS, and extract matching taxonomy competencies with RapidFuzz/TF-IDF without persistent server retention. (done 2026-10-25)
       Output: `src/compintel/career/intake.py`. Done when: sanitization fuzz tests pass and zero data is written to disk. Needs: T15.15. Size: M.
 - [ ] **T15.21** [AI] Stateless `/v1/career/*` FastAPI router: implement endpoints for gap analysis, roadmaps, and intake with RFC 9457 error contracts, rate limiting, and OpenAPI snapshot.
       Output: `src/compintel/serving/routers/career.py`. Done when: contract test suite passes cleanly. Needs: T15.16, T15.17, T15.19, T15.20. Size: M.

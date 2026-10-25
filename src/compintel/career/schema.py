@@ -499,3 +499,48 @@ class PayToRoleResolution(BaseModel):
     @classmethod
     def check_disclaimer_anti_causal(cls, v: str) -> str:
         return validate_anti_causal_text(v, "disclaimer")
+
+
+MatchMethod = Literal["exact", "alias", "fuzzy"]
+
+
+class CompetencyMatch(BaseModel):
+    """Extracted competency match from untrusted job description text (Rule R-CR-09)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    competency_id: str
+    competency_title: str
+    category: CompetencyCategory
+    target_levels: list[RoleLevel]
+    match_method: MatchMethod
+    confidence: float = Field(..., ge=0.0, le=1.0)
+    matched_text: str
+
+
+class JobDescriptionIntakeResult(BaseModel):
+    """Result of sanitizing and extracting competencies from untrusted job description text.
+
+    Enforces ephemeral in-memory processing with zero persistent storage
+    (Rules R-CR-09, R-CR-12, R-DA-07).
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    sanitized_length: int = Field(..., ge=0)
+    original_length: int = Field(..., ge=0)
+    truncated: bool = False
+    matches: list[CompetencyMatch] = Field(default_factory=list)
+    matched_competency_ids: list[str] = Field(default_factory=list)
+    statutory_notice: str = Field(
+        default=(
+            "Untrusted text sanitized and processed in ephemeral memory. "
+            "Zero persistent storage or server retention under India DPDP Act 2023 "
+            "and Rule R-CR-09."
+        )
+    )
+
+    @field_validator("statutory_notice")
+    @classmethod
+    def check_statutory_notice_anti_causal(cls, v: str) -> str:
+        return validate_anti_causal_text(v, "statutory_notice")

@@ -21,6 +21,7 @@ from compintel.career.schema import (
     DifficultyRubricEntry,
     DifficultyRubricsManifest,
     EvidenceLedger,
+    JobDescriptionIntakeResult,
     PayToRoleResolution,
     RoleLevel,
     ScheduledRoadmap,
@@ -404,4 +405,29 @@ class CareerEngine:
             location_filter=location_filter,
             locations=locations,
             seniorities=seniorities,
+        )
+
+    def intake_job_description(
+        self,
+        raw_text: str,
+        fuzzy_threshold: float = 80.0,
+    ) -> JobDescriptionIntakeResult:
+        """Intake, sanitize, and extract competencies from untrusted job description text.
+
+        Enforces Rule R-CR-09 (Untrusted text isolation), Rule R-CR-12 (Local-First),
+        and Rule R-DA-07 (Zero persistent server storage).
+
+        Args:
+            raw_text: Untrusted job description string.
+            fuzzy_threshold: Minimum RapidFuzz score for fuzzy matching (default 80.0).
+
+        Returns:
+            JobDescriptionIntakeResult: Sanitized text metrics and extracted competency matches.
+        """
+        from compintel.career.intake import intake_job_description
+
+        return intake_job_description(
+            raw_text=raw_text,
+            taxonomy=self._taxonomy_port,
+            fuzzy_threshold=fuzzy_threshold,
         )
