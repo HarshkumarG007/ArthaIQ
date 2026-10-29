@@ -661,7 +661,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/scenario_scorer.py`. Done when: property tests prove scoring bounds, false-flag penalties, and zero answer key leakage in client payloads. Needs: T15.22. Size: L.
 - [x] **T15.24** [AI+HUMAN] Three DATA family practice scenarios: author three realistic flaw-finding scenarios (Metric Definition Investigation `data.anl.l2_eda`, SQL Pitfall Review `data.anl.l2_sql_basic`, and Experiment Design Review `data.sci.l3_exp_design`) with parameterized variants and practitioner consensus. (done 2026-10-29)
       Output: `config/scenarios/*.json`. Done when: practitioner review complete and CI schema validator passes. Needs: T15.22, T15.23. Size: L.
-- [ ] **T15.25** [AI] Scorer validation & agreement benchmark: benchmark deterministic scorer against pre-registered mock attempts, verifying agreement metrics and scoring determinism.
+- [x] **T15.25** [AI] Scorer validation & agreement benchmark: benchmark deterministic scorer against pre-registered mock attempts, verifying agreement metrics and scoring determinism. (done 2026-10-29)
       Output: `docs/pilot/scenario-scorer-validation.md`. Done when: agreement metric meets pre-registered threshold. Needs: T15.24. Size: M.
 - [ ] **T15.26** [AI] Browser-side SQL sandbox evaluation spike: benchmark sql.js vs DuckDB-WASM for client-side local verification (payload size, RAM, execution speed).
       Output: `docs/research/sql-sandbox-spike.md`. Done when: comparative benchmark report complete with GO/NO-GO recommendation. Needs: Gate G15C. Size: S.

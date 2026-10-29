@@ -255,4 +255,3 @@ class TestPractitionerReviewReport:
         assert "SCEN-DATA-03-EXP" in content
         assert "0.882" in content or "0.8" in content
         assert "UNANIMOUS CONSENSUS RATIFIED" in content
-
