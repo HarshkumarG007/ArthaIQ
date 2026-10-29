@@ -20,10 +20,12 @@ from compintel.logging import get_logger
 from compintel.serving.core import get_default_serving_manager
 from compintel.serving.errors import setup_exception_handlers
 from compintel.serving.middleware import (
+    APIKeyMiddleware,
     RequestIDMiddleware,
     RequestLoggingMiddleware,
     SecurityHeadersMiddleware,
 )
+from compintel.serving.routers.career import router as career_router
 from compintel.serving.routers.estimates import router as estimates_router
 from compintel.serving.routers.evidence import router as evidence_router
 from compintel.serving.routers.feedback import router as feedback_router
@@ -89,6 +91,9 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
     # Request ID correlation
     app.add_middleware(RequestIDMiddleware)
 
+    # API key authentication (Rule R-ER-01, ADR-0012)
+    app.add_middleware(APIKeyMiddleware)
+
     # Access logging & metrics recording
     app.add_middleware(RequestLoggingMiddleware)
 
@@ -111,6 +116,7 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
     app.include_router(evidence_router)
     app.include_router(feedback_router)
     app.include_router(scenarios_router)
+    app.include_router(career_router)
 
     return app
 

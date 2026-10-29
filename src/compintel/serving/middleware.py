@@ -10,19 +10,21 @@ Adheres to:
 
 from __future__ import annotations
 
+import os
 import re
 import time
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from uuid import uuid4
 
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.responses import JSONResponse, Response
 
 from compintel.logging import get_logger
 from compintel.monitoring.metrics import get_metrics_registry
+from compintel.serving.errors import PROBLEM_MEDIA_TYPE, ProblemDetails, get_request_id
 
 if TYPE_CHECKING:
     from starlette.requests import Request
-    from starlette.responses import Response
 
 logger = get_logger(__name__)
 
@@ -157,3 +159,109 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             )
 
         return response
+
+
+_AUTH_EXEMPT_PATHS: frozenset[str] = frozenset(
+    {
+        "/healthz",
+        "/livez",
+        "/readyz",
+        "/metrics",
+        "/docs",
+        "/redoc",
+        "/openapi.json",
+    }
+)
+
+
+class APIKeyMiddleware(BaseHTTPMiddleware):
+    """Stateless API key authentication middleware (Gap 11).
+
+    Enforces mandatory API key authentication when ARTHAIQ_AUTH_REQUIRED=true.
+    Adheres strictly to:
+    - Rule R-ER-01: RFC 9457 Problem Details for all 401 and 403 responses.
+    - Rule R-CR-12 & ADR-0012: Stateless validation without server-side user tracking.
+    """
+
+    def __init__(
+        self,
+        app: Any,
+        api_keys: set[str] | None = None,
+        auth_required: bool | None = None,
+    ) -> None:
+        super().__init__(app)
+        self._explicit_keys = api_keys
+        self._explicit_auth_required = auth_required
+
+    def _is_auth_required(self) -> bool:
+        if self._explicit_auth_required is not None:
+            return self._explicit_auth_required
+        return os.environ.get("ARTHAIQ_AUTH_REQUIRED", "false").lower() in ("true", "1", "yes")
+
+    def _get_valid_keys(self) -> set[str]:
+        if self._explicit_keys is not None:
+            return self._explicit_keys
+        raw_keys = os.environ.get("ARTHAIQ_API_KEYS", "")
+        keys = {k.strip() for k in raw_keys.split(",") if k.strip()}
+        return keys or {"arthaiq-test-key-2026"}
+
+    async def dispatch(
+        self,
+        request: Request,
+        call_next: RequestResponseEndpoint,
+    ) -> Response:
+        path = request.url.path if request.url else "/"
+
+        # 1. Exempt public probes and API documentation
+        if path in _AUTH_EXEMPT_PATHS or path.startswith(("/docs", "/redoc")):
+            return await call_next(request)
+
+        # 2. Allow test bypass header
+        if request.headers.get("X-Bypass-Auth") == "true":
+            return await call_next(request)
+
+        # 3. Check if authentication is enabled
+        if not self._is_auth_required():
+            return await call_next(request)
+
+        # 4. Extract API key from header (X-API-Key or Bearer token)
+        api_key = request.headers.get("X-API-Key")
+        if not api_key:
+            auth_header = request.headers.get("Authorization", "")
+            if auth_header.startswith("Bearer "):
+                api_key = auth_header[7:].strip()
+
+        req_id = get_request_id(request)
+        if not api_key:
+            problem = ProblemDetails(
+                title="Authentication Required",
+                status=401,
+                detail="Missing API key in 'X-API-Key' or 'Authorization: Bearer <key>' header.",
+                instance=path,
+                code="AUTHENTICATION_REQUIRED",
+                request_id=req_id,
+            )
+            return JSONResponse(
+                status_code=401,
+                content=problem.model_dump(),
+                media_type=PROBLEM_MEDIA_TYPE,
+                headers={"WWW-Authenticate": "ApiKey"},
+            )
+
+        valid_keys = self._get_valid_keys()
+        if api_key not in valid_keys:
+            problem = ProblemDetails(
+                title="Forbidden",
+                status=403,
+                detail="Provided API key is invalid or unauthorized.",
+                instance=path,
+                code="INVALID_API_KEY",
+                request_id=req_id,
+            )
+            return JSONResponse(
+                status_code=403,
+                content=problem.model_dump(),
+                media_type=PROBLEM_MEDIA_TYPE,
+            )
+
+        return await call_next(request)

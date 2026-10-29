@@ -554,6 +554,357 @@
           }
         }
       }
+    },
+    "/v1/career/taxonomy": {
+      "get": {
+        "tags": [
+          "Career Architect"
+        ],
+        "summary": "List career competency taxonomy nodes",
+        "description": "Retrieve canonical competency nodes with heuristic difficulty rubrics and provenance.",
+        "operationId": "get_taxonomy_v1_career_taxonomy_get",
+        "parameters": [
+          {
+            "name": "family",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/RoleFamily",
+              "description": "Occupational role family (DATA in Phase 15)",
+              "default": "DATA"
+            },
+            "description": "Occupational role family (DATA in Phase 15)"
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RoleLevel"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional seniority level filter (2, 3, 4)",
+              "title": "Level"
+            },
+            "description": "Optional seniority level filter (2, 3, 4)"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CompetencyCategory"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional cluster category filter",
+              "title": "Category"
+            },
+            "description": "Optional cluster category filter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Canonical competency taxonomy nodes with difficulty rubrics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerTaxonomyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/career/gaps": {
+      "post": {
+        "tags": [
+          "Career Architect"
+        ],
+        "summary": "Evaluate competency gaps against target role",
+        "description": "Evaluate candidate evidence ledger against target role requirements.\n\nEnforces:\n- Rule R-CR-02: Pay evidence and role requirements remain separate objects.\n- Rule R-CR-03: Tri-state verification (Unproven, Self-reported, Demonstrated);\n  zero arbitrary composite scores or percentages.",
+        "operationId": "evaluate_gaps_v1_career_gaps_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerGapsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Deterministic competency gap evaluation report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompetencyGapReport"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/career/roadmap": {
+      "post": {
+        "tags": [
+          "Career Architect"
+        ],
+        "summary": "Generate sequenced career learning roadmap",
+        "description": "Generate deterministic topological learning roadmap budgeted by weekly study hours.\n\nEnforces:\n- Prerequisites strictly precede dependent competencies.\n- Effort duration emitted as ranges, never single point numbers (Rule R-UQ-01).\n- Labeled heuristic (Rule R-CR-05).",
+        "operationId": "generate_roadmap_v1_career_roadmap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerRoadmapRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Deterministic topologically scheduled learning roadmap.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledRoadmap"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/career/effort": {
+      "post": {
+        "tags": [
+          "Career Architect"
+        ],
+        "summary": "Estimate transition effort and pacing options",
+        "description": "Calculate cumulative heuristic effort range and dual difficulty profile for transition.",
+        "operationId": "estimate_effort_v1_career_effort_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerEffortRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Aggregate heuristic effort and pacing projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransitionEffortEstimate"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/career/pay-resolver": {
+      "post": {
+        "tags": [
+          "Career Architect"
+        ],
+        "summary": "Resolve target compensation against empirical role cells",
+        "description": "Resolve target compensation range against empirical cells via decoupled port.\n\nEnforces:\n- Rule R-CR-01: Prohibits claims that completing milestones causes pay increases.\n- Rule R-CR-14: Honest abstention when out of domain bounds or unsupported.",
+        "operationId": "resolve_pay_to_roles_v1_career_pay_resolver_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerPayResolverRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Resolution of empirical role cells or honest abstention.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayToRoleResolution"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/career/intake": {
+      "post": {
+        "tags": [
+          "Career Architect"
+        ],
+        "summary": "Sanitize untrusted job description and extract competencies",
+        "description": "Sanitize untrusted job description text and deterministically match competencies.\n\nEnforces:\n- Rule R-CR-09: Untrusted text isolation (treated strictly as data, never instructions).\n- Rule R-CR-12 & ADR-0012: Zero server-side persistence or storage.",
+        "operationId": "intake_job_description_v1_career_intake_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerIntakeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Extracted competencies with zero persistent storage guarantee.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDescriptionIntakeResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -639,6 +990,291 @@
         ],
         "title": "AbstentionReasonItem",
         "description": "Individual reason for model abstention (Rules R-MD-08, R-UQ-02)."
+      },
+      "CareerEffortRequest": {
+        "properties": {
+          "target_role": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Target Role",
+            "description": "Target job title or role name",
+            "default": "Data Scientist"
+          },
+          "target_level": {
+            "$ref": "#/components/schemas/RoleLevel",
+            "description": "Seniority level (2=Junior, 3=Mid, 4=Senior)",
+            "default": 3
+          },
+          "family": {
+            "type": "string",
+            "title": "Family",
+            "description": "Occupational role family",
+            "default": "DATA"
+          },
+          "ledger": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceLedger"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional full client-side evidence ledger from IndexedDB"
+          },
+          "records": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/EvidenceRecord"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Records",
+            "description": "Optional list of competency verification records"
+          },
+          "pacing_budgets": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pacing Budgets",
+            "description": "Optional list of weekly study hour options to evaluate"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CareerEffortRequest",
+        "description": "Request payload for estimating transition effort and pacing options."
+      },
+      "CareerGapsRequest": {
+        "properties": {
+          "target_role": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Target Role",
+            "description": "Target job title or role name",
+            "default": "Data Scientist"
+          },
+          "target_level": {
+            "$ref": "#/components/schemas/RoleLevel",
+            "description": "Seniority level (2=Junior, 3=Mid, 4=Senior)",
+            "default": 3
+          },
+          "family": {
+            "type": "string",
+            "title": "Family",
+            "description": "Occupational role family",
+            "default": "DATA"
+          },
+          "ledger": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceLedger"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional full client-side evidence ledger from IndexedDB"
+          },
+          "records": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/EvidenceRecord"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Records",
+            "description": "Optional list of competency verification records"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CareerGapsRequest",
+        "description": "Request payload for evaluating competency gaps against target role."
+      },
+      "CareerIntakeRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 25000,
+            "minLength": 1,
+            "title": "Text",
+            "description": "Untrusted pasted job description text (max 25,000 characters)"
+          },
+          "fuzzy_threshold": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 50.0,
+            "title": "Fuzzy Threshold",
+            "description": "Minimum RapidFuzz score for alias matching (default 80.0)",
+            "default": 80.0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "CareerIntakeRequest",
+        "description": "Request payload for untrusted job description text intake and sanitization."
+      },
+      "CareerPayResolverRequest": {
+        "properties": {
+          "target_pay_min_lpa": {
+            "type": "number",
+            "maximum": 500.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Target Pay Min Lpa",
+            "description": "Minimum target compensation in LPA (guaranteed cash)"
+          },
+          "target_pay_max_lpa": {
+            "type": "number",
+            "maximum": 500.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Target Pay Max Lpa",
+            "description": "Maximum target compensation in LPA (guaranteed cash)"
+          },
+          "family": {
+            "type": "string",
+            "title": "Family",
+            "description": "Occupational role family",
+            "default": "DATA"
+          },
+          "location_filter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Filter",
+            "description": "Optional metro location filter (e.g., 'bengaluru')"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "target_pay_min_lpa",
+          "target_pay_max_lpa"
+        ],
+        "title": "CareerPayResolverRequest",
+        "description": "Request payload for resolving target compensation against empirical role cells."
+      },
+      "CareerRoadmapRequest": {
+        "properties": {
+          "target_role": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Target Role",
+            "description": "Target job title or role name",
+            "default": "Data Scientist"
+          },
+          "target_level": {
+            "$ref": "#/components/schemas/RoleLevel",
+            "description": "Seniority level (2=Junior, 3=Mid, 4=Senior)",
+            "default": 3
+          },
+          "family": {
+            "type": "string",
+            "title": "Family",
+            "description": "Occupational role family",
+            "default": "DATA"
+          },
+          "weekly_hours_budget": {
+            "type": "number",
+            "maximum": 80.0,
+            "minimum": 1.0,
+            "title": "Weekly Hours Budget",
+            "description": "Dedicated study/practice hours per week",
+            "default": 10.0
+          },
+          "ledger": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceLedger"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional full client-side evidence ledger from IndexedDB"
+          },
+          "records": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/EvidenceRecord"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Records",
+            "description": "Optional list of competency verification records"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CareerRoadmapRequest",
+        "description": "Request payload for scheduling a topological career learning roadmap."
+      },
+      "CareerTaxonomyResponse": {
+        "properties": {
+          "role_family": {
+            "type": "string",
+            "title": "Role Family"
+          },
+          "total_nodes": {
+            "type": "integer",
+            "title": "Total Nodes"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/CompetencyNode"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "provenance_notice": {
+            "type": "string",
+            "title": "Provenance Notice",
+            "default": "Taxonomies curated from O*NET 28.0 (CC-BY-4.0) and ESCO 1.1.1 (EU-OPEN-REUSE) with practitioner review and deterministic heuristic difficulty anchors."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role_family",
+          "total_nodes",
+          "nodes"
+        ],
+        "title": "CareerTaxonomyResponse",
+        "description": "Container for career competency taxonomy response."
       },
       "CohortEvidenceResponse": {
         "properties": {
@@ -769,6 +1405,382 @@
         ],
         "title": "ComparisonInfo",
         "description": "Compare-only positioning of candidate's current compensation (PT6 / Rule R-MD-13)."
+      },
+      "CompensationEvidenceSummary": {
+        "properties": {
+          "role_family": {
+            "type": "string",
+            "title": "Role Family"
+          },
+          "seniority": {
+            "$ref": "#/components/schemas/RoleLevel"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "default": "INR"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "default": "LPA"
+          },
+          "p10": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P10"
+          },
+          "p50": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50"
+          },
+          "p90": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P90"
+          },
+          "interval_width": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval Width"
+          },
+          "evidence_grade": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence Grade"
+          },
+          "abstention_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Abstention Reason"
+          },
+          "sample_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sample Size"
+          },
+          "as_of_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of Date"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Conditional statistical distribution benchmark. Not an appraisal, offer, or guarantee of individual pay (Rules R-CR-01, R-UQ-01)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role_family",
+          "seniority",
+          "location"
+        ],
+        "title": "CompensationEvidenceSummary",
+        "description": "Independent compensation distribution summary returned via CompensationPort.\n\nStrictly isolated from competency scores and skill graphs (Rule R-CR-02)."
+      },
+      "CompetencyCategory": {
+        "type": "string",
+        "enum": [
+          "core_analytics",
+          "data_engineering",
+          "statistical_modeling",
+          "experimentation",
+          "business_communication"
+        ],
+        "title": "CompetencyCategory",
+        "description": "Taxonomy clusters for the DATA role family."
+      },
+      "CompetencyGap": {
+        "properties": {
+          "competency_id": {
+            "type": "string",
+            "title": "Competency Id"
+          },
+          "required_level": {
+            "$ref": "#/components/schemas/RoleLevel"
+          },
+          "current_state": {
+            "$ref": "#/components/schemas/VerificationState"
+          },
+          "is_satisfied": {
+            "type": "boolean",
+            "title": "Is Satisfied"
+          },
+          "prerequisites_satisfied": {
+            "type": "boolean",
+            "title": "Prerequisites Satisfied"
+          },
+          "missing_prerequisites": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Missing Prerequisites"
+          },
+          "recheck_suggested": {
+            "type": "boolean",
+            "title": "Recheck Suggested",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "competency_id",
+          "required_level",
+          "current_state",
+          "is_satisfied",
+          "prerequisites_satisfied"
+        ],
+        "title": "CompetencyGap",
+        "description": "Individual gap diagnostic for a target role requirement."
+      },
+      "CompetencyGapReport": {
+        "properties": {
+          "target_role": {
+            "type": "string",
+            "title": "Target Role"
+          },
+          "target_level": {
+            "$ref": "#/components/schemas/RoleLevel"
+          },
+          "total_required": {
+            "type": "integer",
+            "title": "Total Required"
+          },
+          "demonstrated_count": {
+            "type": "integer",
+            "title": "Demonstrated Count"
+          },
+          "self_reported_count": {
+            "type": "integer",
+            "title": "Self Reported Count"
+          },
+          "unproven_count": {
+            "type": "integer",
+            "title": "Unproven Count"
+          },
+          "recheck_suggested_count": {
+            "type": "integer",
+            "title": "Recheck Suggested Count",
+            "default": 0
+          },
+          "gap_nodes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Gap Nodes"
+          },
+          "actionable_gap_nodes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Actionable Gap Nodes"
+          },
+          "blocked_gap_nodes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Blocked Gap Nodes"
+          },
+          "gaps": {
+            "items": {
+              "$ref": "#/components/schemas/CompetencyGap"
+            },
+            "type": "array",
+            "title": "Gaps"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "target_role",
+          "target_level",
+          "total_required",
+          "demonstrated_count",
+          "self_reported_count",
+          "unproven_count"
+        ],
+        "title": "CompetencyGapReport",
+        "description": "Comprehensive gap analysis report for a candidate and target role."
+      },
+      "CompetencyMatch": {
+        "properties": {
+          "competency_id": {
+            "type": "string",
+            "title": "Competency Id"
+          },
+          "competency_title": {
+            "type": "string",
+            "title": "Competency Title"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CompetencyCategory"
+          },
+          "target_levels": {
+            "items": {
+              "$ref": "#/components/schemas/RoleLevel"
+            },
+            "type": "array",
+            "title": "Target Levels"
+          },
+          "match_method": {
+            "type": "string",
+            "enum": [
+              "exact",
+              "alias",
+              "fuzzy"
+            ],
+            "title": "Match Method"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence"
+          },
+          "matched_text": {
+            "type": "string",
+            "title": "Matched Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "competency_id",
+          "competency_title",
+          "category",
+          "target_levels",
+          "match_method",
+          "confidence",
+          "matched_text"
+        ],
+        "title": "CompetencyMatch",
+        "description": "Extracted competency match from untrusted job description text (Rule R-CR-09)."
+      },
+      "CompetencyNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$",
+            "title": "Id",
+            "description": "Dot-separated ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 3,
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 10,
+            "title": "Description"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CompetencyCategory"
+          },
+          "role_family": {
+            "type": "string",
+            "const": "DATA",
+            "title": "Role Family",
+            "description": "Scoped to DATA family in Phase 15",
+            "default": "DATA"
+          },
+          "target_levels": {
+            "items": {
+              "$ref": "#/components/schemas/RoleLevel"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Target Levels"
+          },
+          "prerequisite_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Prerequisite Ids"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/TaxonomyProvenance"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/DifficultyRubric"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "category",
+          "target_levels",
+          "provenance",
+          "difficulty"
+        ],
+        "title": "CompetencyNode",
+        "description": "Atomic competency node within the Directed Acyclic Graph (DAG)."
       },
       "CounterfactualQuery": {
         "properties": {
@@ -1013,6 +2025,60 @@
         "title": "CurrentModelResponse",
         "description": "Runtime metadata, lineage, and card information for active champion model."
       },
+      "DifficultyRubric": {
+        "properties": {
+          "learning_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Learning Difficulty"
+          },
+          "application_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Application Difficulty"
+          },
+          "is_heuristic": {
+            "type": "boolean",
+            "const": true,
+            "title": "Is Heuristic",
+            "description": "Must remain True: difficulty is heuristic, not empirical fact",
+            "default": true
+          },
+          "effort_hours": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EffortRange"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Heuristic effort hours range (Rule R-CR-05)"
+          },
+          "rationale": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rationale",
+            "description": "Practitioner justification for difficulty anchors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "learning_difficulty",
+          "application_difficulty"
+        ],
+        "title": "DifficultyRubric",
+        "description": "Calibrated difficulty anchors for a competency (Rule R-CR-05)."
+      },
       "DualOfferComparisonRequest": {
         "properties": {
           "profile": {
@@ -1115,6 +2181,32 @@
         ],
         "title": "DualOfferComparisonResponse",
         "description": "Risk-adjusted comparison between competing compensation offer structures."
+      },
+      "EffortRange": {
+        "properties": {
+          "min_hours": {
+            "type": "integer",
+            "maximum": 500.0,
+            "minimum": 1.0,
+            "title": "Min Hours",
+            "description": "Minimum heuristic effort in hours"
+          },
+          "max_hours": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 2.0,
+            "title": "Max Hours",
+            "description": "Maximum heuristic effort in hours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "min_hours",
+          "max_hours"
+        ],
+        "title": "EffortRange",
+        "description": "Heuristic effort hours range for a competency (Rule R-CR-05)."
       },
       "Estimate": {
         "properties": {
@@ -1292,6 +2384,74 @@
         "title": "EvidenceInfo",
         "description": "Empirical cohort evidence metadata and provenance."
       },
+      "EvidenceLedger": {
+        "properties": {
+          "ledger_version": {
+            "type": "string",
+            "title": "Ledger Version",
+            "default": "v1.0"
+          },
+          "records": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/EvidenceRecord"
+            },
+            "type": "object",
+            "title": "Records"
+          },
+          "last_updated": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T.*Z$",
+            "title": "Last Updated"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "last_updated"
+        ],
+        "title": "EvidenceLedger",
+        "description": "Client-side career evidence ledger (stored in IndexedDB)."
+      },
+      "EvidenceRecord": {
+        "properties": {
+          "competency_id": {
+            "type": "string",
+            "title": "Competency Id"
+          },
+          "state": {
+            "$ref": "#/components/schemas/VerificationState"
+          },
+          "evidence_type": {
+            "$ref": "#/components/schemas/EvidenceType"
+          },
+          "recorded_at": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T.*Z$",
+            "title": "Recorded At"
+          },
+          "verification_artifact_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verification Artifact Ref"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "competency_id",
+          "state",
+          "evidence_type",
+          "recorded_at"
+        ],
+        "title": "EvidenceRecord",
+        "description": "User competency verification record within the local evidence ledger."
+      },
       "EvidenceSummaryResponse": {
         "properties": {
           "data_snapshot_id": {
@@ -1370,6 +2530,17 @@
         ],
         "title": "EvidenceSummaryResponse",
         "description": "Global evidence base summary for GET /v1/evidence/summary."
+      },
+      "EvidenceType": {
+        "type": "string",
+        "enum": [
+          "self_attestation",
+          "flaw_scenario",
+          "code_exercise",
+          "portfolio_artifact"
+        ],
+        "title": "EvidenceType",
+        "description": "Taxonomy of admissible capability evidence."
       },
       "ExperienceInput": {
         "properties": {
@@ -1532,6 +2703,52 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "JobDescriptionIntakeResult": {
+        "properties": {
+          "sanitized_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Sanitized Length"
+          },
+          "original_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Original Length"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated",
+            "default": false
+          },
+          "matches": {
+            "items": {
+              "$ref": "#/components/schemas/CompetencyMatch"
+            },
+            "type": "array",
+            "title": "Matches"
+          },
+          "matched_competency_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Matched Competency Ids"
+          },
+          "statutory_notice": {
+            "type": "string",
+            "title": "Statutory Notice",
+            "default": "Untrusted text sanitized and processed in ephemeral memory. Zero persistent storage or server retention under India DPDP Act 2023 and Rule R-CR-09."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sanitized_length",
+          "original_length"
+        ],
+        "title": "JobDescriptionIntakeResult",
+        "description": "Result of sanitizing and extracting competencies from untrusted job description text.\n\nEnforces ephemeral in-memory processing with zero persistent storage\n(Rules R-CR-09, R-CR-12, R-DA-07)."
       },
       "LocationItem": {
         "properties": {
@@ -1765,6 +2982,164 @@
         "title": "OfferStructure",
         "description": "Structured compensation offer components in nominal INR LPA."
       },
+      "PacingOption": {
+        "properties": {
+          "weekly_hours": {
+            "type": "number",
+            "minimum": 1.0,
+            "title": "Weekly Hours"
+          },
+          "estimated_weeks_range": {
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Estimated Weeks Range"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "weekly_hours",
+          "estimated_weeks_range"
+        ],
+        "title": "PacingOption",
+        "description": "Estimated duration interval under a specific weekly hours study/practice budget."
+      },
+      "PayCellMatch": {
+        "properties": {
+          "role_family": {
+            "type": "string",
+            "title": "Role Family"
+          },
+          "seniority": {
+            "$ref": "#/components/schemas/RoleLevel"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location"
+          },
+          "compensation": {
+            "$ref": "#/components/schemas/CompensationEvidenceSummary"
+          },
+          "match_status": {
+            "$ref": "#/components/schemas/PayCellMatchStatus"
+          },
+          "overlap_ratio": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Overlap Ratio"
+          },
+          "distance_to_median_lpa": {
+            "type": "number",
+            "title": "Distance To Median Lpa"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role_family",
+          "seniority",
+          "location",
+          "compensation",
+          "match_status",
+          "overlap_ratio",
+          "distance_to_median_lpa"
+        ],
+        "title": "PayCellMatch",
+        "description": "Evaluation of an empirical role cell against a target compensation query."
+      },
+      "PayCellMatchStatus": {
+        "type": "string",
+        "enum": [
+          "contained",
+          "near_boundary",
+          "out_of_bounds"
+        ],
+        "title": "PayCellMatchStatus",
+        "description": "Categorization of empirical pay cell alignment with target compensation query."
+      },
+      "PayToRoleResolution": {
+        "properties": {
+          "target_pay_min_lpa": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Target Pay Min Lpa"
+          },
+          "target_pay_max_lpa": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Target Pay Max Lpa"
+          },
+          "role_family": {
+            "type": "string",
+            "title": "Role Family"
+          },
+          "location_filter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Filter"
+          },
+          "is_abstaining": {
+            "type": "boolean",
+            "title": "Is Abstaining"
+          },
+          "abstention_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Abstention Reason"
+          },
+          "matched_cells": {
+            "items": {
+              "$ref": "#/components/schemas/PayCellMatch"
+            },
+            "type": "array",
+            "title": "Matched Cells"
+          },
+          "nearest_alternatives": {
+            "items": {
+              "$ref": "#/components/schemas/PayCellMatch"
+            },
+            "type": "array",
+            "title": "Nearest Alternatives"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Statistical compensation distribution matching. Not an appraisal, offer, or guarantee of individual pay (Rules R-CR-01, R-UQ-01)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "target_pay_min_lpa",
+          "target_pay_max_lpa",
+          "role_family",
+          "is_abstaining"
+        ],
+        "title": "PayToRoleResolution",
+        "description": "Result of resolving a target pay query against empirical compensation cells."
+      },
       "ProblemDetails": {
         "properties": {
           "type": {
@@ -1948,6 +3323,105 @@
         "title": "ReliabilityInfo",
         "description": "Reliability and evidence grading attached to prediction."
       },
+      "RoadmapMilestone": {
+        "properties": {
+          "step_number": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Step Number"
+          },
+          "competency_id": {
+            "type": "string",
+            "title": "Competency Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CompetencyCategory"
+          },
+          "target_levels": {
+            "items": {
+              "$ref": "#/components/schemas/RoleLevel"
+            },
+            "type": "array",
+            "title": "Target Levels"
+          },
+          "prerequisite_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Prerequisite Ids"
+          },
+          "learning_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Learning Difficulty"
+          },
+          "application_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Application Difficulty"
+          },
+          "effort_range": {
+            "$ref": "#/components/schemas/EffortRange"
+          },
+          "estimated_weeks_range": {
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Estimated Weeks Range"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "step_number",
+          "competency_id",
+          "title",
+          "category",
+          "target_levels",
+          "learning_difficulty",
+          "application_difficulty",
+          "effort_range",
+          "estimated_weeks_range"
+        ],
+        "title": "RoadmapMilestone",
+        "description": "Individual sequence step within a scheduled career roadmap."
+      },
+      "RoleFamily": {
+        "type": "string",
+        "enum": [
+          "SWE",
+          "DATA",
+          "MLAI",
+          "OTHER"
+        ],
+        "title": "RoleFamily",
+        "description": "Core occupational role families in scope (ADR-0001)."
+      },
+      "RoleLevel": {
+        "type": "integer",
+        "enum": [
+          2,
+          3,
+          4
+        ],
+        "title": "RoleLevel",
+        "description": "Standard occupational levels within a role family (PRD FR-21)."
+      },
       "ScenarioFrontierPoint": {
         "properties": {
           "perturbation_label": {
@@ -2033,6 +3507,79 @@
         ],
         "title": "ScenarioType",
         "description": "Categorical classification of negotiation counterfactual scenarios."
+      },
+      "ScheduledRoadmap": {
+        "properties": {
+          "target_role": {
+            "type": "string",
+            "title": "Target Role"
+          },
+          "target_level": {
+            "$ref": "#/components/schemas/RoleLevel"
+          },
+          "weekly_hours_budget": {
+            "type": "number",
+            "minimum": 1.0,
+            "title": "Weekly Hours Budget"
+          },
+          "total_milestones": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Milestones"
+          },
+          "cumulative_effort_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EffortRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "estimated_total_weeks_range": {
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Estimated Total Weeks Range"
+          },
+          "milestones": {
+            "items": {
+              "$ref": "#/components/schemas/RoadmapMilestone"
+            },
+            "type": "array",
+            "title": "Milestones"
+          },
+          "is_heuristic": {
+            "type": "boolean",
+            "title": "Is Heuristic",
+            "default": true
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "target_role",
+          "target_level",
+          "weekly_hours_budget",
+          "total_milestones",
+          "estimated_total_weeks_range",
+          "disclaimer"
+        ],
+        "title": "ScheduledRoadmap",
+        "description": "Topologically sorted, pacing-budgeted learning roadmap towards a target role."
       },
       "SenioritiesResponse": {
         "properties": {
@@ -2299,6 +3846,164 @@
         "title": "TaxAdjustedTakeHome",
         "description": "Net in-hand annual compensation estimate under India New Tax Regime (Section 115BAC)."
       },
+      "TaxonomyLicense": {
+        "type": "string",
+        "enum": [
+          "CC-BY-4.0",
+          "EU-OPEN-REUSE",
+          "PROPRIETARY-INTERNAL"
+        ],
+        "title": "TaxonomyLicense",
+        "description": "Approved licence classes for ingested taxonomies."
+      },
+      "TaxonomyProvenance": {
+        "properties": {
+          "source_id": {
+            "$ref": "#/components/schemas/TaxonomySource"
+          },
+          "source_code": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source Code",
+            "description": "Origin code in parent taxonomy"
+          },
+          "license": {
+            "$ref": "#/components/schemas/TaxonomyLicense"
+          },
+          "attribution_required": {
+            "type": "boolean",
+            "title": "Attribution Required",
+            "default": true
+          },
+          "attribution_text": {
+            "type": "string",
+            "minLength": 5,
+            "title": "Attribution Text",
+            "description": "Statutory attribution notice"
+          },
+          "modified_flag": {
+            "type": "boolean",
+            "title": "Modified Flag",
+            "description": "True if adapted or re-anchored",
+            "default": false
+          },
+          "curator": {
+            "type": "string",
+            "minLength": 2,
+            "title": "Curator",
+            "description": "Name or role of reviewing curator"
+          },
+          "curated_date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Curated Date",
+            "description": "YYYY-MM-DD"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_id",
+          "source_code",
+          "license",
+          "attribution_text",
+          "curator",
+          "curated_date"
+        ],
+        "title": "TaxonomyProvenance",
+        "description": "Attribution and provenance record for taxonomy elements (Rule R-CR-04)."
+      },
+      "TaxonomySource": {
+        "type": "string",
+        "enum": [
+          "ONET-28.0",
+          "ESCO-1.1.1",
+          "ARTHAIQ-CURATED"
+        ],
+        "title": "TaxonomySource",
+        "description": "Approved external labour taxonomy sources (ADR-0011)."
+      },
+      "TransitionEffortEstimate": {
+        "properties": {
+          "target_role": {
+            "type": "string",
+            "title": "Target Role"
+          },
+          "target_level": {
+            "$ref": "#/components/schemas/RoleLevel"
+          },
+          "competency_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Competency Count"
+          },
+          "cumulative_effort_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EffortRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "peak_learning_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "title": "Peak Learning Difficulty",
+            "default": 0.0
+          },
+          "mean_learning_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "title": "Mean Learning Difficulty",
+            "default": 0.0
+          },
+          "peak_application_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "title": "Peak Application Difficulty",
+            "default": 0.0
+          },
+          "mean_application_difficulty": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "title": "Mean Application Difficulty",
+            "default": 0.0
+          },
+          "pacing_options": {
+            "items": {
+              "$ref": "#/components/schemas/PacingOption"
+            },
+            "type": "array",
+            "title": "Pacing Options"
+          },
+          "is_heuristic": {
+            "type": "boolean",
+            "const": true,
+            "title": "Is Heuristic",
+            "default": true
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "target_role",
+          "target_level",
+          "competency_count",
+          "disclaimer"
+        ],
+        "title": "TransitionEffortEstimate",
+        "description": "Aggregate heuristic effort, dual difficulty profile, and pacing projections."
+      },
       "ValidationError": {
         "properties": {
           "loc": {
@@ -2338,6 +4043,16 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "VerificationState": {
+        "type": "string",
+        "enum": [
+          "Unproven",
+          "Self-reported",
+          "Demonstrated"
+        ],
+        "title": "VerificationState",
+        "description": "Tri-state competency verification model (Rule R-CR-03, ADR-0011).\n\nState beats score: arbitrary continuous percentage progress bars are prohibited."
       }
     }
   }

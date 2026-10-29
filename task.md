@@ -643,10 +643,30 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/pay_resolver.py`. Done when: tests prove zero extrapolation and clean abstention. Needs: T15.15. Size: M.
 - [x] **T15.20** [AI] Job description intake & sanitization: accept untrusted text, sanitize against injection/XSS, and extract matching taxonomy competencies with RapidFuzz/TF-IDF without persistent server retention. (done 2026-10-25)
       Output: `src/compintel/career/intake.py`. Done when: sanitization fuzz tests pass and zero data is written to disk. Needs: T15.15. Size: M.
-- [ ] **T15.21** [AI] Stateless `/v1/career/*` FastAPI router: implement endpoints for gap analysis, roadmaps, and intake with RFC 9457 error contracts, rate limiting, and OpenAPI snapshot.
+- [x] **T15.21** [AI] Stateless `/v1/career/*` FastAPI router: implement endpoints for gap analysis, roadmaps, and intake with RFC 9457 error contracts, rate limiting, and OpenAPI snapshot. (done 2026-10-29)
       Output: `src/compintel/serving/routers/career.py`. Done when: contract test suite passes cleanly. Needs: T15.16, T15.17, T15.19, T15.20. Size: M.
 
-**Gate G15C:** Deterministic career engine ratified: mypy strict, boundary checks, property tests, and contract tests pass, abstention path proven, and zero runtime LLMs on serving path.
+**Gate G15C:** Deterministic career engine ratified: mypy strict, boundary checks, property tests, and contract tests pass, abstention path proven, and zero runtime LLMs on serving path. (RATIFIED GO 2026-10-29; Decision D-028)
+
+---
+
+### Phase 15D: Practice Scenarios & Assessment Engine
+
+**Objective:** Realistic, deterministic, leak-proof technical flaw-finding practice without gamified credentialism (ADR-0013, Rule R-CR-08, Rule R-CR-11).
+**Needs:** Gate G15C.
+
+- [x] **T15.22** [AI] Practice scenario schema & rubric models: implement Pydantic v2 schemas for code artifacts, seeded defects, constrained actions, deterministic rubrics, client challenge views, and attempt evaluations. (done 2026-10-29)
+      Output: `src/compintel/career/scenario_schema.py`. Done when: unit tests reject invalid fixtures and anti-leakage invariants hold. Needs: Gate G15C. Size: M.
+- [ ] **T15.23** [AI] Deterministic scenario scoring engine: implement server-side deterministic scoring with partial credit, false-flag penalties, per-competency evidence generation, and leak-proof client challenge sanitization.
+      Output: `src/compintel/career/scenario_scorer.py`. Done when: property tests prove scoring bounds, false-flag penalties, and zero answer key leakage in client payloads. Needs: T15.22. Size: L.
+- [ ] **T15.24** [AI+HUMAN] Three DATA family practice scenarios: author three realistic flaw-finding scenarios (Metric Definition Investigation `data.anl.l2_eda`, SQL Pitfall Review `data.anl.l2_sql_basic`, and Experiment Design Review `data.sci.l3_exp_design`) with parameterized variants and practitioner consensus.
+      Output: `config/scenarios/*.json`. Done when: practitioner review complete and CI schema validator passes. Needs: T15.22, T15.23. Size: L.
+- [ ] **T15.25** [AI] Scorer validation & agreement benchmark: benchmark deterministic scorer against pre-registered mock attempts, verifying agreement metrics and scoring determinism.
+      Output: `docs/pilot/scenario-scorer-validation.md`. Done when: agreement metric meets pre-registered threshold. Needs: T15.24. Size: M.
+- [ ] **T15.26** [AI] Browser-side SQL sandbox evaluation spike: benchmark sql.js vs DuckDB-WASM for client-side local verification (payload size, RAM, execution speed).
+      Output: `docs/research/sql-sandbox-spike.md`. Done when: comparative benchmark report complete with GO/NO-GO recommendation. Needs: Gate G15C. Size: S.
+
+**Gate G15D:** Practice scenarios ratified: deterministic scorer verified, zero client payload leakage, 3 reviewed DATA scenarios serialized, and no credentialism claims.
 
 ---
 
