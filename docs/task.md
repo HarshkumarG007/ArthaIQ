@@ -657,7 +657,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 - [x] **T15.22** [AI] Practice scenario schema & rubric models: implement Pydantic v2 schemas for code artifacts, seeded defects, constrained actions, deterministic rubrics, client challenge views, and attempt evaluations. (done 2026-10-29)
       Output: `src/compintel/career/scenario_schema.py`. Done when: unit tests reject invalid fixtures and anti-leakage invariants hold. Needs: Gate G15C. Size: M.
-- [ ] **T15.23** [AI] Deterministic scenario scoring engine: implement server-side deterministic scoring with partial credit, false-flag penalties, per-competency evidence generation, and leak-proof client challenge sanitization.
+- [x] **T15.23** [AI] Deterministic scenario scoring engine: implement server-side deterministic scoring with partial credit, false-flag penalties, per-competency evidence generation, and leak-proof client challenge sanitization. (done 2026-10-29)
       Output: `src/compintel/career/scenario_scorer.py`. Done when: property tests prove scoring bounds, false-flag penalties, and zero answer key leakage in client payloads. Needs: T15.22. Size: L.
 - [ ] **T15.24** [AI+HUMAN] Three DATA family practice scenarios: author three realistic flaw-finding scenarios (Metric Definition Investigation `data.anl.l2_eda`, SQL Pitfall Review `data.anl.l2_sql_basic`, and Experiment Design Review `data.sci.l3_exp_design`) with parameterized variants and practitioner consensus.
       Output: `config/scenarios/*.json`. Done when: practitioner review complete and CI schema validator passes. Needs: T15.22, T15.23. Size: L.

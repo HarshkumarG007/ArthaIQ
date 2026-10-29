@@ -79,6 +79,10 @@ from compintel.career.scenario_schema import (
     SeededDefect,
     validate_anti_credential_text,
 )
+from compintel.career.scenario_scorer import (
+    evaluate_scenario_attempt,
+    sanitize_challenge_for_client,
+)
 from compintel.career.schema import (
     CompensationEvidenceSummary,
     CompetencyCategory,
@@ -198,6 +202,7 @@ __all__ = [
     "estimate_role_transition_effort",
     "estimate_transition_effort",
     "evaluate_competency_gap",
+    "evaluate_scenario_attempt",
     "export_data_family_graph",
     "export_difficulty_rubrics",
     "extract_competencies_from_text",
@@ -212,6 +217,7 @@ __all__ = [
     "load_data_family_graph",
     "load_difficulty_rubrics",
     "resolve_target_pay_to_roles",
+    "sanitize_challenge_for_client",
     "sanitize_untrusted_text",
     "schedule_topological_roadmap",
     "validate_anti_causal_copy",
