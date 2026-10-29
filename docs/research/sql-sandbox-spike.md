@@ -116,3 +116,4 @@ Both engines adhere strictly to `ADR-0012` and Rule `R-CR-12`:
 - **Platform Architecture Reviewer:** Vikramaditya Joshi (Staff Data Platform Architect)
 - **Status:** **RATIFIED GO FOR `sql.js`**
 - **Date:** `2026-10-29`
+

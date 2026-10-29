@@ -59,3 +59,4 @@ class TestSqlSandboxSpikeReport:
         assert "R-CR-12" in content
         assert "R-CR-14" in content
         assert "sandbox" in content.lower()
+
