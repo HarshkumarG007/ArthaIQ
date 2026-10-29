@@ -663,7 +663,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `config/scenarios/*.json`. Done when: practitioner review complete and CI schema validator passes. Needs: T15.22, T15.23. Size: L.
 - [x] **T15.25** [AI] Scorer validation & agreement benchmark: benchmark deterministic scorer against pre-registered mock attempts, verifying agreement metrics and scoring determinism. (done 2026-10-29)
       Output: `docs/pilot/scenario-scorer-validation.md`. Done when: agreement metric meets pre-registered threshold. Needs: T15.24. Size: M.
-- [ ] **T15.26** [AI] Browser-side SQL sandbox evaluation spike: benchmark sql.js vs DuckDB-WASM for client-side local verification (payload size, RAM, execution speed).
+- [x] **T15.26** [AI] Browser-side SQL sandbox evaluation spike: benchmark sql.js vs DuckDB-WASM for client-side local verification (payload size, RAM, execution speed). (done 2026-10-29)
       Output: `docs/research/sql-sandbox-spike.md`. Done when: comparative benchmark report complete with GO/NO-GO recommendation. Needs: Gate G15C. Size: S.
 
 **Gate G15D:** Practice scenarios ratified: deterministic scorer verified, zero client payload leakage, 3 reviewed DATA scenarios serialized, and no credentialism claims.
