@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-DATA-01-SQL",
+  "title": "Diagnostic Review: Customer Revenue Aggregation and Window Leakage",
+  "description": "Review a high-volume relational aggregation query for mathematical errors, aggregation bias, and lookahead feature leakage.",
+  "role_family": "DATA",
+  "target_level": 3,
+  "primary_competency_id": "data.anl.l2_sql_basic",
+  "secondary_competency_ids": [
+    "data.anl.l2_eda"
+  ],
+  "artifact": {
+    "content": "SELECT\n    user_id,\n    payment_method,\n    COUNT(order_id) AS total_orders,\n    SUM(order_amount_inr) AS total_spend,\n    SUM(order_amount_inr) / COUNT(order_id) AS avg_order_value,\n    MAX(order_timestamp) OVER (\n        PARTITION BY user_id\n        ORDER BY order_timestamp\n        ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING\n    ) AS next_activity_timestamp,\n    AVG(delivery_fee_inr) AS avg_delivery_fee\nFROM customer_orders\nWHERE order_status = 'DELIVERED'\n  AND order_timestamp >= '2026-01-01'\nGROUP BY user_id, payment_method\nORDER BY total_spend DESC;",
+    "language": "sql",
+    "line_count": 17
+  },
+  "rubric": {
+    "scenario_id": "SCEN-DATA-01-SQL",
+    "defects": [
+      {
+        "id": "DEF-SQL-01",
+        "line_number": 6,
+        "category": "division_by_zero",
+        "severity": "critical",
+        "title": "Unguarded Division in Average Order Value Calculation",
+        "consequence": "When a customer has zero matching orders, unguarded division yields runtime SQL zero division exceptions or silent NULL propagation.",
+        "diagnostic_explanation": "Wrap the denominator with NULLIF(COUNT(order_id), 0) or use the native AVG aggregate function.",
+        "competency_id": "data.anl.l2_sql_basic",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SQL-02",
+        "line_number": 10,
+        "category": "lookahead_bias",
+        "severity": "critical",
+        "title": "Future Activity Window Lookahead Leakage",
+        "consequence": "Partitioning with UNBOUNDED FOLLOWING injects future event timestamps into historical feature records, causing fatal target leakage in downstream models.",
+        "diagnostic_explanation": "Restrict window frames to historical data using ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW.",
+        "competency_id": "data.anl.l2_sql_basic",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SQL-03",
+        "line_number": 16,
+        "category": "aggregation_bias",
+        "severity": "major",
+        "title": "Extraneous Grouping Key in Customer Level Aggregation",
+        "consequence": "Including payment_method in the GROUP BY clause fragments customer metrics across payment instruments, producing multiple records per user instead of a single customer rollup.",
+        "diagnostic_explanation": "Group strictly by user_id to compute true user-level metrics, or aggregate payment methods into an array.",
+        "competency_id": "data.anl.l2_eda",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-ECOMMERCE",
+      "description": "E-commerce marketplace transaction table variant",
+      "parameters": {
+        "table_name": "order_items",
+        "customer_id_col": "buyer_id"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-FINTECH-PAYMENTS",
+      "description": "Fintech merchant settlement ledger variant",
+      "parameters": {
+        "table_name": "merchant_settlements",
+        "customer_id_col": "merchant_id"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the SQL query for relational pitfalls, unguarded mathematical operations, and predictive feature leakage. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-DATA-01",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (DATA Family)",
+    "modified_flag": false,
+    "curator": "Data Engineering Review Board",
+    "curated_date": "2026-10-29"
+  }
+}

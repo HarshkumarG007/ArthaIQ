@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15D: Practice Scenarios & Assessment Engine** |
-| **Current Task** | **Phase 15D: T15.23 Deterministic Scenario Scoring Engine (Completed)** |
-| **Next Task** | **Phase 15D: T15.24 Three DATA Family Practice Scenarios** |
+| **Current Task** | **Phase 15D: T15.24 Three DATA Family Practice Scenarios (Completed)** |
+| **Next Task** | **Phase 15D: T15.25 Scorer Validation & Agreement Benchmark** |
 | **Last Updated** | **2026-10-29** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-DATA-03-EXP",
+  "title": "Diagnostic Review: Controlled Experiment Evaluation and Peeking Bias",
+  "description": "Audit an online A/B testing analysis script for sample ratio mismatches, unadjusted sequential peeking, and unstratified aggregation.",
+  "role_family": "DATA",
+  "target_level": 3,
+  "primary_competency_id": "data.sci.l3_exp_design",
+  "secondary_competency_ids": [
+    "data.sci.l4_causal"
+  ],
+  "artifact": {
+    "content": "import numpy as np\nfrom scipy import stats\n\n\ndef evaluate_ab_experiment(\n    control_conversions: np.ndarray,\n    treatment_conversions: np.ndarray,\n    daily_peeking_p_values: list[float],\n) -> dict[str, object]:\n    n_ctrl = len(control_conversions)\n    n_trt = len(treatment_conversions)\n\n    # Check sample ratio mismatch (50/50 allocation expected)\n    chi2_stat, srm_p_value = stats.chisquare([n_ctrl, n_trt])\n    if srm_p_value < 0.001:\n        print(\"Discrepancy detected; continuing evaluation.\")\n\n    # Continuous monitoring check without alpha spending correction\n    early_winner_declared = any(p < 0.05 for p in daily_peeking_p_values)\n\n    # Compute aggregate conversion rate\n    ctrl_mean = float(np.mean(control_conversions))\n    trt_mean = float(np.mean(treatment_conversions))\n    relative_lift = (trt_mean - ctrl_mean) / ctrl_mean if ctrl_mean > 0 else 0.0\n\n    # Two-sample t-test on combined mobile and desktop traffic\n    t_stat, final_p_val = stats.ttest_ind(treatment_conversions, control_conversions)\n\n    return {\n        \"srm_p_value\": round(float(srm_p_value), 6),\n        \"early_stop\": early_winner_declared,\n        \"relative_lift\": round(relative_lift, 4),\n        \"final_p_val\": round(float(final_p_val), 5),\n    }\n",
+    "language": "python",
+    "line_count": 34
+  },
+  "rubric": {
+    "scenario_id": "SCEN-DATA-03-EXP",
+    "defects": [
+      {
+        "id": "DEF-EXP-01",
+        "line_number": 14,
+        "category": "sample_ratio_mismatch",
+        "severity": "critical",
+        "title": "Continuing Experiment Analysis Despite Extreme Sample Ratio Mismatch",
+        "consequence": "Evaluating lift when sample ratio mismatch is present invalidates causal inference because randomization has been compromised by delivery bias.",
+        "diagnostic_explanation": "When SRM is confirmed (p < 0.001), halt the analysis and debug traffic allocation infrastructure before evaluating treatment lift.",
+        "competency_id": "data.sci.l3_exp_design",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-EXP-02",
+        "line_number": 18,
+        "category": "lookahead_bias",
+        "severity": "critical",
+        "title": "Sequential Peeking Without Alpha Spending Correction",
+        "consequence": "Stopping early on uncorrected daily p-values inflates the False Positive Rate well beyond the nominal 5% threshold.",
+        "diagnostic_explanation": "Use formal group sequential boundaries (e.g. O'Brien-Fleming) or evaluate strictly at predetermined sample horizons.",
+        "competency_id": "data.sci.l3_exp_design",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-EXP-03",
+        "line_number": 26,
+        "category": "aggregation_bias",
+        "severity": "major",
+        "title": "Aggregated Lift Estimation Ignoring Device Mix Confounders",
+        "consequence": "Combining disparate device segments directly risks Simpson's Paradox where treatment appears positive in aggregate but is negative within device cohorts.",
+        "diagnostic_explanation": "Estimate treatment lift using stratified variance-weighted estimates or regression adjustment with device interaction terms.",
+        "competency_id": "data.sci.l4_causal",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-CHECKOUT-FUNNEL",
+      "description": "E-commerce checkout funnel 1-click buy experiment variant",
+      "parameters": {
+        "metric_name": "checkout_completed",
+        "treatment_split": "50/50"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-SEARCH-ALGO",
+      "description": "Search ranking relevance algorithm test variant",
+      "parameters": {
+        "metric_name": "click_through_rate",
+        "treatment_split": "50/50"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Audit the A/B test analysis pipeline. Identify flaws in randomization diagnostics, significance testing methodology, and segment aggregation.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-DATA-03",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (DATA Family)",
+    "modified_flag": false,
+    "curator": "Data Engineering Review Board",
+    "curated_date": "2026-10-29"
+  }
+}
