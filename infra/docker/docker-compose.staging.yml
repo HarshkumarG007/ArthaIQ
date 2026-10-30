@@ -1,0 +1,110 @@
+# -----------------------------------------------------------------------------
+# ArthaIQ Career Architect — Staging Docker Compose Definition (T17.02)
+# -----------------------------------------------------------------------------
+# Staging environment with resource caps, enhanced healthchecks, and explicit
+# environment variables for multi-family Career Architect deployment.
+#
+# Usage:
+#   docker-compose -f infra/docker/docker-compose.staging.yml up --build
+# -----------------------------------------------------------------------------
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: arthaiq-staging-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-arthaiq_staging}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-arthaiq_staging_secret_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-arthaiq}
+    # Bound to loopback only — never exposed to 0.0.0.0 (ASVS 14.2.1)
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - pgdata_staging:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-arthaiq_staging} -d ${POSTGRES_DB:-arthaiq}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - arthaiq-staging
+    restart: unless-stopped
+    # Resource caps: staging environment constraint
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  api:
+    container_name: arthaiq-staging-api
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
+      # Staging build tag
+      args:
+        BUILD_ENV: staging
+    environment:
+      APP_ENV: staging
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-arthaiq_staging}:${POSTGRES_PASSWORD:-arthaiq_staging_secret_2026}@db:5432/${POSTGRES_DB:-arthaiq}
+      PORT: 8000
+      HOST: 0.0.0.0
+      LOG_LEVEL: INFO
+      LOG_FORMAT: json
+      CORS_ORIGINS: "http://localhost:8080,http://127.0.0.1:8080,http://localhost:3000"
+      # Career Architect: families supported in this deployment
+      CAREER_FAMILIES_ENABLED: "DATA,SWE"
+    ports:
+      - "127.0.0.1:${API_PORT:-8001}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/livez"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - arthaiq-staging
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  web:
+    container_name: arthaiq-staging-web
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - arthaiq-staging
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+
+volumes:
+  pgdata_staging:
+    driver: local
+
+networks:
+  arthaiq-staging:
+    driver: bridge
+

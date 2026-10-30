@@ -1,0 +1,232 @@
+{
+  "metadata": {
+    "document_id": "STAGING-AUDIT-CAREER-ARCH-01",
+    "audit_date": "2026-10-30",
+    "evaluated_subsystem": "ArthaIQ Career Architect Multi-Family (Phase 17)",
+    "families_tested": [
+      "DATA",
+      "SWE"
+    ],
+    "scenario_count": 10,
+    "attempt_count": 200,
+    "persona_count": 8,
+    "status": "PASS"
+  },
+  "scorecard": {
+    "M-STG-01_calibration_comprehension": {
+      "target": ">= 90%",
+      "observed": "100%",
+      "status": "PASS"
+    },
+    "M-STG-02_task_completion_rate": {
+      "target": ">= 95%",
+      "observed": "100%",
+      "status": "PASS"
+    },
+    "M-STG-03_scoring_determinism_variance": {
+      "target": "sigma^2 == 0.000",
+      "observed_data": 0.0,
+      "observed_swe": 0.0,
+      "status": "PASS"
+    },
+    "M-STG-04_scoring_latency_p95_ms": {
+      "target": "<= 5.0 ms",
+      "observed_ms": 0.0255,
+      "observed_us": 25.5,
+      "status": "PASS"
+    },
+    "M-STG-05_local_storage_footprint_kb": {
+      "target": "<= 100 KB",
+      "observed_kb": 8.59,
+      "status": "PASS"
+    },
+    "M-STG-06_dpdp_sec12_hard_purge_bytes": {
+      "target": "== 0 bytes",
+      "observed_bytes": 0,
+      "status": "PASS"
+    },
+    "M-STG-07_zero_causal_promises": {
+      "target": "0 violations",
+      "observed_violations": 0,
+      "status": "PASS"
+    },
+    "M-STG-08_anti_credentialism": {
+      "target": "0 violations",
+      "observed_violations": 0,
+      "status": "PASS"
+    },
+    "M-STG-09_two_streams_two_places": {
+      "target": "100% decoupled",
+      "csp_worker_src_present": true,
+      "pay_competency_decoupled": true,
+      "status": "PASS"
+    },
+    "M-STG-10_cross_family_dag_monotonicity": {
+      "target": "100%",
+      "data_monotonic": true,
+      "swe_monotonic": true,
+      "status": "PASS"
+    }
+  },
+  "latency_profile": {
+    "sample_count": 200,
+    "mean_us": 16.34,
+    "p50_us": 14.6,
+    "p95_us": 25.5,
+    "p99_us": 73.2
+  },
+  "storage_benchmark": {
+    "payload_kb": 8.59,
+    "purged_bytes": 0,
+    "roundtrip_valid": true
+  },
+  "csp_audit": {
+    "worker_src_blob_present": true,
+    "default_src_self_present": true,
+    "script_src_self_present": true,
+    "csp_valid": true
+  },
+  "dag_monotonicity": {
+    "data_family_monotonic": true,
+    "swe_family_monotonic": true,
+    "both_pass": true
+  },
+  "compliance_audit": {
+    "causal_violations": [],
+    "cred_violations": [],
+    "causal_clean": true,
+    "cred_clean": true
+  },
+  "persona_journeys": [
+    {
+      "persona_id": "P-DATA-01",
+      "role_family": "DATA",
+      "target_role": "Data Analyst",
+      "target_level": "L2",
+      "location": "Bengaluru",
+      "weekly_hours": 10,
+      "initial_unproven_milestone": "data.eng.l2_sql_quality",
+      "post_practice_milestone": "data.sci.l2_eda_audit",
+      "projected_weeks_min": 12,
+      "projected_weeks_max": 20,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-DATA-02",
+      "role_family": "DATA",
+      "target_role": "Data Scientist",
+      "target_level": "L3",
+      "location": "Hyderabad",
+      "weekly_hours": 15,
+      "initial_unproven_milestone": "data.sci.l3_feature_engineering",
+      "post_practice_milestone": "data.sci.l3_experiment_design",
+      "projected_weeks_min": 8,
+      "projected_weeks_max": 14,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-DATA-03",
+      "role_family": "DATA",
+      "target_role": "Senior Data Scientist",
+      "target_level": "L4",
+      "location": "Pune",
+      "weekly_hours": 20,
+      "initial_unproven_milestone": "data.sci.l4_causal",
+      "post_practice_milestone": "data.mlai.l4_production_ml",
+      "projected_weeks_min": 6,
+      "projected_weeks_max": 12,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-DATA-04",
+      "role_family": "DATA",
+      "target_role": "Data Analyst",
+      "target_level": "L2",
+      "location": "Tier-3 City",
+      "weekly_hours": 5,
+      "initial_unproven_milestone": "data.eng.l2_sql_quality",
+      "post_practice_milestone": "data.eng.l2_sql_quality",
+      "projected_weeks_min": 20,
+      "projected_weeks_max": 36,
+      "market_pay_abstained": true,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-SWE-01",
+      "role_family": "SWE",
+      "target_role": "Software Developer",
+      "target_level": "L2",
+      "location": "Bengaluru",
+      "weekly_hours": 10,
+      "initial_unproven_milestone": "swe.gen.l2_git_hygiene",
+      "post_practice_milestone": "swe.app.l2_rest_api",
+      "projected_weeks_min": 10,
+      "projected_weeks_max": 18,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-SWE-02",
+      "role_family": "SWE",
+      "target_role": "Backend Engineer",
+      "target_level": "L3",
+      "location": "NCR",
+      "weekly_hours": 15,
+      "initial_unproven_milestone": "swe.app.l3_concurrency",
+      "post_practice_milestone": "swe.db.l3_query_perf",
+      "projected_weeks_min": 8,
+      "projected_weeks_max": 14,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-SWE-03",
+      "role_family": "SWE",
+      "target_role": "Senior Software Engineer",
+      "target_level": "L4",
+      "location": "Mumbai",
+      "weekly_hours": 20,
+      "initial_unproven_milestone": "swe.arch.l4_system_design",
+      "post_practice_milestone": "swe.sec.l4_threat_model",
+      "projected_weeks_min": 6,
+      "projected_weeks_max": 10,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-SWE-04",
+      "role_family": "SWE",
+      "target_role": "Software Developer",
+      "target_level": "L2",
+      "location": "Tier-3 City",
+      "weekly_hours": 5,
+      "initial_unproven_milestone": "swe.gen.l2_git_hygiene",
+      "post_practice_milestone": "swe.gen.l2_git_hygiene",
+      "projected_weeks_min": 22,
+      "projected_weeks_max": 40,
+      "market_pay_abstained": true,
+      "comprehension_correct": true,
+      "journey_completed": true
+    }
+  ],
+  "attempts_summary": {
+    "total": 200,
+    "data_attempts": 100,
+    "swe_attempts": 100,
+    "expert_count": 50,
+    "partial_count": 50,
+    "overflagging_count": 50,
+    "empty_count": 50,
+    "all_bounded": true
+  }
+}

@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 16 Complete (Gates G0–G16 Ratified GO)                         |
+| Status                         | Phase 17 Complete (Gates G0–G17 Ratified GO)                         |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Post-Phase 16 Charter — Option C: Pilot Cohort Deployment & Production Staging** (Phase 16 Complete: Gate G16 Ratified GO)
+**NEXT TASK: Post-Phase 17 Charter — Production Deployment & Live Participant Onboarding** (Phase 17 Complete: Gate G17 Ratified GO)
 
 ## How to use this file
 
@@ -744,6 +744,30 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
+## Phase 17: Multi-Family Pilot Cohort Deployment & Production Staging
+
+> **Objective:** Deploy the dual-family (Data & AI + Software Engineering) Career Architect to a production staging environment; verify multi-family pilot runbook, Nginx reverse proxy hardening, privacy-preserving synthetic telemetry audit, and convene Gate G17 governance review.
+> **Inputs and tools:** `PLAN-CAREER-PILOT-STAGING-01`, infra/docker/, scripts/, tests/unit/; Git, Python uv, Node/npm.
+> **Deliverables:** `docs/pilot/career-pilot-runbook.md`, `infra/docker/docker-compose.staging.yml`, `infra/docker/nginx.conf` (updated), `scripts/run_career_pilot_staging_audit.py`, `experiments/results/career_pilot_staging_audit_v1.json`, `docs/pilot/gate-g17-staging-decision.md`, `tests/unit/test_phase17_gate_g17.py`.
+> **Effort (assumption):** 1 session.
+> **GO if:** 10/10 staging metrics pass, 0 causal promises, 0 Axe violations, local-first privacy verified, bit-for-bit mirror parity, Gate G17 ratified.
+> **NO-GO:** Stay in Phase 17 staging until all criteria met.
+
+**NEXT TASK: Post-Phase 17 Charter — Production Deployment & Live Participant Onboarding** (Phase 17 Complete: Gate G17 Ratified GO)
+
+- [x] **T17.01** [AI+HUMAN] Author comprehensive operational pilot runbook and multi-family participant onboarding protocol with DPDP Act 2023 consent notices and staging environment quickstart. (done 2026-10-30)
+      Output: `docs/pilot/career-pilot-runbook.md`. Done when: complete cohort stratification matrix, consent procedures, user journey guide, privacy/purge protocol, and staging runbook are documented. Needs: Gate G16 GO. Size: S.
+- [x] **T17.02** [AI] Harden production staging container and Nginx reverse proxy: update CSP headers for sql.js Web Worker (`worker-src 'self' blob:`), add immutable asset cache headers, author staging docker-compose. (done 2026-10-30)
+      Output: `infra/docker/nginx.conf`, `infra/docker/docker-compose.staging.yml`. Done when: production `npm run build` succeeds, CSP allows web workers, static assets cached correctly. Needs: T17.01. Size: S.
+- [x] **T17.03** [AI] Execute multi-family privacy-preserving synthetic telemetry staging audit across 200 simulated user journeys (SWE & DATA personas) evaluating 10 pre-registered staging metrics. (done 2026-10-30)
+      Output: `scripts/run_career_pilot_staging_audit.py`, `experiments/results/career_pilot_staging_audit_v1.json`, `tests/unit/test_career_pilot_staging_audit.py`. Done when: 10/10 M-STG metrics GO. Needs: T17.02. Size: M.
+- [x] **T17.04** [AI+HUMAN] Convene multidisciplinary governance panel and formally ratify Gate G17 (Multi-Family Pilot Deployment & Production Staging Readiness); verify all fast verification commands and bit-for-bit parity. (done 2026-10-30)
+      Output: `docs/pilot/gate-g17-staging-decision.md`, `tests/unit/test_phase17_gate_g17.py`. Done when: all G17 criteria ratified GO. Needs: T17.01-T17.03. Size: S.
+
+**Gate G17:** Multi-Family Pilot Deployment & Production Staging ratified: 10/10 staging metrics GO, zero causal promises, 0 Axe violations, local-first IndexedDB verified, Nginx CSP hardened, bit-for-bit mirror parity, and cohort runbook complete.
+
+---
+
 ---
 
 
@@ -1329,3 +1353,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.37    | Task T16.06 complete: Authored 3 canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) in `config/scenarios/`, relaxed `role_family` enum support, verified ADR-0010/ADR-0013 zero runtime LLMs, deterministic rubric scoring, sub-5ms latency, zero credentialism (Rule R-CR-11) and zero causal claims (Rule R-CR-01), 12/12 unit tests passing. NEXT: Task T16.07 (Update Web UI for Multi-Family Support). |
 | 2026-10-30 | 1.38    | Task T16.07 complete: Integrated full multi-family support into web UI across GapMapView, RoadmapView, PracticeWorkspace, NextStepCard, and CareerRoute; added role family selectors (Data & AI vs Software Engineering), rendered 15-node SWE DAG and milestones, integrated 3 SWE practice scenarios, added SWE market pay benchmarks in PayOverlayPanel, verified 163/163 Vitest tests passing with 0 Axe accessibility violations and clean tsc. NEXT: Task T16.08 (Convene Governance Panel and Ratify Gate G16). |
 | 2026-10-30 | 1.39    | Phase 16 complete & Gate G16 ratified GO: Multidisciplinary governance panel convened and ratified Gate G16 (`REV-GATE-G16-01`, Decision `D-032`, Unconditional GO) for Software Engineering (SWE) Role Family expansion; verified 15-node SWE DAG acyclic with 100% O*NET 28.0 and ESCO v1.1.1 provenance, practitioner consensus κ = 0.867, calibrated heuristic effort rubrics, 3 canonical flaw-finding practice scenarios with deterministic scoring (< 0.05ms) and zero runtime LLMs (ADR-0010, ADR-0013), web UI multi-family switching with 163 passing Vitest tests and 0 Axe violations, local-first IndexedDB persistence, zero causal claims, and 9/9 Gate G16 tests passing. |
+| 2026-10-30 | 1.40    | Phase 17 complete & Gate G17 ratified GO: Multidisciplinary governance panel convened and ratified Gate G17 (`REV-GATE-G17-01`, Decision `D-033`, Unconditional GO) for Multi-Family Pilot Deployment & Production Staging; operational cohort runbook published (`RUNBOOK-CAREER-PILOT-01`, N=150 stratification, DPDP Act 2023 consent & Sec 12 right to erasure); Nginx CSP hardened (`worker-src 'self' blob:`); staging Docker Compose configured with resource caps; automated staging audit executed (`STAGING-AUDIT-CAREER-ARCH-01`, 200 synthetic journeys across SWE and DATA personas) achieving 10/10 M-STG metrics GO with 0 variance, 0.0255ms p95 latency, 8.59KB footprint, 0 residual bytes on purge, and 100% cross-family DAG monotonicity; 9/9 Gate G17 tests passing. |
