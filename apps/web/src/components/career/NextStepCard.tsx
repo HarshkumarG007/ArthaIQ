@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import type { ClientEvidenceRecord, ClientCareerProfile } from "../../lib/careerLedger";
 import {
   CANONICAL_ROADMAP_MILESTONES,
+  CANONICAL_SWE_ROADMAP_MILESTONES,
   type RoadmapMilestoneData,
 } from "./RoadmapView";
 import {
@@ -41,6 +42,25 @@ export const COMPETENCY_TARGET_LEVELS: Record<string, number> = {
   "data.sci.l4_causal": 4,
 };
 
+// Level requirement map for canonical SWE milestones (Level 2 = Junior, 3 = Mid, 4 = Senior)
+export const SWE_COMPETENCY_TARGET_LEVELS: Record<string, number> = {
+  "swe.gen.l2_git_hygiene": 2,
+  "swe.core.l2_data_structures": 2,
+  "swe.core.l2_concurrency": 2,
+  "swe.arch.l2_api_design": 2,
+  "swe.test.l2_unit_tdd": 2,
+  "swe.ops.l2_container_docker": 2,
+  "swe.core.l3_memory_perf": 3,
+  "swe.arch.l3_microservices": 3,
+  "swe.db.l3_query_perf": 3,
+  "swe.sec.l3_owasp_top10": 3,
+  "swe.rel.l3_observability": 3,
+  "swe.ops.l3_cicd_pipeline": 3,
+  "swe.sys.l4_dist_consensus": 4,
+  "swe.arch.l4_event_driven": 4,
+  "swe.sec.l4_crypto_dpdp": 4,
+};
+
 export const NextStepCard: React.FC<NextStepCardProps> = ({
   profile,
   records,
@@ -65,13 +85,17 @@ export const NextStepCard: React.FC<NextStepCardProps> = ({
     return 3;
   }, [profile]);
 
+  const isSweFamily = profile?.target_family?.toUpperCase() === "SWE";
+  const allMilestones = isSweFamily ? CANONICAL_SWE_ROADMAP_MILESTONES : CANONICAL_ROADMAP_MILESTONES;
+  const levelMap = isSweFamily ? SWE_COMPETENCY_TARGET_LEVELS : COMPETENCY_TARGET_LEVELS;
+
   // Filter milestones to those required for the targeted level
   const targetMilestones = useMemo(() => {
-    return CANONICAL_ROADMAP_MILESTONES.filter((m) => {
-      const minLevel = COMPETENCY_TARGET_LEVELS[m.id] ?? 2;
+    return allMilestones.filter((m) => {
+      const minLevel = levelMap[m.id] ?? 2;
       return minLevel <= maxTargetLevel;
     });
-  }, [maxTargetLevel]);
+  }, [allMilestones, levelMap, maxTargetLevel]);
 
   // Check which target milestones are demonstrated vs unproven/self-reported
   const { demonstratedCount, totalTargetCount, nextActionableMilestone, unlockedByNext } =

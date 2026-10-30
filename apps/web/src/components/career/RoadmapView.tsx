@@ -200,6 +200,180 @@ export const CANONICAL_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
   },
 ];
 
+export const CANONICAL_SWE_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
+  {
+    id: "swe.gen.l2_git_hygiene",
+    title: "Git Workflow and Trunk-Based Hygiene",
+    cluster: "dev_workflow",
+    category_label: "Developer Workflow & DevOps",
+    min_hours: 15,
+    max_hours: 25,
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "swe.core.l2_data_structures",
+    title: "Algorithmic Complexity and Core Data Structures",
+    cluster: "systems_architecture",
+    category_label: "Systems Architecture",
+    min_hours: 25,
+    max_hours: 40,
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "swe.core.l2_concurrency",
+    title: "Concurrency Primitives and Thread Safety",
+    cluster: "systems_architecture",
+    category_label: "Systems Architecture",
+    min_hours: 25,
+    max_hours: 45,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["swe.core.l2_data_structures"],
+    associated_scenario_id: "SCEN-SWE-01-CONCUR",
+    associated_scenario_title: "Asynchronous Task Dispatch Queue",
+  },
+  {
+    id: "swe.arch.l2_api_design",
+    title: "Contract-First API Architecture and Idempotency",
+    cluster: "application_development",
+    category_label: "Application Development",
+    min_hours: 20,
+    max_hours: 35,
+    learning_difficulty: 2.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "swe.test.l2_unit_tdd",
+    title: "Automated Unit Testing and Test Isolation",
+    cluster: "testing_quality",
+    category_label: "Testing & Quality",
+    min_hours: 15,
+    max_hours: 30,
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "swe.ops.l2_container_docker",
+    title: "Container Packaging and Minimal Base Images",
+    cluster: "dev_workflow",
+    category_label: "Developer Workflow & DevOps",
+    min_hours: 15,
+    max_hours: 25,
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "swe.core.l3_memory_perf",
+    title: "Memory Profiling and Resource Management",
+    cluster: "systems_architecture",
+    category_label: "Systems Architecture",
+    min_hours: 30,
+    max_hours: 50,
+    learning_difficulty: 3.0,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["swe.core.l2_concurrency"],
+  },
+  {
+    id: "swe.arch.l3_microservices",
+    title: "Microservice Resiliency and Fault Isolation",
+    cluster: "application_development",
+    category_label: "Application Development",
+    min_hours: 35,
+    max_hours: 60,
+    learning_difficulty: 3.0,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["swe.arch.l2_api_design"],
+  },
+  {
+    id: "swe.db.l3_query_perf",
+    title: "Relational Indexing and Query Performance",
+    cluster: "application_development",
+    category_label: "Application Development",
+    min_hours: 25,
+    max_hours: 45,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["swe.arch.l2_api_design"],
+    associated_scenario_id: "SCEN-SWE-03-DB",
+    associated_scenario_title: "Order Service Relational Pipeline",
+  },
+  {
+    id: "swe.sec.l3_owasp_top10",
+    title: "Web Application Security and Input Sanitization",
+    cluster: "security_reliability",
+    category_label: "Security & Reliability",
+    min_hours: 30,
+    max_hours: 50,
+    learning_difficulty: 3.0,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["swe.arch.l2_api_design", "swe.test.l2_unit_tdd"],
+    associated_scenario_id: "SCEN-SWE-02-SEC",
+    associated_scenario_title: "Multi-Tenant Ingress Router & Authentication",
+  },
+  {
+    id: "swe.rel.l3_observability",
+    title: "Telemetry, Structured Logging and Distributed Tracing",
+    cluster: "security_reliability",
+    category_label: "Security & Reliability",
+    min_hours: 20,
+    max_hours: 40,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["swe.arch.l2_api_design"],
+  },
+  {
+    id: "swe.ops.l3_cicd_pipeline",
+    title: "Hermetic CI/CD Pipelines and Automated Rollback",
+    cluster: "dev_workflow",
+    category_label: "Developer Workflow & DevOps",
+    min_hours: 25,
+    max_hours: 45,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["swe.gen.l2_git_hygiene", "swe.ops.l2_container_docker", "swe.test.l2_unit_tdd"],
+  },
+  {
+    id: "swe.sys.l4_dist_consensus",
+    title: "Distributed Consensus and Replicated State",
+    cluster: "systems_architecture",
+    category_label: "Systems Architecture",
+    min_hours: 60,
+    max_hours: 100,
+    learning_difficulty: 4.0,
+    application_difficulty: 5.0,
+    prerequisite_ids: ["swe.core.l3_memory_perf", "swe.arch.l3_microservices"],
+  },
+  {
+    id: "swe.arch.l4_event_driven",
+    title: "Event-Driven Architecture and Asynchronous Messaging",
+    cluster: "application_development",
+    category_label: "Application Development",
+    min_hours: 45,
+    max_hours: 75,
+    learning_difficulty: 4.0,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["swe.arch.l3_microservices", "swe.db.l3_query_perf"],
+  },
+  {
+    id: "swe.sec.l4_crypto_dpdp",
+    title: "Cryptographic Privacy and Verifiable Purge Operations",
+    cluster: "security_reliability",
+    category_label: "Security & Reliability",
+    min_hours: 50,
+    max_hours: 85,
+    learning_difficulty: 4.0,
+    application_difficulty: 5.0,
+    prerequisite_ids: ["swe.sec.l3_owasp_top10"],
+  },
+];
+
 export const PACING_OPTIONS = [
   { hours: 5, label: "Casual", description: "5 hours / week (Balanced pace)" },
   { hours: 10, label: "Recommended", description: "10 hours / week (Optimal progress)" },
@@ -212,6 +386,7 @@ interface RoadmapViewProps {
   records?: ClientEvidenceRecord[];
   onNavigatePractice?: (scenarioId?: string) => void;
   onNavigateSkills?: () => void;
+  roleFamily?: string;
 }
 
 export function RoadmapView({
@@ -219,9 +394,17 @@ export function RoadmapView({
   records = [],
   onNavigatePractice,
   onNavigateSkills,
+  roleFamily = "DATA",
 }: RoadmapViewProps): React.JSX.Element {
+  const [activeFamily, setActiveFamily] = useState<string>(roleFamily || "DATA");
   const [weeklyHours, setWeeklyHours] = useState<number>(initialWeeklyHours);
   const [filterState, setFilterState] = useState<"all" | "unproven" | "actionable">("all");
+
+  const activeMilestones = useMemo(() => {
+    return activeFamily.toUpperCase() === "SWE"
+      ? CANONICAL_SWE_ROADMAP_MILESTONES
+      : CANONICAL_ROADMAP_MILESTONES;
+  }, [activeFamily]);
 
   // Map of verified competency states
   const recordMap = useMemo(() => {
@@ -239,15 +422,15 @@ export function RoadmapView({
   // Index map of canonical milestones to find step numbers for prerequisites
   const milestoneIndexMap = useMemo(() => {
     const map = new Map<string, { stepNumber: number; title: string }>();
-    CANONICAL_ROADMAP_MILESTONES.forEach((m, idx) => {
+    activeMilestones.forEach((m, idx) => {
       map.set(m.id, { stepNumber: idx + 1, title: m.title });
     });
     return map;
-  }, []);
+  }, [activeMilestones]);
 
   // Compute enriched milestone data
   const enrichedMilestones = useMemo(() => {
-    return CANONICAL_ROADMAP_MILESTONES.map((m, idx) => {
+    return activeMilestones.map((m, idx) => {
       const stepNumber = idx + 1;
       const state = recordMap.get(m.id) ?? "unproven";
       const isDemonstrated = state === "demonstrated";
@@ -319,6 +502,35 @@ export function RoadmapView({
 
   return (
     <div className="space-y-6" data-testid="roadmap-view">
+      {/* Role Family Switcher */}
+      <div className="flex items-center gap-2" role="group" aria-label="Roadmap role family selector">
+        <span className="text-2xs font-semibold uppercase text-ink-3">Family:</span>
+        <button
+          type="button"
+          onClick={() => setActiveFamily("DATA")}
+          className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
+            activeFamily.toUpperCase() === "DATA"
+              ? "bg-span text-on-span shadow-xs"
+              : "border border-rule text-ink-2 hover:bg-sunken"
+          }`}
+          aria-label="View Data & AI roadmap"
+        >
+          Data & AI ({CANONICAL_ROADMAP_MILESTONES.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveFamily("SWE")}
+          className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
+            activeFamily.toUpperCase() === "SWE"
+              ? "bg-span text-on-span shadow-xs"
+              : "border border-rule text-ink-2 hover:bg-sunken"
+          }`}
+          aria-label="View Software Engineering roadmap"
+        >
+          Software Engineering ({CANONICAL_SWE_ROADMAP_MILESTONES.length})
+        </button>
+      </div>
+
       {/* Header & Section Title */}
       <div className="p-6 rounded-control border border-rule bg-sheet space-y-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">

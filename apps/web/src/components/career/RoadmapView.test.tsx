@@ -181,4 +181,21 @@ describe("RoadmapView (T15.31 Topological Roadmap & Effort Estimator)", () => {
     const results2 = await axe.run(container, AXE_OPTIONS);
     expect(results2.violations).toEqual([]);
   });
+
+  it("renders 15 SWE milestones when SWE family is active", () => {
+    render(<RoadmapView roleFamily="SWE" records={[]} />);
+
+    const step1 = screen.getByTestId("milestone-step-1");
+    expect(step1).toHaveTextContent(/Git Workflow and Trunk-Based Hygiene/i);
+
+    const step3 = screen.getByTestId("milestone-step-3");
+    expect(step3).toHaveTextContent(/Concurrency Primitives and Thread Safety/i);
+    expect(step3).toHaveTextContent(/Step 2/i); // requires swe.core.l2_data_structures (Step 2)
+
+    // Switch back to DATA family
+    fireEvent.click(screen.getByRole("button", { name: /view data & ai roadmap/i }));
+    expect(screen.getByTestId("milestone-step-1")).toHaveTextContent(
+      /Analytical Reasoning and Problem Decomposition/i
+    );
+  });
 });

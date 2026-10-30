@@ -187,5 +187,34 @@ describe("CareerRoute (T15.28 Career Architect View)", () => {
     const results = await axe.run(container, AXE_OPTIONS);
     expect(results.violations).toEqual([]);
   });
+
+  it("supports configuring and saving a Software Engineering (SWE) target profile", async () => {
+    render(<CareerRoute />);
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: /set your target role/i })).toBeInTheDocument();
+    });
+
+    // Select SWE family
+    const familySelect = screen.getByRole("combobox", { name: /^role family$/i });
+    fireEvent.change(familySelect, { target: { value: "SWE" } });
+
+    // Select Backend role
+    const roleSelect = screen.getByRole("combobox", { name: /^target role$/i });
+    fireEvent.change(roleSelect, { target: { value: "Software Engineer (Backend)" } });
+
+    // Submit form
+    const submitBtn = screen.getByRole("button", { name: /save target profile/i });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/SWE Family/i)).toBeInTheDocument();
+      expect(screen.getByText(/Software Engineer \(Backend\)/i)).toBeInTheDocument();
+    });
+
+    const saved = await getCareerProfile();
+    expect(saved?.target_family).toBe("SWE");
+    expect(saved?.target_role).toBe("Software Engineer (Backend)");
+  });
 });
 

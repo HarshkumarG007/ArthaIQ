@@ -202,4 +202,25 @@ describe("NextStepCard (T15.32 Single Next-Step Action Card)", () => {
     results = await axe.run(container, AXE_OPTIONS);
     expect(results.violations).toEqual([]);
   });
+
+  it("suggests first actionable SWE milestone when profile is SWE family", () => {
+    const sweProfile: ClientCareerProfile = {
+      id: "primary",
+      target_role: "Software Engineer (Backend)",
+      target_level: "L2_junior",
+      target_family: "SWE",
+      available_hours_per_week: 10,
+      updated_at: new Date().toISOString(),
+    };
+
+    render(
+      <NextStepCard
+        profile={sweProfile}
+        records={[]}
+      />
+    );
+
+    expect(screen.getByText(/Git Workflow and Trunk-Based Hygiene/i)).toBeInTheDocument();
+    expect(screen.getByText(/15–25 hours/i)).toBeInTheDocument();
+  });
 });

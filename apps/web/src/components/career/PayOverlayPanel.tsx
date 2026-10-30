@@ -68,6 +68,46 @@ export const MARKET_BENCHMARKS: Record<
   },
 };
 
+// Canonical Metro India Market Benchmarks for SWE family (in LPA)
+export const MARKET_BENCHMARKS_SWE: Record<
+  string, // location
+  Record<
+    "L2_junior" | "L3_mid" | "L4_senior",
+    BenchmarkDistribution | null
+  >
+> = {
+  bangalore: {
+    L2_junior: { p10: 9.0, p50: 14.0, p90: 20.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L3_mid: { p10: 18.0, p50: 28.0, p90: 40.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L4_senior: { p10: 35.0, p50: 52.0, p90: 75.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+  },
+  hyderabad: {
+    L2_junior: { p10: 8.5, p50: 13.0, p90: 18.5, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L3_mid: { p10: 16.5, p50: 25.5, p90: 36.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L4_senior: { p10: 32.0, p50: 48.0, p90: 68.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+  },
+  pune: {
+    L2_junior: { p10: 8.0, p50: 12.0, p90: 17.5, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L3_mid: { p10: 15.5, p50: 24.0, p90: 34.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L4_senior: { p10: 30.0, p50: 45.0, p90: 64.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+  },
+  mumbai: {
+    L2_junior: { p10: 9.5, p50: 14.5, p90: 21.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L3_mid: { p10: 19.0, p50: 29.0, p90: 42.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L4_senior: { p10: 36.0, p50: 54.0, p90: 78.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+  },
+  ncr: {
+    L2_junior: { p10: 9.0, p50: 13.5, p90: 19.5, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L3_mid: { p10: 17.5, p50: 27.0, p90: 38.5, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+    L4_senior: { p10: 34.0, p50: 50.0, p90: 72.0, sample_tier: "Tier 1 Metro Panel", as_of: "2026-10", is_offline_anchor: true },
+  },
+  other: {
+    L2_junior: null,
+    L3_mid: null,
+    L4_senior: null,
+  },
+};
+
 export const METRO_HUBS: { id: MetroHub; label: string }[] = [
   { id: "bangalore", label: "Bengaluru / Bangalore" },
   { id: "hyderabad", label: "Hyderabad" },
@@ -87,11 +127,14 @@ export const PayOverlayPanel: React.FC<PayOverlayPanelProps> = ({
     profile?.target_level || "L3_mid"
   );
 
+  const isSwe = profile?.target_family?.toUpperCase() === "SWE";
+  const benchmarks = isSwe ? MARKET_BENCHMARKS_SWE : MARKET_BENCHMARKS;
+
   const distribution = useMemo(() => {
-    const hubMap = MARKET_BENCHMARKS[selectedHub];
+    const hubMap = benchmarks[selectedHub];
     if (!hubMap) return null;
     return hubMap[selectedLevel];
-  }, [selectedHub, selectedLevel]);
+  }, [benchmarks, selectedHub, selectedLevel]);
 
   const levelLabel =
     selectedLevel === "L2_junior"

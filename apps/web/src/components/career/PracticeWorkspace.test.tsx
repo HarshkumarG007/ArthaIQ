@@ -232,4 +232,24 @@ describe("PracticeWorkspace (T15.30 Practice Workspace & Sandbox)", () => {
     const results2 = await axe.run(container, AXE_OPTIONS);
     expect(results2.violations).toEqual([]);
   });
+
+  it("renders SWE scenarios and supports role family filtering", () => {
+    render(<PracticeWorkspace initialScenarioId="SCEN-SWE-01-CONCUR" roleFamily="SWE" />);
+
+    expect(screen.getByRole("heading", { name: /Asynchronous Task Dispatch Queue/i })).toBeInTheDocument();
+    expect(screen.getByText(/Source Artifact \(PYTHON/i)).toBeInTheDocument();
+
+    // Verify SWE scenario pills exist
+    expect(screen.getByRole("button", { name: "SCEN-SWE-01-CONCUR" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-SWE-02-SEC" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-SWE-03-DB" })).toBeInTheDocument();
+
+    // Switch to security scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-02-SEC" }));
+    expect(screen.getByRole("heading", { name: /Multi-Tenant Ingress Router/i })).toBeInTheDocument();
+
+    // Switch to DB scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-03-DB" }));
+    expect(screen.getByRole("heading", { name: /Order Service Relational Pipeline/i })).toBeInTheDocument();
+  });
 });

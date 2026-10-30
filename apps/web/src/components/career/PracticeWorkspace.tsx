@@ -571,6 +571,224 @@ def aggregate_market_job_postings(postings_df: DataFrame, employers_df: DataFram
       },
     ],
   },
+  {
+    id: "SCEN-SWE-01-CONCUR",
+    title: "Diagnostic Review: Asynchronous Task Dispatch Queue",
+    description: "Inspect an asynchronous task dispatch queue for thread synchronization hazards, unbounded memory growth, and missing connection teardown.",
+    role_family: "SWE",
+    target_level: 2,
+    primary_competency_id: "swe.core.l2_concurrency",
+    language: "python",
+    instructions: "Inspect the asynchronous task queue for synchronization race hazards, unbounded memory retention, and missing connection teardown. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import asyncio
+import httpx
+
+PENDING_TASKS = asyncio.Queue()
+COMPLETED_EVENTS = []
+USER_EXECUTION_COUNTS = {}
+
+async def process_task(task_payload: dict) -> None:
+    user_id = task_payload['user_id']
+    # Read-modify-write without synchronization across concurrent tasks
+    current = USER_EXECUTION_COUNTS.get(user_id, 0)
+    await asyncio.sleep(0.01)
+    USER_EXECUTION_COUNTS[user_id] = current + 1
+
+    # Append to process global without eviction or TTL
+    COMPLETED_EVENTS.append(task_payload)
+
+    # Ephemeral HTTP client allocated per task without connection teardown
+    client = httpx.AsyncClient(timeout=5.0)
+    response = await client.post('https://api.internal/webhook', json=task_payload)
+    if response.status_code != 200:
+        raise RuntimeError('Webhook dispatch failed')
+
+async def worker_loop() -> None:
+    while True:
+        task = await PENDING_TASKS.get()
+        asyncio.create_task(process_task(task))`,
+    defects: [
+      {
+        id: "DEF-SWE-01-RACE",
+        line_number: 13,
+        category: "race_condition",
+        severity: "critical",
+        title: "Unsynchronized Shared State Read-Modify-Write Race Hazard",
+        consequence: "Concurrent tasks for the same user interleave between read and write, causing lost updates and corrupted counter state.",
+        diagnostic_explanation: "Use asyncio.Lock() or an atomic counter primitive to synchronize access to shared in-memory collections.",
+        competency_id: "swe.core.l2_concurrency",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-01-UNBOUNDED",
+        line_number: 16,
+        category: "unbounded_collection",
+        severity: "major",
+        title: "Unbounded In-Memory Retention of Completed Task Payloads",
+        consequence: "Appending every completed task payload to a process-global list without eviction or TTL causes progressive heap memory exhaustion.",
+        diagnostic_explanation: "Use a bounded deque with maxlen, a TTL-backed LRU cache, or persist completed event records to an external event store.",
+        competency_id: "swe.core.l3_memory_perf",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-01-LEAK",
+        line_number: 19,
+        category: "resource_leak",
+        severity: "major",
+        title: "Unclosed HTTP Client Session Socket Leak",
+        consequence: "Instantiating AsyncClient inside per-task handlers without an async with block or explicit aclose() leaves TCP sockets in CLOSE_WAIT.",
+        diagnostic_explanation: "Wrap the client in 'async with httpx.AsyncClient() as client:' or reuse a single shared client lifecycle across worker tasks.",
+        competency_id: "swe.core.l2_concurrency",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-SWE-02-SEC",
+    title: "Security Audit: Multi-Tenant Ingress Router and Authentication",
+    description: "Audit a web service route handler for SQL injection vectors, timing attack vulnerabilities in token verification, and unclosed connection leaks.",
+    role_family: "SWE",
+    target_level: 3,
+    primary_competency_id: "swe.sec.l3_owasp_top10",
+    language: "python",
+    instructions: "Inspect the web route handler for SQL injection vectors, timing side-channels, and unclosed database connection leaks. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `from fastapi import FastAPI, HTTPException, Request
+import sqlite3
+
+app = FastAPI()
+SECRET_WEBHOOK_KEY = 'sk_live_99a8b7c6d5e4'
+
+@app.post('/v1/tenants/{tenant_id}/query')
+async def query_tenant_records(tenant_id: str, request: Request) -> dict:
+    token = request.headers.get('X-Webhook-Token', '')
+    # Plaintext string comparison vulnerable to timing side-channel attack
+    if token != SECRET_WEBHOOK_KEY:
+        raise HTTPException(status_code=401, detail='Invalid token')
+
+    payload = await request.json()
+    user_query = payload.get('filter_term', '')
+
+    conn = sqlite3.connect('tenants.db')
+    cursor = conn.cursor()
+    # Direct string formatting in SQL query enabling injection
+    sql = f"SELECT id, data FROM records WHERE tenant_id = '{tenant_id}' AND tag = '{user_query}'"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+
+    # Unclosed database connection and cursor leak
+    return {'tenant': tenant_id, 'items': results, 'count': len(results)}`,
+    defects: [
+      {
+        id: "DEF-SWE-02-AUTH",
+        line_number: 11,
+        category: "broken_authentication",
+        severity: "critical",
+        title: "Constant-Time Secret Comparison Violation",
+        consequence: "Standard string equality (!=) returns early upon the first mismatched byte, exposing cryptographic API tokens to timing side-channel attacks.",
+        diagnostic_explanation: "Use hmac.compare_digest(token, SECRET_WEBHOOK_KEY) to execute constant-time token comparison.",
+        competency_id: "swe.sec.l3_owasp_top10",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-02-INJECT",
+        line_number: 20,
+        category: "sql_injection",
+        severity: "critical",
+        title: "Direct String Interpolation in Relational Query",
+        consequence: "F-string formatting injects unescaped user input directly into the SQL parser, enabling arbitrary SQL injection and cross-tenant data access.",
+        diagnostic_explanation: "Use parameterized query placeholders (?, :param) and pass inputs as separate parameter tuples to the database driver.",
+        competency_id: "swe.sec.l3_owasp_top10",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-02-LEAK",
+        line_number: 25,
+        category: "resource_leak",
+        severity: "major",
+        title: "Unclosed Database Connection in Route Handler",
+        consequence: "Allocating a database connection per request without calling close() or using a context manager exhausts the OS file descriptor table.",
+        diagnostic_explanation: "Use 'with sqlite3.connect(...) as conn:' or manage connections through a persistent connection pool.",
+        competency_id: "swe.sec.l3_owasp_top10",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-SWE-03-DB",
+    title: "Performance Audit: Order Service Relational Pipeline",
+    description: "Inspect an order batch processing routine for unpaginated in-memory collections, Cartesian join explosions, and database lock exhaustion.",
+    role_family: "SWE",
+    target_level: 3,
+    primary_competency_id: "swe.db.l3_query_perf",
+    language: "python",
+    instructions: "Inspect the order batch processing routine for unpaginated in-memory collections, Cartesian join explosions, and database lock exhaustion. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `from sqlalchemy.orm import Session
+from models import Order, DiscountRule
+
+def calculate_batch_discounts(db: Session, merchant_id: str) -> list[dict]:
+    # Full-table fetch loading all rows into RAM without pagination
+    all_orders = db.query(Order).filter(Order.merchant_id == merchant_id).all()
+
+    # Missing join condition producing Cartesian cross-product explosion
+    coupons = db.query(Order, DiscountRule).filter(Order.merchant_id == merchant_id).all()
+
+    processed = []
+    for order in all_orders:
+        total_rebate = sum(c.DiscountRule.amount for c in coupons if c.DiscountRule.min_spend <= order.total)
+        processed.append({'order_id': order.id, 'rebate': total_rebate})
+
+    # Dangling raw database cursor and uncommitted lock retention
+    raw_conn = db.bind.raw_connection()
+    cursor = raw_conn.cursor()
+    cursor.execute('UPDATE merchants SET last_batch_at = NOW() WHERE id = %s', (merchant_id,))
+    # Missing cursor.close() and transaction commit / release
+
+    return processed`,
+    defects: [
+      {
+        id: "DEF-SWE-03-UNBOUNDED",
+        line_number: 6,
+        category: "unbounded_collection",
+        severity: "critical",
+        title: "Unpaginated Full-Table Fetch into Application Heap",
+        consequence: "Calling .all() on an unconstrained customer order table loads millions of ORM objects into memory, triggering excessive GC latency and OOM failure.",
+        diagnostic_explanation: "Use keyset or cursor-based pagination with .limit() and .yield_per() to stream records in manageable batches.",
+        competency_id: "swe.db.l3_query_perf",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-03-EXPLOSION",
+        line_number: 9,
+        category: "cardinality_explosion",
+        severity: "critical",
+        title: "Cartesian Cross-Product from Missing Join Constraint",
+        consequence: "Querying two entities without an explicit join predicate generates an M x N cross product on the database engine, exhausting query worker threads.",
+        diagnostic_explanation: "Specify an explicit join predicate via .join(DiscountRule, Order.discount_id == DiscountRule.id) or a foreign key relationship.",
+        competency_id: "swe.db.l3_query_perf",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-03-LEAK",
+        line_number: 19,
+        category: "resource_leak",
+        severity: "major",
+        title: "Dangling Raw Database Cursor and Uncommitted Lock Retention",
+        consequence: "Acquiring a raw connection cursor without try-finally or context closure leaves transaction locks open and leaks physical database connections from the pool.",
+        diagnostic_explanation: "Use the managed db.execute() session interface or guarantee cursor.close() within a try...finally block.",
+        competency_id: "swe.db.l3_query_perf",
+        points: 1.0,
+      },
+    ],
+  },
 ];
 
 export interface CandidateFlagSubmission {
@@ -607,13 +825,16 @@ interface PracticeWorkspaceProps {
   initialScenarioId?: string;
   attempts?: ClientScenarioAttemptRecord[];
   onAttemptCompleted?: (record: ClientScenarioAttemptRecord) => void;
+  roleFamily?: string;
 }
 
 export function PracticeWorkspace({
   initialScenarioId = "SCEN-DATA-01-SQL",
   attempts = [],
   onAttemptCompleted,
+  roleFamily = "ALL",
 }: PracticeWorkspaceProps): React.JSX.Element {
+  const [familyFilter, setFamilyFilter] = useState<string>(roleFamily || "ALL");
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>(initialScenarioId);
   const [selectedLine, setSelectedLine] = useState<number>(1);
   const [categoryInput, setCategoryInput] = useState<string>("division_by_zero");
@@ -622,9 +843,21 @@ export function PracticeWorkspace({
   const [showSandbox, setShowSandbox] = useState<boolean>(false);
   const [evaluationReport, setEvaluationReport] = useState<AttemptReport | null>(null);
 
+  const filteredScenarios = useMemo(() => {
+    if (familyFilter === "ALL") return CANONICAL_SCENARIOS;
+    return CANONICAL_SCENARIOS.filter(
+      (s) => s.role_family.toUpperCase() === familyFilter.toUpperCase()
+    );
+  }, [familyFilter]);
+
   const scenario = useMemo(() => {
-    return CANONICAL_SCENARIOS.find((s) => s.id === selectedScenarioId) || CANONICAL_SCENARIOS[0]!;
-  }, [selectedScenarioId]);
+    return (
+      filteredScenarios.find((s) => s.id === selectedScenarioId) ||
+      CANONICAL_SCENARIOS.find((s) => s.id === selectedScenarioId) ||
+      filteredScenarios[0] ||
+      CANONICAL_SCENARIOS[0]!
+    );
+  }, [filteredScenarios, selectedScenarioId]);
 
   const priorAttempt = useMemo(() => {
     if (!attempts || attempts.length === 0) return null;
@@ -824,22 +1057,51 @@ export function PracticeWorkspace({
             )}
           </div>
 
-          {/* Scenario Tab Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto text-xs">
-            {CANONICAL_SCENARIOS.map((scen) => (
-              <button
-                key={scen.id}
-                type="button"
-                onClick={() => handleSelectScenario(scen.id)}
-                className={`px-3 py-1.5 rounded-control font-medium transition-colors shrink-0 ${
-                  scen.id === scenario.id
-                    ? "bg-span text-on-span font-semibold shadow-sm"
-                    : "border border-rule text-ink-2 hover:bg-sunken"
-                }`}
-              >
-                {scen.id}
-              </button>
-            ))}
+          {/* Scenario Tab Pills & Family Filter */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 overflow-x-auto text-xs">
+            <div className="flex items-center gap-1 shrink-0" role="group" aria-label="Role family filter">
+              {(["ALL", "DATA", "SWE"] as const).map((fam) => (
+                <button
+                  key={fam}
+                  type="button"
+                  onClick={() => {
+                    setFamilyFilter(fam);
+                    const matching =
+                      fam === "ALL"
+                        ? CANONICAL_SCENARIOS[0]
+                        : CANONICAL_SCENARIOS.find((s) => s.role_family === fam);
+                    if (matching && scenario.role_family !== fam && fam !== "ALL") {
+                      handleSelectScenario(matching.id);
+                    }
+                  }}
+                  className={`px-2 py-1 rounded-control text-2xs font-semibold transition-colors ${
+                    familyFilter === fam
+                      ? "bg-span text-on-span shadow-xs"
+                      : "border border-rule text-ink-2 hover:bg-sunken"
+                  }`}
+                  aria-label={`Filter by ${fam === "ALL" ? "All families" : fam === "DATA" ? "Data and AI" : "Software Engineering"}`}
+                >
+                  {fam === "ALL" ? "All" : fam === "DATA" ? "Data" : "SWE"}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-1.5 overflow-x-auto">
+              {filteredScenarios.map((scen) => (
+                <button
+                  key={scen.id}
+                  type="button"
+                  onClick={() => handleSelectScenario(scen.id)}
+                  className={`px-2.5 py-1 rounded-control font-medium transition-colors shrink-0 ${
+                    scen.id === scenario.id
+                      ? "bg-span text-on-span font-semibold shadow-sm"
+                      : "border border-rule text-ink-2 hover:bg-sunken"
+                  }`}
+                >
+                  {scen.id}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -1114,13 +1376,25 @@ export function PracticeWorkspace({
                   onChange={(e) => setCategoryInput(e.target.value)}
                   className="w-full px-3 py-1.5 rounded-control border border-rule text-xs bg-sheet text-ink focus:outline-none focus:ring-2 focus:ring-focus"
                 >
-                  <option value="division_by_zero">Division by Zero / Unguarded Denominator</option>
-                  <option value="lookahead_bias">Lookahead Bias / Future Activity Leakage</option>
-                  <option value="aggregation_bias">Aggregation Bias / Extraneous Group Key</option>
-                  <option value="sample_ratio_mismatch">Sample Ratio Mismatch / Assignment Bias</option>
-                  <option value="data_leakage">Feature Leakage / Premature Pre-filtering</option>
-                  <option value="metric_misalignment">Metric Misalignment / Unweighted Mean</option>
-                  <option value="syntax_runtime">Syntax or Runtime Exception</option>
+                  <optgroup label="Data & Analytics">
+                    <option value="division_by_zero">Division by Zero / Unguarded Denominator</option>
+                    <option value="lookahead_bias">Lookahead Bias / Future Activity Leakage</option>
+                    <option value="aggregation_bias">Aggregation Bias / Extraneous Group Key</option>
+                    <option value="sample_ratio_mismatch">Sample Ratio Mismatch / Assignment Bias</option>
+                    <option value="data_leakage">Feature Leakage / Premature Pre-filtering</option>
+                    <option value="metric_misalignment">Metric Misalignment / Unweighted Mean</option>
+                  </optgroup>
+                  <optgroup label="Software Engineering">
+                    <option value="race_condition">Race Condition / Unsynchronized Shared State</option>
+                    <option value="unbounded_collection">Unbounded Collection / Memory Retention</option>
+                    <option value="resource_leak">Resource Leak / Unclosed Socket or DB Connection</option>
+                    <option value="sql_injection">SQL Injection / String Formatting</option>
+                    <option value="broken_authentication">Broken Authentication / Timing Side-Channel</option>
+                    <option value="cardinality_explosion">Cardinality Explosion / Cartesian Product</option>
+                  </optgroup>
+                  <optgroup label="General">
+                    <option value="syntax_runtime">Syntax or Runtime Exception</option>
+                  </optgroup>
                 </select>
               </div>
 

@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 16 In Progress (T16.01-T16.06 Complete; T16.07 Active)                         |
+| Status                         | Phase 16 In Progress (T16.01-T16.07 Complete; T16.08 Active)                         |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T16.07 Update Web UI for Multi-Family Support** (Phase 16 Underway: T16.06 Scenarios Complete)
+**NEXT TASK: T16.08 Ratify Gate G16 (Software Engineering Role Family Expansion)** (Phase 16 Underway: T16.07 Web UI Multi-Family Complete)
 
 ## How to use this file
 
@@ -735,7 +735,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_multi_family.py`. Done when: get_competency_graph supports both DATA and SWE. Needs: T16.02, T16.03. Size: S.
 - [x] **T16.06** [AI] Author canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) with deterministic rubrics, pass thresholds, and unit tests. (done 2026-10-30)
       Output: `config/scenarios/scen_swe_*.json`, `tests/unit/test_career_scenarios_swe.py`. Done when: 3 scenarios pass validation, deterministic scoring, sub-5ms latency. Needs: T16.02. Size: M.
-- [ ] **T16.07** [AI] Update web UI for multi-family support: add SWE role target options, SWE scenarios in PracticeWorkspace, and role family switcher in GapMapView and RoadmapView.
+- [x] **T16.07** [AI] Update web UI for multi-family support: add SWE role target options, SWE scenarios in PracticeWorkspace, and role family switcher in GapMapView and RoadmapView. (done 2026-10-30)
       Output: `apps/web/src/components/career/*.tsx`, test suites. Done when: seamless family switching, 0 Axe violations, local-first IndexedDB persistence. Needs: T16.05, T16.06. Size: M.
 - [ ] **T16.08** [AI+HUMAN] Convene multidisciplinary governance panel and formally ratify Gate G16 (Software Engineering Role Family Expansion); verify all fast verification commands and bit-for-bit parity.
       Output: `docs/pilot/gate-g16-review.md`, `tests/unit/test_phase16_gate_g16.py`. Done when: all G16 criteria ratified GO. Needs: T16.01-T16.07. Size: S.
@@ -1327,3 +1327,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.35    | Task T16.04 complete: Convened independent practitioner review panel (Dr. Ananya Sen, Vikramaditya Joshi) and authored consensus review report `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01) with Cohen's Kappa κ = 0.867 (>= 0.80 target), 4 reconciled discrepancies, all 5 SWE clusters marked Reviewed, and 6/6 unit tests passing. NEXT: Task T16.05 (Extend FilesystemTaxonomyAdapter for Multi-Family Graph Requests). |
 | 2026-10-30 | 1.36    | Task T16.05 complete: Extended `FilesystemTaxonomyAdapter` and `CareerEngine` in `src/compintel/career/engine.py` to route multi-family graph and rubric requests (`family="SWE"`, `family="DATA"`), updated `TaxonomyPort` signatures, authored comprehensive unit test suite `tests/unit/test_career_engine_multi_family.py` (7/7 passing), verified backward compatibility with 30 passing engine & contract tests. NEXT: Task T16.06 (Author Canonical SWE Flaw-Finding Practice Scenarios). |
 | 2026-10-30 | 1.37    | Task T16.06 complete: Authored 3 canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) in `config/scenarios/`, relaxed `role_family` enum support, verified ADR-0010/ADR-0013 zero runtime LLMs, deterministic rubric scoring, sub-5ms latency, zero credentialism (Rule R-CR-11) and zero causal claims (Rule R-CR-01), 12/12 unit tests passing. NEXT: Task T16.07 (Update Web UI for Multi-Family Support). |
+| 2026-10-30 | 1.38    | Task T16.07 complete: Integrated full multi-family support into web UI across GapMapView, RoadmapView, PracticeWorkspace, NextStepCard, and CareerRoute; added role family selectors (Data & AI vs Software Engineering), rendered 15-node SWE DAG and milestones, integrated 3 SWE practice scenarios, added SWE market pay benchmarks in PayOverlayPanel, verified 163/163 Vitest tests passing with 0 Axe accessibility violations and clean tsc. NEXT: Task T16.08 (Convene Governance Panel and Ratify Gate G16). |

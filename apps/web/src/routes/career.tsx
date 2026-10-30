@@ -38,6 +38,7 @@ export function CareerRoute({
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>("SCEN-DATA-01-SQL");
 
   // Form state for profile setup/editing
+  const [formFamily, setFormFamily] = useState<string>("DATA");
   const [formRole, setFormRole] = useState("Data Analyst");
   const [formLevel, setFormLevel] = useState<TargetLevel>("L3_mid");
   const [formHours, setFormHours] = useState(10);
@@ -57,6 +58,7 @@ export function CareerRoute({
         setFormRole(p.target_role);
         setFormLevel(p.target_level);
         setFormHours(p.available_hours_per_week);
+        setFormFamily(p.target_family || "DATA");
       }
     } catch (err) {
       console.error("Failed to load local career data:", err);
@@ -81,7 +83,7 @@ export function CareerRoute({
     await saveCareerProfile({
       target_role: formRole,
       target_level: formLevel,
-      target_family: "DATA",
+      target_family: formFamily,
       available_hours_per_week: Number(formHours),
       updated_at: new Date().toISOString(),
     });
@@ -169,7 +171,30 @@ export function CareerRoute({
             calculates gaps and schedules topological practice milestones deterministically.
           </p>
           <form onSubmit={handleSaveProfile} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div>
+                <label htmlFor="target-family" className="block text-xs font-semibold text-ink mb-1">
+                  Role Family
+                </label>
+                <select
+                  id="target-family"
+                  value={formFamily}
+                  onChange={(e) => {
+                    const fam = e.target.value;
+                    setFormFamily(fam);
+                    if (fam === "SWE" && !formRole.includes("Software")) {
+                      setFormRole("Software Engineer (Backend)");
+                    } else if (fam === "DATA" && formRole.includes("Software")) {
+                      setFormRole("Data Analyst");
+                    }
+                  }}
+                  className="w-full px-3 py-2 rounded-control border border-rule-strong bg-sheet text-ink text-sm focus:outline-none focus:ring-2 focus:ring-focus"
+                >
+                  <option value="DATA">Data & AI</option>
+                  <option value="SWE">Software Engineering</option>
+                </select>
+              </div>
+
               <div>
                 <label htmlFor="target-role" className="block text-xs font-semibold text-ink mb-1">
                   Target Role
@@ -180,8 +205,19 @@ export function CareerRoute({
                   onChange={(e) => setFormRole(e.target.value)}
                   className="w-full px-3 py-2 rounded-control border border-rule-strong bg-sheet text-ink text-sm focus:outline-none focus:ring-2 focus:ring-focus"
                 >
-                  <option value="Data Analyst">Data Analyst</option>
-                  <option value="Data Scientist">Data Scientist</option>
+                  {formFamily === "SWE" ? (
+                    <>
+                      <option value="Software Engineer (Backend)">Software Engineer (Backend)</option>
+                      <option value="Software Engineer (Full-Stack)">Software Engineer (Full-Stack)</option>
+                      <option value="Systems & Platform Engineer">Systems & Platform Engineer</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="Data Analyst">Data Analyst</option>
+                      <option value="Data Scientist">Data Scientist</option>
+                      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                    </>
+                  )}
                 </select>
               </div>
 
@@ -246,7 +282,7 @@ export function CareerRoute({
                 Target Specialization
               </span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-span-wash text-span-strong font-medium">
-                DATA Family
+                {profile.target_family === "SWE" ? "SWE" : "DATA"} Family
               </span>
             </div>
             <h2 className="text-xl font-serif font-semibold text-ink">
@@ -365,6 +401,7 @@ export function CareerRoute({
             records={records}
             onRecordUpdated={loadLocalData}
             onNavigatePractice={() => handleSubViewSelect("practice")}
+            roleFamily={profile?.target_family ?? "DATA"}
           />
         </section>
       )}
@@ -381,6 +418,7 @@ export function CareerRoute({
             records={records}
             onNavigatePractice={() => handleSubViewSelect("practice")}
             onNavigateSkills={() => handleSubViewSelect("skills")}
+            roleFamily={profile?.target_family ?? "DATA"}
           />
 
           {/* Decoupled Market Compensation Context Overlay (T15.33, Rules R-CR-01, R-CR-02) */}
@@ -405,6 +443,7 @@ export function CareerRoute({
             initialScenarioId={selectedScenarioId}
             attempts={attempts}
             onAttemptCompleted={() => loadLocalData()}
+            roleFamily={profile?.target_family ?? "DATA"}
           />
         </section>
       )}

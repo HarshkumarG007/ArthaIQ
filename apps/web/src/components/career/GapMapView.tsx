@@ -9,7 +9,18 @@ import { CheckCircle2, AlertCircle, Clock, Shield, Search, Filter } from "lucide
 export interface CompetencyDataNode {
   id: string;
   title: string;
-  category: "core_analytics" | "statistical_modeling" | "data_engineering" | "business_communication" | "experimentation";
+  category:
+    | "core_analytics"
+    | "statistical_modeling"
+    | "data_engineering"
+    | "business_communication"
+    | "experimentation"
+    | "systems_architecture"
+    | "application_development"
+    | "testing_quality"
+    | "security_reliability"
+    | "dev_workflow"
+    | string;
   category_label: string;
   description: string;
   target_levels: number[];
@@ -250,21 +261,288 @@ export const CANONICAL_DATA_COMPETENCIES: CompetencyDataNode[] = [
   },
 ];
 
+export const CANONICAL_SWE_COMPETENCIES: CompetencyDataNode[] = [
+  {
+    id: "swe.gen.l2_git_hygiene",
+    title: "Git Workflow and Trunk-Based Hygiene",
+    category: "dev_workflow",
+    category_label: "Developer Workflow & DevOps",
+    description: "Maintain clean trunk-based commit histories, atomic diffs, interactive rebase conflict resolution, and pull request hygiene.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "swe.core.l2_data_structures",
+    title: "Algorithmic Complexity and Core Data Structures",
+    category: "systems_architecture",
+    category_label: "Systems Architecture",
+    description: "Analyze asymptotic time and space complexity, hash collision strategies, and tree/graph representations for low-latency execution.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.core.l2_concurrency",
+    title: "Concurrency Primitives and Thread Safety",
+    category: "systems_architecture",
+    category_label: "Systems Architecture",
+    description: "Design multithreaded and asynchronous routines using mutexes, read-write locks, atomic variables, and deadlock detection.",
+    target_levels: [2, 3],
+    prerequisite_ids: ["swe.core.l2_data_structures"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.arch.l2_api_design",
+    title: "Contract-First API Architecture and Idempotency",
+    category: "application_development",
+    category_label: "Application Development",
+    description: "Design REST and gRPC API contracts with RFC 9457 problem details, semantic versioning, and strict idempotency keys for mutative endpoints.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.test.l2_unit_tdd",
+    title: "Automated Unit Testing and Test Isolation",
+    category: "testing_quality",
+    category_label: "Testing & Quality",
+    description: "Author deterministic unit test suites with test doubles, hermetic fixture isolation, property testing, and high statement coverage.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "swe.ops.l2_container_docker",
+    title: "Container Packaging and Minimal Base Images",
+    category: "dev_workflow",
+    category_label: "Developer Workflow & DevOps",
+    description: "Author multi-stage container builds, non-root user execution, minimal attack surfaces, and reproducible image digest pinning.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "swe.core.l3_memory_perf",
+    title: "Memory Profiling and Resource Management",
+    category: "systems_architecture",
+    category_label: "Systems Architecture",
+    description: "Profile process heap allocation, identify memory leaks, manage connection lifecycles, and optimize allocator throughput.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["swe.core.l2_concurrency"],
+    learning_difficulty: 3.0,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.arch.l3_microservices",
+    title: "Microservice Resiliency and Fault Isolation",
+    category: "application_development",
+    category_label: "Application Development",
+    description: "Implement circuit breakers, exponential backoff, bulkhead isolation, and graceful degradation in distributed microservices.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["swe.arch.l2_api_design"],
+    learning_difficulty: 3.0,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.db.l3_query_perf",
+    title: "Relational Indexing and Query Performance",
+    category: "application_development",
+    category_label: "Application Development",
+    description: "Optimize database query execution plans, design composite B-tree indexes, resolve table lock contention, and prevent N+1 query patterns.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["swe.arch.l2_api_design"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.sec.l3_owasp_top10",
+    title: "Web Application Security and Input Sanitization",
+    category: "security_reliability",
+    category_label: "Security & Reliability",
+    description: "Enforce OWASP Top 10 defenses including parametrized SQL statements, CSP headers, CSRF tokens, SSRF protection, and cryptographically secure tokens.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["swe.arch.l2_api_design", "swe.test.l2_unit_tdd"],
+    learning_difficulty: 3.0,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.rel.l3_observability",
+    title: "Telemetry, Structured Logging and Distributed Tracing",
+    category: "security_reliability",
+    category_label: "Security & Reliability",
+    description: "Instrument services with OpenTelemetry traces, RED metric collection, and correlation IDs across asynchronous log streams.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["swe.arch.l2_api_design"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "swe.ops.l3_cicd_pipeline",
+    title: "Hermetic CI/CD Pipelines and Automated Rollback",
+    category: "dev_workflow",
+    category_label: "Developer Workflow & DevOps",
+    description: "Configure reproducible deployment pipelines with canary gates, automated health checks, zero-downtime rollouts, and rollback triggers.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["swe.gen.l2_git_hygiene", "swe.ops.l2_container_docker", "swe.test.l2_unit_tdd"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "swe.sys.l4_dist_consensus",
+    title: "Distributed Consensus and Replicated State",
+    category: "systems_architecture",
+    category_label: "Systems Architecture",
+    description: "Evaluate distributed consensus protocols (Raft, Paxos), split-brain scenarios, leader election timeouts, and linearizable consistency.",
+    target_levels: [4],
+    prerequisite_ids: ["swe.core.l3_memory_perf", "swe.arch.l3_microservices"],
+    learning_difficulty: 4.0,
+    application_difficulty: 5.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.arch.l4_event_driven",
+    title: "Event-Driven Architecture and Asynchronous Messaging",
+    category: "application_development",
+    category_label: "Application Development",
+    description: "Architect transactional outbox patterns, message deduplication, at-least-once delivery guarantees, and dead-letter queue handling.",
+    target_levels: [4],
+    prerequisite_ids: ["swe.arch.l3_microservices", "swe.db.l3_query_perf"],
+    learning_difficulty: 4.0,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "swe.sec.l4_crypto_dpdp",
+    title: "Cryptographic Privacy and Verifiable Purge Operations",
+    category: "security_reliability",
+    category_label: "Security & Reliability",
+    description: "Implement envelope encryption, keyed hash message authentication, and verifiable zero-byte hard deletion under DPDP Act 2023 Sec 12.",
+    target_levels: [4],
+    prerequisite_ids: ["swe.sec.l3_owasp_top10"],
+    learning_difficulty: 4.0,
+    application_difficulty: 5.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+];
+
 interface GapMapViewProps {
   records: ClientEvidenceRecord[];
   onRecordUpdated?: () => void;
   onNavigatePractice?: (scenarioId?: string) => void;
+  roleFamily?: string;
 }
 
 export function GapMapView({
   records,
   onRecordUpdated,
   onNavigatePractice,
+  roleFamily = "DATA",
 }: GapMapViewProps): React.JSX.Element {
+  const [activeFamily, setActiveFamily] = useState<string>(roleFamily || "DATA");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "gaps" | "actionable">("all");
   const [provenanceModalNode, setProvenanceModalNode] = useState<CompetencyDataNode | null>(null);
+
+  const activeCompetencies = useMemo(() => {
+    return activeFamily.toUpperCase() === "SWE"
+      ? CANONICAL_SWE_COMPETENCIES
+      : CANONICAL_DATA_COMPETENCIES;
+  }, [activeFamily]);
+
+  const allCompetenciesMap = useMemo(() => {
+    const map = new Map<string, CompetencyDataNode>();
+    for (const c of CANONICAL_DATA_COMPETENCIES) map.set(c.id, c);
+    for (const c of CANONICAL_SWE_COMPETENCIES) map.set(c.id, c);
+    return map;
+  }, []);
+
+  const availableCategories = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const c of activeCompetencies) {
+      map.set(c.category, c.category_label);
+    }
+    return Array.from(map.entries()).map(([value, label]) => ({ value, label }));
+  }, [activeCompetencies]);
 
   // Map of competency ID to client evidence record
   const recordsMap = useMemo(() => {
@@ -281,7 +559,7 @@ export function GapMapView({
     for (const prereqId of node.prerequisite_ids) {
       const rec = recordsMap.get(prereqId);
       if (!rec || (rec.verification_state !== "demonstrated" && rec.verification_state !== "self_reported")) {
-        const prereqNode = CANONICAL_DATA_COMPETENCIES.find((n) => n.id === prereqId);
+        const prereqNode = allCompetenciesMap.get(prereqId);
         missing.push(prereqNode ? prereqNode.title : prereqId);
       }
     }
@@ -316,7 +594,7 @@ export function GapMapView({
 
   // Filtered competencies
   const filteredNodes = useMemo(() => {
-    return CANONICAL_DATA_COMPETENCIES.filter((node) => {
+    return activeCompetencies.filter((node) => {
       // Search filter
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -348,24 +626,59 @@ export function GapMapView({
 
       return true;
     });
-  }, [searchQuery, selectedCategory, statusFilter, recordsMap]);
+  }, [activeCompetencies, searchQuery, selectedCategory, statusFilter, recordsMap]);
 
   // Statistics
-  const totalCount = CANONICAL_DATA_COMPETENCIES.length;
-  const demonstratedCount = CANONICAL_DATA_COMPETENCIES.filter(
+  const totalCount = activeCompetencies.length;
+  const demonstratedCount = activeCompetencies.filter(
     (n) => recordsMap.get(n.id)?.verification_state === "demonstrated"
   ).length;
-  const selfReportedCount = CANONICAL_DATA_COMPETENCIES.filter(
+  const selfReportedCount = activeCompetencies.filter(
     (n) => recordsMap.get(n.id)?.verification_state === "self_reported"
   ).length;
   const unprovenCount = Math.max(0, totalCount - (demonstratedCount + selfReportedCount));
-  const actionableCount = CANONICAL_DATA_COMPETENCIES.filter((n) => {
+  const actionableCount = activeCompetencies.filter((n) => {
     const isUnproven = !recordsMap.get(n.id) || recordsMap.get(n.id)?.verification_state === "unproven";
     return isUnproven && checkPrerequisites(n).satisfied;
   }).length;
 
   return (
     <div className="space-y-6" data-testid="gap-map-view">
+      {/* Family Switcher */}
+      <div className="flex items-center gap-2" role="group" aria-label="Role family selector">
+        <span className="text-2xs font-semibold uppercase text-ink-3">Family:</span>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveFamily("DATA");
+            setSelectedCategory("all");
+          }}
+          className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
+            activeFamily.toUpperCase() === "DATA"
+              ? "bg-span text-on-span shadow-xs"
+              : "border border-rule text-ink-2 hover:bg-sunken"
+          }`}
+          aria-label="View Data & AI competencies"
+        >
+          Data & AI ({CANONICAL_DATA_COMPETENCIES.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveFamily("SWE");
+            setSelectedCategory("all");
+          }}
+          className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
+            activeFamily.toUpperCase() === "SWE"
+              ? "bg-span text-on-span shadow-xs"
+              : "border border-rule text-ink-2 hover:bg-sunken"
+          }`}
+          aria-label="View Software Engineering competencies"
+        >
+          Software Engineering ({CANONICAL_SWE_COMPETENCIES.length})
+        </button>
+      </div>
+
       {/* Metrics Banner */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="p-4 rounded-control border border-rule bg-sheet">
@@ -442,7 +755,7 @@ export function GapMapView({
                   : "text-ink-2 hover:text-ink"
               }`}
             >
-              All (14)
+              All ({totalCount})
             </button>
             <button
               type="button"
@@ -485,61 +798,20 @@ export function GapMapView({
           >
             All Clusters
           </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory("core_analytics")}
-            className={`px-2.5 py-1 rounded-full border transition-colors shrink-0 ${
-              selectedCategory === "core_analytics"
-                ? "border-span bg-span text-on-span font-semibold"
-                : "border-rule text-ink-2 bg-sheet hover:bg-sunken"
-            }`}
-          >
-            Core Analytics
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory("statistical_modeling")}
-            className={`px-2.5 py-1 rounded-full border transition-colors shrink-0 ${
-              selectedCategory === "statistical_modeling"
-                ? "border-span bg-span text-on-span font-semibold"
-                : "border-rule text-ink-2 bg-sheet hover:bg-sunken"
-            }`}
-          >
-            Statistical Modeling
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory("data_engineering")}
-            className={`px-2.5 py-1 rounded-full border transition-colors shrink-0 ${
-              selectedCategory === "data_engineering"
-                ? "border-span bg-span text-on-span font-semibold"
-                : "border-rule text-ink-2 bg-sheet hover:bg-sunken"
-            }`}
-          >
-            Data Engineering
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory("business_communication")}
-            className={`px-2.5 py-1 rounded-full border transition-colors shrink-0 ${
-              selectedCategory === "business_communication"
-                ? "border-span bg-span text-on-span font-semibold"
-                : "border-rule text-ink-2 bg-sheet hover:bg-sunken"
-            }`}
-          >
-            Problem Structuring
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory("experimentation")}
-            className={`px-2.5 py-1 rounded-full border transition-colors shrink-0 ${
-              selectedCategory === "experimentation"
-                ? "border-span bg-span text-on-span font-semibold"
-                : "border-rule text-ink-2 bg-sheet hover:bg-sunken"
-            }`}
-          >
-            Experimentation
-          </button>
+          {availableCategories.map((cat) => (
+            <button
+              key={cat.value}
+              type="button"
+              onClick={() => setSelectedCategory(cat.value)}
+              className={`px-2.5 py-1 rounded-full border transition-colors shrink-0 ${
+                selectedCategory === cat.value
+                  ? "border-span bg-span text-on-span font-semibold"
+                  : "border-rule text-ink-2 bg-sheet hover:bg-sunken"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
       </div>
 

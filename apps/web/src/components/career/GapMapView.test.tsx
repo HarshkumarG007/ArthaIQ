@@ -165,4 +165,22 @@ describe("GapMapView (T15.29 Interactive Gap Map & Skills View)", () => {
     const results = await axe.run(container, AXE_OPTIONS);
     expect(results.violations).toEqual([]);
   });
+
+  it("supports switching to SWE family and displays all 15 SWE competencies", () => {
+    render(<GapMapView records={[]} roleFamily="SWE" />);
+
+    // Check SWE competencies render
+    expect(screen.getByText("Git Workflow and Trunk-Based Hygiene")).toBeInTheDocument();
+    expect(screen.getByText("Concurrency Primitives and Thread Safety")).toBeInTheDocument();
+    expect(screen.getByText("Web Application Security and Input Sanitization")).toBeInTheDocument();
+    expect(screen.getByText("Distributed Consensus and Replicated State")).toBeInTheDocument();
+
+    // Verify 15 total items in metrics or list
+    expect(screen.getAllByText(/\/ 15/i).length).toBeGreaterThan(0);
+
+    // Switch back to DATA using family switcher
+    fireEvent.click(screen.getByRole("button", { name: /view data & ai competencies/i }));
+    expect(screen.getByText("Relational SQL Querying and Table Joins")).toBeInTheDocument();
+    expect(screen.getAllByText(/\/ 14/i).length).toBeGreaterThan(0);
+  });
 });
