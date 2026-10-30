@@ -3,11 +3,11 @@
 | Attribute | Current Value |
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
-| **Release Status** | **v1.1.0 General Availability (GA) Released** · All 16 Gates G0–G15F Ratified GO |
-| **Active Milestone** | **Phase 16: Software Engineering (SWE) Role Family Expansion** |
-| **Active Subphase** | **Phase 16 Underway (T16.01-T16.07 Complete)** |
-| **Current Task** | **T16.07 Update Web UI for Multi-Family Support (Completed)** |
-| **Next Task** | **T16.08 Ratify Gate G16 (Software Engineering Role Family Expansion)** |
+| **Release Status** | **v1.2.0 General Availability (GA) Candidate** · All 17 Gates G0–G16 Ratified GO |
+| **Active Milestone** | **Post-Phase 16 Platform Charters** |
+| **Active Subphase** | **Phase 16 Complete (Gates G0–G16 Ratified GO)** |
+| **Current Task** | **T16.08 Gate G16 Ratification Review (Completed)** |
+| **Next Task** | **Option C: Pilot Cohort Deployment & Production Staging** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
@@ -41,11 +41,11 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 
 | ID | Date | Gate | Summary & Operational Impact |
 |:---|:---|:---|:---|
-| **D-027** | 2026-10-24 | **Gate G15B** | Ratified DATA family competency DAG (14 nodes, 0 cycles, 100% provenance), CI validators, practitioner consensus (κ = 0.857), and difficulty heuristic rubrics. |
 | **D-028** | 2026-10-29 | **Gate G15C** | Ratified deterministic career engine, stateless `/v1/career/*` FastAPI router, API key auth middleware (Gap 11), corrected offline fallback calibration (Gap 10), and verified zero runtime LLMs on serving path. |
 | **D-029** | 2026-10-30 | **Gate G15D** | Ratified Phase 15D practice scenarios & assessment engine: deterministic scorer (ADR-0013, κ = 1.0, 0.033ms), 3 reviewed DATA scenarios (κ = 0.882), zero credentialism claims (R-CR-11), and sql.js Web Worker sandbox. |
 | **D-030** | 2026-10-30 | **Gate G15E** | Ratified Phase 15E client dashboard: local-first IndexedDB ledger, zero server-side user career profiles, responsive navigation shell, interactive gap map, practice workspace with offline sandbox, and 0 accessibility violations. |
 | **D-031** | 2026-10-30 | **Gate G15F** | Ratified integrated Career Architect: end-to-end user journey across 4 sub-views, topological roadmap pacing slider, dynamic next-step action card, decoupled market pay overlay & honest abstention, 0 axe violations, and zero causal claims. |
+| **D-032** | 2026-10-30 | **Gate G16** | Ratified Software Engineering (SWE) Role Family Expansion: 15-node SWE DAG verified, practitioner consensus κ = 0.867, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. |
 
 ---
 
