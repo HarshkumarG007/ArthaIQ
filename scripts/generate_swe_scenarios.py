@@ -71,6 +71,50 @@ def generate_swe_scenarios() -> dict[str, PracticeScenario]:
         curated_date="2026-10-30",
     )
 
+    provenance_api = TaxonomyProvenance(
+        source_id=TaxonomySource.ARTHAIQ_CURATED,
+        source_code="ARTHAIQ-SCEN-SWE-04",
+        license=TaxonomyLicense.PROPRIETARY_INTERNAL,
+        attribution_required=True,
+        attribution_text="ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+        modified_flag=False,
+        curator="SWE Review Panel",
+        curated_date="2026-10-31",
+    )
+
+    provenance_test = TaxonomyProvenance(
+        source_id=TaxonomySource.ARTHAIQ_CURATED,
+        source_code="ARTHAIQ-SCEN-SWE-05",
+        license=TaxonomyLicense.PROPRIETARY_INTERNAL,
+        attribution_required=True,
+        attribution_text="ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+        modified_flag=False,
+        curator="SWE Review Panel",
+        curated_date="2026-10-31",
+    )
+
+    provenance_obs = TaxonomyProvenance(
+        source_id=TaxonomySource.ARTHAIQ_CURATED,
+        source_code="ARTHAIQ-SCEN-SWE-06",
+        license=TaxonomyLicense.PROPRIETARY_INTERNAL,
+        attribution_required=True,
+        attribution_text="ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+        modified_flag=False,
+        curator="SWE Review Panel",
+        curated_date="2026-10-31",
+    )
+
+    provenance_dist = TaxonomyProvenance(
+        source_id=TaxonomySource.ARTHAIQ_CURATED,
+        source_code="ARTHAIQ-SCEN-SWE-07",
+        license=TaxonomyLicense.PROPRIETARY_INTERNAL,
+        attribution_required=True,
+        attribution_text="ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+        modified_flag=False,
+        curator="SWE Review Panel",
+        curated_date="2026-10-31",
+    )
+
     # =========================================================================
     # 1. SCEN-SWE-01-CONCUR: Concurrency & Async Queue Review
     # =========================================================================
@@ -466,10 +510,491 @@ def generate_swe_scenarios() -> dict[str, PracticeScenario]:
         provenance=provenance_db,
     )
 
+    # =========================================================================
+    # 4. SCEN-SWE-04-API: Order Fulfillment REST API Endpoint Review
+    # =========================================================================
+    api_code = (
+        "from fastapi import FastAPI, HTTPException\n"
+        "from pydantic import BaseModel\n"
+        "import traceback\n"
+        "\n"
+        "app = FastAPI()\n"
+        "\n"
+        "class OrderRequest(BaseModel):\n"
+        "    user_id: str\n"
+        "    items: list[dict]\n"
+        "    shipping_address: dict | None = None\n"
+        "\n"
+        "@app.post('/v1/orders/checkout')\n"
+        "async def checkout_order(order: OrderRequest, db = None):\n"
+        "    try:\n"
+        "        # Unhandled null access on optional shipping address\n"
+        "        postal_code = order.shipping_address['pincode']\n"
+        "        # Unpaginated full table query loading all historical records into memory\n"
+        "        all_orders = db.query('SELECT * FROM orders').fetchall()\n"
+        "        # Process checkout\n"
+        "        return {'status': 'success', 'pincode': postal_code, 'order_count': len(all_orders)}\n"
+        "    except Exception as exc:\n"
+        "        # Leaks internal DB traceback and schema details to client\n"
+        "        return {'error': str(exc), 'stack_trace': traceback.format_exc()}\n"
+    )
+
+    scen_api = PracticeScenario(
+        id="SCEN-SWE-04-API",
+        title="Order Fulfillment REST API Endpoint Review",
+        description=(
+            "Inspect an order checkout endpoint for optional field null dereferences, "
+            "unpaginated full table query memory risks, and raw exception stack trace leaks."
+        ),
+        role_family=RoleFamily.SWE,
+        target_level=RoleLevel.LEVEL_2_JUNIOR,
+        primary_competency_id="swe.app.l2_rest_api",
+        secondary_competency_ids=["swe.app.l3_concurrency", "swe.test.l2_unit_test"],
+        artifact=ScenarioArtifact(
+            content=api_code,
+            language=ArtifactLanguage.PYTHON,
+            line_count=len(api_code.splitlines()),
+        ),
+        rubric=ScenarioRubric(
+            scenario_id="SCEN-SWE-04-API",
+            defects=[
+                SeededDefect(
+                    id="DEF-SWE-04-NULL",
+                    line_number=16,
+                    category=DefectCategory.NULL_HANDLING,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Unhandled Optional Address Null Dereference",
+                    consequence=(
+                        "Subscripting order.shipping_address without null checking raises TypeError "
+                        "when client submits payload without optional shipping details."
+                    ),
+                    diagnostic_explanation=(
+                        "Validate that shipping_address is not None before subscripting or use "
+                        "safe dictionary access like (order.shipping_address or {}).get('pincode')."
+                    ),
+                    competency_id="swe.app.l2_rest_api",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-04-UNBOUND",
+                    line_number=18,
+                    category=DefectCategory.UNBOUNDED_COLLECTION,
+                    severity=DefectSeverity.MAJOR,
+                    title="Unpaginated Full Table Query in API Handler",
+                    consequence=(
+                        "Loading all historical orders into server process memory causes extreme latency "
+                        "and Out-Of-Memory termination under high production data volumes."
+                    ),
+                    diagnostic_explanation=(
+                        "Apply parameterized pagination (LIMIT and OFFSET or cursor pagination) and filter by user_id."
+                    ),
+                    competency_id="swe.app.l2_rest_api",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-04-LEAK",
+                    line_number=23,
+                    category=DefectCategory.DATA_LEAKAGE,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Internal Database Stack Trace Exposure in Response",
+                    consequence=(
+                        "Returning raw traceback strings reveals internal schema details, table names, "
+                        "and filesystem paths to potential attackers."
+                    ),
+                    diagnostic_explanation=(
+                        "Return generic error message with unique correlation ID and log the detailed traceback server-side."
+                    ),
+                    competency_id="swe.app.l2_rest_api",
+                    points=1.0,
+                ),
+            ],
+            pass_threshold_score=2.0,
+            false_flag_penalty=FalseFlagPenalty(
+                penalty_per_flag=0.5,
+                max_penalty=1.5,
+            ),
+        ),
+        variants=[
+            ScenarioVariant(
+                variant_id="VAR-MARKETPLACE-CHECKOUT",
+                description="Consumer retail marketplace checkout handler",
+                parameters={"batch_size": "100", "auth_mode": "session"},
+            ),
+        ],
+        instructions=(
+            "Inspect the checkout API endpoint for unhandled null references, unpaginated data queries, "
+            "and sensitive stack trace leakage. Flag flawed line numbers and select correct defect classifications."
+        ),
+        disclaimer=(
+            "Technical practice scenario for capability self-reflection and professional "
+            "development (Rules R-CR-08, R-CR-11)."
+        ),
+        provenance=provenance_api,
+    )
+
+    # =========================================================================
+    # 5. SCEN-SWE-05-TEST: Payment Gateway Unit Test Suite Review
+    # =========================================================================
+    test_code = (
+        "import os\n"
+        "import pytest\n"
+        "from unittest.mock import AsyncMock, patch\n"
+        "\n"
+        "class TestPaymentService:\n"
+        "    def test_payment_gateway_timeout(self):\n"
+        "        # Modifies global environment variable without teardown or fixture cleanup\n"
+        "        os.environ['PAYMENT_GATEWAY_TIMEOUT'] = '0'\n"
+        "        from services import payment\n"
+        "        result = payment.initiate_charge(amount=1000)\n"
+        "        assert result.status == 'FAILED'\n"
+        "\n"
+        "    def test_mock_return_none_dereference(self):\n"
+        "        with patch('services.payment.client') as mock_client:\n"
+        "            # Mock returns None, causing unhandled attribute error when reading status\n"
+        "            mock_client.charge.return_value = None\n"
+        "            res = mock_client.charge(500)\n"
+        "            assert res.status == 'FAILED'\n"
+        "\n"
+        "    async def test_async_refund_missing_await(self):\n"
+        "        refund_mock = AsyncMock(return_value={'refund_id': 'REF-123'})\n"
+        "        # Coroutine called without await: assertion passes tautologically without executing logic\n"
+        "        refund_mock(charge_id='CHG-99')\n"
+        "        assert True\n"
+    )
+
+    scen_test = PracticeScenario(
+        id="SCEN-SWE-05-TEST",
+        title="Payment Gateway Unit Test Suite Review",
+        description=(
+            "Inspect an automated test suite for global environment mutation, "
+            "mock null dereference traps, and unawaited async coroutine assertions."
+        ),
+        role_family=RoleFamily.SWE,
+        target_level=RoleLevel.LEVEL_2_JUNIOR,
+        primary_competency_id="swe.test.l2_unit_test",
+        secondary_competency_ids=["swe.test.l3_integration", "swe.app.l2_rest_api"],
+        artifact=ScenarioArtifact(
+            content=test_code,
+            language=ArtifactLanguage.PYTHON,
+            line_count=len(test_code.splitlines()),
+        ),
+        rubric=ScenarioRubric(
+            scenario_id="SCEN-SWE-05-TEST",
+            defects=[
+                SeededDefect(
+                    id="DEF-SWE-05-ENV",
+                    line_number=8,
+                    category=DefectCategory.RESOURCE_LEAK,
+                    severity=DefectSeverity.MAJOR,
+                    title="Global Environment Mutation without Teardown",
+                    consequence=(
+                        "Mutating os.environ directly within a test pollutes subsequent test cases in the "
+                        "suite, causing non-deterministic order-dependent test failures."
+                    ),
+                    diagnostic_explanation=(
+                        "Use pytest's monkeypatch fixture (monkeypatch.setenv) to guarantee automatic cleanup."
+                    ),
+                    competency_id="swe.test.l2_unit_test",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-05-NULL",
+                    line_number=16,
+                    category=DefectCategory.NULL_HANDLING,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Mock Null Return Value Dereference Trap",
+                    consequence=(
+                        "Setting return_value to None causes res.status to raise AttributeError instead "
+                        "of asserting the expected FAILED status."
+                    ),
+                    diagnostic_explanation=(
+                        "Mock the response object with appropriate schema (e.g., Mock(status='FAILED')) or test handling of None."
+                    ),
+                    competency_id="swe.test.l2_unit_test",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-05-AWAIT",
+                    line_number=23,
+                    category=DefectCategory.RACE_CONDITION,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Unawaited Async Mock Coroutine Invocation",
+                    consequence=(
+                        "Calling an async coroutine without await produces an unawaited coroutine warning "
+                        "and causes the test to pass vacously without executing the underlying verification logic."
+                    ),
+                    diagnostic_explanation=(
+                        "Prefix async mock invocations with await (await refund_mock(...)) and assert specific return values."
+                    ),
+                    competency_id="swe.test.l2_unit_test",
+                    points=1.0,
+                ),
+            ],
+            pass_threshold_score=2.0,
+            false_flag_penalty=FalseFlagPenalty(
+                penalty_per_flag=0.5,
+                max_penalty=1.5,
+            ),
+        ),
+        variants=[
+            ScenarioVariant(
+                variant_id="VAR-PAYMENT-MOCK-TEST",
+                description="Core payment processing unit test harness",
+                parameters={"mock_backend": "stripe_stub"},
+            ),
+        ],
+        instructions=(
+            "Inspect the unit test methods for global state contamination, mock null dereferences, "
+            "and missing async await calls. Flag flawed line numbers and select correct defect classifications."
+        ),
+        disclaimer=(
+            "Technical practice scenario for capability self-reflection and professional "
+            "development (Rules R-CR-08, R-CR-11)."
+        ),
+        provenance=provenance_test,
+    )
+
+    # =========================================================================
+    # 6. SCEN-SWE-06-OBS: Telemetry Instrumentation & Audit Logging Review
+    # =========================================================================
+    obs_code = (
+        "import logging\n"
+        "from prometheus_client import Counter\n"
+        "\n"
+        "logger = logging.getLogger('api.telemetry')\n"
+        "\n"
+        "# Prometheus counter for incoming HTTP requests\n"
+        "REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'user_id'])\n"
+        "\n"
+        "def record_request_telemetry(method: str, user_id: str, auth_token: str, path: str):\n"
+        "    # High-cardinality metric explosion by tagging with unique user ID\n"
+        "    REQUEST_COUNT.labels(method=method, user_id=user_id).inc()\n"
+        "\n"
+        "    # Logging raw Authorization Bearer token into plain application logs\n"
+        "    logger.info(f'Processing request for path={path} with bearer_token={auth_token}')\n"
+        "\n"
+        "    # Insecure authentication parsing: accepts any string without checking Bearer scheme\n"
+        "    token_value = auth_token.split(' ')[-1]\n"
+        "    if not token_value:\n"
+        "        raise ValueError('Empty token')\n"
+        "    return {'status': 'recorded', 'user': user_id}\n"
+    )
+
+    scen_obs = PracticeScenario(
+        id="SCEN-SWE-06-OBS",
+        title="Telemetry Instrumentation & Audit Logging Review",
+        description=(
+            "Inspect request telemetry handlers for Prometheus cardinality explosions, "
+            "plaintext authentication token leaks in logs, and insecure token prefix extraction."
+        ),
+        role_family=RoleFamily.SWE,
+        target_level=RoleLevel.LEVEL_3_MID,
+        primary_competency_id="swe.sec.l3_auth_rbac",
+        secondary_competency_ids=["swe.sec.l4_threat_model", "swe.arch.l3_microservices"],
+        artifact=ScenarioArtifact(
+            content=obs_code,
+            language=ArtifactLanguage.PYTHON,
+            line_count=len(obs_code.splitlines()),
+        ),
+        rubric=ScenarioRubric(
+            scenario_id="SCEN-SWE-06-OBS",
+            defects=[
+                SeededDefect(
+                    id="DEF-SWE-06-CARD",
+                    line_number=11,
+                    category=DefectCategory.CARDINALITY_EXPLOSION,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Prometheus Metric High-Cardinality User Label",
+                    consequence=(
+                        "Tagging time-series metrics with unique user IDs causes unbounded time-series creation, "
+                        "leading to monitoring cluster memory exhaustion and ingestion failure."
+                    ),
+                    diagnostic_explanation=(
+                        "Remove individual user ID labels from Prometheus metrics; use distributed tracing for per-user diagnostics."
+                    ),
+                    competency_id="swe.sec.l3_auth_rbac",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-06-LEAK",
+                    line_number=14,
+                    category=DefectCategory.DATA_LEAKAGE,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Plaintext Authentication Token Leak in Application Logs",
+                    consequence=(
+                        "Writing raw bearer tokens to application logs exposes sensitive authentication tokens "
+                        "to log collectors, third-party indexers, and unauthorized internal operators."
+                    ),
+                    diagnostic_explanation=(
+                        "Mask or redact sensitive authentication headers before logging (e.g., token[:6] + '***')."
+                    ),
+                    competency_id="swe.sec.l3_auth_rbac",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-06-AUTH",
+                    line_number=17,
+                    category=DefectCategory.BROKEN_AUTHENTICATION,
+                    severity=DefectSeverity.MAJOR,
+                    title="Insecure Token Header Scheme Parsing",
+                    consequence=(
+                        "Splitting on space without validating the 'Bearer ' scheme prefix allows malformed or "
+                        "spoofed token schemes to bypass preliminary format validation."
+                    ),
+                    diagnostic_explanation=(
+                        "Strictly validate that the Authorization header starts with 'Bearer ' before extracting the token."
+                    ),
+                    competency_id="swe.sec.l3_auth_rbac",
+                    points=1.0,
+                ),
+            ],
+            pass_threshold_score=2.0,
+            false_flag_penalty=FalseFlagPenalty(
+                penalty_per_flag=0.5,
+                max_penalty=1.5,
+            ),
+        ),
+        variants=[
+            ScenarioVariant(
+                variant_id="VAR-INGRESS-TELEMETRY",
+                description="API gateway telemetry and security audit handler",
+                parameters={"log_format": "json"},
+            ),
+        ],
+        instructions=(
+            "Inspect the telemetry recorder for metric cardinality explosion, plaintext token exposure in logs, "
+            "and header parsing flaws. Flag flawed line numbers and select correct defect classifications."
+        ),
+        disclaimer=(
+            "Technical practice scenario for capability self-reflection and professional "
+            "development (Rules R-CR-08, R-CR-11)."
+        ),
+        provenance=provenance_obs,
+    )
+
+    # =========================================================================
+    # 7. SCEN-SWE-07-DIST: Distributed Cache & Resilient Read-Through Review
+    # =========================================================================
+    dist_code = (
+        "import time\n"
+        "import redis\n"
+        "\n"
+        "def fetch_user_profile(user_id: str, db_pool):\n"
+        "    # Creates unpooled raw Redis client on every single request causing connection exhaustion\n"
+        "    client = redis.Redis(host='localhost', port=6379, db=0)\n"
+        "    cache_key = f'user:profile:{user_id}'\n"
+        "    cached = client.get(cache_key)\n"
+        "    if cached:\n"
+        "        return cached\n"
+        "\n"
+        "    # Cache stampede: concurrent requests all query database directly without distributed lock\n"
+        "    data = db_pool.query_user(user_id)\n"
+        "    # Unbounded key scanning blocking Redis event loop instead of targeted pipeline\n"
+        "    all_keys = client.keys('user:profile:*')\n"
+        "    client.set(cache_key, str(data), ex=300)\n"
+        "    return data\n"
+    )
+
+    scen_dist = PracticeScenario(
+        id="SCEN-SWE-07-DIST",
+        title="Distributed Cache & Resilient Read-Through Review",
+        description=(
+            "Inspect a distributed caching function for unpooled client connection exhaustion, "
+            "cache stampede thundering herd vulnerabilities, and blocking KEYS command usage."
+        ),
+        role_family=RoleFamily.SWE,
+        target_level=RoleLevel.LEVEL_4_SENIOR,
+        primary_competency_id="swe.arch.l4_system_design",
+        secondary_competency_ids=["swe.arch.l3_microservices", "swe.app.l3_concurrency"],
+        artifact=ScenarioArtifact(
+            content=dist_code,
+            language=ArtifactLanguage.PYTHON,
+            line_count=len(dist_code.splitlines()),
+        ),
+        rubric=ScenarioRubric(
+            scenario_id="SCEN-SWE-07-DIST",
+            defects=[
+                SeededDefect(
+                    id="DEF-SWE-07-CONN",
+                    line_number=6,
+                    category=DefectCategory.RESOURCE_LEAK,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Unpooled Redis Client Instantiation per Request",
+                    consequence=(
+                        "Creating a new Redis connection object on every function call exhausts OS socket descriptors "
+                        "and introduces severe TCP handshake latency overhead under load."
+                    ),
+                    diagnostic_explanation=(
+                        "Instantiate a persistent Redis ConnectionPool once at application startup and share it across calls."
+                    ),
+                    competency_id="swe.arch.l4_system_design",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-07-STAMPEDE",
+                    line_number=13,
+                    category=DefectCategory.RACE_CONDITION,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Cache Stampede Thundering Herd Vulnerability",
+                    consequence=(
+                        "When a popular cache key expires, multiple concurrent requests simultaneously query the primary "
+                        "database, overwhelming database connection pools."
+                    ),
+                    diagnostic_explanation=(
+                        "Implement distributed locking (e.g. Redlock or singleflight pattern) to ensure only one process rebuilds the cache."
+                    ),
+                    competency_id="swe.arch.l4_system_design",
+                    points=1.0,
+                ),
+                SeededDefect(
+                    id="DEF-SWE-07-KEYS",
+                    line_number=15,
+                    category=DefectCategory.UNBOUNDED_COLLECTION,
+                    severity=DefectSeverity.CRITICAL,
+                    title="Blocking KEYS Command Execution in Production",
+                    consequence=(
+                        "The KEYS command iterates over all keys in the single-threaded Redis database synchronously, "
+                        "freezing all Redis operations for the entire application cluster."
+                    ),
+                    diagnostic_explanation=(
+                        "Avoid KEYS in production. Use SCAN with cursor pagination or maintain a dedicated set of keys."
+                    ),
+                    competency_id="swe.arch.l4_system_design",
+                    points=1.0,
+                ),
+            ],
+            pass_threshold_score=2.0,
+            false_flag_penalty=FalseFlagPenalty(
+                penalty_per_flag=0.5,
+                max_penalty=1.5,
+            ),
+        ),
+        variants=[
+            ScenarioVariant(
+                variant_id="VAR-USER-PROFILE-CACHE",
+                description="High-throughput user profile read-through cache layer",
+                parameters={"ttl_seconds": "300"},
+            ),
+        ],
+        instructions=(
+            "Inspect the caching function for connection leaks, cache stampede vulnerabilities, "
+            "and blocking Redis operations. Flag flawed line numbers and select correct defect classifications."
+        ),
+        disclaimer=(
+            "Technical practice scenario for capability self-reflection and professional "
+            "development (Rules R-CR-08, R-CR-11)."
+        ),
+        provenance=provenance_dist,
+    )
+
     scenarios = {
         "scen_swe_01_concur.json": scen_concur,
         "scen_swe_02_sec.json": scen_sec,
         "scen_swe_03_db.json": scen_db,
+        "scen_swe_04_api.json": scen_api,
+        "scen_swe_05_test.json": scen_test,
+        "scen_swe_06_obs.json": scen_obs,
+        "scen_swe_07_dist.json": scen_dist,
     }
 
     for filename, scenario in scenarios.items():

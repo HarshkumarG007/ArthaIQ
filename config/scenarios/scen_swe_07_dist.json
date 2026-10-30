@@ -1,0 +1,83 @@
+{
+  "id": "SCEN-SWE-07-DIST",
+  "title": "Distributed Cache & Resilient Read-Through Review",
+  "description": "Inspect a distributed caching function for unpooled client connection exhaustion, cache stampede thundering herd vulnerabilities, and blocking KEYS command usage.",
+  "role_family": "SWE",
+  "target_level": 4,
+  "primary_competency_id": "swe.arch.l4_system_design",
+  "secondary_competency_ids": [
+    "swe.arch.l3_microservices",
+    "swe.app.l3_concurrency"
+  ],
+  "artifact": {
+    "content": "import time\nimport redis\n\ndef fetch_user_profile(user_id: str, db_pool):\n    # Creates unpooled raw Redis client on every single request causing connection exhaustion\n    client = redis.Redis(host='localhost', port=6379, db=0)\n    cache_key = f'user:profile:{user_id}'\n    cached = client.get(cache_key)\n    if cached:\n        return cached\n\n    # Cache stampede: concurrent requests all query database directly without distributed lock\n    data = db_pool.query_user(user_id)\n    # Unbounded key scanning blocking Redis event loop instead of targeted pipeline\n    all_keys = client.keys('user:profile:*')\n    client.set(cache_key, str(data), ex=300)\n    return data\n",
+    "language": "python",
+    "line_count": 17
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-07-DIST",
+    "defects": [
+      {
+        "id": "DEF-SWE-07-CONN",
+        "line_number": 6,
+        "category": "resource_leak",
+        "severity": "critical",
+        "title": "Unpooled Redis Client Instantiation per Request",
+        "consequence": "Creating a new Redis connection object on every function call exhausts OS socket descriptors and introduces severe TCP handshake latency overhead under load.",
+        "diagnostic_explanation": "Instantiate a persistent Redis ConnectionPool once at application startup and share it across calls.",
+        "competency_id": "swe.arch.l4_system_design",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-07-STAMPEDE",
+        "line_number": 13,
+        "category": "race_condition",
+        "severity": "critical",
+        "title": "Cache Stampede Thundering Herd Vulnerability",
+        "consequence": "When a popular cache key expires, multiple concurrent requests simultaneously query the primary database, overwhelming database connection pools.",
+        "diagnostic_explanation": "Implement distributed locking (e.g. Redlock or singleflight pattern) to ensure only one process rebuilds the cache.",
+        "competency_id": "swe.arch.l4_system_design",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-07-KEYS",
+        "line_number": 15,
+        "category": "unbounded_collection",
+        "severity": "critical",
+        "title": "Blocking KEYS Command Execution in Production",
+        "consequence": "The KEYS command iterates over all keys in the single-threaded Redis database synchronously, freezing all Redis operations for the entire application cluster.",
+        "diagnostic_explanation": "Avoid KEYS in production. Use SCAN with cursor pagination or maintain a dedicated set of keys.",
+        "competency_id": "swe.arch.l4_system_design",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-USER-PROFILE-CACHE",
+      "description": "High-throughput user profile read-through cache layer",
+      "parameters": {
+        "ttl_seconds": "300"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the caching function for connection leaks, cache stampede vulnerabilities, and blocking Redis operations. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-07",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

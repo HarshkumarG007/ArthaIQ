@@ -1,0 +1,83 @@
+{
+  "id": "SCEN-SWE-05-TEST",
+  "title": "Payment Gateway Unit Test Suite Review",
+  "description": "Inspect an automated test suite for global environment mutation, mock null dereference traps, and unawaited async coroutine assertions.",
+  "role_family": "SWE",
+  "target_level": 2,
+  "primary_competency_id": "swe.test.l2_unit_test",
+  "secondary_competency_ids": [
+    "swe.test.l3_integration",
+    "swe.app.l2_rest_api"
+  ],
+  "artifact": {
+    "content": "import os\nimport pytest\nfrom unittest.mock import AsyncMock, patch\n\nclass TestPaymentService:\n    def test_payment_gateway_timeout(self):\n        # Modifies global environment variable without teardown or fixture cleanup\n        os.environ['PAYMENT_GATEWAY_TIMEOUT'] = '0'\n        from services import payment\n        result = payment.initiate_charge(amount=1000)\n        assert result.status == 'FAILED'\n\n    def test_mock_return_none_dereference(self):\n        with patch('services.payment.client') as mock_client:\n            # Mock returns None, causing unhandled attribute error when reading status\n            mock_client.charge.return_value = None\n            res = mock_client.charge(500)\n            assert res.status == 'FAILED'\n\n    async def test_async_refund_missing_await(self):\n        refund_mock = AsyncMock(return_value={'refund_id': 'REF-123'})\n        # Coroutine called without await: assertion passes tautologically without executing logic\n        refund_mock(charge_id='CHG-99')\n        assert True\n",
+    "language": "python",
+    "line_count": 24
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-05-TEST",
+    "defects": [
+      {
+        "id": "DEF-SWE-05-ENV",
+        "line_number": 8,
+        "category": "resource_leak",
+        "severity": "major",
+        "title": "Global Environment Mutation without Teardown",
+        "consequence": "Mutating os.environ directly within a test pollutes subsequent test cases in the suite, causing non-deterministic order-dependent test failures.",
+        "diagnostic_explanation": "Use pytest's monkeypatch fixture (monkeypatch.setenv) to guarantee automatic cleanup.",
+        "competency_id": "swe.test.l2_unit_test",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-05-NULL",
+        "line_number": 16,
+        "category": "null_handling",
+        "severity": "critical",
+        "title": "Mock Null Return Value Dereference Trap",
+        "consequence": "Setting return_value to None causes res.status to raise AttributeError instead of asserting the expected FAILED status.",
+        "diagnostic_explanation": "Mock the response object with appropriate schema (e.g., Mock(status='FAILED')) or test handling of None.",
+        "competency_id": "swe.test.l2_unit_test",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-05-AWAIT",
+        "line_number": 23,
+        "category": "race_condition",
+        "severity": "critical",
+        "title": "Unawaited Async Mock Coroutine Invocation",
+        "consequence": "Calling an async coroutine without await produces an unawaited coroutine warning and causes the test to pass vacously without executing the underlying verification logic.",
+        "diagnostic_explanation": "Prefix async mock invocations with await (await refund_mock(...)) and assert specific return values.",
+        "competency_id": "swe.test.l2_unit_test",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-PAYMENT-MOCK-TEST",
+      "description": "Core payment processing unit test harness",
+      "parameters": {
+        "mock_backend": "stripe_stub"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the unit test methods for global state contamination, mock null dereferences, and missing async await calls. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-05",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

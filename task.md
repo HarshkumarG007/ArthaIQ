@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 17 Complete (Gates G0–G17 Ratified GO)                         |
-| Last updated                   | 2026-10-30                                           |
+| Status                         | Phase 18 In Progress (T18.01 Active)                                 |
+| Last updated                   | 2026-10-31                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Post-Phase 17 Charter — Production Deployment & Live Participant Onboarding** (Phase 17 Complete: Gate G17 Ratified GO)
+**NEXT TASK: T18.02 Practitioner Consensus Review Panel** (Phase 18 Underway: T18.01 Complete)
 
 ## How to use this file
 
@@ -765,6 +765,30 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/gate-g17-staging-decision.md`, `tests/unit/test_phase17_gate_g17.py`. Done when: all G17 criteria ratified GO. Needs: T17.01-T17.03. Size: S.
 
 **Gate G17:** Multi-Family Pilot Deployment & Production Staging ratified: 10/10 staging metrics GO, zero causal promises, 0 Axe violations, local-first IndexedDB verified, Nginx CSP hardened, bit-for-bit mirror parity, and cohort runbook complete.
+
+---
+
+## Phase 18: SWE Practice Scenario Corpus Expansion
+
+> **Objective:** Expand the Software Engineering (SWE) flaw-finding practice scenario library from 3 to 7 canonical scenarios, achieving full scenario backing across REST API contracts, unit testing/mocking, observability/logging security, and distributed caching/resilience.
+> **Inputs and tools:** `PLAN-SCEN-CORPUS-SWE-01`, config/scenarios/, scripts/, tests/unit/; Git, Python uv, Node/npm.
+> **Deliverables:** `config/scenarios/scen_swe_04_api.json`, `config/scenarios/scen_swe_05_test.json`, `config/scenarios/scen_swe_06_obs.json`, `config/scenarios/scen_swe_07_dist.json`, `docs/pilot/scenario-review-swe-corpus-expansion.md`, `tests/unit/test_career_scenarios_swe_expansion.py`, `docs/pilot/gate-g18-review.md`, `tests/unit/test_phase18_gate_g18.py`.
+> **Effort (assumption):** 1 session.
+> **GO if:** 4 new scenarios pass validation, practitioner consensus κ >= 0.80, deterministic scoring, sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass, Gate G18 ratified.
+> **NO-GO:** Stay in Phase 18 until all criteria met.
+
+**NEXT TASK: T18.02 Practitioner Consensus Review Panel** (Phase 18 Underway: T18.01 Complete)
+
+- [x] **T18.01** [AI] Author 4 canonical SWE flaw-finding practice scenarios (`SCEN-SWE-04-API`, `SCEN-SWE-05-TEST`, `SCEN-SWE-06-OBS`, `SCEN-SWE-07-DIST`) with deterministic rubrics, pass thresholds, and anti-leakage isolation.
+      Output: `config/scenarios/scen_swe_*.json`. Done when: 4 scenarios pass Pydantic validation, line bounds (<= 30 lines), deterministic scoring. Needs: Gate G17 GO. Size: M.
+- [ ] **T18.02** [AI+HUMAN] Convene practitioner consensus review panel (two independent practitioners) to evaluate the 4 new SWE scenarios with inter-rater reliability κ >= 0.80 and author consensus review dossier.
+      Output: `docs/pilot/scenario-review-swe-corpus-expansion.md`. Done when: Cohen's Kappa κ >= 0.80, all 4 scenarios unanimously approved. Needs: T18.01. Size: S.
+- [ ] **T18.03** [AI] Build automated unit test suite `tests/unit/test_career_scenarios_swe_expansion.py` verifying schema conformance, client anti-leakage isolation, deterministic scoring (σ² = 0.0), and sub-5ms latency SLA.
+      Output: `tests/unit/test_career_scenarios_swe_expansion.py`. Done when: all unit tests pass green. Needs: T18.01, T18.02. Size: S.
+- [ ] **T18.04** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `RoadmapView.tsx`), verify 0 Axe violations, update multi-family staging telemetry audit (14 scenarios), convene governance panel, and ratify Gate G18.
+      Output: `apps/web/src/components/career/*.tsx`, `docs/pilot/gate-g18-review.md`, `tests/unit/test_phase18_gate_g18.py`. Done when: all G18 criteria ratified GO. Needs: T18.01-T18.03. Size: M.
+
+**Gate G18:** SWE Practice Scenario Corpus Expansion ratified: 7 canonical SWE scenarios verified, practitioner consensus κ >= 0.80, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
 
 ---
 

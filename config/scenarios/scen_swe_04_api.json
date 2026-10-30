@@ -1,0 +1,84 @@
+{
+  "id": "SCEN-SWE-04-API",
+  "title": "Order Fulfillment REST API Endpoint Review",
+  "description": "Inspect an order checkout endpoint for optional field null dereferences, unpaginated full table query memory risks, and raw exception stack trace leaks.",
+  "role_family": "SWE",
+  "target_level": 2,
+  "primary_competency_id": "swe.app.l2_rest_api",
+  "secondary_competency_ids": [
+    "swe.app.l3_concurrency",
+    "swe.test.l2_unit_test"
+  ],
+  "artifact": {
+    "content": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\nimport traceback\n\napp = FastAPI()\n\nclass OrderRequest(BaseModel):\n    user_id: str\n    items: list[dict]\n    shipping_address: dict | None = None\n\n@app.post('/v1/orders/checkout')\nasync def checkout_order(order: OrderRequest, db = None):\n    try:\n        # Unhandled null access on optional shipping address\n        postal_code = order.shipping_address['pincode']\n        # Unpaginated full table query loading all historical records into memory\n        all_orders = db.query('SELECT * FROM orders').fetchall()\n        # Process checkout\n        return {'status': 'success', 'pincode': postal_code, 'order_count': len(all_orders)}\n    except Exception as exc:\n        # Leaks internal DB traceback and schema details to client\n        return {'error': str(exc), 'stack_trace': traceback.format_exc()}\n",
+    "language": "python",
+    "line_count": 23
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-04-API",
+    "defects": [
+      {
+        "id": "DEF-SWE-04-NULL",
+        "line_number": 16,
+        "category": "null_handling",
+        "severity": "critical",
+        "title": "Unhandled Optional Address Null Dereference",
+        "consequence": "Subscripting order.shipping_address without null checking raises TypeError when client submits payload without optional shipping details.",
+        "diagnostic_explanation": "Validate that shipping_address is not None before subscripting or use safe dictionary access like (order.shipping_address or {}).get('pincode').",
+        "competency_id": "swe.app.l2_rest_api",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-04-UNBOUND",
+        "line_number": 18,
+        "category": "unbounded_collection",
+        "severity": "major",
+        "title": "Unpaginated Full Table Query in API Handler",
+        "consequence": "Loading all historical orders into server process memory causes extreme latency and Out-Of-Memory termination under high production data volumes.",
+        "diagnostic_explanation": "Apply parameterized pagination (LIMIT and OFFSET or cursor pagination) and filter by user_id.",
+        "competency_id": "swe.app.l2_rest_api",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-04-LEAK",
+        "line_number": 23,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Internal Database Stack Trace Exposure in Response",
+        "consequence": "Returning raw traceback strings reveals internal schema details, table names, and filesystem paths to potential attackers.",
+        "diagnostic_explanation": "Return generic error message with unique correlation ID and log the detailed traceback server-side.",
+        "competency_id": "swe.app.l2_rest_api",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-MARKETPLACE-CHECKOUT",
+      "description": "Consumer retail marketplace checkout handler",
+      "parameters": {
+        "batch_size": "100",
+        "auth_mode": "session"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the checkout API endpoint for unhandled null references, unpaginated data queries, and sensitive stack trace leakage. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-04",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

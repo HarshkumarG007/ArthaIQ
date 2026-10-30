@@ -1,0 +1,83 @@
+{
+  "id": "SCEN-SWE-06-OBS",
+  "title": "Telemetry Instrumentation & Audit Logging Review",
+  "description": "Inspect request telemetry handlers for Prometheus cardinality explosions, plaintext authentication token leaks in logs, and insecure token prefix extraction.",
+  "role_family": "SWE",
+  "target_level": 3,
+  "primary_competency_id": "swe.sec.l3_auth_rbac",
+  "secondary_competency_ids": [
+    "swe.sec.l4_threat_model",
+    "swe.arch.l3_microservices"
+  ],
+  "artifact": {
+    "content": "import logging\nfrom prometheus_client import Counter\n\nlogger = logging.getLogger('api.telemetry')\n\n# Prometheus counter for incoming HTTP requests\nREQUEST_COUNT = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'user_id'])\n\ndef record_request_telemetry(method: str, user_id: str, auth_token: str, path: str):\n    # High-cardinality metric explosion by tagging with unique user ID\n    REQUEST_COUNT.labels(method=method, user_id=user_id).inc()\n\n    # Logging raw Authorization Bearer token into plain application logs\n    logger.info(f'Processing request for path={path} with bearer_token={auth_token}')\n\n    # Insecure authentication parsing: accepts any string without checking Bearer scheme\n    token_value = auth_token.split(' ')[-1]\n    if not token_value:\n        raise ValueError('Empty token')\n    return {'status': 'recorded', 'user': user_id}\n",
+    "language": "python",
+    "line_count": 20
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-06-OBS",
+    "defects": [
+      {
+        "id": "DEF-SWE-06-CARD",
+        "line_number": 11,
+        "category": "cardinality_explosion",
+        "severity": "critical",
+        "title": "Prometheus Metric High-Cardinality User Label",
+        "consequence": "Tagging time-series metrics with unique user IDs causes unbounded time-series creation, leading to monitoring cluster memory exhaustion and ingestion failure.",
+        "diagnostic_explanation": "Remove individual user ID labels from Prometheus metrics; use distributed tracing for per-user diagnostics.",
+        "competency_id": "swe.sec.l3_auth_rbac",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-06-LEAK",
+        "line_number": 14,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Plaintext Authentication Token Leak in Application Logs",
+        "consequence": "Writing raw bearer tokens to application logs exposes sensitive authentication tokens to log collectors, third-party indexers, and unauthorized internal operators.",
+        "diagnostic_explanation": "Mask or redact sensitive authentication headers before logging (e.g., token[:6] + '***').",
+        "competency_id": "swe.sec.l3_auth_rbac",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-06-AUTH",
+        "line_number": 17,
+        "category": "broken_authentication",
+        "severity": "major",
+        "title": "Insecure Token Header Scheme Parsing",
+        "consequence": "Splitting on space without validating the 'Bearer ' scheme prefix allows malformed or spoofed token schemes to bypass preliminary format validation.",
+        "diagnostic_explanation": "Strictly validate that the Authorization header starts with 'Bearer ' before extracting the token.",
+        "competency_id": "swe.sec.l3_auth_rbac",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-INGRESS-TELEMETRY",
+      "description": "API gateway telemetry and security audit handler",
+      "parameters": {
+        "log_format": "json"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the telemetry recorder for metric cardinality explosion, plaintext token exposure in logs, and header parsing flaws. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-06",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}
