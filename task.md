@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.0.0 GA Released (Phases 0-14 complete; Gates G0-G14 ratified; General Availability Release) |
-| Last updated                   | 2026-10-25                                           |
+| Status                         | v1.1.0 GA Released (Phases 0-15 complete; All 16 Gates G0-G15F ratified; Integrated Career Architect GA Release; Pilot Telemetry Audit Passed) |
+| Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 15C: T15.21 Stateless /v1/career/* FastAPI Router** (T15.20 Job Description Intake & Sanitization completed; zero server retention & 97.8% coverage proven; 105 tests green)
+**NEXT TASK: Post-Phase 15 Backlog & Platform Charters** (Phase 15 Complete, Gates G15A–G15F Ratified GO; Pilot Telemetry & Journey Audit Passed 10/10 M-TEL Metrics GO)
 
 ## How to use this file
 
@@ -1126,6 +1126,103 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | tests/unit/test_phase14_gate_g14.py | Gate G14 |
 | docs/research/evidence-register.csv (Claim 31) | Gate G14 |
 
+### Phase 15: Career Architect & Local Acceleration
+
+| Deliverable | Task |
+| --- | --- |
+| docs/pilot/hardware-baseline.md | T15.00 |
+| docs/STATE.md | T15.01 |
+| docs/rules/*.md | T15.01 |
+| AGENTS.md | T15.02 |
+| .agents/rules/*.md | T15.02 |
+| scripts/lint_agent_rules.py | T15.02 |
+| PRD.md (v1.2) | T15.03 |
+| docs/adr/ADR-0010-llm-boundary-anti-causal-invariants.md | T15.04 |
+| docs/adr/ADR-0011-competency-graph-evidence-ledger.md | T15.04 |
+| docs/adr/ADR-0012-local-first-profile-privacy-architecture.md | T15.04 |
+| docs/adr/ADR-0013-deterministic-rubric-scoring-practice-scenarios.md | T15.04 |
+| experiments/configs/charters/charter_career_arch_01.yaml | T15.05 |
+| docs/legal/dpdp-career-architect-brief.md | T15.07 |
+| docs/pilot/gate-g15a-review.md | Gate G15A |
+| tests/unit/test_phase15a_gate_g15a.py | Gate G15A |
+| tests/unit/test_phase15a_adrs.py | Gate G15A |
+| src/compintel/career/schema.py | T15.09 |
+| config/schemas/ | T15.09 |
+| tests/unit/test_career_schema.py | T15.09 |
+| src/compintel/career/validators.py | T15.10 |
+| tests/unit/test_career_validators.py | T15.10 |
+| src/compintel/career/ingestion.py | T15.11 |
+| config/taxonomy/data_family.json | T15.11 |
+| config/taxonomy/manifest.json | T15.11 |
+| tests/unit/test_career_ingestion.py | T15.11 |
+| src/compintel/career/graph.py | T15.12 |
+| config/taxonomy/competency_graph_data.json | T15.12 |
+| tests/unit/test_career_graph.py | T15.12 |
+| docs/pilot/competency-review-data-family.md | T15.13 |
+| tests/unit/test_competency_review.py | T15.13 |
+| src/compintel/career/rubric.py | T15.14 |
+| config/taxonomy/difficulty_rubrics.json | T15.14 |
+| tests/unit/test_career_rubric.py | T15.14 |
+| docs/pilot/gate-g15b-review.md | Gate G15B |
+| tests/unit/test_phase15b_gate_g15b.py | Gate G15B |
+| src/compintel/career/engine.py | T15.15 |
+| tests/unit/test_career_engine.py | T15.15 |
+| src/compintel/career/gap.py | T15.16 |
+| tests/unit/test_career_gap.py | T15.16 |
+| src/compintel/career/roadmap.py | T15.17 |
+| tests/unit/test_career_roadmap.py | T15.17 |
+| src/compintel/career/effort.py | T15.18 |
+| tests/unit/test_career_effort.py | T15.18 |
+| src/compintel/career/intake.py | T15.20 |
+| tests/unit/test_career_intake.py | T15.20 |
+| src/compintel/serving/routers/career.py | T15.21 |
+| src/compintel/serving/middleware.py | T15.21 |
+| tests/contract/test_career_api_contract.py | T15.21 |
+| tests/contract/test_security_contracts.py | T15.21 |
+| docs/pilot/gate-g15c-review.md | Gate G15C |
+| tests/unit/test_phase15c_gate_g15c.py | Gate G15C |
+| src/compintel/career/scenario_schema.py | T15.22 |
+| tests/unit/test_career_scenario_schema.py | T15.22 |
+| src/compintel/career/scenario_scorer.py | T15.23 |
+| tests/unit/test_career_scenario_scorer.py | T15.23 |
+| config/scenarios/scen_data_01_sql.json | T15.24 |
+| config/scenarios/scen_data_02_eda.json | T15.24 |
+| config/scenarios/scen_data_03_exp.json | T15.24 |
+| docs/pilot/scenario-review-data-family.md | T15.24 |
+| tests/unit/test_career_scenarios_data.py | T15.24 |
+| scripts/benchmark_scenario_scorer.py | T15.25 |
+| experiments/results/scenario_scorer_validation_v1.json | T15.25 |
+| docs/pilot/scenario-scorer-validation.md | T15.25 |
+| tests/unit/test_scenario_scorer_validation.py | T15.25 |
+| docs/research/sql-sandbox-spike.md | T15.26 |
+| tests/unit/test_sql_sandbox_spike.py | T15.26 |
+| docs/pilot/gate-g15d-review.md | Gate G15D |
+| tests/unit/test_phase15d_gate_g15d.py | Gate G15D |
+| apps/web/src/lib/careerLedger.ts | T15.27 |
+| apps/web/src/lib/careerLedger.test.ts | T15.27 |
+| apps/web/src/components/NavigationShell.tsx | T15.28 |
+| apps/web/src/components/NavigationShell.test.tsx | T15.28 |
+| apps/web/src/routes/career.tsx | T15.28 |
+| apps/web/src/routes/career.test.tsx | T15.28 |
+| apps/web/src/components/career/GapMapView.tsx | T15.29 |
+| apps/web/src/components/career/GapMapView.test.tsx | T15.29 |
+| apps/web/src/components/career/PracticeWorkspace.tsx | T15.30 |
+| apps/web/src/components/career/PracticeWorkspace.test.tsx | T15.30 |
+| docs/pilot/gate-g15e-review.md | Gate G15E |
+| tests/unit/test_phase15e_gate_g15e.py | Gate G15E |
+| apps/web/src/components/career/RoadmapView.tsx | T15.31 |
+| apps/web/src/components/career/RoadmapView.test.tsx | T15.31 |
+| apps/web/src/components/career/NextStepCard.tsx | T15.32 |
+| apps/web/src/components/career/NextStepCard.test.tsx | T15.32 |
+| apps/web/src/components/career/PayOverlayPanel.tsx | T15.33 |
+| apps/web/src/components/career/PayOverlayPanel.test.tsx | T15.33 |
+| docs/pilot/gate-g15f-review.md | Gate G15F |
+| tests/unit/test_phase15f_gate_g15f.py | Gate G15F |
+| scripts/run_career_pilot_telemetry.py | Post-15 Telemetry |
+| experiments/results/career_pilot_telemetry_v1.json | Post-15 Telemetry |
+| docs/pilot/career-architect-pilot-telemetry.md | Post-15 Telemetry |
+| tests/unit/test_career_pilot_telemetry.py | Post-15 Telemetry |
+
 ## Change log
 
 | Date       | Version | Change                                                                                           |
@@ -1162,3 +1259,10 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-24 | 1.21    | Executed post-Gate G13 three-track sequential program: (Track 1) Production Health & Freshness Telemetry Audit (14/14 sources fresh, 80.2% coverage, 0 drift alerts, 0 staleness violations, 0.136ms rollback); (Track 2) Interactive Scenario UI Polish (PT4 Gaussian Copula Joint Distribution integration in NegotiationScenario and EstimateScreen, 96/96 Vitest tests passing, 0 axe accessibility violations, clean Vite production build); (Track 3) Phase 14 Architecture & B2B Syndication Intake Protocol (SRC-B2B-01.yaml, docs/research/b2b-syndication-protocol-phase14.md, cryptographic HMAC isolation, k_min >= 5 floor, tests/unit/test_b2b_syndication_spec.py 5/5 passing). |
 | 2026-10-24 | 1.22    | Phase 14 Implementation complete: (1) Implemented B2BSyndicationConnector in `src/compintel/ingestion/connector.py` for SRC-B2B-01 with mandatory accounting validation and forbidden PII scrubbing; (2) Implemented differential privacy and small-cell aggregation engine `B2BPrivacyPooler` (`src/compintel/ingestion/privacy_pooling.py`) enforcing Rule R-DA-10 k_min >= 5 anonymity floor, ₹50,000 wage coarsening, quarterly date coarsening, and CCI anti-collusion safe harbor compliance; (3) Added full Phase 14 test suite in `tests/unit/test_phase14_syndication.py` (9/9 passing); (4) Pre-registered CHARTER-EXP-10r-v2 and CHARTER-CAREER-TRAJ-r-v2 in `experiments/configs/charters/` with 12/12 charter tests passing; Champion Rung F Level 2 Conformal CatBoost strictly preserved unmodified. |
 | 2026-10-24 | 1.23    | Phase 14 complete & Gate G14 ratified GO: (1) Gate G14 milestone review executed and ratified GO (`docs/pilot/gate-g14-review.md`, `scripts/run_phase14_review.py`, `experiments/results/phase14_gate_g14_report.json`, `tests/unit/test_phase14_gate_g14.py` 3/3 passing); (2) Evidence Register Claim 31 registered for B2B Enterprise Syndication Intake and Differential Privacy Pooling; (3) Decision D-025 approved; (4) Package versions bumped to 1.0.0 (`pyproject.toml`, `apps/web/package.json`); (5) ArthaIQ v1.0.0 General Availability officially released on GitHub. |
+| 2026-10-24 | 1.24    | Phase 15A complete & Gate G15A ratified GO: Hardware baseline recorded (Legion Pro 5i), context hygiene operational (`docs/STATE.md`), modular agent rules and linter passing in CI, PRD delta v1.2, ADR-0010 to ADR-0013 accepted, Decision D-026 approved. |
+| 2026-10-24 | 1.25    | Phase 15B complete & Gate G15B ratified GO: DATA family competency graph (14 nodes, 0 cycles, 100% provenance), CI validators, practitioner consensus (κ = 0.857), and difficulty heuristic rubrics ratified, Decision D-027 approved. |
+| 2026-10-29 | 1.26    | Phase 15C complete & Gate G15C ratified GO: Deterministic career engine, stateless `/v1/career/*` router, API key auth middleware, corrected offline fallback calibration, and verified zero runtime LLMs on serving path, Decision D-028 approved. |
+| 2026-10-30 | 1.27    | Phase 15D complete & Gate G15D ratified GO: Flaw-finding practice scenarios (`SCEN-DATA-01-SQL`, `SCEN-DATA-02-EDA`, `SCEN-DATA-03-EXP`), deterministic rubric scorer (κ = 1.0, 0.033ms), practitioner consensus (κ = 0.882), zero credentialism claims (R-CR-11), Decision D-029 approved. |
+| 2026-10-30 | 1.28    | Phase 15E complete & Gate G15E ratified GO: Browser client & evidence ledger UI, local-first IndexedDB persistence, zero server profiles in MVP, responsive navigation shell, interactive gap map, practice workspace with browser sandbox, 0 axe accessibility violations, Decision D-030 approved. |
+| 2026-10-30 | 1.29    | Phase 15F complete & Gate G15F ratified GO: Integrated Career Architect, roadmap view with pacing slider, single next-step action card, decoupled pay overlay & honest abstention panel, 0 axe violations, zero causal pay claims, Decision D-031 approved. |
+| 2026-10-30 | 1.30    | Post-Phase 15 Pilot Telemetry & Synthetic User Journey Audit complete (`TELEM-CAREER-ARCH-01`): 10/10 M-TEL metrics GO, scoring latency p95 = 30.3 µs, determinism variance = 0.0, DPDP Act 2023 Sec 12 hard purge verified (0 bytes retained), client storage footprint 18.02 KB. |
