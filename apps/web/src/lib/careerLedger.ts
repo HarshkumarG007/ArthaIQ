@@ -444,29 +444,24 @@ export async function importLedgerBackup(
 
 /**
  * Single-click hard erasure of all career ledger data (India DPDP Act 2023).
- * Closes connections and deletes the IndexedDB database.
+ * Wipes all object stores and resets database footprint.
  */
 export async function purgeAllUserData(): Promise<void> {
-  closeLedgerDB();
+  if (typeof indexedDB === "undefined") {
+    return;
+  }
 
-  return new Promise((resolve, reject) => {
-    if (typeof indexedDB === "undefined") {
-      resolve();
-      return;
-    }
-
-    const request = indexedDB.deleteDatabase(DB_NAME);
-
-    request.onsuccess = () => {
-      resolve();
-    };
-    request.onerror = () => {
-      reject(request.error || new Error("Failed to purge career ledger database"));
-    };
-    request.onblocked = () => {
-      // In case another tab held connection, resolve once unblocked
-      resolve();
-    };
+  const db = await openLedgerDB();
+  return new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(
+      [STORE_EVIDENCE, STORE_PROFILE, STORE_ATTEMPTS],
+      "readwrite"
+    );
+    tx.objectStore(STORE_EVIDENCE).clear();
+    tx.objectStore(STORE_PROFILE).clear();
+    tx.objectStore(STORE_ATTEMPTS).clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error || new Error("Failed to clear ledger stores"));
   });
 }
 

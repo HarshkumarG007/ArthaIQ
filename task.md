@@ -677,7 +677,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 - [x] **T15.27** [AI] Local-first store on IndexedDB: implement client-side ledger schema, version migrations, JSON export/import, hard delete-all, and quota handling. (done 2026-10-30)
       Output: `apps/web/src/lib/careerLedger.ts`. Done when: unit tests pass with zero server storage. Needs: Gate G15D. Size: L.
-- [ ] **T15.28** [AI] Navigation shell & design tokens: add Career routes, side rail, bottom nav, responsive layout, and contrast auditing script updates.
+- [x] **T15.28** [AI] Navigation shell & design tokens: add Career routes, side rail, bottom nav, responsive layout, and contrast auditing script updates. (done 2026-10-30)
       Output: `apps/web/src/routes/career.tsx`. Done when: navigation tests and axe accessibility passes. Needs: T15.27. Size: M.
 - [ ] **T15.29** [AI] Interactive Gap Map & Skills View: render DATA family competency graph, verification states (Unproven/Self-reported/Demonstrated), and prerequisite locks.
       Output: `apps/web/src/components/career/GapMapView.tsx`. Done when: visual state changes on ledger update. Needs: T15.27. Size: L.
