@@ -54,7 +54,7 @@ describe("NavigationShell (T15.28 Responsive Layout & Navigation)", () => {
     render(<NavigationShell />);
 
     await waitFor(() => {
-      expect(screen.getByText(/topological roadmap/i)).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: /topological roadmap/i })).toBeInTheDocument();
     });
   });
 

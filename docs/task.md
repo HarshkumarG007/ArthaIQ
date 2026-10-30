@@ -693,7 +693,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 **Objective:** Deliver integrated topological roadmap, effort pacing slider, next step guidance, and decoupled pay evidence overlay (FR-21 to FR-26).
 **Needs:** Gate G15E.
 
-- [ ] **T15.31** [AI] Roadmap View & Pacing Slider: render topological learning path partitioned by weekly budget with heuristic effort ranges.
+- [x] **T15.31** [AI] Roadmap View & Pacing Slider: render topological learning path partitioned by weekly budget with heuristic effort ranges. (done 2026-10-30)
       Output: `apps/web/src/components/career/RoadmapView.tsx`. Done when: milestones respect prerequisite ordering and budget scaling works. Needs: Gate G15E. Size: M.
 - [ ] **T15.32** [AI] Single Next-Step Action Card: render clear guidance on highest-priority unproven gap and launch practice scenarios.
       Output: `apps/web/src/components/career/NextStepCard.tsx`. Done when: card points to actionable next milestone and updates on attempt pass. Needs: T15.31. Size: S.

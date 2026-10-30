@@ -13,6 +13,7 @@ import {
 } from "../lib/careerLedger";
 import { GapMapView } from "../components/career/GapMapView";
 import { PracticeWorkspace } from "../components/career/PracticeWorkspace";
+import { RoadmapView } from "../components/career/RoadmapView";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
 
@@ -359,25 +360,12 @@ export function CareerRoute({
           aria-labelledby="tab-plan"
           className="space-y-4"
         >
-          <div className="p-6 rounded-control border border-rule bg-sheet">
-            <h3 className="text-base font-serif font-semibold text-ink mb-1">
-              Topological Roadmap & Calibrated Effort Estimator
-            </h3>
-            <p className="text-xs text-ink-2 mb-4">
-              Calculates dependency-ordered learning paths partitioned by your weekly budget
-              ({profile?.available_hours_per_week ?? 10} hours/week).
-            </p>
-            <div className="p-4 rounded-control bg-sunken border border-rule text-xs text-ink-2 space-y-2">
-              <p className="font-semibold text-ink">
-                Statutory Heuristic Disclaimer (Rules R-CR-01, R-CR-05):
-              </p>
-              <p>
-                Estimated effort ranges are calibrated heuristic models based on domain syllabus depth.
-                Completing scenarios or learning competencies does NOT promise or guarantee salary increases
-                or job offers (Consumer Protection Act, 2019).
-              </p>
-            </div>
-          </div>
+          <RoadmapView
+            initialWeeklyHours={profile?.available_hours_per_week ?? 10}
+            records={records}
+            onNavigatePractice={() => handleSubViewSelect("practice")}
+            onNavigateSkills={() => handleSubViewSelect("skills")}
+          />
         </section>
       )}
 

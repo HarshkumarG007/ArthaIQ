@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15F: Integrated Career Dashboard & Pilot Release** |
-| **Current Task** | **Gate G15E Ratification (Completed)** |
-| **Next Task** | **Phase 15F: T15.31 Roadmap View Component & Pacing Slider** |
+| **Current Task** | **T15.31 Roadmap View Component & Pacing Slider (Completed)** |
+| **Next Task** | **Phase 15F: T15.32 Single Next-Step Action Card** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
