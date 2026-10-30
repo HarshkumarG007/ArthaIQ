@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-DATA-06-FEATENG",
+  "title": "Diagnostic Review: Tabular Feature Engineering & Leakage Isolation",
+  "description": "Review a tabular feature engineering and validation preprocessing pipeline for global scaling leakage, in-fold target leakage, and future lookahead features.",
+  "role_family": "DATA",
+  "target_level": 3,
+  "primary_competency_id": "data.sci.l3_feat_eng",
+  "secondary_competency_ids": [
+    "data.sci.l3_ml_supervised"
+  ],
+  "artifact": {
+    "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\n\ndef prepare_modeling_features(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:\n    # Step 1: Preprocessing and feature normalization\n    scaler = StandardScaler()\n    df[\"scaled_experience_years\"] = scaler.fit_transform(df[[\"experience_years\"]])\n    \n    # Step 2: Target encoding on high-cardinality categorical feature\n    employer_target_mean = df.groupby(\"employer_name\")[\"annual_compensation_inr\"].transform(\"mean\")\n    df[\"employer_mean_pay\"] = employer_target_mean\n    \n    # Step 3: Event horizon calculations\n    df[\"months_to_next_promotion\"] = (df[\"next_promotion_date\"] - df[\"offer_date\"]).dt.days / 30.4\n    \n    # Step 4: Chronological train/test split\n    train_df = df[df[\"offer_date\"] < \"2026-01-01\"].copy()\n    test_df = df[df[\"offer_date\"] >= \"2026-01-01\"].copy()\n    \n    return train_df, test_df",
+    "language": "python",
+    "line_count": 21
+  },
+  "rubric": {
+    "scenario_id": "SCEN-DATA-06-FEATENG",
+    "defects": [
+      {
+        "id": "DEF-FEAT-01",
+        "line_number": 8,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Global Feature Normalization Across Train and Test Partitions",
+        "consequence": "Fitting the scaler on the entire dataset prior to splitting leaks empirical distribution parameters (mean and variance) from future test sets into training features.",
+        "diagnostic_explanation": "Fit transformers strictly on the train partition and apply transform() to test partitions.",
+        "competency_id": "data.sci.l3_feat_eng",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-FEAT-02",
+        "line_number": 11,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Unguarded In-Fold Target Encoding with Self-Target Leakage",
+        "consequence": "Calculating group target averages without out-of-fold leave-one-out cross-fitting causes extreme target leakage and severe overfitting.",
+        "diagnostic_explanation": "Use out-of-fold leave-one-out target encoding with smoothing or fit target statistics strictly inside training folds.",
+        "competency_id": "data.sci.l3_feat_eng",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-FEAT-03",
+        "line_number": 15,
+        "category": "lookahead_bias",
+        "severity": "critical",
+        "title": "Forward-Looking Future Promotion Horizon Used as Feature",
+        "consequence": "Using an event occurring after the offer date introduces severe lookahead bias that will not exist at real-time inference.",
+        "diagnostic_explanation": "Restrict predictive features strictly to covariates available at the time of estimation.",
+        "competency_id": "data.sci.l3_ml_supervised",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-TABULAR-LIGHTGBM",
+      "description": "Tabular LightGBM feature pipeline variant",
+      "parameters": {
+        "model_family": "lightgbm",
+        "categorical_strategy": "target_encoding"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-TABULAR-CATBOOST",
+      "description": "Tabular CatBoost feature pipeline variant",
+      "parameters": {
+        "model_family": "catboost",
+        "categorical_strategy": "native_ordered"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Review the Python feature engineering pipeline for data leakage, forward-looking features, and improper cross-validation boundaries. Flag flawed line numbers and categorize each defect.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-DATA-06",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (DATA Family)",
+    "modified_flag": false,
+    "curator": "Machine Learning Engineering Panel",
+    "curated_date": "2026-10-30"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-DATA-07-BIGDATA",
+  "title": "Diagnostic Review: Distributed PySpark ETL & Shuffle Skew Hygiene",
+  "description": "Review a distributed PySpark batch processing pipeline for un-salted join skew, accidental cross-join cardinality explosion, and unpartitioned global window shuffles.",
+  "role_family": "DATA",
+  "target_level": 4,
+  "primary_competency_id": "data.sci.l4_bigdata",
+  "secondary_competency_ids": [
+    "data.anl.l3_sql_adv"
+  ],
+  "artifact": {
+    "content": "from pyspark.sql import DataFrame, Window\nimport pyspark.sql.functions as F\n\ndef aggregate_market_job_postings(postings_df: DataFrame, employers_df: DataFrame) -> DataFrame:\n    # Step 1: Join job postings with employer metadata\n    joined_df = postings_df.join(employers_df, on=\"employer_id\", how=\"inner\")\n    \n    # Step 2: Cross-category benchmark enrichment\n    benchmarks_df = joined_df.join(employers_df.select(\"tier_grade\").distinct())\n    \n    # Step 3: Compute running cumulative volume metric\n    global_window = Window.orderBy(\"posted_timestamp\").rowsBetween(Window.unboundedPreceding, Window.currentRow)\n    result_df = benchmarks_df.withColumn(\"running_total_inr\", F.sum(\"offered_salary_inr\").over(global_window))\n    \n    return result_df",
+    "language": "python",
+    "line_count": 15
+  },
+  "rubric": {
+    "scenario_id": "SCEN-DATA-07-BIGDATA",
+    "defects": [
+      {
+        "id": "DEF-SPARK-01",
+        "line_number": 6,
+        "category": "null_handling",
+        "severity": "critical",
+        "title": "Un-salted Hash Join on Highly Skewed Nullable Key",
+        "consequence": "Joining on high-cardinality keys with heavy null or top-enterprise concentrations drives massive data skew into single shuffle partitions, triggering task stragglers or executor OOM.",
+        "diagnostic_explanation": "Filter null keys prior to join or apply salt keys (e.g. random salting 0-19) on skewed keys before joining.",
+        "competency_id": "data.sci.l4_bigdata",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SPARK-02",
+        "line_number": 9,
+        "category": "cardinality_explosion",
+        "severity": "critical",
+        "title": "Unconditional Cross-Join Producing Cartesian Product Explosion",
+        "consequence": "Invoking DataFrame.join without an explicit predicate executes a Cartesian broadcast nested loop join, multiplying row counts and crashing cluster memory.",
+        "diagnostic_explanation": "Specify an explicit equijoin predicate (on=...) or pre-aggregate dimensional tiers before merging.",
+        "competency_id": "data.sci.l4_bigdata",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SPARK-03",
+        "line_number": 12,
+        "category": "aggregation_bias",
+        "severity": "major",
+        "title": "Unpartitioned Window Frame Forcing Global Single-Partition Shuffle",
+        "consequence": "Defining Window.orderBy() without partitionBy() forces PySpark to serialize all distributed dataset partitions onto a single executor node.",
+        "diagnostic_explanation": "Add partitionBy('employer_id') or 'location' to distribute window calculation across cluster worker nodes.",
+        "competency_id": "data.anl.l3_sql_adv",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-EMR-SPARK",
+      "description": "AWS EMR cloud cluster execution variant",
+      "parameters": {
+        "cluster_type": "emr_yarn",
+        "partitions": "200"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-DATABRICKS-LAKE",
+      "description": "Databricks Delta Lake execution variant",
+      "parameters": {
+        "cluster_type": "databricks_photon",
+        "partitions": "400"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Review the PySpark distributed data pipeline for shuffle skew, Cartesian join explosions, and unpartitioned cluster bottleneck windows. Flag flawed line numbers and categorize each defect.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-DATA-07",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (DATA Family)",
+    "modified_flag": false,
+    "curator": "Distributed Systems & Big Data Panel",
+    "curated_date": "2026-10-30"
+  }
+}

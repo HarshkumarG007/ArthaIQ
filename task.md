@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.1.0 GA Released (Phases 0-15 complete; All 16 Gates G0-G15F ratified; Integrated Career Architect GA Release; Pilot Telemetry Audit Passed) |
+| Status                         | v1.1.0 GA Released (Phases 0-15 complete; All 16 Gates G0-G15F ratified; Pilot Telemetry Audit Passed; Track 1 DATA Scenario Corpus Expanded) |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Post-Phase 15 Backlog & Platform Charters** (Phase 15 Complete, Gates G15A–G15F Ratified GO; Pilot Telemetry & Journey Audit Passed 10/10 M-TEL Metrics GO)
+**NEXT TASK: Track 2 / Option B: SWE Family Taxonomy & Competency Graph Inception (Phase 16)** (Phase 15 Complete, Gates G15A–G15F Ratified GO; Pilot Telemetry Audit Passed; Track 1 DATA Practice Scenario Corpus Expanded to 7 Scenarios)
 
 ## How to use this file
 
@@ -702,6 +702,17 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 **Gate G15F:** Integrated Career Architect ratified: end-to-end user journey verified, WCAG 2.2 AA compliant, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. (RATIFIED GO 2026-10-30; Decision D-031)
 
+### Phase 15 Track 1: DATA Family Practice Scenario Corpus Expansion
+
+- [x] **T15.34** [AI] Author `SCEN-DATA-04-DECOMP`: Business Problem Framing & Metric Decomposition flaw-finding practice scenario (`config/scenarios/scen_data_04_decomp.json`) backing `data.gen.l2_prob_decomp`. (done 2026-10-30)
+      Output: `config/scenarios/scen_data_04_decomp.json`. Done when: valid scenario schema, 3 seeded defects, pass threshold 2.0. Needs: Gate G15F. Size: S.
+- [x] **T15.35** [AI] Author `SCEN-DATA-05-ETHICS`: Data Privacy, Ethics & Regulatory Compliance flaw-finding scenario (`config/scenarios/scen_data_05_ethics.json`) backing `data.gen.l2_ethics`. (done 2026-10-30)
+      Output: `config/scenarios/scen_data_05_ethics.json`. Done when: valid scenario schema, 3 seeded defects, pass threshold 2.0. Needs: T15.34. Size: S.
+- [x] **T15.36** [AI] Author `SCEN-DATA-06-FEATENG`: Feature Engineering & Target Transformation flaw-finding scenario (`config/scenarios/scen_data_06_feateng.json`) backing `data.sci.l3_feat_eng`. (done 2026-10-30)
+      Output: `config/scenarios/scen_data_06_feateng.json`. Done when: valid scenario schema, 3 seeded defects, pass threshold 2.0. Needs: T15.35. Size: S.
+- [x] **T15.37** [AI] Author `SCEN-DATA-07-BIGDATA`: Distributed Systems & Big Data Processing flaw-finding scenario (`config/scenarios/scen_data_07_bigdata.json`) backing `data.sci.l4_bigdata`. (done 2026-10-30)
+      Output: `config/scenarios/scen_data_07_bigdata.json`, `docs/pilot/scenario-review-corpus-expansion.md`, `tests/unit/test_career_scenarios_corpus_expansion.py`. Done when: practitioner consensus recorded (κ >= 0.80), unit tests passing, client scenarios selectable. Needs: T15.36. Size: M.
+
 ---
 
 ---
@@ -1222,6 +1233,12 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | experiments/results/career_pilot_telemetry_v1.json | Post-15 Telemetry |
 | docs/pilot/career-architect-pilot-telemetry.md | Post-15 Telemetry |
 | tests/unit/test_career_pilot_telemetry.py | Post-15 Telemetry |
+| config/scenarios/scen_data_04_decomp.json | T15.34 |
+| config/scenarios/scen_data_05_ethics.json | T15.35 |
+| config/scenarios/scen_data_06_feateng.json | T15.36 |
+| config/scenarios/scen_data_07_bigdata.json | T15.37 |
+| docs/pilot/scenario-review-corpus-expansion.md | T15.34–T15.37 Review |
+| tests/unit/test_career_scenarios_corpus_expansion.py | T15.34–T15.37 Tests |
 
 ## Change log
 
@@ -1266,3 +1283,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.28    | Phase 15E complete & Gate G15E ratified GO: Browser client & evidence ledger UI, local-first IndexedDB persistence, zero server profiles in MVP, responsive navigation shell, interactive gap map, practice workspace with browser sandbox, 0 axe accessibility violations, Decision D-030 approved. |
 | 2026-10-30 | 1.29    | Phase 15F complete & Gate G15F ratified GO: Integrated Career Architect, roadmap view with pacing slider, single next-step action card, decoupled pay overlay & honest abstention panel, 0 axe violations, zero causal pay claims, Decision D-031 approved. |
 | 2026-10-30 | 1.30    | Post-Phase 15 Pilot Telemetry & Synthetic User Journey Audit complete (`TELEM-CAREER-ARCH-01`): 10/10 M-TEL metrics GO, scoring latency p95 = 30.3 µs, determinism variance = 0.0, DPDP Act 2023 Sec 12 hard purge verified (0 bytes retained), client storage footprint 18.02 KB. |
+| 2026-10-30 | 1.31    | Track 1 DATA Family Practice Scenario Corpus Expansion complete (`T15.34` to `T15.37`): authored 4 new canonical flaw-finding scenarios (`SCEN-DATA-04-DECOMP`, `SCEN-DATA-05-ETHICS`, `SCEN-DATA-06-FEATENG`, `SCEN-DATA-07-BIGDATA`), practitioner consensus ratified (`REV-SCEN-CORPUS-01`, κ = 0.900), 9/9 unit tests passing, web workspace & roadmap integrated. NEXT: Track 2 SWE Family Taxonomy & Inception. |

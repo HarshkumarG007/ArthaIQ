@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-DATA-04-DECOMP",
+  "title": "Diagnostic Review: Product Metric Decomposition and Conversion Tracking",
+  "description": "Review a multi-level product metric decomposition pipeline for non-additive ratios, survivorship denominator bias, and double-counted refunds.",
+  "role_family": "DATA",
+  "target_level": 2,
+  "primary_competency_id": "data.gen.l2_prob_decomp",
+  "secondary_competency_ids": [
+    "data.anl.l3_dashboard"
+  ],
+  "artifact": {
+    "content": "from typing import Dict, List\nimport pandas as pd\n\ndef calculate_funnel_kpis(orders_df: pd.DataFrame, refunds_df: pd.DataFrame) -> Dict[str, float]:\n    # Step 1: Active buyer cohort identification\n    active_cohort = orders_df[orders_df[\"checkout_status\"] == \"COMPLETED\"]\n    total_buyers = active_cohort[\"user_id\"].nunique()\n    \n    # Step 2: Regional funnel conversion calculation\n    regional_conversion: List[float] = [0.035, 0.082, 0.012, 0.044]\n    blended_conversion_rate = sum(regional_conversion) / len(regional_conversion)\n    \n    # Step 3: Financial reconciliation\n    gross_revenue = active_cohort[\"item_price_inr\"].sum()\n    total_refund_amount = refunds_df[\"refund_amount_inr\"].sum()\n    \n    net_revenue_stage1 = gross_revenue - total_refund_amount\n    final_net_gmv = net_revenue_stage1 - refunds_df[\"refund_amount_inr\"].sum()\n    \n    return {\n        \"active_buyers\": float(total_buyers),\n        \"blended_conversion\": blended_conversion_rate,\n        \"net_gmv_inr\": float(final_net_gmv)\n    }",
+    "language": "python",
+    "line_count": 24
+  },
+  "rubric": {
+    "scenario_id": "SCEN-DATA-04-DECOMP",
+    "defects": [
+      {
+        "id": "DEF-DECOMP-01",
+        "line_number": 6,
+        "category": "sample_ratio_mismatch",
+        "severity": "critical",
+        "title": "Survivorship Denominator Bias in Funnel Cohort Selection",
+        "consequence": "Filtering exclusively for completed orders discards browsing visitors and abandonments, circularizing conversion and artificially inflating cohort engagement.",
+        "diagnostic_explanation": "Cohort denominators must retain all eligible visitors entering the funnel step, not solely successful checkout completions.",
+        "competency_id": "data.gen.l2_prob_decomp",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-DECOMP-02",
+        "line_number": 11,
+        "category": "aggregation_bias",
+        "severity": "major",
+        "title": "Unweighted Arithmetic Mean of Regional Conversion Ratios",
+        "consequence": "Taking an unweighted average over regional ratios equates low-traffic regions with massive volume hubs, skewing the blended business KPI.",
+        "diagnostic_explanation": "Calculate blended conversion by dividing aggregate platform conversions by total platform sessions, or compute volume-weighted averages.",
+        "competency_id": "data.anl.l3_dashboard",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-DECOMP-03",
+        "line_number": 18,
+        "category": "metric_misalignment",
+        "severity": "major",
+        "title": "Double Deduction of Refunds in Final Net GMV",
+        "consequence": "Subtracting refund amounts twice severely understates operational net merchandise value and produces distorted margin reporting.",
+        "diagnostic_explanation": "Deduct total refund sums exactly once during reconciliation or aggregate line-level net amounts directly.",
+        "competency_id": "data.gen.l2_prob_decomp",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-B2C-RETAIL",
+      "description": "B2C quick-commerce grocery order funnel variant",
+      "parameters": {
+        "channel": "grocery_app",
+        "currency": "INR"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-B2B-SAAS",
+      "description": "B2B SaaS subscription seat renewal funnel variant",
+      "parameters": {
+        "channel": "enterprise_renewals",
+        "currency": "INR"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Review the Python metric aggregation function for methodological flaws, ratio aggregation errors, and double-counting anomalies. Flag flawed line numbers and categorize each defect.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-DATA-04",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (DATA Family)",
+    "modified_flag": false,
+    "curator": "Data Analytics Governance Board",
+    "curated_date": "2026-10-30"
+  }
+}

@@ -272,6 +272,305 @@ def evaluate_ab_experiment(df: pd.DataFrame) -> dict:
       },
     ],
   },
+  {
+    id: "SCEN-DATA-04-DECOMP",
+    title: "Diagnostic Review: Product Metric Decomposition & Funnel Analysis",
+    description: "Review a multi-level product metric decomposition pipeline for non-additive ratios, survivorship denominator bias, and double-counted refunds.",
+    role_family: "DATA",
+    target_level: 2,
+    primary_competency_id: "data.gen.l2_prob_decomp",
+    language: "python",
+    instructions: "Inspect the Python metric aggregation function for methodological flaws, ratio aggregation errors, and double-counting anomalies. Click any line number to flag a defect.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `from typing import Dict, List
+import pandas as pd
+
+def calculate_funnel_kpis(orders_df: pd.DataFrame, refunds_df: pd.DataFrame) -> Dict[str, float]:
+    # Step 1: Active buyer cohort identification
+    active_cohort = orders_df[orders_df["checkout_status"] == "COMPLETED"]
+    total_buyers = active_cohort["user_id"].nunique()
+    
+    # Step 2: Regional funnel conversion calculation
+    regional_conversion: List[float] = [0.035, 0.082, 0.012, 0.044]
+    blended_conversion_rate = sum(regional_conversion) / len(regional_conversion)
+    
+    # Step 3: Financial reconciliation
+    gross_revenue = active_cohort["item_price_inr"].sum()
+    total_refund_amount = refunds_df["refund_amount_inr"].sum()
+    
+    net_revenue_stage1 = gross_revenue - total_refund_amount
+    final_net_gmv = net_revenue_stage1 - refunds_df["refund_amount_inr"].sum()
+    
+    return {
+        "active_buyers": float(total_buyers),
+        "blended_conversion": blended_conversion_rate,
+        "net_gmv_inr": float(final_net_gmv)
+    }`,
+    mock_output_headers: ["metric", "computed_value", "diagnostic_status"],
+    mock_output_rows: [
+      ["active_buyers", "4,210", "Survivorship biased denominator"],
+      ["blended_conversion", "4.33%", "Unweighted arithmetic average of ratios"],
+      ["net_gmv_inr", "₹1,45,200", "Understated due to double refund deduction"],
+    ],
+    defects: [
+      {
+        id: "DEF-DECOMP-01",
+        line_number: 6,
+        category: "sample_ratio_mismatch",
+        severity: "critical",
+        title: "Survivorship Denominator Bias in Funnel Cohort Selection",
+        consequence: "Filtering exclusively for completed orders discards browsing visitors and abandonments, circularizing conversion and artificially inflating cohort engagement.",
+        diagnostic_explanation: "Cohort denominators must retain all eligible visitors entering the funnel step, not solely successful checkout completions.",
+        competency_id: "data.gen.l2_prob_decomp",
+        points: 1.0,
+      },
+      {
+        id: "DEF-DECOMP-02",
+        line_number: 11,
+        category: "aggregation_bias",
+        severity: "major",
+        title: "Unweighted Arithmetic Mean of Regional Conversion Ratios",
+        consequence: "Taking an unweighted average over regional ratios equates low-traffic regions with massive volume hubs, skewing the blended business KPI.",
+        diagnostic_explanation: "Calculate blended conversion by dividing aggregate platform conversions by total platform sessions, or compute volume-weighted averages.",
+        competency_id: "data.anl.l3_dashboard",
+        points: 1.0,
+      },
+      {
+        id: "DEF-DECOMP-03",
+        line_number: 18,
+        category: "metric_misalignment",
+        severity: "major",
+        title: "Double Deduction of Refunds in Final Net GMV",
+        consequence: "Subtracting refund amounts twice severely understates operational net merchandise value and produces distorted margin reporting.",
+        diagnostic_explanation: "Deduct total refund sums exactly once during reconciliation or aggregate line-level net amounts directly.",
+        competency_id: "data.gen.l2_prob_decomp",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-DATA-05-ETHICS",
+    title: "Diagnostic Review: User Data Ingestion & Privacy Guardrails",
+    description: "Review an analytics ingestion pipeline for cryptographic hashing weaknesses, statutory DPDP Act 2023 Section 12 erasure omissions, and small-cell re-identification leakage.",
+    role_family: "DATA",
+    target_level: 2,
+    primary_competency_id: "data.gen.l2_ethics",
+    language: "python",
+    instructions: "Inspect the Python ingestion script for privacy vulnerabilities, cryptographic flaws, statutory DPDP Act violations, and small-cell re-identification leakage. Click any line number to flag a defect.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import hashlib
+from typing import Dict, Any, List
+import pandas as pd
+
+def process_survey_submissions(raw_records: List[Dict[str, Any]]) -> pd.DataFrame:
+    df = pd.DataFrame(raw_records)
+    
+    # Step 1: Pseudonymize personal identifiers
+    df["hashed_email"] = df["email"].apply(lambda e: hashlib.md5(e.encode()).hexdigest())
+    df = df.drop(columns=["email", "phone"])
+    
+    # Step 2: Handle India DPDP Act 2023 Sec 12 Erasure Requests
+    deleted_requests = df[df["requested_erasure"] == True]
+    deleted_requests.to_parquet("s3://analytics-cold-lake/archive/tombstoned_records.parquet")
+    df = df[df["requested_erasure"] == False]
+    
+    # Step 3: Aggregate microdata prior to internal BI export
+    grouped = df.groupby(["postal_pin", "graduation_year", "gender"]).agg(
+        sample_count=("user_id", "count"),
+        median_salary_inr=("salary_inr", "median")
+    ).reset_index()
+    # Emitting all grouped cells without applying anonymity suppression floor
+    return grouped`,
+    mock_output_headers: ["postal_pin", "grad_year", "gender", "sample_count", "median_salary_inr"],
+    mock_output_rows: [
+      ["560001", 2024, "Female", 1, "₹18,50,000 (Individual Re-identification Risk)"],
+      ["560029", 2021, "Male", 2, "₹24,000,00 (Small cell suppression violated)"],
+      ["560103", 2019, "Male", 42, "₹35,00,000 (Safe k >= 5)"],
+    ],
+    defects: [
+      {
+        id: "DEF-ETH-01",
+        line_number: 9,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Unsalted Fast MD5 Hash for Sensitive Email Identifiers",
+        consequence: "Plain unsalted MD5 hashes of standard email patterns are trivially inverted via precomputed rainbow tables, exposing identity.",
+        diagnostic_explanation: "Use HMAC-SHA256 with a secure server-side salt or an adaptive memory-hard hashing function (e.g. Argon2id) for pseudonymization.",
+        competency_id: "data.gen.l2_ethics",
+        points: 1.0,
+      },
+      {
+        id: "DEF-ETH-02",
+        line_number: 14,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Persistent Retention of Erasure-Requested Records in Cold Storage",
+        consequence: "Writing deleted user data into analytical cold storage violates India DPDP Act 2023 Section 12 right to complete data erasure.",
+        diagnostic_explanation: "When erasure is requested under Section 12, delete records across both operational stores and downstream analytical lakes.",
+        competency_id: "data.gen.l2_ethics",
+        points: 1.0,
+      },
+      {
+        id: "DEF-ETH-03",
+        line_number: 23,
+        category: "data_leakage",
+        severity: "major",
+        title: "Absence of Small-Cell Suppression Floor (k_min >= 5 Violation)",
+        consequence: "Exporting microdata aggregates with sample counts below 5 allows individual salary re-identification via quasi-identifier linkage.",
+        diagnostic_explanation: "Filter or coarsen all output rows where sample_count < 5 to uphold the k_min >= 5 anonymity floor (Rule R-DA-10).",
+        competency_id: "data.anl.l2_hygiene",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-DATA-06-FEATENG",
+    title: "Diagnostic Review: Tabular Feature Engineering & Leakage Isolation",
+    description: "Review a tabular feature engineering and validation preprocessing pipeline for global scaling leakage, in-fold target leakage, and future lookahead features.",
+    role_family: "DATA",
+    target_level: 3,
+    primary_competency_id: "data.sci.l3_feat_eng",
+    language: "python",
+    instructions: "Inspect the Python feature engineering pipeline for data leakage, forward-looking features, and improper cross-validation boundaries. Click any line number to flag a defect.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+def prepare_modeling_features(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    # Step 1: Preprocessing and feature normalization
+    scaler = StandardScaler()
+    df["scaled_experience_years"] = scaler.fit_transform(df[["experience_years"]])
+    
+    # Step 2: Target encoding on high-cardinality categorical feature
+    employer_target_mean = df.groupby("employer_name")["annual_compensation_inr"].transform("mean")
+    df["employer_mean_pay"] = employer_target_mean
+    
+    # Step 3: Event horizon calculations
+    df["months_to_next_promotion"] = (df["next_promotion_date"] - df["offer_date"]).dt.days / 30.4
+    
+    # Step 4: Chronological train/test split
+    train_df = df[df["offer_date"] < "2026-01-01"].copy()
+    test_df = df[df["offer_date"] >= "2026-01-01"].copy()
+    
+    return train_df, test_df`,
+    mock_output_headers: ["feature_name", "train_mean", "test_mean", "leakage_warning"],
+    mock_output_rows: [
+      ["scaled_experience_years", "-0.04", "+0.18", "Global scale fitted before split"],
+      ["employer_mean_pay", "₹22.4L", "₹28.1L", "In-fold target leakage (100% correlation)"],
+      ["months_to_next_promotion", "14.2", "11.8", "Lookahead target leakage"],
+    ],
+    defects: [
+      {
+        id: "DEF-FEAT-01",
+        line_number: 8,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Global Feature Normalization Across Train and Test Partitions",
+        consequence: "Fitting the scaler on the entire dataset prior to splitting leaks empirical distribution parameters (mean and variance) from future test sets into training features.",
+        diagnostic_explanation: "Fit transformers strictly on the train partition and apply transform() to test partitions.",
+        competency_id: "data.sci.l3_feat_eng",
+        points: 1.0,
+      },
+      {
+        id: "DEF-FEAT-02",
+        line_number: 11,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Unguarded In-Fold Target Encoding with Self-Target Leakage",
+        consequence: "Calculating group target averages without out-of-fold leave-one-out cross-fitting causes extreme target leakage and severe overfitting.",
+        diagnostic_explanation: "Use out-of-fold leave-one-out target encoding with smoothing or fit target statistics strictly inside training folds.",
+        competency_id: "data.sci.l3_feat_eng",
+        points: 1.0,
+      },
+      {
+        id: "DEF-FEAT-03",
+        line_number: 15,
+        category: "lookahead_bias",
+        severity: "critical",
+        title: "Forward-Looking Future Promotion Horizon Used as Feature",
+        consequence: "Using an event occurring after the offer date introduces severe lookahead bias that will not exist at real-time inference.",
+        diagnostic_explanation: "Restrict predictive features strictly to covariates available at the time of estimation.",
+        competency_id: "data.sci.l3_ml_supervised",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-DATA-07-BIGDATA",
+    title: "Diagnostic Review: PySpark Pipeline & Shuffle Skew Hygiene",
+    description: "Review a distributed PySpark batch processing pipeline for un-salted join skew, accidental cross-join cardinality explosion, and unpartitioned global window shuffles.",
+    role_family: "DATA",
+    target_level: 4,
+    primary_competency_id: "data.sci.l4_bigdata",
+    language: "python",
+    instructions: "Inspect the PySpark distributed data pipeline for shuffle skew, Cartesian join explosions, and unpartitioned cluster bottleneck windows. Click any line number to flag a defect.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `from pyspark.sql import DataFrame, Window
+import pyspark.sql.functions as F
+
+def aggregate_market_job_postings(postings_df: DataFrame, employers_df: DataFrame) -> DataFrame:
+    # Step 1: Join job postings with employer metadata
+    joined_df = postings_df.join(employers_df, on="employer_id", how="inner")
+    
+    # Step 2: Cross-category benchmark enrichment
+    benchmarks_df = joined_df.join(employers_df.select("tier_grade").distinct())
+    
+    # Step 3: Compute running cumulative volume metric
+    global_window = Window.orderBy("posted_timestamp").rowsBetween(Window.unboundedPreceding, Window.currentRow)
+    result_df = benchmarks_df.withColumn("running_total_inr", F.sum("offered_salary_inr").over(global_window))
+    
+    return result_df`,
+    mock_output_headers: ["stage_id", "task_skew_ratio", "shuffle_read_bytes", "executor_status"],
+    mock_output_rows: [
+      ["Stage 3 (Join)", "84.2x", "4.8 GB on single task", "Executor 14 OOM Killed"],
+      ["Stage 4 (Cartesian)", "100.0x", "12.4 TB shuffle spill", "Spill to disk triggered"],
+      ["Stage 5 (Window)", "N/A", "All rows to Executor 0", "Single partition bottleneck"],
+    ],
+    defects: [
+      {
+        id: "DEF-SPARK-01",
+        line_number: 6,
+        category: "null_handling",
+        severity: "critical",
+        title: "Un-salted Hash Join on Highly Skewed Nullable Key",
+        consequence: "Joining on high-cardinality keys with heavy null or top-enterprise concentrations drives massive data skew into single shuffle partitions, triggering task stragglers or executor OOM.",
+        diagnostic_explanation: "Filter null keys prior to join or apply salt keys (e.g. random salting 0-19) on skewed keys before joining.",
+        competency_id: "data.sci.l4_bigdata",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SPARK-02",
+        line_number: 9,
+        category: "cardinality_explosion",
+        severity: "critical",
+        title: "Unconditional Cross-Join Producing Cartesian Product Explosion",
+        consequence: "Invoking DataFrame.join without an explicit predicate executes a Cartesian broadcast nested loop join, multiplying row counts and crashing cluster memory.",
+        diagnostic_explanation: "Specify an explicit equijoin predicate (on=...) or pre-aggregate dimensional tiers before merging.",
+        competency_id: "data.sci.l4_bigdata",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SPARK-03",
+        line_number: 12,
+        category: "aggregation_bias",
+        severity: "major",
+        title: "Unpartitioned Window Frame Forcing Global Single-Partition Shuffle",
+        consequence: "Defining Window.orderBy() without partitionBy() forces PySpark to serialize all distributed dataset partitions onto a single executor node.",
+        diagnostic_explanation: "Add partitionBy('employer_id') or 'location' to distribute window calculation across cluster worker nodes.",
+        competency_id: "data.anl.l3_sql_adv",
+        points: 1.0,
+      },
+    ],
+  },
 ];
 
 export interface CandidateFlagSubmission {

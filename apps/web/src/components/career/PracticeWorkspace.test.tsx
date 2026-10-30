@@ -52,6 +52,23 @@ describe("PracticeWorkspace (T15.30 Practice Workspace & Sandbox)", () => {
     fireEvent.click(expBtn);
 
     expect(screen.getByRole("heading", { name: /A\/B Test Ratio Mismatch/i })).toBeInTheDocument();
+
+    // Switch to expanded scenarios: DECOMP, ETHICS, FEATENG, BIGDATA
+    const decompBtn = screen.getByRole("button", { name: "SCEN-DATA-04-DECOMP" });
+    fireEvent.click(decompBtn);
+    expect(screen.getByRole("heading", { name: /Product Metric Decomposition/i })).toBeInTheDocument();
+
+    const ethicsBtn = screen.getByRole("button", { name: "SCEN-DATA-05-ETHICS" });
+    fireEvent.click(ethicsBtn);
+    expect(screen.getByRole("heading", { name: /User Data Ingestion/i })).toBeInTheDocument();
+
+    const featengBtn = screen.getByRole("button", { name: "SCEN-DATA-06-FEATENG" });
+    fireEvent.click(featengBtn);
+    expect(screen.getByRole("heading", { name: /Tabular Feature Engineering/i })).toBeInTheDocument();
+
+    const bigdataBtn = screen.getByRole("button", { name: "SCEN-DATA-07-BIGDATA" });
+    fireEvent.click(bigdataBtn);
+    expect(screen.getByRole("heading", { name: /PySpark Pipeline/i })).toBeInTheDocument();
   });
 
   it("allows selecting a code line and adding/removing defect candidate flags", () => {

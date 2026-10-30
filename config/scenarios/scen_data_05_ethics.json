@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-DATA-05-ETHICS",
+  "title": "Diagnostic Review: User Data Ingestion Pipeline & Privacy Guardrails",
+  "description": "Review an analytics ingestion pipeline for cryptographic hashing weaknesses, statutory DPDP Act 2023 Section 12 erasure omissions, and small-cell re-identification leakage.",
+  "role_family": "DATA",
+  "target_level": 2,
+  "primary_competency_id": "data.gen.l2_ethics",
+  "secondary_competency_ids": [
+    "data.anl.l2_hygiene"
+  ],
+  "artifact": {
+    "content": "import hashlib\nfrom typing import Dict, Any, List\nimport pandas as pd\n\ndef process_survey_submissions(raw_records: List[Dict[str, Any]]) -> pd.DataFrame:\n    df = pd.DataFrame(raw_records)\n    \n    # Step 1: Pseudonymize personal identifiers\n    df[\"hashed_email\"] = df[\"email\"].apply(lambda e: hashlib.md5(e.encode()).hexdigest())\n    df = df.drop(columns=[\"email\", \"phone\"])\n    \n    # Step 2: Handle India DPDP Act 2023 Sec 12 Erasure Requests\n    deleted_requests = df[df[\"requested_erasure\"] == True]\n    deleted_requests.to_parquet(\"s3://analytics-cold-lake/archive/tombstoned_records.parquet\")\n    df = df[df[\"requested_erasure\"] == False]\n    \n    # Step 3: Aggregate microdata prior to internal BI export\n    grouped = df.groupby([\"postal_pin\", \"graduation_year\", \"gender\"]).agg(\n        sample_count=(\"user_id\", \"count\"),\n        median_salary_inr=(\"salary_inr\", \"median\")\n    ).reset_index()\n    # Emitting all grouped cells without applying anonymity suppression floor\n    return grouped",
+    "language": "python",
+    "line_count": 23
+  },
+  "rubric": {
+    "scenario_id": "SCEN-DATA-05-ETHICS",
+    "defects": [
+      {
+        "id": "DEF-ETH-01",
+        "line_number": 9,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Unsalted Fast MD5 Hash for Sensitive Email Identifiers",
+        "consequence": "Plain unsalted MD5 hashes of standard email patterns are trivially inverted via precomputed rainbow tables, exposing identity.",
+        "diagnostic_explanation": "Use HMAC-SHA256 with a secure server-side salt or an adaptive memory-hard hashing function (e.g. Argon2id) for pseudonymization.",
+        "competency_id": "data.gen.l2_ethics",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-ETH-02",
+        "line_number": 14,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Persistent Retention of Erasure-Requested Records in Cold Storage",
+        "consequence": "Writing deleted user data into analytical cold storage violates India DPDP Act 2023 Section 12 right to complete data erasure.",
+        "diagnostic_explanation": "When erasure is requested under Section 12, delete records across both operational stores and downstream analytical lakes.",
+        "competency_id": "data.gen.l2_ethics",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-ETH-03",
+        "line_number": 23,
+        "category": "data_leakage",
+        "severity": "major",
+        "title": "Absence of Small-Cell Suppression Floor (k_min >= 5 Violation)",
+        "consequence": "Exporting microdata aggregates with sample counts below 5 allows individual salary re-identification via quasi-identifier linkage.",
+        "diagnostic_explanation": "Filter or coarsen all output rows where sample_count < 5 to uphold the k_min >= 5 anonymity floor (Rule R-DA-10).",
+        "competency_id": "data.anl.l2_hygiene",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-EMPLOYER-SURVEY",
+      "description": "Enterprise compensation benchmarking survey variant",
+      "parameters": {
+        "channel": "enterprise_survey",
+        "jurisdiction": "IND"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-VOLUNTARY-PORTAL",
+      "description": "Public voluntary career contribution portal variant",
+      "parameters": {
+        "channel": "community_portal",
+        "jurisdiction": "IND"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Review the Python ingestion script for privacy vulnerabilities, cryptographic flaws, statutory DPDP Act violations, and small-cell re-identification leakage. Flag flawed line numbers and categorize each defect.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-DATA-05",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (DATA Family)",
+    "modified_flag": false,
+    "curator": "Data Protection & Privacy Review Board",
+    "curated_date": "2026-10-30"
+  }
+}

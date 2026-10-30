@@ -34,6 +34,8 @@ export const CANONICAL_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 2.0,
     application_difficulty: 2.0,
     prerequisite_ids: [],
+    associated_scenario_id: "SCEN-DATA-04-DECOMP",
+    associated_scenario_title: "Product Metric Decomposition & Conversion",
   },
   {
     id: "data.gen.l2_ethics",
@@ -45,6 +47,8 @@ export const CANONICAL_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 2.0,
     application_difficulty: 3.0,
     prerequisite_ids: [],
+    associated_scenario_id: "SCEN-DATA-05-ETHICS",
+    associated_scenario_title: "Data Ingestion Pipeline & Privacy Guardrails",
   },
   {
     id: "data.anl.l2_sql_basic",
@@ -165,6 +169,8 @@ export const CANONICAL_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 3.0,
     application_difficulty: 4.0,
     prerequisite_ids: ["data.anl.l2_hygiene", "data.sci.l3_ml_supervised"],
+    associated_scenario_id: "SCEN-DATA-06-FEATENG",
+    associated_scenario_title: "Tabular Feature Engineering & Leakage Isolation",
   },
   {
     id: "data.sci.l4_bigdata",
@@ -176,6 +182,8 @@ export const CANONICAL_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 4.0,
     application_difficulty: 5.0,
     prerequisite_ids: ["data.anl.l3_sql_adv", "data.sci.l3_feat_eng"],
+    associated_scenario_id: "SCEN-DATA-07-BIGDATA",
+    associated_scenario_title: "PySpark Distributed Processing & Skew Hygiene",
   },
   {
     id: "data.sci.l4_causal",

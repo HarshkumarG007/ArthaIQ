@@ -13,8 +13,8 @@
     },
     "M-TEL-02_scoring_latency_p95_ms": {
       "target": "<= 5.0 ms",
-      "observed_ms": 0.0303,
-      "observed_microseconds": 30.3,
+      "observed_ms": 0.0282,
+      "observed_microseconds": 28.2,
       "status": "PASS"
     },
     "M-TEL-03_rubric_boundedness": {
@@ -138,10 +138,10 @@
   ],
   "latency_profile": {
     "sample_count": 50,
-    "mean_microseconds": 20.92,
-    "p50_microseconds": 17.2,
-    "p95_microseconds": 30.3,
-    "p99_microseconds": 88.5
+    "mean_microseconds": 22.31,
+    "p50_microseconds": 17.1,
+    "p95_microseconds": 28.2,
+    "p99_microseconds": 158.7
   },
   "storage_benchmark": {
     "record_count": 50,

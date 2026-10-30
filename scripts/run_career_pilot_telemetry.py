@@ -28,6 +28,10 @@ SCENARIO_PATHS = [
     Path("config/scenarios/scen_data_01_sql.json"),
     Path("config/scenarios/scen_data_02_eda.json"),
     Path("config/scenarios/scen_data_03_exp.json"),
+    Path("config/scenarios/scen_data_04_decomp.json"),
+    Path("config/scenarios/scen_data_05_ethics.json"),
+    Path("config/scenarios/scen_data_06_feateng.json"),
+    Path("config/scenarios/scen_data_07_bigdata.json"),
 ]
 OUTPUT_REPORT_PATH = Path("experiments/results/career_pilot_telemetry_v1.json")
 

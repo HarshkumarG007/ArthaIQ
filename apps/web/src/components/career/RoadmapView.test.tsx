@@ -161,11 +161,11 @@ describe("RoadmapView (T15.31 Topological Roadmap & Effort Estimator)", () => {
     fireEvent.click(gapMapLink);
     expect(onNavigateSkills).toHaveBeenCalledTimes(1);
 
-    // Click Practice Flaw-Finding on step 3 (SCEN-DATA-01-SQL)
+    // Click Practice Flaw-Finding on step 1 (SCEN-DATA-04-DECOMP)
     const practiceButtons = screen.getAllByRole("button", { name: /practice flaw-finding/i });
     expect(practiceButtons.length).toBeGreaterThan(0);
     fireEvent.click(practiceButtons[0]!);
-    expect(onNavigatePractice).toHaveBeenCalledWith("SCEN-DATA-01-SQL");
+    expect(onNavigatePractice).toHaveBeenCalledWith("SCEN-DATA-04-DECOMP");
   });
 
   it("passes axe accessibility tests with 0 violations across pacing options and filters", async () => {
