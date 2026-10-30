@@ -700,7 +700,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 - [x] **T15.33** [AI] Decoupled Pay Overlay & Abstention Panel: render market compensation range beside competencies without causal linkage (R-CR-01, R-CR-02). (done 2026-10-30)
       Output: `apps/web/src/components/career/PayOverlayPanel.tsx`. Done when: two streams remain strictly isolated and honest abstention functions offline. Needs: T15.31. Size: M.
 
-**Gate G15F:** Integrated Career Architect ratified: end-to-end user journey verified, WCAG 2.2 AA compliant, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
+**Gate G15F:** Integrated Career Architect ratified: end-to-end user journey verified, WCAG 2.2 AA compliant, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. (RATIFIED GO 2026-10-30; Decision D-031)
 
 ---
 
