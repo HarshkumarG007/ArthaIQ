@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-SWE-01-CONCUR",
+  "title": "Diagnostic Review: Asynchronous Task Dispatch Queue",
+  "description": "Inspect an asynchronous task dispatch queue for thread synchronization hazards, unbounded memory growth, and missing connection teardown.",
+  "role_family": "SWE",
+  "target_level": 2,
+  "primary_competency_id": "swe.core.l2_concurrency",
+  "secondary_competency_ids": [
+    "swe.core.l3_memory_perf"
+  ],
+  "artifact": {
+    "content": "import asyncio\nimport httpx\n\nPENDING_TASKS = asyncio.Queue()\nCOMPLETED_EVENTS = []\nUSER_EXECUTION_COUNTS = {}\n\nasync def process_task(task_payload: dict) -> None:\n    user_id = task_payload['user_id']\n    # Read-modify-write without synchronization across concurrent tasks\n    current = USER_EXECUTION_COUNTS.get(user_id, 0)\n    await asyncio.sleep(0.01)\n    USER_EXECUTION_COUNTS[user_id] = current + 1\n\n    # Append to process global without eviction or TTL\n    COMPLETED_EVENTS.append(task_payload)\n\n    # Ephemeral HTTP client allocated per task without connection teardown\n    client = httpx.AsyncClient(timeout=5.0)\n    response = await client.post('https://api.internal/webhook', json=task_payload)\n    if response.status_code != 200:\n        raise RuntimeError('Webhook dispatch failed')\n\nasync def worker_loop() -> None:\n    while True:\n        task = await PENDING_TASKS.get()\n        asyncio.create_task(process_task(task))\n",
+    "language": "python",
+    "line_count": 27
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-01-CONCUR",
+    "defects": [
+      {
+        "id": "DEF-SWE-01-RACE",
+        "line_number": 13,
+        "category": "race_condition",
+        "severity": "critical",
+        "title": "Unsynchronized Shared State Read-Modify-Write Race Hazard",
+        "consequence": "Concurrent tasks for the same user interleave between read and write, causing lost updates and corrupted counter state.",
+        "diagnostic_explanation": "Use asyncio.Lock() or an atomic counter primitive to synchronize access to shared in-memory collections.",
+        "competency_id": "swe.core.l2_concurrency",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-01-UNBOUNDED",
+        "line_number": 16,
+        "category": "unbounded_collection",
+        "severity": "major",
+        "title": "Unbounded In-Memory Retention of Completed Task Payloads",
+        "consequence": "Appending every completed task payload to a process-global list without eviction or TTL causes progressive heap memory exhaustion.",
+        "diagnostic_explanation": "Use a bounded deque with maxlen, a TTL-backed LRU cache, or persist completed event records to an external event store.",
+        "competency_id": "swe.core.l3_memory_perf",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-01-LEAK",
+        "line_number": 19,
+        "category": "resource_leak",
+        "severity": "major",
+        "title": "Unclosed HTTP Client Session Socket Leak",
+        "consequence": "Instantiating AsyncClient inside per-task handlers without an async with block or explicit aclose() leaves TCP sockets in CLOSE_WAIT.",
+        "diagnostic_explanation": "Wrap the client in 'async with httpx.AsyncClient() as client:' or reuse a single shared client lifecycle across worker tasks.",
+        "competency_id": "swe.core.l2_concurrency",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-PAYMENT-WORKER",
+      "description": "Payment gateway notification webhook dispatch queue",
+      "parameters": {
+        "queue_name": "payments_queue",
+        "batch_size": "50"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-EMAIL-DISPATCH",
+      "description": "Transactional email delivery dispatch queue",
+      "parameters": {
+        "queue_name": "email_queue",
+        "batch_size": "25"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the asynchronous task queue for synchronization race hazards, unbounded memory retention, and missing connection teardown. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-01",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-30"
+  }
+}

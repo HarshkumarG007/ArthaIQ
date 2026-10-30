@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-SWE-03-DB",
+  "title": "Performance Audit: Order Service Relational Pipeline",
+  "description": "Inspect an order batch processing routine for unpaginated in-memory collections, Cartesian join explosions, and database lock exhaustion.",
+  "role_family": "SWE",
+  "target_level": 3,
+  "primary_competency_id": "swe.db.l3_query_perf",
+  "secondary_competency_ids": [
+    "swe.arch.l3_microservices"
+  ],
+  "artifact": {
+    "content": "from sqlalchemy.orm import Session\nfrom models import Order, DiscountRule\n\ndef calculate_batch_discounts(db: Session, merchant_id: str) -> list[dict]:\n    # Full-table fetch loading all rows into RAM without pagination\n    all_orders = db.query(Order).filter(Order.merchant_id == merchant_id).all()\n\n    # Missing join condition producing Cartesian cross-product explosion\n    coupons = db.query(Order, DiscountRule).filter(Order.merchant_id == merchant_id).all()\n\n    processed = []\n    for order in all_orders:\n        total_rebate = sum(c.DiscountRule.amount for c in coupons if c.DiscountRule.min_spend <= order.total)\n        processed.append({'order_id': order.id, 'rebate': total_rebate})\n\n    # Dangling raw database cursor and uncommitted lock retention\n    raw_conn = db.bind.raw_connection()\n    cursor = raw_conn.cursor()\n    cursor.execute('UPDATE merchants SET last_batch_at = NOW() WHERE id = %s', (merchant_id,))\n    # Missing cursor.close() and transaction commit / release\n\n    return processed\n",
+    "language": "python",
+    "line_count": 22
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-03-DB",
+    "defects": [
+      {
+        "id": "DEF-SWE-03-UNBOUNDED",
+        "line_number": 6,
+        "category": "unbounded_collection",
+        "severity": "critical",
+        "title": "Unpaginated Full-Table Fetch into Application Heap",
+        "consequence": "Calling .all() on an unconstrained customer order table loads millions of ORM objects into memory, triggering excessive GC latency and OOM failure.",
+        "diagnostic_explanation": "Use keyset or cursor-based pagination with .limit() and .yield_per() to stream records in manageable batches.",
+        "competency_id": "swe.db.l3_query_perf",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-03-EXPLOSION",
+        "line_number": 9,
+        "category": "cardinality_explosion",
+        "severity": "critical",
+        "title": "Cartesian Cross-Product from Missing Join Constraint",
+        "consequence": "Querying two entities without an explicit join predicate generates an M x N cross product on the database engine, exhausting query worker threads.",
+        "diagnostic_explanation": "Specify an explicit join predicate via .join(DiscountRule, Order.discount_id == DiscountRule.id) or a foreign key relationship.",
+        "competency_id": "swe.db.l3_query_perf",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-03-LEAK",
+        "line_number": 19,
+        "category": "resource_leak",
+        "severity": "major",
+        "title": "Dangling Raw Database Cursor and Uncommitted Lock Retention",
+        "consequence": "Acquiring a raw connection cursor without try-finally or context closure leaves transaction locks open and leaks physical database connections from the pool.",
+        "diagnostic_explanation": "Use the managed db.execute() session interface or guarantee cursor.close() within a try...finally block.",
+        "competency_id": "swe.db.l3_query_perf",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-ECOMMERCE-CHECKOUT",
+      "description": "High-volume marketplace promotional discount engine",
+      "parameters": {
+        "batch_size": "500",
+        "region": "APAC"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-SUBSCRIPTION-BILLING",
+      "description": "Recurring subscription renewal and credit recalculation",
+      "parameters": {
+        "batch_size": "250",
+        "region": "IN"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the order processing pipeline for unpaginated collection loading, Cartesian cross-product queries, and dangling database cursors. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-03",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-30"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-SWE-02-SEC",
+  "title": "Security Audit: Multi-Tenant Ingress Router and Authentication",
+  "description": "Audit a web service route handler for SQL injection vectors, timing attack vulnerabilities in token verification, and unclosed connection leaks.",
+  "role_family": "SWE",
+  "target_level": 3,
+  "primary_competency_id": "swe.sec.l3_owasp_top10",
+  "secondary_competency_ids": [
+    "swe.arch.l2_api_design"
+  ],
+  "artifact": {
+    "content": "from fastapi import FastAPI, HTTPException, Request\nimport sqlite3\n\napp = FastAPI()\nSECRET_WEBHOOK_KEY = 'sk_live_99a8b7c6d5e4'\n\n@app.post('/v1/tenants/{tenant_id}/query')\nasync def query_tenant_records(tenant_id: str, request: Request) -> dict:\n    token = request.headers.get('X-Webhook-Token', '')\n    # Plaintext string comparison vulnerable to timing side-channel attack\n    if token != SECRET_WEBHOOK_KEY:\n        raise HTTPException(status_code=401, detail='Invalid token')\n\n    payload = await request.json()\n    user_query = payload.get('filter_term', '')\n\n    conn = sqlite3.connect('tenants.db')\n    cursor = conn.cursor()\n    # Direct string formatting in SQL query enabling injection\n    sql = f\"SELECT id, data FROM records WHERE tenant_id = '{tenant_id}' AND tag = '{user_query}'\"\n    cursor.execute(sql)\n    results = cursor.fetchall()\n\n    # Unclosed database connection and cursor leak\n    return {'tenant': tenant_id, 'items': results, 'count': len(results)}\n",
+    "language": "python",
+    "line_count": 25
+  },
+  "rubric": {
+    "scenario_id": "SCEN-SWE-02-SEC",
+    "defects": [
+      {
+        "id": "DEF-SWE-02-AUTH",
+        "line_number": 11,
+        "category": "broken_authentication",
+        "severity": "critical",
+        "title": "Constant-Time Secret Comparison Violation",
+        "consequence": "Standard string equality (!=) returns early upon the first mismatched byte, exposing cryptographic API tokens to timing side-channel attacks.",
+        "diagnostic_explanation": "Use hmac.compare_digest(token, SECRET_WEBHOOK_KEY) to execute constant-time token comparison.",
+        "competency_id": "swe.sec.l3_owasp_top10",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-02-INJECT",
+        "line_number": 20,
+        "category": "sql_injection",
+        "severity": "critical",
+        "title": "Direct String Interpolation in Relational Query",
+        "consequence": "F-string formatting injects unescaped user input directly into the SQL parser, enabling arbitrary SQL injection and cross-tenant data access.",
+        "diagnostic_explanation": "Use parameterized query placeholders (?, :param) and pass inputs as separate parameter tuples to the database driver.",
+        "competency_id": "swe.sec.l3_owasp_top10",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-SWE-02-LEAK",
+        "line_number": 25,
+        "category": "resource_leak",
+        "severity": "major",
+        "title": "Unclosed Database Connection in Route Handler",
+        "consequence": "Allocating a database connection per request without calling close() or using a context manager exhausts the OS file descriptor table.",
+        "diagnostic_explanation": "Use 'with sqlite3.connect(...) as conn:' or manage connections through a persistent connection pool.",
+        "competency_id": "swe.sec.l3_owasp_top10",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-FINTECH-AUTH",
+      "description": "Banking partner reconciliation endpoint variant",
+      "parameters": {
+        "header_key": "X-Partner-Secret",
+        "db_name": "reconciliation.db"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-SAAS-INGRESS",
+      "description": "B2B SaaS tenant webhook receiver variant",
+      "parameters": {
+        "header_key": "X-SaaS-Token",
+        "db_name": "tenants_prod.db"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the web route handler for SQL injection vectors, timing side-channels, and unclosed database connection leaks. Flag flawed line numbers and select correct defect classifications.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-SWE-02",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (SWE Family)",
+    "modified_flag": false,
+    "curator": "SWE Review Panel",
+    "curated_date": "2026-10-30"
+  }
+}

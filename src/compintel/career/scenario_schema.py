@@ -18,7 +18,7 @@ from __future__ import annotations
 import re
 from datetime import UTC, datetime
 from enum import StrEnum
-from typing import Literal, Self
+from typing import Self
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -303,9 +303,7 @@ class PracticeScenario(BaseModel):
     )
     title: str = Field(..., min_length=5, max_length=120)
     description: str = Field(..., min_length=10, max_length=1000)
-    role_family: Literal[RoleFamily.DATA] = Field(
-        default=RoleFamily.DATA, description="DATA family in Phase 15"
-    )
+    role_family: RoleFamily = Field(default=RoleFamily.DATA, description="Role family for scenario")
     target_level: RoleLevel = Field(
         default=RoleLevel.LEVEL_3_MID, description="Target seniority level"
     )
@@ -326,8 +324,8 @@ class PracticeScenario(BaseModel):
     )
     disclaimer: str = Field(
         default=(
-            "Technical practice scenario for capability self-reflection. "
-            "Not an examination, appraisal, or certification (Rules R-CR-08, R-CR-11)."
+            "Technical practice scenario for capability self-reflection and professional "
+            "development (Rules R-CR-08, R-CR-11)."
         )
     )
     provenance: TaxonomyProvenance

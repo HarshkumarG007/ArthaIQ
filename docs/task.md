@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 16 In Progress (T16.01-T16.05 Complete; T16.06 Active)                         |
+| Status                         | Phase 16 In Progress (T16.01-T16.06 Complete; T16.07 Active)                         |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T16.06 Author Canonical SWE Flaw-Finding Practice Scenarios** (Phase 16 Underway: T16.05 Multi-Family Engine Complete)
+**NEXT TASK: T16.07 Update Web UI for Multi-Family Support** (Phase 16 Underway: T16.06 Scenarios Complete)
 
 ## How to use this file
 
@@ -733,7 +733,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/competency-review-swe-family.md`, `tests/unit/test_competency_review_swe.py`. Done when: Cohen's Kappa κ >= 0.80. Needs: T16.02, T16.03. Size: S.
 - [x] **T16.05** [AI] Extend `FilesystemTaxonomyAdapter` in `src/compintel/career/engine.py` to route multi-family graph requests (`family="SWE"`); update CareerEngine and unit tests. (done 2026-10-30)
       Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_multi_family.py`. Done when: get_competency_graph supports both DATA and SWE. Needs: T16.02, T16.03. Size: S.
-- [ ] **T16.06** [AI] Author canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) with deterministic rubrics, pass thresholds, and unit tests.
+- [x] **T16.06** [AI] Author canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) with deterministic rubrics, pass thresholds, and unit tests. (done 2026-10-30)
       Output: `config/scenarios/scen_swe_*.json`, `tests/unit/test_career_scenarios_swe.py`. Done when: 3 scenarios pass validation, deterministic scoring, sub-5ms latency. Needs: T16.02. Size: M.
 - [ ] **T16.07** [AI] Update web UI for multi-family support: add SWE role target options, SWE scenarios in PracticeWorkspace, and role family switcher in GapMapView and RoadmapView.
       Output: `apps/web/src/components/career/*.tsx`, test suites. Done when: seamless family switching, 0 Axe violations, local-first IndexedDB persistence. Needs: T16.05, T16.06. Size: M.
@@ -1326,3 +1326,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.34    | Task T16.03 complete: Calibrated SWE difficulty and heuristic effort rubrics (`src/compintel/career/swe_rubric.py`, `config/taxonomy/difficulty_rubrics_swe.json`, SHA-256: `57e7eccb...`) across all 15 SWE nodes with 1.0-5.0 anchors, valid effort ranges (min < max), mandatory is_heuristic=True, statutory disclaimers, and zero causal pay claims, 7/7 unit tests passing. NEXT: Task T16.04 (Convene Practitioner Consensus Review for SWE Family). |
 | 2026-10-30 | 1.35    | Task T16.04 complete: Convened independent practitioner review panel (Dr. Ananya Sen, Vikramaditya Joshi) and authored consensus review report `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01) with Cohen's Kappa κ = 0.867 (>= 0.80 target), 4 reconciled discrepancies, all 5 SWE clusters marked Reviewed, and 6/6 unit tests passing. NEXT: Task T16.05 (Extend FilesystemTaxonomyAdapter for Multi-Family Graph Requests). |
 | 2026-10-30 | 1.36    | Task T16.05 complete: Extended `FilesystemTaxonomyAdapter` and `CareerEngine` in `src/compintel/career/engine.py` to route multi-family graph and rubric requests (`family="SWE"`, `family="DATA"`), updated `TaxonomyPort` signatures, authored comprehensive unit test suite `tests/unit/test_career_engine_multi_family.py` (7/7 passing), verified backward compatibility with 30 passing engine & contract tests. NEXT: Task T16.06 (Author Canonical SWE Flaw-Finding Practice Scenarios). |
+| 2026-10-30 | 1.37    | Task T16.06 complete: Authored 3 canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) in `config/scenarios/`, relaxed `role_family` enum support, verified ADR-0010/ADR-0013 zero runtime LLMs, deterministic rubric scoring, sub-5ms latency, zero credentialism (Rule R-CR-11) and zero causal claims (Rule R-CR-01), 12/12 unit tests passing. NEXT: Task T16.07 (Update Web UI for Multi-Family Support). |
