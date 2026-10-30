@@ -675,7 +675,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 **Objective:** Accessible, local-first interactive client workspace for Career Architect (ADR-0012, Rule R-CR-12).
 **Needs:** Gate G15D.
 
-- [ ] **T15.27** [AI] Local-first store on IndexedDB: implement client-side ledger schema, version migrations, JSON export/import, hard delete-all, and quota handling.
+- [x] **T15.27** [AI] Local-first store on IndexedDB: implement client-side ledger schema, version migrations, JSON export/import, hard delete-all, and quota handling. (done 2026-10-30)
       Output: `apps/web/src/lib/careerLedger.ts`. Done when: unit tests pass with zero server storage. Needs: Gate G15D. Size: L.
 - [ ] **T15.28** [AI] Navigation shell & design tokens: add Career routes, side rail, bottom nav, responsive layout, and contrast auditing script updates.
       Output: `apps/web/src/routes/career.tsx`. Done when: navigation tests and axe accessibility passes. Needs: T15.27. Size: M.
