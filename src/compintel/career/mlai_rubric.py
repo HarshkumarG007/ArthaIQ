@@ -1,0 +1,485 @@
+"""Calibrated difficulty and effort heuristic rubric engine for MLAI family (Task T19.03).
+
+Enforces Rule R-CR-05:
+1. Difficulty ratings (learning and application) anchored on 1.0-5.0 scales.
+2. Labelled heuristic with statutory non-guarantee disclaimers.
+3. Effort expressed strictly as ranges in hours, never single-point false precision.
+4. Zero causal pay or career advancement promises.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+from compintel.career.schema import (
+    DifficultyAnchorDefinition,
+    DifficultyRubricEntry,
+    DifficultyRubricsManifest,
+    EffortRange,
+    validate_anti_causal_text,
+)
+
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+DEFAULT_MLAI_RUBRICS_PATH = REPO_ROOT / "config" / "taxonomy" / "difficulty_rubrics_mlai.json"
+
+HEURISTIC_DISCLAIMER = (
+    "Estimated based on practitioner consensus. Individual effort varies with prior background."
+)
+
+MLAI_LEARNING_ANCHORS: list[dict[str, Any]] = [
+    {
+        "scale": "learning",
+        "level": 1.0,
+        "label": "Introductory / Declarative",
+        "anchor_description": (
+            "Syntax-level understanding of tensor packages, matrix notation, "
+            "and machine learning concepts self-teachable in under 15 hours."
+        ),
+        "typical_signals": [
+            "Reads documentation tutorials for PyTorch or scikit-learn without debugging",
+            "Identifies basic layer types and standard mathematical loss functions",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 2.0,
+        "label": "Foundational Practical",
+        "anchor_description": (
+            "Foundational tensor mathematics, automatic differentiation, training loops, "
+            "and evaluation mechanics mastered in 15 to 40 hours with programming foundations."
+        ),
+        "typical_signals": [
+            "Constructs clean PyTorch training loops with forward and backward passes",
+            "Logs model artifacts and evaluation metrics to versioned registries",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 3.0,
+        "label": "Intermediate Systemic",
+        "anchor_description": (
+            "Deep neural architectures, attention projections, parameter-efficient adapters, "
+            "and uncertainty calibration demanding 25 to 65 hours."
+        ),
+        "typical_signals": [
+            "Implements multi-head attention and causal masking from scratch",
+            "Calibrates conformal prediction intervals with distribution-free coverage",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 4.0,
+        "label": "Advanced Methodological / Architectural",
+        "anchor_description": (
+            "Distributed parallel sharding, direct preference optimization mathematics, "
+            "low-bit quantization, and differential privacy foundations (40 to 90 hours)."
+        ),
+        "typical_signals": [
+            "Implements tensor-parallel sharding across multi-GPU compute topologies",
+            "Derives closed-form implicit reward gradients for preference alignment",
+        ],
+    },
+    {
+        "scale": "learning",
+        "level": 5.0,
+        "label": "Expert Frontier",
+        "anchor_description": (
+            "Custom hardware kernel optimization, novel foundational model architectures, "
+            "and formal algorithmic verification (>90 hours)."
+        ),
+        "typical_signals": [
+            "Writes custom fused Triton/CUDA kernels for attention operations",
+            "Develops novel optimization formulations with theoretical convergence bounds",
+        ],
+    },
+]
+
+MLAI_APPLICATION_ANCHORS: list[dict[str, Any]] = [
+    {
+        "scale": "application",
+        "level": 1.0,
+        "label": "Isolated Templated",
+        "anchor_description": (
+            "Execution within clean sandbox environments against scripted tutorial datasets."
+        ),
+        "typical_signals": [
+            "Runs standard training notebooks on benchmark datasets cleanly",
+            "Implements boilerplate classification pipelines matching established patterns",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 2.0,
+        "label": "Guided Production",
+        "anchor_description": (
+            "Applied to standardized training pipelines with established tracking, CI, and tests."
+        ),
+        "typical_signals": [
+            "Integrates model training scripts with automated artifact versioning",
+            "Audits training and validation splits against accidental data leakage",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 3.0,
+        "label": "Unconstrained Real-World",
+        "anchor_description": (
+            "Navigates noisy data distributions, gradient instabilities, and VRAM memory bounds."
+        ),
+        "typical_signals": [
+            "Diagnoses vanishing gradients and configures adaptive learning rate schedules",
+            "Fine-tunes transformer models on custom domain datasets without overfitting",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 4.0,
+        "label": "High-Stakes Production",
+        "anchor_description": (
+            "Mission-critical deployment where faults degrade throughput, leak private data, "
+            "or generate unconstrained completions."
+        ),
+        "typical_signals": [
+            "Architects low-latency quantized serving clusters with strict SLAs",
+            "Enforces verifiable machine unlearning complying with DPDP Act Sec 12",
+        ],
+    },
+    {
+        "scale": "application",
+        "level": 5.0,
+        "label": "Strategic Enterprise Architecture",
+        "anchor_description": (
+            "Organizational-level AI infrastructure involving multi-node training clusters, "
+            "fault-tolerant checkpoint resumption, and enterprise alignment."
+        ),
+        "typical_signals": [
+            "Orchestrates 100+ GPU distributed cluster runs with zero communication deadlocks",
+            "Establishes organization-wide model governance, calibration, and red-teaming",
+        ],
+    },
+]
+
+MLAI_FAMILY_RUBRIC_ENTRIES: list[dict[str, Any]] = [
+    # ------------------ Level 2: Junior / Foundations ------------------
+    {
+        "node_id": "mlai.math.l2_linear_algebra",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 2.0,
+        "effort_hours": {"min_hours": 15, "max_hours": 30},
+        "learning_rationale": (
+            "Matrix factorizations, high-dimensional vector spaces, and projection "
+            "operations covered in undergraduate linear algebra and scientific computing curricula."
+        ),
+        "application_rationale": (
+            "Implementing efficient batched matrix operations in NumPy and PyTorch "
+            "without redundant array allocations or broadcasting bugs."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.math.l2_convex_opt",
+        "learning_difficulty": 2.5,
+        "application_difficulty": 2.0,
+        "effort_hours": {"min_hours": 20, "max_hours": 35},
+        "learning_rationale": (
+            "Convex sets, dual formulations, gradient descent convergence guarantees, "
+            "and loss surface geometry for standard loss functions."
+        ),
+        "application_rationale": (
+            "Selecting and configuring optimization objectives, diagnosing gradient stagnation, "
+            "and verifying convexity assumptions in empirical models."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.core.l2_neural_backprop",
+        "learning_difficulty": 2.5,
+        "application_difficulty": 2.5,
+        "effort_hours": {"min_hours": 20, "max_hours": 40},
+        "learning_rationale": (
+            "Computational graph formulation, reverse-mode automatic differentiation, "
+            "activation non-linearities, and layer normalization dynamics."
+        ),
+        "application_rationale": (
+            "Writing custom autograd functions, verifying gradient flow with numerical checks, "
+            "and diagnosing vanishing gradients in deep feedforward networks."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.ops.l2_model_registry",
+        "learning_difficulty": 2.0,
+        "application_difficulty": 2.0,
+        "effort_hours": {"min_hours": 15, "max_hours": 30},
+        "learning_rationale": (
+            "Model artifact serialization formats (ONNX, Safetensors), cryptographic checksumming, "
+            "and metadata tracking conventions."
+        ),
+        "application_rationale": (
+            "Configuring automated lineage tracking, registering stage transitions, "
+            "and attaching provenance audit manifests to trained weights."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.eval.l2_leakage_audit",
+        "learning_difficulty": 2.5,
+        "application_difficulty": 2.5,
+        "effort_hours": {"min_hours": 20, "max_hours": 35},
+        "learning_rationale": (
+            "Data contamination mechanisms, lookahead bias in temporal splits, "
+            "and sliced subgroup metric disparities."
+        ),
+        "application_rationale": (
+            "Constructing automated leakage detection pipelines, validating strict temporal "
+            "ordering, and evaluating sliced fairness metrics across demographic cohorts."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    # ------------------ Level 3: Mid / Core Engineering ------------------
+    {
+        "node_id": "mlai.math.l3_stochastic_opt",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 25, "max_hours": 45},
+        "learning_rationale": (
+            "Stochastic approximation theory, momentum dynamics, adaptive moment estimation "
+            "(AdamW), and learning rate schedule dynamics."
+        ),
+        "application_rationale": (
+            "Tuning warmup schedules, diagnosing optimizer divergence, and optimizing weight "
+            "decay parameters for stable multi-epoch convergence."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.core.l3_transformer_attn",
+        "learning_difficulty": 3.5,
+        "application_difficulty": 3.5,
+        "effort_hours": {"min_hours": 35, "max_hours": 60},
+        "learning_rationale": (
+            "Scaled dot-product attention, multi-head projections, positional encodings "
+            "(RoPE, ALiBi), and causal sequence masking mathematics."
+        ),
+        "application_rationale": (
+            "Implementing flash attention interfaces, managing KV-cache memory structures, "
+            "and resolving sequence length memory scaling bottlenecks."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.core.l3_repr_learning",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 30, "max_hours": 50},
+        "learning_rationale": (
+            "Contrastive loss objectives (InfoNCE), triplet margin formulations, and metric "
+            "learning vector space properties."
+        ),
+        "application_rationale": (
+            "Training semantic retrieval embedding models, managing in-batch negatives, "
+            "and evaluating vector nearest-neighbor search recall."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.core.l3_peft_finetune",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 3.0,
+        "effort_hours": {"min_hours": 25, "max_hours": 50},
+        "learning_rationale": (
+            "Low-Rank Adaptation (LoRA) linear algebra decomposition, prompt tuning vectors, "
+            "and quantized base weight adapter integration."
+        ),
+        "application_rationale": (
+            "Configuring target module rank matrices, fusing adapter weights for inference, "
+            "and preventing catastrophic forgetting during domain fine-tuning."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.eval.l3_conformal_calib",
+        "learning_difficulty": 3.5,
+        "application_difficulty": 3.5,
+        "effort_hours": {"min_hours": 30, "max_hours": 55},
+        "learning_rationale": (
+            "Probability calibration metrics (expected calibration error), temperature scaling, "
+            "and distribution-free split conformal prediction intervals."
+        ),
+        "application_rationale": (
+            "Implementing exchangeable calibration sets, computing calibrated prediction intervals "
+            "with finite-sample coverage guarantees, and enforcing abstention thresholds."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.gen.l3_guardrails",
+        "learning_difficulty": 3.0,
+        "application_difficulty": 3.5,
+        "effort_hours": {"min_hours": 25, "max_hours": 45},
+        "learning_rationale": (
+            "Constrained decoding grammars, semantic self-consistency checking, "
+            "and deterministic pattern filtering for model completions."
+        ),
+        "application_rationale": (
+            "Authoring regex and context-free grammar parsers, enforcing structured JSON schemas, "
+            "and blocking jailbreak attempts with deterministic verifiers."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    # ------------------ Level 4: Senior / Advanced & Scale ------------------
+    {
+        "node_id": "mlai.ops.l4_dist_training",
+        "learning_difficulty": 4.0,
+        "application_difficulty": 4.5,
+        "effort_hours": {"min_hours": 45, "max_hours": 80},
+        "learning_rationale": (
+            "Data parallelism (FSDP, ZeRO stages), tensor parallelism, pipeline parallelism, "
+            "and collective communication primitives (AllReduce, AllGather)."
+        ),
+        "application_rationale": (
+            "Partitioning multi-billion parameter model layers across multi-GPU nodes, resolving "
+            "communication deadlocks, and optimizing inter-node network bandwidth."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.ops.l4_quant_serving",
+        "learning_difficulty": 4.0,
+        "application_difficulty": 4.0,
+        "effort_hours": {"min_hours": 40, "max_hours": 75},
+        "learning_rationale": (
+            "Weight-only and activation quantization (INT8, FP8, INT4 AWQ), continuous batching "
+            "algorithms, and PagedAttention memory paging."
+        ),
+        "application_rationale": (
+            "Deploying high-throughput vLLM serving clusters, tuning tensor parallel workers, "
+            "and benchmarking time-to-first-token and inter-token latency SLAs."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.eval.l4_dpdp_privacy",
+        "learning_difficulty": 4.0,
+        "application_difficulty": 4.0,
+        "effort_hours": {"min_hours": 35, "max_hours": 70},
+        "learning_rationale": (
+            "Differential privacy epsilon-delta accounting, machine unlearning gradient deletion, "
+            "and India DPDP Act 2023 Sec 12 statutory right to erasure."
+        ),
+        "application_rationale": (
+            "Implementing DP-SGD gradient clipping, verifying provable influence unlearning, "
+            "and generating cryptographic certificates of hard weight erasure."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+    {
+        "node_id": "mlai.gen.l4_preference_dpo",
+        "learning_difficulty": 4.5,
+        "application_difficulty": 4.0,
+        "effort_hours": {"min_hours": 45, "max_hours": 85},
+        "learning_rationale": (
+            "Bradley-Terry preference models, reinforcement learning from human feedback (PPO), "
+            "and closed-form Direct Preference Optimization (DPO)."
+        ),
+        "application_rationale": (
+            "Curating high-quality paired preference datasets, tuning implicit reference model "
+            "KL penalties, and stabilizing policy gradient updates against reward collapse."
+        ),
+        "is_heuristic": True,
+        "disclaimer": HEURISTIC_DISCLAIMER,
+    },
+]
+
+
+def build_mlai_difficulty_rubrics_manifest() -> DifficultyRubricsManifest:
+    """Construct and validate the complete MLAI DifficultyRubricsManifest."""
+    learning_anchors = [DifficultyAnchorDefinition(**anchor) for anchor in MLAI_LEARNING_ANCHORS]
+    application_anchors = [
+        DifficultyAnchorDefinition(**anchor) for anchor in MLAI_APPLICATION_ANCHORS
+    ]
+
+    entries = [
+        DifficultyRubricEntry(
+            node_id=item["node_id"],
+            learning_difficulty=item["learning_difficulty"],
+            application_difficulty=item["application_difficulty"],
+            effort_hours=EffortRange(**item["effort_hours"]),
+            learning_rationale=item["learning_rationale"],
+            application_rationale=item["application_rationale"],
+            is_heuristic=item["is_heuristic"],
+            disclaimer=item["disclaimer"],
+        )
+        for item in MLAI_FAMILY_RUBRIC_ENTRIES
+    ]
+
+    # Rule R-CR-01 anti-causal copy validation
+    for entry in entries:
+        validate_anti_causal_text(entry.learning_rationale, "learning_rationale")
+        validate_anti_causal_text(entry.application_rationale, "application_rationale")
+
+    return DifficultyRubricsManifest(
+        schema_version="1.0.0",
+        role_family="MLAI",
+        heuristic_disclaimer=HEURISTIC_DISCLAIMER,
+        learning_anchors=learning_anchors,
+        application_anchors=application_anchors,
+        entries=entries,
+    )
+
+
+def export_mlai_difficulty_rubrics(output_path: Path | None = None) -> tuple[Path, str]:
+    """Deterministically serialize the MLAI rubrics manifest to JSON with SHA-256."""
+    target_path = output_path or DEFAULT_MLAI_RUBRICS_PATH
+    manifest = build_mlai_difficulty_rubrics_manifest()
+
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = manifest.model_dump_json(indent=2) + "\n"
+    target_path.write_text(serialized, encoding="utf-8")
+
+    checksum = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+    return target_path, checksum
+
+
+def load_mlai_difficulty_rubrics(input_path: Path | None = None) -> DifficultyRubricsManifest:
+    """Load and validate the MLAI difficulty rubrics manifest from JSON."""
+    target_path = input_path or DEFAULT_MLAI_RUBRICS_PATH
+    if not target_path.is_file():
+        raise FileNotFoundError(f"MLAI rubrics file not found at {target_path}")
+
+    raw_data = json.loads(target_path.read_text(encoding="utf-8"))
+    return DifficultyRubricsManifest.model_validate(raw_data)
+
+
+def get_mlai_competency_rubric(
+    node_id: str, manifest: DifficultyRubricsManifest | None = None
+) -> DifficultyRubricEntry:
+    """Retrieve rubric calibration entry for a specific MLAI competency node."""
+    active_manifest = manifest or load_mlai_difficulty_rubrics()
+    for entry in active_manifest.entries:
+        if entry.node_id == node_id:
+            return entry
+    raise KeyError(f"MLAI competency node '{node_id}' not found in difficulty rubrics")
+
+
+if __name__ == "__main__":
+    path, digest = export_mlai_difficulty_rubrics()
+    print(f"Exported MLAI Difficulty Rubrics to {path}")
+    print(f"SHA-256: {digest}")
