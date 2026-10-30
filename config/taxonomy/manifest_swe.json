@@ -1,0 +1,21 @@
+{
+  "bundle_sha256": "4b31a53f7fe8d98d7fe072157dfd559406214e08f684d5f2996a57b1589a1a3c",
+  "element_counts_by_category": {
+    "application_development": 4,
+    "dev_workflow": 3,
+    "security_reliability": 3,
+    "systems_architecture": 4,
+    "testing_quality": 1
+  },
+  "generated_at": "2026-10-30T12:00:00Z",
+  "licence_classes": [
+    "CC-BY-4.0",
+    "EU-OPEN-REUSE"
+  ],
+  "manifest_version": "v1.0",
+  "sources_included": [
+    "ONET-28.0",
+    "ESCO-1.1.1"
+  ],
+  "total_elements": 15
+}

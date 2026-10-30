@@ -4,10 +4,10 @@
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.1.0 General Availability (GA) Released** · All 16 Gates G0–G15F Ratified GO |
-| **Active Milestone** | **Post-Phase 15: Track 1 Complete; Advancing to Track 2 (SWE Inception)** |
-| **Active Subphase** | **Track 1: DATA Family Practice Scenario Corpus Expansion (Completed)** |
-| **Current Task** | **Track 1 Completion (T15.34-T15.37 done, 7 canonical scenarios active)** |
-| **Next Task** | **Track 2 / Option B: SWE Family Taxonomy & Competency Graph Inception (Phase 16)** |
+| **Active Milestone** | **Phase 16: Software Engineering (SWE) Role Family Expansion** |
+| **Active Subphase** | **Phase 16 Underway (T16.01 Complete)** |
+| **Current Task** | **T16.01 SWE Taxonomy Ingestion & Provenance (Completed)** |
+| **Next Task** | **T16.02 Assemble Canonical SWE Competency DAG** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

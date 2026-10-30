@@ -1,0 +1,284 @@
+{
+  "bundle_id": "taxonomy-swe-family-v1",
+  "elements": [
+    {
+      "category": "systems_architecture",
+      "code": "15-1252.00.T01",
+      "description": "Analyze asymptotic time and space complexity, hash collision handling, and tree/graph representations for low-latency execution.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T01",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Algorithmic Complexity and Core Data Structures"
+    },
+    {
+      "category": "systems_architecture",
+      "code": "15-1252.00.T02",
+      "description": "Design multithreaded and asynchronous routines using mutexes, read-write locks, atomic variables, and deadlock detection.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T02",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Concurrency Primitives and Thread Safety"
+    },
+    {
+      "category": "systems_architecture",
+      "code": "15-1252.00.T03",
+      "description": "Profile process heap allocation, identify memory leaks, manage connection lifecycles, and optimize allocator throughput.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T03",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Memory Profiling and Resource Management"
+    },
+    {
+      "category": "application_development",
+      "code": "15-1252.00.T04",
+      "description": "Implement circuit breakers, exponential backoff, bulkhead isolation, and graceful degradation in distributed microservices.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T04",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Microservice Resiliency and Fault Isolation"
+    },
+    {
+      "category": "application_development",
+      "code": "15-1252.00.T05",
+      "description": "Optimize database query execution plans, design composite B-tree indexes, resolve table lock contention, and prevent N+1 query patterns.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T05",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Relational Indexing and Query Performance"
+    },
+    {
+      "category": "systems_architecture",
+      "code": "15-1252.00.T06",
+      "description": "Evaluate distributed consensus protocols (Raft, Paxos), split-brain scenarios, leader election timeouts, and linearizable consistency.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T06",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Distributed Consensus and Replicated State"
+    },
+    {
+      "category": "application_development",
+      "code": "15-1252.00.T07",
+      "description": "Architect transactional outbox patterns, message deduplication, at-least-once delivery guarantees, and dead-letter queue handling.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T07",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Event-Driven Architecture and Asynchronous Messaging"
+    },
+    {
+      "category": "application_development",
+      "code": "15-1254.00.T01",
+      "description": "Design REST and gRPC API contracts with RFC 9457 problem details, semantic versioning, and strict idempotency keys for mutative endpoints.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1254.00.T01",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Contract-First API Architecture and Idempotency"
+    },
+    {
+      "category": "security_reliability",
+      "code": "15-1254.00.T02",
+      "description": "Enforce OWASP Top 10 defenses including parametrized SQL statements, CSP headers, CSRF tokens, SSRF protection, and cryptographically secure tokens.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1254.00.T02",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Web Application Security and Input Sanitization"
+    },
+    {
+      "category": "dev_workflow",
+      "code": "ESCO.SWE.001",
+      "description": "Maintain clean trunk-based commit histories, atomic commit diffs, interactive rebase conflict resolution, and merge hygiene.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.001",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Git Trunk Hygiene and Atomic Branching"
+    },
+    {
+      "category": "testing_quality",
+      "code": "ESCO.SWE.002",
+      "description": "Author deterministic unit test suites with test doubles, hermetic fixture isolation, property testing, and high statement coverage.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.002",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Automated Unit Testing and Test Isolation"
+    },
+    {
+      "category": "dev_workflow",
+      "code": "ESCO.SWE.003",
+      "description": "Author multi-stage container builds, non-root user execution, minimal attack surfaces, and reproducible image digest pinning.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.003",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Container Packaging and Minimal Base Images"
+    },
+    {
+      "category": "security_reliability",
+      "code": "ESCO.SWE.004",
+      "description": "Instrument services with OpenTelemetry traces, RED metric collection, and correlation IDs across asynchronous log streams.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.004",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Telemetry, Structured Logging and Distributed Tracing"
+    },
+    {
+      "category": "dev_workflow",
+      "code": "ESCO.SWE.005",
+      "description": "Configure reproducible deployment pipelines with canary gates, automated health checks, zero-downtime rollouts, and rollback triggers.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.005",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Hermetic CI/CD Pipelines and Automated Rollback"
+    },
+    {
+      "category": "security_reliability",
+      "code": "ESCO.SWE.006",
+      "description": "Implement envelope encryption, keyed hash message authentication, and verifiable zero-byte hard deletion under DPDP Act 2023 Sec 12.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.006",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Cryptographic Privacy and Verifiable Purge Operations"
+    }
+  ],
+  "generated_at": "2026-10-30T12:00:00Z",
+  "manifest": {
+    "bundle_sha256": "4b31a53f7fe8d98d7fe072157dfd559406214e08f684d5f2996a57b1589a1a3c",
+    "element_counts_by_category": {
+      "application_development": 4,
+      "dev_workflow": 3,
+      "security_reliability": 3,
+      "systems_architecture": 4,
+      "testing_quality": 1
+    },
+    "generated_at": "2026-10-30T12:00:00Z",
+    "licence_classes": [
+      "CC-BY-4.0",
+      "EU-OPEN-REUSE"
+    ],
+    "manifest_version": "v1.0",
+    "sources_included": [
+      "ONET-28.0",
+      "ESCO-1.1.1"
+    ],
+    "total_elements": 15
+  },
+  "role_family": "SWE",
+  "version": "1.0.0"
+}

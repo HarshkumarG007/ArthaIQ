@@ -82,13 +82,21 @@ class RoleLevel(IntEnum):
 
 
 class CompetencyCategory(StrEnum):
-    """Taxonomy clusters for the DATA role family."""
+    """Taxonomy clusters for DATA and SWE role families."""
 
+    # DATA family clusters
     CORE_ANALYTICS = "core_analytics"
     DATA_ENGINEERING = "data_engineering"
     STATISTICAL_MODELING = "statistical_modeling"
     EXPERIMENTATION = "experimentation"
     BUSINESS_COMMUNICATION = "business_communication"
+
+    # SWE family clusters
+    SYSTEMS_ARCHITECTURE = "systems_architecture"
+    APPLICATION_DEVELOPMENT = "application_development"
+    TESTING_QUALITY = "testing_quality"
+    SECURITY_RELIABILITY = "security_reliability"
+    DEV_WORKFLOW = "dev_workflow"
 
 
 class TaxonomySource(StrEnum):

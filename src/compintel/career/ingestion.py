@@ -220,6 +220,157 @@ _RAW_ESCO_TRANSVERSAL_SKILLS: list[dict[str, Any]] = [
     },
 ]
 
+# Raw curated records for Software Engineering (SWE) from O*NET 28.0 and ESCO 1.1.1
+_RAW_ONET_SWE_DEVELOPER_TASKS: list[dict[str, Any]] = [
+    {
+        "code": "15-1252.00.T01",
+        "title": "Algorithmic Complexity and Core Data Structures",
+        "description": (
+            "Analyze asymptotic time and space complexity, hash collision handling, "
+            "and tree/graph representations for low-latency execution."
+        ),
+        "category": CompetencyCategory.SYSTEMS_ARCHITECTURE,
+    },
+    {
+        "code": "15-1252.00.T02",
+        "title": "Concurrency Primitives and Thread Safety",
+        "description": (
+            "Design multithreaded and asynchronous routines using mutexes, read-write "
+            "locks, atomic variables, and deadlock detection."
+        ),
+        "category": CompetencyCategory.SYSTEMS_ARCHITECTURE,
+    },
+    {
+        "code": "15-1252.00.T03",
+        "title": "Memory Profiling and Resource Management",
+        "description": (
+            "Profile process heap allocation, identify memory leaks, manage connection "
+            "lifecycles, and optimize allocator throughput."
+        ),
+        "category": CompetencyCategory.SYSTEMS_ARCHITECTURE,
+    },
+    {
+        "code": "15-1252.00.T04",
+        "title": "Microservice Resiliency and Fault Isolation",
+        "description": (
+            "Implement circuit breakers, exponential backoff, bulkhead isolation, "
+            "and graceful degradation in distributed microservices."
+        ),
+        "category": CompetencyCategory.APPLICATION_DEVELOPMENT,
+    },
+    {
+        "code": "15-1252.00.T05",
+        "title": "Relational Indexing and Query Performance",
+        "description": (
+            "Optimize database query execution plans, design composite B-tree indexes, "
+            "resolve table lock contention, and prevent N+1 query patterns."
+        ),
+        "category": CompetencyCategory.APPLICATION_DEVELOPMENT,
+    },
+    {
+        "code": "15-1252.00.T06",
+        "title": "Distributed Consensus and Replicated State",
+        "description": (
+            "Evaluate distributed consensus protocols (Raft, Paxos), split-brain scenarios, "
+            "leader election timeouts, and linearizable consistency."
+        ),
+        "category": CompetencyCategory.SYSTEMS_ARCHITECTURE,
+    },
+    {
+        "code": "15-1252.00.T07",
+        "title": "Event-Driven Architecture and Asynchronous Messaging",
+        "description": (
+            "Architect transactional outbox patterns, message deduplication, at-least-once "
+            "delivery guarantees, and dead-letter queue handling."
+        ),
+        "category": CompetencyCategory.APPLICATION_DEVELOPMENT,
+    },
+]
+
+_RAW_ONET_SWE_WEB_TASKS: list[dict[str, Any]] = [
+    {
+        "code": "15-1254.00.T01",
+        "title": "Contract-First API Architecture and Idempotency",
+        "description": (
+            "Design REST and gRPC API contracts with RFC 9457 problem details, semantic "
+            "versioning, and strict idempotency keys for mutative endpoints."
+        ),
+        "category": CompetencyCategory.APPLICATION_DEVELOPMENT,
+    },
+    {
+        "code": "15-1254.00.T02",
+        "title": "Web Application Security and Input Sanitization",
+        "description": (
+            "Enforce OWASP Top 10 defenses including parametrized SQL statements, CSP "
+            "headers, CSRF tokens, SSRF protection, and cryptographically secure tokens."
+        ),
+        "category": CompetencyCategory.SECURITY_RELIABILITY,
+    },
+]
+
+_RAW_ESCO_SWE_TRANSVERSAL_SKILLS: list[dict[str, Any]] = [
+    {
+        "code": "ESCO.SWE.001",
+        "title": "Git Trunk Hygiene and Atomic Branching",
+        "description": (
+            "Maintain clean trunk-based commit histories, atomic commit diffs, interactive "
+            "rebase conflict resolution, and merge hygiene."
+        ),
+        "category": CompetencyCategory.DEV_WORKFLOW,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.SWE.002",
+        "title": "Automated Unit Testing and Test Isolation",
+        "description": (
+            "Author deterministic unit test suites with test doubles, hermetic fixture "
+            "isolation, property testing, and high statement coverage."
+        ),
+        "category": CompetencyCategory.TESTING_QUALITY,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.SWE.003",
+        "title": "Container Packaging and Minimal Base Images",
+        "description": (
+            "Author multi-stage container builds, non-root user execution, minimal attack "
+            "surfaces, and reproducible image digest pinning."
+        ),
+        "category": CompetencyCategory.DEV_WORKFLOW,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.SWE.004",
+        "title": "Telemetry, Structured Logging and Distributed Tracing",
+        "description": (
+            "Instrument services with OpenTelemetry traces, RED metric collection, "
+            "and correlation IDs across asynchronous log streams."
+        ),
+        "category": CompetencyCategory.SECURITY_RELIABILITY,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.SWE.005",
+        "title": "Hermetic CI/CD Pipelines and Automated Rollback",
+        "description": (
+            "Configure reproducible deployment pipelines with canary gates, automated "
+            "health checks, zero-downtime rollouts, and rollback triggers."
+        ),
+        "category": CompetencyCategory.DEV_WORKFLOW,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.SWE.006",
+        "title": "Cryptographic Privacy and Verifiable Purge Operations",
+        "description": (
+            "Implement envelope encryption, keyed hash message authentication, and "
+            "verifiable zero-byte hard deletion under DPDP Act 2023 Sec 12."
+        ),
+        "category": CompetencyCategory.SECURITY_RELIABILITY,
+        "is_transversal": True,
+    },
+]
+
 
 def enforce_taxonomy_licence_gate(
     source_id: TaxonomySource,
@@ -396,8 +547,108 @@ def generate_data_family_taxonomy(
     return bundle, bundle_path, manifest_path
 
 
+def generate_swe_family_taxonomy(
+    output_dir: Path | None = None,
+) -> tuple[TaxonomyBundle, Path, Path]:
+    """Ingest, crosswalk, and serialize canonical SWE family taxonomy.
+
+    Args:
+        output_dir: Optional destination directory (defaults to config/taxonomy).
+
+    Returns:
+        Tuple containing the TaxonomyBundle, path to swe_family.json, and path to manifest_swe.json.
+    """
+    elements: list[TaxonomyElement] = []
+
+    # 1. Ingest O*NET Software Developers tasks
+    for item in _RAW_ONET_SWE_DEVELOPER_TASKS:
+        element = build_taxonomy_element(
+            item,
+            TaxonomySource.ONET_28_0,
+            TaxonomyLicense.CC_BY_4_0,
+            ONET_STATUTORY_ATTRIBUTION,
+        )
+        elements.append(element)
+
+    # 2. Ingest O*NET Web Developers tasks
+    for item in _RAW_ONET_SWE_WEB_TASKS:
+        element = build_taxonomy_element(
+            item,
+            TaxonomySource.ONET_28_0,
+            TaxonomyLicense.CC_BY_4_0,
+            ONET_STATUTORY_ATTRIBUTION,
+        )
+        elements.append(element)
+
+    # 3. Ingest ESCO SWE Transversal skills
+    for item in _RAW_ESCO_SWE_TRANSVERSAL_SKILLS:
+        element = build_taxonomy_element(
+            item,
+            TaxonomySource.ESCO_1_1_1,
+            TaxonomyLicense.EU_OPEN_REUSE,
+            ESCO_STATUTORY_ATTRIBUTION,
+        )
+        elements.append(element)
+
+    # Sort deterministically by code
+    elements.sort(key=lambda el: el.code)
+
+    # Compute category statistics
+    category_counts: dict[str, int] = {}
+    for el in elements:
+        category_counts[el.category] = category_counts.get(el.category, 0) + 1
+
+    sha256_hash = compute_bundle_sha256(elements)
+    fixed_timestamp = "2026-10-30T12:00:00Z"
+
+    manifest = TaxonomyManifest(
+        manifest_version="v1.0",
+        generated_at=fixed_timestamp,
+        total_elements=len(elements),
+        sources_included=[TaxonomySource.ONET_28_0, TaxonomySource.ESCO_1_1_1],
+        licence_classes=[TaxonomyLicense.CC_BY_4_0, TaxonomyLicense.EU_OPEN_REUSE],
+        bundle_sha256=sha256_hash,
+        element_counts_by_category=category_counts,
+    )
+
+    bundle = TaxonomyBundle(
+        bundle_id="taxonomy-swe-family-v1",
+        role_family="SWE",
+        version="1.0.0",
+        generated_at=fixed_timestamp,
+        manifest=manifest,
+        elements=elements,
+    )
+
+    target_dir = output_dir or CONFIG_TAXONOMY_DIR
+    target_dir.mkdir(parents=True, exist_ok=True)
+    bundle_path = target_dir / "swe_family.json"
+    manifest_path = target_dir / "manifest_swe.json"
+
+    bundle_json = json.dumps(bundle.model_dump(), indent=2, sort_keys=True) + "\n"
+    manifest_json = json.dumps(manifest.model_dump(), indent=2, sort_keys=True) + "\n"
+
+    # Atomic write pattern to avoid parallel file-read corruption
+    tmp_bundle = bundle_path.with_suffix(".tmp")
+    tmp_manifest = manifest_path.with_suffix(".tmp")
+    tmp_bundle.write_text(bundle_json, encoding="utf-8")
+    tmp_manifest.write_text(manifest_json, encoding="utf-8")
+    tmp_bundle.replace(bundle_path)
+    tmp_manifest.replace(manifest_path)
+
+    return bundle, bundle_path, manifest_path
+
+
 if __name__ == "__main__":
     bundle, b_path, m_path = generate_data_family_taxonomy()
     sha_short = bundle.manifest.bundle_sha256[:16]
     print(f"Generated {b_path.name} ({len(bundle.elements)} elements, SHA-256: {sha_short}...)")
     print(f"Generated {m_path.name}")
+
+    swe_bundle, swe_b_path, swe_m_path = generate_swe_family_taxonomy()
+    swe_sha_short = swe_bundle.manifest.bundle_sha256[:16]
+    print(
+        f"Generated {swe_b_path.name} ({len(swe_bundle.elements)} elements, "
+        f"SHA-256: {swe_sha_short}...)"
+    )
+    print(f"Generated {swe_m_path.name}")

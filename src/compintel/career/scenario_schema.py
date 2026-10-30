@@ -75,6 +75,8 @@ class ArtifactLanguage(StrEnum):
 
     SQL = "sql"
     PYTHON = "python"
+    TYPESCRIPT = "typescript"
+    JAVASCRIPT = "javascript"
     YAML = "yaml"
     JSON = "json"
     MARKDOWN = "markdown"
@@ -83,6 +85,7 @@ class ArtifactLanguage(StrEnum):
 class DefectCategory(StrEnum):
     """Categorical taxonomy of domain defects in technical artifacts."""
 
+    # Data science / analytics defects
     DATA_LEAKAGE = "data_leakage"
     DIVISION_BY_ZERO = "division_by_zero"
     NULL_HANDLING = "null_handling"
@@ -91,6 +94,13 @@ class DefectCategory(StrEnum):
     METRIC_MISALIGNMENT = "metric_misalignment"
     AGGREGATION_BIAS = "aggregation_bias"
     CARDINALITY_EXPLOSION = "cardinality_explosion"
+
+    # Software engineering defects
+    RACE_CONDITION = "race_condition"
+    RESOURCE_LEAK = "resource_leak"
+    SQL_INJECTION = "sql_injection"
+    UNBOUNDED_COLLECTION = "unbounded_collection"
+    BROKEN_AUTHENTICATION = "broken_authentication"
 
 
 class DefectSeverity(StrEnum):

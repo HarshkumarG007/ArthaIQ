@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.1.0 GA Released (Phases 0-15 complete; All 16 Gates G0-G15F ratified; Pilot Telemetry Audit Passed; Track 1 DATA Scenario Corpus Expanded) |
+| Status                         | Phase 16 In Progress (Phase 16 Underway: T16.01 Complete; T16.02 Active)            |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Track 2 / Option B: SWE Family Taxonomy & Competency Graph Inception (Phase 16)** (Phase 15 Complete, Gates G15A–G15F Ratified GO; Pilot Telemetry Audit Passed; Track 1 DATA Practice Scenario Corpus Expanded to 7 Scenarios)
+**NEXT TASK: T16.02 Assemble Canonical SWE Competency DAG** (Phase 16 Underway: T16.01 SWE Taxonomy Ingestion Complete)
 
 ## How to use this file
 
@@ -715,6 +715,35 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
+## Phase 16: Software Engineering (SWE) Role Family Expansion
+
+> **Objective:** Expand ArthaIQ Career Architect beyond DATA to the Software Engineering (SWE) family across Metro India tech hubs.  
+> **Inputs and tools:** O*NET 28.0, ESCO v1.1.1, Pydantic v2 schemas, CI validators, graphlib, Vitest.  
+> **Deliverables:** `config/taxonomy/swe_family.json`, `config/taxonomy/manifest_swe.json`, `src/compintel/career/swe_graph.py`, `config/taxonomy/competency_graph_swe.json`, `config/taxonomy/difficulty_rubrics_swe.json`, `docs/pilot/competency-review-swe-family.md`, SWE practice scenarios (`config/scenarios/scen_swe_*.json`), web UI multi-family switcher, unit tests.  
+> **Effort (assumption):** 2 to 4 days.  
+> **GO if:** Gate G16 criteria met: 15-node SWE DAG acyclic and validated, practitioner consensus κ >= 0.80, deterministic rubric scoring, 0 Axe accessibility violations, local-first IndexedDB persistence, zero causal pay claims.
+
+- [x] **T16.01** [AI] Ingest O*NET 28.0 and ESCO v1.1.1 SWE taxonomy items into `config/taxonomy/swe_family.json` and generate `manifest_swe.json` with cryptographic SHA-256 verification and licence gating. (done 2026-10-30)
+      Output: `config/taxonomy/swe_family.json`, `config/taxonomy/manifest_swe.json`, `tests/unit/test_career_swe_ingestion.py`. Done when: 15 elements validated, CC-BY-4.0 and EU-OPEN-REUSE verified, unit tests passing. Needs: Gate G15F. Size: S.
+- [ ] **T16.02** [AI] Assemble canonical 15-node SWE Competency DAG (`src/compintel/career/swe_graph.py`) across Junior (L2), Mid (L3), Senior (L4), and Staff (L5) levels; serialize `config/taxonomy/competency_graph_swe.json`.
+      Output: `src/compintel/career/swe_graph.py`, `config/taxonomy/competency_graph_swe.json`, `tests/unit/test_career_swe_graph.py`. Done when: 15 nodes validated by 5 CI validators, 0 cycles, 100% provenance. Needs: T16.01. Size: M.
+- [ ] **T16.03** [AI] Calibrate SWE Difficulty & Effort Heuristic Rubrics (`config/taxonomy/difficulty_rubrics_swe.json`) across all 15 SWE nodes with statutory disclaimers and zero causal claims.
+      Output: `config/taxonomy/difficulty_rubrics_swe.json`, `tests/unit/test_career_swe_rubric.py`. Done when: all 15 nodes calibrated with is_heuristic=True. Needs: T16.02. Size: S.
+- [ ] **T16.04** [AI+HUMAN] Convene two-reviewer practitioner consensus panel (Ananya Sen, Vikramaditya Joshi); author formal review dossier `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01, κ >= 0.80).
+      Output: `docs/pilot/competency-review-swe-family.md`, `tests/unit/test_competency_review_swe.py`. Done when: Cohen's Kappa κ >= 0.80. Needs: T16.02, T16.03. Size: S.
+- [ ] **T16.05** [AI] Extend `FilesystemTaxonomyAdapter` in `src/compintel/career/engine.py` to route multi-family graph requests (`family="SWE"`); update CareerEngine and unit tests.
+      Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_multi_family.py`. Done when: get_competency_graph supports both DATA and SWE. Needs: T16.02, T16.03. Size: S.
+- [ ] **T16.06** [AI] Author canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) with deterministic rubrics, pass thresholds, and unit tests.
+      Output: `config/scenarios/scen_swe_*.json`, `tests/unit/test_career_scenarios_swe.py`. Done when: 3 scenarios pass validation, deterministic scoring, sub-5ms latency. Needs: T16.02. Size: M.
+- [ ] **T16.07** [AI] Update web UI for multi-family support: add SWE role target options, SWE scenarios in PracticeWorkspace, and role family switcher in GapMapView and RoadmapView.
+      Output: `apps/web/src/components/career/*.tsx`, test suites. Done when: seamless family switching, 0 Axe violations, local-first IndexedDB persistence. Needs: T16.05, T16.06. Size: M.
+- [ ] **T16.08** [AI+HUMAN] Convene multidisciplinary governance panel and formally ratify Gate G16 (Software Engineering Role Family Expansion); verify all fast verification commands and bit-for-bit parity.
+      Output: `docs/pilot/gate-g16-review.md`, `tests/unit/test_phase16_gate_g16.py`. Done when: all G16 criteria ratified GO. Needs: T16.01-T16.07. Size: S.
+
+**Gate G16:** Software Engineering (SWE) Role Family Expansion ratified: 15-node SWE DAG verified, practitioner consensus κ >= 0.80, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
+
+---
+
 ---
 
 
@@ -1240,6 +1269,14 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | docs/pilot/scenario-review-corpus-expansion.md | T15.34–T15.37 Review |
 | tests/unit/test_career_scenarios_corpus_expansion.py | T15.34–T15.37 Tests |
 
+### Phase 16: Software Engineering (SWE) Role Family Expansion
+
+| Deliverable | Task |
+| --- | --- |
+| config/taxonomy/swe_family.json | T16.01 |
+| config/taxonomy/manifest_swe.json | T16.01 |
+| tests/unit/test_career_swe_ingestion.py | T16.01 |
+
 ## Change log
 
 | Date       | Version | Change                                                                                           |
@@ -1284,3 +1321,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.29    | Phase 15F complete & Gate G15F ratified GO: Integrated Career Architect, roadmap view with pacing slider, single next-step action card, decoupled pay overlay & honest abstention panel, 0 axe violations, zero causal pay claims, Decision D-031 approved. |
 | 2026-10-30 | 1.30    | Post-Phase 15 Pilot Telemetry & Synthetic User Journey Audit complete (`TELEM-CAREER-ARCH-01`): 10/10 M-TEL metrics GO, scoring latency p95 = 30.3 µs, determinism variance = 0.0, DPDP Act 2023 Sec 12 hard purge verified (0 bytes retained), client storage footprint 18.02 KB. |
 | 2026-10-30 | 1.31    | Track 1 DATA Family Practice Scenario Corpus Expansion complete (`T15.34` to `T15.37`): authored 4 new canonical flaw-finding scenarios (`SCEN-DATA-04-DECOMP`, `SCEN-DATA-05-ETHICS`, `SCEN-DATA-06-FEATENG`, `SCEN-DATA-07-BIGDATA`), practitioner consensus ratified (`REV-SCEN-CORPUS-01`, κ = 0.900), 9/9 unit tests passing, web workspace & roadmap integrated. NEXT: Track 2 SWE Family Taxonomy & Inception. |
+| 2026-10-30 | 1.32    | Task T16.01 complete: Ingested O*NET 28.0 (15-1252.00, 15-1254.00) and ESCO v1.1.1 SWE taxonomy items into `config/taxonomy/swe_family.json` (15 elements across 5 categories, SHA-256: `4b31a53f...`), verified licence gating (CC-BY-4.0, EU-OPEN-REUSE) and anti-causal compliance, generated `manifest_swe.json`, 11/11 unit tests passing. NEXT: Task T16.02 (Assemble Canonical SWE Competency DAG). |
