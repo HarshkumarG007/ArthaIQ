@@ -6,8 +6,8 @@
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
 | **Active Subphase** | **Phase 15E: Browser-Side Client & Evidence Ledger UI** |
-| **Current Task** | **T15.29 Interactive Gap Map & Skills View (Completed)** |
-| **Next Task** | **Phase 15E: T15.30 Practice Workspace Component & Browser Sandbox** |
+| **Current Task** | **T15.30 Practice Workspace & Browser Sandbox (Completed)** |
+| **Next Task** | **Gate G15E Ratification (Client dashboard ratified with zero server-side profile storage, offline sandbox, and 0 accessibility violations)** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

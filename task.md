@@ -681,7 +681,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `apps/web/src/routes/career.tsx`. Done when: navigation tests and axe accessibility passes. Needs: T15.27. Size: M.
 - [x] **T15.29** [AI] Interactive Gap Map & Skills View: render DATA family competency graph, verification states (Unproven/Self-reported/Demonstrated), and prerequisite locks. (done 2026-10-30)
       Output: `apps/web/src/components/career/GapMapView.tsx`. Done when: visual state changes on ledger update. Needs: T15.27. Size: L.
-- [ ] **T15.30** [AI] Practice Workspace & In-Browser SQL Sandbox: integrate `sql.js` Web Worker sandbox, flaw flagging interface, and instant deterministic rubric evaluation.
+- [x] **T15.30** [AI] Practice Workspace & In-Browser SQL Sandbox: integrate `sql.js` Web Worker sandbox, flaw flagging interface, and instant deterministic rubric evaluation. (done 2026-10-30)
       Output: `apps/web/src/components/career/PracticeWorkspace.tsx`. Done when: end-to-end flaw finding flow works offline. Needs: T15.23, T15.24, T15.26, T15.27. Size: L.
 
 **Gate G15E:** Client dashboard ratified: local-first IndexedDB ledger verified, zero server-side profile storage, axe accessibility 0 violations, and offline sandbox functioning.

@@ -12,6 +12,7 @@ import {
   type TargetLevel,
 } from "../lib/careerLedger";
 import { GapMapView } from "../components/career/GapMapView";
+import { PracticeWorkspace } from "../components/career/PracticeWorkspace";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
 
@@ -387,101 +388,7 @@ export function CareerRoute({
           aria-labelledby="tab-practice"
           className="space-y-4"
         >
-          <div className="p-6 rounded-control border border-rule bg-sheet">
-            <div className="flex justify-between items-center mb-1">
-              <h3 className="text-base font-serif font-semibold text-ink">
-                Technical Practice Scenarios
-              </h3>
-              <span className="text-xs px-2 py-0.5 rounded bg-ok-wash text-ok font-medium">
-                Offline Browser Sandbox (sql.js)
-              </span>
-            </div>
-            <p className="text-xs text-ink-2 mb-4">
-              Review production code, detect seeded defects, and flag technical pitfalls.
-              Deterministic scoring unlocks demonstrated competency evidence in your ledger.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-control border border-rule bg-paper">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-xs font-mono font-semibold text-span">
-                    SCEN-DATA-01-SQL
-                  </span>
-                  <span className="text-xs px-2 py-0.5 rounded bg-sunken text-ink-2">
-                    SQL Review
-                  </span>
-                </div>
-                <h4 className="text-sm font-semibold text-ink mb-1">
-                  SQL Pitfall Review
-                </h4>
-                <p className="text-xs text-ink-3 mb-3">
-                  17 lines SQL · Null semantics, lookahead window leakage, group key errors.
-                </p>
-                <div className="text-xs text-ink-2 font-medium">
-                  {attempts.find((a) => a.scenario_id === "scen_data_01_sql") ? (
-                    <span className="text-ok">Completed (Score: {attempts.find((a) => a.scenario_id === "scen_data_01_sql")?.score}/30)</span>
-                  ) : (
-                    <span className="text-ink-3">Not attempted yet</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="p-4 rounded-control border border-rule bg-paper">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-xs font-mono font-semibold text-span">
-                    SCEN-DATA-02-EDA
-                  </span>
-                  <span className="text-xs px-2 py-0.5 rounded bg-sunken text-ink-2">
-                    Python EDA
-                  </span>
-                </div>
-                <h4 className="text-sm font-semibold text-ink mb-1">
-                  Cohort Churn Review
-                </h4>
-                <p className="text-xs text-ink-3 mb-3">
-                  27 lines Python · Selection bias, imputation artifacts, unweighted churn.
-                </p>
-                <div className="text-xs text-ink-2 font-medium">
-                  {attempts.find((a) => a.scenario_id === "scen_data_02_eda") ? (
-                    <span className="text-ok">Completed (Score: {attempts.find((a) => a.scenario_id === "scen_data_02_eda")?.score}/30)</span>
-                  ) : (
-                    <span className="text-ink-3">Not attempted yet</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="p-4 rounded-control border border-rule bg-paper">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-xs font-mono font-semibold text-span">
-                    SCEN-DATA-03-EXP
-                  </span>
-                  <span className="text-xs px-2 py-0.5 rounded bg-sunken text-ink-2">
-                    Statistics
-                  </span>
-                </div>
-                <h4 className="text-sm font-semibold text-ink mb-1">
-                  A/B Experiment Review
-                </h4>
-                <p className="text-xs text-ink-3 mb-3">
-                  34 lines Python · SRM checks, sequential peeking, unstratified metrics.
-                </p>
-                <div className="text-xs text-ink-2 font-medium">
-                  {attempts.find((a) => a.scenario_id === "scen_data_03_exp") ? (
-                    <span className="text-ok">Completed (Score: {attempts.find((a) => a.scenario_id === "scen_data_03_exp")?.score}/30)</span>
-                  ) : (
-                    <span className="text-ink-3">Not attempted yet</span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 p-3 rounded-control bg-sunken border border-rule text-xs text-ink-3">
-              <p>
-                <strong>Rule R-CR-11 Notice:</strong> Technical practice scenario for capability self-reflection
-                and professional development. Not an examination, certification, or formal credential.
-              </p>
-            </div>
-          </div>
+          <PracticeWorkspace attempts={attempts} onAttemptCompleted={() => loadLocalData()} />
         </section>
       )}
 
