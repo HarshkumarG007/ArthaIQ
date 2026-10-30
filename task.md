@@ -684,7 +684,23 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 - [x] **T15.30** [AI] Practice Workspace & In-Browser SQL Sandbox: integrate `sql.js` Web Worker sandbox, flaw flagging interface, and instant deterministic rubric evaluation. (done 2026-10-30)
       Output: `apps/web/src/components/career/PracticeWorkspace.tsx`. Done when: end-to-end flaw finding flow works offline. Needs: T15.23, T15.24, T15.26, T15.27. Size: L.
 
-**Gate G15E:** Client dashboard ratified: local-first IndexedDB ledger verified, zero server-side profile storage, axe accessibility 0 violations, and offline sandbox functioning.
+**Gate G15E:** Client dashboard ratified: local-first IndexedDB ledger verified, zero server-side profile storage, axe accessibility 0 violations, and offline sandbox functioning. (RATIFIED GO 2026-10-30; Decision D-030)
+
+---
+
+### Phase 15F: Integrated Career Dashboard & Pilot Release
+
+**Objective:** Deliver integrated topological roadmap, effort pacing slider, next step guidance, and decoupled pay evidence overlay (FR-21 to FR-26).
+**Needs:** Gate G15E.
+
+- [ ] **T15.31** [AI] Roadmap View & Pacing Slider: render topological learning path partitioned by weekly budget with heuristic effort ranges.
+      Output: `apps/web/src/components/career/RoadmapView.tsx`. Done when: milestones respect prerequisite ordering and budget scaling works. Needs: Gate G15E. Size: M.
+- [ ] **T15.32** [AI] Single Next-Step Action Card: render clear guidance on highest-priority unproven gap and launch practice scenarios.
+      Output: `apps/web/src/components/career/NextStepCard.tsx`. Done when: card points to actionable next milestone and updates on attempt pass. Needs: T15.31. Size: S.
+- [ ] **T15.33** [AI] Decoupled Pay Overlay & Abstention Panel: render market compensation range beside competencies without causal linkage (R-CR-01, R-CR-02).
+      Output: `apps/web/src/components/career/PayOverlayPanel.tsx`. Done when: two streams remain strictly isolated and honest abstention functions offline. Needs: T15.31. Size: M.
+
+**Gate G15F:** Integrated Career Architect ratified: end-to-end user journey verified, WCAG 2.2 AA compliant, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
 
 ---
 

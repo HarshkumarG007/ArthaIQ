@@ -5,9 +5,9 @@
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.0.0 General Availability (GA) Released** · All 15 Gates G0–G14 Ratified GO |
 | **Active Milestone** | **Phase 15: Career Architect & Local Acceleration** |
-| **Active Subphase** | **Phase 15E: Browser-Side Client & Evidence Ledger UI** |
-| **Current Task** | **T15.30 Practice Workspace & Browser Sandbox (Completed)** |
-| **Next Task** | **Gate G15E Ratification (Client dashboard ratified with zero server-side profile storage, offline sandbox, and 0 accessibility violations)** |
+| **Active Subphase** | **Phase 15F: Integrated Career Dashboard & Pilot Release** |
+| **Current Task** | **Gate G15E Ratification (Completed)** |
+| **Next Task** | **Phase 15F: T15.31 Roadmap View Component & Pacing Slider** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
@@ -41,11 +41,11 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 
 | ID | Date | Gate | Summary & Operational Impact |
 |:---|:---|:---|:---|
-| **D-025** | 2026-10-24 | **Gate G14** | Ratified SRC-B2B-01 enterprise intake, differential privacy pooling ($k_{\min} \ge 5$), CCI safe harbors, and authorized v1.0.0 GA release. |
 | **D-026** | 2026-10-24 | **Gate G15A** | Ratified Career Architect foundations, Legion Pro 5i baseline, AGENTS.md, .agents/rules/, PRD v1.2, ADRs 0010–0013, CHARTER-CAREER-ARCH-01, and pytest-xdist acceleration. |
 | **D-027** | 2026-10-24 | **Gate G15B** | Ratified DATA family competency DAG (14 nodes, 0 cycles, 100% provenance), CI validators, practitioner consensus (κ = 0.857), and difficulty heuristic rubrics. |
 | **D-028** | 2026-10-29 | **Gate G15C** | Ratified deterministic career engine, stateless `/v1/career/*` FastAPI router, API key auth middleware (Gap 11), corrected offline fallback calibration (Gap 10), and verified zero runtime LLMs on serving path. |
 | **D-029** | 2026-10-30 | **Gate G15D** | Ratified Phase 15D practice scenarios & assessment engine: deterministic scorer (ADR-0013, κ = 1.0, 0.033ms), 3 reviewed DATA scenarios (κ = 0.882), zero credentialism claims (R-CR-11), and sql.js Web Worker sandbox. |
+| **D-030** | 2026-10-30 | **Gate G15E** | Ratified Phase 15E client dashboard: local-first IndexedDB ledger, zero server-side user career profiles, responsive navigation shell, interactive gap map, practice workspace with offline sandbox, and 0 accessibility violations. |
 
 ---
 
