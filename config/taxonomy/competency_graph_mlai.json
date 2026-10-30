@@ -1,0 +1,464 @@
+{
+  "checksum_sha256": "b8b83def9a7c8f6150966bcddf3abcba70d8da3b97e8740a242ee210ba14fac7",
+  "created_at": "2026-10-31T12:00:00Z",
+  "graph_id": "competency-graph-mlai-family-v1",
+  "nodes": [
+    {
+      "category": "deep_learning",
+      "description": "Implement feedforward, convolutional, and recurrent computational graphs with automatic differentiation, layer normalization, and residual connections.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.5,
+        "rationale": null
+      },
+      "id": "mlai.core.l2_neural_backprop",
+      "prerequisite_ids": [
+        "mlai.math.l2_linear_algebra"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T04",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Deep Neural Architectures and Backpropagation Dynamics"
+    },
+    {
+      "category": "deep_learning",
+      "description": "Adapt foundation models using parameter-efficient fine-tuning (LoRA, QLoRA, prefix tuning) and task-specific projection heads.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "mlai.core.l3_peft_finetune",
+      "prerequisite_ids": [
+        "mlai.core.l3_transformer_attn"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T07",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Transfer Learning and Parameter-Efficient Fine-Tuning"
+    },
+    {
+      "category": "deep_learning",
+      "description": "Train dense embedding representations using contrastive loss, InfoNCE, cosine margin losses, and vector indexing for similarity search.",
+      "difficulty": {
+        "application_difficulty": 3.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "mlai.core.l3_repr_learning",
+      "prerequisite_ids": [
+        "mlai.core.l2_neural_backprop"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T06",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Representation Learning and Contrastive Embeddings"
+    },
+    {
+      "category": "deep_learning",
+      "description": "Construct scaled dot-product attention, multi-head attention blocks, rotary position embeddings (RoPE), and KV-cache mechanisms.",
+      "difficulty": {
+        "application_difficulty": 3.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.5,
+        "rationale": null
+      },
+      "id": "mlai.core.l3_transformer_attn",
+      "prerequisite_ids": [
+        "mlai.core.l2_neural_backprop"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T05",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Self-Attention Mechanics and Transformer Architectures"
+    },
+    {
+      "category": "evaluation_governance",
+      "description": "Audit model evaluations across operational demographic slices, temporal boundaries, and verify complete test partition leakage isolation.",
+      "difficulty": {
+        "application_difficulty": 2.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "mlai.eval.l2_leakage_audit",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.08.T02",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Sliced Evaluation, Data Leakage and Disparate Performance Auditing"
+    },
+    {
+      "category": "evaluation_governance",
+      "description": "Quantify predictive uncertainty via split conformal prediction intervals, expected calibration error (ECE), and reliability diagrams.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.5,
+        "rationale": null
+      },
+      "id": "mlai.eval.l3_conformal_calib",
+      "prerequisite_ids": [
+        "mlai.eval.l2_leakage_audit"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.08.T01",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Calibration and Split Conformal Uncertainty Estimation"
+    },
+    {
+      "category": "evaluation_governance",
+      "description": "Implement differential privacy, machine unlearning techniques, and verifiable training data deletion under DPDP Act 2023 Sec 12.",
+      "difficulty": {
+        "application_difficulty": 4.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.0,
+        "rationale": null
+      },
+      "id": "mlai.eval.l4_dpdp_privacy",
+      "prerequisite_ids": [
+        "mlai.eval.l3_conformal_calib"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.004",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        4
+      ],
+      "title": "Privacy-Preserving Machine Learning and Verifiable Erasure"
+    },
+    {
+      "category": "generative_alignment",
+      "description": "Engineer retrieval-augmented grounding (RAG), structured JSON schema constraints, and deterministic verification filters.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "mlai.gen.l3_guardrails",
+      "prerequisite_ids": [
+        "mlai.core.l3_transformer_attn"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.005",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Hallucination Mitigation and Output Guardrails"
+    },
+    {
+      "category": "generative_alignment",
+      "description": "Implement reward modeling, Direct Preference Optimization (DPO), and RLHF alignment pipelines to steer generation dynamics.",
+      "difficulty": {
+        "application_difficulty": 4.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.5,
+        "rationale": null
+      },
+      "id": "mlai.gen.l4_preference_dpo",
+      "prerequisite_ids": [
+        "mlai.core.l3_peft_finetune",
+        "mlai.gen.l3_guardrails"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T08",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        4
+      ],
+      "title": "Preference Optimization and Alignment Algorithms"
+    },
+    {
+      "category": "math_optimization",
+      "description": "Analyze objective function convexity, gradient dynamics, Lipschitz continuity, and conditioning of high-dimensional loss landscapes.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.5,
+        "rationale": null
+      },
+      "id": "mlai.math.l2_convex_opt",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T02",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Convex Optimization and Loss Landscape Analysis"
+    },
+    {
+      "category": "math_optimization",
+      "description": "Formulate matrix decompositions (SVD, eigendecomposition), tensor contractions, and vector spaces for neural representation learning.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "mlai.math.l2_linear_algebra",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T01",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Linear Algebra and High-Dimensional Matrix Operations"
+    },
+    {
+      "category": "math_optimization",
+      "description": "Tune first- and second-order stochastic gradient optimizers (SGD with momentum, AdamW, Lion), learning rate schedules, and gradient clipping.",
+      "difficulty": {
+        "application_difficulty": 3.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "mlai.math.l3_stochastic_opt",
+      "prerequisite_ids": [
+        "mlai.math.l2_convex_opt"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T03",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Stochastic Optimization and Adaptive Learning Rates"
+    },
+    {
+      "category": "mlops_infrastructure",
+      "description": "Track model weights, training checkpoints, hyperparameter manifests, and dataset lineage using immutable cryptographic hashes.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "mlai.ops.l2_model_registry",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.001",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Model Registry, Lineage and Artifact Versioning"
+    },
+    {
+      "category": "mlops_infrastructure",
+      "description": "Configure data parallel (DDP), tensor parallel (Megatron-LM), and pipeline parallel (DeepSpeed ZeRO) training clusters.",
+      "difficulty": {
+        "application_difficulty": 4.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.5,
+        "rationale": null
+      },
+      "id": "mlai.ops.l4_dist_training",
+      "prerequisite_ids": [
+        "mlai.ops.l2_model_registry",
+        "mlai.math.l3_stochastic_opt"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.002",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        4
+      ],
+      "title": "Distributed Training and Tensor Sharding"
+    },
+    {
+      "category": "mlops_infrastructure",
+      "description": "Apply post-training quantization (INT8, FP8, AWQ), KV cache compression, continuous batching, and tensor compilation for serving.",
+      "difficulty": {
+        "application_difficulty": 4.5,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.0,
+        "rationale": null
+      },
+      "id": "mlai.ops.l4_quant_serving",
+      "prerequisite_ids": [
+        "mlai.core.l3_transformer_attn"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-31",
+        "curator": "ArthaIQ MLAI Review Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.003",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "MLAI",
+      "target_levels": [
+        4
+      ],
+      "title": "Model Quantization and Low-Latency Serving"
+    }
+  ],
+  "role_family": "MLAI",
+  "version": "1.0.0"
+}

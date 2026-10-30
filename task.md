@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T19.02 Assemble Canonical 15-Node MLAI Competency DAG** (Phase 19 Underway: T19.01 Complete)
+**NEXT TASK: T19.03 Calibrate MLAI Difficulty & Effort Rubrics** (Phase 19 Underway: T19.02 Complete)
 
 ## How to use this file
 
@@ -801,11 +801,11 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** 15-node acyclic DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified with 10/10 import contracts kept, 3 canonical MLAI scenarios pass deterministic scoring with sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass across 17 scenarios, Gate G19 ratified.
 > **NO-GO:** Stay in Phase 19 until all criteria met.
 
-**NEXT TASK: T19.02 Assemble Canonical 15-Node MLAI Competency DAG** (Phase 19 Underway: T19.01 Complete)
+**NEXT TASK: T19.03 Calibrate MLAI Difficulty & Effort Rubrics** (Phase 19 Underway: T19.02 Complete)
 
 - [x] **T19.01** [AI] Ingest Machine Learning & AI taxonomy elements from O*NET 28.0 and ESCO v1.1.1 into `config/taxonomy/mlai_family.json` with statutory CC BY 4.0 / EU Open Reuse licensing and zero causal claims.
       Output: `config/taxonomy/mlai_family.json`, `src/compintel/career/mlai_taxonomy.py`, `tests/unit/test_career_mlai_taxonomy.py`. Done when: 15 MLAI elements pass Pydantic validation, provenance tracking, and zero causal promises. Needs: Gate G18 GO. Size: M.
-- [ ] **T19.02** [AI] Assemble and validate canonical 15-node MLAI Competency DAG in `src/compintel/career/mlai_graph.py` and `config/taxonomy/competency_graph_mlai.json` across Junior (L2), Mid (L3), and Senior (L4) levels in 4 engineering clusters.
+- [x] **T19.02** [AI] Assemble and validate canonical 15-node MLAI Competency DAG in `src/compintel/career/mlai_graph.py` and `config/taxonomy/competency_graph_mlai.json` across Junior (L2), Mid (L3), and Senior (L4) levels in 4 engineering clusters.
       Output: `src/compintel/career/mlai_graph.py`, `config/taxonomy/competency_graph_mlai.json`, `tests/unit/test_career_mlai_graph.py`. Done when: all 5 CI validators pass with 0 cycles and 100% provenance tracking. Needs: T19.01. Size: M.
 - [ ] **T19.03** [AI] Calibrate MLAI difficulty anchor scales and heuristic effort rubrics ($[H_{\min}, H_{\max}]$) in `src/compintel/career/mlai_rubric.py` and `config/taxonomy/difficulty_rubrics_mlai.json`.
       Output: `src/compintel/career/mlai_rubric.py`, `config/taxonomy/difficulty_rubrics_mlai.json`, `tests/unit/test_career_mlai_rubric.py`. Done when: all 15 nodes calibrated with `is_heuristic: True` and CPA 2019 disclaimers. Needs: T19.02. Size: S.
