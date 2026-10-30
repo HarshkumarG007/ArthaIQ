@@ -1,0 +1,21 @@
+{
+  "bundle_sha256": "f900bd11bca0682d27e441bcdd42d6d03a064ede9569461391176276fa586bd9",
+  "element_counts_by_category": {
+    "deep_learning": 4,
+    "evaluation_governance": 3,
+    "generative_alignment": 2,
+    "math_optimization": 3,
+    "mlops_infrastructure": 3
+  },
+  "generated_at": "2026-10-31T12:00:00Z",
+  "licence_classes": [
+    "CC-BY-4.0",
+    "EU-OPEN-REUSE"
+  ],
+  "manifest_version": "v1.0",
+  "sources_included": [
+    "ONET-28.0",
+    "ESCO-1.1.1"
+  ],
+  "total_elements": 15
+}

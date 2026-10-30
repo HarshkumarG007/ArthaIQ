@@ -371,6 +371,156 @@ _RAW_ESCO_SWE_TRANSVERSAL_SKILLS: list[dict[str, Any]] = [
     },
 ]
 
+# Raw curated records for Machine Learning & AI (MLAI) from O*NET 28.0 and ESCO 1.1.1
+_RAW_ONET_MLAI_SPECIALIST_TASKS: list[dict[str, Any]] = [
+    {
+        "code": "15-1299.09.T01",
+        "title": "Linear Algebra and High-Dimensional Matrix Operations",
+        "description": (
+            "Formulate matrix decompositions (SVD, eigendecomposition), tensor contractions, "
+            "and vector spaces for neural representation learning."
+        ),
+        "category": CompetencyCategory.MATH_OPTIMIZATION,
+    },
+    {
+        "code": "15-1299.09.T02",
+        "title": "Convex Optimization and Loss Landscape Analysis",
+        "description": (
+            "Analyze objective function convexity, gradient dynamics, Lipschitz continuity, "
+            "and conditioning of high-dimensional loss landscapes."
+        ),
+        "category": CompetencyCategory.MATH_OPTIMIZATION,
+    },
+    {
+        "code": "15-1299.09.T03",
+        "title": "Stochastic Optimization and Adaptive Learning Rates",
+        "description": (
+            "Tune first- and second-order stochastic gradient optimizers (SGD with momentum, "
+            "AdamW, Lion), learning rate schedules, and gradient clipping."
+        ),
+        "category": CompetencyCategory.MATH_OPTIMIZATION,
+    },
+    {
+        "code": "15-1299.09.T04",
+        "title": "Deep Neural Architectures and Backpropagation Dynamics",
+        "description": (
+            "Implement feedforward, convolutional, and recurrent computational graphs with "
+            "automatic differentiation, layer normalization, and residual connections."
+        ),
+        "category": CompetencyCategory.DEEP_LEARNING,
+    },
+    {
+        "code": "15-1299.09.T05",
+        "title": "Self-Attention Mechanics and Transformer Architectures",
+        "description": (
+            "Construct scaled dot-product attention, multi-head attention blocks, rotary "
+            "position embeddings (RoPE), and KV-cache mechanisms."
+        ),
+        "category": CompetencyCategory.DEEP_LEARNING,
+    },
+    {
+        "code": "15-1299.09.T06",
+        "title": "Representation Learning and Contrastive Embeddings",
+        "description": (
+            "Train dense embedding representations using contrastive loss, InfoNCE, "
+            "cosine margin losses, and vector indexing for similarity search."
+        ),
+        "category": CompetencyCategory.DEEP_LEARNING,
+    },
+    {
+        "code": "15-1299.09.T07",
+        "title": "Transfer Learning and Parameter-Efficient Fine-Tuning",
+        "description": (
+            "Adapt foundation models using parameter-efficient fine-tuning (LoRA, QLoRA, "
+            "prefix tuning) and task-specific projection heads."
+        ),
+        "category": CompetencyCategory.DEEP_LEARNING,
+    },
+    {
+        "code": "15-1299.09.T08",
+        "title": "Preference Optimization and Alignment Algorithms",
+        "description": (
+            "Implement reward modeling, Direct Preference Optimization (DPO), and RLHF "
+            "alignment pipelines to steer generation dynamics."
+        ),
+        "category": CompetencyCategory.GENERATIVE_ALIGNMENT,
+    },
+]
+
+_RAW_ONET_MLAI_SCIENTIST_TASKS: list[dict[str, Any]] = [
+    {
+        "code": "15-1299.08.T01",
+        "title": "Calibration and Split Conformal Uncertainty Estimation",
+        "description": (
+            "Quantify predictive uncertainty via split conformal prediction intervals, "
+            "expected calibration error (ECE), and reliability diagrams."
+        ),
+        "category": CompetencyCategory.EVALUATION_GOVERNANCE,
+    },
+    {
+        "code": "15-1299.08.T02",
+        "title": "Sliced Evaluation, Data Leakage and Disparate Performance Auditing",
+        "description": (
+            "Audit model evaluations across operational demographic slices, temporal "
+            "boundaries, and verify complete test partition leakage isolation."
+        ),
+        "category": CompetencyCategory.EVALUATION_GOVERNANCE,
+    },
+]
+
+_RAW_ESCO_MLAI_TRANSVERSAL_SKILLS: list[dict[str, Any]] = [
+    {
+        "code": "ESCO.MLAI.001",
+        "title": "Model Registry, Lineage and Artifact Versioning",
+        "description": (
+            "Track model weights, training checkpoints, hyperparameter manifests, and "
+            "dataset lineage using immutable cryptographic hashes."
+        ),
+        "category": CompetencyCategory.MLOPS_INFRASTRUCTURE,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.MLAI.002",
+        "title": "Distributed Training and Tensor Sharding",
+        "description": (
+            "Configure data parallel (DDP), tensor parallel (Megatron-LM), and pipeline "
+            "parallel (DeepSpeed ZeRO) training clusters."
+        ),
+        "category": CompetencyCategory.MLOPS_INFRASTRUCTURE,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.MLAI.003",
+        "title": "Model Quantization and Low-Latency Serving",
+        "description": (
+            "Apply post-training quantization (INT8, FP8, AWQ), KV cache compression, "
+            "continuous batching, and tensor compilation for serving."
+        ),
+        "category": CompetencyCategory.MLOPS_INFRASTRUCTURE,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.MLAI.004",
+        "title": "Privacy-Preserving Machine Learning and Verifiable Erasure",
+        "description": (
+            "Implement differential privacy, machine unlearning techniques, and verifiable "
+            "training data deletion under DPDP Act 2023 Sec 12."
+        ),
+        "category": CompetencyCategory.EVALUATION_GOVERNANCE,
+        "is_transversal": True,
+    },
+    {
+        "code": "ESCO.MLAI.005",
+        "title": "Hallucination Mitigation and Output Guardrails",
+        "description": (
+            "Engineer retrieval-augmented grounding (RAG), structured JSON schema "
+            "constraints, and deterministic verification filters."
+        ),
+        "category": CompetencyCategory.GENERATIVE_ALIGNMENT,
+        "is_transversal": True,
+    },
+]
+
 
 def enforce_taxonomy_licence_gate(
     source_id: TaxonomySource,
@@ -639,6 +789,99 @@ def generate_swe_family_taxonomy(
     return bundle, bundle_path, manifest_path
 
 
+def generate_mlai_family_taxonomy(
+    output_dir: Path | None = None,
+) -> tuple[TaxonomyBundle, Path, Path]:
+    """Ingest, crosswalk, and serialize canonical MLAI family taxonomy.
+
+    Args:
+        output_dir: Optional destination directory (defaults to config/taxonomy).
+
+    Returns:
+        Tuple containing the TaxonomyBundle, path to mlai_family.json,
+        and path to manifest_mlai.json.
+    """
+    elements: list[TaxonomyElement] = []
+
+    # 1. Ingest O*NET AI / ML Specialists tasks
+    for item in _RAW_ONET_MLAI_SPECIALIST_TASKS:
+        element = build_taxonomy_element(
+            item,
+            TaxonomySource.ONET_28_0,
+            TaxonomyLicense.CC_BY_4_0,
+            ONET_STATUTORY_ATTRIBUTION,
+        )
+        elements.append(element)
+
+    # 2. Ingest O*NET Data Scientists tasks
+    for item in _RAW_ONET_MLAI_SCIENTIST_TASKS:
+        element = build_taxonomy_element(
+            item,
+            TaxonomySource.ONET_28_0,
+            TaxonomyLicense.CC_BY_4_0,
+            ONET_STATUTORY_ATTRIBUTION,
+        )
+        elements.append(element)
+
+    # 3. Ingest ESCO MLAI Transversal skills
+    for item in _RAW_ESCO_MLAI_TRANSVERSAL_SKILLS:
+        element = build_taxonomy_element(
+            item,
+            TaxonomySource.ESCO_1_1_1,
+            TaxonomyLicense.EU_OPEN_REUSE,
+            ESCO_STATUTORY_ATTRIBUTION,
+        )
+        elements.append(element)
+
+    # Sort deterministically by code
+    elements.sort(key=lambda el: el.code)
+
+    # Compute category statistics
+    category_counts: dict[str, int] = {}
+    for el in elements:
+        category_counts[el.category] = category_counts.get(el.category, 0) + 1
+
+    sha256_hash = compute_bundle_sha256(elements)
+    fixed_timestamp = "2026-10-31T12:00:00Z"
+
+    manifest = TaxonomyManifest(
+        manifest_version="v1.0",
+        generated_at=fixed_timestamp,
+        total_elements=len(elements),
+        sources_included=[TaxonomySource.ONET_28_0, TaxonomySource.ESCO_1_1_1],
+        licence_classes=[TaxonomyLicense.CC_BY_4_0, TaxonomyLicense.EU_OPEN_REUSE],
+        bundle_sha256=sha256_hash,
+        element_counts_by_category=category_counts,
+    )
+
+    bundle = TaxonomyBundle(
+        bundle_id="taxonomy-mlai-family-v1",
+        role_family="MLAI",
+        version="1.0.0",
+        generated_at=fixed_timestamp,
+        manifest=manifest,
+        elements=elements,
+    )
+
+    target_dir = output_dir or CONFIG_TAXONOMY_DIR
+    target_dir.mkdir(parents=True, exist_ok=True)
+    bundle_path = target_dir / "mlai_family.json"
+    manifest_path = target_dir / "manifest_mlai.json"
+
+    bundle_json = json.dumps(bundle.model_dump(), indent=2, sort_keys=True) + "\n"
+    manifest_json = json.dumps(manifest.model_dump(), indent=2, sort_keys=True) + "\n"
+
+    # Atomic write pattern to avoid parallel file-read corruption
+    tmp_bundle = bundle_path.with_suffix(".tmp")
+    tmp_manifest = manifest_path.with_suffix(".tmp")
+    tmp_bundle.write_text(bundle_json, encoding="utf-8")
+    tmp_manifest.write_text(manifest_json, encoding="utf-8")
+    tmp_bundle.replace(bundle_path)
+    tmp_manifest.replace(manifest_path)
+
+    return bundle, bundle_path, manifest_path
+
+
 if __name__ == "__main__":
     bundle, b_path, m_path = generate_data_family_taxonomy()
     sha_short = bundle.manifest.bundle_sha256[:16]
@@ -652,3 +895,11 @@ if __name__ == "__main__":
         f"SHA-256: {swe_sha_short}...)"
     )
     print(f"Generated {swe_m_path.name}")
+
+    mlai_bundle, mlai_b_path, mlai_m_path = generate_mlai_family_taxonomy()
+    mlai_sha_short = mlai_bundle.manifest.bundle_sha256[:16]
+    print(
+        f"Generated {mlai_b_path.name} ({len(mlai_bundle.elements)} elements, "
+        f"SHA-256: {mlai_sha_short}...)"
+    )
+    print(f"Generated {mlai_m_path.name}")

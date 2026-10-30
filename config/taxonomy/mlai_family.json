@@ -1,0 +1,284 @@
+{
+  "bundle_id": "taxonomy-mlai-family-v1",
+  "elements": [
+    {
+      "category": "evaluation_governance",
+      "code": "15-1299.08.T01",
+      "description": "Quantify predictive uncertainty via split conformal prediction intervals, expected calibration error (ECE), and reliability diagrams.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.08.T01",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Calibration and Split Conformal Uncertainty Estimation"
+    },
+    {
+      "category": "evaluation_governance",
+      "code": "15-1299.08.T02",
+      "description": "Audit model evaluations across operational demographic slices, temporal boundaries, and verify complete test partition leakage isolation.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.08.T02",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Sliced Evaluation, Data Leakage and Disparate Performance Auditing"
+    },
+    {
+      "category": "math_optimization",
+      "code": "15-1299.09.T01",
+      "description": "Formulate matrix decompositions (SVD, eigendecomposition), tensor contractions, and vector spaces for neural representation learning.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T01",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Linear Algebra and High-Dimensional Matrix Operations"
+    },
+    {
+      "category": "math_optimization",
+      "code": "15-1299.09.T02",
+      "description": "Analyze objective function convexity, gradient dynamics, Lipschitz continuity, and conditioning of high-dimensional loss landscapes.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T02",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Convex Optimization and Loss Landscape Analysis"
+    },
+    {
+      "category": "math_optimization",
+      "code": "15-1299.09.T03",
+      "description": "Tune first- and second-order stochastic gradient optimizers (SGD with momentum, AdamW, Lion), learning rate schedules, and gradient clipping.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T03",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Stochastic Optimization and Adaptive Learning Rates"
+    },
+    {
+      "category": "deep_learning",
+      "code": "15-1299.09.T04",
+      "description": "Implement feedforward, convolutional, and recurrent computational graphs with automatic differentiation, layer normalization, and residual connections.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T04",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Deep Neural Architectures and Backpropagation Dynamics"
+    },
+    {
+      "category": "deep_learning",
+      "code": "15-1299.09.T05",
+      "description": "Construct scaled dot-product attention, multi-head attention blocks, rotary position embeddings (RoPE), and KV-cache mechanisms.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T05",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Self-Attention Mechanics and Transformer Architectures"
+    },
+    {
+      "category": "deep_learning",
+      "code": "15-1299.09.T06",
+      "description": "Train dense embedding representations using contrastive loss, InfoNCE, cosine margin losses, and vector indexing for similarity search.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T06",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Representation Learning and Contrastive Embeddings"
+    },
+    {
+      "category": "deep_learning",
+      "code": "15-1299.09.T07",
+      "description": "Adapt foundation models using parameter-efficient fine-tuning (LoRA, QLoRA, prefix tuning) and task-specific projection heads.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T07",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Transfer Learning and Parameter-Efficient Fine-Tuning"
+    },
+    {
+      "category": "generative_alignment",
+      "code": "15-1299.09.T08",
+      "description": "Implement reward modeling, Direct Preference Optimization (DPO), and RLHF alignment pipelines to steer generation dynamics.",
+      "is_transversal": false,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1299.09.T08",
+        "source_id": "ONET-28.0"
+      },
+      "title": "Preference Optimization and Alignment Algorithms"
+    },
+    {
+      "category": "mlops_infrastructure",
+      "code": "ESCO.MLAI.001",
+      "description": "Track model weights, training checkpoints, hyperparameter manifests, and dataset lineage using immutable cryptographic hashes.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.001",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Model Registry, Lineage and Artifact Versioning"
+    },
+    {
+      "category": "mlops_infrastructure",
+      "code": "ESCO.MLAI.002",
+      "description": "Configure data parallel (DDP), tensor parallel (Megatron-LM), and pipeline parallel (DeepSpeed ZeRO) training clusters.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.002",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Distributed Training and Tensor Sharding"
+    },
+    {
+      "category": "mlops_infrastructure",
+      "code": "ESCO.MLAI.003",
+      "description": "Apply post-training quantization (INT8, FP8, AWQ), KV cache compression, continuous batching, and tensor compilation for serving.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.003",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Model Quantization and Low-Latency Serving"
+    },
+    {
+      "category": "evaluation_governance",
+      "code": "ESCO.MLAI.004",
+      "description": "Implement differential privacy, machine unlearning techniques, and verifiable training data deletion under DPDP Act 2023 Sec 12.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.004",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Privacy-Preserving Machine Learning and Verifiable Erasure"
+    },
+    {
+      "category": "generative_alignment",
+      "code": "ESCO.MLAI.005",
+      "description": "Engineer retrieval-augmented grounding (RAG), structured JSON schema constraints, and deterministic verification filters.",
+      "is_transversal": true,
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-24",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.MLAI.005",
+        "source_id": "ESCO-1.1.1"
+      },
+      "title": "Hallucination Mitigation and Output Guardrails"
+    }
+  ],
+  "generated_at": "2026-10-31T12:00:00Z",
+  "manifest": {
+    "bundle_sha256": "f900bd11bca0682d27e441bcdd42d6d03a064ede9569461391176276fa586bd9",
+    "element_counts_by_category": {
+      "deep_learning": 4,
+      "evaluation_governance": 3,
+      "generative_alignment": 2,
+      "math_optimization": 3,
+      "mlops_infrastructure": 3
+    },
+    "generated_at": "2026-10-31T12:00:00Z",
+    "licence_classes": [
+      "CC-BY-4.0",
+      "EU-OPEN-REUSE"
+    ],
+    "manifest_version": "v1.0",
+    "sources_included": [
+      "ONET-28.0",
+      "ESCO-1.1.1"
+    ],
+    "total_elements": 15
+  },
+  "role_family": "MLAI",
+  "version": "1.0.0"
+}

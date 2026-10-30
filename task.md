@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 19: T19.01 Ingest MLAI Taxonomy from O*NET 28.0 & ESCO v1.1.1** (Phase 18 Complete: Gate G18 Ratified GO)
+**NEXT TASK: T19.02 Assemble Canonical 15-Node MLAI Competency DAG** (Phase 19 Underway: T19.01 Complete)
 
 ## How to use this file
 
@@ -785,14 +785,42 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/scenario-review-swe-corpus-expansion.md`. Done when: Cohen's Kappa κ >= 0.80, all 4 scenarios unanimously approved. Needs: T18.01. Size: S.
 - [x] **T18.03** [AI] Build automated unit test suite `tests/unit/test_career_scenarios_swe_expansion.py` verifying schema conformance, client anti-leakage isolation, deterministic scoring (σ² = 0.0), and sub-5ms latency SLA.
       Output: `tests/unit/test_career_scenarios_swe_expansion.py`. Done when: all unit tests pass green. Needs: T18.01, T18.02. Size: S.
-- [ ] **T18.04** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `RoadmapView.tsx`), verify 0 Axe violations, update multi-family staging telemetry audit (14 scenarios), convene governance panel, and ratify Gate G18.
-      Output: `docs/pilot/scenario-review-swe-corpus-expansion.md`. Done when: Cohen's Kappa κ >= 0.80, all 4 scenarios unanimously approved. Needs: T18.01. Size: S.
-- [ ] **T18.03** [AI] Build automated unit test suite `tests/unit/test_career_scenarios_swe_expansion.py` verifying schema conformance, client anti-leakage isolation, deterministic scoring (σ² = 0.0), and sub-5ms latency SLA.
-      Output: `tests/unit/test_career_scenarios_swe_expansion.py`. Done when: all unit tests pass green. Needs: T18.01, T18.02. Size: S.
 - [x] **T18.04** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `RoadmapView.tsx`), verify 0 Axe violations, update multi-family staging telemetry audit (14 scenarios), convene governance panel, and ratify Gate G18.
       Output: `apps/web/src/components/career/*.tsx`, `docs/pilot/gate-g18-review.md`, `tests/unit/test_phase18_gate_g18.py`. Done when: all G18 criteria ratified GO. Needs: T18.01-T18.03. Size: M.
 
 **Gate G18:** SWE Practice Scenario Corpus Expansion ratified: 7 canonical SWE scenarios verified, practitioner consensus κ >= 0.80, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. (Ratified: Decision D-034 GO)
+
+---
+
+## Phase 19: Machine Learning & AI (MLAI) Role Family Inception
+
+> **Objective:** Incorporate the Machine Learning & Artificial Intelligence (`MLAI`) role family into ArthaIQ Career Architect, assembling a 15-node competency DAG with 100% O*NET 28.0 and ESCO v1.1.1 provenance, calibrated heuristic difficulty rubrics, practitioner consensus review (κ >= 0.80), three-family backend adapter routing, 3 canonical flaw-finding practice scenarios, and web UI integration.
+> **Inputs and tools:** `PLAN-CAREER-MLAI-INCEPTION-01`, config/taxonomy/, src/compintel/career/, apps/web/, tests/unit/; Git, Python uv, Node/npm.
+> **Deliverables:** `config/taxonomy/mlai_family.json`, `config/taxonomy/competency_graph_mlai.json`, `config/taxonomy/difficulty_rubrics_mlai.json`, `docs/pilot/competency-review-mlai-family.md`, `src/compintel/career/engine.py`, `config/scenarios/scen_mlai_*.json`, `apps/web/src/components/career/*.tsx`, `docs/pilot/gate-g19-review.md`, `tests/unit/test_phase19_gate_g19.py`.
+> **Effort (assumption):** 1 session.
+> **GO if:** 15-node acyclic DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified with 10/10 import contracts kept, 3 canonical MLAI scenarios pass deterministic scoring with sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass across 17 scenarios, Gate G19 ratified.
+> **NO-GO:** Stay in Phase 19 until all criteria met.
+
+**NEXT TASK: T19.02 Assemble Canonical 15-Node MLAI Competency DAG** (Phase 19 Underway: T19.01 Complete)
+
+- [x] **T19.01** [AI] Ingest Machine Learning & AI taxonomy elements from O*NET 28.0 and ESCO v1.1.1 into `config/taxonomy/mlai_family.json` with statutory CC BY 4.0 / EU Open Reuse licensing and zero causal claims.
+      Output: `config/taxonomy/mlai_family.json`, `src/compintel/career/mlai_taxonomy.py`, `tests/unit/test_career_mlai_taxonomy.py`. Done when: 15 MLAI elements pass Pydantic validation, provenance tracking, and zero causal promises. Needs: Gate G18 GO. Size: M.
+- [ ] **T19.02** [AI] Assemble and validate canonical 15-node MLAI Competency DAG in `src/compintel/career/mlai_graph.py` and `config/taxonomy/competency_graph_mlai.json` across Junior (L2), Mid (L3), and Senior (L4) levels in 4 engineering clusters.
+      Output: `src/compintel/career/mlai_graph.py`, `config/taxonomy/competency_graph_mlai.json`, `tests/unit/test_career_mlai_graph.py`. Done when: all 5 CI validators pass with 0 cycles and 100% provenance tracking. Needs: T19.01. Size: M.
+- [ ] **T19.03** [AI] Calibrate MLAI difficulty anchor scales and heuristic effort rubrics ($[H_{\min}, H_{\max}]$) in `src/compintel/career/mlai_rubric.py` and `config/taxonomy/difficulty_rubrics_mlai.json`.
+      Output: `src/compintel/career/mlai_rubric.py`, `config/taxonomy/difficulty_rubrics_mlai.json`, `tests/unit/test_career_mlai_rubric.py`. Done when: all 15 nodes calibrated with `is_heuristic: True` and CPA 2019 disclaimers. Needs: T19.02. Size: S.
+- [ ] **T19.04** [AI+HUMAN] Convene practitioner consensus review panel (two independent practitioners) to evaluate the 15 MLAI competency nodes across 4 dimensions with inter-rater reliability κ >= 0.80 and author consensus review dossier.
+      Output: `docs/pilot/competency-review-mlai-family.md`. Done when: Cohen's Kappa κ >= 0.80, all 15 nodes unanimously approved. Needs: T19.03. Size: S.
+- [ ] **T19.05** [AI] Extend `FilesystemTaxonomyAdapter` and `CareerEngine` in `src/compintel/career/engine.py` to route three families (`DATA`, `SWE`, `MLAI`) while preserving hexagonal boundaries.
+      Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_three_family.py`. Done when: 10/10 import contracts kept, all career tests pass. Needs: T19.02, T19.03. Size: M.
+- [ ] **T19.06** [AI] Author 3 canonical MLAI flaw-finding practice scenarios (`SCEN-MLAI-01-TENS`, `SCEN-MLAI-02-LEAK`, `SCEN-MLAI-03-DEPLOY`) with deterministic rubrics, candidate submission schemas, and sub-5ms scoring latency.
+      Output: `config/scenarios/scen_mlai_*.json`, `scripts/generate_mlai_scenarios.py`, `tests/unit/test_career_scenarios_mlai.py`. Done when: 3 scenarios pass Pydantic validation, line bounds (<= 30 lines), deterministic scoring. Needs: T19.02. Size: M.
+- [ ] **T19.07** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `GapMapView.tsx`, `RoadmapView.tsx`, `NextStepCard.tsx`, `PayOverlayPanel.tsx`, `career.tsx`), verify 0 Axe violations, and verify clean TypeScript build.
+      Output: `apps/web/src/components/career/*.tsx`, `apps/web/src/routes/career.tsx`. Done when: all web tests pass with 0 Axe violations. Needs: T19.05, T19.06. Size: M.
+- [ ] **T19.08** [AI+HUMAN] Update multi-family staging telemetry audit (17 scenarios across 3 families), convene governance panel, and ratify Gate G19.
+      Output: `scripts/run_career_pilot_staging_audit.py`, `docs/pilot/gate-g19-review.md`, `tests/unit/test_phase19_gate_g19.py`. Done when: 10/10 M-STG metrics pass, Gate G19 ratified GO. Needs: T19.01-T19.07. Size: M.
+
+**Gate G19:** Machine Learning & AI (MLAI) Role Family Inception ratified: 15-node MLAI Competency DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified, 3 canonical MLAI flaw-finding scenarios, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
 
 ---
 

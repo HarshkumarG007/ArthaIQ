@@ -98,6 +98,13 @@ class CompetencyCategory(StrEnum):
     SECURITY_RELIABILITY = "security_reliability"
     DEV_WORKFLOW = "dev_workflow"
 
+    # MLAI family clusters
+    MATH_OPTIMIZATION = "math_optimization"
+    DEEP_LEARNING = "deep_learning"
+    MLOPS_INFRASTRUCTURE = "mlops_infrastructure"
+    EVALUATION_GOVERNANCE = "evaluation_governance"
+    GENERATIVE_ALIGNMENT = "generative_alignment"
+
 
 class TaxonomySource(StrEnum):
     """Approved external labour taxonomy sources (ADR-0011)."""
