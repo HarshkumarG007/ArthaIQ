@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "document_id": "TELEM-CAREER-ARCH-01",
+    "audit_date": "2026-10-30",
+    "evaluated_subsystem": "ArthaIQ Career Architect (Phase 15)",
+    "status": "PASS"
+  },
+  "scorecard": {
+    "M-TEL-01_scorer_determinism": {
+      "target": "variance == 0.0",
+      "observed": 0.0,
+      "status": "PASS"
+    },
+    "M-TEL-02_scoring_latency_p95_ms": {
+      "target": "<= 5.0 ms",
+      "observed_ms": 0.0303,
+      "observed_microseconds": 30.3,
+      "status": "PASS"
+    },
+    "M-TEL-03_rubric_boundedness": {
+      "target": "100% in [0.0, max_score]",
+      "observed": "100%",
+      "status": "PASS"
+    },
+    "M-TEL-04_dynamic_next_step": {
+      "target": "100% correct first-unmet DAG node",
+      "observed": "100%",
+      "status": "PASS"
+    },
+    "M-TEL-05_pacing_slider_calculation": {
+      "target": "W = ceil(sum(H) / budget)",
+      "observed": "100%",
+      "status": "PASS"
+    },
+    "M-TEL-06_dpdp_sec12_erasure": {
+      "target": "0 bytes retained after hard wipe",
+      "observed_bytes": 0,
+      "status": "PASS"
+    },
+    "M-TEL-07_backup_roundtrip_fidelity": {
+      "target": "100% bitwise parity on export/import",
+      "observed": true,
+      "status": "PASS"
+    },
+    "M-TEL-08_client_storage_footprint_kb": {
+      "target": "<= 100.0 KB for 50 records",
+      "observed_kb": 18.02,
+      "status": "PASS"
+    },
+    "M-TEL-09_honest_abstention_trigger": {
+      "target": "100% abstention on unsupported cells",
+      "observed": "100%",
+      "status": "PASS"
+    },
+    "M-TEL-10_anti_causal_copy_invariant": {
+      "target": "0 affirmative pay promises",
+      "observed": "0 violations",
+      "status": "PASS"
+    }
+  },
+  "persona_journeys": [
+    {
+      "persona_id": "P-DATA-01",
+      "target_role": "Data Analyst",
+      "target_level": "L2_junior",
+      "location": "bangalore",
+      "weekly_hours": 10,
+      "initial_unproven_milestone": "data.gen.l2_prob_decomp",
+      "post_practice_next_milestone": "data.anl.l2_sql_basic",
+      "projected_weeks_range": [
+        10,
+        17
+      ],
+      "market_pay_interval": [
+        8.0,
+        12.0,
+        16.0
+      ],
+      "abstention_triggered": false,
+      "journey_success": true
+    },
+    {
+      "persona_id": "P-DATA-02",
+      "target_role": "Data Analyst",
+      "target_level": "L3_mid",
+      "location": "hyderabad",
+      "weekly_hours": 15,
+      "initial_unproven_milestone": "data.anl.l2_eda",
+      "post_practice_next_milestone": "data.anl.l2_hygiene",
+      "projected_weeks_range": [
+        17,
+        27
+      ],
+      "market_pay_interval": [
+        15.0,
+        22.0,
+        30.0
+      ],
+      "abstention_triggered": false,
+      "journey_success": true
+    },
+    {
+      "persona_id": "P-DATA-03",
+      "target_role": "Data Scientist",
+      "target_level": "L4_senior",
+      "location": "pune",
+      "weekly_hours": 20,
+      "initial_unproven_milestone": "data.sci.l3_feat_eng",
+      "post_practice_next_milestone": "data.sci.l4_bigdata",
+      "projected_weeks_range": [
+        20,
+        33
+      ],
+      "market_pay_interval": [
+        26.5,
+        38.0,
+        52.0
+      ],
+      "abstention_triggered": false,
+      "journey_success": true
+    },
+    {
+      "persona_id": "P-DATA-04",
+      "target_role": "Data Specialist",
+      "target_level": "L2_junior",
+      "location": "other",
+      "weekly_hours": 5,
+      "initial_unproven_milestone": "data.gen.l2_prob_decomp",
+      "post_practice_next_milestone": "data.gen.l2_ethics",
+      "projected_weeks_range": [
+        20,
+        34
+      ],
+      "market_pay_interval": null,
+      "abstention_triggered": true,
+      "journey_success": true
+    }
+  ],
+  "latency_profile": {
+    "sample_count": 50,
+    "mean_microseconds": 20.92,
+    "p50_microseconds": 17.2,
+    "p95_microseconds": 30.3,
+    "p99_microseconds": 88.5
+  },
+  "storage_benchmark": {
+    "record_count": 50,
+    "attempt_count": 10,
+    "payload_bytes": 18453,
+    "payload_kb": 18.02,
+    "roundtrip_valid": true,
+    "purged_bytes": 0,
+    "dpdp_section_12_compliant": true
+  },
+  "attempts_summary": {
+    "total_attempts": 50,
+    "expert_count": 15,
+    "partial_count": 15,
+    "overflagging_count": 10,
+    "empty_count": 10,
+    "all_bounded": true
+  }
+}

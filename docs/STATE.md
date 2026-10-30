@@ -4,9 +4,9 @@
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.1.0 General Availability (GA) Released** · All 16 Gates G0–G15F Ratified GO |
-| **Active Milestone** | **Phase 15: Career Architect & Local Acceleration (Completed)** |
-| **Active Subphase** | **Phase 15F: Integrated Career Dashboard & Pilot Release (Completed)** |
-| **Current Task** | **Gate G15F Ratification (Completed)** |
+| **Active Milestone** | **Post-Phase 15: Pilot Telemetry & Backlog Execution** |
+| **Active Subphase** | **Career Architect Pilot Telemetry & Journey Audit (Completed)** |
+| **Current Task** | **Career Architect Pilot Telemetry Audit (TELEM-CAREER-ARCH-01 Completed)** |
 | **Next Task** | **Post-Phase 15 Backlog & Platform Charters** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
