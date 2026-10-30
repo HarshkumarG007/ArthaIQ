@@ -153,9 +153,9 @@ export const NextStepCard: React.FC<NextStepCardProps> = ({
                 {demonstratedCount}/{totalTargetCount} Demonstrated
               </span>
             </div>
-            <h3 className="text-xl font-serif font-semibold text-ink">
+            <h2 className="text-xl font-serif font-semibold text-ink">
               All {levelLabel} Competencies Demonstrated
-            </h3>
+            </h2>
             <p className="text-sm text-ink-2 max-w-2xl">
               You have established verified evidence for every competency required under your{" "}
               <strong>{profile?.target_role || "Data Specialist"}</strong> target level. You can explore
@@ -202,9 +202,9 @@ export const NextStepCard: React.FC<NextStepCardProps> = ({
               <Sparkles className="w-4 h-4" aria-hidden="true" />
               <span>Career Architect Guidance</span>
             </div>
-            <h3 className="text-lg font-serif font-semibold text-ink">
+            <h2 className="text-lg font-serif font-semibold text-ink">
               Explore Your Competency Gap Map
-            </h3>
+            </h2>
             <p className="text-sm text-ink-2 max-w-2xl">
               Select or attest competencies in the Skills &amp; Gap Map to initialize your next-step
               learning priorities.
@@ -274,9 +274,9 @@ export const NextStepCard: React.FC<NextStepCardProps> = ({
       {/* Main Milestone Information */}
       <div className="space-y-3">
         <div>
-          <h3 className="text-xl font-serif font-bold text-ink tracking-tight flex items-center gap-2">
+          <h2 className="text-xl font-serif font-bold text-ink tracking-tight flex items-center gap-2">
             <span>{step.title}</span>
-          </h3>
+          </h2>
           <p className="text-xs text-ink-3 mt-1">
             Node ID: <code className="font-mono text-ink-2">{step.id}</code> · Prerequisites
             Satisfied

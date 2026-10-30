@@ -697,7 +697,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `apps/web/src/components/career/RoadmapView.tsx`. Done when: milestones respect prerequisite ordering and budget scaling works. Needs: Gate G15E. Size: M.
 - [x] **T15.32** [AI] Single Next-Step Action Card: render clear guidance on highest-priority unproven gap and launch practice scenarios. (done 2026-10-30)
       Output: `apps/web/src/components/career/NextStepCard.tsx`. Done when: card points to actionable next milestone and updates on attempt pass. Needs: T15.31. Size: S.
-- [ ] **T15.33** [AI] Decoupled Pay Overlay & Abstention Panel: render market compensation range beside competencies without causal linkage (R-CR-01, R-CR-02).
+- [x] **T15.33** [AI] Decoupled Pay Overlay & Abstention Panel: render market compensation range beside competencies without causal linkage (R-CR-01, R-CR-02). (done 2026-10-30)
       Output: `apps/web/src/components/career/PayOverlayPanel.tsx`. Done when: two streams remain strictly isolated and honest abstention functions offline. Needs: T15.31. Size: M.
 
 **Gate G15F:** Integrated Career Architect ratified: end-to-end user journey verified, WCAG 2.2 AA compliant, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.

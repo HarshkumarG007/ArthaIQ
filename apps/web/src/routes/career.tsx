@@ -15,6 +15,7 @@ import { GapMapView } from "../components/career/GapMapView";
 import { PracticeWorkspace } from "../components/career/PracticeWorkspace";
 import { RoadmapView } from "../components/career/RoadmapView";
 import { NextStepCard } from "../components/career/NextStepCard";
+import { PayOverlayPanel } from "../components/career/PayOverlayPanel";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
 
@@ -270,15 +271,17 @@ export function CareerRoute({
       )}
 
       {/* Recommended Priority Next Step Card (T15.32) */}
-      <NextStepCard
-        profile={profile}
-        records={records}
-        onLaunchPractice={(scenarioId) => {
-          setSelectedScenarioId(scenarioId);
-          handleSubViewSelect("practice");
-        }}
-        onNavigateTab={(tab) => handleSubViewSelect(tab)}
-      />
+      {!isLoading && (
+        <NextStepCard
+          profile={profile}
+          records={records}
+          onLaunchPractice={(scenarioId) => {
+            setSelectedScenarioId(scenarioId);
+            handleSubViewSelect("practice");
+          }}
+          onNavigateTab={(tab) => handleSubViewSelect(tab)}
+        />
+      )}
 
       {/* Sub-Navigation Tabs */}
       <div className="border-b border-rule">
@@ -371,13 +374,21 @@ export function CareerRoute({
           id="panel-plan"
           role="tabpanel"
           aria-labelledby="tab-plan"
-          className="space-y-4"
+          className="space-y-6"
         >
           <RoadmapView
             initialWeeklyHours={profile?.available_hours_per_week ?? 10}
             records={records}
             onNavigatePractice={() => handleSubViewSelect("practice")}
             onNavigateSkills={() => handleSubViewSelect("skills")}
+          />
+
+          {/* Decoupled Market Compensation Context Overlay (T15.33, Rules R-CR-01, R-CR-02) */}
+          <PayOverlayPanel
+            profile={profile}
+            onExploreCompensation={() => {
+              window.location.hash = "#compensation";
+            }}
           />
         </section>
       )}
