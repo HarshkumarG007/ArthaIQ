@@ -789,6 +789,282 @@ def calculate_batch_discounts(db: Session, merchant_id: str) -> list[dict]:
       },
     ],
   },
+  {
+    id: "SCEN-SWE-04-API",
+    title: "Order Fulfillment REST API Endpoint Review",
+    description: "Inspect an order checkout endpoint for optional field null dereferences, unpaginated full table query memory risks, and raw exception stack trace leaks.",
+    role_family: "SWE",
+    target_level: 2,
+    primary_competency_id: "swe.app.l2_rest_api",
+    language: "python",
+    instructions: "Inspect the checkout API endpoint for unhandled null references, unpaginated data queries, and sensitive stack trace leakage. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import traceback
+
+app = FastAPI()
+
+class OrderRequest(BaseModel):
+    user_id: str
+    items: list[dict]
+    shipping_address: dict | None = None
+
+@app.post('/v1/orders/checkout')
+async def checkout_order(order: OrderRequest, db = None):
+    try:
+        # Unhandled null access on optional shipping address
+        postal_code = order.shipping_address['pincode']
+        # Unpaginated full table query loading all historical records into memory
+        all_orders = db.query('SELECT * FROM orders').fetchall()
+        # Process checkout
+        return {'status': 'success', 'pincode': postal_code, 'order_count': len(all_orders)}
+    except Exception as exc:
+        # Leaks internal DB traceback and schema details to client
+        return {'error': str(exc), 'stack_trace': traceback.format_exc()}`,
+    defects: [
+      {
+        id: "DEF-SWE-04-NULL",
+        line_number: 16,
+        category: "null_handling",
+        severity: "critical",
+        title: "Unhandled Optional Address Null Dereference",
+        consequence: "Subscripting order.shipping_address without null checking raises TypeError when client submits payload without optional shipping details.",
+        diagnostic_explanation: "Validate that shipping_address is not None before subscripting or use safe dictionary access like (order.shipping_address or {}).get('pincode').",
+        competency_id: "swe.app.l2_rest_api",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-04-UNBOUND",
+        line_number: 18,
+        category: "unbounded_collection",
+        severity: "major",
+        title: "Unpaginated Full Table Query in API Handler",
+        consequence: "Loading all historical orders into server process memory causes extreme latency and Out-Of-Memory termination under high production data volumes.",
+        diagnostic_explanation: "Apply parameterized pagination (LIMIT and OFFSET or cursor pagination) and filter by user_id.",
+        competency_id: "swe.app.l2_rest_api",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-04-LEAK",
+        line_number: 23,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Internal Database Stack Trace Exposure in Response",
+        consequence: "Returning raw traceback strings reveals internal schema details, table names, and filesystem paths to potential attackers.",
+        diagnostic_explanation: "Return generic error message with unique correlation ID and log the detailed traceback server-side.",
+        competency_id: "swe.app.l2_rest_api",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-SWE-05-TEST",
+    title: "Payment Gateway Unit Test Suite Review",
+    description: "Inspect an automated test suite for global environment mutation, mock null dereference traps, and unawaited async coroutine assertions.",
+    role_family: "SWE",
+    target_level: 2,
+    primary_competency_id: "swe.test.l2_unit_test",
+    language: "python",
+    instructions: "Inspect the unit test methods for global state contamination, mock null dereferences, and missing async await calls. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import os
+import pytest
+from unittest.mock import AsyncMock, patch
+
+class TestPaymentService:
+    def test_payment_gateway_timeout(self):
+        # Modifies global environment variable without teardown or fixture cleanup
+        os.environ['PAYMENT_GATEWAY_TIMEOUT'] = '0'
+        from services import payment
+        result = payment.initiate_charge(amount=1000)
+        assert result.status == 'FAILED'
+
+    def test_mock_return_none_dereference(self):
+        with patch('services.payment.client') as mock_client:
+            # Mock returns None, causing unhandled attribute error when reading status
+            mock_client.charge.return_value = None
+            res = mock_client.charge(500)
+            assert res.status == 'FAILED'
+
+    async def test_async_refund_missing_await(self):
+        refund_mock = AsyncMock(return_value={'refund_id': 'REF-123'})
+        # Coroutine called without await: assertion passes tautologically without executing logic
+        refund_mock(charge_id='CHG-99')
+        assert True`,
+    defects: [
+      {
+        id: "DEF-SWE-05-ENV",
+        line_number: 8,
+        category: "resource_leak",
+        severity: "major",
+        title: "Global Environment Mutation without Teardown",
+        consequence: "Mutating os.environ directly within a test pollutes subsequent test cases in the suite, causing non-deterministic order-dependent test failures.",
+        diagnostic_explanation: "Use pytest's monkeypatch fixture (monkeypatch.setenv) to guarantee automatic cleanup.",
+        competency_id: "swe.test.l2_unit_test",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-05-NULL",
+        line_number: 16,
+        category: "null_handling",
+        severity: "critical",
+        title: "Mock Null Return Value Dereference Trap",
+        consequence: "Setting return_value to None causes res.status to raise AttributeError instead of asserting the expected FAILED status.",
+        diagnostic_explanation: "Mock the response object with appropriate schema (e.g., Mock(status='FAILED')) or test handling of None.",
+        competency_id: "swe.test.l2_unit_test",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-05-AWAIT",
+        line_number: 23,
+        category: "race_condition",
+        severity: "critical",
+        title: "Unawaited Async Mock Coroutine Invocation",
+        consequence: "Calling an async coroutine without await produces an unawaited coroutine warning and causes the test to pass vacously without executing the underlying verification logic.",
+        diagnostic_explanation: "Prefix async mock invocations with await (await refund_mock(...)) and assert specific return values.",
+        competency_id: "swe.test.l2_unit_test",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-SWE-06-OBS",
+    title: "Telemetry Instrumentation & Audit Logging Review",
+    description: "Inspect request telemetry handlers for Prometheus cardinality explosions, plaintext authentication token leaks in logs, and insecure token prefix extraction.",
+    role_family: "SWE",
+    target_level: 3,
+    primary_competency_id: "swe.sec.l3_auth_rbac",
+    language: "python",
+    instructions: "Inspect the telemetry recorder for metric cardinality explosion, plaintext token exposure in logs, and header parsing flaws. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import logging
+from prometheus_client import Counter
+
+logger = logging.getLogger('api.telemetry')
+
+# Prometheus counter for incoming HTTP requests
+REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'user_id'])
+
+def record_request_telemetry(method: str, user_id: str, auth_token: str, path: str):
+    # High-cardinality metric explosion by tagging with unique user ID
+    REQUEST_COUNT.labels(method=method, user_id=user_id).inc()
+
+    # Logging raw Authorization Bearer token into plain application logs
+    logger.info(f'Processing request for path={path} with bearer_token={auth_token}')
+
+    # Insecure authentication parsing: accepts any string without checking Bearer scheme
+    token_value = auth_token.split(' ')[-1]
+    if not token_value:
+        raise ValueError('Empty token')
+    return {'status': 'recorded', 'user': user_id}`,
+    defects: [
+      {
+        id: "DEF-SWE-06-CARD",
+        line_number: 11,
+        category: "cardinality_explosion",
+        severity: "critical",
+        title: "Prometheus Metric High-Cardinality User Label",
+        consequence: "Tagging time-series metrics with unique user IDs causes unbounded time-series creation, leading to monitoring cluster memory exhaustion and ingestion failure.",
+        diagnostic_explanation: "Remove individual user ID labels from Prometheus metrics; use distributed tracing for per-user diagnostics.",
+        competency_id: "swe.sec.l3_auth_rbac",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-06-LEAK",
+        line_number: 14,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Plaintext Authentication Token Leak in Application Logs",
+        consequence: "Writing raw bearer tokens to application logs exposes sensitive authentication tokens to log collectors, third-party indexers, and unauthorized internal operators.",
+        diagnostic_explanation: "Mask or redact sensitive authentication headers before logging (e.g., token[:6] + '***').",
+        competency_id: "swe.sec.l3_auth_rbac",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-06-AUTH",
+        line_number: 17,
+        category: "broken_authentication",
+        severity: "major",
+        title: "Insecure Token Header Scheme Parsing",
+        consequence: "Splitting on space without validating the 'Bearer ' scheme prefix allows malformed or spoofed token schemes to bypass preliminary format validation.",
+        diagnostic_explanation: "Strictly validate that the Authorization header starts with 'Bearer ' before extracting the token.",
+        competency_id: "swe.sec.l3_auth_rbac",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-SWE-07-DIST",
+    title: "Distributed Cache & Resilient Read-Through Review",
+    description: "Inspect a distributed caching function for unpooled client connection exhaustion, cache stampede thundering herd vulnerabilities, and blocking KEYS command usage.",
+    role_family: "SWE",
+    target_level: 4,
+    primary_competency_id: "swe.arch.l4_system_design",
+    language: "python",
+    instructions: "Inspect the caching function for connection leaks, cache stampede vulnerabilities, and blocking Redis operations. Flag flawed line numbers and select correct defect classifications.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import time
+import redis
+
+def fetch_user_profile(user_id: str, db_pool):
+    # Creates unpooled raw Redis client on every single request causing connection exhaustion
+    client = redis.Redis(host='localhost', port=6379, db=0)
+    cache_key = f'user:profile:{user_id}'
+    cached = client.get(cache_key)
+    if cached:
+        return cached
+
+    # Cache stampede: concurrent requests all query database directly without distributed lock
+    data = db_pool.query_user(user_id)
+    # Unbounded key scanning blocking Redis event loop instead of targeted pipeline
+    all_keys = client.keys('user:profile:*')
+    client.set(cache_key, str(data), ex=300)
+    return data`,
+    defects: [
+      {
+        id: "DEF-SWE-07-CONN",
+        line_number: 6,
+        category: "resource_leak",
+        severity: "critical",
+        title: "Unpooled Redis Client Instantiation per Request",
+        consequence: "Creating a new Redis connection object on every function call exhausts OS socket descriptors and introduces severe TCP handshake latency overhead under load.",
+        diagnostic_explanation: "Instantiate a persistent Redis ConnectionPool once at application startup and share it across calls.",
+        competency_id: "swe.arch.l4_system_design",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-07-STAMPEDE",
+        line_number: 13,
+        category: "race_condition",
+        severity: "critical",
+        title: "Cache Stampede Thundering Herd Vulnerability",
+        consequence: "When a popular cache key expires, multiple concurrent requests simultaneously query the primary database, overwhelming database connection pools.",
+        diagnostic_explanation: "Implement distributed locking (e.g. Redlock or singleflight pattern) to ensure only one process rebuilds the cache.",
+        competency_id: "swe.arch.l4_system_design",
+        points: 1.0,
+      },
+      {
+        id: "DEF-SWE-07-KEYS",
+        line_number: 15,
+        category: "unbounded_collection",
+        severity: "critical",
+        title: "Blocking KEYS Command Execution in Production",
+        consequence: "The KEYS command iterates over all keys in the single-threaded Redis database synchronously, freezing all Redis operations for the entire application cluster.",
+        diagnostic_explanation: "Avoid KEYS in production. Use SCAN with cursor pagination or maintain a dedicated set of keys.",
+        competency_id: "swe.arch.l4_system_design",
+        points: 1.0,
+      },
+    ],
+  },
 ];
 
 export interface CandidateFlagSubmission {

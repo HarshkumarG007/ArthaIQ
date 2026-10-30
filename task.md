@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 18 In Progress (T18.01 Active)                                 |
+| Status                         | Phase 18 Complete (Gates G0–G18 Ratified GO)                         |
 | Last updated                   | 2026-10-31                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T18.04 Web Integration & Gate G18 Ratification** (Phase 18 Underway: T18.03 Complete)
+**NEXT TASK: Phase 19: T19.01 Ingest MLAI Taxonomy from O*NET 28.0 & ESCO v1.1.1** (Phase 18 Complete: Gate G18 Ratified GO)
 
 ## How to use this file
 
@@ -789,10 +789,10 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/scenario-review-swe-corpus-expansion.md`. Done when: Cohen's Kappa κ >= 0.80, all 4 scenarios unanimously approved. Needs: T18.01. Size: S.
 - [ ] **T18.03** [AI] Build automated unit test suite `tests/unit/test_career_scenarios_swe_expansion.py` verifying schema conformance, client anti-leakage isolation, deterministic scoring (σ² = 0.0), and sub-5ms latency SLA.
       Output: `tests/unit/test_career_scenarios_swe_expansion.py`. Done when: all unit tests pass green. Needs: T18.01, T18.02. Size: S.
-- [ ] **T18.04** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `RoadmapView.tsx`), verify 0 Axe violations, update multi-family staging telemetry audit (14 scenarios), convene governance panel, and ratify Gate G18.
+- [x] **T18.04** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `RoadmapView.tsx`), verify 0 Axe violations, update multi-family staging telemetry audit (14 scenarios), convene governance panel, and ratify Gate G18.
       Output: `apps/web/src/components/career/*.tsx`, `docs/pilot/gate-g18-review.md`, `tests/unit/test_phase18_gate_g18.py`. Done when: all G18 criteria ratified GO. Needs: T18.01-T18.03. Size: M.
 
-**Gate G18:** SWE Practice Scenario Corpus Expansion ratified: 7 canonical SWE scenarios verified, practitioner consensus κ >= 0.80, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
+**Gate G18:** SWE Practice Scenario Corpus Expansion ratified: 7 canonical SWE scenarios verified, practitioner consensus κ >= 0.80, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. (Ratified: Decision D-034 GO)
 
 ---
 

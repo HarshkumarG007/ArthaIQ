@@ -243,6 +243,10 @@ describe("PracticeWorkspace (T15.30 Practice Workspace & Sandbox)", () => {
     expect(screen.getByRole("button", { name: "SCEN-SWE-01-CONCUR" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "SCEN-SWE-02-SEC" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "SCEN-SWE-03-DB" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-SWE-04-API" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-SWE-05-TEST" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-SWE-06-OBS" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-SWE-07-DIST" })).toBeInTheDocument();
 
     // Switch to security scenario
     fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-02-SEC" }));
@@ -251,5 +255,21 @@ describe("PracticeWorkspace (T15.30 Practice Workspace & Sandbox)", () => {
     // Switch to DB scenario
     fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-03-DB" }));
     expect(screen.getByRole("heading", { name: /Order Service Relational Pipeline/i })).toBeInTheDocument();
+
+    // Switch to API scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-04-API" }));
+    expect(screen.getByRole("heading", { name: /Order Fulfillment REST API/i })).toBeInTheDocument();
+
+    // Switch to TEST scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-05-TEST" }));
+    expect(screen.getByRole("heading", { name: /Payment Gateway Unit Test Suite/i })).toBeInTheDocument();
+
+    // Switch to OBS scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-06-OBS" }));
+    expect(screen.getByRole("heading", { name: /Telemetry Instrumentation/i })).toBeInTheDocument();
+
+    // Switch to DIST scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-07-DIST" }));
+    expect(screen.getByRole("heading", { name: /Distributed Cache/i })).toBeInTheDocument();
   });
 });

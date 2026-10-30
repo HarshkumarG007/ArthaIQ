@@ -246,6 +246,8 @@ export const CANONICAL_SWE_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 2.0,
     application_difficulty: 3.0,
     prerequisite_ids: [],
+    associated_scenario_id: "SCEN-SWE-04-API",
+    associated_scenario_title: "Order Fulfillment REST API Endpoint Review",
   },
   {
     id: "swe.test.l2_unit_tdd",
@@ -257,6 +259,8 @@ export const CANONICAL_SWE_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 2.0,
     application_difficulty: 2.0,
     prerequisite_ids: [],
+    associated_scenario_id: "SCEN-SWE-05-TEST",
+    associated_scenario_title: "Payment Gateway Unit Test Suite Review",
   },
   {
     id: "swe.ops.l2_container_docker",
@@ -327,6 +331,8 @@ export const CANONICAL_SWE_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 3.0,
     application_difficulty: 3.0,
     prerequisite_ids: ["swe.arch.l2_api_design"],
+    associated_scenario_id: "SCEN-SWE-06-OBS",
+    associated_scenario_title: "Telemetry Instrumentation & Audit Logging Review",
   },
   {
     id: "swe.ops.l3_cicd_pipeline",
@@ -360,6 +366,8 @@ export const CANONICAL_SWE_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 4.0,
     application_difficulty: 4.0,
     prerequisite_ids: ["swe.arch.l3_microservices", "swe.db.l3_query_perf"],
+    associated_scenario_id: "SCEN-SWE-07-DIST",
+    associated_scenario_title: "Distributed Cache & Resilient Read-Through Review",
   },
   {
     id: "swe.sec.l4_crypto_dpdp",
