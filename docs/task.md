@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T19.04 Convene Practitioner Consensus Review for MLAI Family** (Phase 19 Underway: T19.03 Complete)
+**NEXT TASK: T19.05 Extend FilesystemTaxonomyAdapter and CareerEngine for Three-Family Routing** (Phase 19 Underway: T19.04 Complete)
 
 ## How to use this file
 
@@ -801,7 +801,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** 15-node acyclic DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified with 10/10 import contracts kept, 3 canonical MLAI scenarios pass deterministic scoring with sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass across 17 scenarios, Gate G19 ratified.
 > **NO-GO:** Stay in Phase 19 until all criteria met.
 
-**NEXT TASK: T19.04 Convene Practitioner Consensus Review for MLAI Family** (Phase 19 Underway: T19.03 Complete)
+**NEXT TASK: T19.05 Extend FilesystemTaxonomyAdapter and CareerEngine for Three-Family Routing** (Phase 19 Underway: T19.04 Complete)
 
 - [x] **T19.01** [AI] Ingest Machine Learning & AI taxonomy elements from O*NET 28.0 and ESCO v1.1.1 into `config/taxonomy/mlai_family.json` with statutory CC BY 4.0 / EU Open Reuse licensing and zero causal claims.
       Output: `config/taxonomy/mlai_family.json`, `src/compintel/career/mlai_taxonomy.py`, `tests/unit/test_career_mlai_taxonomy.py`. Done when: 15 MLAI elements pass Pydantic validation, provenance tracking, and zero causal promises. Needs: Gate G18 GO. Size: M.
@@ -809,7 +809,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/mlai_graph.py`, `config/taxonomy/competency_graph_mlai.json`, `tests/unit/test_career_mlai_graph.py`. Done when: all 5 CI validators pass with 0 cycles and 100% provenance tracking. Needs: T19.01. Size: M.
 - [x] **T19.03** [AI] Calibrate MLAI difficulty anchor scales and heuristic effort rubrics ($[H_{\min}, H_{\max}]$) in `src/compintel/career/mlai_rubric.py` and `config/taxonomy/difficulty_rubrics_mlai.json`.
       Output: `src/compintel/career/mlai_rubric.py`, `config/taxonomy/difficulty_rubrics_mlai.json`, `tests/unit/test_career_mlai_rubric.py`. Done when: all 15 nodes calibrated with `is_heuristic: True` and CPA 2019 disclaimers. Needs: T19.02. Size: S.
-- [ ] **T19.04** [AI+HUMAN] Convene practitioner consensus review panel (two independent practitioners) to evaluate the 15 MLAI competency nodes across 4 dimensions with inter-rater reliability κ >= 0.80 and author consensus review dossier.
+- [x] **T19.04** [AI+HUMAN] Convene practitioner consensus review panel (two independent practitioners) to evaluate the 15 MLAI competency nodes across 4 dimensions with inter-rater reliability κ >= 0.80 and author consensus review dossier.
       Output: `docs/pilot/competency-review-mlai-family.md`. Done when: Cohen's Kappa κ >= 0.80, all 15 nodes unanimously approved. Needs: T19.03. Size: S.
 - [ ] **T19.05** [AI] Extend `FilesystemTaxonomyAdapter` and `CareerEngine` in `src/compintel/career/engine.py` to route three families (`DATA`, `SWE`, `MLAI`) while preserving hexagonal boundaries.
       Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_three_family.py`. Done when: 10/10 import contracts kept, all career tests pass. Needs: T19.02, T19.03. Size: M.
