@@ -29,6 +29,8 @@ from compintel.career.schema import (
     VerificationState,
     validate_anti_causal_text,
 )
+from compintel.career.swe_graph import load_swe_family_graph
+from compintel.career.swe_rubric import load_swe_difficulty_rubrics
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -60,15 +62,15 @@ class TaxonomyPort(Protocol):
         """Retrieve a specific competency node by identifier, or None if not found."""
         ...
 
-    def get_rubric(self, competency_id: str) -> DifficultyRubricEntry | None:
+    def get_rubric(self, competency_id: str, family: str = "DATA") -> DifficultyRubricEntry | None:
         """Retrieve the difficulty and effort rubric for a competency, or None if not found."""
         ...
 
-    def get_all_rubrics(self) -> dict[str, DifficultyRubricEntry]:
+    def get_all_rubrics(self, family: str = "DATA") -> dict[str, DifficultyRubricEntry]:
         """Retrieve all calibrated difficulty rubrics."""
         ...
 
-    def get_rubrics_manifest(self) -> DifficultyRubricsManifest:
+    def get_rubrics_manifest(self, family: str = "DATA") -> DifficultyRubricsManifest:
         """Retrieve the container manifest for all calibrated difficulty rubrics."""
         ...
 
@@ -90,48 +92,100 @@ class FilesystemTaxonomyAdapter:
         else:
             self._taxonomy_dir = Path(taxonomy_dir)
 
-        graph_file = self._taxonomy_dir / "competency_graph_data.json"
-        rubrics_file = self._taxonomy_dir / "difficulty_rubrics.json"
+        data_graph_file = self._taxonomy_dir / "competency_graph_data.json"
+        data_rubrics_file = self._taxonomy_dir / "difficulty_rubrics.json"
+        swe_graph_file = self._taxonomy_dir / "competency_graph_swe.json"
+        swe_rubrics_file = self._taxonomy_dir / "difficulty_rubrics_swe.json"
 
-        if not graph_file.exists():
-            raise FileNotFoundError(f"Competency graph configuration not found at {graph_file}")
-        if not rubrics_file.exists():
-            raise FileNotFoundError(f"Difficulty rubrics configuration not found at {rubrics_file}")
+        if not data_graph_file.exists():
+            raise FileNotFoundError(
+                f"DATA competency graph configuration not found at {data_graph_file}"
+            )
+        if not data_rubrics_file.exists():
+            raise FileNotFoundError(
+                f"DATA difficulty rubrics configuration not found at {data_rubrics_file}"
+            )
 
-        self._graph_manifest: CompetencyGraphManifest = load_data_family_graph(graph_file)
-        self._rubrics_manifest: DifficultyRubricsManifest = load_difficulty_rubrics(rubrics_file)
+        self._graphs: dict[str, CompetencyGraphManifest] = {}
+        self._rubrics: dict[str, DifficultyRubricsManifest] = {}
+        self._nodes_by_family_and_id: dict[tuple[str, str], CompetencyNode] = {}
+        self._all_rubrics_by_id: dict[str, DifficultyRubricEntry] = {}
 
-        self._nodes_by_id: dict[str, CompetencyNode] = {n.id: n for n in self._graph_manifest.nodes}
+        # Load DATA family
+        data_graph = load_data_family_graph(data_graph_file)
+        data_rubrics = load_difficulty_rubrics(data_rubrics_file)
+        self._graphs["DATA"] = data_graph
+        self._rubrics["DATA"] = data_rubrics
+        for n in data_graph.nodes:
+            self._nodes_by_family_and_id[("DATA", n.id)] = n
+        for e in data_rubrics.entries:
+            self._all_rubrics_by_id[e.node_id] = e
+
+        # Load SWE family if files exist
+        if swe_graph_file.exists() and swe_rubrics_file.exists():
+            swe_graph = load_swe_family_graph(swe_graph_file)
+            swe_rubrics = load_swe_difficulty_rubrics(swe_rubrics_file)
+            self._graphs["SWE"] = swe_graph
+            self._rubrics["SWE"] = swe_rubrics
+            for n in swe_graph.nodes:
+                self._nodes_by_family_and_id[("SWE", n.id)] = n
+            for e in swe_rubrics.entries:
+                self._all_rubrics_by_id[e.node_id] = e
+
+        # Backwards compatibility attributes (DATA)
+        self._graph_manifest: CompetencyGraphManifest = self._graphs["DATA"]
+        self._rubrics_manifest: DifficultyRubricsManifest = self._rubrics["DATA"]
+        self._nodes_by_id: dict[str, CompetencyNode] = {n.id: n for n in data_graph.nodes}
         self._rubrics_by_id: dict[str, DifficultyRubricEntry] = {
-            e.node_id: e for e in self._rubrics_manifest.entries
+            e.node_id: e for e in data_rubrics.entries
         }
 
     def get_competency_graph(self, family: str = "DATA") -> CompetencyGraphManifest:
-        """Retrieve the loaded competency graph manifest."""
-        if family.upper() != "DATA":
+        """Retrieve the loaded competency graph manifest for an occupational family."""
+        fam = family.upper()
+        if fam not in self._graphs:
             raise ValueError(
-                f"Occupational family '{family}' is not yet supported in MVP (Rule R-CR-04). "
-                "Only 'DATA' family is currently ratified under Gate G15B."
+                f"Occupational family '{family}' is not supported (Rule R-CR-04). "
+                f"Supported families are: {sorted(self._graphs.keys())}."
             )
-        return self._graph_manifest
+        return self._graphs[fam]
 
-    def get_node(self, competency_id: str, family: str = "DATA") -> CompetencyNode | None:
-        """Retrieve a specific competency node by ID."""
-        if family.upper() != "DATA":
-            return None
-        return self._nodes_by_id.get(competency_id)
+    def get_node(self, competency_id: str, family: str | None = "DATA") -> CompetencyNode | None:
+        """Retrieve a specific competency node by ID and family."""
+        if family is not None:
+            fam = family.upper()
+            return self._nodes_by_family_and_id.get((fam, competency_id))
+        # Fallback search across any loaded family if family is None
+        for (_f, cid), node in self._nodes_by_family_and_id.items():
+            if cid == competency_id:
+                return node
+        return None
 
-    def get_rubric(self, competency_id: str) -> DifficultyRubricEntry | None:
+    def get_rubric(self, competency_id: str, family: str = "DATA") -> DifficultyRubricEntry | None:
         """Retrieve the difficulty rubric entry for a competency node."""
-        return self._rubrics_by_id.get(competency_id)
+        fam = family.upper()
+        if fam in self._rubrics:
+            for entry in self._rubrics[fam].entries:
+                if entry.node_id == competency_id:
+                    return entry
+        return self._all_rubrics_by_id.get(competency_id)
 
-    def get_all_rubrics(self) -> dict[str, DifficultyRubricEntry]:
-        """Retrieve all calibrated rubrics."""
-        return dict(self._rubrics_by_id)
+    def get_all_rubrics(self, family: str = "DATA") -> dict[str, DifficultyRubricEntry]:
+        """Retrieve all calibrated rubrics for an occupational family."""
+        fam = family.upper()
+        if fam in self._rubrics:
+            return {e.node_id: e for e in self._rubrics[fam].entries}
+        return dict(self._all_rubrics_by_id)
 
-    def get_rubrics_manifest(self) -> DifficultyRubricsManifest:
+    def get_rubrics_manifest(self, family: str = "DATA") -> DifficultyRubricsManifest:
         """Retrieve the container manifest for all calibrated difficulty rubrics."""
-        return self._rubrics_manifest
+        fam = family.upper()
+        if fam not in self._rubrics:
+            raise ValueError(
+                f"Difficulty rubrics for occupational family '{family}' are not supported. "
+                f"Supported families are: {sorted(self._rubrics.keys())}."
+            )
+        return self._rubrics[fam]
 
 
 class StubCompensationAdapter:
@@ -231,9 +285,9 @@ class CareerEngine:
             raise KeyError(f"Competency '{competency_id}' not found in '{family}' family taxonomy.")
         return node
 
-    def get_rubric(self, competency_id: str) -> DifficultyRubricEntry:
+    def get_rubric(self, competency_id: str, family: str = "DATA") -> DifficultyRubricEntry:
         """Retrieve the difficulty rubric entry for a competency or raise KeyError."""
-        rubric = self._taxonomy_port.get_rubric(competency_id)
+        rubric = self._taxonomy_port.get_rubric(competency_id, family)
         if rubric is None:
             raise KeyError(f"Difficulty rubric for '{competency_id}' not found.")
         return rubric
@@ -329,7 +383,7 @@ class CareerEngine:
             min_satisfied_state=min_satisfied_state,
         )
         graph = self.get_graph(family)
-        rubrics = self._taxonomy_port.get_rubrics_manifest()
+        rubrics = self._taxonomy_port.get_rubrics_manifest(family)
 
         return schedule_topological_roadmap(
             gap_nodes=gap_report.gap_nodes,
@@ -356,7 +410,7 @@ class CareerEngine:
         from compintel.career.effort import estimate_role_transition_effort
 
         graph = self.get_graph(family)
-        rubrics = self._taxonomy_port.get_rubrics_manifest()
+        rubrics = self._taxonomy_port.get_rubrics_manifest(family)
 
         return estimate_role_transition_effort(
             ledger=ledger,

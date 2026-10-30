@@ -149,3 +149,4 @@ All five SWE competency clusters have been reviewed and approved:
 **Panel Sign-Off:**
 - **Dr. Ananya Sen, Principal Data Scientist** — Signed: `2026-10-30`
 - **Vikramaditya Joshi, Staff Systems Architect** — Signed: `2026-10-30`
+

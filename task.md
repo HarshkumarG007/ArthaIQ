@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 16 In Progress (T16.01-T16.04 Complete; T16.05 Active)                         |
+| Status                         | Phase 16 In Progress (T16.01-T16.05 Complete; T16.06 Active)                         |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T16.05 Extend FilesystemTaxonomyAdapter for Multi-Family Graph Requests** (Phase 16 Underway: T16.04 SWE Consensus Review Complete)
+**NEXT TASK: T16.06 Author Canonical SWE Flaw-Finding Practice Scenarios** (Phase 16 Underway: T16.05 Multi-Family Engine Complete)
 
 ## How to use this file
 
@@ -731,7 +731,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `config/taxonomy/difficulty_rubrics_swe.json`, `tests/unit/test_career_swe_rubric.py`. Done when: all 15 nodes calibrated with is_heuristic=True. Needs: T16.02. Size: S.
 - [x] **T16.04** [AI+HUMAN] Convene two-reviewer practitioner consensus panel (Ananya Sen, Vikramaditya Joshi); author formal review dossier `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01, κ >= 0.80). (done 2026-10-30)
       Output: `docs/pilot/competency-review-swe-family.md`, `tests/unit/test_competency_review_swe.py`. Done when: Cohen's Kappa κ >= 0.80. Needs: T16.02, T16.03. Size: S.
-- [ ] **T16.05** [AI] Extend `FilesystemTaxonomyAdapter` in `src/compintel/career/engine.py` to route multi-family graph requests (`family="SWE"`); update CareerEngine and unit tests.
+- [x] **T16.05** [AI] Extend `FilesystemTaxonomyAdapter` in `src/compintel/career/engine.py` to route multi-family graph requests (`family="SWE"`); update CareerEngine and unit tests. (done 2026-10-30)
       Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_multi_family.py`. Done when: get_competency_graph supports both DATA and SWE. Needs: T16.02, T16.03. Size: S.
 - [ ] **T16.06** [AI] Author canonical SWE flaw-finding practice scenarios (`SCEN-SWE-01-CONCUR`, `SCEN-SWE-02-SEC`, `SCEN-SWE-03-DB`) with deterministic rubrics, pass thresholds, and unit tests.
       Output: `config/scenarios/scen_swe_*.json`, `tests/unit/test_career_scenarios_swe.py`. Done when: 3 scenarios pass validation, deterministic scoring, sub-5ms latency. Needs: T16.02. Size: M.
@@ -1325,3 +1325,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.33    | Task T16.02 complete: Assembled canonical 15-node SWE Competency DAG (`src/compintel/career/swe_graph.py`, `config/taxonomy/competency_graph_swe.json`, SHA-256: `b794218ed3d3da44...`) across Junior (L2), Mid (L3), and Senior (L4) levels, verified 5 CI validators pass with 0 cycles and 100% provenance, 7/7 unit tests passing. NEXT: Task T16.03 (Calibrate SWE Difficulty & Effort Heuristic Rubrics). |
 | 2026-10-30 | 1.34    | Task T16.03 complete: Calibrated SWE difficulty and heuristic effort rubrics (`src/compintel/career/swe_rubric.py`, `config/taxonomy/difficulty_rubrics_swe.json`, SHA-256: `57e7eccb...`) across all 15 SWE nodes with 1.0-5.0 anchors, valid effort ranges (min < max), mandatory is_heuristic=True, statutory disclaimers, and zero causal pay claims, 7/7 unit tests passing. NEXT: Task T16.04 (Convene Practitioner Consensus Review for SWE Family). |
 | 2026-10-30 | 1.35    | Task T16.04 complete: Convened independent practitioner review panel (Dr. Ananya Sen, Vikramaditya Joshi) and authored consensus review report `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01) with Cohen's Kappa κ = 0.867 (>= 0.80 target), 4 reconciled discrepancies, all 5 SWE clusters marked Reviewed, and 6/6 unit tests passing. NEXT: Task T16.05 (Extend FilesystemTaxonomyAdapter for Multi-Family Graph Requests). |
+| 2026-10-30 | 1.36    | Task T16.05 complete: Extended `FilesystemTaxonomyAdapter` and `CareerEngine` in `src/compintel/career/engine.py` to route multi-family graph and rubric requests (`family="SWE"`, `family="DATA"`), updated `TaxonomyPort` signatures, authored comprehensive unit test suite `tests/unit/test_career_engine_multi_family.py` (7/7 passing), verified backward compatibility with 30 passing engine & contract tests. NEXT: Task T16.06 (Author Canonical SWE Flaw-Finding Practice Scenarios). |
