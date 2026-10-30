@@ -666,7 +666,27 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 - [x] **T15.26** [AI] Browser-side SQL sandbox evaluation spike: benchmark sql.js vs DuckDB-WASM for client-side local verification (payload size, RAM, execution speed). (done 2026-10-29)
       Output: `docs/research/sql-sandbox-spike.md`. Done when: comparative benchmark report complete with GO/NO-GO recommendation. Needs: Gate G15C. Size: S.
 
-**Gate G15D:** Practice scenarios ratified: deterministic scorer verified, zero client payload leakage, 3 reviewed DATA scenarios serialized, and no credentialism claims.
+**Gate G15D:** Practice scenarios ratified: deterministic scorer verified, zero client payload leakage, 3 reviewed DATA scenarios serialized, and no credentialism claims. (RATIFIED GO 2026-10-30; Decision D-029)
+
+---
+
+### Phase 15E: Browser-Side Client & Evidence Ledger UI
+
+**Objective:** Accessible, local-first interactive client workspace for Career Architect (ADR-0012, Rule R-CR-12).
+**Needs:** Gate G15D.
+
+- [ ] **T15.27** [AI] Local-first store on IndexedDB: implement client-side ledger schema, version migrations, JSON export/import, hard delete-all, and quota handling.
+      Output: `apps/web/src/lib/careerLedger.ts`. Done when: unit tests pass with zero server storage. Needs: Gate G15D. Size: L.
+- [ ] **T15.28** [AI] Navigation shell & design tokens: add Career routes, side rail, bottom nav, responsive layout, and contrast auditing script updates.
+      Output: `apps/web/src/routes/career.tsx`. Done when: navigation tests and axe accessibility passes. Needs: T15.27. Size: M.
+- [ ] **T15.29** [AI] Interactive Gap Map & Skills View: render DATA family competency graph, verification states (Unproven/Self-reported/Demonstrated), and prerequisite locks.
+      Output: `apps/web/src/components/career/GapMapView.tsx`. Done when: visual state changes on ledger update. Needs: T15.27. Size: L.
+- [ ] **T15.30** [AI] Practice Workspace & In-Browser SQL Sandbox: integrate `sql.js` Web Worker sandbox, flaw flagging interface, and instant deterministic rubric evaluation.
+      Output: `apps/web/src/components/career/PracticeWorkspace.tsx`. Done when: end-to-end flaw finding flow works offline. Needs: T15.23, T15.24, T15.26, T15.27. Size: L.
+
+**Gate G15E:** Client dashboard ratified: local-first IndexedDB ledger verified, zero server-side profile storage, axe accessibility 0 violations, and offline sandbox functioning.
+
+---
 
 ---
 
