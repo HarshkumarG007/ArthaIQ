@@ -5,9 +5,9 @@
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.1.0 General Availability (GA) Released** · All 16 Gates G0–G15F Ratified GO |
 | **Active Milestone** | **Phase 16: Software Engineering (SWE) Role Family Expansion** |
-| **Active Subphase** | **Phase 16 Underway (T16.01, T16.02, T16.03 Complete)** |
-| **Current Task** | **T16.03 Calibrate SWE Difficulty & Effort Heuristic Rubrics (Completed)** |
-| **Next Task** | **T16.04 Convene Practitioner Consensus Review for SWE Family** |
+| **Active Subphase** | **Phase 16 Underway (T16.01-T16.04 Complete)** |
+| **Current Task** | **T16.04 Convene Practitioner Consensus Review for SWE Family (Completed)** |
+| **Next Task** | **T16.05 Multi-Family Career Engine Adapter** |
 | **Last Updated** | **2026-10-30** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

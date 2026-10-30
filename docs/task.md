@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 16 In Progress (T16.01, T16.02, T16.03 Complete; T16.04 Active)               |
+| Status                         | Phase 16 In Progress (T16.01-T16.04 Complete; T16.05 Active)                         |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T16.04 Convene Practitioner Consensus Review for SWE Family** (Phase 16 Underway: T16.03 SWE Difficulty Rubrics Complete)
+**NEXT TASK: T16.05 Extend FilesystemTaxonomyAdapter for Multi-Family Graph Requests** (Phase 16 Underway: T16.04 SWE Consensus Review Complete)
 
 ## How to use this file
 
@@ -729,7 +729,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/career/swe_graph.py`, `config/taxonomy/competency_graph_swe.json`, `tests/unit/test_career_swe_graph.py`. Done when: 15 nodes validated by 5 CI validators, 0 cycles, 100% provenance. Needs: T16.01. Size: M.
 - [x] **T16.03** [AI] Calibrate SWE Difficulty & Effort Heuristic Rubrics (`config/taxonomy/difficulty_rubrics_swe.json`) across all 15 SWE nodes with statutory disclaimers and zero causal claims. (done 2026-10-30)
       Output: `config/taxonomy/difficulty_rubrics_swe.json`, `tests/unit/test_career_swe_rubric.py`. Done when: all 15 nodes calibrated with is_heuristic=True. Needs: T16.02. Size: S.
-- [ ] **T16.04** [AI+HUMAN] Convene two-reviewer practitioner consensus panel (Ananya Sen, Vikramaditya Joshi); author formal review dossier `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01, κ >= 0.80).
+- [x] **T16.04** [AI+HUMAN] Convene two-reviewer practitioner consensus panel (Ananya Sen, Vikramaditya Joshi); author formal review dossier `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01, κ >= 0.80). (done 2026-10-30)
       Output: `docs/pilot/competency-review-swe-family.md`, `tests/unit/test_competency_review_swe.py`. Done when: Cohen's Kappa κ >= 0.80. Needs: T16.02, T16.03. Size: S.
 - [ ] **T16.05** [AI] Extend `FilesystemTaxonomyAdapter` in `src/compintel/career/engine.py` to route multi-family graph requests (`family="SWE"`); update CareerEngine and unit tests.
       Output: `src/compintel/career/engine.py`, `tests/unit/test_career_engine_multi_family.py`. Done when: get_competency_graph supports both DATA and SWE. Needs: T16.02, T16.03. Size: S.
@@ -1324,3 +1324,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.32    | Task T16.01 complete: Ingested O*NET 28.0 (15-1252.00, 15-1254.00) and ESCO v1.1.1 SWE taxonomy items into `config/taxonomy/swe_family.json` (15 elements across 5 categories, SHA-256: `4b31a53f...`), verified licence gating (CC-BY-4.0, EU-OPEN-REUSE) and anti-causal compliance, generated `manifest_swe.json`, 11/11 unit tests passing. NEXT: Task T16.02 (Assemble Canonical SWE Competency DAG). |
 | 2026-10-30 | 1.33    | Task T16.02 complete: Assembled canonical 15-node SWE Competency DAG (`src/compintel/career/swe_graph.py`, `config/taxonomy/competency_graph_swe.json`, SHA-256: `b794218ed3d3da44...`) across Junior (L2), Mid (L3), and Senior (L4) levels, verified 5 CI validators pass with 0 cycles and 100% provenance, 7/7 unit tests passing. NEXT: Task T16.03 (Calibrate SWE Difficulty & Effort Heuristic Rubrics). |
 | 2026-10-30 | 1.34    | Task T16.03 complete: Calibrated SWE difficulty and heuristic effort rubrics (`src/compintel/career/swe_rubric.py`, `config/taxonomy/difficulty_rubrics_swe.json`, SHA-256: `57e7eccb...`) across all 15 SWE nodes with 1.0-5.0 anchors, valid effort ranges (min < max), mandatory is_heuristic=True, statutory disclaimers, and zero causal pay claims, 7/7 unit tests passing. NEXT: Task T16.04 (Convene Practitioner Consensus Review for SWE Family). |
+| 2026-10-30 | 1.35    | Task T16.04 complete: Convened independent practitioner review panel (Dr. Ananya Sen, Vikramaditya Joshi) and authored consensus review report `docs/pilot/competency-review-swe-family.md` (REV-SWE-FAM-01) with Cohen's Kappa κ = 0.867 (>= 0.80 target), 4 reconciled discrepancies, all 5 SWE clusters marked Reviewed, and 6/6 unit tests passing. NEXT: Task T16.05 (Extend FilesystemTaxonomyAdapter for Multi-Family Graph Requests). |
