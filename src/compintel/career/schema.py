@@ -241,8 +241,8 @@ class CompetencyNode(BaseModel):
     title: str = Field(..., min_length=3, max_length=100)
     description: str = Field(..., min_length=10, max_length=1000)
     category: CompetencyCategory
-    role_family: Literal[RoleFamily.DATA] = Field(
-        default=RoleFamily.DATA, description="Scoped to DATA family in Phase 15"
+    role_family: RoleFamily = Field(
+        default=RoleFamily.DATA, description="Occupational role family (e.g. DATA, SWE)"
     )
     target_levels: list[RoleLevel] = Field(..., min_length=1)
     prerequisite_ids: list[str] = Field(default_factory=list)
@@ -263,7 +263,7 @@ class CompetencyGraphManifest(BaseModel):
 
     graph_id: str
     version: str
-    role_family: Literal[RoleFamily.DATA] = RoleFamily.DATA
+    role_family: RoleFamily = RoleFamily.DATA
     nodes: list[CompetencyNode]
     created_at: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}T.*Z$")
     checksum_sha256: str = Field(..., min_length=64, max_length=64)

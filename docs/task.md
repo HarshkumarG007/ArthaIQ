@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 16 In Progress (Phase 16 Underway: T16.01 Complete; T16.02 Active)            |
+| Status                         | Phase 16 In Progress (T16.01, T16.02 Complete; T16.03 Active)                       |
 | Last updated                   | 2026-10-30                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T16.02 Assemble Canonical SWE Competency DAG** (Phase 16 Underway: T16.01 SWE Taxonomy Ingestion Complete)
+**NEXT TASK: T16.03 Calibrate SWE Difficulty & Effort Heuristic Rubrics** (Phase 16 Underway: T16.02 SWE Competency DAG Complete)
 
 ## How to use this file
 
@@ -725,7 +725,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 - [x] **T16.01** [AI] Ingest O*NET 28.0 and ESCO v1.1.1 SWE taxonomy items into `config/taxonomy/swe_family.json` and generate `manifest_swe.json` with cryptographic SHA-256 verification and licence gating. (done 2026-10-30)
       Output: `config/taxonomy/swe_family.json`, `config/taxonomy/manifest_swe.json`, `tests/unit/test_career_swe_ingestion.py`. Done when: 15 elements validated, CC-BY-4.0 and EU-OPEN-REUSE verified, unit tests passing. Needs: Gate G15F. Size: S.
-- [ ] **T16.02** [AI] Assemble canonical 15-node SWE Competency DAG (`src/compintel/career/swe_graph.py`) across Junior (L2), Mid (L3), Senior (L4), and Staff (L5) levels; serialize `config/taxonomy/competency_graph_swe.json`.
+- [x] **T16.02** [AI] Assemble canonical 15-node SWE Competency DAG (`src/compintel/career/swe_graph.py`) across Junior (L2), Mid (L3), Senior (L4), and Staff (L5) levels; serialize `config/taxonomy/competency_graph_swe.json`. (done 2026-10-30)
       Output: `src/compintel/career/swe_graph.py`, `config/taxonomy/competency_graph_swe.json`, `tests/unit/test_career_swe_graph.py`. Done when: 15 nodes validated by 5 CI validators, 0 cycles, 100% provenance. Needs: T16.01. Size: M.
 - [ ] **T16.03** [AI] Calibrate SWE Difficulty & Effort Heuristic Rubrics (`config/taxonomy/difficulty_rubrics_swe.json`) across all 15 SWE nodes with statutory disclaimers and zero causal claims.
       Output: `config/taxonomy/difficulty_rubrics_swe.json`, `tests/unit/test_career_swe_rubric.py`. Done when: all 15 nodes calibrated with is_heuristic=True. Needs: T16.02. Size: S.

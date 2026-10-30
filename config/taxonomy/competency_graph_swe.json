@@ -1,0 +1,466 @@
+{
+  "checksum_sha256": "b794218ed3d3da442bace525668ffc6b919418e389a1c7cd6f4c15c2573d192d",
+  "created_at": "2026-10-30T12:00:00Z",
+  "graph_id": "competency-graph-swe-family-v1",
+  "nodes": [
+    {
+      "category": "application_development",
+      "description": "Design REST and gRPC API contracts with RFC 9457 problem details, semantic versioning, and strict idempotency keys for mutative endpoints.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "swe.arch.l2_api_design",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1254.00.T01",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Contract-First API Architecture and Idempotency"
+    },
+    {
+      "category": "application_development",
+      "description": "Implement circuit breakers, exponential backoff, bulkhead isolation, and graceful degradation in distributed microservices.",
+      "difficulty": {
+        "application_difficulty": 4.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.arch.l3_microservices",
+      "prerequisite_ids": [
+        "swe.arch.l2_api_design"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T04",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Microservice Resiliency and Fault Isolation"
+    },
+    {
+      "category": "application_development",
+      "description": "Architect transactional outbox patterns, message deduplication, at-least-once delivery guarantees, and dead-letter queue handling.",
+      "difficulty": {
+        "application_difficulty": 4.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.0,
+        "rationale": null
+      },
+      "id": "swe.arch.l4_event_driven",
+      "prerequisite_ids": [
+        "swe.arch.l3_microservices",
+        "swe.db.l3_query_perf"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T07",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        4
+      ],
+      "title": "Event-Driven Architecture and Asynchronous Messaging"
+    },
+    {
+      "category": "systems_architecture",
+      "description": "Design multithreaded and asynchronous routines using mutexes, read-write locks, atomic variables, and deadlock detection.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.core.l2_concurrency",
+      "prerequisite_ids": [
+        "swe.core.l2_data_structures"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T02",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Concurrency Primitives and Thread Safety"
+    },
+    {
+      "category": "systems_architecture",
+      "description": "Analyze asymptotic time and space complexity, hash collision strategies, and tree/graph representations for low-latency execution.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "swe.core.l2_data_structures",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T01",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Algorithmic Complexity and Core Data Structures"
+    },
+    {
+      "category": "systems_architecture",
+      "description": "Profile process heap allocation, identify memory leaks, manage connection lifecycles, and optimize allocator throughput.",
+      "difficulty": {
+        "application_difficulty": 4.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.core.l3_memory_perf",
+      "prerequisite_ids": [
+        "swe.core.l2_concurrency"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T03",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Memory Profiling and Resource Management"
+    },
+    {
+      "category": "application_development",
+      "description": "Optimize database query execution plans, design composite B-tree indexes, resolve table lock contention, and prevent N+1 query patterns.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.db.l3_query_perf",
+      "prerequisite_ids": [
+        "swe.arch.l2_api_design"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T05",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Relational Indexing and Query Performance"
+    },
+    {
+      "category": "dev_workflow",
+      "description": "Maintain clean trunk-based commit histories, atomic diffs, interactive rebase conflict resolution, and pull request hygiene.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "swe.gen.l2_git_hygiene",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.001",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Git Workflow and Trunk-Based Hygiene"
+    },
+    {
+      "category": "dev_workflow",
+      "description": "Author multi-stage container builds, non-root user execution, minimal attack surfaces, and reproducible image digest pinning.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "swe.ops.l2_container_docker",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.003",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Container Packaging and Minimal Base Images"
+    },
+    {
+      "category": "dev_workflow",
+      "description": "Configure reproducible deployment pipelines with canary gates, automated health checks, zero-downtime rollouts, and rollback triggers.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.ops.l3_cicd_pipeline",
+      "prerequisite_ids": [
+        "swe.gen.l2_git_hygiene",
+        "swe.ops.l2_container_docker",
+        "swe.test.l2_unit_tdd"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.005",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Hermetic CI/CD Pipelines and Automated Rollback"
+    },
+    {
+      "category": "security_reliability",
+      "description": "Instrument services with OpenTelemetry traces, RED metric collection, and correlation IDs across asynchronous log streams.",
+      "difficulty": {
+        "application_difficulty": 3.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.rel.l3_observability",
+      "prerequisite_ids": [
+        "swe.arch.l2_api_design"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.004",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Telemetry, Structured Logging and Distributed Tracing"
+    },
+    {
+      "category": "security_reliability",
+      "description": "Enforce OWASP Top 10 defenses including parametrized SQL statements, CSP headers, CSRF tokens, SSRF protection, and cryptographically secure tokens.",
+      "difficulty": {
+        "application_difficulty": 4.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 3.0,
+        "rationale": null
+      },
+      "id": "swe.sec.l3_owasp_top10",
+      "prerequisite_ids": [
+        "swe.arch.l2_api_design",
+        "swe.test.l2_unit_tdd"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1254.00.T02",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        3,
+        4
+      ],
+      "title": "Web Application Security and Input Sanitization"
+    },
+    {
+      "category": "security_reliability",
+      "description": "Implement envelope encryption, keyed hash message authentication, and verifiable zero-byte hard deletion under DPDP Act 2023 Sec 12.",
+      "difficulty": {
+        "application_difficulty": 5.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.0,
+        "rationale": null
+      },
+      "id": "swe.sec.l4_crypto_dpdp",
+      "prerequisite_ids": [
+        "swe.sec.l3_owasp_top10"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.006",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        4
+      ],
+      "title": "Cryptographic Privacy and Verifiable Purge Operations"
+    },
+    {
+      "category": "systems_architecture",
+      "description": "Evaluate distributed consensus protocols (Raft, Paxos), split-brain scenarios, leader election timeouts, and linearizable consistency.",
+      "difficulty": {
+        "application_difficulty": 5.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 4.0,
+        "rationale": null
+      },
+      "id": "swe.sys.l4_dist_consensus",
+      "prerequisite_ids": [
+        "swe.core.l3_memory_perf",
+        "swe.arch.l3_microservices"
+      ],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: O*NET 28.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET\u00ae is a trademark of USDOL/ETA. ArthaIQ has modified, selected, and restructured these competencies for career intelligence.",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "CC-BY-4.0",
+        "modified_flag": true,
+        "source_code": "15-1252.00.T06",
+        "source_id": "ONET-28.0"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        4
+      ],
+      "title": "Distributed Consensus and Replicated State"
+    },
+    {
+      "category": "testing_quality",
+      "description": "Author deterministic unit test suites with test doubles, hermetic fixture isolation, property testing, and high statement coverage.",
+      "difficulty": {
+        "application_difficulty": 2.0,
+        "effort_hours": null,
+        "is_heuristic": true,
+        "learning_difficulty": 2.0,
+        "rationale": null
+      },
+      "id": "swe.test.l2_unit_tdd",
+      "prerequisite_ids": [],
+      "provenance": {
+        "attribution_required": true,
+        "attribution_text": "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+        "curated_date": "2026-10-30",
+        "curator": "ArthaIQ Taxonomy Panel",
+        "license": "EU-OPEN-REUSE",
+        "modified_flag": true,
+        "source_code": "ESCO.SWE.002",
+        "source_id": "ESCO-1.1.1"
+      },
+      "role_family": "SWE",
+      "target_levels": [
+        2,
+        3
+      ],
+      "title": "Automated Unit Testing and Test Isolation"
+    }
+  ],
+  "role_family": "SWE",
+  "version": "1.0.0"
+}
