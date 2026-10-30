@@ -11,6 +11,7 @@ import {
   type ClientScenarioAttemptRecord,
   type TargetLevel,
 } from "../lib/careerLedger";
+import { GapMapView } from "../components/career/GapMapView";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
 
@@ -111,14 +112,6 @@ export function CareerRoute({
       console.error("Failed to purge data:", err);
     }
   };
-
-  const demonstratedCount = records.filter(
-    (r) => r.verification_state === "demonstrated"
-  ).length;
-  const selfReportedCount = records.filter(
-    (r) => r.verification_state === "self_reported"
-  ).length;
-  const unprovenCount = Math.max(0, 14 - (demonstratedCount + selfReportedCount));
 
   return (
     <div className="space-y-6">
@@ -350,56 +343,11 @@ export function CareerRoute({
           aria-labelledby="tab-skills"
           className="space-y-4"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-control border border-rule bg-sheet">
-              <span className="text-xs text-ink-3 uppercase font-medium">Demonstrated</span>
-              <p className="text-2xl font-serif font-bold text-ok mt-1">
-                {demonstratedCount}
-                <span className="text-xs font-sans font-normal text-ink-2 ml-1">/ 14</span>
-              </p>
-              <p className="text-xs text-ink-3 mt-1">Validated via technical practice scenarios</p>
-            </div>
-            <div className="p-4 rounded-control border border-rule bg-sheet">
-              <span className="text-xs text-ink-3 uppercase font-medium">Self-Reported</span>
-              <p className="text-2xl font-serif font-bold text-caution mt-1">
-                {selfReportedCount}
-                <span className="text-xs font-sans font-normal text-ink-2 ml-1">/ 14</span>
-              </p>
-              <p className="text-xs text-ink-3 mt-1">Attested from production work experience</p>
-            </div>
-            <div className="p-4 rounded-control border border-rule bg-sheet">
-              <span className="text-xs text-ink-3 uppercase font-medium">Unproven (Gaps)</span>
-              <p className="text-2xl font-serif font-bold text-ink mt-1">
-                {unprovenCount}
-                <span className="text-xs font-sans font-normal text-ink-2 ml-1">/ 14</span>
-              </p>
-              <p className="text-xs text-ink-3 mt-1">Target competencies requiring practice</p>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-control border border-rule bg-sheet">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-base font-serif font-semibold text-ink">
-                DATA Family Competency Graph
-              </h3>
-              <span className="text-xs px-2 py-0.5 rounded bg-sunken text-ink-2">
-                14 Nodes · 0 Cycles · O*NET & ESCO Provenance
-              </span>
-            </div>
-            <p className="text-xs text-ink-2 mb-4 leading-relaxed">
-              Every competency row displays required role level, your verified ledger state,
-              and satisfied prerequisites. Interactive graphical visualization canvas unlocks in Task T15.29.
-            </p>
-            <div className="p-4 rounded-control bg-sunken border border-rule text-xs text-ink-2">
-              <p className="font-semibold text-ink mb-1">
-                Rule R-CR-03 Invariant (State Beats Score):
-              </p>
-              <p>
-                ArthaIQ tracks discrete verification states (Unproven, Self-reported, Demonstrated)
-                rather than ungrounded percentage readiness scores.
-              </p>
-            </div>
-          </div>
+          <GapMapView
+            records={records}
+            onRecordUpdated={loadLocalData}
+            onNavigatePractice={() => handleSubViewSelect("practice")}
+          />
         </section>
       )}
 

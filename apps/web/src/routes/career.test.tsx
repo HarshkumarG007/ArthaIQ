@@ -181,7 +181,7 @@ describe("CareerRoute (T15.28 Career Architect View)", () => {
     const { container } = render(<CareerRoute initialSubView="skills" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/data family competency graph/i)).toBeInTheDocument();
+      expect(screen.getByTestId("gap-map-view")).toBeInTheDocument();
     });
 
     const results = await axe.run(container, AXE_OPTIONS);
