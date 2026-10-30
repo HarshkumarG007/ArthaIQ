@@ -14,6 +14,7 @@ import {
 import { GapMapView } from "../components/career/GapMapView";
 import { PracticeWorkspace } from "../components/career/PracticeWorkspace";
 import { RoadmapView } from "../components/career/RoadmapView";
+import { NextStepCard } from "../components/career/NextStepCard";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
 
@@ -33,6 +34,7 @@ export function CareerRoute({
   const [isLoading, setIsLoading] = useState(true);
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [showPurgeConfirm, setShowPurgeConfirm] = useState(false);
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string>("SCEN-DATA-01-SQL");
 
   // Form state for profile setup/editing
   const [formRole, setFormRole] = useState("Data Analyst");
@@ -267,6 +269,17 @@ export function CareerRoute({
         </div>
       )}
 
+      {/* Recommended Priority Next Step Card (T15.32) */}
+      <NextStepCard
+        profile={profile}
+        records={records}
+        onLaunchPractice={(scenarioId) => {
+          setSelectedScenarioId(scenarioId);
+          handleSubViewSelect("practice");
+        }}
+        onNavigateTab={(tab) => handleSubViewSelect(tab)}
+      />
+
       {/* Sub-Navigation Tabs */}
       <div className="border-b border-rule">
         <nav
@@ -376,7 +389,12 @@ export function CareerRoute({
           aria-labelledby="tab-practice"
           className="space-y-4"
         >
-          <PracticeWorkspace attempts={attempts} onAttemptCompleted={() => loadLocalData()} />
+          <PracticeWorkspace
+            key={selectedScenarioId}
+            initialScenarioId={selectedScenarioId}
+            attempts={attempts}
+            onAttemptCompleted={() => loadLocalData()}
+          />
         </section>
       )}
 
