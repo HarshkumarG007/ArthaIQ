@@ -6,8 +6,8 @@
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 20 Gates G0–G19 Ratified GO |
 | **Active Milestone** | **Phase 19 Complete (Gates G0–G19 Ratified GO)** |
 | **Active Subphase** | **Machine Learning & AI (MLAI) Role Family Inception Ratified** |
-| **Current Task** | **T20.01 Pilot Cohort Onboarding Consent & Privacy Gateway (Completed)** |
-| **Next Task** | **Phase 20: T20.02 Client-Side Privacy-Preserving Telemetry Aggregator** |
+| **Current Task** | **T20.02 Client-Side Differential/K-Anonymized Telemetry Aggregator (Completed)** |
+| **Next Task** | **Phase 20: T20.03 Build Live Pilot Cohort Telemetry & Quality Health Dashboard** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

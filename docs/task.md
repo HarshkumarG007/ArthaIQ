@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T20.02 Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics** (Phase 20 Underway: T20.01 Complete)
+**NEXT TASK: T20.03 Build Live Pilot Cohort Telemetry & Quality Health Dashboard** (Phase 20 Underway: T20.01 & T20.02 Complete)
 
 ## How to use this file
 
@@ -801,7 +801,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** 15-node acyclic DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified with 10/10 import contracts kept, 3 canonical MLAI scenarios pass deterministic scoring with sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass across 17 scenarios, Gate G19 ratified.
 > **NO-GO:** Stay in Phase 19 until all criteria met.
 
-**NEXT TASK: T20.02 Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics** (Phase 20 Underway: T20.01 Complete)
+**NEXT TASK: T20.03 Build Live Pilot Cohort Telemetry & Quality Health Dashboard** (Phase 20 Underway: T20.01 & T20.02 Complete)
 
 - [x] **T19.01** [AI] Ingest Machine Learning & AI taxonomy elements from O*NET 28.0 and ESCO v1.1.1 into `config/taxonomy/mlai_family.json` with statutory CC BY 4.0 / EU Open Reuse licensing and zero causal claims.
       Output: `config/taxonomy/mlai_family.json`, `src/compintel/career/mlai_taxonomy.py`, `tests/unit/test_career_mlai_taxonomy.py`. Done when: 15 MLAI elements pass Pydantic validation, provenance tracking, and zero causal promises. Needs: Gate G18 GO. Size: M.
@@ -833,11 +833,12 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** Cohort onboarding active, zero server-side PII/profile persistence (Rule `R-CR-12`), DPDP Sec 12 hard purge verified, telemetry dashboard tracks aggregate engagement without re-identification, Gate G20 ratified GO.
 > **NO-GO:** Stay in Phase 20 until all criteria met.
 
-**NEXT TASK: T20.01 Implement Pilot Cohort Onboarding Consent & Privacy Gateway** (Phase 20 Inception)
+**NEXT TASK: T20.03 Build Live Pilot Cohort Telemetry & Quality Health Dashboard** (Phase 20 Underway: T20.01 & T20.02 Complete)
 
 - [x] **T20.01** [AI+HUMAN] Implement Pilot Cohort Onboarding Consent & Privacy Gateway per DPDP Act 2023 Sec 6 and Section 2.3 of `RUNBOOK-CAREER-PILOT-01`. (done 2026-10-31)
       Output: `src/compintel/career/pilot_consent.py`, `apps/web/src/lib/pilotConsent.ts`, `apps/web/src/components/career/PilotConsentModal.tsx`, `tests/unit/test_pilot_consent.py`, `apps/web/src/components/career/PilotConsentModal.test.tsx`. Done when: statutory consent notice, age verification gate, single-click hard purge, and demographic stratification pass unit and Axe accessibility tests with 0 violations. Needs: Gate G19 GO. Size: M.
-- [ ] **T20.02** [AI] Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics.
+- [x] **T20.02** [AI] Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics. (done 2026-10-31)
+      Output: `src/compintel/monitoring/pilot_telemetry.py`, `apps/web/src/lib/pilotTelemetry.ts`, `tests/unit/test_pilot_telemetry.py`, `apps/web/src/lib/pilotTelemetry.test.ts`. Done when: k-anonymity (k >= 5) cell suppression, scorecard calculation for 10 M-STG metrics, local event logging (capped at 500 events), and DPDP Sec 12 hard purge pass unit tests with 0 PII retention. Needs: T20.01. Size: M.
 - [ ] **T20.03** [AI] Build Live Pilot Cohort Telemetry & Quality Health Dashboard.
 - [ ] **T20.04** [AI+HUMAN] Run Cohort Verification Audit & Convene Gate G20 Ratification Panel.
 

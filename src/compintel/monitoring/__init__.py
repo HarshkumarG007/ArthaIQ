@@ -48,6 +48,14 @@ from compintel.monitoring.metrics import (
     MetricsRegistry,
     get_metrics_registry,
 )
+from compintel.monitoring.pilot_telemetry import (
+    CellStratificationCount,
+    MetricStatusRecord,
+    PilotCohortTelemetryReport,
+    PilotTelemetryScorecard,
+    apply_k_anonymity,
+    build_default_pilot_scorecard,
+)
 from compintel.monitoring.recalibration import (
     ChallengerEvaluationResult,
     ConformalRecalibrationResult,
@@ -67,6 +75,7 @@ __all__ = [
     "AlertCategory",
     "AlertManager",
     "AlertSeverity",
+    "CellStratificationCount",
     "ChallengerEvaluationResult",
     "ConformalRecalibrationResult",
     "Counter",
@@ -82,10 +91,15 @@ __all__ = [
     "FreshnessStatus",
     "Gauge",
     "Histogram",
+    "MetricStatusRecord",
     "MetricsRegistry",
+    "PilotCohortTelemetryReport",
+    "PilotTelemetryScorecard",
     "SliceCoverageReport",
     "SourceFreshnessSLA",
     "WeeklyCoverageBucket",
+    "apply_k_anonymity",
+    "build_default_pilot_scorecard",
     "compute_ks",
     "compute_psi",
     "compute_wilson_confidence_interval",
