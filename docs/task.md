@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 19 Complete (Gates G0–G19 Ratified GO)                         |
+| Status                         | Phase 20 Complete (Gates G0–G20 Ratified GO)                         |
 | Last updated                   | 2026-10-31                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T20.04 Run Cohort Verification Audit & Convene Gate G20 Ratification Panel** (Phase 20 Final Stage: T20.01–T20.03 Complete)
+**NEXT TASK: Phase 21: T21.01 Implement Distributed Batch Inference Pipeline (ENG-17)** (Phase 20 Complete: Gate G20 Ratified GO)
 
 ## How to use this file
 
@@ -833,7 +833,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** Cohort onboarding active, zero server-side PII/profile persistence (Rule `R-CR-12`), DPDP Sec 12 hard purge verified, telemetry dashboard tracks aggregate engagement without re-identification, Gate G20 ratified GO.
 > **NO-GO:** Stay in Phase 20 until all criteria met.
 
-**NEXT TASK: T20.04 Run Cohort Verification Audit & Convene Gate G20 Ratification Panel** (Phase 20 Final Stage: T20.01–T20.03 Complete)
+**NEXT TASK: Phase 21: T21.01 Implement Distributed Batch Inference Pipeline (ENG-17)** (Phase 20 Complete: Gate G20 Ratified GO)
 
 - [x] **T20.01** [AI+HUMAN] Implement Pilot Cohort Onboarding Consent & Privacy Gateway per DPDP Act 2023 Sec 6 and Section 2.3 of `RUNBOOK-CAREER-PILOT-01`. (done 2026-10-31)
       Output: `src/compintel/career/pilot_consent.py`, `apps/web/src/lib/pilotConsent.ts`, `apps/web/src/components/career/PilotConsentModal.tsx`, `tests/unit/test_pilot_consent.py`, `apps/web/src/components/career/PilotConsentModal.test.tsx`. Done when: statutory consent notice, age verification gate, single-click hard purge, and demographic stratification pass unit and Axe accessibility tests with 0 violations. Needs: Gate G19 GO. Size: M.
@@ -841,9 +841,31 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `src/compintel/monitoring/pilot_telemetry.py`, `apps/web/src/lib/pilotTelemetry.ts`, `tests/unit/test_pilot_telemetry.py`, `apps/web/src/lib/pilotTelemetry.test.ts`. Done when: k-anonymity (k >= 5) cell suppression, scorecard calculation for 10 M-STG metrics, local event logging (capped at 500 events), and DPDP Sec 12 hard purge pass unit tests with 0 PII retention. Needs: T20.01. Size: M.
 - [x] **T20.03** [AI] Build Live Pilot Cohort Telemetry & Quality Health Dashboard. (done 2026-10-31)
       Output: `apps/web/src/routes/pilot.tsx`, `apps/web/src/components/career/PilotDashboard.tsx`, `apps/web/src/routes/pilot.test.tsx`, `apps/web/src/components/NavigationShell.tsx`, `apps/web/src/components/NavigationShell.test.tsx`. Done when: `/pilot` route, cohort stratification tracker ($N=150$), 10 M-STG scorecard items across decoupled panels (Two Streams, Two Places), $k$-anonymity suppression ($k \ge 5$), and single-click hard purge pass unit and Axe accessibility tests with 0 violations. Needs: T20.02. Size: M.
-- [ ] **T20.04** [AI+HUMAN] Run Cohort Verification Audit & Convene Gate G20 Ratification Panel.
+- [x] **T20.04** [AI+HUMAN] Run Cohort Verification Audit & Convene Gate G20 Ratification Panel. (done 2026-10-31)
+      Output: `scripts/run_pilot_cohort_audit.py`, `experiments/results/pilot_cohort_audit_v1.json`, `docs/pilot/gate-g20-review.md`, `tests/unit/test_phase20_gate_g20.py`. Done when: N=150 participant simulation passes 10/10 M-STG metrics, k-anonymity (k >= 5) confirmed, DPDP Sec 12 hard purge verified (0 bytes), and Gate G20 review dossier ratified GO (Decision D-036). Needs: T20.03. Size: M.
 
-**Gate G20:** Pilot Cohort Onboarding & Telemetry Dashboard ratified: consent gateway operational, zero server profile retention, privacy-preserving aggregate telemetry active, and Gate G20 ratified GO.
+**Gate G20:** Pilot Cohort Onboarding & Telemetry Dashboard ratified: consent gateway operational, zero server profile retention, privacy-preserving aggregate telemetry active, and Gate G20 ratified GO (2026-10-31, Decision D-036).
+
+---
+
+## Phase 21: Core Compensation Engine Backlog (ENG-17 & UX-18)
+
+> **Objective:** Operationalize core compensation engine scalability and interactive slice-level uncertainty diagnostics via distributed batch inference pipeline (`ENG-17`) and interactive slice-adaptive uncertainty visualizer (`UX-18`).
+> **Inputs and tools:** `src/compintel/`, `apps/web/`, `artifacts/champion_v0/`; Git, Python uv, Node/npm.
+> **Deliverables:** Distributed batch prediction pipeline (`src/compintel/serving/batch_pipeline.py`), interactive uncertainty slice visualizer component (`apps/web/src/components/SliceUncertaintyVisualizer.tsx`), automated test suites, Gate G21 review dossier.
+> **Effort (assumption):** 1 session.
+> **GO if:** Batch pipeline achieves $\ge 1{,}000\text{ predictions/sec}$ with full conformal interval calibration, slice visualizer renders empirical coverage diagnostics with 0 Axe violations, Gate G21 ratified GO.
+> **NO-GO:** Stay in Phase 21 until all criteria met.
+
+**NEXT TASK: T21.01 Implement Distributed Batch Inference Pipeline (ENG-17)** (Phase 21 Inception)
+
+- [ ] **T21.01** [AI] Implement Distributed Batch Inference Pipeline (`ENG-17`) supporting bulk enterprise compensation predictions with conformal interval calibration and chunked streaming.
+      Output: `src/compintel/serving/batch_pipeline.py`, `tests/unit/test_batch_pipeline.py`. Done when: streaming batch inference processes large CSV/JSON payloads with $\ge 1{,}000\text{ predictions/sec}$, preserving 80% coverage calibration and zero lone numbers. Needs: Gate G20 GO. Size: M.
+- [ ] **T21.02** [AI] Implement Interactive Slice-Adaptive Uncertainty Visualizer (`UX-18`).
+      Output: `apps/web/src/components/SliceUncertaintyVisualizer.tsx`, `apps/web/src/components/SliceUncertaintyVisualizer.test.tsx`. Done when: dynamic confidence slider (70%–95%), slice coverage diagnostics (city/role/experience bins), and 0 Axe Core violations pass tests. Needs: T21.01. Size: M.
+- [ ] **T21.03** [AI+HUMAN] Convene Gate G21 Ratification Review Panel.
+
+**Gate G21:** Core Compensation Engine Backlog ratified: batch inference pipeline operational at scale, slice-adaptive uncertainty visualizer integrated with 0 Axe violations, and Gate G21 ratified GO.
 
 ---
 

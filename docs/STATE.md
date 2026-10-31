@@ -3,11 +3,11 @@
 | Attribute | Current Value |
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
-| **Release Status** | **v1.2.0 Production Staging Deployed** · All 20 Gates G0–G19 Ratified GO |
-| **Active Milestone** | **Phase 19 Complete (Gates G0–G19 Ratified GO)** |
-| **Active Subphase** | **Machine Learning & AI (MLAI) Role Family Inception Ratified** |
-| **Current Task** | **T20.03 Live Pilot Cohort Telemetry & Quality Health Dashboard (Completed)** |
-| **Next Task** | **Phase 20: T20.04 Run Cohort Verification Audit & Convene Gate G20 Ratification Panel** |
+| **Release Status** | **v1.2.0 Production Staging Deployed** · All 21 Gates G0–G20 Ratified GO |
+| **Active Milestone** | **Phase 20 Complete (Gates G0–G20 Ratified GO)** |
+| **Active Subphase** | **Phase 21: Core Compensation Engine Backlog (ENG-17 & UX-18)** |
+| **Current Task** | **T20.04 Cohort Verification Audit & Gate G20 Ratification (Completed)** |
+| **Next Task** | **Phase 21: T21.01 Implement Distributed Batch Inference Pipeline (ENG-17)** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
@@ -41,11 +41,11 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 
 | ID | Date | Gate | Summary & Operational Impact |
 |:---|:---|:---|:---|
-| **D-031** | 2026-10-30 | **Gate G15F** | Ratified integrated Career Architect: end-to-end user journey across 4 sub-views, topological roadmap pacing slider, dynamic next-step action card, decoupled market pay overlay & honest abstention, 0 axe violations, and zero causal claims. |
 | **D-032** | 2026-10-30 | **Gate G16** | Ratified Software Engineering (SWE) Role Family Expansion: 15-node SWE DAG verified, practitioner consensus κ = 0.867, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. |
 | **D-033** | 2026-10-30 | **Gate G17** | Ratified Multi-Family Pilot Deployment & Production Staging: operational runbook (N=150), Nginx CSP hardened for Web Worker, 200 synthetic journeys audited, 10/10 M-STG metrics GO, zero causal promises, 0 Axe violations, local-first IndexedDB verified. |
 | **D-034** | 2026-10-31 | **Gate G18** | Ratified SWE Practice Scenario Corpus Expansion: 7 canonical SWE scenarios verified (14 total platform scenarios), practitioner consensus κ = 0.900, deterministic rubric scoring, sub-5ms latency, web UI integrated with 0 Axe violations, and 10/10 M-STG staging metrics pass. |
 | **D-035** | 2026-10-31 | **Gate G19** | Ratified Machine Learning & AI (MLAI) Role Family Inception: 15-node MLAI DAG verified, practitioner consensus κ = 0.867, deterministic rubric scoring, sub-5ms latency, web UI integrated with 0 Axe violations across 163 tests, and 10/10 M-STG staging metrics pass with 17 scenarios. |
+| **D-036** | 2026-10-31 | **Gate G20** | Ratified Live Pilot Cohort Onboarding & Telemetry Dashboard: statutory consent gateway (DPDP Sec 6 & 9), k-anonymized telemetry aggregator (k >= 5), real-time /pilot dashboard with decoupled panels (Two Streams Two Places), 10/10 M-STG metrics GO on N=150 cohort, 0 Axe violations across 183 web tests, single-click hard wipe (DPDP Sec 12, 0 bytes). |
 
 ---
 
