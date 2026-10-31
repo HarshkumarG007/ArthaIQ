@@ -5,9 +5,9 @@
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 22 Gates G0–G21 Ratified GO |
 | **Active Milestone** | **Phase 22 In Progress (MLAI Scenario Corpus Expansion)** |
-| **Active Subphase** | **Task T22.01 Author 4 Canonical Scenario JSON Definitions** |
-| **Current Task** | **T22.03 Comprehensive MLAI Expansion Automated Unit Test Suite (Completed)** |
-| **Next Task** | **T22.04 Staging Audit Simulation Across All 21 Canonical Scenarios** |
+| **Active Subphase** | **Task T22.05 Update Web UI Scenario Registry & Validate Accessibility** |
+| **Current Task** | **T22.04 Staging Audit Simulation Across All 21 Canonical Scenarios (Completed)** |
+| **Next Task** | **T22.05 Update Web UI Scenario Registry & Validate Accessibility** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

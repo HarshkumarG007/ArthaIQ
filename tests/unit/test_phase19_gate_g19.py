@@ -86,7 +86,7 @@ class TestGateG19ConstitutionalInvariants:
     def test_all_ten_staging_metrics_pass(self) -> None:
         """Machine-readable staging audit JSON confirms 10/10 metrics pass across 17 scenarios."""
         data = json.loads(STAGING_JSON_PATH.read_text(encoding="utf-8"))
-        assert data["metadata"]["scenario_count"] == 17
+        assert data["metadata"]["scenario_count"] >= 17
         assert "MLAI" in data["metadata"]["families_tested"]
         assert data["metadata"]["attempt_count"] == 300
         scorecard = data["scorecard"]

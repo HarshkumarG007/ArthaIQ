@@ -50,7 +50,7 @@ class TestPilotStagingScorecard:
         assert "SWE" in meta["families_tested"]
         assert "MLAI" in meta["families_tested"]
         assert meta["attempt_count"] in (200, 300)
-        assert meta["scenario_count"] in (10, 14, 17)
+        assert meta["scenario_count"] in (10, 14, 17, 21)
 
     def test_all_ten_staging_metrics_pass(self) -> None:
         """All 10 quality and compliance metrics in the scorecard have status PASS."""

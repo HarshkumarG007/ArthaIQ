@@ -879,7 +879,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** 4 scenarios validated against Pydantic schema with deterministic rubrics, panel consensus $\kappa \ge 0.85$, 10/10 staging metrics pass across 21 scenarios, 0 Axe Core violations, Gate G22 ratified GO.
 > **NO-GO:** Stay in Phase 22 until all criteria met.
 
-**NEXT TASK: Phase 22: T22.04 Execute Staging Audit Simulation Across All 21 Canonical Scenarios** (Phase 21 Complete: Gate G21 Ratified GO)
+**NEXT TASK: Phase 22: T22.05 Update Web UI Scenario Registry & Validate Accessibility** (Phase 21 Complete: Gate G21 Ratified GO)
 
 - [x] **T22.01** [AI] Author 4 Canonical Scenario JSON Definitions (`SCEN-MLAI-04-VEC`, `SCEN-MLAI-05-DIST`, `SCEN-MLAI-06-DRIFT`, `SCEN-MLAI-07-GUARD`). (done 2026-10-31)
       Output: `config/scenarios/scen_mlai_04_rag.json`, `config/scenarios/scen_mlai_05_distrib.json`, `config/scenarios/scen_mlai_06_drift.json`, `config/scenarios/scen_mlai_07_guard.json`. Done when: all 4 scenarios parse into `PracticeScenario` with 3-4 seeded defects, anti-causal (Rule R-CR-01) and anti-credential (Rule R-CR-11) checks pass. Needs: Gate G21 GO. Size: M.
@@ -887,7 +887,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/scenario-review-mlai-corpus-expansion.md`. Done when: 3 independent expert reviewers audit all 4 scenarios, adjudicating consensus with Cohen's/Fleiss' Kappa $\ge 0.85$. Needs: T22.01. Size: S.
 - [x] **T22.03** [AI] Implement Comprehensive MLAI Expansion Automated Unit Test Suite. (done 2026-10-31)
       Output: `tests/unit/test_career_scenarios_mlai_expansion.py`. Done when: test suite validates schema compliance, 100% deterministic rubric scoring (variance = 0.0), sub-5ms latency SLA, and zero answer key leakage. Needs: T22.01. Size: M.
-- [ ] **T22.04** [AI] Execute Staging Audit Simulation Across All 21 Canonical Scenarios.
+- [x] **T22.04** [AI] Execute Staging Audit Simulation Across All 21 Canonical Scenarios. (done 2026-10-31)
       Output: `experiments/results/career_pilot_staging_audit_v1.json`. Done when: simulation evaluates $N=21$ scenarios across 300 attempts, confirming 10/10 `M-STG` metrics continue to PASS. Needs: T22.01, T22.03. Size: S.
 - [ ] **T22.05** [AI] Update Web UI Scenario Registry & Validate Accessibility.
       Output: `apps/web/src/components/career/PracticeWorkspace.tsx`, web tests. Done when: UI renders all 21 scenarios across DATA, SWE, and MLAI tabs with 0 Axe Core violations. Needs: T22.01. Size: M.

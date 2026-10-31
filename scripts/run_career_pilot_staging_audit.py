@@ -36,7 +36,7 @@ from compintel.career.scenario_schema import (
 )
 from compintel.career.scenario_scorer import evaluate_scenario_attempt
 
-# ─── Canonical scenario corpus: DATA (7) + SWE (7) + MLAI (3) = 17 total ─────
+# ─── Canonical scenario corpus: DATA (7) + SWE (7) + MLAI (7) = 21 total ─────
 SCENARIO_PATHS_DATA = [
     Path("config/scenarios/scen_data_01_sql.json"),
     Path("config/scenarios/scen_data_02_eda.json"),
@@ -59,6 +59,10 @@ SCENARIO_PATHS_MLAI = [
     Path("config/scenarios/scen_mlai_01_tens.json"),
     Path("config/scenarios/scen_mlai_02_leak.json"),
     Path("config/scenarios/scen_mlai_03_deploy.json"),
+    Path("config/scenarios/scen_mlai_04_rag.json"),
+    Path("config/scenarios/scen_mlai_05_distrib.json"),
+    Path("config/scenarios/scen_mlai_06_drift.json"),
+    Path("config/scenarios/scen_mlai_07_guard.json"),
 ]
 
 OUTPUT_REPORT_PATH = Path("experiments/results/career_pilot_staging_audit_v1.json")
@@ -532,10 +536,10 @@ def main() -> None:
     print(" Evaluating 10 pre-registered staging metrics (M-STG-01 to M-STG-10)")
     print("=" * 80)
 
-    # Load all 17 canonical scenarios (7 DATA + 7 SWE + 3 MLAI)
+    # Load all 21 canonical scenarios (7 DATA + 7 SWE + 7 MLAI)
     scenarios = load_scenarios()
-    assert len(scenarios) == 17, f"Expected 17 canonical scenarios, got {len(scenarios)}"
-    print(f"[OK] Loaded {len(scenarios)} canonical scenarios (7 DATA, 7 SWE, 3 MLAI).")
+    assert len(scenarios) == 21, f"Expected 21 canonical scenarios, got {len(scenarios)}"
+    print(f"[OK] Loaded {len(scenarios)} canonical scenarios (7 DATA, 7 SWE, 7 MLAI).")
 
     # ── Simulate 300 synthetic attempts across all three families ────────────
     profile_types = ["expert", "partial", "overflagging", "empty"]
