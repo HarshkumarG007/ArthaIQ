@@ -935,15 +935,15 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** N=150 cohort completes journeys with $\ge 90\%$ comprehension, $\ge 95\%$ completion rate, $k$-anonymity suppression ($k \ge 5$), zero DPDP Act residual bytes on purge, zero causal claims, and Gate G24 ratified GO.
 > **NO-GO:** Stay in Phase 24 until all criteria met.
 
-**NEXT TASK: Phase 24: T24.01 Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`)** (Phase 23 Complete: Gate G23 Ratified GO)
+**NEXT TASK: Phase 24: T24.05 Convene Gate G24 Ratification Review Panel** (Phase 23 Complete: Gate G23 Ratified GO)
 
-- [ ] **T24.01** [AI] Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`).
+- [x] **T24.01** [AI] Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`). (done 2026-10-31)
       Output: `implementation-plan-pilot-field-run.md`. Done when: plan specifies cohort stratification, telemetry capture, privacy guardrails, and gate verification rubric. Needs: Gate G23 GO. Size: S.
-- [ ] **T24.02** [AI] Execute Field Cohort Simulation & Live Telemetry Collection.
+- [x] **T24.02** [AI] Execute Field Cohort Simulation & Live Telemetry Collection. (done 2026-10-31)
       Output: `experiments/results/pilot_field_run_v1.json`. Done when: N=150 cohort simulated across DATA, SWE, MLAI with telemetry recorded. Needs: T24.01. Size: M.
-- [ ] **T24.03** [AI] Verify Real-Time Telemetry Aggregation & Dashboard Integrity.
+- [x] **T24.03** [AI] Verify Real-Time Telemetry Aggregation & Dashboard Integrity. (done 2026-10-31)
       Output: `apps/web/src/components/career/PilotDashboard.tsx` validation. Done when: pre-registered M-STG metrics evaluate cleanly with $k$-anonymity. Needs: T24.02. Size: S.
-- [ ] **T24.04** [AI] Verify Section 12 Right to Erasure & Audit Trail.
+- [x] **T24.04** [AI] Verify Section 12 Right to Erasure & Audit Trail. (done 2026-10-31)
       Output: Verification report and unit tests. Done when: hard purge yields 0 residual bytes and audit logs verify deletion. Needs: T24.02. Size: S.
 - [ ] **T24.05** [AI+HUMAN] Convene Gate G24 Ratification Review Panel.
       Output: `docs/pilot/gate-g24-review.md`, `tests/unit/test_phase24_gate_g24.py`. Done when: dossier ratified GO (Decision D-040), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T24.01-T24.04. Size: S.

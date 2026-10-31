@@ -1,0 +1,78 @@
+{
+  "run_id": "RUN-PILOT-FIELD-01",
+  "timestamp": "2026-10-31T23:19:25.866682+00:00",
+  "total_participants": 150,
+  "family_breakdown": {
+    "DATA": 50,
+    "SWE": 50,
+    "MLAI": 50
+  },
+  "active_scenarios_evaluated": 21,
+  "k_anonymity_threshold": 5,
+  "clear_cells_count": 12,
+  "suppressed_cells_count": 9,
+  "total_scenario_attempts": 300,
+  "p95_scoring_latency_ms": 0.020600003699655645,
+  "scoring_variance": 0.0,
+  "storage_footprint_kb": 8.59,
+  "purge_residual_bytes": 0,
+  "causal_violations": 0,
+  "credential_violations": 0,
+  "two_streams_decoupled": true,
+  "dag_monotonicity": true,
+  "scorecard": {
+    "m_stg_01_calibration_comprehension": {
+      "target": ">= 90%",
+      "observed": "100.0%",
+      "status": "PASS"
+    },
+    "m_stg_02_task_completion_rate": {
+      "target": ">= 95%",
+      "observed": "100.0%",
+      "status": "PASS"
+    },
+    "m_stg_03_deterministic_scoring_variance": {
+      "target": "sigma^2 == 0.000",
+      "observed": "0.000000",
+      "status": "PASS"
+    },
+    "m_stg_04_scoring_latency_p95_ms": {
+      "target": "<= 5.0 ms",
+      "observed": "0.0206 ms",
+      "status": "PASS"
+    },
+    "m_stg_05_local_storage_footprint_kb": {
+      "target": "<= 100 KB",
+      "observed": "8.59 KB",
+      "status": "PASS"
+    },
+    "m_stg_06_dpdp_sec12_purge_residual_bytes": {
+      "target": "== 0 bytes",
+      "observed": "0 bytes",
+      "status": "PASS"
+    },
+    "m_stg_07_zero_causal_promises": {
+      "target": "0 violations",
+      "observed": "0 violations",
+      "status": "PASS"
+    },
+    "m_stg_08_anti_credentialism": {
+      "target": "0 violations",
+      "observed": "0 violations",
+      "status": "PASS"
+    },
+    "m_stg_09_two_streams_two_places": {
+      "target": "100% decoupled",
+      "observed": "100% decoupled",
+      "status": "PASS"
+    },
+    "m_stg_10_cross_family_dag_monotonicity": {
+      "target": "100%",
+      "observed": "100% monotonic",
+      "status": "PASS"
+    }
+  },
+  "all_metrics_pass": true,
+  "verdict": "GO",
+  "gate": "Gate G24 (Live Pilot Participant Cohort Onboarding & Field Run)"
+}

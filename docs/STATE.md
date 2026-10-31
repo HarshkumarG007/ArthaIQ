@@ -5,9 +5,9 @@
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 24 Gates G0–G23 Ratified GO |
 | **Active Milestone** | **Phase 24 In Progress (Live Pilot Participant Cohort Onboarding & Field Run)** |
-| **Active Subphase** | **Task T24.01 Author Implementation Plan for Live Pilot Field Run** |
-| **Current Task** | **T23.06 Convene Gate G23 Ratification Review Panel (Completed)** |
-| **Next Task** | **T24.01 Author Implementation Plan for Live Pilot Field Run (PLAN-PILOT-FIELD-RUN-01)** |
+| **Active Subphase** | **Task T24.05 Convene Gate G24 Ratification Review Panel** |
+| **Current Task** | **T24.01-T24.04 Cohort Simulation & Erasure Audit (Completed)** |
+| **Next Task** | **T24.05 Convene Gate G24 Ratification Review Panel** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
