@@ -3,11 +3,11 @@
 | Attribute | Current Value |
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
-| **Release Status** | **v1.2.0 Production Staging Deployed** · All 21 Gates G0–G20 Ratified GO |
-| **Active Milestone** | **Phase 20 Complete (Gates G0–G20 Ratified GO)** |
-| **Active Subphase** | **Phase 21: Core Compensation Engine Backlog (ENG-17 & UX-18)** |
-| **Current Task** | **T21.02 Implement Interactive Slice-Adaptive Uncertainty Visualizer (UX-18) (Completed)** |
-| **Next Task** | **Phase 21: T21.03 Convene Gate G21 Ratification Review Panel** |
+| **Release Status** | **v1.2.0 Production Staging Deployed** · All 22 Gates G0–G21 Ratified GO |
+| **Active Milestone** | **Phase 21 Complete (Gates G0–G21 Ratified GO)** |
+| **Active Subphase** | **Post-Phase 21 Platform Roadmap Assessment & Next Milestone Inception** |
+| **Current Task** | **T21.03 Convene Gate G21 Ratification Review Panel (Completed)** |
+| **Next Task** | **Post-Phase 21 Platform Roadmap Assessment & Next Milestone Inception** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
@@ -41,11 +41,11 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 
 | ID | Date | Gate | Summary & Operational Impact |
 |:---|:---|:---|:---|
-| **D-032** | 2026-10-30 | **Gate G16** | Ratified Software Engineering (SWE) Role Family Expansion: 15-node SWE DAG verified, practitioner consensus κ = 0.867, deterministic rubric scoring, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. |
 | **D-033** | 2026-10-30 | **Gate G17** | Ratified Multi-Family Pilot Deployment & Production Staging: operational runbook (N=150), Nginx CSP hardened for Web Worker, 200 synthetic journeys audited, 10/10 M-STG metrics GO, zero causal promises, 0 Axe violations, local-first IndexedDB verified. |
 | **D-034** | 2026-10-31 | **Gate G18** | Ratified SWE Practice Scenario Corpus Expansion: 7 canonical SWE scenarios verified (14 total platform scenarios), practitioner consensus κ = 0.900, deterministic rubric scoring, sub-5ms latency, web UI integrated with 0 Axe violations, and 10/10 M-STG staging metrics pass. |
 | **D-035** | 2026-10-31 | **Gate G19** | Ratified Machine Learning & AI (MLAI) Role Family Inception: 15-node MLAI DAG verified, practitioner consensus κ = 0.867, deterministic rubric scoring, sub-5ms latency, web UI integrated with 0 Axe violations across 163 tests, and 10/10 M-STG staging metrics pass with 17 scenarios. |
 | **D-036** | 2026-10-31 | **Gate G20** | Ratified Live Pilot Cohort Onboarding & Telemetry Dashboard: statutory consent gateway (DPDP Sec 6 & 9), k-anonymized telemetry aggregator (k >= 5), real-time /pilot dashboard with decoupled panels (Two Streams Two Places), 10/10 M-STG metrics GO on N=150 cohort, 0 Axe violations across 183 web tests, single-click hard wipe (DPDP Sec 12, 0 bytes). |
+| **D-037** | 2026-10-31 | **Gate G21** | Ratified Core Compensation Engine Backlog (ENG-17 & UX-18): Distributed Batch Inference Pipeline operational at 46,860.8 pred/sec (> 46x SLA), split conformal calibration [P10, P50, P90] with 80% coverage, memory-capped streaming generators (heap <= 256MB), and honest abstention; Interactive Slice-Adaptive Uncertainty Visualizer with dynamic coverage slider (70%-95%), cross-slice diagnostics across 6 Metros and 4 Seniority Strata, accessible table view toggle, 0 Axe violations across 191 web tests, clean production build; zero lone numbers (Rule R-UQ-01) and zero causal claims (Rule R-CR-01). |
 
 ---
 

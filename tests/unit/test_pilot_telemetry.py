@@ -127,4 +127,3 @@ class TestPilotCohortTelemetryReport:
                 mlai_participants=50,  # 40 + 50 + 50 = 140 != 150
                 scorecard=sc,
             )
-

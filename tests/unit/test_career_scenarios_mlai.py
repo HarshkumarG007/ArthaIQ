@@ -314,4 +314,3 @@ class TestMLAIScoringEngineExecution:
         # p95 latency SLA (< 5.0ms)
         p95_latency = statistics.quantiles(latencies_ms, n=100)[94]
         assert p95_latency < 5.0, f"p95 latency {p95_latency:.3f}ms exceeds 5.0ms SLA"
-

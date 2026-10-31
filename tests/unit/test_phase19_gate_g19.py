@@ -105,4 +105,3 @@ class TestGateG19ConstitutionalInvariants:
         assert "boost your pay" not in dossier_text
         assert "will earn" not in dossier_text
         assert "guaranteed salary" not in dossier_text
-
