@@ -504,6 +504,249 @@ export const CANONICAL_SWE_COMPETENCIES: CompetencyDataNode[] = [
   },
 ];
 
+export const CANONICAL_MLAI_COMPETENCIES: CompetencyDataNode[] = [
+  {
+    id: "mlai.math.l2_linear_algebra",
+    title: "Linear Algebra and High-Dimensional Matrix Operations",
+    category: "math_optimization",
+    category_label: "Mathematical Foundations & Optimization",
+    description: "Formulate and compute high-dimensional tensor transformations, matrix decompositions, and inner product projections in multidimensional vector spaces.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.math.l2_convex_opt",
+    title: "Convex Optimization and Loss Landscape Analysis",
+    category: "math_optimization",
+    category_label: "Mathematical Foundations & Optimization",
+    description: "Analyze loss function geometries, gradient descent convergence guarantees, dual formulations, and convex constraint boundaries.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.5,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.core.l2_neural_backprop",
+    title: "Deep Neural Architectures and Backpropagation Dynamics",
+    category: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    description: "Implement feedforward, convolutional, and recurrent computational graphs with automatic differentiation, layer normalization, and residual connections.",
+    target_levels: [2, 3],
+    prerequisite_ids: ["mlai.math.l2_linear_algebra"],
+    learning_difficulty: 2.5,
+    application_difficulty: 2.5,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.ops.l2_model_registry",
+    title: "Model Registry, Lineage and Artifact Versioning",
+    category: "mlops_infrastructure",
+    category_label: "MLOps & Infrastructure",
+    description: "Track model artifacts, weights, evaluation metrics, and hyperparameter lineages across training runs using immutable content-addressable storage.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "mlai.eval.l2_leakage_audit",
+    title: "Sliced Evaluation, Data Leakage and Disparate Performance Auditing",
+    category: "evaluation_governance",
+    category_label: "Evaluation & Governance",
+    description: "Audit training sets against data contamination, lookahead leakage, temporal distribution shifts, and disaggregated demographic performance disparities.",
+    target_levels: [2, 3],
+    prerequisite_ids: [],
+    learning_difficulty: 2.5,
+    application_difficulty: 2.5,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "mlai.math.l3_stochastic_opt",
+    title: "Stochastic Optimization and Adaptive Learning Rates",
+    category: "math_optimization",
+    category_label: "Mathematical Foundations & Optimization",
+    description: "Tune adaptive momentum optimizers (AdamW, Adafactor), cyclical learning schedules, warmup decays, and gradient clipping to stabilize non-convex convergence.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["mlai.math.l2_convex_opt"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.core.l3_transformer_attn",
+    title: "Self-Attention Mechanics and Transformer Architectures",
+    category: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    description: "Construct scaled dot-product attention, multi-head projections, causal sequence masking, and rotary position embeddings for autoregressive generation.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["mlai.core.l2_neural_backprop"],
+    learning_difficulty: 3.5,
+    application_difficulty: 3.5,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.core.l3_repr_learning",
+    title: "Representation Learning and Contrastive Embeddings",
+    category: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    description: "Train semantic embedding vector representations using contrastive infoNCE objectives, in-batch negatives, and metric learning projections.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["mlai.core.l2_neural_backprop"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.core.l3_peft_finetune",
+    title: "Transfer Learning and Parameter-Efficient Fine-Tuning",
+    category: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    description: "Adapt pre-trained foundation models using Low-Rank Adaptation (LoRA), quantized QLoRA adapters, prefix tuning, and selective rank decomposition.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["mlai.core.l3_transformer_attn"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "mlai.eval.l3_conformal_calib",
+    title: "Calibration and Split Conformal Uncertainty Estimation",
+    category: "evaluation_governance",
+    category_label: "Evaluation & Governance",
+    description: "Quantify predictive uncertainty using temperature scaling, expected calibration error (ECE), and finite-sample distribution-free split conformal intervals.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["mlai.eval.l2_leakage_audit"],
+    learning_difficulty: 3.5,
+    application_difficulty: 3.5,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.gen.l3_guardrails",
+    title: "Hallucination Mitigation and Output Guardrails",
+    category: "generative_alignment",
+    category_label: "Generative AI & Alignment",
+    description: "Constrain model generation using context-free grammars (CFGs), deterministic token logit masks, semantic consistency verification, and adversarial defense.",
+    target_levels: [3, 4],
+    prerequisite_ids: ["mlai.core.l3_transformer_attn"],
+    learning_difficulty: 3.0,
+    application_difficulty: 3.5,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "mlai.ops.l4_dist_training",
+    title: "Distributed Training and Tensor Sharding",
+    category: "mlops_infrastructure",
+    category_label: "MLOps & Infrastructure",
+    description: "Scale model training across multi-node GPU clusters using Fully Sharded Data Parallel (FSDP), ZeRO redundancy optimizer, pipeline parallelism, and Megatron tensor sharding.",
+    target_levels: [4],
+    prerequisite_ids: ["mlai.core.l3_transformer_attn", "mlai.ops.l2_model_registry"],
+    learning_difficulty: 4.0,
+    application_difficulty: 4.5,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+  {
+    id: "mlai.ops.l4_quant_serving",
+    title: "Model Quantization and Low-Latency Serving",
+    category: "mlops_infrastructure",
+    category_label: "MLOps & Infrastructure",
+    description: "Optimize inference throughput and TTFT latency using post-training quantization (AWQ, GPTQ, FP8), continuous batching, and PagedAttention memory management.",
+    target_levels: [4],
+    prerequisite_ids: ["mlai.core.l3_peft_finetune"],
+    learning_difficulty: 4.0,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "mlai.eval.l4_dpdp_privacy",
+    title: "Privacy-Preserving Machine Learning and Verifiable Erasure",
+    category: "evaluation_governance",
+    category_label: "Evaluation & Governance",
+    description: "Implement differentially private stochastic gradient descent (DP-SGD), influence function unlearning, and verifiable hard weight purge under DPDP Act 2023 Sec 12.",
+    target_levels: [4],
+    prerequisite_ids: ["mlai.eval.l2_leakage_audit"],
+    learning_difficulty: 4.0,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ESCO-1.1.1",
+      license: "EU-OPEN-REUSE",
+      attribution_text: "Source: European Skills, Competences, Qualifications and Occupations (ESCO v1.1.1), European Commission. Reused and adapted under European Commission open reuse policy (Decision 2011/833/EU).",
+    },
+  },
+  {
+    id: "mlai.gen.l4_preference_dpo",
+    title: "Preference Optimization and Alignment Algorithms",
+    category: "generative_alignment",
+    category_label: "Generative AI & Alignment",
+    description: "Align generative models to human preferences using Bradley-Terry formulations, Direct Preference Optimization (DPO), and policy gradient reward stabilization.",
+    target_levels: [4],
+    prerequisite_ids: ["mlai.core.l3_transformer_attn", "mlai.gen.l3_guardrails"],
+    learning_difficulty: 4.5,
+    application_difficulty: 4.0,
+    provenance: {
+      source_id: "ONET-28.0",
+      license: "CC-BY-4.0",
+      attribution_text: "Source: O*NET 28.0 Database by USDOL/ETA. Used under CC BY 4.0 license. Restructured by ArthaIQ for career intelligence.",
+    },
+  },
+];
+
 interface GapMapViewProps {
   records: ClientEvidenceRecord[];
   onRecordUpdated?: () => void;
@@ -524,15 +767,17 @@ export function GapMapView({
   const [provenanceModalNode, setProvenanceModalNode] = useState<CompetencyDataNode | null>(null);
 
   const activeCompetencies = useMemo(() => {
-    return activeFamily.toUpperCase() === "SWE"
-      ? CANONICAL_SWE_COMPETENCIES
-      : CANONICAL_DATA_COMPETENCIES;
+    const fam = activeFamily.toUpperCase();
+    if (fam === "SWE") return CANONICAL_SWE_COMPETENCIES;
+    if (fam === "MLAI") return CANONICAL_MLAI_COMPETENCIES;
+    return CANONICAL_DATA_COMPETENCIES;
   }, [activeFamily]);
 
   const allCompetenciesMap = useMemo(() => {
     const map = new Map<string, CompetencyDataNode>();
     for (const c of CANONICAL_DATA_COMPETENCIES) map.set(c.id, c);
     for (const c of CANONICAL_SWE_COMPETENCIES) map.set(c.id, c);
+    for (const c of CANONICAL_MLAI_COMPETENCIES) map.set(c.id, c);
     return map;
   }, []);
 
@@ -676,6 +921,21 @@ export function GapMapView({
           aria-label="View Software Engineering competencies"
         >
           Software Engineering ({CANONICAL_SWE_COMPETENCIES.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveFamily("MLAI");
+            setSelectedCategory("all");
+          }}
+          className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
+            activeFamily.toUpperCase() === "MLAI"
+              ? "bg-span text-on-span shadow-xs"
+              : "border border-rule text-ink-2 hover:bg-sunken"
+          }`}
+          aria-label="View Machine Learning & AI competencies"
+        >
+          Machine Learning & AI ({CANONICAL_MLAI_COMPETENCIES.length})
         </button>
       </div>
 

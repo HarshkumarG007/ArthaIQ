@@ -382,6 +382,180 @@ export const CANONICAL_SWE_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
   },
 ];
 
+export const CANONICAL_MLAI_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
+  {
+    id: "mlai.math.l2_linear_algebra",
+    title: "Linear Algebra and High-Dimensional Matrix Operations",
+    cluster: "math_optimization",
+    category_label: "Mathematical Foundations & Optimization",
+    min_hours: 15,
+    max_hours: 30,
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "mlai.math.l2_convex_opt",
+    title: "Convex Optimization and Loss Landscape Analysis",
+    cluster: "math_optimization",
+    category_label: "Mathematical Foundations & Optimization",
+    min_hours: 20,
+    max_hours: 35,
+    learning_difficulty: 2.5,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "mlai.core.l2_neural_backprop",
+    title: "Deep Neural Architectures and Backpropagation Dynamics",
+    cluster: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    min_hours: 20,
+    max_hours: 40,
+    learning_difficulty: 2.5,
+    application_difficulty: 2.5,
+    prerequisite_ids: ["mlai.math.l2_linear_algebra"],
+    associated_scenario_id: "SCEN-MLAI-01-TENS",
+    associated_scenario_title: "PyTorch Mini-Batch Training Loop Review",
+  },
+  {
+    id: "mlai.ops.l2_model_registry",
+    title: "Model Registry, Lineage and Artifact Versioning",
+    cluster: "mlops_infrastructure",
+    category_label: "MLOps & Infrastructure",
+    min_hours: 15,
+    max_hours: 30,
+    learning_difficulty: 2.0,
+    application_difficulty: 2.0,
+    prerequisite_ids: [],
+  },
+  {
+    id: "mlai.eval.l2_leakage_audit",
+    title: "Sliced Evaluation, Data Leakage and Disparate Performance Auditing",
+    cluster: "evaluation_governance",
+    category_label: "Evaluation & Governance",
+    min_hours: 20,
+    max_hours: 35,
+    learning_difficulty: 2.5,
+    application_difficulty: 2.5,
+    prerequisite_ids: [],
+  },
+  {
+    id: "mlai.math.l3_stochastic_opt",
+    title: "Stochastic Optimization and Adaptive Learning Rates",
+    cluster: "math_optimization",
+    category_label: "Mathematical Foundations & Optimization",
+    min_hours: 25,
+    max_hours: 45,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["mlai.math.l2_convex_opt"],
+  },
+  {
+    id: "mlai.core.l3_transformer_attn",
+    title: "Self-Attention Mechanics and Transformer Architectures",
+    cluster: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    min_hours: 35,
+    max_hours: 60,
+    learning_difficulty: 3.5,
+    application_difficulty: 3.5,
+    prerequisite_ids: ["mlai.core.l2_neural_backprop"],
+    associated_scenario_id: "SCEN-MLAI-02-LEAK",
+    associated_scenario_title: "Autoregressive Decoder Attention Block Review",
+  },
+  {
+    id: "mlai.core.l3_repr_learning",
+    title: "Representation Learning and Contrastive Embeddings",
+    cluster: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    min_hours: 30,
+    max_hours: 50,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["mlai.core.l2_neural_backprop"],
+  },
+  {
+    id: "mlai.core.l3_peft_finetune",
+    title: "Transfer Learning and Parameter-Efficient Fine-Tuning",
+    cluster: "deep_learning",
+    category_label: "Deep Learning Architectures",
+    min_hours: 25,
+    max_hours: 50,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.0,
+    prerequisite_ids: ["mlai.core.l3_transformer_attn"],
+  },
+  {
+    id: "mlai.eval.l3_conformal_calib",
+    title: "Calibration and Split Conformal Uncertainty Estimation",
+    cluster: "evaluation_governance",
+    category_label: "Evaluation & Governance",
+    min_hours: 30,
+    max_hours: 55,
+    learning_difficulty: 3.5,
+    application_difficulty: 3.5,
+    prerequisite_ids: ["mlai.eval.l2_leakage_audit"],
+  },
+  {
+    id: "mlai.gen.l3_guardrails",
+    title: "Hallucination Mitigation and Output Guardrails",
+    cluster: "generative_alignment",
+    category_label: "Generative AI & Alignment",
+    min_hours: 25,
+    max_hours: 45,
+    learning_difficulty: 3.0,
+    application_difficulty: 3.5,
+    prerequisite_ids: ["mlai.core.l3_transformer_attn"],
+  },
+  {
+    id: "mlai.ops.l4_dist_training",
+    title: "Distributed Training and Tensor Sharding",
+    cluster: "mlops_infrastructure",
+    category_label: "MLOps & Infrastructure",
+    min_hours: 45,
+    max_hours: 80,
+    learning_difficulty: 4.0,
+    application_difficulty: 4.5,
+    prerequisite_ids: ["mlai.core.l3_transformer_attn", "mlai.ops.l2_model_registry"],
+  },
+  {
+    id: "mlai.ops.l4_quant_serving",
+    title: "Model Quantization and Low-Latency Serving",
+    cluster: "mlops_infrastructure",
+    category_label: "MLOps & Infrastructure",
+    min_hours: 40,
+    max_hours: 75,
+    learning_difficulty: 4.0,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["mlai.core.l3_peft_finetune"],
+    associated_scenario_id: "SCEN-MLAI-03-DEPLOY",
+    associated_scenario_title: "FastAPI Low-Latency LLM Serving Route Review",
+  },
+  {
+    id: "mlai.eval.l4_dpdp_privacy",
+    title: "Privacy-Preserving Machine Learning and Verifiable Erasure",
+    cluster: "evaluation_governance",
+    category_label: "Evaluation & Governance",
+    min_hours: 35,
+    max_hours: 70,
+    learning_difficulty: 4.0,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["mlai.eval.l2_leakage_audit"],
+  },
+  {
+    id: "mlai.gen.l4_preference_dpo",
+    title: "Preference Optimization and Alignment Algorithms",
+    cluster: "generative_alignment",
+    category_label: "Generative AI & Alignment",
+    min_hours: 45,
+    max_hours: 85,
+    learning_difficulty: 4.5,
+    application_difficulty: 4.0,
+    prerequisite_ids: ["mlai.core.l3_transformer_attn", "mlai.gen.l3_guardrails"],
+  },
+];
+
 export const PACING_OPTIONS = [
   { hours: 5, label: "Casual", description: "5 hours / week (Balanced pace)" },
   { hours: 10, label: "Recommended", description: "10 hours / week (Optimal progress)" },
@@ -409,9 +583,10 @@ export function RoadmapView({
   const [filterState, setFilterState] = useState<"all" | "unproven" | "actionable">("all");
 
   const activeMilestones = useMemo(() => {
-    return activeFamily.toUpperCase() === "SWE"
-      ? CANONICAL_SWE_ROADMAP_MILESTONES
-      : CANONICAL_ROADMAP_MILESTONES;
+    const fam = activeFamily.toUpperCase();
+    if (fam === "SWE") return CANONICAL_SWE_ROADMAP_MILESTONES;
+    if (fam === "MLAI") return CANONICAL_MLAI_ROADMAP_MILESTONES;
+    return CANONICAL_ROADMAP_MILESTONES;
   }, [activeFamily]);
 
   // Map of verified competency states
@@ -536,6 +711,18 @@ export function RoadmapView({
           aria-label="View Software Engineering roadmap"
         >
           Software Engineering ({CANONICAL_SWE_ROADMAP_MILESTONES.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveFamily("MLAI")}
+          className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
+            activeFamily.toUpperCase() === "MLAI"
+              ? "bg-span text-on-span shadow-xs"
+              : "border border-rule text-ink-2 hover:bg-sunken"
+          }`}
+          aria-label="View Machine Learning & AI roadmap"
+        >
+          Machine Learning & AI ({CANONICAL_MLAI_ROADMAP_MILESTONES.length})
         </button>
       </div>
 

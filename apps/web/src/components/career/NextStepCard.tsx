@@ -3,6 +3,7 @@ import type { ClientEvidenceRecord, ClientCareerProfile } from "../../lib/career
 import {
   CANONICAL_ROADMAP_MILESTONES,
   CANONICAL_SWE_ROADMAP_MILESTONES,
+  CANONICAL_MLAI_ROADMAP_MILESTONES,
   type RoadmapMilestoneData,
 } from "./RoadmapView";
 import {
@@ -61,6 +62,25 @@ export const SWE_COMPETENCY_TARGET_LEVELS: Record<string, number> = {
   "swe.sec.l4_crypto_dpdp": 4,
 };
 
+// Level requirement map for canonical MLAI milestones (Level 2 = Junior, 3 = Mid, 4 = Senior)
+export const MLAI_COMPETENCY_TARGET_LEVELS: Record<string, number> = {
+  "mlai.math.l2_linear_algebra": 2,
+  "mlai.math.l2_convex_opt": 2,
+  "mlai.core.l2_neural_backprop": 2,
+  "mlai.ops.l2_model_registry": 2,
+  "mlai.eval.l2_leakage_audit": 2,
+  "mlai.math.l3_stochastic_opt": 3,
+  "mlai.core.l3_transformer_attn": 3,
+  "mlai.core.l3_repr_learning": 3,
+  "mlai.core.l3_peft_finetune": 3,
+  "mlai.eval.l3_conformal_calib": 3,
+  "mlai.gen.l3_guardrails": 3,
+  "mlai.ops.l4_dist_training": 4,
+  "mlai.ops.l4_quant_serving": 4,
+  "mlai.eval.l4_dpdp_privacy": 4,
+  "mlai.gen.l4_preference_dpo": 4,
+};
+
 export const NextStepCard: React.FC<NextStepCardProps> = ({
   profile,
   records,
@@ -85,9 +105,19 @@ export const NextStepCard: React.FC<NextStepCardProps> = ({
     return 3;
   }, [profile]);
 
-  const isSweFamily = profile?.target_family?.toUpperCase() === "SWE";
-  const allMilestones = isSweFamily ? CANONICAL_SWE_ROADMAP_MILESTONES : CANONICAL_ROADMAP_MILESTONES;
-  const levelMap = isSweFamily ? SWE_COMPETENCY_TARGET_LEVELS : COMPETENCY_TARGET_LEVELS;
+  const fam = profile?.target_family?.toUpperCase();
+  const allMilestones =
+    fam === "SWE"
+      ? CANONICAL_SWE_ROADMAP_MILESTONES
+      : fam === "MLAI"
+      ? CANONICAL_MLAI_ROADMAP_MILESTONES
+      : CANONICAL_ROADMAP_MILESTONES;
+  const levelMap =
+    fam === "SWE"
+      ? SWE_COMPETENCY_TARGET_LEVELS
+      : fam === "MLAI"
+      ? MLAI_COMPETENCY_TARGET_LEVELS
+      : COMPETENCY_TARGET_LEVELS;
 
   // Filter milestones to those required for the targeted level
   const targetMilestones = useMemo(() => {

@@ -182,16 +182,19 @@ export function CareerRoute({
                   onChange={(e) => {
                     const fam = e.target.value;
                     setFormFamily(fam);
-                    if (fam === "SWE" && !formRole.includes("Software")) {
+                    if (fam === "SWE") {
                       setFormRole("Software Engineer (Backend)");
-                    } else if (fam === "DATA" && formRole.includes("Software")) {
+                    } else if (fam === "MLAI") {
+                      setFormRole("Machine Learning Engineer");
+                    } else {
                       setFormRole("Data Analyst");
                     }
                   }}
                   className="w-full px-3 py-2 rounded-control border border-rule-strong bg-sheet text-ink text-sm focus:outline-none focus:ring-2 focus:ring-focus"
                 >
-                  <option value="DATA">Data & AI</option>
+                  <option value="DATA">Data & Analytics</option>
                   <option value="SWE">Software Engineering</option>
+                  <option value="MLAI">Machine Learning & AI</option>
                 </select>
               </div>
 
@@ -211,11 +214,17 @@ export function CareerRoute({
                       <option value="Software Engineer (Full-Stack)">Software Engineer (Full-Stack)</option>
                       <option value="Systems & Platform Engineer">Systems & Platform Engineer</option>
                     </>
+                  ) : formFamily === "MLAI" ? (
+                    <>
+                      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                      <option value="AI Systems / LLM Engineer">AI Systems / LLM Engineer</option>
+                      <option value="Applied AI Scientist">Applied AI Scientist</option>
+                    </>
                   ) : (
                     <>
                       <option value="Data Analyst">Data Analyst</option>
                       <option value="Data Scientist">Data Scientist</option>
-                      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                      <option value="Data Engineer">Data Engineer</option>
                     </>
                   )}
                 </select>
@@ -282,7 +291,7 @@ export function CareerRoute({
                 Target Specialization
               </span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-span-wash text-span-strong font-medium">
-                {profile.target_family === "SWE" ? "SWE" : "DATA"} Family
+                {profile.target_family} Family
               </span>
             </div>
             <h2 className="text-xl font-serif font-semibold text-ink">
