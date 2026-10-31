@@ -12,7 +12,7 @@ from typing import Literal, Protocol, Self, runtime_checkable
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from compintel.schema.enums import RoleFamily
+from compintel.schema.enums import RoleFamily as RoleFamily
 
 # Forbidden causal pay phrases under Rule R-CR-01 and Consumer Protection Act 2019
 FORBIDDEN_CAUSAL_PATTERNS = [

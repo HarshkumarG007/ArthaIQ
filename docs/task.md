@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 20: Live Pilot Cohort Onboarding & Telemetry Dashboard** (Phase 19 Complete: Gate G19 Ratified GO)
+**NEXT TASK: T20.02 Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics** (Phase 20 Underway: T20.01 Complete)
 
 ## How to use this file
 
@@ -801,7 +801,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** 15-node acyclic DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified with 10/10 import contracts kept, 3 canonical MLAI scenarios pass deterministic scoring with sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass across 17 scenarios, Gate G19 ratified.
 > **NO-GO:** Stay in Phase 19 until all criteria met.
 
-**NEXT TASK: Phase 20: Live Pilot Cohort Onboarding & Telemetry Dashboard** (Phase 19 Complete: Gate G19 Ratified GO)
+**NEXT TASK: T20.02 Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics** (Phase 20 Underway: T20.01 Complete)
 
 - [x] **T19.01** [AI] Ingest Machine Learning & AI taxonomy elements from O*NET 28.0 and ESCO v1.1.1 into `config/taxonomy/mlai_family.json` with statutory CC BY 4.0 / EU Open Reuse licensing and zero causal claims.
       Output: `config/taxonomy/mlai_family.json`, `src/compintel/career/mlai_taxonomy.py`, `tests/unit/test_career_mlai_taxonomy.py`. Done when: 15 MLAI elements pass Pydantic validation, provenance tracking, and zero causal promises. Needs: Gate G18 GO. Size: M.
@@ -835,7 +835,8 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 **NEXT TASK: T20.01 Implement Pilot Cohort Onboarding Consent & Privacy Gateway** (Phase 20 Inception)
 
-- [ ] **T20.01** [AI+HUMAN] Implement Pilot Cohort Onboarding Consent & Privacy Gateway per DPDP Act 2023 Sec 6 and Section 2.3 of `RUNBOOK-CAREER-PILOT-01`.
+- [x] **T20.01** [AI+HUMAN] Implement Pilot Cohort Onboarding Consent & Privacy Gateway per DPDP Act 2023 Sec 6 and Section 2.3 of `RUNBOOK-CAREER-PILOT-01`. (done 2026-10-31)
+      Output: `src/compintel/career/pilot_consent.py`, `apps/web/src/lib/pilotConsent.ts`, `apps/web/src/components/career/PilotConsentModal.tsx`, `tests/unit/test_pilot_consent.py`, `apps/web/src/components/career/PilotConsentModal.test.tsx`. Done when: statutory consent notice, age verification gate, single-click hard purge, and demographic stratification pass unit and Axe accessibility tests with 0 violations. Needs: Gate G19 GO. Size: M.
 - [ ] **T20.02** [AI] Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics.
 - [ ] **T20.03** [AI] Build Live Pilot Cohort Telemetry & Quality Health Dashboard.
 - [ ] **T20.04** [AI+HUMAN] Run Cohort Verification Audit & Convene Gate G20 Ratification Panel.

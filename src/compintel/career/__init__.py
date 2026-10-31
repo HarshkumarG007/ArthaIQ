@@ -50,6 +50,10 @@ from compintel.career.pay_resolver import (
     calculate_interval_overlap,
     resolve_target_pay_to_roles,
 )
+from compintel.career.pilot_consent import (
+    PilotConsentSubmission,
+    PilotStratification,
+)
 from compintel.career.roadmap import (
     calculate_weeks_range,
     schedule_topological_roadmap,
@@ -180,6 +184,8 @@ __all__ = [
     "MAX_INPUT_CHARS",
     "MatchMethod",
     "PacingOption",
+    "PilotConsentSubmission",
+    "PilotStratification",
     "PayCellMatch",
     "PayCellMatchStatus",
     "PayToRoleResolution",

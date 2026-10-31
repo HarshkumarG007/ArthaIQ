@@ -16,6 +16,7 @@ import { PracticeWorkspace } from "../components/career/PracticeWorkspace";
 import { RoadmapView } from "../components/career/RoadmapView";
 import { NextStepCard } from "../components/career/NextStepCard";
 import { PayOverlayPanel } from "../components/career/PayOverlayPanel";
+import { PilotConsentModal } from "../components/career/PilotConsentModal";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
 
@@ -35,6 +36,7 @@ export function CareerRoute({
   const [isLoading, setIsLoading] = useState(true);
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [showPurgeConfirm, setShowPurgeConfirm] = useState(false);
+  const [showPilotConsent, setShowPilotConsent] = useState(false);
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>("SCEN-DATA-01-SQL");
 
   // Form state for profile setup/editing
@@ -137,6 +139,14 @@ export function CareerRoute({
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => setShowPilotConsent(true)}
+            className="px-2.5 py-1 rounded-control border border-accent/40 bg-accent-soft text-accent hover:bg-accent-soft/80 focus:outline-none focus:ring-2 focus:ring-focus font-medium transition-colors"
+            aria-label="View pilot consent notice"
+          >
+            Pilot Consent
+          </button>
           <button
             type="button"
             onClick={handleExportBackup}
@@ -547,6 +557,22 @@ export function CareerRoute({
           </div>
         </div>
       )}
+
+      {/* Pilot Consent & Privacy Gateway Modal (T20.01) */}
+      <PilotConsentModal
+        isOpen={showPilotConsent}
+        onConsent={(record) => {
+          setShowPilotConsent(false);
+          if (!profile && record.stratification.role_family) {
+            setFormFamily(record.stratification.role_family);
+          }
+        }}
+        onClose={() => setShowPilotConsent(false)}
+        onPurgeAllData={handlePurgeData}
+        initialStratification={{
+          role_family: (profile?.target_family || formFamily) as "DATA" | "SWE" | "MLAI",
+        }}
+      />
     </div>
   );
 }
