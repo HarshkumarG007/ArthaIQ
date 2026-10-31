@@ -8,6 +8,7 @@ import { EvidenceList } from "./EvidenceList";
 import { AbstentionNotice } from "./AbstentionNotice";
 import { DisclaimerLine } from "./DisclaimerLine";
 import { NegotiationScenario } from "./NegotiationScenario";
+import { SliceUncertaintyVisualizer } from "./SliceUncertaintyVisualizer";
 import { fetchSalaryEstimate } from "../lib/api";
 import {
   ProfileFormData,
@@ -127,6 +128,7 @@ export function EstimateScreen({
   const [isRefineOpen, setIsRefineOpen] = useState<boolean>(false);
   const [isCompareOpen, setIsCompareOpen] = useState<boolean>(false);
   const [isScenarioOpen, setIsScenarioOpen] = useState<boolean>(false);
+  const [isUncertaintyOpen, setIsUncertaintyOpen] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<"none" | "methodology" | "sources">("none");
 
   // Refinement draft state
@@ -509,6 +511,19 @@ export function EstimateScreen({
                 >
                   {isScenarioOpen ? "Close scenario modeling" : "Scenario modeling (PT4 Copula)"}
                 </button>
+                <button
+                  type="button"
+                  data-testid="toggle-uncertainty-btn"
+                  onClick={() => setIsUncertaintyOpen(!isUncertaintyOpen)}
+                  aria-expanded={isUncertaintyOpen}
+                  className={`px-4 py-2 rounded-control text-xs font-sans font-medium min-h-[44px] transition-colors ${
+                    isUncertaintyOpen
+                      ? "bg-span text-on-span"
+                      : "border border-rule-strong text-ink hover:bg-sunken focus:outline-none focus:ring-2 focus:ring-focus"
+                  }`}
+                >
+                  {isUncertaintyOpen ? "Close slice uncertainty" : "Slice uncertainty (UX-18)"}
+                </button>
               </div>
 
               {/* 4. Compare Panel (when toggled) */}
@@ -548,6 +563,19 @@ export function EstimateScreen({
                       p50: okEstimate.estimate.p50,
                       p90: okEstimate.estimate.p90,
                     }}
+                  />
+                </div>
+              )}
+
+              {/* 4c. Slice Uncertainty Visualizer Panel (UX-18, when toggled) */}
+              {isUncertaintyOpen && (
+                <div data-testid="inline-uncertainty-container" className="pt-2">
+                  <SliceUncertaintyVisualizer
+                    baseP10={okEstimate.estimate.p10}
+                    baseP50={okEstimate.estimate.p50}
+                    baseP90={okEstimate.estimate.p90}
+                    roleFamily={profileData.occupation_id}
+                    locationId={profileData.location_id}
                   />
                 </div>
               )}
