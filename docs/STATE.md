@@ -6,8 +6,8 @@
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 22 Gates G0–G21 Ratified GO |
 | **Active Milestone** | **Phase 22 In Progress (MLAI Scenario Corpus Expansion)** |
 | **Active Subphase** | **Task T22.01 Author 4 Canonical Scenario JSON Definitions** |
-| **Current Task** | **T22.01 Author 4 Canonical Scenario JSON Definitions (Completed)** |
-| **Next Task** | **T22.02 Multi-Expert Practitioner Consensus Review** |
+| **Current Task** | **T22.02 Multi-Expert Practitioner Consensus Review (Completed)** |
+| **Next Task** | **T22.03 Comprehensive MLAI Expansion Automated Unit Test Suite** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
