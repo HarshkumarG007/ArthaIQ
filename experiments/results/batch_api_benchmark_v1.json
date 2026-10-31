@@ -1,0 +1,117 @@
+{
+  "benchmark_id": "BENCH-BATCH-REST-01",
+  "evaluated_at": "2026-10-31T23:10:57.745970+00:00",
+  "sla_criteria": {
+    "min_throughput_predictions_per_sec": 1000.0,
+    "max_batch_50_p95_latency_ms": 100.0
+  },
+  "observed_metrics": {
+    "batch_50_p95_latency_ms": 10.174,
+    "batch_500_throughput_pps": 17845.8,
+    "streaming_500_throughput_pps": 2754.0
+  },
+  "verdict": {
+    "meets_throughput_sla": true,
+    "meets_latency_sla": true,
+    "overall_sla_pass": true,
+    "status": "PASS"
+  },
+  "hardware_metadata": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python_version": "3.12.9 (main, Feb 12 2025, 14:52:31) [MSC v.1942 64 bit (AMD64)]",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "machine": "AMD64"
+  },
+  "benchmarks": {
+    "batch_10": {
+      "batch_size": 10,
+      "iterations": 30,
+      "total_items": 300,
+      "total_time_sec": 0.24,
+      "throughput_predictions_per_sec": 1248.5,
+      "latency": {
+        "count": 30.0,
+        "mean_ms": 8.009,
+        "std_dev_ms": 1.236,
+        "min_ms": 6.591,
+        "p50_ms": 7.574,
+        "p90_ms": 10.005,
+        "p95_ms": 10.885,
+        "p99_ms": 11.09,
+        "max_ms": 11.15
+      }
+    },
+    "batch_50": {
+      "batch_size": 50,
+      "iterations": 30,
+      "total_items": 1500,
+      "total_time_sec": 0.258,
+      "throughput_predictions_per_sec": 5823.4,
+      "latency": {
+        "count": 30.0,
+        "mean_ms": 8.585,
+        "std_dev_ms": 0.756,
+        "min_ms": 7.694,
+        "p50_ms": 8.318,
+        "p90_ms": 9.509,
+        "p95_ms": 10.174,
+        "p99_ms": 10.731,
+        "max_ms": 10.807
+      }
+    },
+    "batch_100": {
+      "batch_size": 100,
+      "iterations": 30,
+      "total_items": 3000,
+      "total_time_sec": 0.33,
+      "throughput_predictions_per_sec": 9104.6,
+      "latency": {
+        "count": 30.0,
+        "mean_ms": 10.982,
+        "std_dev_ms": 0.855,
+        "min_ms": 9.804,
+        "p50_ms": 10.823,
+        "p90_ms": 11.792,
+        "p95_ms": 12.436,
+        "p99_ms": 13.478,
+        "max_ms": 13.756
+      }
+    },
+    "batch_500": {
+      "batch_size": 500,
+      "iterations": 30,
+      "total_items": 15000,
+      "total_time_sec": 0.841,
+      "throughput_predictions_per_sec": 17845.8,
+      "latency": {
+        "count": 30.0,
+        "mean_ms": 28.017,
+        "std_dev_ms": 17.966,
+        "min_ms": 21.417,
+        "p50_ms": 22.867,
+        "p90_ms": 27.664,
+        "p95_ms": 63.735,
+        "p99_ms": 94.804,
+        "max_ms": 96.389
+      }
+    },
+    "streaming_500": {
+      "batch_size": 500,
+      "iterations": 30,
+      "total_items": 15000,
+      "total_time_sec": 5.447,
+      "throughput_predictions_per_sec": 2754.0,
+      "latency": {
+        "count": 30.0,
+        "mean_ms": 181.278,
+        "std_dev_ms": 16.397,
+        "min_ms": 160.165,
+        "p50_ms": 178.679,
+        "p90_ms": 189.364,
+        "p95_ms": 204.839,
+        "p99_ms": 239.215,
+        "max_ms": 250.112
+      }
+    }
+  }
+}

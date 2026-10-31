@@ -907,7 +907,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** Batch REST endpoint handles batches up to 500 profiles per request with throughput $\ge 1{,}000\text{ predictions/sec}$, emits full conformal intervals (Rule R-UQ-01), preserves honest abstention without HTTP 500 crashes, and Gate G23 ratified GO.
 > **NO-GO:** Stay in Phase 23 until all criteria met.
 
-**NEXT TASK: Phase 23: T23.05 Benchmark API Throughput & Latency** (Phase 22 Complete: Gate G22 Ratified GO)
+**NEXT TASK: Phase 23: T23.06 Convene Gate G23 Ratification Review Panel** (Phase 22 Complete: Gate G22 Ratified GO)
 
 - [x] **T23.01** [AI] Author Implementation Plan for Enterprise Batch REST Endpoint (`PLAN-BATCH-REST-ENDPOINT-01`). (done 2026-10-31)
       Output: `implementation-plan-batch-rest-endpoint.md`. Done when: plan details request/response schemas, chunked streaming protocol, rate limiting bounds, concurrency protection, and verification suite. Needs: Gate G22 GO. Size: S.
@@ -917,7 +917,9 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `StreamingResponse` NDJSON emitter in `batch.py`. Done when: streams predictions row-by-row with constant heap memory usage ($\le 128\text{ MB}$). Needs: T23.02. Size: M.
 - [x] **T23.04** [AI] Build Contract & Unit Test Suite for Batch Endpoints. (done 2026-10-31)
       Output: `tests/contract/test_batch_api_contract.py`, `tests/unit/test_batch_api.py`. Done when: tests verify schema conformance, 422 error handling, abstention behavior, and OpenAPI schema synchronization. Needs: T23.02, T23.03. Size: M.
-- [ ] **T23.05** [AI] Benchmark API Throughput & Latency.
+- [x] **T23.05** [AI] Benchmark API Throughput & Latency. (done 2026-10-31)
+      Output: `experiments/results/batch_api_benchmark_v1.json`. Done when: benchmark confirms $\ge 1{,}000\text{ predictions/sec}$ throughput and p95 latency $\le 100\text{ ms}$ for 50-item batches. Needs: T23.04. Size: S.
+- [ ] **T23.06** [AI+HUMAN] Convene Gate G23 Ratification Review Panel.
       Output: `experiments/results/batch_api_benchmark_v1.json`. Done when: benchmark confirms $\ge 1{,}000\text{ predictions/sec}$ throughput and p95 latency $\le 100\text{ ms}$ for 50-item batches. Needs: T23.04. Size: S.
 - [ ] **T23.06** [AI+HUMAN] Convene Gate G23 Ratification Review Panel.
       Output: `docs/pilot/gate-g23-review.md`, `tests/unit/test_phase23_gate_g23.py`. Done when: dossier ratified GO (Decision D-039), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T23.01-T23.05. Size: S.
