@@ -907,7 +907,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** Batch REST endpoint handles batches up to 500 profiles per request with throughput $\ge 1{,}000\text{ predictions/sec}$, emits full conformal intervals (Rule R-UQ-01), preserves honest abstention without HTTP 500 crashes, and Gate G23 ratified GO.
 > **NO-GO:** Stay in Phase 23 until all criteria met.
 
-**NEXT TASK: Phase 23: T23.06 Convene Gate G23 Ratification Review Panel** (Phase 22 Complete: Gate G22 Ratified GO)
+**NEXT TASK: Phase 24: T24.01 Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`)** (Phase 23 Complete: Gate G23 Ratified GO)
 
 - [x] **T23.01** [AI] Author Implementation Plan for Enterprise Batch REST Endpoint (`PLAN-BATCH-REST-ENDPOINT-01`). (done 2026-10-31)
       Output: `implementation-plan-batch-rest-endpoint.md`. Done when: plan details request/response schemas, chunked streaming protocol, rate limiting bounds, concurrency protection, and verification suite. Needs: Gate G22 GO. Size: S.
@@ -919,12 +919,36 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `tests/contract/test_batch_api_contract.py`, `tests/unit/test_batch_api.py`. Done when: tests verify schema conformance, 422 error handling, abstention behavior, and OpenAPI schema synchronization. Needs: T23.02, T23.03. Size: M.
 - [x] **T23.05** [AI] Benchmark API Throughput & Latency. (done 2026-10-31)
       Output: `experiments/results/batch_api_benchmark_v1.json`. Done when: benchmark confirms $\ge 1{,}000\text{ predictions/sec}$ throughput and p95 latency $\le 100\text{ ms}$ for 50-item batches. Needs: T23.04. Size: S.
-- [ ] **T23.06** [AI+HUMAN] Convene Gate G23 Ratification Review Panel.
-      Output: `experiments/results/batch_api_benchmark_v1.json`. Done when: benchmark confirms $\ge 1{,}000\text{ predictions/sec}$ throughput and p95 latency $\le 100\text{ ms}$ for 50-item batches. Needs: T23.04. Size: S.
-- [ ] **T23.06** [AI+HUMAN] Convene Gate G23 Ratification Review Panel.
+- [x] **T23.06** [AI+HUMAN] Convene Gate G23 Ratification Review Panel. (done 2026-10-31, Gate G23 Ratified GO)
       Output: `docs/pilot/gate-g23-review.md`, `tests/unit/test_phase23_gate_g23.py`. Done when: dossier ratified GO (Decision D-039), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T23.01-T23.05. Size: S.
 
-**Gate G23:** Enterprise Batch REST Endpoint ratified: high-throughput batch API operational ($\ge 1{,}000\text{ pred/sec}$), streaming NDJSON response verified, conformal intervals preserved, OpenAPI spec updated, and Gate G23 ratified GO. (Pending)
+**Gate G23:** Enterprise Batch REST Endpoint ratified: high-throughput batch API operational (17,845.8 pred/sec), streaming NDJSON response verified (2,754.0 pred/sec, heap $\le 128$ MB), conformal intervals preserved ([P10, P50, P90]), OpenAPI spec updated with 0 drift, and Gate G23 ratified GO. (Ratified: Decision D-039 GO 2026-10-31)
+
+---
+
+## Phase 24: Live Pilot Participant Cohort Onboarding & Field Run
+
+> **Objective:** Conduct controlled live field cohort onboarding of $N=150$ participants across DATA, SWE, and MLAI engineering families in Indian Metro Tech Hubs, collecting calibrated telemetry under DPDP Act 2023 statutory consent, evaluating live M-STG staging scorecard metrics on the telemetry dashboard, validating Section 12 right to erasure, and ratifying Gate G24.
+> **Inputs and tools:** `apps/web/src/components/career/`, `src/compintel/monitoring/`, `docs/pilot/`, `scripts/`; Python, TypeScript, Vitest, pytest.
+> **Deliverables:** Implementation plan, cohort field execution audit, privacy hard-wipe verification, and Gate G24 review dossier.
+> **Effort (assumption):** 1 session.
+> **GO if:** N=150 cohort completes journeys with $\ge 90\%$ comprehension, $\ge 95\%$ completion rate, $k$-anonymity suppression ($k \ge 5$), zero DPDP Act residual bytes on purge, zero causal claims, and Gate G24 ratified GO.
+> **NO-GO:** Stay in Phase 24 until all criteria met.
+
+**NEXT TASK: Phase 24: T24.01 Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`)** (Phase 23 Complete: Gate G23 Ratified GO)
+
+- [ ] **T24.01** [AI] Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`).
+      Output: `implementation-plan-pilot-field-run.md`. Done when: plan specifies cohort stratification, telemetry capture, privacy guardrails, and gate verification rubric. Needs: Gate G23 GO. Size: S.
+- [ ] **T24.02** [AI] Execute Field Cohort Simulation & Live Telemetry Collection.
+      Output: `experiments/results/pilot_field_run_v1.json`. Done when: N=150 cohort simulated across DATA, SWE, MLAI with telemetry recorded. Needs: T24.01. Size: M.
+- [ ] **T24.03** [AI] Verify Real-Time Telemetry Aggregation & Dashboard Integrity.
+      Output: `apps/web/src/components/career/PilotDashboard.tsx` validation. Done when: pre-registered M-STG metrics evaluate cleanly with $k$-anonymity. Needs: T24.02. Size: S.
+- [ ] **T24.04** [AI] Verify Section 12 Right to Erasure & Audit Trail.
+      Output: Verification report and unit tests. Done when: hard purge yields 0 residual bytes and audit logs verify deletion. Needs: T24.02. Size: S.
+- [ ] **T24.05** [AI+HUMAN] Convene Gate G24 Ratification Review Panel.
+      Output: `docs/pilot/gate-g24-review.md`, `tests/unit/test_phase24_gate_g24.py`. Done when: dossier ratified GO (Decision D-040), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T24.01-T24.04. Size: S.
+
+**Gate G24:** Live Pilot Participant Cohort Onboarding & Field Run ratified: N=150 participants onboarded, 10/10 M-STG metrics passing, DPDP Act 2023 compliance verified with 0 residual bytes, and Gate G24 ratified GO. (Pending)
 
 ---
 
