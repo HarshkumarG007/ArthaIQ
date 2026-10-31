@@ -8,6 +8,12 @@ Exposes:
 """
 
 from compintel.serving.app import app, create_app
+from compintel.serving.batch_pipeline import (
+    BatchInferencePipeline,
+    BatchInferenceResponse,
+    BatchInferenceResultItem,
+    BatchInferenceSummary,
+)
 from compintel.serving.core import (
     estimate,
     get_default_serving_manager,
@@ -48,6 +54,10 @@ from compintel.serving.types import (
 __all__ = [
     "Abstained",
     "AbstentionReasonItem",
+    "BatchInferencePipeline",
+    "BatchInferenceResponse",
+    "BatchInferenceResultItem",
+    "BatchInferenceSummary",
     "ComparisonInfo",
     "CounterfactualConfig",
     "CounterfactualQuery",

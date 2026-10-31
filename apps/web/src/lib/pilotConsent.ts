@@ -92,3 +92,4 @@ export function clearPilotConsent(): void {
   }
   window.localStorage.removeItem(PILOT_CONSENT_KEY);
 }
+

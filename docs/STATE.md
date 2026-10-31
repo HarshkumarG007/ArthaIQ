@@ -6,8 +6,8 @@
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 21 Gates G0–G20 Ratified GO |
 | **Active Milestone** | **Phase 20 Complete (Gates G0–G20 Ratified GO)** |
 | **Active Subphase** | **Phase 21: Core Compensation Engine Backlog (ENG-17 & UX-18)** |
-| **Current Task** | **T20.04 Cohort Verification Audit & Gate G20 Ratification (Completed)** |
-| **Next Task** | **Phase 21: T21.01 Implement Distributed Batch Inference Pipeline (ENG-17)** |
+| **Current Task** | **T21.01 Implement Distributed Batch Inference Pipeline (ENG-17) (Completed)** |
+| **Next Task** | **Phase 21: T21.02 Implement Interactive Slice-Adaptive Uncertainty Visualizer (UX-18)** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
