@@ -891,12 +891,38 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `experiments/results/career_pilot_staging_audit_v1.json`. Done when: simulation evaluates $N=21$ scenarios across 300 attempts, confirming 10/10 `M-STG` metrics continue to PASS. Needs: T22.01, T22.03. Size: S.
 - [x] **T22.05** [AI] Update Web UI Scenario Registry & Validate Accessibility. (done 2026-10-31)
       Output: `apps/web/src/components/career/PracticeWorkspace.tsx`, web tests. Done when: UI renders all 21 scenarios across DATA, SWE, and MLAI tabs with 0 Axe Core violations. Needs: T22.01. Size: M.
-- [ ] **T22.06** [AI+HUMAN] Convene Gate G22 Ratification Review Panel.
-      Output: `apps/web/src/components/career/PracticeWorkspace.tsx`, web tests. Done when: UI renders all 21 scenarios across DATA, SWE, and MLAI tabs with 0 Axe Core violations. Needs: T22.01. Size: M.
-- [ ] **T22.06** [AI+HUMAN] Convene Gate G22 Ratification Review Panel.
+- [x] **T22.06** [AI+HUMAN] Convene Gate G22 Ratification Review Panel. (done 2026-10-31, Gate G22 Ratified GO)
       Output: `docs/pilot/gate-g22-review.md`, `tests/unit/test_phase22_gate_g22.py`. Done when: dossier ratified GO (Decision D-038), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T22.01-T22.05. Size: S.
 
-**Gate G22:** MLAI Scenario Corpus Expansion ratified: 7 canonical MLAI scenarios operational (21 platform total), practitioner consensus $\kappa \ge 0.85$, 10/10 staging metrics pass, web UI accessible with 0 Axe violations, and Gate G22 ratified GO. (Pending)
+**Gate G22:** MLAI Scenario Corpus Expansion ratified: 7 canonical MLAI scenarios operational (21 platform total across DATA, SWE, MLAI), practitioner consensus $\kappa = 0.900 \ge 0.850$, 10/10 staging metrics pass, web UI accessible with 0 Axe violations across 192 tests, clean production build, and Gate G22 ratified GO. (Ratified: Decision D-038 GO 2026-10-31)
+
+---
+
+## Phase 23: Enterprise Batch REST Endpoint
+
+> **Objective:** Expose the Distributed Batch Inference Pipeline (engineered in Phase 21) via a high-performance, asynchronous FastAPI endpoint (`POST /v1/estimates/batch`) with streaming NDJSON response capability, rate limiting, and input validation preserving conformal interval guarantees ($P_{10}, P_{50}, P_{90}$) and decoupled honest abstention.
+> **Inputs and tools:** `src/compintel/serving/batch_pipeline.py`, `src/compintel/api/`, `tests/contract/`, `tests/unit/`; FastAPI, Pydantic v2, pytest.
+> **Deliverables:** `/v1/estimates/batch` endpoint router and schemas, streaming response handler, contract test suite, load/throughput benchmark, and Gate G23 review dossier.
+> **Effort (assumption):** 1 session.
+> **GO if:** Batch REST endpoint handles batches up to 500 profiles per request with throughput $\ge 1{,}000\text{ predictions/sec}$, emits full conformal intervals (Rule R-UQ-01), preserves honest abstention without HTTP 500 crashes, and Gate G23 ratified GO.
+> **NO-GO:** Stay in Phase 23 until all criteria met.
+
+**NEXT TASK: Phase 23: T23.01 Author Implementation Plan for Enterprise Batch REST Endpoint** (Phase 22 Complete: Gate G22 Ratified GO)
+
+- [ ] **T23.01** [AI] Author Implementation Plan for Enterprise Batch REST Endpoint (`PLAN-BATCH-REST-ENDPOINT-01`).
+      Output: Implementation Plan artifact. Done when: plan details request/response schemas, chunked streaming protocol, rate limiting bounds, concurrency protection, and verification suite. Needs: Gate G22 GO. Size: S.
+- [ ] **T23.02** [AI] Implement Batch Endpoint Request/Response Schemas & Router (`POST /v1/estimates/batch`).
+      Output: `src/compintel/api/routes/batch.py`, Pydantic v2 schemas in `src/compintel/api/schemas/batch.py`. Done when: endpoint accepts bulk JSON or NDJSON input up to 500 profiles, invokes `BatchInferencePipeline`, and returns conformal intervals. Needs: T23.01. Size: M.
+- [ ] **T23.03** [AI] Implement Chunked Streaming Endpoint for Large Datasets (`POST /v1/estimates/batch/stream`).
+      Output: `StreamingResponse` NDJSON emitter in `batch.py`. Done when: streams predictions row-by-row with constant heap memory usage ($\le 128\text{ MB}$). Needs: T23.02. Size: M.
+- [ ] **T23.04** [AI] Build Contract & Unit Test Suite for Batch Endpoints.
+      Output: `tests/contract/test_batch_api_contract.py`, `tests/unit/test_batch_api.py`. Done when: tests verify schema conformance, 422 error handling, abstention behavior, and OpenAPI schema synchronization. Needs: T23.02, T23.03. Size: M.
+- [ ] **T23.05** [AI] Benchmark API Throughput & Latency.
+      Output: `experiments/results/batch_api_benchmark_v1.json`. Done when: benchmark confirms $\ge 1{,}000\text{ predictions/sec}$ throughput and p95 latency $\le 100\text{ ms}$ for 50-item batches. Needs: T23.04. Size: S.
+- [ ] **T23.06** [AI+HUMAN] Convene Gate G23 Ratification Review Panel.
+      Output: `docs/pilot/gate-g23-review.md`, `tests/unit/test_phase23_gate_g23.py`. Done when: dossier ratified GO (Decision D-039), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T23.01-T23.05. Size: S.
+
+**Gate G23:** Enterprise Batch REST Endpoint ratified: high-throughput batch API operational ($\ge 1{,}000\text{ pred/sec}$), streaming NDJSON response verified, conformal intervals preserved, OpenAPI spec updated, and Gate G23 ratified GO. (Pending)
 
 ---
 
