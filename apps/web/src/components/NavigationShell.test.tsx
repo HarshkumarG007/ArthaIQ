@@ -98,5 +98,25 @@ describe("NavigationShell (T15.28 Responsive Layout & Navigation)", () => {
     const results = await axe.run(container, AXE_OPTIONS);
     expect(results.violations).toEqual([]);
   });
+
+  it("switches to pilot mode and passes axe accessibility tests with 0 violations", async () => {
+    const { container } = render(<NavigationShell initialMode="compensation" />);
+
+    const pilotBtn = screen.getByRole("button", { name: /pilot telemetry/i });
+    fireEvent.click(pilotBtn);
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("heading", {
+          name: /Live Pilot Cohort & Telemetry Dashboard/i,
+          level: 1,
+        })
+      ).toBeInTheDocument();
+    });
+    expect(window.location.hash).toBe("#pilot");
+
+    const results = await axe.run(container, AXE_OPTIONS);
+    expect(results.violations).toEqual([]);
+  });
 });
 

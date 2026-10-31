@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { EstimateScreen } from "./EstimateScreen";
 import { CareerRoute, type CareerSubView } from "../routes/career";
+import { PilotRoute } from "../routes/pilot";
 import { ContributionFlow } from "./ContributionFlow";
 import { MyDataModal } from "./MyDataModal";
 import {
   TrendingUp,
   Compass,
+  Activity,
   PlusCircle,
   Shield,
   Sun,
   Moon,
 } from "lucide-react";
 
-export type AppNavMode = "compensation" | "career";
+export type AppNavMode = "compensation" | "career" | "pilot";
 
 interface NavigationShellProps {
   initialMode?: AppNavMode;
@@ -37,6 +39,8 @@ export function NavigationShell({
         else if (hash.includes("/practice")) setCareerSubView("practice");
         else if (hash.includes("/ledger")) setCareerSubView("ledger");
         else setCareerSubView("skills");
+      } else if (hash.startsWith("#pilot")) {
+        setMode("pilot");
       } else if (hash.startsWith("#compensation")) {
         setMode("compensation");
       }
@@ -52,6 +56,8 @@ export function NavigationShell({
     if (nextMode === "career") {
       const subPath = sub || careerSubView;
       window.location.hash = `#career/${subPath}`;
+    } else if (nextMode === "pilot") {
+      window.location.hash = "#pilot";
     } else {
       window.location.hash = "#compensation";
     }
@@ -142,6 +148,32 @@ export function NavigationShell({
               Local
             </span>
           </button>
+
+          <button
+            type="button"
+            id="nav-pilot-btn"
+            onClick={() => navigateTo("pilot")}
+            aria-current={mode === "pilot" ? "page" : undefined}
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-control text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-focus ${
+              mode === "pilot"
+                ? "bg-span text-on-span shadow-sm"
+                : "text-ink hover:bg-sunken border border-transparent"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <Activity className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>Pilot Telemetry</span>
+            </div>
+            <span
+              className={`text-2xs px-1.5 py-0.5 rounded font-mono font-medium ${
+                mode === "pilot"
+                  ? "bg-on-span text-span"
+                  : "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+              }`}
+            >
+              N=150
+            </span>
+          </button>
         </nav>
 
         {/* Rail Footer Controls */}
@@ -224,13 +256,18 @@ export function NavigationShell({
         >
           {mode === "compensation" ? (
             <EstimateScreen />
-          ) : (
+          ) : mode === "career" ? (
             <CareerRoute
               initialSubView={careerSubView}
               onSubViewChange={(view) => {
                 setCareerSubView(view);
                 window.location.hash = `#career/${view}`;
               }}
+            />
+          ) : (
+            <PilotRoute
+              onNavigateToCareer={() => navigateTo("career")}
+              onNavigateToCompensation={() => navigateTo("compensation")}
             />
           )}
         </main>
@@ -269,12 +306,25 @@ export function NavigationShell({
           id="mobile-nav-career-btn"
           onClick={() => navigateTo("career")}
           aria-current={mode === "career" ? "page" : undefined}
-          className={`flex flex-col items-center justify-center w-16 h-12 rounded-control text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus ${
+          className={`flex flex-col items-center justify-center w-14 h-12 rounded-control text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus ${
             mode === "career" ? "text-span font-bold" : "text-ink-2 hover:text-ink"
           }`}
         >
           <Compass className="w-5 h-5" aria-hidden="true" />
           <span className="text-2xs mt-0.5">Career</span>
+        </button>
+
+        <button
+          type="button"
+          id="mobile-nav-pilot-btn"
+          onClick={() => navigateTo("pilot")}
+          aria-current={mode === "pilot" ? "page" : undefined}
+          className={`flex flex-col items-center justify-center w-14 h-12 rounded-control text-xs font-medium focus:outline-none focus:ring-2 focus:ring-focus ${
+            mode === "pilot" ? "text-span font-bold" : "text-ink-2 hover:text-ink"
+          }`}
+        >
+          <Activity className="w-5 h-5" aria-hidden="true" />
+          <span className="text-2xs mt-0.5">Pilot</span>
         </button>
 
         <button
