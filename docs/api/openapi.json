@@ -1540,10 +1540,20 @@
           "data_engineering",
           "statistical_modeling",
           "experimentation",
-          "business_communication"
+          "business_communication",
+          "systems_architecture",
+          "application_development",
+          "testing_quality",
+          "security_reliability",
+          "dev_workflow",
+          "math_optimization",
+          "deep_learning",
+          "mlops_infrastructure",
+          "evaluation_governance",
+          "generative_alignment"
         ],
         "title": "CompetencyCategory",
-        "description": "Taxonomy clusters for the DATA role family."
+        "description": "Taxonomy clusters for DATA and SWE role families."
       },
       "CompetencyGap": {
         "properties": {
@@ -1740,10 +1750,8 @@
             "$ref": "#/components/schemas/CompetencyCategory"
           },
           "role_family": {
-            "type": "string",
-            "const": "DATA",
-            "title": "Role Family",
-            "description": "Scoped to DATA family in Phase 15",
+            "$ref": "#/components/schemas/RoleFamily",
+            "description": "Occupational role family (e.g. DATA, SWE)",
             "default": "DATA"
           },
           "target_levels": {

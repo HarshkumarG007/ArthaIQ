@@ -85,3 +85,4 @@ On 2026-10-31, the multidisciplinary Governance Panel convened to conduct the fo
   1. Adopted `BatchInferencePipeline` in `src/compintel/serving/batch_pipeline.py` with vectorized feature transformation, split conformal calibration, and chunked streaming generators, satisfying $\ge 1{,}000\text{ predictions/sec}$ SLA (observed 46,860.8 pred/sec).
   2. Adopted `SliceUncertaintyVisualizer` in `apps/web/src/components/SliceUncertaintyVisualizer.tsx` with dynamic nominal coverage slider (70%–95%), cross-slice empirical diagnostics, and accessible table view, strictly enforcing Rules `R-UQ-01` (Zero Lone Numbers) and `R-CR-01` (Zero Causal Claims).
   3. Formally ratified Gate G21 (UNCONDITIONAL GO).
+

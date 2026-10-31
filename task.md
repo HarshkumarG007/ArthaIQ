@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 20 Complete (Gates G0–G20 Ratified GO)                         |
+| Status                         | v1.0.0 GA Released; Phase 21 Complete (Gates G0–G21 Ratified GO)     |
 | Last updated                   | 2026-10-31                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 21: T21.01 Implement Distributed Batch Inference Pipeline (ENG-17)** (Phase 20 Complete: Gate G20 Ratified GO)
+**NEXT TASK: Post-Phase 21 Platform Roadmap Assessment & Next Milestone Inception** (Phase 21 Complete: Gate G21 Ratified GO; preceding milestones: Phase 11, **NEXT TASK: Phase 15** ratified GO)
 
 ## How to use this file
 

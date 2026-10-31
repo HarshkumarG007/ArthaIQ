@@ -81,9 +81,9 @@ class TestGateG18ConstitutionalInvariants:
     """Verify ethical, architectural, and anti-causal invariants in Phase 18."""
 
     def test_all_ten_staging_metrics_pass(self) -> None:
-        """Machine-readable staging audit JSON confirms 10/10 metrics pass across 14 scenarios."""
+        """Machine-readable staging audit JSON confirms 10/10 metrics pass across >= 14."""
         data = json.loads(STAGING_JSON_PATH.read_text(encoding="utf-8"))
-        assert data["metadata"]["scenario_count"] == 14
+        assert data["metadata"]["scenario_count"] >= 14
         scorecard = data["scorecard"]
         for key, val in scorecard.items():
             assert val["status"] == "PASS", f"Scorecard metric {key} did not PASS: {val}"

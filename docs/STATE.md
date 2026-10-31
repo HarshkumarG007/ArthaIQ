@@ -47,6 +47,12 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 | **D-036** | 2026-10-31 | **Gate G20** | Ratified Live Pilot Cohort Onboarding & Telemetry Dashboard: statutory consent gateway (DPDP Sec 6 & 9), k-anonymized telemetry aggregator (k >= 5), real-time /pilot dashboard with decoupled panels (Two Streams Two Places), 10/10 M-STG metrics GO on N=150 cohort, 0 Axe violations across 183 web tests, single-click hard wipe (DPDP Sec 12, 0 bytes). |
 | **D-037** | 2026-10-31 | **Gate G21** | Ratified Core Compensation Engine Backlog (ENG-17 & UX-18): Distributed Batch Inference Pipeline operational at 46,860.8 pred/sec (> 46x SLA), split conformal calibration [P10, P50, P90] with 80% coverage, memory-capped streaming generators (heap <= 256MB), and honest abstention; Interactive Slice-Adaptive Uncertainty Visualizer with dynamic coverage slider (70%-95%), cross-slice diagnostics across 6 Metros and 4 Seniority Strata, accessible table view toggle, 0 Axe violations across 191 web tests, clean production build; zero lone numbers (Rule R-UQ-01) and zero causal claims (Rule R-CR-01). |
 
+### Preceding Ratified Milestone Decisions (Reference Index)
+- **Gate G15D** (`D-029`): Ratified Career Progress Ledger & Local Storage Schema.
+- **Gate G15E** (`D-030`): Ratified Deterministic Scenario Rubric Scorer & Practice Sandbox.
+- **Gate G15F** (`D-031`): Ratified Career Architect UI & Navigation Integration.
+- **Gate G16** (`D-032`): Ratified SWE Family Taxonomy & Competency Graph Inception.
+
 ---
 
 ## 4. Active Rules & Invariants for Career Architect (R-CR)
