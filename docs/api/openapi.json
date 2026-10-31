@@ -148,6 +148,111 @@
         }
       }
     },
+    "/v1/estimates/batch": {
+      "post": {
+        "tags": [
+          "Estimates",
+          "Batch"
+        ],
+        "summary": "Execute high-throughput batch compensation estimates",
+        "description": "Serve high-throughput batch compensation estimates.\n\nAccepts an array of up to 500 candidate profiles and returns itemized\nconformal prediction intervals ([P10, P50, P90]) or honest abstentions.",
+        "operationId": "create_batch_estimates_v1_estimates_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchEstimateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Batch prediction results with summary telemetry, split conformal prediction intervals, and structured abstentions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEstimateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "RFC 9457 Problem Details for invalid payload or unsupported parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "RFC 9457 Problem Details when no champion model bundle is loaded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/estimates/batch/stream": {
+      "post": {
+        "tags": [
+          "Estimates",
+          "Batch"
+        ],
+        "summary": "Stream batch compensation estimates as newline-delimited JSON (NDJSON)",
+        "description": "Stream batch compensation estimates item-by-item in NDJSON format.\n\nGuarantees memory-safe streaming (heap <= 128MB) for bulk integrations.",
+        "operationId": "stream_batch_estimates_v1_estimates_batch_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchEstimateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Newline-delimited stream of JSON prediction objects (application/x-ndjson).",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "application/x-ndjson": {}
+            }
+          },
+          "422": {
+            "description": "RFC 9457 Problem Details for invalid payload or unsupported parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "RFC 9457 Problem Details when no champion model bundle is loaded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/taxonomy/occupations": {
       "get": {
         "tags": [
@@ -990,6 +1095,337 @@
         ],
         "title": "AbstentionReasonItem",
         "description": "Individual reason for model abstention (Rules R-MD-08, R-UQ-02)."
+      },
+      "BatchEstimateItem": {
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "title": "Profile Id",
+            "description": "Profile identifier matching request."
+          },
+          "role_family": {
+            "type": "string",
+            "title": "Role Family",
+            "description": "Standardized role family."
+          },
+          "seniority": {
+            "type": "string",
+            "title": "Seniority",
+            "description": "Standardized seniority tier."
+          },
+          "location": {
+            "type": "string",
+            "title": "Location",
+            "description": "Standardized metro hub."
+          },
+          "years_experience": {
+            "type": "number",
+            "title": "Years Experience",
+            "description": "Calculated years of experience."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "abstained"
+            ],
+            "title": "Status",
+            "description": "Status of the individual profile estimate ('ok' or 'abstained')."
+          },
+          "is_abstained": {
+            "type": "boolean",
+            "title": "Is Abstained",
+            "description": "Whether this profile was abstained."
+          },
+          "p10": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P10",
+            "description": "10th percentile conservative market floor in LPA (Rule R-UQ-01)."
+          },
+          "p50": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50",
+            "description": "50th percentile median benchmark in LPA (Rule R-UQ-01)."
+          },
+          "p90": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P90",
+            "description": "90th percentile premium benchmark in LPA (Rule R-UQ-01)."
+          },
+          "interval_width": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval Width",
+            "description": "Spread between P90 and P10 in LPA."
+          },
+          "nominal_coverage": {
+            "type": "number",
+            "title": "Nominal Coverage",
+            "description": "Calibrated nominal coverage probability.",
+            "default": 0.8
+          },
+          "target_measure": {
+            "type": "string",
+            "title": "Target Measure",
+            "description": "Evaluated compensation measure.",
+            "default": "guaranteed_cash_annual"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency code.",
+            "default": "INR"
+          },
+          "evidence_grade": {
+            "type": "string",
+            "title": "Evidence Grade",
+            "description": "SQSF evidence grade.",
+            "default": "GRADE_B"
+          },
+          "support_status": {
+            "type": "string",
+            "title": "Support Status",
+            "description": "Empirical cohort support status.",
+            "default": "SUPPORTED"
+          },
+          "abstention_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Abstention Reasons",
+            "description": "Structured abstention reasons if thin support or out-of-domain."
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation",
+            "description": "Human-readable abstention guidance or null string.",
+            "default": ""
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Active model version.",
+            "default": "0.1.0"
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms",
+            "description": "Individual item inference latency in milliseconds.",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "profile_id",
+          "role_family",
+          "seniority",
+          "location",
+          "years_experience",
+          "status",
+          "is_abstained"
+        ],
+        "title": "BatchEstimateItem",
+        "description": "Individual estimation result within a batch response.\n\nAdheres strictly to Rule R-UQ-01 (Zero Lone Numbers):\nWhen status is 'ok', always returns full interval [p10, p50, p90] and interval_width.\nWhen abstained, returns structured reasons with null estimates."
+      },
+      "BatchEstimateRequest": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BatchProfileItem"
+            },
+            "type": "array",
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Items",
+            "description": "Array of candidate profiles to estimate (max 500 per batch)."
+          },
+          "measure": {
+            "type": "string",
+            "title": "Measure",
+            "description": "Compensation measure; PT1 strictly requires guaranteed_cash_annual.",
+            "default": "guaranteed_cash_annual"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Nominal currency code; ArthaIQ strictly prices in INR.",
+            "default": "INR"
+          },
+          "nominal_coverage": {
+            "type": "number",
+            "maximum": 0.99,
+            "minimum": 0.5,
+            "title": "Nominal Coverage",
+            "description": "Split conformal nominal coverage probability (default 80%).",
+            "default": 0.8
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of",
+            "description": "Optional point-in-time valuation anchor date (YYYY-MM-DD)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "BatchEstimateRequest",
+        "description": "Complete request payload for POST /v1/estimates/batch."
+      },
+      "BatchEstimateResponse": {
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/BatchEstimateSummary"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEstimateItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "summary",
+          "items"
+        ],
+        "title": "BatchEstimateResponse",
+        "description": "Complete response payload for POST /v1/estimates/batch."
+      },
+      "BatchEstimateSummary": {
+        "properties": {
+          "total_records": {
+            "type": "integer",
+            "title": "Total Records",
+            "description": "Total input records processed."
+          },
+          "successful_estimates": {
+            "type": "integer",
+            "title": "Successful Estimates",
+            "description": "Count of profiles receiving supported estimates."
+          },
+          "abstained_count": {
+            "type": "integer",
+            "title": "Abstained Count",
+            "description": "Count of abstained profiles."
+          },
+          "duration_seconds": {
+            "type": "number",
+            "title": "Duration Seconds",
+            "description": "Total wall-clock execution duration in seconds."
+          },
+          "throughput_predictions_per_sec": {
+            "type": "number",
+            "title": "Throughput Predictions Per Sec",
+            "description": "Observed throughput in predictions per second."
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "description": "Model bundle version.",
+            "default": "0.1.0"
+          },
+          "nominal_coverage": {
+            "type": "number",
+            "title": "Nominal Coverage",
+            "description": "Conformal nominal coverage applied.",
+            "default": 0.8
+          },
+          "as_of_date": {
+            "type": "string",
+            "title": "As Of Date",
+            "description": "As-of valuation date (YYYY-MM-DD)."
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "description": "Mandatory CPA 2019 statutory disclaimer (Rule R-CR-01)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_records",
+          "successful_estimates",
+          "abstained_count",
+          "duration_seconds",
+          "throughput_predictions_per_sec",
+          "as_of_date",
+          "disclaimer"
+        ],
+        "title": "BatchEstimateSummary",
+        "description": "Summary telemetry and execution metrics for a batch request."
+      },
+      "BatchProfileItem": {
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "title": "Profile Id",
+            "description": "Client-provided or generated profile tracking identifier."
+          },
+          "occupation_id": {
+            "type": "string",
+            "title": "Occupation Id",
+            "description": "Occupation identifier or role family (e.g. SWE, DATA, MLAI)."
+          },
+          "location_id": {
+            "type": "string",
+            "title": "Location Id",
+            "description": "Geographic metro tech hub identifier (e.g. BENGALURU, HYDERABAD, PUNE)."
+          },
+          "experience": {
+            "$ref": "#/components/schemas/ExperienceInput",
+            "description": "Experience parameters including total years and seniority level."
+          },
+          "extras": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Extras",
+            "description": "Optional feature conditioning attributes."
+          }
+        },
+        "type": "object",
+        "required": [
+          "occupation_id",
+          "location_id"
+        ],
+        "title": "BatchProfileItem",
+        "description": "Single candidate profile submitted in a batch estimation request."
       },
       "CareerEffortRequest": {
         "properties": {

@@ -4,10 +4,10 @@
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 23 Gates G0–G22 Ratified GO |
-| **Active Milestone** | **Phase 23 Pending (Enterprise Batch REST Endpoint)** |
-| **Active Subphase** | **Task T23.01 Author Implementation Plan for Enterprise Batch REST Endpoint** |
-| **Current Task** | **T22.06 Convene Gate G22 Ratification Review Panel (Completed)** |
-| **Next Task** | **Phase 23 Implementation Plan (Enterprise Batch REST Endpoint)** |
+| **Active Milestone** | **Phase 23 In Progress (Enterprise Batch REST Endpoint)** |
+| **Active Subphase** | **Task T23.05 Benchmark API Throughput & Latency** |
+| **Current Task** | **T23.02-T23.04 Batch Endpoint Router, Streaming & Contracts (Completed)** |
+| **Next Task** | **T23.05 Benchmark API Throughput & Latency** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

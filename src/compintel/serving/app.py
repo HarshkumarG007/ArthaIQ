@@ -25,6 +25,7 @@ from compintel.serving.middleware import (
     RequestLoggingMiddleware,
     SecurityHeadersMiddleware,
 )
+from compintel.serving.routers.batch import router as batch_router
 from compintel.serving.routers.career import router as career_router
 from compintel.serving.routers.estimates import router as estimates_router
 from compintel.serving.routers.evidence import router as evidence_router
@@ -111,6 +112,7 @@ def create_app(manager: ServingModelManager | None = None) -> FastAPI:
     app.include_router(health_router)
     app.include_router(metrics_router)
     app.include_router(estimates_router)
+    app.include_router(batch_router)
     app.include_router(taxonomy_router)
     app.include_router(models_router)
     app.include_router(evidence_router)

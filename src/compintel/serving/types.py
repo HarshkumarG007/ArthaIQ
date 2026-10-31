@@ -548,3 +548,171 @@ class FeedbackSubmissionResponse(BaseModel):
         description="Whether textual comments underwent automated PII scrubbing.",
     )
     received_at_utc: str = Field(..., description="ISO 8601 timestamp in UTC.")
+
+
+# -----------------------------------------------------------------------------
+# 9. Batch Estimation Types (Phase 23, Task T23.02)
+# -----------------------------------------------------------------------------
+
+
+class BatchProfileItem(BaseModel):
+    """Single candidate profile submitted in a batch estimation request."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    profile_id: str = Field(
+        default_factory=lambda: str(uuid4()),
+        description="Client-provided or generated profile tracking identifier.",
+    )
+    occupation_id: str = Field(
+        ...,
+        description="Occupation identifier or role family (e.g. SWE, DATA, MLAI).",
+    )
+    location_id: str = Field(
+        ...,
+        description="Geographic metro tech hub identifier (e.g. BENGALURU, HYDERABAD, PUNE).",
+    )
+    experience: ExperienceInput = Field(
+        default_factory=ExperienceInput,
+        description="Experience parameters including total years and seniority level.",
+    )
+    extras: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Optional feature conditioning attributes.",
+    )
+
+
+class BatchEstimateRequest(BaseModel):
+    """Complete request payload for POST /v1/estimates/batch."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    items: list[BatchProfileItem] = Field(
+        ...,
+        min_length=1,
+        max_length=500,
+        description="Array of candidate profiles to estimate (max 500 per batch).",
+    )
+    measure: str = Field(
+        default="guaranteed_cash_annual",
+        description="Compensation measure; PT1 strictly requires guaranteed_cash_annual.",
+    )
+    currency: str = Field(
+        default="INR",
+        description="Nominal currency code; ArthaIQ strictly prices in INR.",
+    )
+    nominal_coverage: float = Field(
+        default=0.80,
+        ge=0.50,
+        le=0.99,
+        description="Split conformal nominal coverage probability (default 80%).",
+    )
+    as_of: str | None = Field(
+        default=None,
+        description="Optional point-in-time valuation anchor date (YYYY-MM-DD).",
+    )
+
+
+class BatchEstimateItem(BaseModel):
+    """Individual estimation result within a batch response.
+
+    Adheres strictly to Rule R-UQ-01 (Zero Lone Numbers):
+    When status is 'ok', always returns full interval [p10, p50, p90] and interval_width.
+    When abstained, returns structured reasons with null estimates.
+    """
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    profile_id: str = Field(..., description="Profile identifier matching request.")
+    role_family: str = Field(..., description="Standardized role family.")
+    seniority: str = Field(..., description="Standardized seniority tier.")
+    location: str = Field(..., description="Standardized metro hub.")
+    years_experience: float = Field(..., description="Calculated years of experience.")
+    status: Literal["ok", "abstained"] = Field(
+        ...,
+        description="Status of the individual profile estimate ('ok' or 'abstained').",
+    )
+    is_abstained: bool = Field(..., description="Whether this profile was abstained.")
+    p10: float | None = Field(
+        default=None,
+        description="10th percentile conservative market floor in LPA (Rule R-UQ-01).",
+    )
+    p50: float | None = Field(
+        default=None,
+        description="50th percentile median benchmark in LPA (Rule R-UQ-01).",
+    )
+    p90: float | None = Field(
+        default=None,
+        description="90th percentile premium benchmark in LPA (Rule R-UQ-01).",
+    )
+    interval_width: float | None = Field(
+        default=None,
+        description="Spread between P90 and P10 in LPA.",
+    )
+    nominal_coverage: float = Field(
+        default=0.80,
+        description="Calibrated nominal coverage probability.",
+    )
+    target_measure: str = Field(
+        default="guaranteed_cash_annual",
+        description="Evaluated compensation measure.",
+    )
+    currency: str = Field(default="INR", description="Currency code.")
+    evidence_grade: str = Field(default="GRADE_B", description="SQSF evidence grade.")
+    support_status: str = Field(
+        default="SUPPORTED",
+        description="Empirical cohort support status.",
+    )
+    abstention_reasons: list[str] = Field(
+        default_factory=list,
+        description="Structured abstention reasons if thin support or out-of-domain.",
+    )
+    explanation: str = Field(
+        default="",
+        description="Human-readable abstention guidance or null string.",
+    )
+    model_version: str = Field(default="0.1.0", description="Active model version.")
+    latency_ms: float = Field(
+        default=0.0,
+        description="Individual item inference latency in milliseconds.",
+    )
+
+
+class BatchEstimateSummary(BaseModel):
+    """Summary telemetry and execution metrics for a batch request."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    total_records: int = Field(..., description="Total input records processed.")
+    successful_estimates: int = Field(
+        ...,
+        description="Count of profiles receiving supported estimates.",
+    )
+    abstained_count: int = Field(..., description="Count of abstained profiles.")
+    duration_seconds: float = Field(
+        ...,
+        description="Total wall-clock execution duration in seconds.",
+    )
+    throughput_predictions_per_sec: float = Field(
+        ...,
+        description="Observed throughput in predictions per second.",
+    )
+    model_version: str = Field(default="0.1.0", description="Model bundle version.")
+    nominal_coverage: float = Field(
+        default=0.80,
+        description="Conformal nominal coverage applied.",
+    )
+    as_of_date: str = Field(..., description="As-of valuation date (YYYY-MM-DD).")
+    disclaimer: str = Field(
+        ...,
+        description="Mandatory CPA 2019 statutory disclaimer (Rule R-CR-01).",
+    )
+
+
+class BatchEstimateResponse(BaseModel):
+    """Complete response payload for POST /v1/estimates/batch."""
+
+    model_config = ConfigDict(extra="ignore", frozen=True)
+
+    summary: BatchEstimateSummary
+    items: list[BatchEstimateItem]
