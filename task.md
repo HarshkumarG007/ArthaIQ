@@ -7,7 +7,7 @@
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Post-Phase 21 Platform Roadmap Assessment & Next Milestone Inception** (Phase 21 Complete: Gate G21 Ratified GO; preceding milestones: Phase 11, **NEXT TASK: Phase 15** ratified GO)
+**NEXT TASK: Phase 22: T22.02 Conduct Multi-Expert Practitioner Consensus Review** (Phase 21 Complete: Gate G21 Ratified GO; preceding milestones: Phase 11, **NEXT TASK: Phase 15** ratified GO)
 
 ## How to use this file
 
@@ -867,6 +867,34 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/gate-g21-review.md`, `tests/unit/test_phase21_gate_g21.py`. Done when: dossier ratified GO (Decision D-037), gate unit test suite 100% green, bit-for-bit parity confirmed. Needs: T21.01, T21.02. Size: S.
 
 **Gate G21:** Core Compensation Engine Backlog ratified: batch inference pipeline operational at scale (46,860 pred/sec), slice-adaptive uncertainty visualizer integrated with 0 Axe violations, and Gate G21 ratified GO. (Ratified: Decision D-037 GO 2026-10-31)
+
+---
+
+## Phase 22: MLAI Scenario Corpus Expansion
+
+> **Objective:** Expand the Machine Learning & AI (`MLAI`) practice scenario corpus from 3 to 7 canonical flaw-finding scenarios, completing a symmetrical 7-scenario library across all three technical families (21 total platform scenarios) with multi-expert practitioner consensus ($\kappa \ge 0.85$).
+> **Inputs and tools:** `config/scenarios/`, `src/compintel/career/`, `docs/pilot/`, `apps/web/`; Python, Node, vitest, pytest.
+> **Deliverables:** 4 new canonical scenario JSON files (`scen_mlai_04_rag.json` to `scen_mlai_07_guard.json`), practitioner review dossier, automated unit test suite, staging simulation audit (21 scenarios), web UI integration, Gate G22 review dossier.
+> **Effort (assumption):** 1 session.
+> **GO if:** 4 scenarios validated against Pydantic schema with deterministic rubrics, panel consensus $\kappa \ge 0.85$, 10/10 staging metrics pass across 21 scenarios, 0 Axe Core violations, Gate G22 ratified GO.
+> **NO-GO:** Stay in Phase 22 until all criteria met.
+
+**NEXT TASK: Phase 22: T22.02 Conduct Multi-Expert Practitioner Consensus Review** (Phase 21 Complete: Gate G21 Ratified GO)
+
+- [x] **T22.01** [AI] Author 4 Canonical Scenario JSON Definitions (`SCEN-MLAI-04-VEC`, `SCEN-MLAI-05-DIST`, `SCEN-MLAI-06-DRIFT`, `SCEN-MLAI-07-GUARD`). (done 2026-10-31)
+      Output: `config/scenarios/scen_mlai_04_rag.json`, `config/scenarios/scen_mlai_05_distrib.json`, `config/scenarios/scen_mlai_06_drift.json`, `config/scenarios/scen_mlai_07_guard.json`. Done when: all 4 scenarios parse into `PracticeScenario` with 3-4 seeded defects, anti-causal (Rule R-CR-01) and anti-credential (Rule R-CR-11) checks pass. Needs: Gate G21 GO. Size: M.
+- [ ] **T22.02** [AI+HUMAN] Conduct Multi-Expert Practitioner Consensus Review.
+      Output: `docs/pilot/scenario-review-mlai-corpus-expansion.md`. Done when: 3 independent expert reviewers audit all 4 scenarios, adjudicating consensus with Cohen's/Fleiss' Kappa $\ge 0.85$. Needs: T22.01. Size: S.
+- [ ] **T22.03** [AI] Implement Comprehensive MLAI Expansion Automated Unit Test Suite.
+      Output: `tests/unit/test_career_scenarios_mlai_expansion.py`. Done when: test suite validates schema compliance, 100% deterministic rubric scoring (variance = 0.0), sub-5ms latency SLA, and zero answer key leakage. Needs: T22.01. Size: M.
+- [ ] **T22.04** [AI] Execute Staging Audit Simulation Across All 21 Canonical Scenarios.
+      Output: `experiments/results/career_pilot_staging_audit_v1.json`. Done when: simulation evaluates $N=21$ scenarios across 300 attempts, confirming 10/10 `M-STG` metrics continue to PASS. Needs: T22.01, T22.03. Size: S.
+- [ ] **T22.05** [AI] Update Web UI Scenario Registry & Validate Accessibility.
+      Output: `apps/web/src/components/career/PracticeWorkspace.tsx`, web tests. Done when: UI renders all 21 scenarios across DATA, SWE, and MLAI tabs with 0 Axe Core violations. Needs: T22.01. Size: M.
+- [ ] **T22.06** [AI+HUMAN] Convene Gate G22 Ratification Review Panel.
+      Output: `docs/pilot/gate-g22-review.md`, `tests/unit/test_phase22_gate_g22.py`. Done when: dossier ratified GO (Decision D-038), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T22.01-T22.05. Size: S.
+
+**Gate G22:** MLAI Scenario Corpus Expansion ratified: 7 canonical MLAI scenarios operational (21 platform total), practitioner consensus $\kappa \ge 0.85$, 10/10 staging metrics pass, web UI accessible with 0 Axe violations, and Gate G22 ratified GO. (Pending)
 
 ---
 

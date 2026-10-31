@@ -4,10 +4,10 @@
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
 | **Release Status** | **v1.2.0 Production Staging Deployed** · All 22 Gates G0–G21 Ratified GO |
-| **Active Milestone** | **Phase 21 Complete (Gates G0–G21 Ratified GO)** |
-| **Active Subphase** | **Post-Phase 21 Platform Roadmap Assessment & Next Milestone Inception** |
-| **Current Task** | **T21.03 Convene Gate G21 Ratification Review Panel (Completed)** |
-| **Next Task** | **Post-Phase 21 Platform Roadmap Assessment & Next Milestone Inception** |
+| **Active Milestone** | **Phase 22 In Progress (MLAI Scenario Corpus Expansion)** |
+| **Active Subphase** | **Task T22.01 Author 4 Canonical Scenario JSON Definitions** |
+| **Current Task** | **T22.01 Author 4 Canonical Scenario JSON Definitions (Completed)** |
+| **Next Task** | **T22.02 Multi-Expert Practitioner Consensus Review** |
 | **Last Updated** | **2026-10-31** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

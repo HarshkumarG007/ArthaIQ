@@ -1,0 +1,79 @@
+{
+  "id": "SCEN-MLAI-06-DRIFT",
+  "title": "Diagnostic Review: Conformal Prediction Covariate Shift & Miscalibration Audit",
+  "description": "Inspect a split conformal calibration pipeline for covariate population drift neglect, missing finite-sample sample size adjustments, and unhandled NaN residual propagation.",
+  "role_family": "MLAI",
+  "target_level": 3,
+  "primary_competency_id": "mlai.eval.l3_conformal_calib",
+  "secondary_competency_ids": [
+    "mlai.eval.l2_leakage_audit",
+    "mlai.math.l2_convex_opt"
+  ],
+  "artifact": {
+    "content": "import numpy as np\nfrom scipy import stats\n\nclass ConformalCalibrator:\n    def __init__(self, alpha: float = 0.10):\n        self.alpha = alpha\n        self.q_hat: float | None = None\n\n    def calibrate(self, y_true: np.ndarray, y_pred_lower: np.ndarray, y_pred_upper: np.ndarray):\n        # Residual computation without NaN validation silently propages invalid residuals\n        residuals = np.maximum(y_pred_lower - y_true, y_true - y_pred_upper)\n        n = len(residuals)\n        \n        # Standard quantile without finite-sample (n+1)/n correction violates coverage guarantee\n        self.q_hat = float(np.quantile(residuals, 1.0 - self.alpha))\n\n    def predict_interval(self, point_preds: np.ndarray, incoming_features: np.ndarray) -> np.ndarray:\n        # Applying fixed calibration under extreme covariate shift without drift audit\n        # Drifting feature distributions invalidate exchangeability assumption\n        lower = point_preds - self.q_hat\n        upper = point_preds + self.q_hat\n        return np.column_stack([lower, upper])",
+    "language": "python",
+    "line_count": 22
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-06-DRIFT",
+    "defects": [
+      {
+        "id": "DEF-MLAI-06-NAN",
+        "line_number": 11,
+        "category": "null_handling",
+        "severity": "major",
+        "title": "Unsanitized Residual Computation Allowing Silent NaN Propagation",
+        "consequence": "Missing NaN checks in non-conformity score calculation allows missing data to silently contaminate q_hat, corrupting prediction bounds.",
+        "diagnostic_explanation": "Assert absence of NaNs and infinities in y_true and predictions prior to residual evaluation, or filter invalid samples with explicit telemetry.",
+        "competency_id": "mlai.eval.l2_leakage_audit",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-06-CORR",
+        "line_number": 15,
+        "category": "metric_misalignment",
+        "severity": "critical",
+        "title": "Empirical Quantile Computation Lacking Finite-Sample Correction Factor",
+        "consequence": "Using standard continuous np.quantile without the ceil((n+1)*(1-alpha))/n finite-sample adjustment under-covers nominal 1-alpha confidence.",
+        "diagnostic_explanation": "Compute conformal non-conformity threshold using quantile index p = np.ceil((n + 1) * (1 - alpha)) / n clipped to 1.0.",
+        "competency_id": "mlai.eval.l3_conformal_calib",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-06-SHIFT",
+        "line_number": 19,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Applying Conformal Intervals Across Undetected Covariate Shift",
+        "consequence": "Deploying fixed non-conformity scores without monitoring covariate distribution drift violates exchangeability, causing empirical coverage degradation.",
+        "diagnostic_explanation": "Implement KS-test or Population Stability Index (PSI) drift monitoring on incoming feature batches and trigger recalibration when shift is detected.",
+        "competency_id": "mlai.eval.l3_conformal_calib",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-01",
+      "description": "Standard diagnostic variant for flaw verification",
+      "parameters": {},
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-06",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

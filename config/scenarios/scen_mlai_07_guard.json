@@ -1,0 +1,79 @@
+{
+  "id": "SCEN-MLAI-07-GUARD",
+  "title": "Diagnostic Review: Output Guardrail Delimiter Breakout & Preference Divergence",
+  "description": "Inspect a local RAG output evaluation pipeline for prompt delimiter escape vulnerability, unvalidated canary token leakage, and insecure eval-based JSON output parsing.",
+  "role_family": "MLAI",
+  "target_level": 3,
+  "primary_competency_id": "mlai.gen.l3_guardrails",
+  "secondary_competency_ids": [
+    "mlai.gen.l4_preference_dpo",
+    "mlai.eval.l4_dpdp_privacy"
+  ],
+  "artifact": {
+    "content": "import re\nimport json\nfrom typing import Any\n\nCANARY_TOKEN = \"CANARY_ARTHAIQ_CONFIDENTIAL_KEY_9981\"\n\ndef format_model_prompt(untrusted_user_input: str, retrieved_context: str) -> str:\n    # Raw string interpolation without delimiter escaping allows prompt injection override\n    prompt = f\"\"\"System: You are an internal diagnostic assistant.\nContext: {retrieved_context}\nUser: {untrusted_user_input}\nResponse:\"\"\"\n    return prompt\n\ndef post_process_model_response(raw_response: str) -> dict[str, Any]:\n    # Emitting response without validating absence of canary tokens risks systemic data exfiltration\n    cleaned = raw_response.strip()\n    \n    # Insecure deserialization using Python eval instead of safe json.loads creates code execution vulnerability\n    parsed_output = eval(cleaned)\n    return parsed_output",
+    "language": "python",
+    "line_count": 21
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-07-GUARD",
+    "defects": [
+      {
+        "id": "DEF-MLAI-07-DELIM",
+        "line_number": 9,
+        "category": "sql_injection",
+        "severity": "critical",
+        "title": "Unsanitized User Input Direct Interpolation Causing Delimiter Breakout",
+        "consequence": "Directly concatenating untrusted user input into prompt templates allows attackers to break out of delimiters and hijack system instructions.",
+        "diagnostic_explanation": "Enforce strict XML or markdown framing (e.g. <user_query>...</user_query>), strip delimiter tags from inputs, and treat user text strictly as data.",
+        "competency_id": "mlai.gen.l3_guardrails",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-07-CANARY",
+        "line_number": 16,
+        "category": "data_leakage",
+        "severity": "major",
+        "title": "Missing Canary Token Verification Before Output Emission",
+        "consequence": "Failing to check whether sensitive context canary tokens leaked into the model output exposes private retrieval data to external callers.",
+        "diagnostic_explanation": "Scan final output strings for injected canary tokens and drop the response or abstain if any match is detected.",
+        "competency_id": "mlai.eval.l4_dpdp_privacy",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-07-EVAL",
+        "line_number": 20,
+        "category": "broken_authentication",
+        "severity": "critical",
+        "title": "Arbitrary Code Execution via Python eval Deserialization",
+        "consequence": "Using built-in eval() on LLM-generated output allows adversarial prompt payloads to execute arbitrary Python instructions on the host.",
+        "diagnostic_explanation": "Use safe JSON deserializers (json.loads) and Pydantic validation schemas; never invoke eval() or exec() on untrusted strings.",
+        "competency_id": "mlai.gen.l3_guardrails",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-01",
+      "description": "Standard diagnostic variant for flaw verification",
+      "parameters": {},
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-07",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

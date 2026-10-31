@@ -1,0 +1,79 @@
+{
+  "id": "SCEN-MLAI-05-DIST",
+  "title": "Diagnostic Review: Distributed Data Parallelism Deadlock & Collective Barrier Race",
+  "description": "Inspect a multi-GPU PyTorch DDP training script for rank-conditional collective communication deadlocks, uncoordinated barrier checkpoint racing, and unscaled learning rates.",
+  "role_family": "MLAI",
+  "target_level": 4,
+  "primary_competency_id": "mlai.ops.l4_dist_training",
+  "secondary_competency_ids": [
+    "mlai.math.l3_stochastic_opt",
+    "mlai.ops.l2_model_registry"
+  ],
+  "artifact": {
+    "content": "import os\nimport torch\nimport torch.distributed as dist\nimport torch.nn as nn\nfrom torch.nn.parallel import DistributedDataParallel as DDP\n\ndef setup_distributed_training(local_rank: int, world_size: int):\n    torch.cuda.set_device(local_rank)\n    dist.init_process_group(backend=\"nccl\", init_method=\"env://\")\n    model = nn.Linear(512, 10).to(local_rank)\n    ddp_model = DDP(model, device_ids=[local_rank])\n    \n    # Fixed learning rate regardless of world size causes divergence as batch size scales\n    base_lr = 1e-4\n    optimizer = torch.optim.AdamW(ddp_model.parameters(), lr=base_lr)\n    return ddp_model, optimizer\n\ndef train_step(rank: int, ddp_model: nn.Module, batch_data: torch.Tensor, optimizer: torch.optim.Optimizer):\n    output = ddp_model(batch_data)\n    loss = output.sum()\n    loss.backward()\n    optimizer.step()\n    \n    # Placing collective all_reduce in rank-conditional branch deadlocks all other ranks\n    if rank == 0:\n        dist.all_reduce(loss, op=dist.ReduceOp.SUM)\n        print(f\"Master reduced loss: {loss.item()}\")\n\ndef save_model_checkpoint(rank: int, model: nn.Module, epoch: int, path: str):\n    # Rank 0 writes checkpoint without synchronization barrier, racing with rank 1..N reads\n    if rank == 0:\n        torch.save(model.state_dict(), path)\n    # Missing dist.barrier() causes other ranks to proceed before disk write finishes",
+    "language": "python",
+    "line_count": 33
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-05-DIST",
+    "defects": [
+      {
+        "id": "DEF-MLAI-05-LR",
+        "line_number": 14,
+        "category": "metric_misalignment",
+        "severity": "major",
+        "title": "Unscaled Learning Rate Across Distributed World Size",
+        "consequence": "Keeping learning rate constant while effective batch size scales 8x across GPUs causes gradient variance mismatch and loss divergence.",
+        "diagnostic_explanation": "Scale learning rate linearly or via square root with world size (e.g. lr = base_lr * world_size) and introduce warmup schedule.",
+        "competency_id": "mlai.math.l3_stochastic_opt",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-05-DEAD",
+        "line_number": 25,
+        "category": "blocking_call",
+        "severity": "critical",
+        "title": "Asymmetric Collective Communication in Conditional Branch",
+        "consequence": "Calling all_reduce only on rank 0 causes all other GPU worker ranks to hang perpetually waiting for rank 0 in collective NCCL ring.",
+        "diagnostic_explanation": "All participating ranks in the process group must invoke collective communication operations unconditionally.",
+        "competency_id": "mlai.ops.l4_dist_training",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-05-RACE",
+        "line_number": 32,
+        "category": "race_condition",
+        "severity": "critical",
+        "title": "Missing Distributed Barrier Synchronization Around Checkpoint Save",
+        "consequence": "Non-master ranks proceed immediately to downstream evaluation while rank 0 is still flushing state to disk, causing file read corruption.",
+        "diagnostic_explanation": "Insert dist.barrier() after rank 0 save operation to ensure all ranks wait until checkpoint write is complete.",
+        "competency_id": "mlai.ops.l4_dist_training",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-01",
+      "description": "Standard diagnostic variant for flaw verification",
+      "parameters": {},
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-05",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

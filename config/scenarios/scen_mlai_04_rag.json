@@ -1,0 +1,79 @@
+{
+  "id": "SCEN-MLAI-04-VEC",
+  "title": "Diagnostic Review: Vector Indexing & Contrastive Retrieval Latency Degradation",
+  "description": "Inspect a vector embedding retrieval pipeline for unnormalized distance metrics, HNSW index parameter under-configuration, and unindexed metadata query bottlenecks.",
+  "role_family": "MLAI",
+  "target_level": 3,
+  "primary_competency_id": "mlai.core.l3_repr_learning",
+  "secondary_competency_ids": [
+    "mlai.math.l2_linear_algebra",
+    "mlai.ops.l4_quant_serving"
+  ],
+  "artifact": {
+    "content": "import numpy as np\nfrom typing import Any\n\nclass VectorRetrievalEngine:\n    def __init__(self, embedding_dim: int = 768):\n        self.dim = embedding_dim\n        self.index_vectors: list[np.ndarray] = []\n        self.metadata_records: list[dict[str, Any]] = []\n        # HNSW configuration with severely constrained search queue\n        self.ef_search = 4\n\n    def index_item(self, doc_id: str, vector: np.ndarray, tenant_id: str):\n        # Embeddings stored directly without unit-norm projection\n        self.index_vectors.append(vector)\n        self.metadata_records.append({'doc_id': doc_id, 'tenant_id': tenant_id})\n\n    def query_top_k(self, query_vec: np.ndarray, tenant_filter: str, k: int = 10) -> list[dict[str, Any]]:\n        # Linear scan over all metadata records to match tenant before distance computation\n        valid_indices = [\n            idx for idx, meta in enumerate(self.metadata_records)\n            if meta['tenant_id'] == tenant_filter\n        ]\n        \n        # Computing raw unnormalized Euclidean distance produces arbitrary ranking across scales\n        scored = []\n        for idx in valid_indices:\n            vec = self.index_vectors[idx]\n            dist = np.linalg.norm(query_vec - vec)\n            scored.append((dist, self.metadata_records[idx]))\n            \n        scored.sort(key=lambda item: item[0])\n        # ef_search parameter limits candidate exploration causing recall drop to < 60%\n        return [item[1] for item in scored[:k]]",
+    "language": "python",
+    "line_count": 33
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-04-VEC",
+    "defects": [
+      {
+        "id": "DEF-MLAI-04-NORM",
+        "line_number": 14,
+        "category": "metric_misalignment",
+        "severity": "critical",
+        "title": "Unnormalized Embeddings Queried with Euclidean Distance",
+        "consequence": "Storing and querying raw unnormalized embeddings with Euclidean L2 distance invalidates contrastive semantic ranking when vector magnitudes vary.",
+        "diagnostic_explanation": "Normalize all embeddings to unit L2-norm (norm == 1.0) on ingestion and use cosine similarity or normalized dot product.",
+        "competency_id": "mlai.core.l3_repr_learning",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-04-SCAN",
+        "line_number": 19,
+        "category": "unbounded_collection",
+        "severity": "major",
+        "title": "Unindexed Metadata Linear Scan Inside Retrieval Query Path",
+        "consequence": "Iterating through all metadata records sequentially creates an O(N) traversal bottleneck exceeding 850ms latency as document count scales.",
+        "diagnostic_explanation": "Maintain an inverted index or partitioned namespace map for tenant filters to avoid full-table scans.",
+        "competency_id": "mlai.ops.l4_quant_serving",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-04-HNSW",
+        "line_number": 33,
+        "category": "metric_misalignment",
+        "severity": "critical",
+        "title": "Severe HNSW ef_search Under-Configuration Causing Recall Collapse",
+        "consequence": "Setting ef_search to 4 truncates candidate beam exploration prematurely, dropping top-k recall below 60% on high-dimensional manifolds.",
+        "diagnostic_explanation": "Configure ef_search >= 64 (or dynamic scaling k * 2 <= ef_search) to satisfy required recall thresholds.",
+        "competency_id": "mlai.core.l3_repr_learning",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-01",
+      "description": "Standard diagnostic variant for flaw verification",
+      "parameters": {},
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-04",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}
