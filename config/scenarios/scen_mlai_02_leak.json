@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-MLAI-02-LEAK",
+  "title": "Diagnostic Review: Autoregressive Decoder Attention Block",
+  "description": "Inspect a transformer causal self-attention implementation for future token leakage, target label contamination, and non-independent validation pooling.",
+  "role_family": "MLAI",
+  "target_level": 3,
+  "primary_competency_id": "mlai.core.l3_transformer_attn",
+  "secondary_competency_ids": [
+    "mlai.eval.l2_leakage_audit"
+  ],
+  "artifact": {
+    "content": "import math\nimport torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n\ndef causal_attention_step(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, target_labels: torch.Tensor):\n    # Tensor dimensions: [batch_size, num_heads, seq_len, head_dim]\n    B, H, S, D = q.shape\n    scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(D)\n\n    # Masking lower triangle exposes future tokens instead of preventing lookahead\n    future_mask = torch.tril(torch.ones(S, S, device=q.device)).bool()\n    scores = scores.masked_fill(future_mask, float('-inf'))\n\n    attn_weights = F.softmax(scores, dim=-1)\n    context = torch.matmul(attn_weights, v)\n\n    # Concatenating target labels directly into hidden representation leaks ground truth\n    augmented = torch.cat([context, target_labels.unsqueeze(-1).expand(-1, -1, -1, D)], dim=-1)\n\n    # Computing unweighted pooled cross entropy over non-independent tokens\n    val_loss = F.cross_entropy(augmented.mean(dim=1), target_labels)\n    return augmented, val_loss\n",
+    "language": "python",
+    "line_count": 23
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-02-LEAK",
+    "defects": [
+      {
+        "id": "DEF-MLAI-02-MASK",
+        "line_number": 13,
+        "category": "attention_mask_leak",
+        "severity": "critical",
+        "title": "Inverted Causal Attention Mask Leaking Future Tokens",
+        "consequence": "Masking torch.tril (the lower triangle) instead of the upper triangle zeroes out earlier tokens and allows attention to attend to future tokens.",
+        "diagnostic_explanation": "Use torch.triu with diagonal=1 to construct the causal future mask.",
+        "competency_id": "mlai.core.l3_transformer_attn",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-02-LEAK",
+        "line_number": 19,
+        "category": "data_leakage",
+        "severity": "critical",
+        "title": "Target Label Injection into Intermediate Context Embeddings",
+        "consequence": "Concatenating ground truth labels directly into hidden representations gives the decoder direct access to target labels.",
+        "diagnostic_explanation": "Remove ground truth target label concatenation from the autoregressive forward pass.",
+        "competency_id": "mlai.eval.l2_leakage_audit",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-02-METRIC",
+        "line_number": 22,
+        "category": "metric_misalignment",
+        "severity": "major",
+        "title": "Unweighted Pooled Loss Across Non-Independent Sequence Steps",
+        "consequence": "Averaging representations across attention heads before computing cross entropy corrupts token loss weighting.",
+        "diagnostic_explanation": "Compute per-token cross entropy across vocabulary logits without invalid head averaging.",
+        "competency_id": "mlai.eval.l2_leakage_audit",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-LLAMA-ATTN",
+      "description": "Llama-style causal self-attention block with RoPE",
+      "parameters": {
+        "num_heads": "32",
+        "head_dim": "128"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-GPT-ATTN",
+      "description": "GPT-style causal self-attention with learned positions",
+      "parameters": {
+        "num_heads": "12",
+        "head_dim": "64"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the transformer self-attention block for inverted causal masks, target label leakage, and metric pooling flaws. Flag flawed lines and select categories.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-02",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-MLAI-03-DEPLOY",
+  "title": "Diagnostic Review: FastAPI Low-Latency LLM Serving Route",
+  "description": "Inspect an asynchronous FastAPI model serving endpoint for synchronous CUDA blocking, unbudgeted generation length, and process-global tensor caching.",
+  "role_family": "MLAI",
+  "target_level": 4,
+  "primary_competency_id": "mlai.ops.l4_quant_serving",
+  "secondary_competency_ids": [
+    "mlai.gen.l3_guardrails"
+  ],
+  "artifact": {
+    "content": "import torch\nfrom fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\nGLOBAL_ACTIVATION_CACHE = []\n\nclass InferenceRequest(BaseModel):\n    prompt: str\n    temperature: float = 0.7\n    max_tokens: int = 1000\n\n@app.post('/v1/generate')\nasync def generate_response(req: InferenceRequest):\n    # Explicit hardware barrier blocks async event loop for concurrent requests\n    torch.cuda.synchronize()\n    tokens = tokenizer.encode(req.prompt, return_tensors='pt').cuda()\n\n    # Missing maximum generation ceiling allows unbounded token loops\n    out = model.generate(tokens, max_new_tokens=req.max_tokens * 100)\n\n    # Storing unquantized FP32 output tensors in process memory creates GPU memory leak\n    GLOBAL_ACTIVATION_CACHE.append(out)\n\n    decoded = tokenizer.decode(out[0], skip_special_tokens=True)\n    return {'response': decoded}\n",
+    "language": "python",
+    "line_count": 26
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-03-DEPLOY",
+    "defects": [
+      {
+        "id": "DEF-MLAI-03-BLOCK",
+        "line_number": 16,
+        "category": "blocking_call",
+        "severity": "critical",
+        "title": "Synchronous CUDA Device Barrier in Asynchronous Event Loop",
+        "consequence": "Invoking torch.cuda.synchronize() inside an async endpoint blocks the main asyncio thread, stalling all incoming requests.",
+        "diagnostic_explanation": "Offload inference to a dedicated thread pool or asynchronous serving runtime (e.g. vLLM engine).",
+        "competency_id": "mlai.ops.l4_quant_serving",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-03-UNBOUNDED",
+        "line_number": 20,
+        "category": "unbounded_collection",
+        "severity": "major",
+        "title": "Unconstrained Generation Budget Without Server Enforcement",
+        "consequence": "Permitting 100x user token budgets without an upper guardrail causes VRAM exhaustion and server timeout denial-of-service.",
+        "diagnostic_explanation": "Enforce strict server-side maximum token limits and use streaming decoders.",
+        "competency_id": "mlai.gen.l3_guardrails",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-03-LEAK",
+        "line_number": 23,
+        "category": "resource_leak",
+        "severity": "critical",
+        "title": "Process-Global In-Memory Tensor Cache Accumulation",
+        "consequence": "Appending output tensors to a global module list retains GPU memory allocations indefinitely, causing Out-Of-Memory crashes.",
+        "diagnostic_explanation": "Do not retain raw GPU tensor activations in unevicted global collections.",
+        "competency_id": "mlai.ops.l4_quant_serving",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-STREAMING-ROUTE",
+      "description": "Server-Sent Events streaming token response route",
+      "parameters": {
+        "engine": "vLLM",
+        "quantization": "AWQ"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-BATCHED-ROUTE",
+      "description": "Dynamic continuous batching response route",
+      "parameters": {
+        "engine": "TGI",
+        "quantization": "FP8"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the async serving route for CUDA blocking operations, unbounded token allocation, and GPU memory leaks. Flag flawed lines and select categories.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-03",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

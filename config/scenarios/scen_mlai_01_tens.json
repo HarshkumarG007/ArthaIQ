@@ -1,0 +1,93 @@
+{
+  "id": "SCEN-MLAI-01-TENS",
+  "title": "Diagnostic Review: PyTorch Mini-Batch Training Loop",
+  "description": "Inspect a PyTorch mini-batch training loop for tensor shape broadcasting anomalies, computation graph VRAM retention, and unseeded randomness.",
+  "role_family": "MLAI",
+  "target_level": 2,
+  "primary_competency_id": "mlai.core.l2_neural_backprop",
+  "secondary_competency_ids": [
+    "mlai.ops.l2_model_registry"
+  ],
+  "artifact": {
+    "content": "import torch\nimport torch.nn as nn\n\nclass MLP(nn.Module):\n    def __init__(self, in_dim: int, hidden_dim: int):\n        super().__init__()\n        self.fc1 = nn.Linear(in_dim, hidden_dim)\n        self.fc2 = nn.Linear(hidden_dim, 1)\n\n    def forward(self, x: torch.Tensor) -> torch.Tensor:\n        return self.fc2(torch.relu(self.fc1(x)))\n\ndef train_epoch(model: nn.Module, loader, optimizer: torch.optim.Optimizer, criterion: nn.Module):\n    model.train()\n    # Subsample validation indices with unseeded generator\n    val_indices = torch.randperm(len(loader.dataset))[:10]\n    total_loss = 0.0\n    for batch_x, batch_y in loader:\n        optimizer.zero_grad()\n        predictions = model(batch_x)\n        # Predictions shape [B, 1] vs target shape [B] triggers broadcast\n        loss = criterion(predictions, batch_y)\n        loss.backward()\n        optimizer.step()\n        # Retaining graph reference in accumulator exhausts GPU VRAM\n        total_loss += loss\n    return total_loss / len(loader)\n",
+    "language": "python",
+    "line_count": 27
+  },
+  "rubric": {
+    "scenario_id": "SCEN-MLAI-01-TENS",
+    "defects": [
+      {
+        "id": "DEF-MLAI-01-SEED",
+        "line_number": 16,
+        "category": "unseeded_randomness",
+        "severity": "major",
+        "title": "Unseeded Random Permutation in Dataset Subsampling",
+        "consequence": "Sampling validation batches without a seeded generator causes non-deterministic evaluations across runs.",
+        "diagnostic_explanation": "Provide a seeded torch.Generator instance to ensure reproducibility.",
+        "competency_id": "mlai.ops.l2_model_registry",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-01-SHAPE",
+        "line_number": 22,
+        "category": "tensor_shape_mismatch",
+        "severity": "critical",
+        "title": "Target Tensor Dimension Mismatch with Unintended Broadcasting",
+        "consequence": "Passing (N, 1) predictions and (N,) targets to MSELoss triggers multidimensional broadcast producing an (N, N) matrix error.",
+        "diagnostic_explanation": "Squeeze predictions to (N,) or unsqueeze targets to match dimensions exactly.",
+        "competency_id": "mlai.core.l2_neural_backprop",
+        "points": 1.0
+      },
+      {
+        "id": "DEF-MLAI-01-GRAPH",
+        "line_number": 26,
+        "category": "computation_graph_leak",
+        "severity": "critical",
+        "title": "Accumulating Tensor with Computational Graph Attached",
+        "consequence": "Adding the loss tensor directly retains the entire autograd backward history across all batches, causing GPU Out-Of-Memory (OOM).",
+        "diagnostic_explanation": "Use loss.item() or loss.detach() to accumulate scalar values without graph retention.",
+        "competency_id": "mlai.core.l2_neural_backprop",
+        "points": 1.0
+      }
+    ],
+    "pass_threshold_score": 2.0,
+    "false_flag_penalty": {
+      "penalty_per_flag": 0.5,
+      "max_penalty": 1.5
+    }
+  },
+  "variants": [
+    {
+      "variant_id": "VAR-IMAGE-CLASSIFIER",
+      "description": "CNN training loop on image classification batches",
+      "parameters": {
+        "batch_size": "64",
+        "optimizer": "AdamW"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    },
+    {
+      "variant_id": "VAR-TABULAR-REGRESSOR",
+      "description": "MLP training loop on tabular regression batches",
+      "parameters": {
+        "batch_size": "128",
+        "optimizer": "SGD"
+      },
+      "artifact_override": null,
+      "rubric_override": null
+    }
+  ],
+  "instructions": "Inspect the PyTorch training loop for broadcasting errors, computation graph leaks, and non-reproducible randomness. Flag flawed lines and select correct categories.",
+  "disclaimer": "Technical practice scenario for capability self-reflection and professional development (Rules R-CR-08, R-CR-11).",
+  "provenance": {
+    "source_id": "ARTHAIQ-CURATED",
+    "source_code": "ARTHAIQ-SCEN-MLAI-01",
+    "license": "PROPRIETARY-INTERNAL",
+    "attribution_required": true,
+    "attribution_text": "ArthaIQ Curated Technical Flaw-Finding Benchmark (MLAI Family)",
+    "modified_flag": false,
+    "curator": "MLAI Review Panel",
+    "curated_date": "2026-10-31"
+  }
+}

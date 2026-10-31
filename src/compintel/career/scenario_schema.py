@@ -102,6 +102,13 @@ class DefectCategory(StrEnum):
     UNBOUNDED_COLLECTION = "unbounded_collection"
     BROKEN_AUTHENTICATION = "broken_authentication"
 
+    # Machine learning & AI defects
+    TENSOR_SHAPE_MISMATCH = "tensor_shape_mismatch"
+    COMPUTATION_GRAPH_LEAK = "computation_graph_leak"
+    UNSEEDED_RANDOMNESS = "unseeded_randomness"
+    ATTENTION_MASK_LEAK = "attention_mask_leak"
+    BLOCKING_CALL = "blocking_call"
+
 
 class DefectSeverity(StrEnum):
     """Engineering impact severity of seeded defects."""
