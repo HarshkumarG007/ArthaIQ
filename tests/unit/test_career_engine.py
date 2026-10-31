@@ -85,8 +85,8 @@ def test_filesystem_taxonomy_adapter_unsupported_family_error(
     filesystem_taxonomy_adapter: FilesystemTaxonomyAdapter,
 ) -> None:
     """Verify querying an unratified family raises ValueError."""
-    with pytest.raises(ValueError, match="Occupational family 'MLAI' is not supported"):
-        filesystem_taxonomy_adapter.get_competency_graph("MLAI")
+    with pytest.raises(ValueError, match="Occupational family 'DEVOPS' is not supported"):
+        filesystem_taxonomy_adapter.get_competency_graph("DEVOPS")
 
 
 def test_stub_compensation_adapter_protocol_conformance(

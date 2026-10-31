@@ -160,8 +160,8 @@ def test_unsupported_family_error_handling(
     taxonomy_adapter: FilesystemTaxonomyAdapter, career_engine: CareerEngine
 ) -> None:
     """Verify unsupported family queries raise explicit ValueError with supported options."""
-    with pytest.raises(ValueError, match="Occupational family 'MLAI' is not supported"):
-        taxonomy_adapter.get_competency_graph("MLAI")
+    with pytest.raises(ValueError, match="Occupational family 'DEVOPS' is not supported"):
+        taxonomy_adapter.get_competency_graph("DEVOPS")
 
     with pytest.raises(ValueError, match="Occupational family 'UNKNOWN' is not supported"):
         career_engine.get_graph("UNKNOWN")

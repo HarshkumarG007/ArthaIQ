@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from compintel.career.graph import load_data_family_graph
+from compintel.career.mlai_graph import load_mlai_family_graph
+from compintel.career.mlai_rubric import load_mlai_difficulty_rubrics
 from compintel.career.rubric import load_difficulty_rubrics
 from compintel.career.schema import (
     CompensationEvidenceSummary,
@@ -96,6 +98,8 @@ class FilesystemTaxonomyAdapter:
         data_rubrics_file = self._taxonomy_dir / "difficulty_rubrics.json"
         swe_graph_file = self._taxonomy_dir / "competency_graph_swe.json"
         swe_rubrics_file = self._taxonomy_dir / "difficulty_rubrics_swe.json"
+        mlai_graph_file = self._taxonomy_dir / "competency_graph_mlai.json"
+        mlai_rubrics_file = self._taxonomy_dir / "difficulty_rubrics_mlai.json"
 
         if not data_graph_file.exists():
             raise FileNotFoundError(
@@ -130,6 +134,17 @@ class FilesystemTaxonomyAdapter:
             for n in swe_graph.nodes:
                 self._nodes_by_family_and_id[("SWE", n.id)] = n
             for e in swe_rubrics.entries:
+                self._all_rubrics_by_id[e.node_id] = e
+
+        # Load MLAI family if files exist
+        if mlai_graph_file.exists() and mlai_rubrics_file.exists():
+            mlai_graph = load_mlai_family_graph(mlai_graph_file)
+            mlai_rubrics = load_mlai_difficulty_rubrics(mlai_rubrics_file)
+            self._graphs["MLAI"] = mlai_graph
+            self._rubrics["MLAI"] = mlai_rubrics
+            for n in mlai_graph.nodes:
+                self._nodes_by_family_and_id[("MLAI", n.id)] = n
+            for e in mlai_rubrics.entries:
                 self._all_rubrics_by_id[e.node_id] = e
 
         # Backwards compatibility attributes (DATA)
