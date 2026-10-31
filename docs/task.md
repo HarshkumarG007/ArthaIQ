@@ -935,7 +935,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** N=150 cohort completes journeys with $\ge 90\%$ comprehension, $\ge 95\%$ completion rate, $k$-anonymity suppression ($k \ge 5$), zero DPDP Act residual bytes on purge, zero causal claims, and Gate G24 ratified GO.
 > **NO-GO:** Stay in Phase 24 until all criteria met.
 
-**NEXT TASK: Phase 24: T24.05 Convene Gate G24 Ratification Review Panel** (Phase 23 Complete: Gate G23 Ratified GO)
+**NEXT TASK: Post-Phase 24 Platform Evolution & Operations** (Phase 24 Complete: Gate G24 Ratified GO)
 
 - [x] **T24.01** [AI] Author Implementation Plan for Live Pilot Field Run (`PLAN-PILOT-FIELD-RUN-01`). (done 2026-10-31)
       Output: `implementation-plan-pilot-field-run.md`. Done when: plan specifies cohort stratification, telemetry capture, privacy guardrails, and gate verification rubric. Needs: Gate G23 GO. Size: S.
@@ -945,10 +945,10 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `apps/web/src/components/career/PilotDashboard.tsx` validation. Done when: pre-registered M-STG metrics evaluate cleanly with $k$-anonymity. Needs: T24.02. Size: S.
 - [x] **T24.04** [AI] Verify Section 12 Right to Erasure & Audit Trail. (done 2026-10-31)
       Output: Verification report and unit tests. Done when: hard purge yields 0 residual bytes and audit logs verify deletion. Needs: T24.02. Size: S.
-- [ ] **T24.05** [AI+HUMAN] Convene Gate G24 Ratification Review Panel.
+- [x] **T24.05** [AI+HUMAN] Convene Gate G24 Ratification Review Panel. (done 2026-10-31, Gate G24 Ratified GO)
       Output: `docs/pilot/gate-g24-review.md`, `tests/unit/test_phase24_gate_g24.py`. Done when: dossier ratified GO (Decision D-040), gate test suite 100% green, canonical mirror pairs synchronized. Needs: T24.01-T24.04. Size: S.
 
-**Gate G24:** Live Pilot Participant Cohort Onboarding & Field Run ratified: N=150 participants onboarded, 10/10 M-STG metrics passing, DPDP Act 2023 compliance verified with 0 residual bytes, and Gate G24 ratified GO. (Pending)
+**Gate G24:** Live Pilot Participant Cohort Onboarding & Field Run ratified: N=150 participants onboarded across DATA (50), SWE (50), MLAI (50), 10/10 M-STG metrics passing, 21 canonical flaw-finding scenarios operational, DPDP Act 2023 compliance verified with 0 residual bytes, and Gate G24 ratified GO. (Ratified: Decision D-040 GO 2026-10-31)
 
 ---
 
