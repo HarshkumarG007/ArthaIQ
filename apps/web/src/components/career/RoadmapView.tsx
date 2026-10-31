@@ -474,6 +474,8 @@ export const CANONICAL_MLAI_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 3.0,
     application_difficulty: 3.0,
     prerequisite_ids: ["mlai.core.l2_neural_backprop"],
+    associated_scenario_id: "SCEN-MLAI-04-VEC",
+    associated_scenario_title: "Vector Indexing & Contrastive Retrieval Latency Degradation",
   },
   {
     id: "mlai.core.l3_peft_finetune",
@@ -496,6 +498,8 @@ export const CANONICAL_MLAI_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 3.5,
     application_difficulty: 3.5,
     prerequisite_ids: ["mlai.eval.l2_leakage_audit"],
+    associated_scenario_id: "SCEN-MLAI-06-DRIFT",
+    associated_scenario_title: "Conformal Prediction Covariate Shift & Miscalibration Audit",
   },
   {
     id: "mlai.gen.l3_guardrails",
@@ -507,6 +511,8 @@ export const CANONICAL_MLAI_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 3.0,
     application_difficulty: 3.5,
     prerequisite_ids: ["mlai.core.l3_transformer_attn"],
+    associated_scenario_id: "SCEN-MLAI-07-GUARD",
+    associated_scenario_title: "Output Guardrail Delimiter Breakout & Preference Divergence",
   },
   {
     id: "mlai.ops.l4_dist_training",
@@ -518,6 +524,8 @@ export const CANONICAL_MLAI_ROADMAP_MILESTONES: RoadmapMilestoneData[] = [
     learning_difficulty: 4.0,
     application_difficulty: 4.5,
     prerequisite_ids: ["mlai.core.l3_transformer_attn", "mlai.ops.l2_model_registry"],
+    associated_scenario_id: "SCEN-MLAI-05-DIST",
+    associated_scenario_title: "Distributed Data Parallelism Deadlock & Collective Barrier Race",
   },
   {
     id: "mlai.ops.l4_quant_serving",

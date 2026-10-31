@@ -1285,6 +1285,307 @@ async def generate_response(req: InferenceRequest):
       },
     ],
   },
+  {
+    id: "SCEN-MLAI-04-VEC",
+    title: "Vector Indexing & Contrastive Retrieval Latency Degradation",
+    description: "Inspect a vector embedding retrieval pipeline for unnormalized distance metrics, HNSW index parameter under-configuration, and unindexed metadata query bottlenecks.",
+    role_family: "MLAI",
+    target_level: 3,
+    primary_competency_id: "mlai.core.l3_repr_learning",
+    language: "python",
+    instructions: "Inspect the vector retrieval engine for unnormalized embedding distance queries, full-table metadata scans, and severe HNSW queue truncation. Click any line number to flag a defect.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import numpy as np
+from typing import Any
+
+class VectorRetrievalEngine:
+    def __init__(self, embedding_dim: int = 768):
+        self.dim = embedding_dim
+        self.index_vectors: list[np.ndarray] = []
+        self.metadata_records: list[dict[str, Any]] = []
+        # HNSW configuration with severely constrained search queue
+        self.ef_search = 4
+
+    def index_item(self, doc_id: str, vector: np.ndarray, tenant_id: str):
+        # Embeddings stored directly without unit-norm projection
+        self.index_vectors.append(vector)
+        self.metadata_records.append({'doc_id': doc_id, 'tenant_id': tenant_id})
+
+    def query_top_k(self, query_vec: np.ndarray, tenant_filter: str, k: int = 10) -> list[dict[str, Any]]:
+        # Linear scan over all metadata records to match tenant before distance computation
+        valid_indices = [
+            idx for idx, meta in enumerate(self.metadata_records)
+            if meta['tenant_id'] == tenant_filter
+        ]
+        
+        # Computing raw unnormalized Euclidean distance produces arbitrary ranking across scales
+        scored = []
+        for idx in valid_indices:
+            vec = self.index_vectors[idx]
+            dist = np.linalg.norm(query_vec - vec)
+            scored.append((dist, self.metadata_records[idx]))
+            
+        scored.sort(key=lambda item: item[0])
+        # ef_search parameter limits candidate exploration causing recall drop to < 60%
+        return [item[1] for item in scored[:k]]`,
+    defects: [
+      {
+        id: "DEF-MLAI-04-NORM",
+        line_number: 14,
+        category: "metric_misalignment",
+        severity: "critical",
+        title: "Unnormalized Embeddings Queried with Euclidean Distance",
+        consequence: "Storing and querying raw unnormalized embeddings with Euclidean L2 distance invalidates contrastive semantic ranking when vector magnitudes vary.",
+        diagnostic_explanation: "Normalize all embeddings to unit L2-norm (norm == 1.0) on ingestion and use cosine similarity or normalized dot product.",
+        competency_id: "mlai.core.l3_repr_learning",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-04-SCAN",
+        line_number: 19,
+        category: "unbounded_collection",
+        severity: "major",
+        title: "Unindexed Metadata Linear Scan Inside Retrieval Query Path",
+        consequence: "Iterating through all metadata records sequentially creates an O(N) traversal bottleneck exceeding 850ms latency as document count scales.",
+        diagnostic_explanation: "Maintain an inverted index or partitioned namespace map for tenant filters to avoid full-table scans.",
+        competency_id: "mlai.ops.l4_quant_serving",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-04-HNSW",
+        line_number: 33,
+        category: "metric_misalignment",
+        severity: "critical",
+        title: "Severe HNSW ef_search Under-Configuration Causing Recall Collapse",
+        consequence: "Setting ef_search to 4 truncates candidate beam exploration prematurely, dropping top-k recall below 60% on high-dimensional manifolds.",
+        diagnostic_explanation: "Configure ef_search >= 64 (or dynamic scaling k * 2 <= ef_search) to satisfy required recall thresholds.",
+        competency_id: "mlai.core.l3_repr_learning",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-MLAI-05-DIST",
+    title: "Distributed Data Parallelism Deadlock & Collective Barrier Race",
+    description: "Inspect a multi-GPU PyTorch DDP training script for rank-conditional collective communication deadlocks, uncoordinated barrier checkpoint racing, and unscaled learning rates.",
+    role_family: "MLAI",
+    target_level: 4,
+    primary_competency_id: "mlai.ops.l4_dist_training",
+    language: "python",
+    instructions: "Inspect the PyTorch DDP training script for asymmetric collective all_reduce deadlocks, missing barrier disk races, and unscaled learning rates. Flag flawed lines and select categories.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import os
+import torch
+import torch.distributed as dist
+import torch.nn as nn
+from torch.nn.parallel import DistributedDataParallel as DDP
+
+def setup_distributed_training(local_rank: int, world_size: int):
+    torch.cuda.set_device(local_rank)
+    dist.init_process_group(backend="nccl", init_method="env://")
+    model = nn.Linear(512, 10).to(local_rank)
+    ddp_model = DDP(model, device_ids=[local_rank])
+    
+    # Fixed learning rate regardless of world size causes divergence as batch size scales
+    base_lr = 1e-4
+    optimizer = torch.optim.AdamW(ddp_model.parameters(), lr=base_lr)
+    return ddp_model, optimizer
+
+def train_step(rank: int, ddp_model: nn.Module, batch_data: torch.Tensor, optimizer: torch.optim.Optimizer):
+    output = ddp_model(batch_data)
+    loss = output.sum()
+    loss.backward()
+    optimizer.step()
+    
+    # Placing collective all_reduce in rank-conditional branch deadlocks all other ranks
+    if rank == 0:
+        dist.all_reduce(loss, op=dist.ReduceOp.SUM)
+        print(f"Master reduced loss: {loss.item()}")
+
+def save_model_checkpoint(rank: int, model: nn.Module, epoch: int, path: str):
+    # Rank 0 writes checkpoint without synchronization barrier, racing with rank 1..N reads
+    if rank == 0:
+        torch.save(model.state_dict(), path)
+    # Missing dist.barrier() causes other ranks to proceed before disk write finishes`,
+    defects: [
+      {
+        id: "DEF-MLAI-05-LR",
+        line_number: 14,
+        category: "metric_misalignment",
+        severity: "major",
+        title: "Unscaled Learning Rate Across Distributed World Size",
+        consequence: "Keeping learning rate constant while effective batch size scales 8x across GPUs causes gradient variance mismatch and loss divergence.",
+        diagnostic_explanation: "Scale learning rate linearly or via square root with world size (e.g. lr = base_lr * world_size) and introduce warmup schedule.",
+        competency_id: "mlai.math.l3_stochastic_opt",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-05-DEAD",
+        line_number: 25,
+        category: "blocking_call",
+        severity: "critical",
+        title: "Asymmetric Collective Communication in Conditional Branch",
+        consequence: "Calling all_reduce only on rank 0 causes all other GPU worker ranks to hang perpetually waiting for rank 0 in collective NCCL ring.",
+        diagnostic_explanation: "All participating ranks in the process group must invoke collective communication operations unconditionally.",
+        competency_id: "mlai.ops.l4_dist_training",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-05-RACE",
+        line_number: 32,
+        category: "race_condition",
+        severity: "critical",
+        title: "Missing Distributed Barrier Synchronization Around Checkpoint Save",
+        consequence: "Non-master ranks proceed immediately to downstream evaluation while rank 0 is still flushing state to disk, causing file read corruption.",
+        diagnostic_explanation: "Insert dist.barrier() after rank 0 save operation to ensure all ranks wait until checkpoint write is complete.",
+        competency_id: "mlai.ops.l4_dist_training",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-MLAI-06-DRIFT",
+    title: "Conformal Prediction Covariate Shift & Miscalibration Audit",
+    description: "Inspect a split conformal calibration pipeline for covariate population drift neglect, missing finite-sample sample size adjustments, and unhandled NaN residual propagation.",
+    role_family: "MLAI",
+    target_level: 3,
+    primary_competency_id: "mlai.eval.l3_conformal_calib",
+    language: "python",
+    instructions: "Inspect the conformal calibration pipeline for missing NaN sanity checks, absent finite-sample quantile corrections, and unmonitored covariate shift. Flag flawed lines and select categories.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import numpy as np
+from scipy import stats
+
+class ConformalCalibrator:
+    def __init__(self, alpha: float = 0.10):
+        self.alpha = alpha
+        self.q_hat: float | None = None
+
+    def calibrate(self, y_true: np.ndarray, y_pred_lower: np.ndarray, y_pred_upper: np.ndarray):
+        # Residual computation without NaN validation silently propages invalid residuals
+        residuals = np.maximum(y_pred_lower - y_true, y_true - y_pred_upper)
+        n = len(residuals)
+        
+        # Standard quantile without finite-sample (n+1)/n correction violates coverage guarantee
+        self.q_hat = float(np.quantile(residuals, 1.0 - self.alpha))
+
+    def predict_interval(self, point_preds: np.ndarray, incoming_features: np.ndarray) -> np.ndarray:
+        # Applying fixed calibration under extreme covariate shift without drift audit
+        # Drifting feature distributions invalidate exchangeability assumption
+        lower = point_preds - self.q_hat
+        upper = point_preds + self.q_hat
+        return np.column_stack([lower, upper])`,
+    defects: [
+      {
+        id: "DEF-MLAI-06-NAN",
+        line_number: 11,
+        category: "null_handling",
+        severity: "major",
+        title: "Unsanitized Residual Computation Allowing Silent NaN Propagation",
+        consequence: "Missing NaN checks in non-conformity score calculation allows missing data to silently contaminate q_hat, corrupting prediction bounds.",
+        diagnostic_explanation: "Assert absence of NaNs and infinities in y_true and predictions prior to residual evaluation, or filter invalid samples with explicit telemetry.",
+        competency_id: "mlai.eval.l2_leakage_audit",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-06-CORR",
+        line_number: 15,
+        category: "metric_misalignment",
+        severity: "critical",
+        title: "Empirical Quantile Computation Lacking Finite-Sample Correction Factor",
+        consequence: "Using standard continuous np.quantile without the ceil((n+1)*(1-alpha))/n finite-sample adjustment under-covers nominal 1-alpha confidence.",
+        diagnostic_explanation: "Compute conformal non-conformity threshold using quantile index p = np.ceil((n + 1) * (1 - alpha)) / n clipped to 1.0.",
+        competency_id: "mlai.eval.l3_conformal_calib",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-06-SHIFT",
+        line_number: 19,
+        category: "data_leakage",
+        severity: "critical",
+        title: "Applying Conformal Intervals Across Undetected Covariate Shift",
+        consequence: "Deploying fixed non-conformity scores without monitoring covariate distribution drift violates exchangeability, causing empirical coverage degradation.",
+        diagnostic_explanation: "Implement KS-test or Population Stability Index (PSI) drift monitoring on incoming feature batches and trigger recalibration when shift is detected.",
+        competency_id: "mlai.eval.l3_conformal_calib",
+        points: 1.0,
+      },
+    ],
+  },
+  {
+    id: "SCEN-MLAI-07-GUARD",
+    title: "Output Guardrail Delimiter Breakout & Preference Divergence",
+    description: "Inspect a local RAG output evaluation pipeline for prompt delimiter escape vulnerability, unvalidated canary token leakage, and insecure eval-based JSON output parsing.",
+    role_family: "MLAI",
+    target_level: 3,
+    primary_competency_id: "mlai.gen.l3_guardrails",
+    language: "python",
+    instructions: "Inspect the LLM prompt and response pipeline for raw string delimiter breakouts, absent canary token leakage detection, and insecure Python eval execution. Flag flawed lines and select categories.",
+    pass_threshold_score: 2.0,
+    false_flag_penalty_per_flag: 0.5,
+    max_penalty: 1.5,
+    content: `import re
+import json
+from typing import Any
+
+CANARY_TOKEN = "CANARY_ARTHAIQ_CONFIDENTIAL_KEY_9981"
+
+def format_model_prompt(untrusted_user_input: str, retrieved_context: str) -> str:
+    # Raw string interpolation without delimiter escaping allows prompt injection override
+    prompt = f"""System: You are an internal diagnostic assistant.
+Context: {retrieved_context}
+User: {untrusted_user_input}
+Response:"""
+    return prompt
+
+def post_process_model_response(raw_response: str) -> dict[str, Any]:
+    # Emitting response without validating absence of canary tokens risks systemic data exfiltration
+    cleaned = raw_response.strip()
+    
+    # Insecure deserialization using Python eval instead of safe json.loads creates code execution vulnerability
+    parsed_output = eval(cleaned)
+    return parsed_output`,
+    defects: [
+      {
+        id: "DEF-MLAI-07-DELIM",
+        line_number: 9,
+        category: "sql_injection",
+        severity: "critical",
+        title: "Unsanitized User Input Direct Interpolation Causing Delimiter Breakout",
+        consequence: "Directly concatenating untrusted user input into prompt templates allows attackers to break out of delimiters and hijack system instructions.",
+        diagnostic_explanation: "Enforce strict XML or markdown framing (e.g. <user_query>...</user_query>), strip delimiter tags from inputs, and treat user text strictly as data.",
+        competency_id: "mlai.gen.l3_guardrails",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-07-CANARY",
+        line_number: 16,
+        category: "data_leakage",
+        severity: "major",
+        title: "Missing Canary Token Verification Before Output Emission",
+        consequence: "Failing to check whether sensitive context canary tokens leaked into the model output exposes private retrieval data to external callers.",
+        diagnostic_explanation: "Scan final output strings for injected canary tokens and drop the response or abstain if any match is detected.",
+        competency_id: "mlai.eval.l4_dpdp_privacy",
+        points: 1.0,
+      },
+      {
+        id: "DEF-MLAI-07-EVAL",
+        line_number: 20,
+        category: "broken_authentication",
+        severity: "critical",
+        title: "Arbitrary Code Execution via Python eval Deserialization",
+        consequence: "Using built-in eval() on LLM-generated output allows adversarial prompt payloads to execute arbitrary Python instructions on the host.",
+        diagnostic_explanation: "Use safe JSON deserializers (json.loads) and Pydantic validation schemas; never invoke eval() or exec() on untrusted strings.",
+        competency_id: "mlai.gen.l3_guardrails",
+        points: 1.0,
+      },
+    ],
+  },
 ];
 
 export interface CandidateFlagSubmission {

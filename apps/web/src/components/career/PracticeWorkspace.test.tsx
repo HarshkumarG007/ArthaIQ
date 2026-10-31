@@ -272,4 +272,42 @@ describe("PracticeWorkspace (T15.30 Practice Workspace & Sandbox)", () => {
     fireEvent.click(screen.getByRole("button", { name: "SCEN-SWE-07-DIST" }));
     expect(screen.getByRole("heading", { name: /Distributed Cache/i })).toBeInTheDocument();
   });
+
+  it("renders MLAI scenarios (all 7 canonical scenarios) and supports role family filtering", async () => {
+    const { container } = render(
+      <PracticeWorkspace initialScenarioId="SCEN-MLAI-01-TENS" roleFamily="MLAI" />
+    );
+
+    expect(screen.getByRole("heading", { name: /PyTorch Mini-Batch Training Loop/i })).toBeInTheDocument();
+    expect(screen.getByText(/Source Artifact \(PYTHON/i)).toBeInTheDocument();
+
+    // Verify all 7 MLAI scenario pills exist
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-01-TENS" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-02-LEAK" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-03-DEPLOY" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-04-VEC" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-05-DIST" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-06-DRIFT" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "SCEN-MLAI-07-GUARD" })).toBeInTheDocument();
+
+    // Switch to VEC scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-MLAI-04-VEC" }));
+    expect(screen.getByRole("heading", { name: /Vector Indexing & Contrastive Retrieval/i })).toBeInTheDocument();
+
+    // Switch to DIST scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-MLAI-05-DIST" }));
+    expect(screen.getByRole("heading", { name: /Distributed Data Parallelism Deadlock/i })).toBeInTheDocument();
+
+    // Switch to DRIFT scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-MLAI-06-DRIFT" }));
+    expect(screen.getByRole("heading", { name: /Conformal Prediction Covariate Shift/i })).toBeInTheDocument();
+
+    // Switch to GUARD scenario
+    fireEvent.click(screen.getByRole("button", { name: "SCEN-MLAI-07-GUARD" }));
+    expect(screen.getByRole("heading", { name: /Output Guardrail Delimiter Breakout/i })).toBeInTheDocument();
+
+    // Verify accessibility across MLAI view
+    const axeResults = await axe.run(container, AXE_OPTIONS);
+    expect(axeResults.violations).toEqual([]);
+  });
 });
