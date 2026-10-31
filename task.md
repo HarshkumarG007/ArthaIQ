@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | Phase 18 Complete (Gates G0–G18 Ratified GO)                         |
+| Status                         | Phase 19 Complete (Gates G0–G19 Ratified GO)                         |
 | Last updated                   | 2026-10-31                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: T19.08 Update Multi-Family Staging Telemetry Audit & Ratify Gate G19** (Phase 19 Underway: T19.07 Complete)
+**NEXT TASK: Phase 20: Live Pilot Cohort Onboarding & Telemetry Dashboard** (Phase 19 Complete: Gate G19 Ratified GO)
 
 ## How to use this file
 
@@ -801,7 +801,7 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 > **GO if:** 15-node acyclic DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified with 10/10 import contracts kept, 3 canonical MLAI scenarios pass deterministic scoring with sub-5ms latency, web UI integrated with 0 Axe violations, 10/10 M-STG staging metrics pass across 17 scenarios, Gate G19 ratified.
 > **NO-GO:** Stay in Phase 19 until all criteria met.
 
-**NEXT TASK: T19.08 Update Multi-Family Staging Telemetry Audit & Ratify Gate G19** (Phase 19 Underway: T19.07 Complete)
+**NEXT TASK: Phase 20: Live Pilot Cohort Onboarding & Telemetry Dashboard** (Phase 19 Complete: Gate G19 Ratified GO)
 
 - [x] **T19.01** [AI] Ingest Machine Learning & AI taxonomy elements from O*NET 28.0 and ESCO v1.1.1 into `config/taxonomy/mlai_family.json` with statutory CC BY 4.0 / EU Open Reuse licensing and zero causal claims.
       Output: `config/taxonomy/mlai_family.json`, `src/compintel/career/mlai_taxonomy.py`, `tests/unit/test_career_mlai_taxonomy.py`. Done when: 15 MLAI elements pass Pydantic validation, provenance tracking, and zero causal promises. Needs: Gate G18 GO. Size: M.
@@ -817,10 +817,30 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `config/scenarios/scen_mlai_*.json`, `scripts/generate_mlai_scenarios.py`, `tests/unit/test_career_scenarios_mlai.py`. Done when: 3 scenarios pass Pydantic validation, line bounds (<= 30 lines), deterministic scoring. Needs: T19.02. Size: M.
 - [x] **T19.07** [AI+HUMAN] Update web UI (`PracticeWorkspace.tsx`, `GapMapView.tsx`, `RoadmapView.tsx`, `NextStepCard.tsx`, `PayOverlayPanel.tsx`, `career.tsx`), verify 0 Axe violations, and verify clean TypeScript build.
       Output: `apps/web/src/components/career/*.tsx`, `apps/web/src/routes/career.tsx`. Done when: all web tests pass with 0 Axe violations. Needs: T19.05, T19.06. Size: M.
-- [ ] **T19.08** [AI+HUMAN] Update multi-family staging telemetry audit (17 scenarios across 3 families), convene governance panel, and ratify Gate G19.
+- [x] **T19.08** [AI+HUMAN] Update multi-family staging telemetry audit (17 scenarios across 3 families), convene governance panel, and ratify Gate G19. (done 2026-10-31, Gate G19 Ratified GO)
       Output: `scripts/run_career_pilot_staging_audit.py`, `docs/pilot/gate-g19-review.md`, `tests/unit/test_phase19_gate_g19.py`. Done when: 10/10 M-STG metrics pass, Gate G19 ratified GO. Needs: T19.01-T19.07. Size: M.
 
-**Gate G19:** Machine Learning & AI (MLAI) Role Family Inception ratified: 15-node MLAI Competency DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified, 3 canonical MLAI flaw-finding scenarios, 0 Axe violations, local-first IndexedDB verified, and zero causal claims.
+**Gate G19:** Machine Learning & AI (MLAI) Role Family Inception ratified: 15-node MLAI Competency DAG verified, practitioner consensus κ >= 0.80, three-family adapter routing verified, 3 canonical MLAI flaw-finding scenarios, 0 Axe violations, local-first IndexedDB verified, and zero causal claims. **GO ratified 2026-10-31** (recorded in `memory.md`; Decision D-035).
+
+---
+
+## Phase 20: Live Pilot Cohort Onboarding & Telemetry Dashboard
+
+> **Objective:** Execute live pilot cohort onboarding ($N=150$ target) across DATA, SWE, and MLAI role families per `RUNBOOK-CAREER-PILOT-01`, with DPDP Act 2023 Section 6 consent tracking, privacy-preserving client telemetry aggregation, and operational health dashboard.
+> **Inputs and tools:** `docs/pilot/career-pilot-runbook.md`, `apps/web/`, `src/compintel/career/`; Git, Python uv, Node/npm.
+> **Deliverables:** Pilot cohort onboarding flow, privacy-safe telemetry ingestion, live pilot metrics dashboard, pilot operational review dossier.
+> **Effort (assumption):** 1 session.
+> **GO if:** Cohort onboarding active, zero server-side PII/profile persistence (Rule `R-CR-12`), DPDP Sec 12 hard purge verified, telemetry dashboard tracks aggregate engagement without re-identification, Gate G20 ratified GO.
+> **NO-GO:** Stay in Phase 20 until all criteria met.
+
+**NEXT TASK: T20.01 Implement Pilot Cohort Onboarding Consent & Privacy Gateway** (Phase 20 Inception)
+
+- [ ] **T20.01** [AI+HUMAN] Implement Pilot Cohort Onboarding Consent & Privacy Gateway per DPDP Act 2023 Sec 6 and Section 2.3 of `RUNBOOK-CAREER-PILOT-01`.
+- [ ] **T20.02** [AI] Implement Client-Side Differential/K-Anonymized Telemetry Aggregator for pilot evaluation metrics.
+- [ ] **T20.03** [AI] Build Live Pilot Cohort Telemetry & Quality Health Dashboard.
+- [ ] **T20.04** [AI+HUMAN] Run Cohort Verification Audit & Convene Gate G20 Ratification Panel.
+
+**Gate G20:** Pilot Cohort Onboarding & Telemetry Dashboard ratified: consent gateway operational, zero server profile retention, privacy-preserving aggregate telemetry active, and Gate G20 ratified GO.
 
 ---
 

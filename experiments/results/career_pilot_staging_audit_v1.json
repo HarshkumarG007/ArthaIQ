@@ -1,15 +1,16 @@
 {
   "metadata": {
     "document_id": "STAGING-AUDIT-CAREER-ARCH-01",
-    "audit_date": "2026-10-30",
-    "evaluated_subsystem": "ArthaIQ Career Architect Multi-Family (Phase 17)",
+    "audit_date": "2026-10-31",
+    "evaluated_subsystem": "ArthaIQ Career Architect Three-Family (Phase 19)",
     "families_tested": [
       "DATA",
-      "SWE"
+      "SWE",
+      "MLAI"
     ],
-    "scenario_count": 14,
-    "attempt_count": 200,
-    "persona_count": 8,
+    "scenario_count": 17,
+    "attempt_count": 300,
+    "persona_count": 12,
     "status": "PASS"
   },
   "scorecard": {
@@ -27,12 +28,13 @@
       "target": "sigma^2 == 0.000",
       "observed_data": 0.0,
       "observed_swe": 0.0,
+      "observed_mlai": 0.0,
       "status": "PASS"
     },
     "M-STG-04_scoring_latency_p95_ms": {
       "target": "<= 5.0 ms",
-      "observed_ms": 0.0231,
-      "observed_us": 23.1,
+      "observed_ms": 0.0279,
+      "observed_us": 27.9,
       "status": "PASS"
     },
     "M-STG-05_local_storage_footprint_kb": {
@@ -65,15 +67,16 @@
       "target": "100%",
       "data_monotonic": true,
       "swe_monotonic": true,
+      "mlai_monotonic": true,
       "status": "PASS"
     }
   },
   "latency_profile": {
-    "sample_count": 200,
-    "mean_us": 18.16,
-    "p50_us": 17.0,
-    "p95_us": 23.1,
-    "p99_us": 54.0
+    "sample_count": 300,
+    "mean_us": 17.58,
+    "p50_us": 15.2,
+    "p95_us": 27.9,
+    "p99_us": 83.8
   },
   "storage_benchmark": {
     "payload_kb": 8.59,
@@ -89,6 +92,8 @@
   "dag_monotonicity": {
     "data_family_monotonic": true,
     "swe_family_monotonic": true,
+    "mlai_family_monotonic": true,
+    "all_pass": true,
     "both_pass": true
   },
   "compliance_audit": {
@@ -217,16 +222,77 @@
       "market_pay_abstained": true,
       "comprehension_correct": true,
       "journey_completed": true
+    },
+    {
+      "persona_id": "P-MLAI-01",
+      "role_family": "MLAI",
+      "target_role": "Machine Learning Engineer",
+      "target_level": "L2",
+      "location": "Bengaluru",
+      "weekly_hours": 12,
+      "initial_unproven_milestone": "mlai.fnd.l2_tensor_math",
+      "post_practice_milestone": "mlai.fnd.l2_deep_learning",
+      "projected_weeks_min": 10,
+      "projected_weeks_max": 18,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-MLAI-02",
+      "role_family": "MLAI",
+      "target_role": "AI Systems / LLM Engineer",
+      "target_level": "L3",
+      "location": "Hyderabad",
+      "weekly_hours": 15,
+      "initial_unproven_milestone": "mlai.nlp.l3_transformers",
+      "post_practice_milestone": "mlai.nlp.l3_llm_finetuning",
+      "projected_weeks_min": 8,
+      "projected_weeks_max": 14,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-MLAI-03",
+      "role_family": "MLAI",
+      "target_role": "Applied AI Scientist",
+      "target_level": "L4",
+      "location": "NCR",
+      "weekly_hours": 20,
+      "initial_unproven_milestone": "mlai.sci.l4_alignment_rlhf",
+      "post_practice_milestone": "mlai.ops.l4_dist_training",
+      "projected_weeks_min": 6,
+      "projected_weeks_max": 12,
+      "market_pay_abstained": false,
+      "comprehension_correct": true,
+      "journey_completed": true
+    },
+    {
+      "persona_id": "P-MLAI-04",
+      "role_family": "MLAI",
+      "target_role": "Machine Learning Engineer",
+      "target_level": "L2",
+      "location": "Tier-3 City",
+      "weekly_hours": 5,
+      "initial_unproven_milestone": "mlai.fnd.l2_tensor_math",
+      "post_practice_milestone": "mlai.fnd.l2_tensor_math",
+      "projected_weeks_min": 24,
+      "projected_weeks_max": 42,
+      "market_pay_abstained": true,
+      "comprehension_correct": true,
+      "journey_completed": true
     }
   ],
   "attempts_summary": {
-    "total": 200,
+    "total": 300,
     "data_attempts": 100,
     "swe_attempts": 100,
-    "expert_count": 50,
-    "partial_count": 50,
-    "overflagging_count": 50,
-    "empty_count": 50,
+    "mlai_attempts": 100,
+    "expert_count": 75,
+    "partial_count": 75,
+    "overflagging_count": 75,
+    "empty_count": 75,
     "all_bounded": true
   }
 }

@@ -54,7 +54,7 @@ services:
       LOG_FORMAT: json
       CORS_ORIGINS: "http://localhost:8080,http://127.0.0.1:8080,http://localhost:3000"
       # Career Architect: families supported in this deployment
-      CAREER_FAMILIES_ENABLED: "DATA,SWE"
+      CAREER_FAMILIES_ENABLED: "DATA,SWE,MLAI"
     ports:
       - "127.0.0.1:${API_PORT:-8001}:8000"
     depends_on:

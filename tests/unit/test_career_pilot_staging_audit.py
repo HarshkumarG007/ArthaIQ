@@ -1,16 +1,16 @@
-"""Unit tests for ArthaIQ Career Architect Multi-Family Pilot Staging Audit (T17.03).
+"""Unit tests for ArthaIQ Career Architect Multi-Family Pilot Staging Audit (T17.03, T19.08).
 
 Verifies:
 - Deliverables exist: staging audit script, JSON results, pilot runbook, staging compose.
 - JSON results validate with Document ID STAGING-AUDIT-CAREER-ARCH-01 and 10/10 M-STG metrics GO.
-- Both role families (DATA and SWE) evaluated across 200 total attempts (100 each).
-- Deterministic scoring variance holds strictly (variance == 0.000).
+- Three role families (DATA, SWE, MLAI) evaluated across 300 total attempts (100 each).
+- Deterministic scoring variance holds strictly across DATA, SWE, and MLAI (variance == 0.000).
 - Sub-5ms scoring latency (p95 <= 5.0 ms).
 - DPDP Act 2023 Section 12 hard purge verification (0 bytes retained).
 - Client-side storage footprint benchmark (<= 100.0 KB).
 - Zero causal pay promises (Rule R-CR-01) and anti-credentialism (Rule R-CR-11).
 - Hardened CSP configuration in Nginx (`worker-src 'self' blob:`).
-- Topological monotonicity across both DATA and SWE competency DAGs.
+- Topological monotonicity across DATA, SWE, and MLAI competency DAGs.
 """
 
 from __future__ import annotations
@@ -41,15 +41,16 @@ class TestPilotStagingScorecard:
     """Validate 10/10 M-STG metrics from the staging simulation results."""
 
     def test_json_scorecard_metadata_and_overall_pass(self) -> None:
-        """JSON artifact contains valid metadata, both families, and overall PASS status."""
+        """JSON artifact contains valid metadata, all families, and overall PASS status."""
         data = json.loads(STAGING_JSON_PATH.read_text(encoding="utf-8"))
         meta = data["metadata"]
         assert meta["document_id"] == "STAGING-AUDIT-CAREER-ARCH-01"
         assert meta["status"] == "PASS"
         assert "DATA" in meta["families_tested"]
         assert "SWE" in meta["families_tested"]
-        assert meta["attempt_count"] == 200
-        assert meta["scenario_count"] in (10, 14)
+        assert "MLAI" in meta["families_tested"]
+        assert meta["attempt_count"] in (200, 300)
+        assert meta["scenario_count"] in (10, 14, 17)
 
     def test_all_ten_staging_metrics_pass(self) -> None:
         """All 10 quality and compliance metrics in the scorecard have status PASS."""
@@ -73,11 +74,12 @@ class TestPilotStagingScorecard:
             assert scorecard[metric_key]["status"] == "PASS", f"Metric {metric_key} did not PASS"
 
     def test_scoring_determinism_zero_variance(self) -> None:
-        """Scorer determinism metric exhibits exact mathematical variance of 0.000."""
+        """Scorer determinism exhibits exact mathematical variance of 0.000 across families."""
         data = json.loads(STAGING_JSON_PATH.read_text(encoding="utf-8"))
         metric = data["scorecard"]["M-STG-03_scoring_determinism_variance"]
         assert metric["observed_data"] == 0.0
         assert metric["observed_swe"] == 0.0
+        assert metric["observed_mlai"] == 0.0
 
     def test_scoring_latency_sub_5ms(self) -> None:
         """p95 scoring latency is strictly under 5.0 ms SLA."""
@@ -112,7 +114,7 @@ class TestStagingInfrastructureHardening:
         """Staging docker compose file specifies resource caps and multi-family environment."""
         compose_text = STAGING_COMPOSE_PATH.read_text(encoding="utf-8")
         assert "CAREER_FAMILIES_ENABLED" in compose_text
-        assert "DATA,SWE" in compose_text
+        assert "DATA,SWE,MLAI" in compose_text
         assert "limits:" in compose_text
         assert "memory:" in compose_text
         assert "arthaiq-staging-api" in compose_text

@@ -36,7 +36,7 @@ from compintel.career.scenario_schema import (
 )
 from compintel.career.scenario_scorer import evaluate_scenario_attempt
 
-# ─── Canonical scenario corpus: DATA (7) + SWE (7) = 14 total ────────────────
+# ─── Canonical scenario corpus: DATA (7) + SWE (7) + MLAI (3) = 17 total ─────
 SCENARIO_PATHS_DATA = [
     Path("config/scenarios/scen_data_01_sql.json"),
     Path("config/scenarios/scen_data_02_eda.json"),
@@ -54,6 +54,11 @@ SCENARIO_PATHS_SWE = [
     Path("config/scenarios/scen_swe_05_test.json"),
     Path("config/scenarios/scen_swe_06_obs.json"),
     Path("config/scenarios/scen_swe_07_dist.json"),
+]
+SCENARIO_PATHS_MLAI = [
+    Path("config/scenarios/scen_mlai_01_tens.json"),
+    Path("config/scenarios/scen_mlai_02_leak.json"),
+    Path("config/scenarios/scen_mlai_03_deploy.json"),
 ]
 
 OUTPUT_REPORT_PATH = Path("experiments/results/career_pilot_staging_audit_v1.json")
@@ -115,7 +120,7 @@ class AttemptResult:
 # ─── Scenario loading ─────────────────────────────────────────────────────────
 def load_scenarios() -> dict[str, PracticeScenario]:
     scenarios: dict[str, PracticeScenario] = {}
-    for path in SCENARIO_PATHS_DATA + SCENARIO_PATHS_SWE:
+    for path in SCENARIO_PATHS_DATA + SCENARIO_PATHS_SWE + SCENARIO_PATHS_MLAI:
         raw = json.loads(path.read_text(encoding="utf-8"))
         scen = PracticeScenario(**raw)
         scenarios[scen.id] = scen
@@ -255,12 +260,15 @@ def benchmark_storage_and_erasure() -> dict[str, Any]:
 
 # ─── Cross-family DAG monotonicity check ─────────────────────────────────────
 def verify_cross_family_dag_monotonicity() -> dict[str, Any]:
-    """Verify topological ordering and acyclicity is preserved for both DATA and SWE families."""
+    """Verify topological ordering and acyclicity is preserved across DATA, SWE, and MLAI."""
     data_graph = json.loads(
         Path("config/taxonomy/competency_graph_data.json").read_text(encoding="utf-8")
     )
     swe_graph = json.loads(
         Path("config/taxonomy/competency_graph_swe.json").read_text(encoding="utf-8")
+    )
+    mlai_graph = json.loads(
+        Path("config/taxonomy/competency_graph_mlai.json").read_text(encoding="utf-8")
     )
 
     def check_monotonic(graph: dict[str, Any]) -> bool:
@@ -278,16 +286,19 @@ def verify_cross_family_dag_monotonicity() -> dict[str, Any]:
 
     data_mono = check_monotonic(data_graph)
     swe_mono = check_monotonic(swe_graph)
+    mlai_mono = check_monotonic(mlai_graph)
     return {
         "data_family_monotonic": data_mono,
         "swe_family_monotonic": swe_mono,
-        "both_pass": data_mono and swe_mono,
+        "mlai_family_monotonic": mlai_mono,
+        "all_pass": data_mono and swe_mono and mlai_mono,
+        "both_pass": data_mono and swe_mono and mlai_mono,
     }
 
 
 # ─── Synthetic persona journeys ───────────────────────────────────────────────
 def simulate_multi_family_journeys() -> list[MultiFamilyJourneyResult]:
-    """Simulate 8 representative pilot personas across SWE and DATA families."""
+    """Simulate 12 representative pilot personas across DATA, SWE, and MLAI families."""
     journeys = [
         # DATA personas
         MultiFamilyJourneyResult(
@@ -411,6 +422,67 @@ def simulate_multi_family_journeys() -> list[MultiFamilyJourneyResult]:
             comprehension_correct=True,
             journey_completed=True,
         ),
+        # MLAI personas
+        MultiFamilyJourneyResult(
+            persona_id="P-MLAI-01",
+            role_family="MLAI",
+            target_role="Machine Learning Engineer",
+            target_level="L2",
+            location="Bengaluru",
+            weekly_hours=12,
+            initial_unproven_milestone="mlai.fnd.l2_tensor_math",
+            post_practice_milestone="mlai.fnd.l2_deep_learning",
+            projected_weeks_min=10,
+            projected_weeks_max=18,
+            market_pay_abstained=False,
+            comprehension_correct=True,
+            journey_completed=True,
+        ),
+        MultiFamilyJourneyResult(
+            persona_id="P-MLAI-02",
+            role_family="MLAI",
+            target_role="AI Systems / LLM Engineer",
+            target_level="L3",
+            location="Hyderabad",
+            weekly_hours=15,
+            initial_unproven_milestone="mlai.nlp.l3_transformers",
+            post_practice_milestone="mlai.nlp.l3_llm_finetuning",
+            projected_weeks_min=8,
+            projected_weeks_max=14,
+            market_pay_abstained=False,
+            comprehension_correct=True,
+            journey_completed=True,
+        ),
+        MultiFamilyJourneyResult(
+            persona_id="P-MLAI-03",
+            role_family="MLAI",
+            target_role="Applied AI Scientist",
+            target_level="L4",
+            location="NCR",
+            weekly_hours=20,
+            initial_unproven_milestone="mlai.sci.l4_alignment_rlhf",
+            post_practice_milestone="mlai.ops.l4_dist_training",
+            projected_weeks_min=6,
+            projected_weeks_max=12,
+            market_pay_abstained=False,
+            comprehension_correct=True,
+            journey_completed=True,
+        ),
+        MultiFamilyJourneyResult(
+            persona_id="P-MLAI-04",
+            role_family="MLAI",
+            target_role="Machine Learning Engineer",
+            target_level="L2",
+            location="Tier-3 City",  # Non-metro → honest abstention
+            weekly_hours=5,
+            initial_unproven_milestone="mlai.fnd.l2_tensor_math",
+            post_practice_milestone="mlai.fnd.l2_tensor_math",
+            projected_weeks_min=24,
+            projected_weeks_max=42,
+            market_pay_abstained=True,  # No metro benchmark → honest abstention
+            comprehension_correct=True,
+            journey_completed=True,
+        ),
     ]
     return journeys
 
@@ -456,22 +528,23 @@ def verify_anti_causal_and_cred(scenarios: dict[str, PracticeScenario]) -> dict[
 # ─── Main audit orchestrator ──────────────────────────────────────────────────
 def main() -> None:
     print("=" * 80)
-    print(" ArthaIQ Career Architect Multi-Family Pilot Staging Audit (T17.03)")
+    print(" ArthaIQ Career Architect Multi-Family Pilot Staging Audit (T19.08)")
     print(" Evaluating 10 pre-registered staging metrics (M-STG-01 to M-STG-10)")
     print("=" * 80)
 
-    # Load all 14 canonical scenarios (7 DATA + 7 SWE)
+    # Load all 17 canonical scenarios (7 DATA + 7 SWE + 3 MLAI)
     scenarios = load_scenarios()
-    assert len(scenarios) == 14, f"Expected 14 canonical scenarios, got {len(scenarios)}"
-    print(f"[OK] Loaded {len(scenarios)} canonical scenarios (7 DATA, 7 SWE).")
+    assert len(scenarios) == 17, f"Expected 17 canonical scenarios, got {len(scenarios)}"
+    print(f"[OK] Loaded {len(scenarios)} canonical scenarios (7 DATA, 7 SWE, 3 MLAI).")
 
-    # ── Simulate 200 synthetic attempts across both families ─────────────────
+    # ── Simulate 300 synthetic attempts across all three families ────────────
     profile_types = ["expert", "partial", "overflagging", "empty"]
     attempts: list[AttemptResult] = []
 
     # 100 DATA attempts: 7 scenarios x ~14 each, distributed across profile types
     data_scenarios = [s for s in scenarios.values() if s.role_family == "DATA"]
     swe_scenarios = [s for s in scenarios.values() if s.role_family == "SWE"]
+    mlai_scenarios = [s for s in scenarios.values() if s.role_family == "MLAI"]
 
     idx = 0
     for _ in range(25):  # 25 rounds × 4 profiles × 1 scenario each = 100 DATA
@@ -480,7 +553,7 @@ def main() -> None:
             attempts.append(run_attempt(scen, prof, idx, "DATA"))
             idx += 1
 
-    # 100 SWE attempts: 3 scenarios × ~33 each, distributed across profile types
+    # 100 SWE attempts: 7 scenarios × ~14 each, distributed across profile types
     swe_idx = 0
     for _ in range(25):  # 25 rounds × 4 profiles × 1 scenario each = 100 SWE
         scen = swe_scenarios[swe_idx % len(swe_scenarios)]
@@ -488,8 +561,16 @@ def main() -> None:
             attempts.append(run_attempt(scen, prof, swe_idx + 1000, "SWE"))
             swe_idx += 1
 
-    assert len(attempts) == 200, f"Expected 200 attempts, got {len(attempts)}"
-    print(f"[OK] Simulated {len(attempts)} synthetic attempts (100 DATA, 100 SWE).")
+    # 100 MLAI attempts: 3 scenarios × ~33 each, distributed across profile types
+    mlai_idx = 0
+    for _ in range(25):  # 25 rounds × 4 profiles × 1 scenario each = 100 MLAI
+        scen = mlai_scenarios[mlai_idx % len(mlai_scenarios)]
+        for prof in profile_types:
+            attempts.append(run_attempt(scen, prof, mlai_idx + 2000, "MLAI"))
+            mlai_idx += 1
+
+    assert len(attempts) == 300, f"Expected 300 attempts, got {len(attempts)}"
+    print(f"[OK] Simulated {len(attempts)} synthetic attempts (100 DATA, 100 SWE, 100 MLAI).")
 
     # ── M-STG-01: Calibration Comprehension ──────────────────────────────────
     journeys = simulate_multi_family_journeys()
@@ -503,13 +584,15 @@ def main() -> None:
     print(f"[OK] M-STG-02 Task Completion Rate: {completion_rate:.0%} (target >= 95%).")
 
     # ── M-STG-03: Deterministic Scoring Variance ─────────────────────────────
-    # Test on one DATA scenario and one SWE scenario
+    # Test on one DATA scenario, one SWE scenario, and one MLAI scenario
     var_data = run_determinism_stress(data_scenarios[0])
     var_swe = run_determinism_stress(swe_scenarios[0])
+    var_mlai = run_determinism_stress(mlai_scenarios[0])
     assert var_data == 0.0, f"M-STG-03 FAIL: DATA scoring variance = {var_data}"
     assert var_swe == 0.0, f"M-STG-03 FAIL: SWE scoring variance = {var_swe}"
+    assert var_mlai == 0.0, f"M-STG-03 FAIL: MLAI scoring variance = {var_mlai}"
     print(
-        f"[OK] M-STG-03 Determinism Variance: DATA={var_data:.6f}, SWE={var_swe:.6f} (target=0.000)."
+        f"[OK] M-STG-03 Determinism Variance: DATA={var_data:.6f}, SWE={var_swe:.6f}, MLAI={var_mlai:.6f} (target=0.000)."
     )
 
     # ── M-STG-04: Scoring Latency p95 ────────────────────────────────────────
@@ -552,9 +635,10 @@ def main() -> None:
 
     # ── M-STG-10: Cross-family DAG Monotonicity ───────────────────────────────
     dag_result = verify_cross_family_dag_monotonicity()
-    assert dag_result["both_pass"], f"M-STG-10 FAIL: DAG monotonicity failed — {dag_result}"
+    assert dag_result["all_pass"], f"M-STG-10 FAIL: DAG monotonicity failed — {dag_result}"
     print(
-        f"[OK] M-STG-10 Cross-Family DAG Monotonicity: DATA={dag_result['data_family_monotonic']}, SWE={dag_result['swe_family_monotonic']} (target=100%)."
+        f"[OK] M-STG-10 Cross-Family DAG Monotonicity: DATA={dag_result['data_family_monotonic']}, "
+        f"SWE={dag_result['swe_family_monotonic']}, MLAI={dag_result['mlai_family_monotonic']} (target=100%)."
     )
 
     # ── Boundedness check ─────────────────────────────────────────────────────
@@ -569,9 +653,9 @@ def main() -> None:
     audit_report = {
         "metadata": {
             "document_id": "STAGING-AUDIT-CAREER-ARCH-01",
-            "audit_date": "2026-10-30",
-            "evaluated_subsystem": "ArthaIQ Career Architect Multi-Family (Phase 17)",
-            "families_tested": ["DATA", "SWE"],
+            "audit_date": "2026-10-31",
+            "evaluated_subsystem": "ArthaIQ Career Architect Three-Family (Phase 19)",
+            "families_tested": ["DATA", "SWE", "MLAI"],
             "scenario_count": len(scenarios),
             "attempt_count": len(attempts),
             "persona_count": len(journeys),
@@ -592,6 +676,7 @@ def main() -> None:
                 "target": "sigma^2 == 0.000",
                 "observed_data": var_data,
                 "observed_swe": var_swe,
+                "observed_mlai": var_mlai,
                 "status": "PASS",
             },
             "M-STG-04_scoring_latency_p95_ms": {
@@ -630,6 +715,7 @@ def main() -> None:
                 "target": "100%",
                 "data_monotonic": dag_result["data_family_monotonic"],
                 "swe_monotonic": dag_result["swe_family_monotonic"],
+                "mlai_monotonic": dag_result["mlai_family_monotonic"],
                 "status": "PASS",
             },
         },
@@ -649,6 +735,7 @@ def main() -> None:
             "total": len(attempts),
             "data_attempts": sum(1 for a in attempts if a.role_family == "DATA"),
             "swe_attempts": sum(1 for a in attempts if a.role_family == "SWE"),
+            "mlai_attempts": sum(1 for a in attempts if a.role_family == "MLAI"),
             "expert_count": sum(1 for a in attempts if a.profile_type == "expert"),
             "partial_count": sum(1 for a in attempts if a.profile_type == "partial"),
             "overflagging_count": sum(1 for a in attempts if a.profile_type == "overflagging"),

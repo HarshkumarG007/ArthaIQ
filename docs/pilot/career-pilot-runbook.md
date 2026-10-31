@@ -14,10 +14,11 @@
 
 ## 1. Executive Summary & Scope
 
-This runbook establishes the operational procedures for the **ArthaIQ Career Architect Multi-Family Pilot**. The pilot evaluates the end-to-end Career Architect experience for verified India technology professionals across two supported role families:
+This runbook establishes the operational procedures for the **ArthaIQ Career Architect Multi-Family Pilot**. The pilot evaluates the end-to-end Career Architect experience for verified India technology professionals across three supported role families:
 
 - **Data & AI** (14-node competency DAG, 7 flaw-finding practice scenarios)
-- **Software Engineering / SWE** (15-node competency DAG, 3 flaw-finding practice scenarios)
+- **Software Engineering / SWE** (15-node competency DAG, 7 flaw-finding practice scenarios)
+- **Machine Learning & AI / MLAI** (15-node competency DAG, 3 flaw-finding practice scenarios)
 
 The pilot is strictly voluntary, non-appraisal, and governed by India DPDP Act 2023. It yields no binding pay recommendations, job offers, or certification claims. Its purpose is to evaluate comprehension, usability, and calibration within constitutional invariants.
 
@@ -74,7 +75,7 @@ The following notice must be presented to and acknowledged by every participant 
 
 **Step 1: Role Family Selection (Setup)**
 - Navigate to the Career Architect tab.
-- Select your **Role Family**: `Data & AI` or `Software Engineering`.
+- Select your **Role Family**: `Data & AI`, `Software Engineering`, or `Machine Learning & AI`.
 - Select your **Target Level**: Junior (L2), Mid (L3), or Senior (L4).
 - The platform automatically configures the correct competency graph, scenario corpus, and market pay benchmarks for your family.
 
