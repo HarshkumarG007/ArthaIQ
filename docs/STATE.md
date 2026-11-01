@@ -3,11 +3,11 @@
 | Attribute | Current Value |
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
-| **Release Status** | **v1.2.0 Production Staging Deployed** · All 25 Gates G0–G24 Ratified GO · Batch Client SDK & CLI Operational |
-| **Active Milestone** | **Phase 26 Complete (Enterprise Batch REST Client SDK & CLI Tooling)** |
-| **Active Subphase** | **Initiative 2: Live Daemon Smoke Test & Initiative 3: Phase 27 Inception** |
-| **Current Task** | **T26.04 Build Comprehensive Automated Unit Test Suite (Completed)** |
-| **Next Task** | **Initiative 2: Live Daemon Smoke Test & Initiative 3: Phase 27 Inception** |
+| **Release Status** | **v1.2.0 Production Ready** · All 28 Gates G0–G27 Ratified GO · Career Architect Graduated · Batch Client SDK Operational |
+| **Active Milestone** | **Phase 27 Complete (Career Architect Platform Graduation & Production Rollout Architecture)** |
+| **Active Subphase** | **Production Launch Preparation & Ecosystem Expansion** |
+| **Current Task** | **Gate G27 Ratification Review (Ratified GO, Decision D-041)** |
+| **Next Task** | **Production Launch Preparation & Ecosystem Expansion** |
 | **Last Updated** | **2026-11-01** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 
@@ -45,6 +45,7 @@ Audited and benchmarked under Task `T15.00` (`docs/pilot/hardware-baseline.md`):
 | **D-037** | 2026-10-31 | **Gate G21** | Ratified Core Compensation Engine Backlog (ENG-17 & UX-18): Distributed Batch Inference Pipeline operational at 46,860.8 pred/sec (> 46x SLA), split conformal calibration [P10, P50, P90] with 80% coverage, memory-capped streaming generators (heap <= 256MB), and honest abstention; Interactive Slice-Adaptive Uncertainty Visualizer with dynamic coverage slider (70%-95%), cross-slice diagnostics across 6 Metros and 4 Seniority Strata, accessible table view toggle, 0 Axe violations across 191 web tests, clean production build; zero lone numbers (Rule R-UQ-01) and zero causal claims (Rule R-CR-01). |
 | **D-038** | 2026-10-31 | **Gate G22** | Ratified MLAI Scenario Corpus Expansion: 4 new canonical MLAI practice scenarios authored (`SCEN-MLAI-04-VEC` to `SCEN-MLAI-07-GUARD`) completing 7 canonical MLAI scenarios and 21 platform total across DATA, SWE, and MLAI; practitioner consensus κ = 0.900 >= 0.850; 100-repeat determinism variance σ² = 0.000000; p95 latency 0.0182ms <= 5.0ms SLA; staging audit evaluated 21 scenarios across 300 attempts confirming 10/10 M-STG metrics PASS; web UI integrated with 0 Axe violations across 192 tests; clean production build; zero lone numbers and zero causal claims. |
 | **D-039** | 2026-10-31 | **Gate G23** | Ratified Enterprise Batch REST Endpoint: high-throughput batch API operational (`POST /v1/estimates/batch`, 17,845.8 pred/sec, > 17x SLA), memory-safe streaming NDJSON response verified (`POST /v1/estimates/batch/stream`, 2,754.0 pred/sec, heap <= 128MB), p95 latency 10.17ms for N=50 batches (<= 100ms SLA), split conformal calibration [P10, P50, P90] with 80% coverage, honest structured abstention returning HTTP 200 without HTTP 500 exceptions, RFC 9457 Problem Details for 422 and 503, docs/api/openapi.json synchronized with 0 drift, zero lone numbers (Rule R-UQ-01), zero causal claims (Rule R-CR-01), and zero runtime LLMs (Rule R-CR-15). |
+| **D-041** | 2026-11-01 | **Gate G27** | Ratified Career Architect Platform Graduation & Production Rollout Architecture: client-side zero-knowledge encrypted sync under ADR-0014 (WebCrypto AES-GCM-256, PBKDF2-SHA256, monotonic state lattice, DPDP Act 2023 Sec 12 hard wipe < 50ms), cross-family pathway synthesizer in src/compintel/career/pathways.py (topologically ordered acyclic pathways across SWE, DATA, and MLAI with bridge competencies, pruning, heuristic effort accumulation, and scenario links), and macroeconomic competency aggregation privacy specification under SPEC-MACRO-COMP-01 (k >= 10 k-anonymity floor, Laplace differential privacy, and Two Streams Two Places decoupling across 5 Metros); zero lone numbers (Rule R-UQ-01) and zero causal claims (Rule R-CR-01). |
 | **D-040** | 2026-10-31 | **Gate G24** | Ratified Live Pilot Participant Cohort Onboarding & Field Run: N=150 participants onboarded across DATA (50), SWE (50), and MLAI (50) in 6 Metro Hubs; all 10 M-STG staging metrics pass (100% comprehension, 100% completion, 0.000000 variance, 0.0206ms p95 latency, 8.59KB footprint, 0 residual purge bytes, 0 causal violations, 0 credential violations, Two Streams 100% decoupled, 100% cross-family DAG monotonicity); 21 canonical flaw-finding practice scenarios operational; DPDP Act 2023 Section 12 right to erasure verified with 0 residual bytes; 192 passing web tests with 0 Axe violations; clean production build; zero lone numbers (Rule R-UQ-01) and zero causal claims (Rule R-CR-01). |
 
 ### Preceding Ratified Milestone Decisions (Reference Index)

@@ -2,7 +2,7 @@
   "metadata": {
     "document_id": "STAGING-CONTAINER-VERIFY-01",
     "phase": "Platform Operations & Staging Smoke Test",
-    "timestamp": "2026-11-01T01:57:11Z",
+    "timestamp": "2026-11-01T02:44:39Z",
     "status": "PASS",
     "total_checks": 20,
     "passed_checks": 19,
@@ -157,23 +157,23 @@
       "endpoint": "/livez",
       "method": "GET",
       "status_code": 200,
-      "latency_ms": 24.86,
+      "latency_ms": 29.21,
       "status": "PASS",
-      "details": "Live probe returned status 200: {\"status\":\"LIVE\",\"timestamp_utc\":\"2026-11-01T01:57:11.271246+00:00\"}"
+      "details": "Live probe returned status 200: {\"status\":\"LIVE\",\"timestamp_utc\":\"2026-11-01T02:44:39.605821+00:00\"}"
     },
     {
       "endpoint": "/readyz",
       "method": "GET",
       "status_code": 200,
-      "latency_ms": 3.4,
+      "latency_ms": 3.28,
       "status": "PASS",
-      "details": "Readiness probe returned status 200: {\"status\":\"READY\",\"model_version\":\"0.1.0\",\"timestamp_utc\":\"2026-11-01T01:57:11.276124+00:00\"}"
+      "details": "Readiness probe returned status 200: {\"status\":\"READY\",\"model_version\":\"0.1.0\",\"timestamp_utc\":\"2026-11-01T02:44:39.610442+00:00\"}"
     },
     {
       "endpoint": "/v1/estimates",
       "method": "POST",
       "status_code": 200,
-      "latency_ms": 11.31,
+      "latency_ms": 21.52,
       "status": "PASS",
       "details": "Single estimate abstained honestly: 3 structured reasons"
     },
@@ -181,7 +181,7 @@
       "endpoint": "/v1/estimates/batch",
       "method": "POST",
       "status_code": 200,
-      "latency_ms": 12.31,
+      "latency_ms": 9.07,
       "status": "PASS",
       "details": "Batch REST processed 3 items; supported: 3, abstained: 0"
     },
@@ -189,7 +189,7 @@
       "endpoint": "/v1/estimates/batch/stream",
       "method": "POST",
       "status_code": 200,
-      "latency_ms": 11.3,
+      "latency_ms": 8.69,
       "status": "PASS",
       "details": "Stream endpoint returned 3 NDJSON records cleanly"
     },
@@ -197,7 +197,7 @@
       "endpoint": "/metrics",
       "method": "GET",
       "status_code": 200,
-      "latency_ms": 5.62,
+      "latency_ms": 11.8,
       "status": "PASS",
       "details": "Prometheus metrics endpoint returned 8121 bytes"
     }

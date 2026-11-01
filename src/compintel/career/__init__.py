@@ -46,6 +46,12 @@ from compintel.career.intake import (
     intake_job_description,
     sanitize_untrusted_text,
 )
+from compintel.career.pathways import (
+    CrossFamilyPathwayRequest,
+    CrossFamilyPathwayResult,
+    CrossFamilyPathwaySynthesizer,
+    PathwayMilestone,
+)
 from compintel.career.pay_resolver import (
     calculate_interval_overlap,
     resolve_target_pay_to_roles,
@@ -163,6 +169,9 @@ __all__ = [
     "CompetencyGraphManifest",
     "CompetencyMatch",
     "CompetencyNode",
+    "CrossFamilyPathwayRequest",
+    "CrossFamilyPathwayResult",
+    "CrossFamilyPathwaySynthesizer",
     "DanglingReferenceError",
     "DefectCategory",
     "DefectSeverity",
@@ -184,6 +193,7 @@ __all__ = [
     "MAX_INPUT_CHARS",
     "MatchMethod",
     "PacingOption",
+    "PathwayMilestone",
     "PilotConsentSubmission",
     "PilotStratification",
     "PayCellMatch",

@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.0.0 GA Released; Phase 21 Complete (Gates G0–G21 Ratified GO)     |
-| Last updated                   | 2026-10-31                                           |
+| Status                         | v1.2.0 Production Ready; Phase 27 Complete (Gates G0–G27 Ratified GO) |
+| Last updated                   | 2026-11-01                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 22: T22.04 Execute Staging Audit Simulation Across All 21 Canonical Scenarios** (Phase 21 Complete: Gate G21 Ratified GO; preceding milestones: Phase 11, **NEXT TASK: Phase 15** ratified GO)
+**NEXT TASK: Production Launch Preparation & Ecosystem Expansion** (Phase 27 Complete: Career Architect Graduated, Gate G27 Ratified GO; Decision D-041)
 
 ## How to use this file
 
@@ -994,9 +994,32 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
----
+## Phase 27: Career Architect Platform Graduation & Production Rollout Architecture
+
+> **Objective:** Mature the ArthaIQ Career Architect into a graduated production platform: author zero-knowledge client-side encrypted ledger sync architecture (`ADR-0014`), implement cross-family career transition pathway synthesizer (SWE $\to$ MLAI, DATA $\to$ MLAI, SWE $\to$ DATA) with topological monotonicity and bridge competency tagging, establish macroeconomic competency aggregation privacy specifications ($k \ge 10$ $k$-anonymity), and formally ratify Gate G27.
+> **Inputs and tools:** `src/compintel/career/`, `config/taxonomy/`, `config/scenarios/`, `docs/adr/`; Python, Pydantic v2, pytest.
+> **Deliverables:** Implementation plan (`PLAN-CAREER-GRAD-01`), Architecture Decision Record (`docs/adr/ADR-0014-zero-knowledge-encrypted-ledger-sync.md`), pathway synthesizer (`src/compintel/career/pathways.py`), test suite (`tests/unit/test_career_pathways.py`), privacy specification (`docs/research/macroeconomic-competency-aggregation-spec.md`), gate review dossier (`docs/pilot/gate-g27-review.md`), gate verification suite (`tests/unit/test_phase27_gate_g27.py`).
+> **Effort (assumption):** 1 session.
+> **GO if:** All cross-family pathways are topologically ordered and acyclic, bridge competencies and practice scenarios are accurately linked, heuristic effort intervals are accumulated, $k \ge 10$ $k$-anonymity and DPDP Act 2023 Sec 12 hard purge are specified, and all unit tests pass 100%.
+> **NO-GO:** Stay in Phase 27 until all criteria met.
+
+**NEXT TASK: Production Launch Preparation & Ecosystem Expansion** (Phase 27 Complete: Career Architect Graduated, Gate G27 Ratified GO)
+
+- [x] **T27.01** [AI] Author Implementation Plan & Zero-Knowledge Encryption Architecture (`PLAN-CAREER-GRAD-01`, `ADR-0014`). (done 2026-11-01)
+      Output: `implementation-plan-career-graduation.md`, `docs/adr/ADR-0014-zero-knowledge-encrypted-ledger-sync.md`. Done when: plan specifies pathway synthesis and ADR-0014 details WebCrypto AES-GCM-256 client encryption, PBKDF2-SHA256 key derivation, monotonic state lattice conflict resolution, and DPDP Act 2023 Sec 12 erasure. Needs: Phase 26 complete. Size: S.
+- [x] **T27.02** [AI] Implement Cross-Family Career Pathway Synthesizer (`src/compintel/career/pathways.py`). (done 2026-11-01)
+      Output: `src/compintel/career/pathways.py`, `src/compintel/career/__init__.py`. Done when: synthesizer constructs topologically ordered, acyclic cross-family pathways across SWE, DATA, and MLAI with bridge competencies, pre-demonstrated pruning, heuristic effort intervals, and CPA 2019 disclaimers. Needs: T27.01. Size: M.
+- [x] **T27.03** [AI] Build Comprehensive Automated Unit Test Suite (`tests/unit/test_career_pathways.py`). (done 2026-11-01)
+      Output: `tests/unit/test_career_pathways.py`. Done when: 7/7 unit tests pass validating multi-family transitions, DAG acyclicity, bridge identification, pruning, pacing calculations, scenario linkage, and anti-causal compliance. Needs: T27.02. Size: S.
+- [x] **T27.04** [AI] Author Macroeconomic Competency Aggregation & Privacy Specification (`docs/research/macroeconomic-competency-aggregation-spec.md`). (done 2026-11-01)
+      Output: `docs/research/macroeconomic-competency-aggregation-spec.md`. Done when: specification establishes $k \ge 10$ $k$-anonymity floor, Laplace differential privacy ($\epsilon = 0.5$), Two Streams Two Places decoupling, and 5 Tier-1 Indian tech hub coverage. Needs: T27.01. Size: S.
+- [x] **T27.05** [AI] Compile Gate G27 Review Dossier & Gate Verification Suite (`docs/pilot/gate-g27-review.md`, `tests/unit/test_phase27_gate_g27.py`). (done 2026-11-01)
+      Output: `docs/pilot/gate-g27-review.md`, `tests/unit/test_phase27_gate_g27.py`. Done when: 14/14 subphase audit checks PASS, Decision D-041 is formally ratified, and Gate G27 achieves unconditional GO. Needs: T27.01–T27.04. Size: S.
+
+**Gate G27:** Career Architect Platform Graduation & Production Rollout Architecture ratified: Zero-Knowledge Client-Side Encrypted Ledger Sync under ADR-0014, Cross-Family Career Pathway Synthesizer across SWE, DATA, and MLAI, Topological DAG Monotonicity & Acyclicity with Bridge Competency Tagging, Macroeconomic Competency Aggregation & Privacy Specification with k >= 10 k-Anonymity under SPEC-MACRO-COMP-01, DPDP Act 2023 Sec 12 Hard Wipe, Zero Causal Pay Promises under Rule R-CR-01, Two Streams Two Places 100% Decoupled, and Gate G27 ratified GO. (Ratified: Decision D-041 GO 2026-11-01)
 
 ---
+
 
 ---
 
