@@ -92,6 +92,13 @@ describe("CareerRoute (T15.28 Career Architect View)", () => {
     fireEvent.click(ledgerTab);
 
     expect(screen.getByText(/on-device evidence ledger/i)).toBeInTheDocument();
+
+    // Switch to Transition Pathways
+    const pathwaysTab = screen.getByRole("tab", { name: /transition pathways/i });
+    fireEvent.click(pathwaysTab);
+
+    expect(screen.getByTestId("cross-family-navigator")).toBeInTheDocument();
+    expect(pathwaysTab).toHaveAttribute("aria-selected", "true");
   });
 
   it("displays completed practice scenario scores and unlocked competencies", async () => {

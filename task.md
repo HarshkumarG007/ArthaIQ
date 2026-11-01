@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.2.0 Production Ready; Phase 29 Complete (Gates G0–G29 Ratified GO) |
+| Status                         | v1.2.0 Production Ready; Phase 30 Complete (Gates G0–G30 Ratified GO) |
 | Last updated                   | 2026-11-01                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 30: Frontend Cross-Family Career Pathway Navigator (T30.01 Author Implementation Plan PLAN-FE-NAVIGATOR-01)** (Phase 29 Complete: Cloud CI/CD Pipeline Ratified, Gate G29 Ratified GO; Decision D-043)
+**NEXT TASK: Phase 31: Client Security & ADR-0014 WebCrypto Implementation (T31.01 Author Implementation Plan PLAN-CLIENT-SECURITY-01)** (Phase 30 Complete: Frontend Cross-Family Career Pathway Navigator Ratified, Gate G30 Ratified GO; Decision D-044)
 
 ## How to use this file
 
@@ -1074,6 +1074,32 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
+## Phase 30: Frontend Cross-Family Career Pathway Navigator
+
+> **Objective:** Implement interactive React component (`apps/web/src/components/career/CrossFamilyPathwayNavigator.tsx`) providing deterministic cross-family transition corridors (`SWE -> MLAI`, `DATA -> MLAI`, `SWE -> DATA`), bridge competency badges with transversal acceleration rationale, weekly pacing budget slider (5-20 hrs/wk) calculating timeline intervals $[W_{\min}, W_{\max}]\text{ weeks}$, flaw-finding scenario linking across 21 scenarios, on-device evidence ledger filtering, and decoupled market compensation overlay with CPA 2019 statutory disclaimer.
+> **Inputs and tools:** `apps/web/src/`, `src/compintel/career/`; React, TypeScript, Vitest, Axe-core, Python, pytest.
+> **Deliverables:** Implementation plan (`PLAN-FE-NAVIGATOR-01`), Navigator component (`CrossFamilyPathwayNavigator.tsx`), CareerRoute and NavigationShell integration, Vitest test suite (`CrossFamilyPathwayNavigator.test.tsx`), Python architecture tests (`test_frontend_navigator.py`), Gate G30 review dossier (`docs/pilot/gate-g30-review.md`).
+> **Effort (assumption):** 1 session.
+> **GO if:** Component renders all 3 corridors, bridge badges display transversal acceleration rationale, pacing slider dynamically updates timeline and effort intervals without solitary numbers, Axe accessibility audits pass with 0 violations, and Gate G30 ratified GO.
+> **NO-GO:** Stay in Phase 30 until all criteria met.
+
+**NEXT TASK: Phase 31: Client Security & ADR-0014 WebCrypto Implementation (T31.01 Author Implementation Plan PLAN-CLIENT-SECURITY-01)** (Phase 30 Complete: Frontend Cross-Family Career Pathway Navigator Ratified, Gate G30 Ratified GO)
+
+- [x] **T30.01** [AI] Author Implementation Plan & UI Architecture (`PLAN-FE-NAVIGATOR-01`). (done 2026-11-01)
+      Output: `implementation-plan-cross-family-navigator.md`. Done when: plan specifies component architecture, corridor data models, pacing slider math, and verification gates. Needs: Phase 29 complete. Size: S.
+- [x] **T30.02** [AI] Implement CrossFamilyPathwayNavigator Component (`apps/web/src/components/career/CrossFamilyPathwayNavigator.tsx`). (done 2026-11-01)
+      Output: `CrossFamilyPathwayNavigator.tsx`. Done when: component renders 3 multi-family corridors, bridge badges, weekly study budget slider [5-20 hrs/wk], practice launch buttons, and decoupled pay panel with CPA 2019 disclaimer. Needs: T30.01. Size: M.
+- [x] **T30.03** [AI] Integrate Navigator into CareerRoute & Navigation Shell (`apps/web/src/routes/career.tsx`, `apps/web/src/components/NavigationShell.tsx`). (done 2026-11-01)
+      Output: `career.tsx`, `NavigationShell.tsx`. Done when: "pathways" subview is added to CareerSubView and hash routing supports `#career/pathways`. Needs: T30.02. Size: S.
+- [x] **T30.04** [AI] Build Automated Vitest & Accessibility Test Suite (`CrossFamilyPathwayNavigator.test.tsx`, `tests/unit/test_frontend_navigator.py`). (done 2026-11-01)
+      Output: `CrossFamilyPathwayNavigator.test.tsx`, `test_frontend_navigator.py`. Done when: 8/8 Vitest tests pass with 0 Axe violations, 6/6 Python tests pass, and `tsc -b && vite build` succeeds. Needs: T30.02, T30.03. Size: S.
+- [x] **T30.05** [AI] Compile Gate G30 Review Dossier & Ratify Milestone (`docs/pilot/gate-g30-review.md`). (done 2026-11-01)
+      Output: `docs/pilot/gate-g30-review.md`. Done when: 16/16 subphase audit checks PASS, Decision D-044 is formally ratified, and Gate G30 achieves unconditional GO. Needs: T30.01–T30.04. Size: S.
+
+**Gate G30:** Frontend Cross-Family Career Pathway Navigator ratified: React component implemented and integrated into CareerRoute and NavigationShell, 3 canonical corridors operational, bridge badges active with transversal rationale, weekly pacing slider calculating calibrated [Wmin, Wmax] timeline intervals, flaw-finding practice scenario links active, on-device ledger filtering active, decoupled pay panel adhering to Two Streams Two Places and CPA 2019 statutory disclaimers, 20/20 test files passing with 200/200 unit and accessibility tests, 0 Axe Core violations, and Gate G30 ratified GO. (Ratified: Decision D-044 GO 2026-11-01)
+
+---
+
 
 ---
 
@@ -1661,3 +1687,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.38    | Task T16.07 complete: Integrated full multi-family support into web UI across GapMapView, RoadmapView, PracticeWorkspace, NextStepCard, and CareerRoute; added role family selectors (Data & AI vs Software Engineering), rendered 15-node SWE DAG and milestones, integrated 3 SWE practice scenarios, added SWE market pay benchmarks in PayOverlayPanel, verified 163/163 Vitest tests passing with 0 Axe accessibility violations and clean tsc. NEXT: Task T16.08 (Convene Governance Panel and Ratify Gate G16). |
 | 2026-10-30 | 1.39    | Phase 16 complete & Gate G16 ratified GO: Multidisciplinary governance panel convened and ratified Gate G16 (`REV-GATE-G16-01`, Decision `D-032`, Unconditional GO) for Software Engineering (SWE) Role Family expansion; verified 15-node SWE DAG acyclic with 100% O*NET 28.0 and ESCO v1.1.1 provenance, practitioner consensus κ = 0.867, calibrated heuristic effort rubrics, 3 canonical flaw-finding practice scenarios with deterministic scoring (< 0.05ms) and zero runtime LLMs (ADR-0010, ADR-0013), web UI multi-family switching with 163 passing Vitest tests and 0 Axe violations, local-first IndexedDB persistence, zero causal claims, and 9/9 Gate G16 tests passing. |
 | 2026-10-30 | 1.40    | Phase 17 complete & Gate G17 ratified GO: Multidisciplinary governance panel convened and ratified Gate G17 (`REV-GATE-G17-01`, Decision `D-033`, Unconditional GO) for Multi-Family Pilot Deployment & Production Staging; operational cohort runbook published (`RUNBOOK-CAREER-PILOT-01`, N=150 stratification, DPDP Act 2023 consent & Sec 12 right to erasure); Nginx CSP hardened (`worker-src 'self' blob:`); staging Docker Compose configured with resource caps; automated staging audit executed (`STAGING-AUDIT-CAREER-ARCH-01`, 200 synthetic journeys across SWE and DATA personas) achieving 10/10 M-STG metrics GO with 0 variance, 0.0255ms p95 latency, 8.59KB footprint, 0 residual bytes on purge, and 100% cross-family DAG monotonicity; 9/9 Gate G17 tests passing. |
+| 2026-11-01 | 1.54    | Phase 30 complete & Gate G30 ratified GO: Frontend Cross-Family Career Pathway Navigator implemented in React (`CrossFamilyPathwayNavigator.tsx`) and integrated into CareerRoute and NavigationShell; 3 multi-family transition corridors operational (`SWE_TO_MLAI`, `DATA_TO_MLAI`, `SWE_TO_DATA`), bridge competency badges with transversal acceleration rationale, weekly pacing slider [5-20 hrs/wk] calculating calibrated duration intervals [Wmin, Wmax] weeks without lone numbers, flaw-finding scenario linking across 21 scenarios, local evidence ledger filtering, decoupled compensation overlay [P10, P50, P90] with statutory CPA 2019 disclaimer, 20/20 web test files passing with 200/200 tests and 0 Axe violations, 6/6 Python tests passing, Gate G30 ratified GO (Decision D-044). NEXT: Phase 31 (Client Security & ADR-0014 WebCrypto Implementation). |

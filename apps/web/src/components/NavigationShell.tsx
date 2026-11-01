@@ -38,6 +38,7 @@ export function NavigationShell({
         if (hash.includes("/plan")) setCareerSubView("plan");
         else if (hash.includes("/practice")) setCareerSubView("practice");
         else if (hash.includes("/ledger")) setCareerSubView("ledger");
+        else if (hash.includes("/pathways")) setCareerSubView("pathways");
         else setCareerSubView("skills");
       } else if (hash.startsWith("#pilot")) {
         setMode("pilot");

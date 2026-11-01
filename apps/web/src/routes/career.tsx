@@ -17,8 +17,9 @@ import { RoadmapView } from "../components/career/RoadmapView";
 import { NextStepCard } from "../components/career/NextStepCard";
 import { PayOverlayPanel } from "../components/career/PayOverlayPanel";
 import { PilotConsentModal } from "../components/career/PilotConsentModal";
+import { CrossFamilyPathwayNavigator } from "../components/career/CrossFamilyPathwayNavigator";
 
-export type CareerSubView = "skills" | "plan" | "practice" | "ledger";
+export type CareerSubView = "skills" | "plan" | "practice" | "ledger" | "pathways";
 
 interface CareerRouteProps {
   initialSubView?: CareerSubView;
@@ -405,6 +406,21 @@ export function CareerRoute({
           >
             Evidence Ledger
           </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-pathways"
+            aria-selected={subView === "pathways"}
+            aria-controls="panel-pathways"
+            onClick={() => handleSubViewSelect("pathways")}
+            className={`pb-3 font-semibold text-xs uppercase tracking-wider transition-colors border-b-2 ${
+              subView === "pathways"
+                ? "border-span text-span"
+                : "border-transparent text-ink-2 hover:text-ink hover:border-rule-strong"
+            }`}
+          >
+            Transition Pathways
+          </button>
         </nav>
       </div>
 
@@ -513,6 +529,23 @@ export function CareerRoute({
               </div>
             )}
           </div>
+        </section>
+      )}
+
+      {subView === "pathways" && (
+        <section
+          id="panel-pathways"
+          role="tabpanel"
+          aria-labelledby="tab-pathways"
+          className="space-y-4"
+        >
+          <CrossFamilyPathwayNavigator
+            evidenceRecords={records}
+            onSelectScenario={(scenarioId) => {
+              setSelectedScenarioId(scenarioId);
+              handleSubViewSelect("practice");
+            }}
+          />
         </section>
       )}
 
