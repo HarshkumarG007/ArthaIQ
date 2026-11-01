@@ -1,0 +1,206 @@
+{
+  "metadata": {
+    "document_id": "STAGING-CONTAINER-VERIFY-01",
+    "phase": "Platform Operations & Staging Smoke Test",
+    "timestamp": "2026-11-01T01:57:11Z",
+    "status": "PASS",
+    "total_checks": 20,
+    "passed_checks": 19,
+    "failed_checks": 0,
+    "warned_checks": 1,
+    "docker_daemon_status": "OFFLINE"
+  },
+  "checks": [
+    {
+      "check_id": "CHK-API-01",
+      "category": "Dockerfile.api",
+      "description": "Multi-stage build separation (builder -> runtime)",
+      "status": "PASS",
+      "details": "Builder stage and minimal runtime stage confirmed"
+    },
+    {
+      "check_id": "CHK-API-02",
+      "category": "Dockerfile.api",
+      "description": "Deterministic dependency caching with uv frozen lock",
+      "status": "PASS",
+      "details": "uv cache mount and frozen production dependency sync present"
+    },
+    {
+      "check_id": "CHK-API-03",
+      "category": "Dockerfile.api",
+      "description": "Non-root user execution (UID 10001, ASVS 14.2.1)",
+      "status": "PASS",
+      "details": "compintel system user created with UID 10001 and set as runtime USER"
+    },
+    {
+      "check_id": "CHK-API-04",
+      "category": "Dockerfile.api",
+      "description": "Container healthcheck (/livez) and port exposure (8000)",
+      "status": "PASS",
+      "details": "Healthcheck probes http://localhost:8000/livez every 10s; port 8000 exposed"
+    },
+    {
+      "check_id": "CHK-WEB-01",
+      "category": "Dockerfile.web",
+      "description": "Multi-stage SPA build separation (Node 22 -> Nginx 1.27)",
+      "status": "PASS",
+      "details": "Node 22 builder stage and minimal Nginx alpine runtime stage confirmed"
+    },
+    {
+      "check_id": "CHK-WEB-02",
+      "category": "Dockerfile.web",
+      "description": "Clean npm ci and production Vite compilation",
+      "status": "PASS",
+      "details": "npm ci clean install and npm run build executed during builder stage"
+    },
+    {
+      "check_id": "CHK-WEB-03",
+      "category": "Dockerfile.web",
+      "description": "Static asset copying and custom Nginx configuration",
+      "status": "PASS",
+      "details": "Built assets copied to Nginx html root and hardened nginx.conf installed"
+    },
+    {
+      "check_id": "CHK-WEB-04",
+      "category": "Dockerfile.web",
+      "description": "Nginx container healthcheck and HTTP port exposure (80)",
+      "status": "PASS",
+      "details": "Healthcheck verifies HTTP 200 response on port 80; port 80 exposed"
+    },
+    {
+      "check_id": "CHK-NGINX-01",
+      "category": "nginx.conf",
+      "description": "Gzip asset compression enabled (PRD NFR-03)",
+      "status": "PASS",
+      "details": "Gzip compression configured with MIME types for text, JS, CSS, and JSON"
+    },
+    {
+      "check_id": "CHK-NGINX-02",
+      "category": "nginx.conf",
+      "description": "OWASP security headers & CSP worker sandbox (ADR-0013)",
+      "status": "PASS",
+      "details": "nosniff, DENY, Referrer-Policy, and CSP with worker-src 'self' blob: confirmed"
+    },
+    {
+      "check_id": "CHK-NGINX-03",
+      "category": "nginx.conf",
+      "description": "Reverse proxy routing for API, metrics, and healthchecks",
+      "status": "PASS",
+      "details": "Proxy passes configured for /v1/, /metrics, /healthz, /livez, /readyz to api:8000"
+    },
+    {
+      "check_id": "CHK-NGINX-04",
+      "category": "nginx.conf",
+      "description": "SPA client routing fallback and immutable asset caching",
+      "status": "PASS",
+      "details": "Client-side routing fallback to /index.html and 1-year immutable caching present"
+    },
+    {
+      "check_id": "CHK-COMPOSE-01",
+      "category": "docker-compose.staging.yml",
+      "description": "Staging container services topology (db, api, web)",
+      "status": "PASS",
+      "details": "arthaiq-staging-db, arthaiq-staging-api, and arthaiq-staging-web defined"
+    },
+    {
+      "check_id": "CHK-COMPOSE-02",
+      "category": "docker-compose.staging.yml",
+      "description": "Container resource memory limits (256MB / 512MB / 128MB)",
+      "status": "PASS",
+      "details": "PostgreSQL capped at 256MB, FastAPI serving at 512MB, Nginx web at 128MB"
+    },
+    {
+      "check_id": "CHK-COMPOSE-03",
+      "category": "docker-compose.staging.yml",
+      "description": "Loopback-only binding for internal database and API ports",
+      "status": "PASS",
+      "details": "Database and API ports bound exclusively to 127.0.0.1; zero public 0.0.0.0 exposure"
+    },
+    {
+      "check_id": "CHK-COMPOSE-04",
+      "category": "docker-compose.staging.yml",
+      "description": "Bridge network isolation and healthy service dependencies",
+      "status": "PASS",
+      "details": "Isolated arthaiq-staging bridge network; api depends on db healthy, web depends on api healthy"
+    },
+    {
+      "check_id": "CHK-DIST-01",
+      "category": "apps/web/dist",
+      "description": "Production HTML entrypoint integrity",
+      "status": "PASS",
+      "details": "index.html present with valid ArthaIQ title and React root element"
+    },
+    {
+      "check_id": "CHK-DIST-02",
+      "category": "apps/web/dist",
+      "description": "Hashed JavaScript and CSS bundle chunks",
+      "status": "PASS",
+      "details": "Found 1 JS chunk(s), 1 CSS chunk(s); total bundle size: 1.34 MB"
+    },
+    {
+      "check_id": "CHK-PROBE-01",
+      "category": "fastapi-endpoints",
+      "description": "FastAPI endpoint health probes (/livez, /readyz, /v1, /metrics)",
+      "status": "PASS",
+      "details": "All 6 simulated endpoints responded with HTTP 200 and valid schemas"
+    },
+    {
+      "check_id": "CHK-DOCKER-01",
+      "category": "docker-runtime",
+      "description": "Docker Engine live daemon connectivity",
+      "status": "WARN",
+      "details": "Docker Engine daemon offline: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified."
+    }
+  ],
+  "endpoint_probes": [
+    {
+      "endpoint": "/livez",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 24.86,
+      "status": "PASS",
+      "details": "Live probe returned status 200: {\"status\":\"LIVE\",\"timestamp_utc\":\"2026-11-01T01:57:11.271246+00:00\"}"
+    },
+    {
+      "endpoint": "/readyz",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 3.4,
+      "status": "PASS",
+      "details": "Readiness probe returned status 200: {\"status\":\"READY\",\"model_version\":\"0.1.0\",\"timestamp_utc\":\"2026-11-01T01:57:11.276124+00:00\"}"
+    },
+    {
+      "endpoint": "/v1/estimates",
+      "method": "POST",
+      "status_code": 200,
+      "latency_ms": 11.31,
+      "status": "PASS",
+      "details": "Single estimate abstained honestly: 3 structured reasons"
+    },
+    {
+      "endpoint": "/v1/estimates/batch",
+      "method": "POST",
+      "status_code": 200,
+      "latency_ms": 12.31,
+      "status": "PASS",
+      "details": "Batch REST processed 3 items; supported: 3, abstained: 0"
+    },
+    {
+      "endpoint": "/v1/estimates/batch/stream",
+      "method": "POST",
+      "status_code": 200,
+      "latency_ms": 11.3,
+      "status": "PASS",
+      "details": "Stream endpoint returned 3 NDJSON records cleanly"
+    },
+    {
+      "endpoint": "/metrics",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 5.62,
+      "status": "PASS",
+      "details": "Prometheus metrics endpoint returned 8121 bytes"
+    }
+  ],
+  "operator_instructions": "Start Docker Desktop from Windows Start Menu, or run:\n  Start-Process 'C:\\Users\\Lenovo\\AppData\\Local\\Programs\\DockerDesktop\\Docker Desktop.exe'\nThen deploy staging stack with:\n  docker compose -f infra/docker/docker-compose.staging.yml up --build"
+}

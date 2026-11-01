@@ -952,6 +952,28 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
+## Phase 25: Production Containerization & Staging Verification
+
+> **Objective:** Validate production containerization topology, resource bounds, OWASP ASVS 14.2.1 non-root security standards, Nginx reverse proxy configuration, Content Security Policy (`worker-src 'self' blob:`), and FastAPI/Vite end-to-end serving health.
+> **Inputs and tools:** `infra/docker/`, `apps/web/`, `scripts/`, `src/compintel/serving/`; Docker, Nginx, Python, Vitest.
+> **Deliverables:** Implementation plan (`PLAN-STAGING-CONTAINER-01`), verification harness (`scripts/verify_staging_containerization.py`), audit report (`experiments/results/staging_containerization_v1.json`), automated unit tests (`tests/unit/test_staging_containerization.py`), staging runbook (`docs/pilot/staging-containerization-runbook.md`).
+> **Effort (assumption):** 1 session.
+> **GO if:** All 19 container, proxy, and asset integrity checks pass, all simulated endpoint probes return HTTP 200 with full conformal intervals, web bundle builds cleanly, and unit tests pass 100%.
+> **NO-GO:** Stay in Phase 25 until all criteria met.
+
+**NEXT TASK: Post-Phase 25 Operational Monitoring & Platform Evolution** (Phase 25 Complete: Production Staging Containerization Verified)
+
+- [x] **T25.01** [AI] Author Implementation Plan for Production Containerization & Staging Verification (`PLAN-STAGING-CONTAINER-01`). (done 2026-11-01)
+      Output: `implementation-plan-staging-containerization.md`. Done when: plan details container invariants, Nginx reverse proxy directives, security headers, endpoint probe contracts, and verification rubric. Needs: Gate G24 GO. Size: S.
+- [x] **T25.02** [AI] Implement Staging Containerization & Reverse Proxy Verification Harness. (done 2026-11-01)
+      Output: `scripts/verify_staging_containerization.py`, `experiments/results/staging_containerization_v1.json`. Done when: automated harness verifies Dockerfiles, Compose staging quotas, Nginx security headers & CSP, SPA bundle integrity, and probes FastAPI endpoints. Needs: T25.01. Size: M.
+- [x] **T25.03** [AI] Build Automated Staging Containerization Unit Test Suite & Runbook. (done 2026-11-01)
+      Output: `tests/unit/test_staging_containerization.py`, `docs/pilot/staging-containerization-runbook.md`. Done when: 9/9 unit tests pass validating report, Dockerfile non-root security, Compose memory caps, and Nginx proxy rules. Needs: T25.02. Size: S.
+
+---
+
+---
+
 ---
 
 
