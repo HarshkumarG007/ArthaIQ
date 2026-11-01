@@ -3,11 +3,11 @@
 | Attribute | Current Value |
 |---|---|
 | **System** | **ArthaIQ** — Ethical Compensation & Career Intelligence for India Tech |
-| **Release Status** | **v1.2.0 Production Staging Deployed** · All 25 Gates G0–G24 Ratified GO · Staging Containerization Verified |
-| **Active Milestone** | **Phase 25 Complete (Production Containerization & Staging Verification)** |
-| **Active Subphase** | **Post-Phase 25 Operational Monitoring & Platform Evolution** |
-| **Current Task** | **T25.03 Build Automated Staging Containerization Unit Test Suite & Runbook (Completed)** |
-| **Next Task** | **Post-Phase 25 Operational Monitoring & Platform Evolution** |
+| **Release Status** | **v1.2.0 Production Staging Deployed** · All 25 Gates G0–G24 Ratified GO · Batch Client SDK & CLI Operational |
+| **Active Milestone** | **Phase 26 Complete (Enterprise Batch REST Client SDK & CLI Tooling)** |
+| **Active Subphase** | **Initiative 2: Live Daemon Smoke Test & Initiative 3: Phase 27 Inception** |
+| **Current Task** | **T26.04 Build Comprehensive Automated Unit Test Suite (Completed)** |
+| **Next Task** | **Initiative 2: Live Daemon Smoke Test & Initiative 3: Phase 27 Inception** |
 | **Last Updated** | **2026-11-01** |
 | **Primary Reference** | `docs/research/career-architect-implementation-plan.md` |
 

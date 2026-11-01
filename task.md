@@ -972,6 +972,30 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
+## Phase 26: Enterprise Batch REST Client SDK & CLI Tooling
+
+> **Objective:** Engineer a high-throughput, ergonomic Python Client SDK and unified command-line tool (`compintel-batch`) for enterprise batch and streaming compensation prediction with automatic payload chunking, format conversion (CSV, JSON, NDJSON), and adherence to Rule `R-UQ-01` (Zero Lone Numbers) and Rule `R-CR-01` (Anti-Causal).
+> **Inputs and tools:** `src/compintel/serving/`, `src/compintel/schema/`; Python, httpx, Pydantic v2, pytest.
+> **Deliverables:** Client SDK (`src/compintel/client/batch.py`), CLI tool (`scripts/compintel_batch.py`), automated test suite (`tests/unit/test_batch_client.py`), and documentation.
+> **Effort (assumption):** 1 session.
+> **GO if:** Client executes batch and streaming inference over ASGI and HTTP transports, automatically segments payloads $> 500$ items, supports CSV/JSON ingestion/export, and passes 100% of unit tests.
+> **NO-GO:** Stay in Phase 26 until all criteria met.
+
+**NEXT TASK: Initiative 2: Live Daemon Container Smoke Test & Initiative 3: Career Architect Phase 27 Inception** (Phase 26 Complete: Enterprise Batch Client SDK & CLI Operational)
+
+- [x] **T26.01** [AI] Author Implementation Plan for Enterprise Batch Client SDK & CLI Tooling (`PLAN-BATCH-CLIENT-01`). (done 2026-11-01)
+      Output: `implementation-plan-batch-client-cli.md`. Done when: plan specifies client chunking logic, streaming NDJSON consumer, CLI flag architecture, and verification suite. Needs: Phase 25 complete. Size: S.
+- [x] **T26.02** [AI] Implement Python Batch Client SDK (`src/compintel/client/batch.py`). (done 2026-11-01)
+      Output: `src/compintel/client/batch.py`, `src/compintel/client/__init__.py`. Done when: `BatchClient` supports synchronous batching, row-by-row NDJSON streaming, auto-chunking for $N > 500$, and CSV/JSON ingestion/export with zero lone numbers. Needs: T26.01. Size: M.
+- [x] **T26.03** [AI] Implement Enterprise Batch CLI Utility (`scripts/compintel_batch.py`). (done 2026-11-01)
+      Output: `scripts/compintel_batch.py`. Done when: command parses CSV/JSON/NDJSON inputs, executes bulk or streaming evaluation, displays progress and throughput telemetry, and exports enriched outputs. Needs: T26.02. Size: M.
+- [x] **T26.04** [AI] Build Comprehensive Automated Unit Test Suite (`tests/unit/test_batch_client.py`). (done 2026-11-01)
+      Output: `tests/unit/test_batch_client.py`. Done when: 8/8 unit tests pass validating profile normalization, auto-chunking, in-process ASGI batching/streaming, CSV/JSON I/O, and CLI dry-run. Needs: T26.02, T26.03. Size: S.
+
+---
+
+---
+
 ---
 
 ---

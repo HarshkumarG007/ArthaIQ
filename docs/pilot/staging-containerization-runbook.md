@@ -139,5 +139,15 @@ docker compose -f infra/docker/docker-compose.staging.yml down -v
 |:---|:---|:---|
 | `docker API at npipe:////./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified` | Docker Desktop is not actively running in Windows session | Launch Docker Desktop from the Start Menu or run `Start-Process "C:\Users\Lenovo\AppData\Local\Programs\DockerDesktop\Docker Desktop.exe"`. |
 | Port 8080 already in use | Another web server or container is using 8080 | Pass `WEB_PORT=8081 docker compose -f infra/docker/docker-compose.staging.yml up -d`. |
-| Port 5433 already in use | Local PostgreSQL instance or old container | Pass `POSTGRES_PORT=5434 docker compose -f infra/docker/docker-compose.staging.yml up -d`. |
-| API container restarts in `unhealthy` state | Database migrations pending or champion bundle missing | Check logs: `docker compose -f infra/docker/docker-compose.staging.yml logs api`. Ensure `artifacts/champion_v0/` exists. |
+## 4. Batch Client SDK & CLI Verification
+
+To evaluate candidate profiles against the staging stack via CLI:
+```bash
+# Evaluate candidate profiles from CSV using the CLI tool
+python scripts/compintel_batch.py --input profiles.csv --output results.json --url http://localhost:8080
+
+# Or execute with streaming NDJSON
+python scripts/compintel_batch.py -i candidates.json -o evaluated.csv --stream --url http://localhost:8080
+```
+
+
