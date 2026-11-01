@@ -15,7 +15,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from compintel.errors import ConfigError
 
-Environment = Literal["local", "test", "preview", "production"]
+Environment = Literal["local", "test", "preview", "staging", "production"]
 LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 LogFormat = Literal["json", "console"]
 

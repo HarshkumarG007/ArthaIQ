@@ -136,3 +136,4 @@ Cells with cross-metro or remote work patterns are aggregated under `REMOTE_INDI
 2. **Competition Commission of India (CCI) Safe Harbors:**
    - Aggregated figures must never report employer-specific salary or competency distributions.
    - Historical window minimum: Telemetry reflects rolling 90-day historical aggregates to prevent current algorithmic wage signaling or anti-competitive coordination.
+

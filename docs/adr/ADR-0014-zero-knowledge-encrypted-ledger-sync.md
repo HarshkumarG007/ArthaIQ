@@ -62,3 +62,4 @@ Storing plaintext career profiles or credentials on an application server would 
 
 - **Positive:** Enables multi-device ledger continuity without violating Rule `R-CR-12` or storing plaintext career data; backend breach yields only unreadable ciphertext; preserves 100% offline functionality.
 - **Negative:** If a user loses both their device data and their encryption passphrase, the encrypted backup cannot be recovered by ArthaIQ administrators (by design). Clear UI warnings must accompany sync setup.
+

@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.2.0 Production Ready; Phase 27 Complete (Gates G0–G27 Ratified GO) |
+| Status                         | v1.2.0 Production Ready; Phase 28 Complete (Gates G0–G28 Ratified GO) |
 | Last updated                   | 2026-11-01                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Production Launch Preparation & Ecosystem Expansion** (Phase 27 Complete: Career Architect Graduated, Gate G27 Ratified GO; Decision D-041)
+**NEXT TASK: Phase 29: Cloud CI/CD Pipeline & Registry Automation (T29.01 Author Implementation Plan PLAN-CLOUD-CICD-01)** (Phase 28 Complete: Live Staging Deployment Ratified, Gate G28 Ratified GO; Decision D-042)
 
 ## How to use this file
 
@@ -1017,6 +1017,34 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/gate-g27-review.md`, `tests/unit/test_phase27_gate_g27.py`. Done when: 14/14 subphase audit checks PASS, Decision D-041 is formally ratified, and Gate G27 achieves unconditional GO. Needs: T27.01–T27.04. Size: S.
 
 **Gate G27:** Career Architect Platform Graduation & Production Rollout Architecture ratified: Zero-Knowledge Client-Side Encrypted Ledger Sync under ADR-0014, Cross-Family Career Pathway Synthesizer across SWE, DATA, and MLAI, Topological DAG Monotonicity & Acyclicity with Bridge Competency Tagging, Macroeconomic Competency Aggregation & Privacy Specification with k >= 10 k-Anonymity under SPEC-MACRO-COMP-01, DPDP Act 2023 Sec 12 Hard Wipe, Zero Causal Pay Promises under Rule R-CR-01, Two Streams Two Places 100% Decoupled, and Gate G27 ratified GO. (Ratified: Decision D-041 GO 2026-11-01)
+
+---
+
+## Phase 28: Live Staging Deployment & Container Smoke Test
+
+> **Objective:** Execute live deployment and smoke test of the complete ArthaIQ staging topology (`arthaiq-staging-db`, `arthaiq-staging-api`, `arthaiq-staging-web`) with Docker Compose on local ports (`5435`, `8001`, `8080`), verify live HTTP ingress, reverse proxy, OWASP security headers, and batch CLI against live container, and ratify Gate G28.
+> **Inputs and tools:** `infra/docker/`, `src/compintel/`, `scripts/`; Docker Desktop, Python, httpx, pytest.
+> **Deliverables:** Implementation plan (`PLAN-LIVE-DEPLOY-01`), Docker Compose staging configuration (`infra/docker/docker-compose.staging.yml`), verification harness (`scripts/verify_live_deployment.py`), audit report (`experiments/results/live_staging_deployment_v1.json`), automated test suite (`tests/unit/test_live_deployment.py`), gate review dossier (`docs/pilot/gate-g28-review.md`).
+> **Effort (assumption):** 1 session.
+> **GO if:** All 3 containers (`db`, `api`, `web`) are running and healthy within memory caps (256MB, 512MB, 128MB), all live HTTP endpoint probes pass with status 200, OWASP security headers and CSP are active, CLI batch runs against live server, and 4/4 automated unit tests pass 100%.
+> **NO-GO:** Stay in Phase 28 until all criteria met.
+
+**NEXT TASK: Phase 29: Cloud CI/CD Pipeline & Registry Automation (T29.01 Author Implementation Plan PLAN-CLOUD-CICD-01)** (Phase 28 Complete: Live Staging Deployment Ratified, Gate G28 Ratified GO)
+
+- [x] **T28.01** [AI] Author Implementation Plan for Live Staging Deployment (`PLAN-LIVE-DEPLOY-01`). (done 2026-11-01)
+      Output: `implementation-plan-live-staging-deployment.md`. Done when: plan details container topology, port mappings, OpenMP libgomp1 dependencies, live probing suite, and verification gates. Needs: Phase 27 complete. Size: S.
+- [x] **T28.02** [AI] Deploy Three-Tier Staging Stack via Docker Compose (`arthaiq-staging-db`, `arthaiq-staging-api`, `arthaiq-staging-web`). (done 2026-11-01)
+      Output: `infra/docker/docker-compose.staging.yml`, `infra/docker/Dockerfile.api`, `infra/docker/nginx.conf`. Done when: all 3 services achieve healthy status with loopback and memory caps enforced. Needs: T28.01. Size: M.
+- [x] **T28.03** [AI] Execute Comprehensive Live Verification & Probing (`scripts/verify_live_deployment.py`, `experiments/results/live_staging_deployment_v1.json`). (done 2026-11-01)
+      Output: `scripts/verify_live_deployment.py`, `experiments/results/live_staging_deployment_v1.json`. Done when: live probes for `/`, `/livez`, `/readyz`, `/v1/estimates`, `/v1/estimates/batch`, `/stream`, and `/metrics` all return HTTP 200 and audit report shows 0 failures. Needs: T28.02. Size: S.
+- [x] **T28.04** [AI] Verify End-to-End Enterprise Batch CLI against Live Container (`scripts/compintel_batch.py`). (done 2026-11-01)
+      Output: `src/compintel/client/batch.py`, `scripts/compintel_batch.py`. Done when: CLI executes against live port 8080 with `--url http://localhost:8080/v1` and outputs valid predictions with full [P10, P50, P90] intervals. Needs: T28.03. Size: S.
+- [x] **T28.05** [AI] Build Automated Regression Test Suite (`tests/unit/test_live_deployment.py`). (done 2026-11-01)
+      Output: `tests/unit/test_live_deployment.py`. Done when: 4/4 automated tests pass validating audit report, endpoint probes, security headers, and CLI batch. Needs: T28.03, T28.04. Size: S.
+- [x] **T28.06** [AI] Compile Gate G28 Review Dossier & Ratify Milestone (`docs/pilot/gate-g28-review.md`). (done 2026-11-01)
+      Output: `docs/pilot/gate-g28-review.md`. Done when: 14/14 subphase audit checks PASS, Decision D-042 is formally ratified, and Gate G28 achieves unconditional GO. Needs: T28.01–T28.05. Size: S.
+
+**Gate G28:** Live Staging Deployment & Container Smoke Test ratified: Docker Desktop engine active, 3-tier staging topology (`db`, `api`, `web`) healthy under strict memory caps (256MB, 512MB, 128MB), live Nginx ingress probes passing on http://localhost:8080, OWASP security headers & CSP worker sandbox verified, end-to-end compintel_batch CLI execution verified, Zero Lone Numbers (`R-UQ-01`), and Gate G28 ratified GO. (Ratified: Decision D-042 GO 2026-11-01)
 
 ---
 

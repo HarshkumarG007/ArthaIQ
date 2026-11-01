@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "document_id": "LIVE-STAGING-DEPLOY-VERIFY-01",
+    "phase": "Phase 28: Live Staging Deployment & Container Smoke Test",
+    "timestamp": "2026-11-01T03:28:01Z",
+    "status": "PASS",
+    "target_url": "http://localhost:8080",
+    "total_checks": 10,
+    "passed_checks": 10,
+    "failed_checks": 0,
+    "warning_checks": 0
+  },
+  "checks": [
+    {
+      "check_id": "CHK-LIVE-DAEMON",
+      "category": "Docker Engine",
+      "description": "Docker Desktop daemon running and accessible",
+      "status": "PASS",
+      "details": "Docker Engine v29.6.2 (Docker Desktop) active"
+    },
+    {
+      "check_id": "CHK-LIVE-SVC-DB",
+      "category": "Containers",
+      "description": "Service 'db' running and healthy",
+      "status": "PASS",
+      "details": "State: running, Health: healthy"
+    },
+    {
+      "check_id": "CHK-LIVE-SVC-API",
+      "category": "Containers",
+      "description": "Service 'api' running and healthy",
+      "status": "PASS",
+      "details": "State: running, Health: healthy"
+    },
+    {
+      "check_id": "CHK-LIVE-SVC-WEB",
+      "category": "Containers",
+      "description": "Service 'web' running and healthy",
+      "status": "PASS",
+      "details": "State: running, Health: healthy"
+    },
+    {
+      "check_id": "CHK-MEM-arthaiq-staging-web",
+      "category": "Memory Caps",
+      "description": "Memory footprint for container arthaiq-staging-web",
+      "status": "PASS",
+      "details": "Live usage: 21.27MiB / 128MiB"
+    },
+    {
+      "check_id": "CHK-MEM-arthaiq-staging-api",
+      "category": "Memory Caps",
+      "description": "Memory footprint for container arthaiq-staging-api",
+      "status": "PASS",
+      "details": "Live usage: 175.3MiB / 512MiB"
+    },
+    {
+      "check_id": "CHK-MEM-arthaiq-staging-db",
+      "category": "Memory Caps",
+      "description": "Memory footprint for container arthaiq-staging-db",
+      "status": "PASS",
+      "details": "Live usage: 47.65MiB / 256MiB"
+    },
+    {
+      "check_id": "CHK-LIVE-SEC-HEADERS",
+      "category": "Security Headers",
+      "description": "OWASP security headers (nosniff, DENY)",
+      "status": "PASS",
+      "details": "nosniff: True, frame options: True"
+    },
+    {
+      "check_id": "CHK-LIVE-PROBES-ALL",
+      "category": "Endpoint Probes",
+      "description": "Live endpoints responded with HTTP 200 and valid schemas",
+      "status": "PASS",
+      "details": "All 7 tested endpoints responded with HTTP 200 and valid schemas"
+    },
+    {
+      "check_id": "CHK-LIVE-CLI-BATCH",
+      "category": "Client SDK & CLI",
+      "description": "compintel_batch CLI end-to-end execution against live server",
+      "status": "PASS",
+      "details": "compintel_batch CLI executed successfully against live server (2 items processed)"
+    }
+  ],
+  "endpoint_probes": [
+    {
+      "endpoint": "/",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 12.66,
+      "status": "PASS",
+      "details": "Live ingress entrypoint / responded with status 200"
+    },
+    {
+      "endpoint": "/livez",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 2.66,
+      "status": "PASS",
+      "details": "Live probe returned status 200: {\"status\":\"LIVE\",\"timestamp_utc\":\"2026-11-01T03:27:55.691288+00:00\"}"
+    },
+    {
+      "endpoint": "/readyz",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 2.53,
+      "status": "PASS",
+      "details": "Readiness probe returned status 200: {\"status\":\"READY\",\"model_version\":\"0.1.0\",\"timestamp_utc\":\"2026-11-01T03:27:55.694002+00:00\"}"
+    },
+    {
+      "endpoint": "/v1/estimates",
+      "method": "POST",
+      "status_code": 200,
+      "latency_ms": 46.76,
+      "status": "PASS",
+      "details": "Single estimate abstained honestly: 3 structured reasons"
+    },
+    {
+      "endpoint": "/v1/estimates/batch",
+      "method": "POST",
+      "status_code": 200,
+      "latency_ms": 52.67,
+      "status": "PASS",
+      "details": "Batch REST processed 3 items; supported: 3, abstained: 0"
+    },
+    {
+      "endpoint": "/v1/estimates/batch/stream",
+      "method": "POST",
+      "status_code": 200,
+      "latency_ms": 54.47,
+      "status": "PASS",
+      "details": "Stream endpoint returned 3 NDJSON records cleanly"
+    },
+    {
+      "endpoint": "/metrics",
+      "method": "GET",
+      "status_code": 200,
+      "latency_ms": 3.59,
+      "status": "PASS",
+      "details": "Prometheus metrics endpoint returned 9462 bytes"
+    }
+  ],
+  "container_stats": [
+    {
+      "BlockIO": "0B / 8.19kB",
+      "CPUPerc": "0.00%",
+      "Container": "178ae03f8532ed39881478689ba73a4e8fd1a199b23df7fc62a9d10c542ba5da",
+      "ID": "178ae03f8532",
+      "MemPerc": "16.61%",
+      "MemUsage": "21.27MiB / 128MiB",
+      "Name": "arthaiq-staging-web",
+      "NetIO": "24.2kB / 27kB",
+      "PIDs": "25"
+    },
+    {
+      "BlockIO": "0B / 8.19kB",
+      "CPUPerc": "0.11%",
+      "Container": "eac6ab624b2e125c7d451cf90288173a63d3969d6f8956882bd9b2213c175470",
+      "ID": "eac6ab624b2e",
+      "MemPerc": "34.24%",
+      "MemUsage": "175.3MiB / 512MiB",
+      "Name": "arthaiq-staging-api",
+      "NetIO": "7.8kB / 18.5kB",
+      "PIDs": "65"
+    },
+    {
+      "BlockIO": "49.1MB / 53.7MB",
+      "CPUPerc": "0.46%",
+      "Container": "f833e9cd4e75ffb6f239fc256e54194676a7b1b7644a6a66324552a37e3737d2",
+      "ID": "f833e9cd4e75",
+      "MemPerc": "18.61%",
+      "MemUsage": "47.65MiB / 256MiB",
+      "Name": "arthaiq-staging-db",
+      "NetIO": "5.18kB / 126B",
+      "PIDs": "6"
+    },
+    {
+      "BlockIO": "34.4MB / 111kB",
+      "CPUPerc": "0.00%",
+      "Container": "b224c8792c52552eb27902d21f67e3dbace382bc85580862e7a6fef37c3a0cf1",
+      "ID": "b224c8792c52",
+      "MemPerc": "0.44%",
+      "MemUsage": "33.96MiB / 7.617GiB",
+      "Name": "aethelgard-postgres",
+      "NetIO": "1.75kB / 126B",
+      "PIDs": "6"
+    }
+  ]
+}

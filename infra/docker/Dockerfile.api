@@ -30,10 +30,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Stage 2: Minimal runtime image
 FROM python:3.12-slim-bookworm AS runtime
 
-# Install curl for healthcheck
+# Install curl for healthcheck and libgomp1 for OpenMP runtime (LightGBM/CatBoost)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Security: Create non-root system user and group (ASVS 14.2.1)

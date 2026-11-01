@@ -18,7 +18,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-arthaiq}
     # Bound to loopback only — never exposed to 0.0.0.0 (ASVS 14.2.1)
     ports:
-      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5435}:5432"
     volumes:
       - pgdata_staging:/var/lib/postgresql/data
     healthcheck:
@@ -86,7 +86,7 @@ services:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/"]
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:80/"]
       interval: 10s
       timeout: 5s
       retries: 3

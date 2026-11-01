@@ -57,7 +57,10 @@ class BatchClient:
             timeout: Timeout in seconds for HTTP operations.
             app: Optional FastAPI/ASGI application for in-memory testing.
         """
-        self.base_url = base_url.rstrip("/")
+        clean_base = base_url.strip().rstrip("/")
+        if clean_base.endswith("/v1"):
+            clean_base = clean_base[:-3]
+        self.base_url = clean_base
         self.api_key = api_key
         self.timeout = timeout
         self.app = app
