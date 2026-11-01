@@ -217,7 +217,8 @@ export async function fetchSalaryEstimate(
   profile: ProfileFormData,
   options: EstimateRequestOptions = {}
 ): Promise<EstimateApiResponse> {
-  const { currentCompensation, currency = "INR", asOf, baseUrl = "" } = options;
+  const envBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) || "";
+  const { currentCompensation, currency = "INR", asOf, baseUrl = envBaseUrl } = options;
 
   const payload = {
     profile: {

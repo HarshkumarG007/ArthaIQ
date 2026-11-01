@@ -500,7 +500,7 @@ function ConfirmStep({ receipt, onClose }: ConfirmStepProps) {
 export function ContributionFlow({
   onClose,
   onComplete,
-  apiEndpoint = "/v1/contributions",
+  apiEndpoint = `${(import.meta.env.VITE_API_BASE_URL as string | undefined) || ""}/v1/contributions`,
 }: ContributionFlowProps) {
   const [step, setStep] = useState<Step>("consent");
   const [consent, setConsent] = useState<ContributionConsentState>({

@@ -26,7 +26,7 @@ interface ErasureReceipt {
 
 export function MyDataModal({
   onClose,
-  apiEndpoint = "/v1/contributions/delete",
+  apiEndpoint = `${(import.meta.env.VITE_API_BASE_URL as string | undefined) || ""}/v1/contributions/delete`,
 }: MyDataModalProps) {
   const tokenFieldId = useId();
   const [token, setToken] = useState("");
