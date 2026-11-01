@@ -154,6 +154,28 @@ describe("CareerRoute (T15.28 Career Architect View)", () => {
     URL.revokeObjectURL = originalRevoke;
   });
 
+  it("opens encrypted sync modal when Encrypted Sync button is clicked", async () => {
+    render(<CareerRoute />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: /encrypted backup and multi-device sync/i })
+      ).toBeInTheDocument();
+    });
+
+    const syncBtn = screen.getByRole("button", {
+      name: /encrypted backup and multi-device sync/i,
+    });
+    fireEvent.click(syncBtn);
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("dialog", { name: /encrypted multi-device sync/i })
+      ).toBeInTheDocument();
+      expect(screen.getByText(/Zero-Knowledge WebCrypto \(ADR-0014\)/i)).toBeInTheDocument();
+    });
+  });
+
   it("opens erase data confirmation dialog and purges all local data", async () => {
     await saveLedgerRecord({
       competency_id: "to_purge",

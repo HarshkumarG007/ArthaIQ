@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.2.0 Production Ready; Phase 30 Complete (Gates G0–G30 Ratified GO) |
+| Status                         | v1.2.0 Production Ready; All 32 Platform Phases Complete (Gates G0–G31 Ratified GO) |
 | Last updated                   | 2026-11-01                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 31: Client Security & ADR-0014 WebCrypto Implementation (T31.01 Author Implementation Plan PLAN-CLIENT-SECURITY-01)** (Phase 30 Complete: Frontend Cross-Family Career Pathway Navigator Ratified, Gate G30 Ratified GO; Decision D-044)
+**NEXT TASK: Production Launch & General Availability Complete (Phases 0–31 Complete; All Gates G0–G31 Ratified GO; Decisions D-001–D-045 Ratified)**
 
 ## How to use this file
 
@@ -1100,6 +1100,34 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
 
 ---
 
+## Phase 31: Client Security & ADR-0014 WebCrypto Implementation
+
+> **Objective:** Implement client-side zero-knowledge encrypted backup and cross-device sync under ADR-0014 using the W3C WebCrypto API (`AES-GCM-256`, `PBKDF2-SHA256` with 100,000 iterations, 16-byte random salt, 12-byte IV), monotonic state lattice conflict resolution preserving demonstrated absorbing state, local profile and ledger state merge, statutory hard erasure under DPDP Act 2023 Section 12 (< 50ms), accessible `EncryptedSyncModal` React UI component, and ratify Gate G31.
+> **Inputs and tools:** `apps/web/src/lib/cryptoSync.ts`, `apps/web/src/components/career/EncryptedSyncModal.tsx`, `apps/web/src/routes/career.tsx`; React, TypeScript, WebCrypto, Vitest, Axe-core, Python, pytest.
+> **Deliverables:** Implementation plan (`PLAN-CLIENT-SECURITY-01`), cryptographic engine (`cryptoSync.ts`), encrypted sync modal (`EncryptedSyncModal.tsx`), career route integration, Vitest test suites (`cryptoSync.test.ts`, `EncryptedSyncModal.test.tsx`, `career.test.tsx`), Python architecture tests (`test_client_security.py`), Gate G31 review dossier (`docs/pilot/gate-g31-review.md`).
+> **Effort (assumption):** 1 session.
+> **GO if:** WebCrypto PBKDF2 and AES-GCM roundtrip encryption/decryption works reliably, monotonic state lattice prevents downgrading demonstrated competencies, DPDPA 2023 Section 12 hard purge leaves 0 residual bytes, all accessibility audits pass with 0 Axe violations, clean Vite production build, and Gate G31 ratified GO.
+> **NO-GO:** Stay in Phase 31 until all criteria met.
+
+**NEXT TASK: Production Launch & General Availability Complete (Phases 0–31 Complete; All Gates G0–G31 Ratified GO; Decisions D-001–D-045 Ratified)**
+
+- [x] **T31.01** [AI] Author Implementation Plan & Cryptographic Security Architecture (`PLAN-CLIENT-SECURITY-01`). (done 2026-11-01)
+      Output: `implementation-plan-client-security.md`. Done when: plan specifies WebCrypto parameters (PBKDF2-SHA256, 100k rounds, AES-GCM-256), state lattice algebra, and verification gates. Needs: Phase 30 complete. Size: S.
+- [x] **T31.02** [AI] Implement WebCrypto Engine & Monotonic Lattice Conflict Resolution (`apps/web/src/lib/cryptoSync.ts`). (done 2026-11-01)
+      Output: `cryptoSync.ts`. Done when: functions derive key with PBKDF2, encrypt/decrypt with AES-GCM-256, resolve conflicts via monotonic lattice where demonstrated is absorbing, and execute DPDPA 2023 Sec 12 hard wipe. Needs: T31.01. Size: M.
+- [x] **T31.03** [AI] Implement EncryptedSyncModal UI Component (`apps/web/src/components/career/EncryptedSyncModal.tsx`). (done 2026-11-01)
+      Output: `EncryptedSyncModal.tsx`. Done when: accessible modal provides export/import tabs, passphrase inputs, file download/upload handlers, zero-knowledge security notices, and passes 0 Axe violations. Needs: T31.02. Size: M.
+- [x] **T31.04** [AI] Integrate Encrypted Backup & Sync into Career Architect View (`apps/web/src/routes/career.tsx`). (done 2026-11-01)
+      Output: `career.tsx`. Done when: Encrypted Sync button is accessible from Career Architect header and launches EncryptedSyncModal. Needs: T31.03. Size: S.
+- [x] **T31.05** [AI] Author Automated Test Suite (`cryptoSync.test.ts`, `EncryptedSyncModal.test.tsx`, `career.test.tsx`, `tests/unit/test_client_security.py`). (done 2026-11-01)
+      Output: test suites. Done when: 10/10 crypto tests pass, 7/7 modal tests pass with 0 Axe violations, 9/9 career route tests pass, 7/7 Python tests pass, and clean `tsc -b && vite build`. Needs: T31.02–T31.04. Size: S.
+- [x] **T31.06** [AI] Compile Gate G31 Review Dossier & Ratify Milestone (`docs/pilot/gate-g31-review.md`). (done 2026-11-01)
+      Output: `docs/pilot/gate-g31-review.md`. Done when: 16/16 subphase audit checks PASS, Decision D-045 is formally ratified, and Gate G31 achieves unconditional GO. Needs: T31.01–T31.05. Size: S.
+
+**Gate G31:** Client Security & ADR-0014 WebCrypto Implementation ratified: WebCrypto PBKDF2-SHA256 with 100,000 iterations and AES-GCM-256 authenticated encryption active, cross-device encrypted backup export and file import with passphrase verification, monotonic state lattice merge preserving absorbing demonstrated competencies, DPDP Act 2023 Section 12 hard erasure with 0 residual bytes, accessible EncryptedSyncModal React component with 0 Axe Core violations, 22/22 web test files passing with 218/218 tests, clean Vite production bundle, 7/7 Python unit tests passing, and Gate G31 ratified GO. (Ratified: Decision D-045 GO 2026-11-01)
+
+---
+
 
 ---
 
@@ -1634,6 +1662,18 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | config/taxonomy/manifest_swe.json | T16.01 |
 | tests/unit/test_career_swe_ingestion.py | T16.01 |
 
+### Phase 31: Client Security & ADR-0014 WebCrypto Implementation
+
+| Deliverable | Task |
+| --- | --- |
+| apps/web/src/lib/cryptoSync.ts | T31.02 |
+| apps/web/src/lib/cryptoSync.test.ts | T31.02, T31.05 |
+| apps/web/src/components/career/EncryptedSyncModal.tsx | T31.03 |
+| apps/web/src/components/career/EncryptedSyncModal.test.tsx | T31.03, T31.05 |
+| apps/web/src/routes/career.tsx | T31.04 |
+| tests/unit/test_client_security.py | T31.05 |
+| docs/pilot/gate-g31-review.md | Gate G31 / T31.06 |
+
 ## Change log
 
 | Date       | Version | Change                                                                                           |
@@ -1688,3 +1728,4 @@ Ideas not in the PRD. Add here, not into code (R-WF-09).
 | 2026-10-30 | 1.39    | Phase 16 complete & Gate G16 ratified GO: Multidisciplinary governance panel convened and ratified Gate G16 (`REV-GATE-G16-01`, Decision `D-032`, Unconditional GO) for Software Engineering (SWE) Role Family expansion; verified 15-node SWE DAG acyclic with 100% O*NET 28.0 and ESCO v1.1.1 provenance, practitioner consensus κ = 0.867, calibrated heuristic effort rubrics, 3 canonical flaw-finding practice scenarios with deterministic scoring (< 0.05ms) and zero runtime LLMs (ADR-0010, ADR-0013), web UI multi-family switching with 163 passing Vitest tests and 0 Axe violations, local-first IndexedDB persistence, zero causal claims, and 9/9 Gate G16 tests passing. |
 | 2026-10-30 | 1.40    | Phase 17 complete & Gate G17 ratified GO: Multidisciplinary governance panel convened and ratified Gate G17 (`REV-GATE-G17-01`, Decision `D-033`, Unconditional GO) for Multi-Family Pilot Deployment & Production Staging; operational cohort runbook published (`RUNBOOK-CAREER-PILOT-01`, N=150 stratification, DPDP Act 2023 consent & Sec 12 right to erasure); Nginx CSP hardened (`worker-src 'self' blob:`); staging Docker Compose configured with resource caps; automated staging audit executed (`STAGING-AUDIT-CAREER-ARCH-01`, 200 synthetic journeys across SWE and DATA personas) achieving 10/10 M-STG metrics GO with 0 variance, 0.0255ms p95 latency, 8.59KB footprint, 0 residual bytes on purge, and 100% cross-family DAG monotonicity; 9/9 Gate G17 tests passing. |
 | 2026-11-01 | 1.54    | Phase 30 complete & Gate G30 ratified GO: Frontend Cross-Family Career Pathway Navigator implemented in React (`CrossFamilyPathwayNavigator.tsx`) and integrated into CareerRoute and NavigationShell; 3 multi-family transition corridors operational (`SWE_TO_MLAI`, `DATA_TO_MLAI`, `SWE_TO_DATA`), bridge competency badges with transversal acceleration rationale, weekly pacing slider [5-20 hrs/wk] calculating calibrated duration intervals [Wmin, Wmax] weeks without lone numbers, flaw-finding scenario linking across 21 scenarios, local evidence ledger filtering, decoupled compensation overlay [P10, P50, P90] with statutory CPA 2019 disclaimer, 20/20 web test files passing with 200/200 tests and 0 Axe violations, 6/6 Python tests passing, Gate G30 ratified GO (Decision D-044). NEXT: Phase 31 (Client Security & ADR-0014 WebCrypto Implementation). |
+| 2026-11-01 | 1.55    | Phase 31 complete & Gate G31 ratified GO: Client Security & ADR-0014 WebCrypto Implementation complete; WebCrypto PBKDF2-SHA256 (100k rounds) & AES-GCM-256 authenticated encryption active in cryptoSync.ts; monotonic state lattice conflict resolution preserves absorbing demonstrated state; statutory hard erasure under DPDP Act 2023 Section 12 (< 50ms); EncryptedSyncModal UI component operational with 0 Axe violations; 22/22 web test files passing with 218/218 tests; clean Vite production bundle; 7/7 Python unit tests passing; Gate G31 ratified GO (Decision D-045). All 32 Platform Phases (0-31) and Gates (G0-G31) complete and ratified. |

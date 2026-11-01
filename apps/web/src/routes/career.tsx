@@ -18,6 +18,7 @@ import { NextStepCard } from "../components/career/NextStepCard";
 import { PayOverlayPanel } from "../components/career/PayOverlayPanel";
 import { PilotConsentModal } from "../components/career/PilotConsentModal";
 import { CrossFamilyPathwayNavigator } from "../components/career/CrossFamilyPathwayNavigator";
+import { EncryptedSyncModal } from "../components/career/EncryptedSyncModal";
 
 export type CareerSubView = "skills" | "plan" | "practice" | "ledger" | "pathways";
 
@@ -38,6 +39,7 @@ export function CareerRoute({
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [showPurgeConfirm, setShowPurgeConfirm] = useState(false);
   const [showPilotConsent, setShowPilotConsent] = useState(false);
+  const [showEncryptedSync, setShowEncryptedSync] = useState(false);
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>("SCEN-DATA-01-SQL");
 
   // Form state for profile setup/editing
@@ -147,6 +149,14 @@ export function CareerRoute({
             aria-label="View pilot consent notice"
           >
             Pilot Consent
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowEncryptedSync(true)}
+            className="px-2.5 py-1 rounded-control border border-indigo-500/40 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-focus font-medium transition-colors"
+            aria-label="Encrypted backup and multi-device sync"
+          >
+            Encrypted Sync
           </button>
           <button
             type="button"
@@ -605,6 +615,13 @@ export function CareerRoute({
         initialStratification={{
           role_family: (profile?.target_family || formFamily) as "DATA" | "SWE" | "MLAI",
         }}
+      />
+
+      {/* Encrypted Multi-Device Sync Modal (ADR-0014) */}
+      <EncryptedSyncModal
+        isOpen={showEncryptedSync}
+        onClose={() => setShowEncryptedSync(false)}
+        onSyncSuccess={loadLocalData}
       />
     </div>
   );
