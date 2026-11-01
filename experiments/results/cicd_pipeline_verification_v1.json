@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "document_id": "CICD-PIPELINE-VERIFY-01",
+    "phase": "Phase 29: Cloud CI/CD Pipeline & Registry Automation",
+    "timestamp": "2026-11-01T03:51:23Z",
+    "status": "PASS",
+    "total_checks": 11,
+    "passed_checks": 11,
+    "failed_checks": 0,
+    "warning_checks": 0
+  },
+  "checks": [
+    {
+      "check_id": "CHK-CICD-YAML-VALID",
+      "category": "Workflow Syntax",
+      "description": "docker-publish.yml valid YAML mapping",
+      "status": "PASS",
+      "details": "Successfully parsed workflow 'Docker Publish & Security Scan'"
+    },
+    {
+      "check_id": "CHK-CICD-TRIGGERS",
+      "category": "Workflow Triggers",
+      "description": "Triggers on main push, semver tags v*, PRs, and manual dispatch",
+      "status": "PASS",
+      "details": "push.main: True, push.tags: True, pull_request: True, workflow_dispatch: True"
+    },
+    {
+      "check_id": "CHK-CICD-PERMISSIONS",
+      "category": "Security Permissions",
+      "description": "Least-privilege permissions (contents: read, packages: write, security-events: write)",
+      "status": "PASS",
+      "details": "contents: read, packages: write, security-events: write"
+    },
+    {
+      "check_id": "CHK-CICD-JOBS-TOPOLOGY",
+      "category": "Job Topology",
+      "description": "All 4 core pipeline jobs present (hadolint, validate-compose, build-api, build-web)",
+      "status": "PASS",
+      "details": "All 4 core jobs defined"
+    },
+    {
+      "check_id": "CHK-CICD-HADOLINT",
+      "category": "Static Linting",
+      "description": "Hadolint action configured for Dockerfile linting",
+      "status": "PASS",
+      "details": "Hadolint action detected: True"
+    },
+    {
+      "check_id": "CHK-CICD-BUILD-API",
+      "category": "Image Automation",
+      "description": "Multi-arch Buildx, GHCR login, Trivy scanner, and SARIF upload for api",
+      "status": "PASS",
+      "details": "qemu: True, buildx: True, login: True, trivy: True, upload-sarif: True"
+    },
+    {
+      "check_id": "CHK-CICD-BUILD-WEB",
+      "category": "Image Automation",
+      "description": "Multi-arch Buildx, GHCR login, Trivy scanner, and SARIF upload for web",
+      "status": "PASS",
+      "details": "qemu: True, buildx: True, login: True, trivy: True, upload-sarif: True"
+    },
+    {
+      "check_id": "CHK-DOCKERFILE-API-POSTURE",
+      "category": "Dockerfile Security",
+      "description": "Dockerfile.api multi-stage, non-root user (ASVS 14.2.1), and healthcheck",
+      "status": "PASS",
+      "details": "multistage: True, non-root USER: True, HEALTHCHECK: True"
+    },
+    {
+      "check_id": "CHK-DOCKERFILE-WEB-POSTURE",
+      "category": "Dockerfile Security",
+      "description": "Dockerfile.web multi-stage and healthcheck",
+      "status": "PASS",
+      "details": "multistage: True, HEALTHCHECK: True"
+    },
+    {
+      "check_id": "CHK-COMPOSE-VALID",
+      "category": "Compose Syntax",
+      "description": "Docker compose staging file syntax valid",
+      "status": "PASS",
+      "details": "docker compose config validated cleanly with 0 syntax errors"
+    },
+    {
+      "check_id": "CHK-CI-ARTIFACT-SYNC",
+      "category": "CI Pipeline",
+      "description": "ci.yml coordinates frontend build artifact passing to tests job",
+      "status": "PASS",
+      "details": "upload: True, download: True, tests.needs: True"
+    }
+  ]
+}

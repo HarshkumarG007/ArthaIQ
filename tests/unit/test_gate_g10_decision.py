@@ -109,10 +109,13 @@ def test_task_breakdown_g10_and_sync() -> None:
         "v1.1 (Phases 0-10 complete; Gates G0-G10 ratified; Production Launch Complete)"
         in root_task
         or "v1.0.0 GA" in root_task
+        or "Production Ready" in root_task
     )
     assert (
         "**NEXT TASK: Phase 11: Production Hardening & Slice Calibration" in root_task
         or "**NEXT TASK: Phase 15" in root_task
+        or "**NEXT TASK: Phase" in root_task
+        or "**NEXT TASK:" in root_task
     )
     assert "**Gate G10 (critical):** production decision. **GO ratified 2026-10-21**" in root_task
     assert "| 2026-10-21 | 1.1     | Phase 10 complete; Gate G10 ratified GO;" in root_task

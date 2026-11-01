@@ -2,12 +2,12 @@
 
 | Field                          | Value                                                |
 | ------------------------------ | ---------------------------------------------------- |
-| Status                         | v1.2.0 Production Ready; Phase 28 Complete (Gates G0–G28 Ratified GO) |
+| Status                         | v1.2.0 Production Ready; Phase 29 Complete (Gates G0–G29 Ratified GO) |
 | Last updated                   | 2026-11-01                                           |
 | Depends on                     | `PRD.md`, `architecture.md`, `rules.md`, `design.md` |
 | Gate decisions are recorded in | `memory.md`                                          |
 
-**NEXT TASK: Phase 29: Cloud CI/CD Pipeline & Registry Automation (T29.01 Author Implementation Plan PLAN-CLOUD-CICD-01)** (Phase 28 Complete: Live Staging Deployment Ratified, Gate G28 Ratified GO; Decision D-042)
+**NEXT TASK: Phase 30: Frontend Cross-Family Career Pathway Navigator (T30.01 Author Implementation Plan PLAN-FE-NAVIGATOR-01)** (Phase 29 Complete: Cloud CI/CD Pipeline Ratified, Gate G29 Ratified GO; Decision D-043)
 
 ## How to use this file
 
@@ -1045,6 +1045,32 @@ Objective: Assemble a reviewed, sourced competency graph for the DATA role famil
       Output: `docs/pilot/gate-g28-review.md`. Done when: 14/14 subphase audit checks PASS, Decision D-042 is formally ratified, and Gate G28 achieves unconditional GO. Needs: T28.01–T28.05. Size: S.
 
 **Gate G28:** Live Staging Deployment & Container Smoke Test ratified: Docker Desktop engine active, 3-tier staging topology (`db`, `api`, `web`) healthy under strict memory caps (256MB, 512MB, 128MB), live Nginx ingress probes passing on http://localhost:8080, OWASP security headers & CSP worker sandbox verified, end-to-end compintel_batch CLI execution verified, Zero Lone Numbers (`R-UQ-01`), and Gate G28 ratified GO. (Ratified: Decision D-042 GO 2026-11-01)
+
+---
+
+## Phase 29: Cloud CI/CD Pipeline & Registry Automation
+
+> **Objective:** Author and validate the automated GitHub Actions Docker build and publish workflow (`.github/workflows/docker-publish.yml`) with multi-arch builds (`linux/amd64`, `linux/arm64`), static Dockerfile linting (Hadolint), vulnerability scanning (Aqua Security Trivy), and container registry publishing to GitHub Container Registry (GHCR), coordinate CI build artifacts in `.github/workflows/ci.yml`, and ratify Gate G29.
+> **Inputs and tools:** `.github/workflows/`, `infra/docker/`, `scripts/`; GitHub Actions, Docker Buildx, Hadolint, Trivy, Python, pytest.
+> **Deliverables:** Implementation plan (`PLAN-CLOUD-CICD-01`), Docker CI/CD workflow (`.github/workflows/docker-publish.yml`), CI artifact coordination (`.github/workflows/ci.yml`), verification harness (`scripts/verify_cicd_pipeline.py`), audit report (`experiments/results/cicd_pipeline_verification_v1.json`), automated test suite (`tests/unit/test_cicd_pipeline.py`), gate review dossier (`docs/pilot/gate-g29-review.md`).
+> **Effort (assumption):** 1 session.
+> **GO if:** Workflow YAML parses and specifies least-privilege permissions, Hadolint and Trivy security gates are configured, multi-arch builds are specified, CI build artifacts are coordinated, and all unit tests pass 100%.
+> **NO-GO:** Stay in Phase 29 until all criteria met.
+
+**NEXT TASK: Phase 30: Frontend Cross-Family Career Pathway Navigator (T30.01 Author Implementation Plan PLAN-FE-NAVIGATOR-01)** (Phase 29 Complete: Cloud CI/CD Pipeline Ratified, Gate G29 Ratified GO)
+
+- [x] **T29.01** [AI] Author Implementation Plan & Pipeline Architecture (`PLAN-CLOUD-CICD-01`). (done 2026-11-01)
+      Output: `implementation-plan-cloud-cicd-pipeline.md`. Done when: plan specifies multi-arch builds, Hadolint linting, Trivy scanning, GHCR publishing, and verification gates. Needs: Phase 28 complete. Size: S.
+- [x] **T29.02** [AI] Implement GitHub Actions Docker CI/CD Workflow (`.github/workflows/docker-publish.yml`). (done 2026-11-01)
+      Output: `.github/workflows/docker-publish.yml`. Done when: workflow configures QEMU, Buildx, Hadolint, Trivy vulnerability scan with SARIF report, and GHCR multi-arch publishing. Needs: T29.01. Size: M.
+- [x] **T29.03** [AI] Coordinate CI Build Artifacts & Security Posture (`.github/workflows/ci.yml`, `tests/unit/test_staging_containerization.py`). (done 2026-11-01)
+      Output: `.github/workflows/ci.yml`, `tests/unit/test_staging_containerization.py`. Done when: frontend build artifacts are uploaded and passed to tests runner, resolving cross-runner missing dist dependencies. Needs: T29.02. Size: S.
+- [x] **T29.04** [AI] Build Automated Verification Harness & Test Suite (`scripts/verify_cicd_pipeline.py`, `tests/unit/test_cicd_pipeline.py`). (done 2026-11-01)
+      Output: `scripts/verify_cicd_pipeline.py`, `tests/unit/test_cicd_pipeline.py`, `experiments/results/cicd_pipeline_verification_v1.json`. Done when: all checks pass with 0 failures and 6/6 unit tests pass. Needs: T29.02, T29.03. Size: S.
+- [x] **T29.05** [AI] Compile Gate G29 Review Dossier & Ratify Milestone (`docs/pilot/gate-g29-review.md`). (done 2026-11-01)
+      Output: `docs/pilot/gate-g29-review.md`. Done when: 14/14 subphase audit checks PASS, Decision D-043 is formally ratified, and Gate G29 achieves unconditional GO. Needs: T29.01–T29.04. Size: S.
+
+**Gate G29:** Cloud CI/CD Pipeline & Registry Automation ratified: Multi-architecture QEMU & Docker Buildx pipeline active, GHCR container publishing automated, Hadolint static Dockerfile linter and Aqua Security Trivy vulnerability scanner gates operational, CI web-dist artifact coordination verified, and Gate G29 ratified GO. (Ratified: Decision D-043 GO 2026-11-01)
 
 ---
 
